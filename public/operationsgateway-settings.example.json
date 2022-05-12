@@ -1,0 +1,12 @@
+{
+  "facilityName": "Generic",
+  "routes": [
+    {
+      "section": "Homepage",
+      "link": "/operationsgateway",
+      "displayName": "OperationsGateway",
+      "order": 0
+    }
+  ],
+  "pluginHost": "http://localhost:3000"
+}

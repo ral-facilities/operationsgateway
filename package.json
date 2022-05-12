@@ -26,9 +26,10 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "serve:build": "yarn build && serve -l 5001 build",
+    "test": "craco test --env=jsdom --watch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
