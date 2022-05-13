@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import * as log from "loglevel";
@@ -9,13 +10,18 @@ import { MicroFrontendId } from "./app.types";
 import { PluginRoute, RegisterRouteType } from "./state/actions/actions.types";
 import { OperationsGatewaySettings, setSettings } from "./settings";
 
-const pluginName = "operationsgateway";
+export const pluginName = "operationsgateway";
 
 const render = (): void => {
   const el = document.getElementById(pluginName);
-  if (el) {
-    ReactDOM.render(<App />, document.getElementById(pluginName));
-  }
+  if (!el) throw new Error(`${pluginName} div missing in index.html`);
+
+  const root = createRoot(el);
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
 };
 
 function domElementGetter(): HTMLElement {
