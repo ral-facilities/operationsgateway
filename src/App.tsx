@@ -1,8 +1,18 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import * as log from "loglevel";
 import { pluginName } from ".";
+import RecordTable from "./views/recordTable.component";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: true,
+      staleTime: 300000,
+    },
+  },
+});
 
 class App extends React.Component<unknown, { hasError: boolean }> {
   public constructor(props: unknown) {
@@ -40,20 +50,10 @@ class App extends React.Component<unknown, { hasError: boolean }> {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <QueryClientProvider client={queryClient}>
+          <RecordTable />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </div>
     );
   }
