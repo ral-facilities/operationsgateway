@@ -1,6 +1,15 @@
 import React from "react";
 import { Record } from "../app.types";
 import { Column, useTable } from "react-table";
+import {
+  TableContainer as MuiTableContainer,
+  Table as MuiTable,
+  TableHead as MuiTableHead,
+  TableBody as MuiTableBody,
+  TableRow as MuiTableRow,
+  TableCell as MuiTableCell,
+  Paper,
+} from "@mui/material";
 
 interface TableProps {
   data: Record[];
@@ -58,71 +67,48 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       {loadedData && totalDataCount > 0 ? (
         <div>
           <div>
-            {/* apply the table props */}
-            <table {...getTableProps()}>
-              <thead>
-                {
-                  // Loop over the header rows
-                  headerGroups.map((headerGroup) => {
+            <MuiTableContainer component={Paper}>
+              <MuiTable {...getTableProps()}>
+                <MuiTableHead>
+                  {headerGroups.map((headerGroup) => {
                     const { key, ...otherHeaderGroupProps } =
                       headerGroup.getHeaderGroupProps();
                     return (
-                      // Apply the header row props
-                      <tr key={key} {...otherHeaderGroupProps}>
-                        {
-                          // Loop over the headers in each row
-                          headerGroup.headers.map((column) => {
-                            const { key, ...otherHeaderProps } =
-                              column.getHeaderProps();
-                            return (
-                              // Apply the header cell props
-                              <th key={key} {...otherHeaderProps}>
-                                {
-                                  // Render the header
-                                  column.render("Header")
-                                }
-                              </th>
-                            );
-                          })
-                        }
-                      </tr>
+                      <MuiTableRow key={key} {...otherHeaderGroupProps}>
+                        {headerGroup.headers.map((column) => {
+                          const { key, ...otherHeaderProps } =
+                            column.getHeaderProps();
+                          return (
+                            <MuiTableCell key={key} {...otherHeaderProps}>
+                              {column.render("Header")}
+                            </MuiTableCell>
+                          );
+                        })}
+                      </MuiTableRow>
                     );
-                  })
-                }
-              </thead>
-              {/* Apply the table body props */}
-              <tbody {...getTableBodyProps()}>
-                {
-                  // Loop over the table rows
-                  rows.map((row) => {
-                    // Prepare the row for display
+                  })}
+                </MuiTableHead>
+                <MuiTableBody {...getTableBodyProps()}>
+                  {rows.map((row) => {
                     prepareRow(row);
                     const { key, ...otherRowProps } = row.getRowProps();
                     return (
-                      // Apply the row props
-                      <tr key={key} {...otherRowProps}>
-                        {
-                          // Loop over the row cells
-                          row.cells.map((cell) => {
-                            const { key, ...otherCellProps } =
-                              cell.getCellProps();
-                            // Apply the cell props
-                            return (
-                              <td key={key} {...otherCellProps}>
-                                {
-                                  // Render the cell contents
-                                  cell.render("Cell")
-                                }
-                              </td>
-                            );
-                          })
-                        }
-                      </tr>
+                      <MuiTableRow key={key} {...otherRowProps}>
+                        {row.cells.map((cell) => {
+                          const { key, ...otherCellProps } =
+                            cell.getCellProps();
+                          return (
+                            <MuiTableCell key={key} {...otherCellProps}>
+                              {cell.render("Cell")}
+                            </MuiTableCell>
+                          );
+                        })}
+                      </MuiTableRow>
                     );
-                  })
-                }
-              </tbody>
-            </table>
+                  })}
+                </MuiTableBody>
+              </MuiTable>
+            </MuiTableContainer>
           </div>
           <div>
             <p>
@@ -141,7 +127,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <div>
+          <p>Loading...</p>
+        </div>
       )}
     </div>
   );
