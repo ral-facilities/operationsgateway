@@ -8,6 +8,7 @@ import {
   TableBody as MuiTableBody,
   TableRow as MuiTableRow,
   TableCell as MuiTableCell,
+  TablePagination as MuiTablePagination,
   Paper,
 } from "@mui/material";
 
@@ -33,10 +34,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onPageChange,
   } = props;
 
-  const [maxPage, setMaxPage] = React.useState(1);
+  const [maxPage, setMaxPage] = React.useState(0);
 
   const page = React.useMemo(() => {
-    return props.page && props.page > 0 ? props.page : 1;
+    return props.page && props.page > 0 ? props.page : 0;
   }, [props.page]);
 
   React.useEffect(() => {
@@ -44,8 +45,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       const newMaxPage = ~~(1 + (totalDataCount - 1) / resultsPerPage);
       if (newMaxPage !== maxPage) {
         setMaxPage(newMaxPage);
-      } else if (maxPage > 0 && page > newMaxPage) {
-        onPageChange(1);
+      } else if (maxPage > -1 && page > newMaxPage) {
+        onPageChange(0);
       }
     }
   }, [
@@ -111,19 +112,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             </MuiTableContainer>
           </div>
           <div>
-            <p>
-              Page count: {page}/{Math.ceil(totalDataCount / resultsPerPage)}
-            </p>
-          </div>
-          <div>
-            <button onClick={() => onPageChange(page - 1 >= 1 ? page - 1 : 1)}>
-              Previous
-            </button>
-            <button
-              onClick={() => page + 1 <= maxPage && onPageChange(page + 1)}
-            >
-              Next
-            </button>
+            <MuiTablePagination
+              count={totalDataCount}
+              onPageChange={(e, page) => onPageChange(page)}
+              page={page}
+              rowsPerPage={resultsPerPage}
+            />
           </div>
         </div>
       ) : (

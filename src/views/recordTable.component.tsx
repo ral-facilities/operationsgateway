@@ -5,9 +5,9 @@ import Table from "../table/table.component";
 import { recordColumns } from "../app.types";
 
 const RecordTable = React.memo((): React.ReactElement => {
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(0);
 
-  const { data, isLoading: dataLoading } = useRecordsPaginated(page);
+  const { data, isLoading: dataLoading } = useRecordsPaginated(page + 1);
   const { data: count, isLoading: countLoading } = useRecordCount();
 
   const resultsPerPage = 10;
