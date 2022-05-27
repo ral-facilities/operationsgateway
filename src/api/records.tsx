@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { useQuery, UseQueryResult } from "react-query";
-import { Record } from "../app.types";
+import { QueryParams, Record } from "../app.types";
 
 const resultsPerPage = 10;
 
@@ -55,8 +55,9 @@ const fetchRecordCountQuery = (): Promise<number> => {
 };
 
 export const useRecordsPaginated = (
-  page: number
+  queryParams: QueryParams
 ): UseQueryResult<Record[], AxiosError> => {
+  const { page } = queryParams;
   return useQuery<Record[], AxiosError, Record[], [string, { page: number }]>(
     ["records", { page }],
     (params) => {
