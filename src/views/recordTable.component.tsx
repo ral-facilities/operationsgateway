@@ -1,12 +1,16 @@
-import React from "react";
-import { useRecordCount, useRecordsPaginated } from "../api/records";
-import Table from "../table/table.component";
-import { QueryParams, recordColumns } from "../app.types";
+import React from 'react';
+import { useRecordCount, useRecordsPaginated } from '../api/records';
+import Table from '../table/table.component';
+import { Order, QueryParams, recordColumns } from '../app.types';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const [page, setPage] = React.useState(0);
+  const [sort, setSort] = React.useState<{
+    [column: string]: Order;
+  }>({});
   const [queryParams, setQueryParams] = React.useState<QueryParams>({
-    page: page + 1,
+    page: page,
+    sort: {},
   });
 
   const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
@@ -16,12 +20,29 @@ const RecordTable = React.memo((): React.ReactElement => {
 
   React.useEffect(() => {
     setQueryParams({
-      page: page + 1,
+      page: page,
+      sort: sort,
     });
-  }, [page]);
+  }, [page, sort]);
 
   const onPageChange = (page: number) => {
     setPage(page);
+  };
+
+  const handleSort = (column: string, order: Order | null) => {
+    let newSort = sort;
+    if (order !== null) {
+      newSort = {
+        ...newSort,
+        [column]: order,
+      };
+    } else {
+      const { [column]: order, ...rest } = newSort;
+      newSort = {
+        ...rest,
+      };
+    }
+    setSort(newSort);
   };
 
   return (
@@ -34,10 +55,12 @@ const RecordTable = React.memo((): React.ReactElement => {
       loadedCount={!countLoading}
       resultsPerPage={resultsPerPage}
       onPageChange={onPageChange}
+      sort={sort}
+      onSort={handleSort}
     />
   );
 });
 
-RecordTable.displayName = "RecordTable";
+RecordTable.displayName = 'RecordTable';
 
 export default RecordTable;

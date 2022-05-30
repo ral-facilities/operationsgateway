@@ -1,6 +1,6 @@
-import { Column } from "react-table";
+import { Column } from 'react-table';
 
-export const MicroFrontendId = "scigateway";
+export const MicroFrontendId = 'scigateway';
 
 export interface DateFilter {
   startDate?: string;
@@ -32,24 +32,24 @@ export interface Record {
 
 export const recordColumns: Column[] = [
   {
-    Header: "Shot ID",
-    accessor: "shotId", // accessor is the "key" in the data
+    Header: 'Shot ID',
+    accessor: 'shotId', // accessor is the "key" in the data
   },
   {
-    Header: "Time",
-    accessor: "timestamp",
+    Header: 'Time',
+    accessor: 'timestamp',
   },
   {
-    Header: "Active Area",
-    accessor: "activeArea",
+    Header: 'Active Area',
+    accessor: 'activeArea',
   },
   {
-    Header: "Active Experiment",
-    accessor: "activeExperiment",
+    Header: 'Active Experiment',
+    accessor: 'activeExperiment',
   },
 ];
 
-export type Order = "asc" | "desc";
+export type Order = 'asc' | 'desc';
 
 export interface SortType {
   [column: string]: Order;
@@ -57,7 +57,7 @@ export interface SortType {
 
 // TODO remove optionals and make mandatory when implemented
 export interface QueryParams {
-  sort?: SortType;
+  sort: SortType;
   filters?: FiltersType;
   page: number;
   startDate?: Date;

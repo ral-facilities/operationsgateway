@@ -1,6 +1,6 @@
-import { AxiosError } from "axios";
-import { useQuery, UseQueryResult } from "react-query";
-import { QueryParams, Record } from "../app.types";
+import { AxiosError } from 'axios';
+import { useQuery, UseQueryResult } from 'react-query';
+import { QueryParams, Record, SortType } from '../app.types';
 
 const resultsPerPage = 10;
 
@@ -43,7 +43,12 @@ const sleep = (ms: number): Promise<unknown> => {
 
 const recordCollection = generateRecordCollection();
 
-const fetchRecords = async (page: number): Promise<Record[]> => {
+// TODO change this when we have an API to query
+const fetchRecords = async (
+  page: number,
+  sort: SortType
+): Promise<Record[]> => {
+  page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
   const endIndex = page * resultsPerPage;
   const startIndex = endIndex - 10;
   await sleep(randomNumber(0, 1000));
@@ -57,16 +62,21 @@ const fetchRecordCountQuery = (): Promise<number> => {
 export const useRecordsPaginated = (
   queryParams: QueryParams
 ): UseQueryResult<Record[], AxiosError> => {
-  const { page } = queryParams;
-  return useQuery<Record[], AxiosError, Record[], [string, { page: number }]>(
-    ["records", { page }],
+  const { page, sort } = queryParams;
+  return useQuery<
+    Record[],
+    AxiosError,
+    Record[],
+    [string, { page: number; sort: SortType }]
+  >(
+    ['records', { page: page ?? 0, sort }],
     (params) => {
-      const { page } = params.queryKey[1];
-      return fetchRecords(page);
+      const { page, sort } = params.queryKey[1];
+      return fetchRecords(page, sort);
     },
     {
       onError: (error) => {
-        console.log("Got error " + error.message);
+        console.log('Got error ' + error.message);
       },
     }
   );
@@ -74,13 +84,13 @@ export const useRecordsPaginated = (
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   return useQuery<number, AxiosError, number, [string]>(
-    ["recordCount"],
+    ['recordCount'],
     () => {
       return fetchRecordCountQuery();
     },
     {
       onError: (error) => {
-        console.log("Got error " + error.message);
+        console.log('Got error ' + error.message);
       },
     }
   );
