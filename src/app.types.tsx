@@ -1,5 +1,3 @@
-import { Column } from 'react-table';
-
 export const MicroFrontendId = 'scigateway';
 
 export interface DateFilter {
@@ -24,30 +22,43 @@ export type AdditionalFilters = {
 }[];
 
 export interface Record {
-  shotId?: number;
-  timestamp: string;
-  activeArea: string;
-  activeExperiment: string;
+  id: string;
+  metadata: RecordMetadata;
+  channels: { [channel: string]: Channel };
 }
 
-export const recordColumns: Column[] = [
-  {
-    Header: 'Shot ID',
-    accessor: 'shotId', // accessor is the "key" in the data
-  },
-  {
-    Header: 'Time',
-    accessor: 'timestamp',
-  },
-  {
-    Header: 'Active Area',
-    accessor: 'activeArea',
-  },
-  {
-    Header: 'Active Experiment',
-    accessor: 'activeExperiment',
-  },
-];
+export interface Scalar {
+  units: string;
+}
+
+export interface Image {
+  horizontalPixels: number;
+  verticalPixels: number;
+  cameraGain: number;
+  exposureTime: number;
+}
+
+export interface Waveform {
+  xUnits: number[];
+  yUnits: number[];
+}
+
+export interface RecordMetadata {
+  dataVersion: string;
+  shotNum: number;
+  timestamp: string;
+  activeArea?: string;
+  activeExperiment?: string;
+}
+
+export interface ChannelMetadata {
+  dataType: Scalar | Image | Waveform;
+}
+
+export interface Channel {
+  metadata: ChannelMetadata;
+  data: any;
+}
 
 export type Order = 'asc' | 'desc';
 
@@ -62,4 +73,12 @@ export interface QueryParams {
   page: number;
   startDate?: Date;
   endDate?: Date;
+}
+
+export interface RecordRow {
+  id: string;
+  shotNum: number;
+  timestamp: string;
+
+  [channel: string]: any;
 }

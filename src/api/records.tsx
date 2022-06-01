@@ -1,41 +1,11 @@
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
 import { QueryParams, Record, SortType } from '../app.types';
-
-const resultsPerPage = 10;
-
-const randomDate = (): Date => {
-  const start = new Date(2024, 0, 1);
-  const end = new Date(2026, 11, 31);
-
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
-};
-
-const randomNumber = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-const generateRecord = (): Record => {
-  return {
-    shotId: randomNumber(100, 999),
-    timestamp: randomDate().toISOString(),
-    activeArea: `Area${randomNumber(100, 999).toString()}`,
-    activeExperiment: `ABC${randomNumber(100, 999).toString()}DEF`,
-  };
-};
-
-const generateRecordCollection = (): Record[] => {
-  let records: Record[] = [];
-  const random = randomNumber(resultsPerPage * 3, resultsPerPage * 10);
-
-  for (let i = 0; i < random; i++) {
-    records.push(generateRecord());
-  }
-
-  return records;
-};
+import {
+  generateRecordCollection,
+  randomNumber,
+  resultsPerPage,
+} from '../recordGeneration';
 
 const sleep = (ms: number): Promise<unknown> => {
   return new Promise((resolve) => setTimeout(resolve, ms));

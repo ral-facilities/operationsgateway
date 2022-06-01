@@ -1,5 +1,5 @@
 import React from 'react';
-import { Order, Record } from '../app.types';
+import { Order, RecordRow } from '../app.types';
 import { Column, useTable } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
@@ -14,8 +14,8 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 
 interface TableProps {
-  data: Record[];
-  columns: Column[];
+  data: RecordRow[];
+  displayedColumns: Column[];
   totalDataCount: number;
   page: number | null;
   loadedData: boolean;
@@ -29,7 +29,7 @@ interface TableProps {
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
-    columns,
+    displayedColumns,
     totalDataCount,
     loadedData,
     loadedCount,
@@ -63,7 +63,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
-  const tableInstance = useTable({ columns, data });
+  const tableInstance = useTable({ columns: displayedColumns, data });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
