@@ -71,8 +71,9 @@ const RecordTable = React.memo((): React.ReactElement => {
 
   React.useEffect(() => {
     if (data && !dataLoading) {
-      const parsed: RecordRow[] = parseData(data);
-      setAvailableColumns(constructColumns(parsed));
+      const parsedData: RecordRow[] = parseData(data);
+      const newAvailableColumns = constructColumns(parsedData);
+      setAvailableColumns(newAvailableColumns);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, dataLoading]);
@@ -104,20 +105,19 @@ const RecordTable = React.memo((): React.ReactElement => {
     setSort(newSort);
   };
 
-  const onChecked = (e: any): void => {
-    const header = e.target.id;
-    const checked = e.target.checked;
-
+  const onChecked = (accessor: string, checked: boolean): void => {
     if (checked) {
       const columnToFilter: Column = {
-        Header: header,
-        accessor: header,
+        // Currently this relies on channel columns having the same name for their header and accessor
+        // This won't be the case in practice so we'll need to amend this later
+        Header: accessor,
+        accessor: accessor,
       };
       setDisplayedColumns([...displayedColumns, columnToFilter]);
     } else {
       setDisplayedColumns(
         displayedColumns.filter((col: Column) => {
-          return col.accessor !== header;
+          return col.accessor !== accessor;
         })
       );
     }

@@ -31,7 +31,8 @@
     "start": "craco start",
     "build": "craco build",
     "serve:build": "yarn build && serve -l 5001 build",
-    "test": "craco test --env=jsdom --watch",
+    "test": "craco test --env=jsdom --coverage --watchAll=false",
+    "test:watch": "craco test --env=jsdom --watch",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

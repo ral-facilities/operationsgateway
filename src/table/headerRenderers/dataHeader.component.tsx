@@ -93,6 +93,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         </Box>
         {/* {filterComponent?.(labelString, dataKey)} */}
       </div>
+      {/* Draggable? */}
       <div>
         <div
           style={{

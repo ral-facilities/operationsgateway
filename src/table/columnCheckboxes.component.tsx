@@ -2,37 +2,37 @@ import React from 'react';
 import { Column } from 'react-table';
 import { Checkbox } from '@mui/material';
 
-interface ColumnCheckboxesProps {
+export interface ColumnCheckboxesProps {
   availableColumns: Column[];
   displayedColumns: Column[];
-  onChecked: (e: any) => void;
+  onChecked: (accessor: string, checked: boolean) => void;
 }
 
 const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
   const { availableColumns, displayedColumns, onChecked } = props;
 
-  const shouldBeChecked = (columnHeader: string): boolean => {
+  const shouldBeChecked = (columnAccessor: string): boolean => {
     const match = displayedColumns.filter((col: Column) => {
-      return col.accessor === columnHeader;
+      return col.accessor === columnAccessor;
     });
 
     return match && match.length > 0;
   };
 
   const checkboxes = availableColumns.map((column: Column) => {
-    const header = column.Header?.toString() ?? 'no header';
-    const accessor = column.accessor?.toString() ?? 'no accessor';
-    return (
+    const header = column.Header?.toString();
+    const accessor = column.accessor?.toString();
+    return header && accessor ? (
       <div>
         <label>{header}</label>
         <Checkbox
-          onChange={onChecked}
+          onChange={(e) => onChecked(e.target.id, e.target.checked)}
           id={accessor}
           value={accessor}
-          checked={shouldBeChecked(header)}
+          checked={shouldBeChecked(accessor)}
         />
       </div>
-    );
+    ) : null;
   });
 
   return <div style={{ overflow: 'auto', height: '150px' }}>{checkboxes}</div>;

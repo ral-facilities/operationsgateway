@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 
-interface TableProps {
+export interface TableProps {
   data: RecordRow[];
   displayedColumns: Column[];
   totalDataCount: number;
