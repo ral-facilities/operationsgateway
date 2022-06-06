@@ -3,7 +3,7 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
 import { Record, Order, QueryParams, Channel, RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import ColumnList from '../table/columnCheckboxes.component';
+import ColumnCheckboxes from '../table/columnCheckboxes.component';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const [page, setPage] = React.useState(0);
@@ -137,7 +137,11 @@ const RecordTable = React.memo((): React.ReactElement => {
         sort={sort}
         onSort={handleSort}
       />
-      <ColumnList availableColumns={availableColumns} onChecked={onChecked} />
+      <ColumnCheckboxes
+        availableColumns={availableColumns}
+        displayedColumns={displayedColumns}
+        onChecked={onChecked}
+      />
     </div>
   );
 });
