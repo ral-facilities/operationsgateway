@@ -53,7 +53,7 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "yarn@3.2.0",
+  "packageManager": "yarn@3.2.1",
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
     "@craco/craco": "^6.4.3",
