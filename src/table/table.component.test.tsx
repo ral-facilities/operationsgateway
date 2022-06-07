@@ -40,7 +40,7 @@ describe('Table', () => {
   const onPageChange = jest.fn();
   const onSort = jest.fn();
 
-  const createWrapper = (): RenderResult => {
+  const createView = (): RenderResult => {
     return render(<Table {...props} />);
   };
 
@@ -64,12 +64,12 @@ describe('Table', () => {
   });
 
   it('renders correctly', async () => {
-    const view = createWrapper();
+    const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('calls onSort function when sort label clicked', () => {
-    createWrapper();
+    createView();
     screen.getByText('ID').click();
 
     expect(onSort).toHaveBeenCalledWith('id', 'asc');
@@ -77,14 +77,14 @@ describe('Table', () => {
 
   it('displays a record count', () => {
     const recordCount = recordRows.length;
-    createWrapper();
+    createView();
     screen.getByText(`1–${recordCount} of ${recordCount}`);
   });
 
   it('calls onPageChange when page is changed', () => {
     const recordCount = recordRows.length;
     props.resultsPerPage = 1;
-    createWrapper();
+    createView();
     screen.getByText(`1–1 of ${recordCount}`);
     screen.getByLabelText('Go to next page').click();
 
@@ -93,25 +93,25 @@ describe('Table', () => {
 
   it('displays page loading message when loadedData is false and totalDataCount is zero', () => {
     props.loadedData = false;
-    createWrapper();
+    createView();
     screen.getByText('Loading...');
 
     cleanup();
     props.loadedData = true;
     props.totalDataCount = 0;
-    createWrapper();
+    createView();
     screen.getByText('Loading...');
   });
 
   it('reverts to first page if the current page number accidentally goes above the maximum available', () => {
     props.page = 100;
-    createWrapper();
+    createView();
     expect(onPageChange).toBeCalledWith(0);
   });
 
   it('waits until we have a result count before counting a maximum page', () => {
     props.loadedCount = false;
-    createWrapper();
+    createView();
     expect(onPageChange).not.toHaveBeenCalled();
   });
 

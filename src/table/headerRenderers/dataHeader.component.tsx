@@ -9,7 +9,7 @@ import {
 import React from 'react';
 import { Order } from '../../app.types';
 
-interface DataHeaderProps {
+export interface DataHeaderProps {
   key: React.Key;
   disableSort?: boolean;
   dataKey: string;

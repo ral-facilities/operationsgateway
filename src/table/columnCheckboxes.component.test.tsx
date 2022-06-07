@@ -20,7 +20,7 @@ describe('Column Checkboxes', () => {
   ];
   const displayedColumns: Column[] = [];
 
-  const createWrapper = (): RenderResult => {
+  const createView = (): RenderResult => {
     return render(<ColumnCheckboxes {...props} />);
   };
 
@@ -37,24 +37,24 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when unchecked', () => {
-    const view = createWrapper();
+    const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders correctly when checked', () => {
     props.displayedColumns = availableColumns;
-    const view = createWrapper();
+    const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('calls onChecked when checkbox is clicked', () => {
-    createWrapper();
+    createView();
     screen.getAllByRole('checkbox')[0].click();
     expect(onChecked).toHaveBeenCalledWith('id', true);
 
     cleanup();
     props.displayedColumns = availableColumns;
-    createWrapper();
+    createView();
     screen.getAllByRole('checkbox')[1].click();
     expect(onChecked).toHaveBeenCalledWith('name', false);
   });
@@ -63,7 +63,7 @@ describe('Column Checkboxes', () => {
     availableColumns[1].Header = null;
     availableColumns[1].accessor = null;
 
-    createWrapper();
+    createView();
     const checkboxes = screen.getAllByRole('checkbox');
     expect(checkboxes.length).toEqual(1);
     expect(screen.queryByText('Name')).toBeNull();
