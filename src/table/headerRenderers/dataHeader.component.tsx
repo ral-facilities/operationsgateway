@@ -5,10 +5,19 @@ import {
   Divider,
   TableCell,
   SxProps,
+  styled,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
+
+const StyledClose = styled(Close)(() => ({
+  cursor: 'pointer',
+  color: 'black',
+  '&:hover': {
+    color: 'red',
+  },
+}));
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -87,11 +96,21 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           flex: 1,
         }}
       >
-        <Box display="flex">
+        <Box
+          display="flex"
+          onMouseDown={(event) => {
+            // Middle mouse button can also fire onClose
+            if (event.button === 1) {
+              event.preventDefault();
+              onClose(dataKey);
+            }
+          }}
+        >
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
+          <StyledClose onClick={() => onClose(dataKey)} />
         </Box>
-        <Close onClick={() => onClose(dataKey)} />
+
         {/* {filterComponent?.(labelString, dataKey)} */}
       </div>
       {/* Draggable? */}
