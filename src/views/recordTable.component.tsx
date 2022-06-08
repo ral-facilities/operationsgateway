@@ -132,6 +132,10 @@ const RecordTable = React.memo(
       }
     };
 
+    const handleClose = (column: string): void => {
+      onChecked(column, false);
+    };
+
     return (
       <div>
         <Table
@@ -145,6 +149,7 @@ const RecordTable = React.memo(
           onPageChange={onPageChange}
           sort={sort}
           onSort={handleSort}
+          onClose={handleClose}
         />
         <ColumnCheckboxes
           availableColumns={availableColumns}

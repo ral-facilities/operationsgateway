@@ -6,6 +6,7 @@ import {
   TableCell,
   SxProps,
 } from '@mui/material';
+import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 
@@ -18,6 +19,7 @@ export interface DataHeaderProps {
   defaultSort?: Order;
   label?: React.ReactNode;
   icon?: React.ComponentType<unknown>;
+  onClose: (column: string) => void;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -30,6 +32,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onSort,
     defaultSort,
     label,
+    onClose,
   } = props;
 
   const currSortDirection = sort[dataKey];
@@ -88,6 +91,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
         </Box>
+        <Close onClick={() => onClose(dataKey)} />
         {/* {filterComponent?.(labelString, dataKey)} */}
       </div>
       {/* Draggable? */}
