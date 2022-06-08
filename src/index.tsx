@@ -34,6 +34,9 @@ function domElementGetter(): HTMLElement {
   return el;
 }
 
+// This was throwing a warning that rootComponent was not found even if it was defined
+// Defining loadRootComponent did not throw this warning
+// May be worth investigating further
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOM,
