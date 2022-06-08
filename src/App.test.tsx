@@ -3,7 +3,6 @@ import { act } from '@testing-library/react';
 import App from './App';
 import { createRoot } from 'react-dom/client';
 import { flushPromises } from './setupTests';
-import * as log from 'loglevel';
 
 jest.mock('loglevel');
 
