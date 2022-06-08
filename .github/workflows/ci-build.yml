@@ -1,6 +1,6 @@
 name: CI Build
 on:
-  pull_requst:
+  pull_request:
   # By default, the pull_request event type is not triggered when a PR is merged into main
   push:
     branches:
