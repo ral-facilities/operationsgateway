@@ -10,7 +10,6 @@ import React from 'react';
 import { Order } from '../../app.types';
 
 export interface DataHeaderProps {
-  key: React.Key;
   disableSort?: boolean;
   dataKey: string;
   sort: { [column: string]: Order };
@@ -23,7 +22,6 @@ export interface DataHeaderProps {
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   const {
-    key,
     sx,
     icon: Icon,
     disableSort,
@@ -74,7 +72,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
 
   return (
     <TableCell
-      key={key}
       size="small"
       component="div"
       sx={sx}

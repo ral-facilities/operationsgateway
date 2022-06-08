@@ -1,9 +1,10 @@
-import React from "react";
-import * as log from "loglevel";
-import { pluginName } from ".";
-import RecordTable from "./views/recordTable.component";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import React from 'react';
+import * as log from 'loglevel';
+import { pluginName } from '.';
+import RecordTable from './views/recordTable.component';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { resultsPerPage } from './recordGeneration';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,7 +52,7 @@ class App extends React.Component<unknown, { hasError: boolean }> {
     return (
       <div className="App">
         <QueryClientProvider client={queryClient}>
-          <RecordTable />
+          <RecordTable resultsPerPage={resultsPerPage} />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </div>

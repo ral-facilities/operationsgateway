@@ -23,8 +23,8 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
     const header = column.Header?.toString();
     const accessor = column.accessor?.toString();
     return header && accessor ? (
-      <div>
-        <label>{header}</label>
+      <div key={accessor}>
+        <label htmlFor={accessor}>{header}</label>
         <Checkbox
           onChange={(e) => onChecked(e.target.id, e.target.checked)}
           id={accessor}

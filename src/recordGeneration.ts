@@ -6,6 +6,7 @@ import {
   Scalar,
 } from './app.types';
 
+// TODO this needs to be somewhere else. Perhaps a setting?
 export const resultsPerPage = 10;
 
 export const generateRecordCollection = (): Record[] => {

@@ -85,14 +85,14 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
                           return (
-                            <DataHeader
-                              {...otherHeaderProps}
-                              key={key}
-                              dataKey={column.render('id') as string}
-                              sort={sort}
-                              onSort={onSort}
-                              label={column.render('Header')}
-                            />
+                            <MuiTableCell key={key} {...otherHeaderProps}>
+                              <DataHeader
+                                dataKey={column.render('id') as string}
+                                sort={sort}
+                                onSort={onSort}
+                                label={column.render('Header')}
+                              />
+                            </MuiTableCell>
                           );
                         })}
                       </MuiTableRow>
@@ -121,14 +121,13 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               </MuiTable>
             </MuiTableContainer>
           </div>
-          <div>
-            <MuiTablePagination
-              count={totalDataCount}
-              onPageChange={(e, page) => onPageChange(page)}
-              page={page}
-              rowsPerPage={resultsPerPage}
-            />
-          </div>
+          <MuiTablePagination
+            component="div"
+            count={totalDataCount}
+            onPageChange={(e, page) => onPageChange(page)}
+            page={page}
+            rowsPerPage={resultsPerPage}
+          />
         </div>
       ) : (
         <div>
