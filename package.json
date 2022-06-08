@@ -28,6 +28,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
     "start": "craco start",
     "build": "craco build",
     "serve:build": "yarn build && serve -l 5001 build",
