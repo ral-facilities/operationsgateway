@@ -40,10 +40,30 @@ function domElementGetter(): HTMLElement {
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOM,
-  // rootComponent: App,
+  rootComponent: App,
   domElementGetter,
-  loadRootComponent: () =>
-    new Promise((resolve, reject) => resolve(() => <App />)),
+  errorBoundary: (error) => {
+    log.error(`${pluginName} failed with error: ${error}`);
+    return (
+      <div className="error">
+        {/* <React.Suspense
+          fallback={<Preloader loading={true}>Finished loading</Preloader>}
+        >
+          <div
+            style={{
+              padding: 20,
+              background: 'red',
+              color: 'white',
+              margin: 5,
+            }}
+          >
+            <Translation>{(t) => t('app.error')}</Translation>
+          </div>
+        </React.Suspense> */}
+        <p>Error</p>
+      </div>
+    );
+  },
 });
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
