@@ -10,4 +10,4 @@ Add a set up instructions describing how the reviewer should test the code
 - [ ] {more steps here}
 
 ## Agile board tracking
-connect to #{issue number}
+connect to DSEGOG-{issue number}
