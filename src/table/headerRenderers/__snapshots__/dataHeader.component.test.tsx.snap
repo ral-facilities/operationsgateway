@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Data Header renders correctly with sort but no filter 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+  >
+    <div
+      style="overflow: hidden; flex: 1;"
+    >
+      <div
+        class="MuiBox-root css-k008qs"
+      >
+        <div
+          class="MuiBox-root css-12z0wuy"
+        >
+          <div>
+            Test
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <span
+            class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+            role="button"
+            tabindex="0"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+            >
+              Test
+            </p>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+              data-testid="ArrowDownwardIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+      >
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Data Header renders correctly without sort or filter 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+  >
+    <div
+      style="overflow: hidden; flex: 1;"
+    >
+      <div
+        class="MuiBox-root css-k008qs"
+      >
+        <div
+          class="MuiBox-root css-12z0wuy"
+        >
+          <div>
+            Test
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+          >
+            Test
+          </p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+      >
+        <hr
+          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

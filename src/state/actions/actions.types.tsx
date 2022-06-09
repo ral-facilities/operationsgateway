@@ -1,4 +1,4 @@
-import { MicroFrontendId } from "../../app.types";
+import { MicroFrontendId } from '../../app.types';
 
 // parent app actions
 export const CustomFrontendMessageType = `${MicroFrontendId}:api`;
