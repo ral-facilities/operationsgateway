@@ -30,6 +30,9 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
           id={accessor}
           value={accessor}
           checked={shouldBeChecked(accessor)}
+          inputProps={{
+            'aria-label': `${accessor} checkbox`,
+          }}
         />
       </div>
     ) : null;

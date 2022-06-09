@@ -129,6 +129,7 @@ const RecordTable = React.memo(
             return col.accessor !== accessor;
           })
         );
+        handleSort(accessor, null);
       }
     };
 

@@ -45,6 +45,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort id"
                               role="button"
                               tabindex="0"
                             >
@@ -119,6 +120,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort shotNum"
                               role="button"
                               tabindex="0"
                             >
@@ -193,6 +195,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort timestamp"
                               role="button"
                               tabindex="0"
                             >
@@ -267,6 +270,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort test1"
                               role="button"
                               tabindex="0"
                             >
@@ -341,6 +345,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort test2"
                               role="button"
                               tabindex="0"
                             >
@@ -415,6 +420,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                           >
                             <span
                               class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                              data-testid="sort test3"
                               role="button"
                               tabindex="0"
                             >
@@ -699,6 +705,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="id checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="id"
@@ -731,6 +738,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="shotNum checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="shotNum"
@@ -763,6 +771,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="timestamp checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="timestamp"
@@ -795,6 +804,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test1 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test1"
@@ -827,6 +837,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test2 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test2"
@@ -859,6 +870,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test3 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test3"
@@ -1023,6 +1035,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="id checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="id"
@@ -1055,6 +1068,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="shotNum checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="shotNum"
@@ -1087,6 +1101,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="timestamp checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="timestamp"
@@ -1119,6 +1134,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test1 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test1"
@@ -1151,6 +1167,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test2 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test2"
@@ -1183,6 +1200,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
           class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
+            aria-label="test3 checkbox"
             class="PrivateSwitchBase-input css-1m9pwf3"
             data-indeterminate="false"
             id="test3"

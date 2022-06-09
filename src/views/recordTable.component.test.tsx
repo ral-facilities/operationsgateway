@@ -109,9 +109,9 @@ describe('Record Table', () => {
     createView();
 
     await act(async () => {
-      screen.getByLabelText('id').click();
+      screen.getByLabelText('id checkbox').click();
       await flushPromises();
-      screen.getAllByText('id')[0].click();
+      screen.getByTestId('sort id').click();
       await flushPromises();
     });
 

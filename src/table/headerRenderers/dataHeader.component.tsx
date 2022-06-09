@@ -68,6 +68,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
 
   const inner = !disableSort ? (
     <TableSortLabel
+      data-testid={`sort ${dataKey}`}
       active={dataKey in sort}
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}

@@ -68,7 +68,7 @@ describe('Data Header', () => {
   describe('calls the onSort method when label is clicked', () => {
     it('sets asc order', () => {
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', 'asc');
     });
 
@@ -78,7 +78,7 @@ describe('Data Header', () => {
       };
 
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
 
@@ -88,7 +88,7 @@ describe('Data Header', () => {
       };
 
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', null);
     });
   });

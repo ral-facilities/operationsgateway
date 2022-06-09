@@ -49,13 +49,13 @@ describe('Column Checkboxes', () => {
 
   it('calls onChecked when checkbox is clicked', () => {
     createView();
-    screen.getAllByRole('checkbox')[0].click();
+    screen.getByLabelText('id checkbox').click();
     expect(onChecked).toHaveBeenCalledWith('id', true);
 
     cleanup();
     props.displayedColumns = availableColumns;
     createView();
-    screen.getAllByRole('checkbox')[1].click();
+    screen.getByLabelText('name checkbox').click();
     expect(onChecked).toHaveBeenCalledWith('name', false);
   });
 
