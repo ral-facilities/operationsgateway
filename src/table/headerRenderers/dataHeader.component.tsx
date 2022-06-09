@@ -97,6 +97,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         }}
       >
         <Box
+          aria-label={`${dataKey} header`}
           display="flex"
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
@@ -108,7 +109,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         >
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
-          <StyledClose onClick={() => onClose(dataKey)} />
+          <div aria-label={`close ${dataKey}`}>
+            <StyledClose onClick={() => onClose(dataKey)} />
+          </div>
         </Box>
 
         {/* {filterComponent?.(labelString, dataKey)} */}

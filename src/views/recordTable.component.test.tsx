@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, RenderResult, screen, act } from '@testing-library/react';
+import {
+  render,
+  RenderResult,
+  screen,
+  act,
+  fireEvent,
+} from '@testing-library/react';
 import RecordTable, { RecordTableProps } from './recordTable.component';
 import { testRecords, flushPromises } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
@@ -138,6 +144,34 @@ describe('Record Table', () => {
       screen.getByLabelText('id').click();
       await flushPromises();
     });
+    idColumn = screen.getAllByRole('button').find((element) => {
+      return element.textContent === 'id';
+    });
+    expect(idColumn).toBeUndefined();
+  });
+
+  it('amends displayed columns when column close button is clicked', async () => {
+    createView();
+
+    await act(async () => {
+      screen.getByLabelText('id').click();
+      await flushPromises();
+    });
+
+    // Current rudimentary way to fetch the ID data header and not the ID checkbox
+    // The existence of this is used to "prove" that the ID column is on the screen
+    // Could do with some improving
+    let idColumn = screen.getAllByRole('button').find((element) => {
+      return element.textContent === 'id';
+    });
+
+    expect(idColumn).not.toBeUndefined();
+
+    const icon = screen.getByLabelText('close id');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(icon.firstChild);
+
     idColumn = screen.getAllByRole('button').find((element) => {
       return element.textContent === 'id';
     });
