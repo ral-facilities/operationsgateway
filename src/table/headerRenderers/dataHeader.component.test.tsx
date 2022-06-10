@@ -13,7 +13,15 @@ describe('Data Header', () => {
   const onClose = jest.fn();
 
   const createView = (): RenderResult => {
-    return render(<DataHeader {...props} />);
+    return render(
+      <table>
+        <thead>
+          <tr>
+            <DataHeader {...props} />
+          </tr>
+        </thead>
+      </table>
+    );
   };
 
   beforeEach(() => {

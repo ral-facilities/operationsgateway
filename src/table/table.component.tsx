@@ -87,15 +87,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
                           return (
-                            <MuiTableCell key={key} {...otherHeaderProps}>
-                              <DataHeader
-                                dataKey={column.render('id') as string}
-                                sort={sort}
-                                onSort={onSort}
-                                label={column.render('Header')}
-                                onClose={onClose}
-                              />
-                            </MuiTableCell>
+                            <DataHeader
+                              key={key}
+                              {...otherHeaderProps}
+                              dataKey={column.render('id') as string}
+                              sort={sort}
+                              onSort={onSort}
+                              label={column.render('Header')}
+                              onClose={onClose}
+                            />
                           );
                         })}
                       </MuiTableRow>

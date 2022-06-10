@@ -86,7 +86,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   return (
     <TableCell
       size="small"
-      component="div"
+      component="th"
+      role="columnheader"
       sx={sx}
       variant="head"
       sortDirection={currSortDirection}
@@ -114,8 +115,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             <StyledClose onClick={() => onClose(dataKey)} />
           </div>
         </Box>
-
-        {/* {filterComponent?.(labelString, dataKey)} */}
       </div>
       {/* Draggable? */}
       <div>
