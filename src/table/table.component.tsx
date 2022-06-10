@@ -1,17 +1,22 @@
 import React from 'react';
 import { Order, RecordRow } from '../app.types';
-import { Column, useTable } from 'react-table';
+import {
+  Column,
+  useTable,
+  useBlockLayout,
+  useResizeColumns,
+} from 'react-table';
 import {
   TableContainer as MuiTableContainer,
   Table as MuiTable,
   TableHead as MuiTableHead,
   TableBody as MuiTableBody,
   TableRow as MuiTableRow,
-  TableCell as MuiTableCell,
   TablePagination as MuiTablePagination,
   Paper,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
+import DataCell from './cellRenderers/dataCell.component';
 
 export interface TableProps {
   data: RecordRow[];
@@ -39,6 +44,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onSort,
   } = props;
 
+  const defaultColumn = React.useMemo(
+    () => ({
+      minWidth: 30,
+      width: 150,
+      maxWidth: 400,
+    }),
+    []
+  );
+
   const [maxPage, setMaxPage] = React.useState(0);
 
   const page = React.useMemo(() => {
@@ -63,13 +77,24 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
-  const tableInstance = useTable({ columns: displayedColumns, data });
+  const tableInstance = useTable(
+    { columns: displayedColumns, data, defaultColumn },
+    useResizeColumns
+  );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    resetResizing,
+  } = tableInstance;
 
   return (
     <div>
+      <button onClick={resetResizing}>Reset resizing</button>
       {loadedData && totalDataCount > 0 ? (
         <div>
           <div>
@@ -85,14 +110,20 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
                           return (
-                            <MuiTableCell key={key} {...otherHeaderProps}>
-                              <DataHeader
-                                dataKey={column.render('id') as string}
-                                sort={sort}
-                                onSort={onSort}
-                                label={column.render('Header')}
-                              />
-                            </MuiTableCell>
+                            <DataHeader
+                              sx={{
+                                minWidth: column.minWidth,
+                                width: column.width,
+                                maxWidth: column.maxWidth,
+                              }}
+                              key={key}
+                              {...otherHeaderProps}
+                              resizerProps={column.getResizerProps()}
+                              dataKey={column.render('id') as string}
+                              sort={sort}
+                              onSort={onSort}
+                              label={column.render('Header')}
+                            />
                           );
                         })}
                       </MuiTableRow>
@@ -109,9 +140,21 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherCellProps } =
                             cell.getCellProps();
                           return (
-                            <MuiTableCell key={key} {...otherCellProps}>
-                              {cell.render('Cell')}
-                            </MuiTableCell>
+                            <DataCell
+                              sx={{
+                                minWidth: cell.column.minWidth,
+                                width: cell.column.width,
+                                maxWidth: cell.column.maxWidth,
+                              }}
+                              key={key}
+                              {...otherCellProps}
+                              dataKey={key.toString()}
+                              rowData={cell.render('Cell')}
+                              // sx={tableCellStyleCombined}
+                            />
+                            // <MuiTableCell key={key} {...otherCellProps}>
+                            //   {cell.render('Cell')}
+                            // </MuiTableCell>
                           );
                         })}
                       </MuiTableRow>
@@ -128,6 +171,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             page={page}
             rowsPerPage={resultsPerPage}
           />
+          <pre>
+            <code>{JSON.stringify(state, null, 2)}</code>
+          </pre>
         </div>
       ) : (
         <div>

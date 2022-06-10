@@ -8,6 +8,8 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Order } from '../../app.types';
+import Draggable from 'react-draggable';
+import { TableResizerProps } from 'react-table';
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -18,6 +20,7 @@ export interface DataHeaderProps {
   defaultSort?: Order;
   label?: React.ReactNode;
   icon?: React.ComponentType<unknown>;
+  resizerProps: TableResizerProps;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -30,6 +33,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onSort,
     defaultSort,
     label,
+    resizerProps,
   } = props;
 
   const currSortDirection = sort[dataKey];
@@ -88,10 +92,17 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
         </Box>
-        {/* {filterComponent?.(labelString, dataKey)} */}
       </div>
-      {/* Draggable? */}
-      <div>
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{
+          height: '100%',
+          display: 'list-item',
+        }}
+        {...resizerProps}
+      />
+      {/* <Draggable axis="none" {...resizerProps}>
         <div
           style={{
             marginLeft: 18,
@@ -99,16 +110,10 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             paddingRight: '4px',
             cursor: 'col-resize',
           }}
-        >
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{
-              height: '100%',
-            }}
-          />
-        </div>
-      </div>
+        > */}
+
+      {/* </div>
+      </Draggable> */}
     </TableCell>
   );
 };
