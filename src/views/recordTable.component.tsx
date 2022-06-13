@@ -129,7 +129,12 @@ const RecordTable = React.memo(
             return col.accessor !== accessor;
           })
         );
+        handleSort(accessor, null);
       }
+    };
+
+    const handleClose = (column: string): void => {
+      onChecked(column, false);
     };
 
     return (
@@ -145,6 +150,7 @@ const RecordTable = React.memo(
           onPageChange={onPageChange}
           sort={sort}
           onSort={handleSort}
+          onClose={handleClose}
         />
         <ColumnCheckboxes
           availableColumns={availableColumns}

@@ -29,6 +29,7 @@ export interface TableProps {
   onPageChange: (page: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
+  onClose: (column: string) => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -42,6 +43,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onPageChange,
     sort,
     onSort,
+    onClose,
   } = props;
 
   const defaultColumn = React.useMemo(
@@ -123,6 +125,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               sort={sort}
                               onSort={onSort}
                               label={column.render('Header')}
+                              onClose={onClose}
                             />
                           );
                         })}

@@ -5,11 +5,21 @@ import {
   Divider,
   TableCell,
   SxProps,
+  styled,
 } from '@mui/material';
+import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 import Draggable from 'react-draggable';
 import { TableResizerProps } from 'react-table';
+
+const StyledClose = styled(Close)(() => ({
+  cursor: 'pointer',
+  color: 'black',
+  '&:hover': {
+    color: 'red',
+  },
+}));
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -21,6 +31,7 @@ export interface DataHeaderProps {
   label?: React.ReactNode;
   icon?: React.ComponentType<unknown>;
   resizerProps: TableResizerProps;
+  onClose: (column: string) => void;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -34,6 +45,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     defaultSort,
     label,
     resizerProps,
+    onClose,
   } = props;
 
   const currSortDirection = sort[dataKey];
@@ -60,6 +72,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
 
   const inner = !disableSort ? (
     <TableSortLabel
+      data-testid={`sort ${dataKey}`}
       active={dataKey in sort}
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
@@ -77,7 +90,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   return (
     <TableCell
       size="small"
-      component="div"
+      component="th"
+      role="columnheader"
       sx={sx}
       variant="head"
       sortDirection={currSortDirection}
@@ -88,9 +102,22 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           flex: 1,
         }}
       >
-        <Box display="flex">
+        <Box
+          aria-label={`${dataKey} header`}
+          display="flex"
+          onMouseDown={(event) => {
+            // Middle mouse button can also fire onClose
+            if (event.button === 1) {
+              event.preventDefault();
+              onClose(dataKey);
+            }
+          }}
+        >
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
+          <div aria-label={`close ${dataKey}`}>
+            <StyledClose onClick={() => onClose(dataKey)} />
+          </div>
         </Box>
       </div>
       <Divider
