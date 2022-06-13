@@ -15,6 +15,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
+          aria-label="id checkbox"
           checked=""
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
@@ -48,6 +49,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
+          aria-label="name checkbox"
           checked=""
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
@@ -90,6 +92,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
+          aria-label="id checkbox"
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
           id="id"
@@ -122,6 +125,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
+          aria-label="name checkbox"
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
           id="name"

@@ -24,6 +24,7 @@ export interface TableProps {
   onPageChange: (page: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
+  onClose: (column: string) => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -37,6 +38,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onPageChange,
     sort,
     onSort,
+    onClose,
   } = props;
 
   const [maxPage, setMaxPage] = React.useState(0);
@@ -85,14 +87,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
                           return (
-                            <MuiTableCell key={key} {...otherHeaderProps}>
-                              <DataHeader
-                                dataKey={column.render('id') as string}
-                                sort={sort}
-                                onSort={onSort}
-                                label={column.render('Header')}
-                              />
-                            </MuiTableCell>
+                            <DataHeader
+                              key={key}
+                              {...otherHeaderProps}
+                              dataKey={column.render('id') as string}
+                              sort={sort}
+                              onSort={onSort}
+                              label={column.render('Header')}
+                              onClose={onClose}
+                            />
                           );
                         })}
                       </MuiTableRow>

@@ -1,21 +1,35 @@
 import React from 'react';
 import DataHeader, { DataHeaderProps } from './dataHeader.component';
-import { render, RenderResult, screen } from '@testing-library/react';
+import {
+  render,
+  RenderResult,
+  screen,
+  fireEvent,
+} from '@testing-library/react';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
   const onSort = jest.fn();
+  const onClose = jest.fn();
 
   const createView = (): RenderResult => {
-    return render(<DataHeader {...props} />);
+    return render(
+      <table>
+        <thead>
+          <tr>
+            <DataHeader {...props} />
+          </tr>
+        </thead>
+      </table>
+    );
   };
 
   beforeEach(() => {
     props = {
-      key: 'test',
       dataKey: 'test',
       sort: {},
       onSort: onSort,
+      onClose: onClose,
       label: 'Test',
       icon: function Icon() {
         return <div>Test</div>;
@@ -38,6 +52,23 @@ describe('Data Header', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('calls onClose when close icon is clicked', () => {
+    createView();
+    const icon = screen.getByLabelText('close test');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(icon.firstChild);
+
+    expect(onClose).toHaveBeenCalledWith('test');
+  });
+
+  it('removes column from display when header is middle clicked', () => {
+    createView();
+    const header = screen.getByLabelText('test header');
+    fireEvent.mouseDown(header, { button: 1 });
+    expect(onClose).toHaveBeenCalledWith('test');
+  });
+
   it.todo('renders correctly with filter but no sort');
 
   it.todo('renders correctly with sort and filter');
@@ -45,7 +76,7 @@ describe('Data Header', () => {
   describe('calls the onSort method when label is clicked', () => {
     it('sets asc order', () => {
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', 'asc');
     });
 
@@ -55,7 +86,7 @@ describe('Data Header', () => {
       };
 
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
 
@@ -65,7 +96,7 @@ describe('Data Header', () => {
       };
 
       createView();
-      screen.getAllByText('Test')[1].click();
+      screen.getByTestId('sort test').click();
       expect(onSort).toHaveBeenCalledWith('test', null);
     });
   });
