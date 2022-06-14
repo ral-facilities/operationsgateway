@@ -46,15 +46,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onClose,
   } = props;
 
-  const defaultColumn = React.useMemo(
-    () => ({
-      minWidth: 30,
-      width: 150,
-      maxWidth: 400,
-    }),
-    []
-  );
-
   const [maxPage, setMaxPage] = React.useState(0);
 
   const page = React.useMemo(() => {
@@ -79,9 +70,17 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
+  const defaultColumn = React.useMemo(
+    () => ({
+      width: 150,
+    }),
+    []
+  );
+
   const tableInstance = useTable(
     { columns: displayedColumns, data, defaultColumn },
-    useResizeColumns
+    useResizeColumns,
+    useBlockLayout
   );
 
   const {
@@ -111,15 +110,16 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         {headerGroup.headers.map((column) => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
+
                           return (
                             <DataHeader
+                              key={key}
+                              {...otherHeaderProps}
                               sx={{
                                 minWidth: column.minWidth,
                                 width: column.width,
                                 maxWidth: column.maxWidth,
                               }}
-                              key={key}
-                              {...otherHeaderProps}
                               resizerProps={column.getResizerProps()}
                               dataKey={column.render('id') as string}
                               sort={sort}

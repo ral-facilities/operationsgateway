@@ -6,11 +6,11 @@ import {
   TableCell,
   SxProps,
   styled,
+  Grid,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
-import Draggable from 'react-draggable';
 import { TableResizerProps } from 'react-table';
 
 const StyledClose = styled(Close)(() => ({
@@ -96,51 +96,44 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       variant="head"
       sortDirection={currSortDirection}
     >
-      <div
-        style={{
-          overflow: 'hidden',
-          flex: 1,
-        }}
-      >
-        <Box
-          aria-label={`${dataKey} header`}
-          display="flex"
-          onMouseDown={(event) => {
-            // Middle mouse button can also fire onClose
-            if (event.button === 1) {
-              event.preventDefault();
-              onClose(dataKey);
-            }
-          }}
-        >
-          <Box marginRight={1}>{Icon && <Icon />}</Box>
-          <Box>{inner}</Box>
-          <div aria-label={`close ${dataKey}`}>
-            <StyledClose onClick={() => onClose(dataKey)} />
-          </div>
-        </Box>
-      </div>
-      <Divider
-        orientation="vertical"
-        flexItem
-        sx={{
-          height: '100%',
-          display: 'list-item',
-        }}
-        {...resizerProps}
-      />
-      {/* <Draggable axis="none" {...resizerProps}>
-        <div
-          style={{
-            marginLeft: 18,
-            paddingLeft: '4px',
-            paddingRight: '4px',
-            cursor: 'col-resize',
-          }}
-        > */}
-
-      {/* </div>
-      </Draggable> */}
+      <Grid container direction="row">
+        <Grid item xs>
+          {/* <div
+            style={{
+              overflow: 'hidden',
+              flex: 1,
+            }}
+          > */}
+          <Box
+            aria-label={`${dataKey} header`}
+            display="flex"
+            onMouseDown={(event) => {
+              // Middle mouse button can also fire onClose
+              if (event.button === 1) {
+                event.preventDefault();
+                onClose(dataKey);
+              }
+            }}
+          >
+            <Box marginRight={1}>{Icon && <Icon />}</Box>
+            <Box>{inner}</Box>
+            <div aria-label={`close ${dataKey}`}>
+              <StyledClose onClick={() => onClose(dataKey)} />
+            </div>
+          </Box>
+          {/* </div> */}
+        </Grid>
+        <Grid item xs>
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              height: '100%',
+            }}
+            {...resizerProps}
+          />
+        </Grid>
+      </Grid>
     </TableCell>
   );
 };
