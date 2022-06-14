@@ -6,7 +6,6 @@ import {
   TableCell,
   SxProps,
   styled,
-  Grid,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';

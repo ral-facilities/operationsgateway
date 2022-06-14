@@ -89,7 +89,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     headerGroups,
     rows,
     prepareRow,
-    state,
     resetResizing,
   } = tableInstance;
 
@@ -159,11 +158,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               {...otherCellProps}
                               dataKey={key.toString()}
                               rowData={cell.render('Cell')}
-                              // sx={tableCellStyleCombined}
                             />
-                            // <MuiTableCell key={key} {...otherCellProps}>
-                            //   {cell.render('Cell')}
-                            // </MuiTableCell>
                           );
                         })}
                       </MuiTableRow>
@@ -180,9 +175,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             page={page}
             rowsPerPage={resultsPerPage}
           />
-          <pre>
-            <code>{JSON.stringify(state, null, 2)}</code>
-          </pre>
         </div>
       ) : (
         <div>
