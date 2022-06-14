@@ -8,7 +8,7 @@ export interface DataCellProps {
 }
 
 const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
-  const { sx, dataKey, rowData } = props;
+  const { sx, rowData } = props;
 
   return (
     <TableCell size="small" component="td" sx={sx} variant="body">
