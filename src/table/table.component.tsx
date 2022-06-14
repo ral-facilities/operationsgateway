@@ -14,8 +14,8 @@ import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 
 // 24 - the width of the close icon in header
-// 23 - the width of the divider
-const requiredHeaderSpace = 24 + 23;
+// 4.8 - the width of the divider
+const additionalHeaderSpace = 24 + 4.8;
 
 export interface TableProps {
   data: RecordRow[];
@@ -72,7 +72,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 30,
-      width: 150 + requiredHeaderSpace,
+      width: 150 + additionalHeaderSpace,
     }),
     []
   );
@@ -83,18 +83,11 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     useFlexLayout
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    resetResizing,
-  } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
   return (
     <div>
-      <button onClick={resetResizing}>Reset resizing</button>
       {loadedData && totalDataCount > 0 ? (
         <div>
           <div>

@@ -34,6 +34,7 @@ describe('Data Header', () => {
       icon: function Icon() {
         return <div>Test</div>;
       },
+      resizerProps: {},
     };
   });
 
@@ -116,6 +117,4 @@ describe('Data Header', () => {
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
   });
-
-  it.todo('calls the resizeColumn method when column resizer is dragged');
 });
