@@ -96,44 +96,47 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       variant="head"
       sortDirection={currSortDirection}
     >
-      <Grid container direction="row">
-        <Grid item xs>
-          {/* <div
-            style={{
-              overflow: 'hidden',
-              flex: 1,
-            }}
-          > */}
-          <Box
-            aria-label={`${dataKey} header`}
-            display="flex"
-            onMouseDown={(event) => {
-              // Middle mouse button can also fire onClose
-              if (event.button === 1) {
-                event.preventDefault();
-                onClose(dataKey);
-              }
-            }}
-          >
-            <Box marginRight={1}>{Icon && <Icon />}</Box>
-            <Box>{inner}</Box>
-            <div aria-label={`close ${dataKey}`}>
-              <StyledClose onClick={() => onClose(dataKey)} />
-            </div>
-          </Box>
-          {/* </div> */}
-        </Grid>
-        <Grid item xs>
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{
-              height: '100%',
-            }}
-            {...resizerProps}
-          />
-        </Grid>
-      </Grid>
+      <div
+        style={{
+          overflow: 'hidden',
+          flex: 1,
+        }}
+      >
+        <Box
+          aria-label={`${dataKey} header`}
+          display="flex"
+          onMouseDown={(event) => {
+            // Middle mouse button can also fire onClose
+            if (event.button === 1) {
+              event.preventDefault();
+              onClose(dataKey);
+            }
+          }}
+        >
+          <Box marginRight={1}>{Icon && <Icon />}</Box>
+          <Box>{inner}</Box>
+          <div aria-label={`close ${dataKey}`}>
+            <StyledClose onClick={() => onClose(dataKey)} />
+          </div>
+        </Box>
+      </div>
+      <div
+        {...resizerProps}
+        style={{
+          marginLeft: 18,
+          paddingLeft: '4px',
+          cursor: 'col-resize',
+        }}
+      >
+        <Divider
+          orientation="vertical"
+          flexItem
+          sx={{
+            height: '100%',
+            borderRightWidth: 5,
+          }}
+        />
+      </div>
     </TableCell>
   );
 };
