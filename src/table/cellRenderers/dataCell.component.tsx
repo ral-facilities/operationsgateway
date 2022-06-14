@@ -11,7 +11,7 @@ const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
   const { sx, dataKey, rowData } = props;
 
   return (
-    <TableCell size="small" component="div" sx={sx} variant="body">
+    <TableCell size="small" component="td" sx={sx} variant="body">
       <Grid container>
         <Grid item xs>
           <Typography variant="body2" noWrap>

@@ -115,27 +115,34 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         >
           <Box marginRight={1}>{Icon && <Icon />}</Box>
           <Box>{inner}</Box>
-          <div aria-label={`close ${dataKey}`}>
-            <StyledClose onClick={() => onClose(dataKey)} />
-          </div>
         </Box>
       </div>
       <div
-        {...resizerProps}
         style={{
-          marginLeft: 18,
-          paddingLeft: '4px',
-          cursor: 'col-resize',
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
-        <Divider
-          orientation="vertical"
-          flexItem
-          sx={{
-            height: '100%',
-            borderRightWidth: 5,
+        <div aria-label={`close ${dataKey}`}>
+          <StyledClose onClick={() => onClose(dataKey)} />
+        </div>
+        <div
+          {...resizerProps}
+          style={{
+            marginLeft: 10,
+            paddingLeft: '4px',
+            cursor: 'col-resize',
           }}
-        />
+        >
+          <Divider
+            orientation="vertical"
+            flexItem
+            sx={{
+              height: '100%',
+              borderRightWidth: 5,
+            }}
+          />
+        </div>
       </div>
     </TableCell>
   );
