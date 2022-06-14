@@ -1,11 +1,6 @@
 import React from 'react';
 import { Order, RecordRow } from '../app.types';
-import {
-  Column,
-  useTable,
-  useBlockLayout,
-  useResizeColumns,
-} from 'react-table';
+import { Column, useTable, useFlexLayout, useResizeColumns } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
   Table as MuiTable,
@@ -70,17 +65,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
-  const defaultColumn = React.useMemo(
-    () => ({
-      width: 150,
-    }),
-    []
-  );
-
   const tableInstance = useTable(
-    { columns: displayedColumns, data, defaultColumn },
+    { columns: displayedColumns, data },
     useResizeColumns,
-    useBlockLayout
+    useFlexLayout
   );
 
   const {
