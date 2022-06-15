@@ -1,6 +1,12 @@
 import React from 'react';
 import { Order, RecordRow } from '../app.types';
-import { Column, useTable, useFlexLayout, useResizeColumns } from 'react-table';
+import {
+  Column,
+  useTable,
+  useFlexLayout,
+  useResizeColumns,
+  useColumnOrder,
+} from 'react-table';
 import {
   TableContainer as MuiTableContainer,
   Table as MuiTable,
@@ -12,7 +18,7 @@ import {
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -47,9 +53,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   } = props;
 
   const [maxPage, setMaxPage] = React.useState(0);
-  const [orderedColumns, setOrderedColumns] =
-    React.useState<Column[]>(displayedColumns);
-  const [customOrder, setCustomOrder] = React.useState<boolean>(false);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -81,37 +84,40 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
-  React.useEffect(() => {
-    if (displayedColumns) {
-      setOrderedColumns(displayedColumns);
-      setCustomOrder(false);
-    }
-    console.log(JSON.stringify(orderedColumns));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayedColumns]);
-
   const tableInstance = useTable(
     {
-      columns: customOrder ? orderedColumns : displayedColumns,
+      columns: displayedColumns,
       data,
       defaultColumn,
     },
     useResizeColumns,
-    useFlexLayout
+    useFlexLayout,
+    useColumnOrder
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    setColumnOrder,
+    state,
+  } = tableInstance;
 
-  const handleOnDragEnd = (result: any): void => {
-    if (!result.destination) return;
-
-    const items = Array.from(orderedColumns);
+  const updater = (result: any): string[] => {
+    const items = Array.from(displayedColumns);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
-    setOrderedColumns(items);
-    setCustomOrder(true);
+    return items.map((column: Column) => {
+      return column.accessor?.toString() ?? '';
+    });
+  };
+
+  const handleOnDragEnd = (result: DropResult): void => {
+    if (!result.destination) return;
+    setColumnOrder(updater(result));
   };
 
   return (
@@ -211,6 +217,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             page={page}
             rowsPerPage={resultsPerPage}
           />
+          <pre>
+            <code>{JSON.stringify(state, null, 2)}</code>
+          </pre>
         </div>
       ) : (
         <div>
