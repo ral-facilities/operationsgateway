@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -46,6 +47,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   } = props;
 
   const [maxPage, setMaxPage] = React.useState(0);
+  const [orderedColumns, setOrderedColumns] =
+    React.useState<Column[]>(displayedColumns);
+  const [customOrder, setCustomOrder] = React.useState<boolean>(false);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -77,14 +81,38 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
+  React.useEffect(() => {
+    if (displayedColumns) {
+      setOrderedColumns(displayedColumns);
+      setCustomOrder(false);
+    }
+    console.log(JSON.stringify(orderedColumns));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [displayedColumns]);
+
   const tableInstance = useTable(
-    { columns: displayedColumns, data, defaultColumn },
+    {
+      columns: customOrder ? orderedColumns : displayedColumns,
+      data,
+      defaultColumn,
+    },
     useResizeColumns,
     useFlexLayout
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
+
+  const handleOnDragEnd = (result: any): void => {
+    if (!result.destination) return;
+
+    const items = Array.from(orderedColumns);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setOrderedColumns(items);
+    setCustomOrder(true);
+  };
 
   return (
     <div>
@@ -98,34 +126,49 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     const { key, ...otherHeaderGroupProps } =
                       headerGroup.getHeaderGroupProps();
                     return (
-                      <MuiTableRow key={key} {...otherHeaderGroupProps}>
-                        {headerGroup.headers.map((column) => {
-                          const { key, ...otherHeaderProps } =
-                            column.getHeaderProps();
+                      <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="characters">
+                          {(provided) => {
+                            return (
+                              <MuiTableRow
+                                key={key}
+                                {...otherHeaderGroupProps}
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                              >
+                                {headerGroup.headers.map((column, index) => {
+                                  const { key, ...otherHeaderProps } =
+                                    column.getHeaderProps();
 
-                          return (
-                            <DataHeader
-                              key={key}
-                              {...otherHeaderProps}
-                              sx={{
-                                minWidth: column.minWidth,
-                                width: column.width,
-                                maxWidth: column.maxWidth,
-                                paddingTop: '0px',
-                                paddingBottom: '0px',
-                                display: 'flex',
-                                flexDirection: 'row',
-                              }}
-                              resizerProps={column.getResizerProps()}
-                              dataKey={column.render('id') as string}
-                              sort={sort}
-                              onSort={onSort}
-                              label={column.render('Header')}
-                              onClose={onClose}
-                            />
-                          );
-                        })}
-                      </MuiTableRow>
+                                  return (
+                                    <DataHeader
+                                      key={key}
+                                      {...otherHeaderProps}
+                                      sx={{
+                                        minWidth: column.minWidth,
+                                        width: column.width,
+                                        maxWidth: column.maxWidth,
+                                        paddingTop: '0px',
+                                        paddingBottom: '0px',
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                      }}
+                                      resizerProps={column.getResizerProps()}
+                                      dataKey={column.render('id') as string}
+                                      sort={sort}
+                                      onSort={onSort}
+                                      label={column.render('Header')}
+                                      onClose={onClose}
+                                      index={index}
+                                    />
+                                  );
+                                })}
+                                {provided.placeholder}
+                              </MuiTableRow>
+                            );
+                          }}
+                        </Droppable>
+                      </DragDropContext>
                     );
                   })}
                 </MuiTableHead>

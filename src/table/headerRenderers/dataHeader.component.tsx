@@ -11,6 +11,7 @@ import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
+import { Draggable } from 'react-beautiful-dnd';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -31,6 +32,7 @@ export interface DataHeaderProps {
   icon?: React.ComponentType<unknown>;
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
+  index: number;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -45,6 +47,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     label,
     resizerProps,
     onClose,
+    index,
   } = props;
 
   const currSortDirection = sort[dataKey];
@@ -87,63 +90,72 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   );
 
   return (
-    <TableCell
-      size="small"
-      component="th"
-      role="columnheader"
-      sx={sx}
-      variant="head"
-      sortDirection={currSortDirection}
-    >
-      <div
-        style={{
-          overflow: 'hidden',
-          flex: 1,
-        }}
-      >
-        <Box
-          aria-label={`${dataKey} header`}
-          display="flex"
-          onMouseDown={(event) => {
-            // Middle mouse button can also fire onClose
-            if (event.button === 1) {
-              event.preventDefault();
-              onClose(dataKey);
-            }
-          }}
-        >
-          <Box marginRight={1}>{Icon && <Icon />}</Box>
-          <Box>{inner}</Box>
-        </Box>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <div aria-label={`close ${dataKey}`}>
-          <StyledClose onClick={() => onClose(dataKey)} />
-        </div>
-        <div
-          {...resizerProps}
-          style={{
-            marginLeft: 10,
-            paddingLeft: '4px',
-            cursor: 'col-resize',
-          }}
-        >
-          <Divider
-            orientation="vertical"
-            flexItem
-            sx={{
-              height: '100%',
-              borderRightWidth: 5,
-            }}
-          />
-        </div>
-      </div>
-    </TableCell>
+    <Draggable draggableId={dataKey} index={index}>
+      {(provided) => {
+        return (
+          <TableCell
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+            {...provided.dragHandleProps}
+            size="small"
+            component="th"
+            role="columnheader"
+            sx={sx}
+            variant="head"
+            sortDirection={currSortDirection}
+          >
+            <div
+              style={{
+                overflow: 'hidden',
+                flex: 1,
+              }}
+            >
+              <Box
+                aria-label={`${dataKey} header`}
+                display="flex"
+                onMouseDown={(event) => {
+                  // Middle mouse button can also fire onClose
+                  if (event.button === 1) {
+                    event.preventDefault();
+                    onClose(dataKey);
+                  }
+                }}
+              >
+                <Box marginRight={1}>{Icon && <Icon />}</Box>
+                <Box>{inner}</Box>
+              </Box>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              <div aria-label={`close ${dataKey}`}>
+                <StyledClose onClick={() => onClose(dataKey)} />
+              </div>
+              <div
+                {...resizerProps}
+                style={{
+                  marginLeft: 10,
+                  paddingLeft: '4px',
+                  cursor: 'col-resize',
+                }}
+              >
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  sx={{
+                    height: '100%',
+                    borderRightWidth: 5,
+                  }}
+                />
+              </div>
+            </div>
+          </TableCell>
+        );
+      }}
+    </Draggable>
   );
 };
 
