@@ -43,3 +43,11 @@ jobs:
       - name: Upload unit test coverage
         if: success()
         uses: codecov/codecov-action@v1
+      - name: Run e2e tests
+        run: yarn e2e
+      - name: Upload Cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: OperationsGateway Screenshots
+          path: cypress/screenshots
