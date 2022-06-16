@@ -6,19 +6,27 @@ import {
   screen,
   fireEvent,
 } from '@testing-library/react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
   const onSort = jest.fn();
   const onClose = jest.fn();
+  const handleOnDragEnd = jest.fn();
 
   const createView = (): RenderResult => {
     return render(
       <table>
         <thead>
-          <tr>
-            <DataHeader {...props} />
-          </tr>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="columns" direction="horizontal">
+              {(provided) => (
+                <tr {...provided.droppableProps} ref={provided.innerRef}>
+                  <DataHeader {...props} />
+                </tr>
+              )}
+            </Droppable>
+          </DragDropContext>
         </thead>
       </table>
     );
@@ -35,6 +43,7 @@ describe('Data Header', () => {
         return <div>Test</div>;
       },
       resizerProps: {},
+      index: 0,
     };
   });
 

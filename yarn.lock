@@ -4840,7 +4840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.4.1":
+"chalk@npm:^2.0.0, chalk@npm:^2.3.0, chalk@npm:^2.4.1":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -5373,6 +5373,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cross-env@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "cross-env@npm:7.0.3"
+  dependencies:
+    cross-spawn: ^7.0.1
+  bin:
+    cross-env: src/bin/cross-env.js
+    cross-env-shell: src/bin/cross-env-shell.js
+  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^6.0.0":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
@@ -5386,7 +5398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2, cross-spawn@npm:^7.0.3":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -5702,6 +5714,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cypress-failed-log@npm:^2.9.5":
+  version: 2.9.5
+  resolution: "cypress-failed-log@npm:2.9.5"
+  dependencies:
+    debug: 4.3.4
+    logdown: 3.3.1
+  checksum: 70fc6947a53e7345a914ca336b0265340e3032097494f0d29a8a6edfe12dcb21fcf9480a60cede57db0572cdd4f546dbc00f3699cdc29306d10342166348e62c
+  languageName: node
+  linkType: hard
+
 "cypress@npm:^9.6.0":
   version: 9.6.0
   resolution: "cypress@npm:9.6.0"
@@ -5797,7 +5819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.2, debug@npm:^4.3.3":
+"debug@npm:4, debug@npm:4.3.4, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.3.2, debug@npm:^4.3.3":
   version: 4.3.4
   resolution: "debug@npm:4.3.4"
   dependencies:
@@ -6949,7 +6971,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.3":
+"express@npm:^4.17.3, express@npm:^4.18.1":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
   dependencies:
@@ -9624,6 +9646,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"logdown@npm:3.3.1":
+  version: 3.3.1
+  resolution: "logdown@npm:3.3.1"
+  dependencies:
+    chalk: ^2.3.0
+  checksum: 381e7be208f168fd6664ddfe6980ed4ff16ef73e1b9828795df22154e18b47f16737fec1c38f035dd12d10af947a9aded2d753f1b0ade190800e3a28e868a619
+  languageName: node
+  linkType: hard
+
 "loglevel@npm:^1.8.0":
   version: 1.8.0
   resolution: "loglevel@npm:1.8.0"
@@ -10425,12 +10456,15 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.22.0
     "@typescript-eslint/parser": ^5.22.0
     axios: ^0.27.2
+    cross-env: ^7.0.3
     cypress: ^9.6.0
+    cypress-failed-log: ^2.9.5
     eslint: ^8.14.0
     eslint-config-prettier: ^8.5.0
     eslint-config-react-app: ^7.0.1
     eslint-plugin-cypress: ^2.12.1
     eslint-plugin-prettier: ^4.0.0
+    express: ^4.18.1
     history: ^5.3.0
     i18next: ^21.6.16
     immutability-helper: ^3.1.1
@@ -10438,6 +10472,7 @@ __metadata:
     prettier: ^2.6.2
     react: ^18.1.0
     react-beautiful-dnd: ^13.1.0
+    react-beautiful-dnd-test-utils: ^4.1.1
     react-dnd: ^16.0.1
     react-dnd-html5-backend: ^16.0.1
     react-dom: ^18.1.0
@@ -10448,6 +10483,7 @@ __metadata:
     react-scripts: 5.0.1
     react-table: ^7.8.0
     serve: ^13.0.2
+    serve-static: ^1.15.0
     single-spa-react: ^4.6.1
     start-server-and-test: ^1.14.0
     typescript: ^4.6.4
@@ -11922,6 +11958,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-beautiful-dnd-test-utils@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "react-beautiful-dnd-test-utils@npm:4.1.1"
+  peerDependencies:
+    "@testing-library/jest-dom": ">=5"
+    "@testing-library/react": ">=11"
+    "@testing-library/user-event": ">=13"
+    jest: ">=26"
+  checksum: 6ab2d598643d865689329f36bb3138a57ab7ed0d810e780c9b38f7d0b5e2e8b0abc249c9a594f3f94e7003415a0633a9c9b5e44d4f2dbf5d7d2d584784ec4685
+  languageName: node
+  linkType: hard
+
 "react-beautiful-dnd@npm:^13.1.0":
   version: 13.1.0
   resolution: "react-beautiful-dnd@npm:13.1.0"
@@ -12915,7 +12963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serve-static@npm:1.15.0":
+"serve-static@npm:1.15.0, serve-static@npm:^1.15.0":
   version: 1.15.0
   resolution: "serve-static@npm:1.15.0"
   dependencies:

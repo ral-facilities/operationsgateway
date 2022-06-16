@@ -122,8 +122,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const handleOnDragEnd = (result: DropResult): void => {
     if (!result.destination) return;
-    const newResult = updater(result);
-    setColumnOrder(newResult);
+    setColumnOrder(updater(result));
   };
 
   return (
@@ -139,10 +138,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                       headerGroup.getHeaderGroupProps();
                     return (
                       <DragDropContext onDragEnd={handleOnDragEnd}>
-                        <Droppable
-                          droppableId="characters"
-                          direction="horizontal"
-                        >
+                        <Droppable droppableId="columns" direction="horizontal">
                           {(provided) => {
                             return (
                               <MuiTableRow

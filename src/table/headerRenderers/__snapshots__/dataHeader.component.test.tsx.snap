@@ -4,10 +4,20 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
 <DocumentFragment>
   <table>
     <thead>
-      <tr>
+      <tr
+        data-rbd-droppable-context-id="1"
+        data-rbd-droppable-id="columns"
+      >
         <th
+          aria-describedby="rbd-hidden-text-1-hidden-text-3"
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+          data-rbd-drag-handle-context-id="1"
+          data-rbd-drag-handle-draggable-id="test"
+          data-rbd-draggable-context-id="1"
+          data-rbd-draggable-id="test"
+          draggable="false"
           role="columnheader"
+          tabindex="0"
         >
           <div
             style="overflow: hidden; flex: 1;"
@@ -89,10 +99,20 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
 <DocumentFragment>
   <table>
     <thead>
-      <tr>
+      <tr
+        data-rbd-droppable-context-id="0"
+        data-rbd-droppable-id="columns"
+      >
         <th
+          aria-describedby="rbd-hidden-text-0-hidden-text-0"
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+          data-rbd-drag-handle-context-id="0"
+          data-rbd-drag-handle-draggable-id="test"
+          data-rbd-draggable-context-id="0"
+          data-rbd-draggable-id="test"
+          draggable="false"
           role="columnheader"
+          tabindex="0"
         >
           <div
             style="overflow: hidden; flex: 1;"

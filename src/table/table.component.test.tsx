@@ -39,6 +39,7 @@ describe('Table', () => {
   ];
   const onPageChange = jest.fn();
   const onSort = jest.fn();
+  const onClose = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<Table {...props} />);
@@ -56,6 +57,7 @@ describe('Table', () => {
       onPageChange: onPageChange,
       onSort: onSort,
       sort: {},
+      onClose: onClose,
     };
   });
 
@@ -63,7 +65,7 @@ describe('Table', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly', async () => {
+  it('renders correctly', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -116,6 +118,4 @@ describe('Table', () => {
   });
 
   it.todo('calls onSort function when defaultSort has been specified');
-
-  it.todo('resizes columns correctly');
 });

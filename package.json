@@ -40,7 +40,13 @@
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
+    "e2e:serve": "yarn build:e2e && node ./server/e2e-test-server.js",
+    "e2e:interactive": "start-server-and-test e2e:serve http://localhost:3000 cy:open",
+    "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -72,14 +78,19 @@
     "@types/testing-library__jest-dom": "^5.14.3",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
+    "cross-env": "^7.0.3",
     "cypress": "^9.6.0",
+    "cypress-failed-log": "^2.9.5",
     "eslint": "^8.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "express": "^4.18.1",
     "prettier": "^2.6.2",
+    "react-beautiful-dnd-test-utils": "^4.1.1",
     "serve": "^13.0.2",
+    "serve-static": "^1.15.0",
     "start-server-and-test": "^1.14.0"
   }
 }

@@ -18,13 +18,22 @@ exports[`Table renders correctly 1`] = `
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+                data-rbd-droppable-context-id="0"
+                data-rbd-droppable-id="columns"
                 role="row"
                 style="display: flex; flex: 1 0 auto; min-width: 90px;"
               >
                 <th
+                  aria-describedby="rbd-hidden-text-0-hidden-text-0"
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  data-rbd-drag-handle-context-id="0"
+                  data-rbd-drag-handle-draggable-id="id"
+                  data-rbd-draggable-context-id="0"
+                  data-rbd-draggable-id="id"
+                  draggable="false"
                   role="columnheader"
                   scope="col"
+                  tabindex="0"
                 >
                   <div
                     style="overflow: hidden; flex: 1;"
@@ -95,9 +104,16 @@ exports[`Table renders correctly 1`] = `
                   </div>
                 </th>
                 <th
+                  aria-describedby="rbd-hidden-text-0-hidden-text-0"
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  data-rbd-drag-handle-context-id="0"
+                  data-rbd-drag-handle-draggable-id="shotNum"
+                  data-rbd-draggable-context-id="0"
+                  data-rbd-draggable-id="shotNum"
+                  draggable="false"
                   role="columnheader"
                   scope="col"
+                  tabindex="0"
                 >
                   <div
                     style="overflow: hidden; flex: 1;"
@@ -168,9 +184,16 @@ exports[`Table renders correctly 1`] = `
                   </div>
                 </th>
                 <th
+                  aria-describedby="rbd-hidden-text-0-hidden-text-0"
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  data-rbd-drag-handle-context-id="0"
+                  data-rbd-drag-handle-draggable-id="timestamp"
+                  data-rbd-draggable-context-id="0"
+                  data-rbd-draggable-id="timestamp"
+                  draggable="false"
                   role="columnheader"
                   scope="col"
+                  tabindex="0"
                 >
                   <div
                     style="overflow: hidden; flex: 1;"
