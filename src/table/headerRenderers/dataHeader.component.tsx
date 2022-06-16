@@ -50,6 +50,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     index,
   } = props;
 
+  const [permitResizing, setPermitResizing] = React.useState<boolean>(true);
+
   const currSortDirection = sort[dataKey];
 
   //Apply default sort on page load (but only if not already defined in URL params)
@@ -90,7 +92,11 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   );
 
   return (
-    <Draggable draggableId={dataKey} index={index}>
+    <Draggable
+      draggableId={dataKey}
+      index={index}
+      isDragDisabled={!permitResizing}
+    >
       {(provided) => {
         return (
           <TableCell
@@ -129,6 +135,12 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
+              }}
+              onMouseOver={() => {
+                setPermitResizing(false);
+              }}
+              onMouseOut={() => {
+                setPermitResizing(true);
               }}
             >
               <div aria-label={`close ${dataKey}`}>
