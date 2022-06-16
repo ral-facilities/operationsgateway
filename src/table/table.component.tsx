@@ -84,6 +84,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
+  // displayedColumns should be left as a record of exactly WHAT data is being passed to the table instance
+  // As such, it is best to not use or amend it otherwise
+  // Instead, refer to visibleColumns for a record of what is currently being displayed
+  // visibleColumns also contains exact details of how columns are being displayed, e.g. width, isResizing, etc.
   const tableInstance = useTable(
     {
       columns: displayedColumns,
@@ -102,22 +106,24 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     rows,
     prepareRow,
     setColumnOrder,
-    state,
+    visibleColumns,
   } = tableInstance;
 
   const updater = (result: any): string[] => {
-    const items = Array.from(displayedColumns);
+    // Unlike displayedColumns, visibleColumns retains the current column order
+    const items = Array.from(visibleColumns);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
     return items.map((column: Column) => {
-      return column.accessor?.toString() ?? '';
+      return column.Header?.toString() ?? '';
     });
   };
 
   const handleOnDragEnd = (result: DropResult): void => {
     if (!result.destination) return;
-    setColumnOrder(updater(result));
+    const newResult = updater(result);
+    setColumnOrder(newResult);
   };
 
   return (
@@ -133,7 +139,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                       headerGroup.getHeaderGroupProps();
                     return (
                       <DragDropContext onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId="characters">
+                        <Droppable
+                          droppableId="characters"
+                          direction="horizontal"
+                        >
                           {(provided) => {
                             return (
                               <MuiTableRow
@@ -217,9 +226,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             page={page}
             rowsPerPage={resultsPerPage}
           />
-          <pre>
-            <code>{JSON.stringify(state, null, 2)}</code>
-          </pre>
         </div>
       ) : (
         <div>
