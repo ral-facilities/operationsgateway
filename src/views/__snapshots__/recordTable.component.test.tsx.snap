@@ -35,9 +35,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         class="MuiBox-root css-k008qs"
                       >
                         <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
-                        <div
                           class="MuiBox-root css-0"
                         >
                           <span
@@ -67,7 +64,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close id"
@@ -87,7 +84,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -107,9 +104,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="shotNum header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -140,7 +134,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close shotNum"
@@ -160,7 +154,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -180,9 +174,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="timestamp header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -213,7 +204,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close timestamp"
@@ -233,7 +224,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -253,9 +244,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test1 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -286,7 +274,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close test1"
@@ -306,7 +294,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -326,9 +314,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test2 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -359,7 +344,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close test2"
@@ -379,7 +364,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -399,9 +384,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test3 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -432,7 +414,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row;"
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close test3"
@@ -452,7 +434,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                       <div
                         draggable="false"
                         role="separator"
-                        style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                        style="cursor: col-resize;"
                       >
                         <hr
                           class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
