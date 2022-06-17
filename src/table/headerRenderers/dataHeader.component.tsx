@@ -50,7 +50,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     index,
   } = props;
 
-  const [permitResizing, setPermitResizing] = React.useState<boolean>(true);
+  const [permitDragging, setPermitDragging] = React.useState<boolean>(true);
 
   const currSortDirection = sort[dataKey];
 
@@ -95,7 +95,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     <Draggable
       draggableId={dataKey}
       index={index}
-      isDragDisabled={!permitResizing}
+      isDragDisabled={!permitDragging}
     >
       {(provided) => {
         return (
@@ -137,10 +137,10 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
                 flexDirection: 'row',
               }}
               onMouseOver={() => {
-                setPermitResizing(false);
+                setPermitDragging(false);
               }}
               onMouseOut={() => {
-                setPermitResizing(true);
+                setPermitDragging(true);
               }}
             >
               <div aria-label={`close ${dataKey}`}>
