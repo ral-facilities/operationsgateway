@@ -10,6 +10,7 @@ import {
 import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
+import { TableResizerProps } from 'react-table';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -28,6 +29,7 @@ export interface DataHeaderProps {
   defaultSort?: Order;
   label?: React.ReactNode;
   icon?: React.ComponentType<unknown>;
+  resizerProps: TableResizerProps;
   onClose: (column: string) => void;
 }
 
@@ -41,6 +43,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onSort,
     defaultSort,
     label,
+    resizerProps,
     onClose,
   } = props;
 
@@ -109,20 +112,25 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             }
           }}
         >
-          <Box marginRight={1}>{Icon && <Icon />}</Box>
+          {Icon && <Box marginRight={1}>{<Icon />}</Box>}
           <Box>{inner}</Box>
-          <div aria-label={`close ${dataKey}`}>
-            <StyledClose onClick={() => onClose(dataKey)} />
-          </div>
         </Box>
       </div>
-      {/* Draggable? */}
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          // 40 - enough space for both close icon + divider and some space between them
+          width: '40px',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div aria-label={`close ${dataKey}`}>
+          <StyledClose onClick={() => onClose(dataKey)} />
+        </div>
         <div
+          {...resizerProps}
           style={{
-            marginLeft: 18,
-            paddingLeft: '4px',
-            paddingRight: '4px',
             cursor: 'col-resize',
           }}
         >
@@ -131,6 +139,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             flexItem
             sx={{
               height: '100%',
+              borderRightWidth: 5,
             }}
           />
         </div>

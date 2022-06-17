@@ -1,17 +1,21 @@
 import React from 'react';
 import { Order, RecordRow } from '../app.types';
-import { Column, useTable } from 'react-table';
+import { Column, useTable, useFlexLayout, useResizeColumns } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
   Table as MuiTable,
   TableHead as MuiTableHead,
   TableBody as MuiTableBody,
   TableRow as MuiTableRow,
-  TableCell as MuiTableCell,
   TablePagination as MuiTablePagination,
   Paper,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
+import DataCell from './cellRenderers/dataCell.component';
+
+// 24 - the width of the close icon in header
+// 4.8 - the width of the divider
+const additionalHeaderSpace = 24 + 4.8;
 
 export interface TableProps {
   data: RecordRow[];
@@ -65,7 +69,19 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
-  const tableInstance = useTable({ columns: displayedColumns, data });
+  const defaultColumn = React.useMemo(
+    () => ({
+      minWidth: 30,
+      width: 150 + additionalHeaderSpace,
+    }),
+    []
+  );
+
+  const tableInstance = useTable(
+    { columns: displayedColumns, data, defaultColumn },
+    useResizeColumns,
+    useFlexLayout
+  );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -86,10 +102,21 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         {headerGroup.headers.map((column) => {
                           const { key, ...otherHeaderProps } =
                             column.getHeaderProps();
+
                           return (
                             <DataHeader
                               key={key}
                               {...otherHeaderProps}
+                              sx={{
+                                minWidth: column.minWidth,
+                                width: column.width,
+                                maxWidth: column.maxWidth,
+                                paddingTop: '0px',
+                                paddingBottom: '0px',
+                                display: 'flex',
+                                flexDirection: 'row',
+                              }}
+                              resizerProps={column.getResizerProps()}
                               dataKey={column.render('id') as string}
                               sort={sort}
                               onSort={onSort}
@@ -112,9 +139,19 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherCellProps } =
                             cell.getCellProps();
                           return (
-                            <MuiTableCell key={key} {...otherCellProps}>
-                              {cell.render('Cell')}
-                            </MuiTableCell>
+                            <DataCell
+                              sx={{
+                                minWidth: cell.column.minWidth,
+                                width: cell.column.width,
+                                maxWidth: cell.column.maxWidth,
+                                paddingTop: '0px',
+                                paddingBottom: '0px',
+                              }}
+                              key={key}
+                              {...otherCellProps}
+                              dataKey={key.toString()}
+                              rowData={cell.render('Cell')}
+                            />
                           );
                         })}
                       </MuiTableRow>

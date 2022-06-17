@@ -12,6 +12,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
             <table
               class="MuiTable-root css-rqglhn-MuiTable-root"
               role="table"
+              style="min-width: 180px;"
             >
               <thead
                 class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
@@ -19,9 +20,10 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 <tr
                   class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
                   role="row"
+                  style="display: flex; flex: 1 0 auto; min-width: 180px;"
                 >
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -32,9 +34,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="id header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -62,35 +61,39 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close id"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close id"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -101,9 +104,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="shotNum header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -131,35 +131,39 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close shotNum"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close shotNum"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -170,9 +174,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="timestamp header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -200,35 +201,39 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close timestamp"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close timestamp"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -239,9 +244,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test1 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -269,35 +271,39 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close test1"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close test1"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -308,9 +314,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test2 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -338,35 +341,39 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close test2"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close test2"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
                   </th>
                   <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
                     role="columnheader"
                     scope="col"
                   >
@@ -377,9 +384,6 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                         aria-label="test3 header"
                         class="MuiBox-root css-k008qs"
                       >
-                        <div
-                          class="MuiBox-root css-12z0wuy"
-                        />
                         <div
                           class="MuiBox-root css-0"
                         >
@@ -407,29 +411,33 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                             </svg>
                           </span>
                         </div>
-                        <div
-                          aria-label="close test3"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                            data-testid="CloseIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                            />
-                          </svg>
-                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div
+                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    >
                       <div
-                        style="margin-left: 18px; padding-left: 4px; padding-right: 4px; cursor: col-resize;"
+                        aria-label="close test3"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                          data-testid="CloseIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        draggable="false"
+                        role="separator"
+                        style="cursor: col-resize;"
                       >
                         <hr
-                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1i1qbzr-MuiDivider-root"
+                          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
                         />
                       </div>
                     </div>
@@ -443,112 +451,367 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 <tr
                   class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
                   role="row"
+                  style="display: flex; flex: 1 0 auto; min-width: 180px;"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    1
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          1
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    1
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          1
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    1
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          1
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    1
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          1
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
                 </tr>
                 <tr
                   class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
                   role="row"
+                  style="display: flex; flex: 1 0 auto; min-width: 180px;"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    2
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          2
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    2
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          2
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    2
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          2
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    2
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          2
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
                 </tr>
                 <tr
                   class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
                   role="row"
+                  style="display: flex; flex: 1 0 auto; min-width: 180px;"
                 >
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    3
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          3
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    3
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          3
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    3
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          3
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                   <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
-                  />
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
-                    role="cell"
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
                   >
-                    3
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        />
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
+                  </td>
+                  <td
+                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    >
+                      <div
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                        >
+                          3
+                        </p>
+                      </div>
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                      />
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -874,6 +1137,7 @@ exports[`Record Table renders correctly with no displayed columns 1`] = `
             <table
               class="MuiTable-root css-rqglhn-MuiTable-root"
               role="table"
+              style="min-width: 0px;"
             >
               <thead
                 class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
