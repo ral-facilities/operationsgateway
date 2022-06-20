@@ -140,11 +140,17 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             setPermitDragging(true);
           }}
         >
-          {dataKey.toUpperCase() !== 'ID' && (
-            <div aria-label={`close ${dataKey}`}>
-              <StyledClose onClick={() => onClose(dataKey)} />
-            </div>
-          )}
+          {/* If this is an ID header, remove icon visibility but still render it
+          This ensures header widths remain consistent */}
+          <div aria-label={`close ${dataKey}`}>
+            <StyledClose
+              sx={{
+                visibility:
+                  dataKey.toUpperCase() === 'ID' ? 'hidden' : 'visible',
+              }}
+              onClick={() => onClose(dataKey)}
+            />
+          </div>
           <div
             {...resizerProps}
             style={{
