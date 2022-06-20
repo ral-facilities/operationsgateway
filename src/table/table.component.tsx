@@ -19,6 +19,7 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import ColumnCheckboxes from './columnCheckboxes.component';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -26,7 +27,7 @@ const additionalHeaderSpace = 24 + 4.8;
 
 export interface TableProps {
   data: RecordRow[];
-  displayedColumns: Column[];
+  availableColumns: Column[];
   totalDataCount: number;
   page: number | null;
   loadedData: boolean;
@@ -35,13 +36,12 @@ export interface TableProps {
   onPageChange: (page: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
-  onClose: (column: string) => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
-    displayedColumns,
+    availableColumns,
     totalDataCount,
     loadedData,
     loadedCount,
@@ -49,10 +49,24 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onPageChange,
     sort,
     onSort,
-    onClose,
   } = props;
 
+  /*
+   ** A note about the columns used in this file:
+   ** availableColumns - these are the columns passed in from RecordTable.
+   **                    They represent all columns that can currently be added to the
+   **                    display based on data received from the backend
+   ** checkedColumns   - these are the columns the user has selected to appear in the table
+   **                    This may include columns not in availableColumns (may have been
+   **                    added on another page). This ensures a consistent table display
+   ** visibleColumns   - these are the columns that React Table says are currently in the
+   **                    display. It contains all information about the displayed columns,
+   **                    including column width, columnResizing boolean, etc. checkedColumns
+   **                    does NOT contain this info and is defined by the user, not React Table
+   */
+
   const [maxPage, setMaxPage] = React.useState(0);
+  const [checkedColumns, setCheckedColumns] = React.useState<Column[]>([]);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -76,6 +90,35 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
+  const onChecked = (accessor: string, checked: boolean): void => {
+    if (checked) {
+      const columnToFilter: Column = {
+        // Currently this relies on channel columns having the same name for their header and accessor
+        // This won't be the case in practice so we'll need to amend this later
+        Header: accessor,
+        accessor: accessor,
+      };
+      setCheckedColumns([...checkedColumns, columnToFilter]);
+    } else {
+      setCheckedColumns(
+        checkedColumns.filter((col: Column) => {
+          return col.accessor !== accessor;
+        })
+      );
+    }
+  };
+
+  const handleColumnOpen = (column: string): void => {
+    setColumnOrder([...columnOrder, column]);
+    onChecked(column, true);
+  };
+
+  const handleColumnClose = (column: string): void => {
+    onSort(column, null);
+    setColumnOrder(columnOrder.filter((item) => item !== column));
+    onChecked(column, false);
+  };
+
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 30,
@@ -84,13 +127,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
-  // displayedColumns should be left as a record of exactly WHAT data is being passed to the table instance
-  // As such, it is best to not use or amend it otherwise
-  // Instead, refer to visibleColumns for a record of what is currently being displayed
-  // visibleColumns also contains exact details of how columns are being displayed, e.g. width, isResizing, etc.
   const tableInstance = useTable(
     {
-      columns: displayedColumns,
+      columns: checkedColumns,
       data,
       defaultColumn,
     },
@@ -104,13 +143,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     getTableBodyProps,
     headerGroups,
     rows,
+    state,
     prepareRow,
     setColumnOrder,
     visibleColumns,
   } = tableInstance;
 
+  const { columnOrder } = state;
+
   const updater = (result: any): string[] => {
-    // Unlike displayedColumns, visibleColumns retains the current column order
     const items = Array.from(visibleColumns);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -169,7 +210,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       sort={sort}
                                       onSort={onSort}
                                       label={column.render('Header')}
-                                      onClose={onClose}
+                                      onClose={handleColumnClose}
                                       index={index}
                                     />
                                   );
@@ -221,6 +262,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             onPageChange={(e, page) => onPageChange(page)}
             page={page}
             rowsPerPage={resultsPerPage}
+          />
+          <ColumnCheckboxes
+            availableColumns={availableColumns}
+            checkedColumns={checkedColumns}
+            onColumnOpen={handleColumnOpen}
+            onColumnClose={handleColumnClose}
           />
         </div>
       ) : (
