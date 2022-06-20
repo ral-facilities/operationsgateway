@@ -1,8 +1,15 @@
 import React from 'react';
 import Table, { TableProps } from './table.component';
-import { render, RenderResult, screen, cleanup } from '@testing-library/react';
+import {
+  render,
+  RenderResult,
+  screen,
+  cleanup,
+  act,
+} from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
+import { flushPromises } from '../setupTests';
 
 describe('Table', () => {
   let props: TableProps;
@@ -23,7 +30,7 @@ describe('Table', () => {
       timestamp: new Date('2022-01-03T00:00:00Z').getTime().toString(),
     },
   ];
-  const displayedColumns: Column[] = [
+  const availableColumns: Column[] = [
     {
       Header: 'ID',
       accessor: 'id',
@@ -39,7 +46,6 @@ describe('Table', () => {
   ];
   const onPageChange = jest.fn();
   const onSort = jest.fn();
-  const onClose = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<Table {...props} />);
@@ -48,7 +54,7 @@ describe('Table', () => {
   beforeEach(() => {
     props = {
       data: recordRows,
-      displayedColumns: displayedColumns,
+      availableColumns: availableColumns,
       totalDataCount: recordRows.length,
       page: 0,
       loadedData: true,
@@ -57,7 +63,6 @@ describe('Table', () => {
       onPageChange: onPageChange,
       onSort: onSort,
       sort: {},
-      onClose: onClose,
     };
   });
 
@@ -65,16 +70,24 @@ describe('Table', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly', () => {
+  it('renders correctly with no columns', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('calls onSort function when sort label clicked', () => {
-    createView();
-    screen.getByText('ID').click();
+  it('renders correctly with columns', async () => {
+    const view = createView();
 
-    expect(onSort).toHaveBeenCalledWith('id', 'asc');
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+      screen.getByLabelText('shotNum checkbox').click();
+      await flushPromises();
+      screen.getByLabelText('timestamp checkbox').click();
+      await flushPromises();
+    });
+
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('displays a record count', () => {
@@ -83,12 +96,16 @@ describe('Table', () => {
     screen.getByText(`1–${recordCount} of ${recordCount}`);
   });
 
-  it('calls onPageChange when page is changed', () => {
+  it('calls onPageChange when page is changed', async () => {
     const recordCount = recordRows.length;
     props.resultsPerPage = 1;
     createView();
     screen.getByText(`1–1 of ${recordCount}`);
-    screen.getByLabelText('Go to next page').click();
+
+    await act(async () => {
+      screen.getByLabelText('Go to next page').click();
+      await flushPromises();
+    });
 
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
@@ -117,5 +134,63 @@ describe('Table', () => {
     expect(onPageChange).not.toHaveBeenCalled();
   });
 
-  it.todo('calls onSort function when defaultSort has been specified');
+  it('adds columns in correct order on checkbox click', async () => {
+    createView();
+
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+      screen.getByLabelText('shotNum checkbox').click();
+      await flushPromises();
+      screen.getByLabelText('timestamp checkbox').click();
+      await flushPromises();
+    });
+
+    let columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(3);
+    expect(columns[0]).toHaveTextContent('id');
+    expect(columns[1]).toHaveTextContent('shotNum');
+    expect(columns[2]).toHaveTextContent('timestamp');
+
+    // Remove middle column
+    await act(async () => {
+      screen.getByLabelText('shotNum checkbox').click();
+      await flushPromises();
+    });
+
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(2);
+    expect(columns[0]).toHaveTextContent('id');
+    expect(columns[1]).toHaveTextContent('timestamp');
+
+    await act(async () => {
+      screen.getByLabelText('shotNum checkbox').click();
+      await flushPromises();
+    });
+
+    // Should expect the column previously in the middle to now be on the end
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(3);
+    expect(columns[0]).toHaveTextContent('id');
+    expect(columns[1]).toHaveTextContent('timestamp');
+    expect(columns[2]).toHaveTextContent('shotNum');
+  });
+
+  it('removes column sort when column is closed', async () => {
+    createView();
+
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+    });
+
+    expect(onSort).not.toHaveBeenCalled();
+
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+    });
+
+    expect(onSort).toHaveBeenCalledWith('id', null);
+  });
 });

@@ -178,12 +178,11 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     const { key, ...otherHeaderGroupProps } =
                       headerGroup.getHeaderGroupProps();
                     return (
-                      <DragDropContext onDragEnd={handleOnDragEnd}>
+                      <DragDropContext key={key} onDragEnd={handleOnDragEnd}>
                         <Droppable droppableId="columns" direction="horizontal">
                           {(provided) => {
                             return (
                               <MuiTableRow
-                                key={key}
                                 {...otherHeaderGroupProps}
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}

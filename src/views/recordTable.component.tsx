@@ -38,7 +38,7 @@ const RecordTable = React.memo(
         for (let i = 0; i < keys.length; i++) {
           if (!accessors.has(keys[i])) {
             const newColumn: Column = {
-              Header: keys[i],
+              Header: keys[i], // Provide an actual header here when we have it
               accessor: keys[i],
             };
             myColumns.push(newColumn);

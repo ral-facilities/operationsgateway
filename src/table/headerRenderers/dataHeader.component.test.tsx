@@ -5,8 +5,10 @@ import {
   RenderResult,
   screen,
   fireEvent,
+  act,
 } from '@testing-library/react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { flushPromises } from '../../setupTests';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
@@ -84,29 +86,39 @@ describe('Data Header', () => {
   it.todo('renders correctly with sort and filter');
 
   describe('calls the onSort method when label is clicked', () => {
-    it('sets asc order', () => {
+    it('sets asc order', async () => {
       createView();
-      screen.getByTestId('sort test').click();
+      await act(async () => {
+        screen.getByTestId('sort test').click();
+        await flushPromises();
+      });
+
       expect(onSort).toHaveBeenCalledWith('test', 'asc');
     });
 
-    it('sets desc order', () => {
+    it('sets desc order', async () => {
       props.sort = {
         test: 'asc',
       };
 
       createView();
-      screen.getByTestId('sort test').click();
+      await act(async () => {
+        screen.getByTestId('sort test').click();
+        await flushPromises();
+      });
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
 
-    it('sets null order', () => {
+    it('sets null order', async () => {
       props.sort = {
         test: 'desc',
       };
 
       createView();
-      screen.getByTestId('sort test').click();
+      await act(async () => {
+        screen.getByTestId('sort test').click();
+        await flushPromises();
+      });
       expect(onSort).toHaveBeenCalledWith('test', null);
     });
   });
