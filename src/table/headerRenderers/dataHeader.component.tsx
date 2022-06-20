@@ -127,7 +127,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
                   }
                 }}
               >
-                <Box marginRight={1}>{Icon && <Icon />}</Box>
+                {Icon && <Box marginRight={1}>{<Icon />}</Box>}
                 <Box>{inner}</Box>
               </Box>
             </div>
@@ -135,6 +135,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
+                // 40 - enough space for both close icon + divider and some space between them
+                width: '40px',
+                justifyContent: 'space-between',
               }}
               onMouseOver={() => {
                 setPermitDragging(false);
