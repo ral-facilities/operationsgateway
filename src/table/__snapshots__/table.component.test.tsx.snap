@@ -92,7 +92,7 @@ exports[`Table renders correctly with columns 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="cursor: col-resize;"
+                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -169,7 +169,7 @@ exports[`Table renders correctly with columns 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="cursor: col-resize;"
+                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -246,7 +246,7 @@ exports[`Table renders correctly with columns 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="cursor: col-resize;"
+                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
