@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Table renders correctly 1`] = `
+exports[`Table renders correctly with columns 1`] = `
 <DocumentFragment>
   <div>
     <div>
@@ -43,9 +43,6 @@ exports[`Table renders correctly 1`] = `
                       class="MuiBox-root css-k008qs"
                     >
                       <div
-                        class="MuiBox-root css-12z0wuy"
-                      />
-                      <div
                         class="MuiBox-root css-0"
                       >
                         <span
@@ -57,7 +54,7 @@ exports[`Table renders correctly 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                           >
-                            ID
+                            id
                           </p>
                           <svg
                             aria-hidden="true"
@@ -75,7 +72,7 @@ exports[`Table renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    style="display: flex; flex-direction: row;"
+                    style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                   >
                     <div
                       aria-label="close id"
@@ -123,9 +120,6 @@ exports[`Table renders correctly 1`] = `
                       class="MuiBox-root css-k008qs"
                     >
                       <div
-                        class="MuiBox-root css-12z0wuy"
-                      />
-                      <div
                         class="MuiBox-root css-0"
                       >
                         <span
@@ -137,7 +131,7 @@ exports[`Table renders correctly 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                           >
-                            Shot Number
+                            shotNum
                           </p>
                           <svg
                             aria-hidden="true"
@@ -155,7 +149,7 @@ exports[`Table renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    style="display: flex; flex-direction: row;"
+                    style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                   >
                     <div
                       aria-label="close shotNum"
@@ -203,9 +197,6 @@ exports[`Table renders correctly 1`] = `
                       class="MuiBox-root css-k008qs"
                     >
                       <div
-                        class="MuiBox-root css-12z0wuy"
-                      />
-                      <div
                         class="MuiBox-root css-0"
                       >
                         <span
@@ -217,7 +208,7 @@ exports[`Table renders correctly 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                           >
-                            Timestamp
+                            timestamp
                           </p>
                           <svg
                             aria-hidden="true"
@@ -235,7 +226,7 @@ exports[`Table renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    style="display: flex; flex-direction: row;"
+                    style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
                   >
                     <div
                       aria-label="close timestamp"
@@ -482,6 +473,236 @@ exports[`Table renders correctly 1`] = `
           />
           <p
             class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+            id=":r3:"
+          >
+            Rows per page:
+          </p>
+          <div
+            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+            variant="standard"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby=":r3: :r2:"
+              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              id=":r2:"
+              role="button"
+              tabindex="0"
+            >
+              10
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+              tabindex="-1"
+              value="10"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+          </div>
+          <p
+            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          >
+            1–3 of 3
+          </p>
+          <div
+            class="MuiTablePagination-actions"
+          >
+            <button
+              aria-label="Go to previous page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to previous page"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                />
+              </svg>
+            </button>
+            <button
+              aria-label="Go to next page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to next page"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        style="overflow: auto; height: 150px;"
+      >
+        <div>
+          <label
+            for="id"
+          >
+            ID
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="id checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="id"
+              type="checkbox"
+              value="id"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+        </div>
+        <div>
+          <label
+            for="shotNum"
+          >
+            Shot Number
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="shotNum checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="shotNum"
+              type="checkbox"
+              value="shotNum"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+        </div>
+        <div>
+          <label
+            for="timestamp"
+          >
+            Timestamp
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="timestamp checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="timestamp"
+              type="checkbox"
+              value="timestamp"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Table renders correctly with no columns 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      <div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-11xur9t-MuiPaper-root-MuiTableContainer-root"
+        >
+          <table
+            class="MuiTable-root css-rqglhn-MuiTable-root"
+            role="table"
+            style="min-width: 0px;"
+          >
+            <thead
+              class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+            />
+            <tbody
+              class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+              role="rowgroup"
+            />
+          </table>
+        </div>
+      </div>
+      <div
+        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
+        >
+          <div
+            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          />
+          <p
+            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
             id=":r1:"
           >
             Rows per page:
@@ -568,6 +789,109 @@ exports[`Table renders correctly 1`] = `
               </svg>
             </button>
           </div>
+        </div>
+      </div>
+      <div
+        style="overflow: auto; height: 150px;"
+      >
+        <div>
+          <label
+            for="id"
+          >
+            ID
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="id checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="id"
+              type="checkbox"
+              value="id"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+        </div>
+        <div>
+          <label
+            for="shotNum"
+          >
+            Shot Number
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="shotNum checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="shotNum"
+              type="checkbox"
+              value="shotNum"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+        </div>
+        <div>
+          <label
+            for="timestamp"
+          >
+            Timestamp
+          </label>
+          <span
+            class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          >
+            <input
+              aria-label="timestamp checkbox"
+              class="PrivateSwitchBase-input css-1m9pwf3"
+              data-indeterminate="false"
+              id="timestamp"
+              type="checkbox"
+              value="timestamp"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
         </div>
       </div>
     </div>

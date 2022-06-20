@@ -63,7 +63,7 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
             </div>
           </div>
           <div
-            style="display: flex; flex-direction: row;"
+            style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
           >
             <div
               aria-label="close test"
@@ -140,7 +140,7 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
             </div>
           </div>
           <div
-            style="display: flex; flex-direction: row;"
+            style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
           >
             <div
               aria-label="close test"
