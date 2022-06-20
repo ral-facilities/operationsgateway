@@ -24,6 +24,9 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 // 4.8 - the width of the divider
 const additionalHeaderSpace = 24 + 4.8;
 
+// 31.2 - the height of a column header with the close icon included
+const headerHeight = 31.2;
+
 export interface TableProps {
   data: RecordRow[];
   displayedColumns: Column[];
@@ -146,6 +149,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                 {...otherHeaderGroupProps}
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
+                                sx={{
+                                  height: headerHeight, // Consistent height to account for headers that don't include any icons
+                                }}
                               >
                                 {headerGroup.headers.map((column, index) => {
                                   const { key, ...otherHeaderProps } =
