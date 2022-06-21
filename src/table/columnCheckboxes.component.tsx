@@ -28,7 +28,7 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
   const checkboxes = availableColumns.map((column: Column) => {
     const header = column.Header?.toString();
     const accessor = column.accessor?.toString();
-    return header && accessor ? (
+    return header && accessor && accessor.toUpperCase() !== 'ID' ? (
       <div key={accessor}>
         <label htmlFor={accessor}>{header}</label>
         <Checkbox

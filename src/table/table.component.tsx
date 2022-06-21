@@ -122,6 +122,11 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onChecked(column, false);
   };
 
+  React.useEffect(() => {
+    handleColumnOpen('id');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const defaultColumn = React.useMemo(
     () => ({
       minWidth: 30,
