@@ -201,6 +201,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                         maxWidth: column.maxWidth,
                                         paddingTop: '0px',
                                         paddingBottom: '0px',
+                                        paddingRight: '0px',
                                         display: 'flex',
                                         flexDirection: 'row',
                                       }}
@@ -240,6 +241,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                 maxWidth: cell.column.maxWidth,
                                 paddingTop: '0px',
                                 paddingBottom: '0px',
+                                paddingRight: '0px',
                               }}
                               key={key}
                               {...otherCellProps}

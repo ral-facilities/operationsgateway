@@ -25,7 +25,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
               >
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="id"
                   data-rbd-draggable-context-id="0"
@@ -92,7 +92,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -102,7 +102,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 </th>
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="shotNum"
                   data-rbd-draggable-context-id="0"
@@ -169,7 +169,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -179,7 +179,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 </th>
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="timestamp"
                   data-rbd-draggable-context-id="0"
@@ -246,7 +246,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -256,7 +256,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 </th>
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="test1"
                   data-rbd-draggable-context-id="0"
@@ -323,7 +323,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -333,7 +333,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 </th>
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="test2"
                   data-rbd-draggable-context-id="0"
@@ -400,7 +400,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -410,7 +410,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 </th>
                 <th
                   aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1fvzch-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-cvvapt-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="0"
                   data-rbd-drag-handle-draggable-id="test3"
                   data-rbd-draggable-context-id="0"
@@ -477,7 +477,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                     <div
                       draggable="false"
                       role="separator"
-                      style="margin-left: 10px; padding-left: 4px; cursor: col-resize;"
+                      style="cursor: col-resize;"
                     >
                       <hr
                         class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
@@ -497,7 +497,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 180px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -517,7 +517,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -537,7 +537,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -557,7 +557,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -577,7 +577,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -595,7 +595,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -619,7 +619,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 180px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -639,7 +639,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -659,7 +659,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -679,7 +679,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -697,7 +697,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -717,7 +717,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -741,7 +741,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 180px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -761,7 +761,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -781,7 +781,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -801,7 +801,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -819,7 +819,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -837,7 +837,7 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   </div>
                 </td>
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1aeaoy8-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-djpquc-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
