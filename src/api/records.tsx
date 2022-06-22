@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
-import { QueryParams, Record, SortType } from '../app.types';
+import { QueryParams, Record, SortType, DateRange } from '../app.types';
 import {
   generateRecordCollection,
   randomNumber,
@@ -16,7 +16,9 @@ const recordCollection = generateRecordCollection();
 // TODO change this when we have an API to query
 const fetchRecords = async (
   page: number,
-  sort: SortType
+  sort?: SortType,
+  startDateRange?: DateRange,
+  endDateRange?: DateRange
 ): Promise<Record[]> => {
   page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
   const endIndex = page * resultsPerPage;
@@ -32,17 +34,25 @@ const fetchRecordCountQuery = (): Promise<number> => {
 export const useRecordsPaginated = (
   queryParams: QueryParams
 ): UseQueryResult<Record[], AxiosError> => {
-  const { page, sort } = queryParams;
+  const { page, sort, startDateRange, endDateRange } = queryParams;
   return useQuery<
     Record[],
     AxiosError,
     Record[],
-    [string, { page: number; sort: SortType }]
+    [
+      string,
+      {
+        page: number;
+        sort?: SortType;
+        startDateRange?: DateRange;
+        endDateRange?: DateRange;
+      }
+    ]
   >(
-    ['records', { page: page ?? 0, sort }],
+    ['records', { page, sort, startDateRange, endDateRange }],
     (params) => {
-      const { page, sort } = params.queryKey[1];
-      return fetchRecords(page, sort);
+      const { page, sort, startDateRange, endDateRange } = params.queryKey[1];
+      return fetchRecords(page, sort, startDateRange, endDateRange);
     },
     {
       onError: (error) => {

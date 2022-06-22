@@ -3,6 +3,7 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
 import { Record, Order, QueryParams, Channel, RecordRow } from '../app.types';
 import { Column } from 'react-table';
+import DateTimeInputBox from './dateTimeInput.component';
 
 export interface RecordTableProps {
   resultsPerPage: number;
@@ -16,9 +17,19 @@ const RecordTable = React.memo(
     const [sort, setSort] = React.useState<{
       [column: string]: Order;
     }>({});
+    const [startDateRange, setStartDateRange] = React.useState<{
+      fromDate?: string;
+      toDate?: string;
+    }>({});
+    const [endDateRange, setEndDateRange] = React.useState<{
+      fromDate?: string;
+      toDate?: string;
+    }>({});
     const [queryParams, setQueryParams] = React.useState<QueryParams>({
       page: page,
-      sort: {},
+      sort: sort,
+      startDateRange: startDateRange,
+      endDateRange: endDateRange,
     });
     const [availableColumns, setAvailableColumns] = React.useState<Column[]>(
       []
@@ -87,8 +98,10 @@ const RecordTable = React.memo(
       setQueryParams({
         page: page,
         sort: sort,
+        startDateRange: startDateRange,
+        endDateRange: endDateRange,
       });
-    }, [page, sort]);
+    }, [page, sort, startDateRange, endDateRange]);
 
     const onPageChange = (page: number) => {
       setPage(page);
@@ -110,19 +123,32 @@ const RecordTable = React.memo(
       setSort(newSort);
     };
 
+    const handleDateTimeChange = (
+      label: 'startDateFilter' | 'endDateFilter',
+      range: 'fromDate' | 'toDate',
+      date: string
+    ) => {
+      label === 'startDateFilter'
+        ? setStartDateRange({ ...startDateRange, [range]: date })
+        : setEndDateRange({ ...endDateRange, [range]: date });
+    };
+
     return (
-      <Table
-        data={parsedData}
-        availableColumns={availableColumns}
-        totalDataCount={count ?? 0}
-        page={page}
-        loadedData={!dataLoading}
-        loadedCount={!countLoading}
-        resultsPerPage={resultsPerPage}
-        onPageChange={onPageChange}
-        sort={sort}
-        onSort={handleSort}
-      />
+      <div>
+        <DateTimeInputBox onChange={handleDateTimeChange} />
+        <Table
+          data={parsedData}
+          availableColumns={availableColumns}
+          totalDataCount={count ?? 0}
+          page={page}
+          loadedData={!dataLoading}
+          loadedCount={!countLoading}
+          resultsPerPage={resultsPerPage}
+          onPageChange={onPageChange}
+          sort={sort}
+          onSort={handleSort}
+        />
+      </div>
     );
   }
 );

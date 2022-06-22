@@ -71,8 +71,8 @@ export interface QueryParams {
   sort: SortType;
   filters?: FiltersType;
   page: number;
-  startDate?: Date;
-  endDate?: Date;
+  startDateRange: DateRange;
+  endDateRange: DateRange;
 }
 
 export interface RecordRow {
@@ -81,4 +81,9 @@ export interface RecordRow {
   timestamp: string;
 
   [channel: string]: any;
+}
+
+export interface DateRange {
+  fromDate?: string;
+  toDate?: string;
 }
