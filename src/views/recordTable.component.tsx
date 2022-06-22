@@ -136,6 +136,7 @@ const RecordTable = React.memo(
     return (
       <div>
         <DateTimeInputBox onChange={handleDateTimeChange} />
+        <br />
         <Table
           data={parsedData}
           availableColumns={availableColumns}

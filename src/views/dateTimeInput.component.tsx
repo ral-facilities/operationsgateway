@@ -1,9 +1,9 @@
 import React from 'react';
 import { format, isValid, isEqual, isBefore } from 'date-fns';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { FiltersType, DateFilter, DateRange } from '../app.types';
+import { DateRange } from '../app.types';
 
 const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -205,19 +205,32 @@ const DateTimeInputBox = (props: DateTimeInputBoxProps): React.ReactElement => {
   const { startDateRange, endDateRange, onChange } = props;
 
   return (
-    <div>
-      <DateTimeFilter
-        label="startDateFilter"
-        receivedFromDate={startDateRange?.fromDate}
-        receivedToDate={startDateRange?.toDate}
-        onChange={onChange}
-      />
-      <DateTimeFilter
-        label="endDateFilter"
-        receivedFromDate={endDateRange?.fromDate}
-        receivedToDate={endDateRange?.toDate}
-        onChange={onChange}
-      />
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        width: '500px',
+      }}
+    >
+      <div>
+        <Typography variant="h6">Start date/time</Typography>
+        <DateTimeFilter
+          label="startDateFilter"
+          receivedFromDate={startDateRange?.fromDate}
+          receivedToDate={startDateRange?.toDate}
+          onChange={onChange}
+        />
+      </div>
+      <div style={{ marginLeft: 15, marginRight: 15 }} />
+      <div>
+        <Typography variant="h6">End date/time</Typography>
+        <DateTimeFilter
+          label="endDateFilter"
+          receivedFromDate={endDateRange?.fromDate}
+          receivedToDate={endDateRange?.toDate}
+          onChange={onChange}
+        />
+      </div>
     </div>
   );
 };
@@ -225,24 +238,3 @@ const DateTimeInputBox = (props: DateTimeInputBoxProps): React.ReactElement => {
 DateTimeInputBox.displayName = 'DateTimeInputBox';
 
 export default DateTimeInputBox;
-
-export const useDateTimeFilter = (
-  filters: FiltersType,
-  handleDateTimeChange: (label: string, date: DateFilter | null) => void
-): ((dataKey: string) => React.ReactElement) => {
-  return React.useMemo(() => {
-    const dateTimeFilter = (dataKey: string): React.ReactElement => (
-      <DateTimeInputBox
-        // value={filters[dataKey] as DateFilter}
-        onChange={(
-          label: 'startDateFilter' | 'endDateFilter',
-          range: 'fromDate' | 'toDate',
-          date: string
-        ) => {
-          // handleDateTimeChange(dataKey, value ?? null);
-        }}
-      />
-    );
-    return dateTimeFilter;
-  }, [filters, handleDateTimeChange]);
-};
