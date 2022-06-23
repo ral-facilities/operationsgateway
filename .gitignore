@@ -10,6 +10,9 @@
 
 # testing
 /coverage
+screenshots/
+**/cypress/logs/
+**/cypress/fixtures/example.json
 
 # production
 /build

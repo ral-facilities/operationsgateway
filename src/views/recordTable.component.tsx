@@ -3,7 +3,6 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
 import { Record, Order, QueryParams, Channel, RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import ColumnCheckboxes from '../table/columnCheckboxes.component';
 
 export interface RecordTableProps {
   resultsPerPage: number;
@@ -24,9 +23,6 @@ const RecordTable = React.memo(
     const [availableColumns, setAvailableColumns] = React.useState<Column[]>(
       []
     );
-    const [displayedColumns, setDisplayedColumns] = React.useState<Column[]>(
-      []
-    );
     const [parsedData, setParsedData] = React.useState<RecordRow[]>([]);
 
     const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
@@ -42,7 +38,7 @@ const RecordTable = React.memo(
         for (let i = 0; i < keys.length; i++) {
           if (!accessors.has(keys[i])) {
             const newColumn: Column = {
-              Header: keys[i],
+              Header: keys[i], // Provide an actual header here when we have it
               accessor: keys[i],
             };
             myColumns.push(newColumn);
@@ -114,50 +110,19 @@ const RecordTable = React.memo(
       setSort(newSort);
     };
 
-    const onChecked = (accessor: string, checked: boolean): void => {
-      if (checked) {
-        const columnToFilter: Column = {
-          // Currently this relies on channel columns having the same name for their header and accessor
-          // This won't be the case in practice so we'll need to amend this later
-          Header: accessor,
-          accessor: accessor,
-        };
-        setDisplayedColumns([...displayedColumns, columnToFilter]);
-      } else {
-        setDisplayedColumns(
-          displayedColumns.filter((col: Column) => {
-            return col.accessor !== accessor;
-          })
-        );
-        handleSort(accessor, null);
-      }
-    };
-
-    const handleClose = (column: string): void => {
-      onChecked(column, false);
-    };
-
     return (
-      <div>
-        <Table
-          data={parsedData}
-          displayedColumns={displayedColumns}
-          totalDataCount={count ?? 0}
-          page={page}
-          loadedData={!dataLoading}
-          loadedCount={!countLoading}
-          resultsPerPage={resultsPerPage}
-          onPageChange={onPageChange}
-          sort={sort}
-          onSort={handleSort}
-          onClose={handleClose}
-        />
-        <ColumnCheckboxes
-          availableColumns={availableColumns}
-          displayedColumns={displayedColumns}
-          onChecked={onChecked}
-        />
-      </div>
+      <Table
+        data={parsedData}
+        availableColumns={availableColumns}
+        totalDataCount={count ?? 0}
+        page={page}
+        loadedData={!dataLoading}
+        loadedCount={!countLoading}
+        resultsPerPage={resultsPerPage}
+        onPageChange={onPageChange}
+        sort={sort}
+        onSort={handleSort}
+      />
     );
   }
 );

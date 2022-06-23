@@ -3,11 +3,13 @@ import { Column } from 'react-table';
 import ColumnCheckboxes, {
   ColumnCheckboxesProps,
 } from './columnCheckboxes.component';
-import { render, RenderResult, screen, cleanup } from '@testing-library/react';
+import { render, RenderResult, screen, act } from '@testing-library/react';
+import { flushPromises } from '../setupTests';
 
 describe('Column Checkboxes', () => {
   let props: ColumnCheckboxesProps;
-  const onChecked = jest.fn();
+  const onColumnOpen = jest.fn();
+  const onColumnClose = jest.fn();
   const availableColumns: Column[] = [
     {
       Header: 'ID',
@@ -18,7 +20,7 @@ describe('Column Checkboxes', () => {
       accessor: 'name',
     },
   ];
-  const displayedColumns: Column[] = [];
+  const selectedColumns: Column[] = [];
 
   const createView = (): RenderResult => {
     return render(<ColumnCheckboxes {...props} />);
@@ -26,9 +28,10 @@ describe('Column Checkboxes', () => {
 
   beforeEach(() => {
     props = {
-      onChecked: onChecked,
+      onColumnOpen: onColumnOpen,
+      onColumnClose: onColumnClose,
       availableColumns: availableColumns,
-      displayedColumns: displayedColumns,
+      selectedColumns: selectedColumns,
     };
   });
 
@@ -42,34 +45,39 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    props.displayedColumns = availableColumns;
+    props.selectedColumns = availableColumns;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('calls onChecked when checkbox is clicked', () => {
+  it('calls onColumnOpen when checkbox is checked', async () => {
     createView();
-    screen.getByLabelText('id checkbox').click();
-    expect(onChecked).toHaveBeenCalledWith('id', true);
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+    });
+    expect(onColumnOpen).toHaveBeenCalledWith('id');
+  });
 
-    cleanup();
-    props.displayedColumns = availableColumns;
+  it('calls onColumnClose when checkbox is unchecked', async () => {
+    props.selectedColumns = availableColumns;
     createView();
-    screen.getByLabelText('name checkbox').click();
-    expect(onChecked).toHaveBeenCalledWith('name', false);
+    await act(async () => {
+      screen.getByLabelText('id checkbox').click();
+      await flushPromises();
+    });
+    expect(onColumnClose).toHaveBeenCalledWith('id');
   });
 
   it('returns null if a column is not fully defined', () => {
-    availableColumns[1].Header = null;
-    availableColumns[1].accessor = null;
+    availableColumns[1].Header = undefined;
+    availableColumns[1].accessor = undefined;
 
     createView();
     const checkboxes = screen.getAllByRole('checkbox');
     expect(checkboxes.length).toEqual(1);
     expect(screen.queryByText('Name')).toBeNull();
   });
-
-  it.todo('calls onUnchecked when checkbox is unselected?');
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');
 });

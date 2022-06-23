@@ -4,15 +4,21 @@ import { Checkbox } from '@mui/material';
 
 export interface ColumnCheckboxesProps {
   availableColumns: Column[];
-  displayedColumns: Column[];
-  onChecked: (accessor: string, checked: boolean) => void;
+  selectedColumns: Column[];
+  onColumnOpen: (accessor: string) => void;
+  onColumnClose: (accessor: string) => void;
 }
 
 const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
-  const { availableColumns, displayedColumns, onChecked } = props;
+  const { availableColumns, selectedColumns, onColumnOpen, onColumnClose } =
+    props;
+
+  const handleColumnChecked = (accessor: string, checked: boolean) => {
+    checked ? onColumnOpen(accessor) : onColumnClose(accessor);
+  };
 
   const shouldBeChecked = (columnAccessor: string): boolean => {
-    const match = displayedColumns.filter((col: Column) => {
+    const match = selectedColumns.filter((col: Column) => {
       return col.accessor === columnAccessor;
     });
 
@@ -26,7 +32,7 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
       <div key={accessor}>
         <label htmlFor={accessor}>{header}</label>
         <Checkbox
-          onChange={(e) => onChecked(e.target.id, e.target.checked)}
+          onChange={(e) => handleColumnChecked(e.target.id, e.target.checked)}
           id={accessor}
           value={accessor}
           checked={shouldBeChecked(accessor)}
