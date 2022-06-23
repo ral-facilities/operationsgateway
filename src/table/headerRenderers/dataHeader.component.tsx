@@ -154,8 +154,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           <div
             {...resizerProps}
             style={{
-              marginLeft: 10,
-              paddingLeft: '4px',
               cursor: 'col-resize',
             }}
           >
