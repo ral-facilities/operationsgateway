@@ -195,7 +195,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 <MuiTableHead
                   sx={{
                     position: 'sticky',
-                    background: 'white',
+                    background: 'white', // theme colour later on
                     top: 0,
                     zIndex: 1,
                   }}
@@ -229,6 +229,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     maxWidth: column.maxWidth,
                                     paddingTop: '0px',
                                     paddingBottom: '0px',
+                                    paddingRight: '0px',
                                     display: 'flex',
                                     flexDirection: 'row',
                                   };
@@ -283,6 +284,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                             maxWidth: cell.column.maxWidth,
                             paddingTop: '0px',
                             paddingBottom: '0px',
+                            paddingRight: '0px',
                             display: 'flex',
                             flexDirection: 'row',
                           };
