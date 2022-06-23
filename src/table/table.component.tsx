@@ -15,6 +15,7 @@ import {
   TableRow as MuiTableRow,
   TablePagination as MuiTablePagination,
   Paper,
+  SxProps,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
@@ -27,6 +28,13 @@ const additionalHeaderSpace = 24 + 4.8;
 
 // 31.2 - the height of a column header with the close icon included
 const headerHeight = 31.2;
+
+const stickyColumnStyles: SxProps = {
+  position: 'sticky',
+  left: 0,
+  background: 'white', // theme colour later on
+  zIndex: 1,
+};
 
 export interface TableProps {
   data: RecordRow[];
@@ -202,21 +210,33 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   const { key, ...otherHeaderProps } =
                                     column.getHeaderProps();
 
+                                  const dataKey = column.render('id') as string;
+                                  const isIdColumn =
+                                    dataKey.toUpperCase() === 'ID';
+                                  let columnStyles: SxProps = {
+                                    minWidth: column.minWidth,
+                                    width: column.width,
+                                    maxWidth: column.maxWidth,
+                                    paddingTop: '0px',
+                                    paddingBottom: '0px',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                  };
+
+                                  columnStyles = isIdColumn
+                                    ? {
+                                        ...columnStyles,
+                                        ...stickyColumnStyles,
+                                      }
+                                    : columnStyles;
+
                                   return (
                                     <DataHeader
                                       key={key}
                                       {...otherHeaderProps}
-                                      sx={{
-                                        minWidth: column.minWidth,
-                                        width: column.width,
-                                        maxWidth: column.maxWidth,
-                                        paddingTop: '0px',
-                                        paddingBottom: '0px',
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                      }}
+                                      sx={columnStyles}
                                       resizerProps={column.getResizerProps()}
-                                      dataKey={column.render('id') as string}
+                                      dataKey={dataKey}
                                       sort={sort}
                                       onSort={onSort}
                                       label={column.render('Header')}
@@ -243,15 +263,30 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         {row.cells.map((cell) => {
                           const { key, ...otherCellProps } =
                             cell.getCellProps();
+
+                          const dataKey = cell.column.render('id') as string;
+                          const isIdColumn = dataKey.toUpperCase() === 'ID';
+
+                          let columnStyles: SxProps = {
+                            minWidth: cell.column.minWidth,
+                            width: cell.column.width,
+                            maxWidth: cell.column.maxWidth,
+                            paddingTop: '0px',
+                            paddingBottom: '0px',
+                            display: 'flex',
+                            flexDirection: 'row',
+                          };
+
+                          columnStyles = isIdColumn
+                            ? {
+                                ...columnStyles,
+                                ...stickyColumnStyles,
+                              }
+                            : columnStyles;
+
                           return (
                             <DataCell
-                              sx={{
-                                minWidth: cell.column.minWidth,
-                                width: cell.column.width,
-                                maxWidth: cell.column.maxWidth,
-                                paddingTop: '0px',
-                                paddingBottom: '0px',
-                              }}
+                              sx={columnStyles}
                               key={key}
                               {...otherCellProps}
                               dataKey={key.toString()}
