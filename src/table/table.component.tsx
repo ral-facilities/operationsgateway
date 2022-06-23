@@ -33,7 +33,7 @@ const stickyColumnStyles: SxProps = {
   position: 'sticky',
   left: 0,
   background: 'white', // theme colour later on
-  zIndex: 1,
+  zIndex: 2,
 };
 
 export interface TableProps {
@@ -187,9 +187,19 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       {loadedData && totalDataCount > 0 ? (
         <div>
           <div>
-            <MuiTableContainer component={Paper}>
+            <MuiTableContainer
+              component={Paper}
+              sx={{ maxHeight: 300, overflow: 'auto' }}
+            >
               <MuiTable {...getTableProps()}>
-                <MuiTableHead>
+                <MuiTableHead
+                  sx={{
+                    position: 'sticky',
+                    background: 'white',
+                    top: 0,
+                    zIndex: 1,
+                  }}
+                >
                   {headerGroups.map((headerGroup) => {
                     const { key, ...otherHeaderGroupProps } =
                       headerGroup.getHeaderGroupProps();
@@ -281,6 +291,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                             ? {
                                 ...columnStyles,
                                 ...stickyColumnStyles,
+                                zIndex: 0,
                               }
                             : columnStyles;
 

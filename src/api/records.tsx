@@ -22,7 +22,7 @@ const fetchRecords = async (
 ): Promise<Record[]> => {
   page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
   const endIndex = page * resultsPerPage;
-  const startIndex = endIndex - 10;
+  const startIndex = endIndex - resultsPerPage;
   await sleep(randomNumber(0, 1000));
   return Promise.resolve(recordCollection.slice(startIndex, endIndex));
 };
