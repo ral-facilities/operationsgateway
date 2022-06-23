@@ -20,7 +20,7 @@ describe('Column Checkboxes', () => {
       accessor: 'name',
     },
   ];
-  const checkedColumns: Column[] = [];
+  const selectedColumns: Column[] = [];
 
   const createView = (): RenderResult => {
     return render(<ColumnCheckboxes {...props} />);
@@ -31,7 +31,7 @@ describe('Column Checkboxes', () => {
       onColumnOpen: onColumnOpen,
       onColumnClose: onColumnClose,
       availableColumns: availableColumns,
-      checkedColumns: checkedColumns,
+      selectedColumns: selectedColumns,
     };
   });
 
@@ -45,7 +45,7 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    props.checkedColumns = availableColumns;
+    props.selectedColumns = availableColumns;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -60,7 +60,7 @@ describe('Column Checkboxes', () => {
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    props.checkedColumns = availableColumns;
+    props.selectedColumns = availableColumns;
     createView();
     await act(async () => {
       screen.getByLabelText('id checkbox').click();

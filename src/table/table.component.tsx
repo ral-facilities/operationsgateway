@@ -56,17 +56,17 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    ** availableColumns - these are the columns passed in from RecordTable.
    **                    They represent all columns that can currently be added to the
    **                    display based on data received from the backend
-   ** checkedColumns   - these are the columns the user has selected to appear in the table
+   ** selectedColumns   - these are the columns the user has selected to appear in the table
    **                    This may include columns not in availableColumns (may have been
    **                    added on another page). This ensures a consistent table display
    ** visibleColumns   - these are the columns that React Table says are currently in the
    **                    display. It contains all information about the displayed columns,
-   **                    including column width, columnResizing boolean, etc. checkedColumns
+   **                    including column width, columnResizing boolean, etc. selectedColumns
    **                    does NOT contain this info and is defined by the user, not React Table
    */
 
   const [maxPage, setMaxPage] = React.useState(0);
-  const [checkedColumns, setCheckedColumns] = React.useState<Column[]>([]);
+  const [selectedColumns, setselectedColumns] = React.useState<Column[]>([]);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -98,10 +98,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         Header: accessor,
         accessor: accessor,
       };
-      setCheckedColumns([...checkedColumns, columnToFilter]);
+      setselectedColumns([...selectedColumns, columnToFilter]);
     } else {
-      setCheckedColumns(
-        checkedColumns.filter((col: Column) => {
+      setselectedColumns(
+        selectedColumns.filter((col: Column) => {
           return col.accessor !== accessor;
         })
       );
@@ -129,7 +129,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const tableInstance = useTable(
     {
-      columns: checkedColumns,
+      columns: selectedColumns,
       data,
       defaultColumn,
     },
@@ -151,7 +151,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const { columnOrder } = state;
 
-  const updater = (result: any): string[] => {
+  const columnOrderUpdater = (result: any): string[] => {
     const items = Array.from(visibleColumns);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -163,7 +163,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const handleOnDragEnd = (result: DropResult): void => {
     if (!result.destination) return;
-    setColumnOrder(updater(result));
+    setColumnOrder(columnOrderUpdater(result));
   };
 
   return (
@@ -266,7 +266,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
           />
           <ColumnCheckboxes
             availableColumns={availableColumns}
-            checkedColumns={checkedColumns}
+            selectedColumns={selectedColumns}
             onColumnOpen={handleColumnOpen}
             onColumnClose={handleColumnClose}
           />
