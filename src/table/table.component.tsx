@@ -181,8 +181,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   const { columnOrder } = state;
 
   const handleOnDragEnd = (result: DropResult): void => {
-    if (!result.destination) return;
-    setColumnOrder(columnOrderUpdater(result, visibleColumns));
+    if (result.destination)
+      setColumnOrder(columnOrderUpdater(result, visibleColumns));
   };
 
   return (
@@ -191,6 +191,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         <div>
           <div>
             <MuiTableContainer
+              role="table-container"
               component={Paper}
               sx={{ maxHeight: 300, overflow: 'auto' }}
             >
