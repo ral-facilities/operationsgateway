@@ -269,7 +269,6 @@ describe('DateTimeFilter tests', () => {
     screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss');
   });
 
-  // TODO fix the callCount being two. Done with prevDate?
   it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {
     createView();
 
@@ -283,7 +282,7 @@ describe('DateTimeFilter tests', () => {
       'fromDate',
       '2022-01-01 00:00:00'
     );
-    expect(onChange.mock.calls.length).toEqual(2);
+    expect(onChange.mock.calls.length).toEqual(1);
 
     const startDateFilterToDate = screen.getByLabelText(
       'startDateFilter to, date-time input'
@@ -300,7 +299,7 @@ describe('DateTimeFilter tests', () => {
       'fromDate',
       '2022-01-01 00:00:00'
     );
-    expect(onChange.mock.calls.length).toEqual(2);
+    expect(onChange.mock.calls.length).toEqual(1);
   });
 });
 

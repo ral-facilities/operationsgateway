@@ -17,6 +17,7 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
 interface UpdateFilterParams {
   label: 'startDateFilter' | 'endDateFilter';
   date: Date | null;
+  prevDate: Date | null;
   otherDate: Date | null;
   fromDateOrToDateChanged: 'fromDate' | 'toDate';
   onChange: (
@@ -29,11 +30,17 @@ interface UpdateFilterParams {
 export function updateFilter({
   label,
   date,
+  prevDate,
   otherDate,
   fromDateOrToDateChanged,
   onChange,
 }: UpdateFilterParams): void {
-  if (date && isValid(date) && !datesEqual(date, otherDate)) {
+  if (
+    date &&
+    isValid(date) &&
+    !datesEqual(date, otherDate) &&
+    (!prevDate || !datesEqual(date, prevDate))
+  ) {
     const validFromDate =
       fromDateOrToDateChanged === 'fromDate' &&
       (!otherDate || isBefore(date, otherDate));
@@ -92,26 +99,18 @@ export const DateTimeFilter = (
               updateFilter({
                 label: label,
                 date: date as Date,
+                prevDate: fromDate,
                 otherDate: toDate,
                 fromDateOrToDateChanged: 'fromDate',
                 onChange: onChange,
               });
             }
-            // if (!popupOpen && isValid(date as Date)) {
-            //   if (toDate && !isBefore(date as Date, toDate)) return;
-            //   updateFilter({
-            //     label: label,
-            //     date: date as Date,
-            //     otherDate: toDate,
-            //     fromDateOrToDateChanged: 'fromDate',
-            //     onChange: onChange,
-            //   });
-            // }
           }}
           onAccept={(date) => {
             updateFilter({
               label: label,
               date: date as Date,
+              prevDate: fromDate,
               otherDate: toDate,
               fromDateOrToDateChanged: 'fromDate',
               onChange: onChange,
@@ -158,26 +157,18 @@ export const DateTimeFilter = (
               updateFilter({
                 label: label,
                 date: date as Date,
+                prevDate: toDate,
                 otherDate: fromDate,
                 fromDateOrToDateChanged: 'toDate',
                 onChange: onChange,
               });
             }
-            // if (!popupOpen && isValid(date as Date)) {
-            //   if (fromDate && isBefore(date as Date, fromDate)) return;
-            //   updateFilter({
-            //     label: label,
-            //     date: date as Date,
-            //     otherDate: fromDate,
-            //     fromDateOrToDateChanged: 'toDate',
-            //     onChange: onChange,
-            //   });
-            // }
           }}
           onAccept={(date) => {
             updateFilter({
               label: label,
               date: date as Date,
+              prevDate: toDate,
               otherDate: fromDate,
               fromDateOrToDateChanged: 'toDate',
               onChange: onChange,
