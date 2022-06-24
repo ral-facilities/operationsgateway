@@ -5,6 +5,7 @@ import DateTimeInputBox, {
   DateTimeFilterProps,
   datesEqual,
   updateFilter,
+  UpdateFilterParams,
 } from './dateTimeInput.component';
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -58,20 +59,26 @@ describe('datesEqual function', () => {
 });
 
 describe('updateFilter function', () => {
+  let props: UpdateFilterParams;
   const onChange = jest.fn();
+
+  beforeEach(() => {
+    props = {
+      label: 'startDateFilter',
+      date: new Date('2022-01-01T00:00:00Z'),
+      prevDate: null,
+      otherDate: null,
+      fromDateOrToDateChanged: 'fromDate',
+      onChange: onChange,
+    };
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   it('calls onChange if otherDate is null', () => {
-    updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2022-01-01T00:00:00Z'),
-      otherDate: null,
-      fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
-    });
+    updateFilter(props);
 
     expect(onChange).toHaveBeenCalledWith(
       'startDateFilter',
@@ -82,27 +89,22 @@ describe('updateFilter function', () => {
 
   it('calls onChange if valid fromDate', () => {
     updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2021-01-01T00:00:00Z'),
-      otherDate: new Date('2022-01-01T00:00:00Z'),
-      fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
+      ...props,
+      otherDate: new Date('2022-01-02T00:00:00Z'),
     });
 
     expect(onChange).toHaveBeenCalledWith(
       'startDateFilter',
       'fromDate',
-      '2021-01-01 00:00:00'
+      '2022-01-01 00:00:00'
     );
   });
 
   it('calls onChange if valid toDate', () => {
     updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2022-01-01T00:00:00Z'),
+      ...props,
       otherDate: new Date('2021-01-01T00:00:00Z'),
       fromDateOrToDateChanged: 'toDate',
-      onChange: onChange,
     });
 
     expect(onChange).toHaveBeenCalledWith(
@@ -114,11 +116,8 @@ describe('updateFilter function', () => {
 
   it("doesn't call onChange if date is null", () => {
     updateFilter({
-      label: 'startDateFilter',
+      ...props,
       date: null,
-      otherDate: new Date('2022-01-01T00:00:00Z'),
-      fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -126,11 +125,8 @@ describe('updateFilter function', () => {
 
   it("doesn't call onChange if dates are equal", () => {
     updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2022-01-01T00:00:00Z'),
+      ...props,
       otherDate: new Date('2022-01-01T00:00:00Z'),
-      fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -138,11 +134,8 @@ describe('updateFilter function', () => {
 
   it("doesn't call onChange if fromDate is invalid", () => {
     updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2022-01-01T00:00:00Z'),
+      ...props,
       otherDate: new Date('2021-01-01T00:00:00Z'),
-      fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -150,11 +143,18 @@ describe('updateFilter function', () => {
 
   it("doesn't call onChange if toDate is invalid", () => {
     updateFilter({
-      label: 'startDateFilter',
-      date: new Date('2021-01-01T00:00:00Z'),
-      otherDate: new Date('2022-01-01T00:00:00Z'),
+      ...props,
+      otherDate: new Date('2022-01-02T00:00:00Z'),
       fromDateOrToDateChanged: 'toDate',
-      onChange: onChange,
+    });
+
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("doesn't call onChange if date hasn't changed based on prevDate", () => {
+    updateFilter({
+      ...props,
+      prevDate: props.date,
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -199,12 +199,11 @@ describe('DateTimeFilter tests', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  // TODO this snapshot is not correct
   it('pre-fills dates if specified', () => {
     props = {
       ...props,
-      receivedFromDate: new Date('2022-01-01T00:00:00Z').getTime().toString(),
-      receivedToDate: new Date('2022-01-02T23:59:59Z').getTime().toString(),
+      receivedFromDate: '2022-01-01 00:00:00',
+      receivedToDate: '2022-01-02 00:00:00',
     };
     const view = createView();
 

@@ -14,7 +14,7 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   return date1 !== null && date2 !== null && isEqual(date1, date2);
 };
 
-interface UpdateFilterParams {
+export interface UpdateFilterParams {
   label: 'startDateFilter' | 'endDateFilter';
   date: Date | null;
   prevDate: Date | null;

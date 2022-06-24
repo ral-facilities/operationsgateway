@@ -9,17 +9,16 @@ exports[`DateTimeFilter tests pre-fills dates if specified 1`] = `
       class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
     >
       <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
       >
         <input
-          aria-describedby="startDateFilter from-helper-text"
-          aria-invalid="true"
+          aria-invalid="false"
           aria-label="startDateFilter from, date-time input"
           class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
           id="startDateFilter from"
           placeholder="From..."
           type="tel"
-          value=""
+          value="2022-01-01 00:00:00"
         />
         <div
           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
@@ -47,28 +46,21 @@ exports[`DateTimeFilter tests pre-fills dates if specified 1`] = `
           </button>
         </div>
       </div>
-      <p
-        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
-        id="startDateFilter from-helper-text"
-      >
-        Date-time format: yyyy-MM-dd HH:mm:ss
-      </p>
     </div>
     <div
       class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
     >
       <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary Mui-error MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
       >
         <input
-          aria-describedby="startDateFilter to-helper-text"
-          aria-invalid="true"
+          aria-invalid="false"
           aria-label="startDateFilter to, date-time input"
           class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
           id="startDateFilter to"
           placeholder="To..."
           type="tel"
-          value=""
+          value="2022-01-02 00:00:00"
         />
         <div
           class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
@@ -96,12 +88,6 @@ exports[`DateTimeFilter tests pre-fills dates if specified 1`] = `
           </button>
         </div>
       </div>
-      <p
-        class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
-        id="startDateFilter to-helper-text"
-      >
-        Date-time format: yyyy-MM-dd HH:mm:ss
-      </p>
     </div>
   </form>
 </DocumentFragment>
