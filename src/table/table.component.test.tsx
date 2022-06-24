@@ -1,5 +1,5 @@
 import React from 'react';
-import Table, { TableProps } from './table.component';
+import Table, { TableProps, columnOrderUpdater } from './table.component';
 import {
   render,
   RenderResult,
@@ -59,7 +59,7 @@ describe('Table', () => {
       page: 0,
       loadedData: true,
       loadedCount: true,
-      resultsPerPage: 10,
+      resultsPerPage: 25,
       onPageChange: onPageChange,
       onSort: onSort,
       sort: {},
@@ -70,17 +70,15 @@ describe('Table', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly with no columns', () => {
+  it('renders correctly, with id column displayed', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with columns', async () => {
+  it('renders correctly with all columns displayed', async () => {
     const view = createView();
 
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
-      await flushPromises();
       screen.getByLabelText('shotNum checkbox').click();
       await flushPromises();
       screen.getByLabelText('timestamp checkbox').click();
@@ -138,8 +136,6 @@ describe('Table', () => {
     createView();
 
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
-      await flushPromises();
       screen.getByLabelText('shotNum checkbox').click();
       await flushPromises();
       screen.getByLabelText('timestamp checkbox').click();
@@ -180,17 +176,44 @@ describe('Table', () => {
     createView();
 
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
+      screen.getByLabelText('shotNum checkbox').click();
       await flushPromises();
     });
 
     expect(onSort).not.toHaveBeenCalled();
 
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
+      screen.getByLabelText('shotNum checkbox').click();
       await flushPromises();
     });
 
-    expect(onSort).toHaveBeenCalledWith('id', null);
+    expect(onSort).toHaveBeenCalledWith('shotNum', null);
+  });
+
+  it('reorders columns correctly', () => {
+    const visibleColumns = availableColumns;
+
+    // Verify original order
+    expect(visibleColumns[0].Header).toEqual('ID');
+    expect(visibleColumns[1].Header).toEqual('Shot Number');
+    expect(visibleColumns[2].Header).toEqual('Timestamp');
+
+    // Swap Shot Number and Timestamp
+    const draggedColumn = {
+      source: {
+        index: 1,
+      },
+      destination: {
+        index: 2,
+      },
+    };
+
+    const reorderedColumns: string[] = columnOrderUpdater(
+      draggedColumn,
+      visibleColumns
+    );
+    expect(reorderedColumns[0]).toEqual('ID');
+    expect(reorderedColumns[1]).toEqual('Timestamp');
+    expect(reorderedColumns[2]).toEqual('Shot Number');
   });
 });

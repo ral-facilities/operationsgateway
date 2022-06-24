@@ -1,7 +1,14 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
-import { Record, Order, QueryParams, Channel, RecordRow } from '../app.types';
+import {
+  Record,
+  Order,
+  QueryParams,
+  Channel,
+  RecordRow,
+  DateRange,
+} from '../app.types';
 import { Column } from 'react-table';
 import DateTimeInputBox from './dateTimeInput.component';
 
@@ -17,14 +24,8 @@ const RecordTable = React.memo(
     const [sort, setSort] = React.useState<{
       [column: string]: Order;
     }>({});
-    const [startDateRange, setStartDateRange] = React.useState<{
-      fromDate?: string;
-      toDate?: string;
-    }>({});
-    const [endDateRange, setEndDateRange] = React.useState<{
-      fromDate?: string;
-      toDate?: string;
-    }>({});
+    const [startDateRange, setStartDateRange] = React.useState<DateRange>({});
+    const [endDateRange, setEndDateRange] = React.useState<DateRange>({});
     const [queryParams, setQueryParams] = React.useState<QueryParams>({
       page: page,
       sort: sort,

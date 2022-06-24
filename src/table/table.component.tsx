@@ -36,6 +36,19 @@ const stickyColumnStyles: SxProps = {
   zIndex: 2,
 };
 
+export const columnOrderUpdater = (
+  result: any,
+  visibleColumns: Column[]
+): string[] => {
+  const items = Array.from(visibleColumns);
+  const [reorderedItem] = items.splice(result.source.index, 1);
+  items.splice(result.destination.index, 0, reorderedItem);
+
+  return items.map((column: Column) => {
+    return column.Header?.toString() ?? '';
+  });
+};
+
 export interface TableProps {
   data: RecordRow[];
   availableColumns: Column[];
@@ -167,19 +180,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const { columnOrder } = state;
 
-  const columnOrderUpdater = (result: any): string[] => {
-    const items = Array.from(visibleColumns);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    return items.map((column: Column) => {
-      return column.Header?.toString() ?? '';
-    });
-  };
-
   const handleOnDragEnd = (result: DropResult): void => {
     if (!result.destination) return;
-    setColumnOrder(columnOrderUpdater(result));
+    setColumnOrder(columnOrderUpdater(result, visibleColumns));
   };
 
   return (

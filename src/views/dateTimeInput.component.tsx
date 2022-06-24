@@ -5,7 +5,7 @@ import { TextField, Typography } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { DateRange } from '../app.types';
 
-const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
+export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
     return true;
   } else if (!isValid(date1) && !isValid(date2)) {
@@ -34,15 +34,24 @@ export function updateFilter({
   onChange,
 }: UpdateFilterParams): void {
   if (date && isValid(date) && !datesEqual(date, otherDate)) {
-    onChange(
-      label,
-      fromDateOrToDateChanged,
-      format(date, 'yyyy-MM-dd HH:mm:ss')
-    );
+    const validFromDate =
+      fromDateOrToDateChanged === 'fromDate' &&
+      (!otherDate || isBefore(date, otherDate));
+    const validToDate =
+      fromDateOrToDateChanged === 'toDate' &&
+      (!otherDate || !isBefore(date, otherDate));
+
+    if (validFromDate || validToDate) {
+      onChange(
+        label,
+        fromDateOrToDateChanged,
+        format(date, 'yyyy-MM-dd HH:mm:ss')
+      );
+    }
   }
 }
 
-interface DateTimeFilterProps {
+export interface DateTimeFilterProps {
   label: 'startDateFilter' | 'endDateFilter';
   onChange: (
     label: 'startDateFilter' | 'endDateFilter',
@@ -53,7 +62,9 @@ interface DateTimeFilterProps {
   receivedToDate?: string;
 }
 
-const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
+export const DateTimeFilter = (
+  props: DateTimeFilterProps
+): React.ReactElement => {
   const { label, onChange, receivedFromDate, receivedToDate } = props;
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
@@ -77,8 +88,7 @@ const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
           maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
           onChange={(date) => {
             setFromDate(date as Date);
-            if (!popupOpen && isValid(date as Date)) {
-              if (toDate && !isBefore(date as Date, toDate)) return;
+            if (!popupOpen) {
               updateFilter({
                 label: label,
                 date: date as Date,
@@ -87,6 +97,16 @@ const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
                 onChange: onChange,
               });
             }
+            // if (!popupOpen && isValid(date as Date)) {
+            //   if (toDate && !isBefore(date as Date, toDate)) return;
+            //   updateFilter({
+            //     label: label,
+            //     date: date as Date,
+            //     otherDate: toDate,
+            //     fromDateOrToDateChanged: 'fromDate',
+            //     onChange: onChange,
+            //   });
+            // }
           }}
           onAccept={(date) => {
             updateFilter({
@@ -134,8 +154,7 @@ const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
           minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
           onChange={(date) => {
             setToDate(date as Date);
-            if (!popupOpen && isValid(date as Date)) {
-              if (fromDate && isBefore(date as Date, fromDate)) return;
+            if (!popupOpen) {
               updateFilter({
                 label: label,
                 date: date as Date,
@@ -144,6 +163,16 @@ const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
                 onChange: onChange,
               });
             }
+            // if (!popupOpen && isValid(date as Date)) {
+            //   if (fromDate && isBefore(date as Date, fromDate)) return;
+            //   updateFilter({
+            //     label: label,
+            //     date: date as Date,
+            //     otherDate: fromDate,
+            //     fromDateOrToDateChanged: 'toDate',
+            //     onChange: onChange,
+            //   });
+            // }
           }}
           onAccept={(date) => {
             updateFilter({
@@ -191,7 +220,7 @@ const DateTimeFilter = (props: DateTimeFilterProps): React.ReactElement => {
 
 DateTimeFilter.displayName = 'DateTimeFilter';
 
-interface DateTimeInputBoxProps {
+export interface DateTimeInputBoxProps {
   startDateRange?: DateRange;
   endDateRange?: DateRange;
   onChange: (

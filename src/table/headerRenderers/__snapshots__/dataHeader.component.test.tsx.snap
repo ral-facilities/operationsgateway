@@ -70,7 +70,7 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-j1xvi1-MuiSvgIcon-root"
                 data-testid="CloseIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-j1xvi1-MuiSvgIcon-root"
                 data-testid="CloseIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
