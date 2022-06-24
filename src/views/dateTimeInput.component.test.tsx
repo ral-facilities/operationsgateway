@@ -114,15 +114,6 @@ describe('updateFilter function', () => {
     );
   });
 
-  it("doesn't call onChange if date is null", () => {
-    updateFilter({
-      ...props,
-      date: null,
-    });
-
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
   it("doesn't call onChange if dates are equal", () => {
     updateFilter({
       ...props,
@@ -223,6 +214,18 @@ describe('DateTimeFilter tests', () => {
       'fromDate',
       '2022-01-01 00:00:00'
     );
+  });
+
+  it('calls onChange if a previous value is cleared', async () => {
+    createView();
+
+    const startDateFilterFromDate = screen.getByLabelText(
+      'startDateFilter from, date-time input'
+    );
+    await userEvent.type(startDateFilterFromDate, '2022-01-01 00:00:00');
+    await userEvent.clear(startDateFilterFromDate);
+
+    expect(onChange).toHaveBeenLastCalledWith('startDateFilter', 'fromDate');
   });
 
   it.skip('calls onChange when opening calendar and selecting elements', async () => {

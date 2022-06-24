@@ -127,7 +127,7 @@ const RecordTable = React.memo(
     const handleDateTimeChange = (
       label: 'startDateFilter' | 'endDateFilter',
       range: 'fromDate' | 'toDate',
-      date: string
+      date?: string
     ) => {
       label === 'startDateFilter'
         ? setStartDateRange({ ...startDateRange, [range]: date })

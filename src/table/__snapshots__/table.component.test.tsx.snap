@@ -7,6 +7,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
       <div>
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
+          role="table-container"
         >
           <table
             class="MuiTable-root css-rqglhn-MuiTable-root"
@@ -636,6 +637,7 @@ exports[`Table renders correctly, with id column displayed 1`] = `
       <div>
         <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
+          role="table-container"
         >
           <table
             class="MuiTable-root css-rqglhn-MuiTable-root"

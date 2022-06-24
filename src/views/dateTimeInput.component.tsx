@@ -23,7 +23,7 @@ export interface UpdateFilterParams {
   onChange: (
     label: 'startDateFilter' | 'endDateFilter',
     range: 'fromDate' | 'toDate',
-    date: string
+    date?: string
   ) => void;
 }
 
@@ -55,6 +55,8 @@ export function updateFilter({
         format(date, 'yyyy-MM-dd HH:mm:ss')
       );
     }
+  } else if (!date) {
+    onChange(label, fromDateOrToDateChanged);
   }
 }
 
@@ -63,7 +65,7 @@ export interface DateTimeFilterProps {
   onChange: (
     label: 'startDateFilter' | 'endDateFilter',
     range: 'fromDate' | 'toDate',
-    date: string
+    date?: string
   ) => void;
   receivedFromDate?: string;
   receivedToDate?: string;
@@ -217,7 +219,7 @@ export interface DateTimeInputBoxProps {
   onChange: (
     label: 'startDateFilter' | 'endDateFilter',
     range: 'fromDate' | 'toDate',
-    date: string
+    date?: string
   ) => void;
 }
 
