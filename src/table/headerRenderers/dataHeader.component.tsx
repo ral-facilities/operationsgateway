@@ -11,7 +11,7 @@ import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -91,7 +91,10 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     </Typography>
   );
 
-  const TableCellContent = (provided?: any): React.ReactElement => {
+  const TableCellContent = (props: {
+    provided?: DraggableProvided;
+  }): React.ReactElement => {
+    const { provided } = props;
     return (
       <TableCell
         {...provided?.draggableProps}
@@ -130,7 +133,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             display: 'flex',
             flexDirection: 'row',
             // 40 - enough space for both close icon + divider and some space between them
-            width: '40px',
+            width: dataKey.toUpperCase() === 'ID' ? '5px' : '40px',
             justifyContent: 'space-between',
           }}
           onMouseOver={() => {
@@ -144,10 +147,13 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           This ensures header widths remain consistent */}
           <div aria-label={`close ${dataKey}`}>
             <StyledClose
-              sx={{
-                visibility:
-                  dataKey.toUpperCase() === 'ID' ? 'hidden' : 'visible',
-              }}
+              sx={
+                dataKey.toUpperCase() === 'ID'
+                  ? {
+                      display: 'none',
+                    }
+                  : {}
+              }
               onClick={() => onClose(dataKey)}
             />
           </div>
@@ -178,12 +184,10 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       index={index}
       isDragDisabled={!permitDragging}
     >
-      {(provided) => {
-        return TableCellContent(provided);
-      }}
+      {(provided) => <TableCellContent provided={provided} />}
     </Draggable>
   ) : (
-    TableCellContent()
+    <TableCellContent />
   );
 };
 

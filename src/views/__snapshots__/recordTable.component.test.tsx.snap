@@ -265,14 +265,14 @@ exports[`Record Table renders correctly 1`] = `
                       </div>
                     </div>
                     <div
-                      style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                      style="display: flex; flex-direction: row; width: 5px; justify-content: space-between;"
                     >
                       <div
                         aria-label="close id"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dg2qa9-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1suwmrn-MuiSvgIcon-root"
                           data-testid="CloseIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -311,7 +311,7 @@ exports[`Record Table renders correctly 1`] = `
                       class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -337,7 +337,7 @@ exports[`Record Table renders correctly 1`] = `
                       class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -363,7 +363,7 @@ exports[`Record Table renders correctly 1`] = `
                       class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                       >
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"

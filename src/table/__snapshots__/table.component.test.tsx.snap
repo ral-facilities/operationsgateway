@@ -66,14 +66,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    style="display: flex; flex-direction: row; width: 5px; justify-content: space-between;"
                   >
                     <div
                       aria-label="close id"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dg2qa9-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1suwmrn-MuiSvgIcon-root"
                         data-testid="CloseIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -150,7 +150,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-j1xvi1-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
                         data-testid="CloseIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -227,7 +227,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-j1xvi1-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
                         data-testid="CloseIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -266,7 +266,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -286,7 +286,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -306,7 +306,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -332,7 +332,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -352,7 +352,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -372,7 +372,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -398,7 +398,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -418,7 +418,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -438,7 +438,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -696,14 +696,14 @@ exports[`Table renders correctly, with id column displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+                    style="display: flex; flex-direction: row; width: 5px; justify-content: space-between;"
                   >
                     <div
                       aria-label="close id"
                     >
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dg2qa9-MuiSvgIcon-root"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1suwmrn-MuiSvgIcon-root"
                         data-testid="CloseIcon"
                         focusable="false"
                         viewBox="0 0 24 24"
@@ -742,7 +742,7 @@ exports[`Table renders correctly, with id column displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -768,7 +768,7 @@ exports[`Table renders correctly, with id column displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -794,7 +794,7 @@ exports[`Table renders correctly, with id column displayed 1`] = `
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
                     >
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
