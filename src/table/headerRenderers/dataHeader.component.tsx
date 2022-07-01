@@ -6,6 +6,7 @@ import {
   TableCell,
   SxProps,
   styled,
+  Tooltip,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
@@ -33,6 +34,7 @@ export interface DataHeaderProps {
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
+  channelInfo?: { units?: string; description?: string };
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -48,6 +50,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     resizerProps,
     onClose,
     index,
+    channelInfo,
   } = props;
 
   const [permitDragging, setPermitDragging] = React.useState<boolean>(true);
@@ -110,27 +113,39 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             variant="head"
             sortDirection={currSortDirection}
           >
-            <div
-              style={{
+            <Box
+              aria-label={`${dataKey} header`}
+              display="flex"
+              sx={{
                 overflow: 'hidden',
                 flex: 1,
               }}
+              onMouseDown={(event) => {
+                // Middle mouse button can also fire onClose
+                if (event.button === 1) {
+                  event.preventDefault();
+                  onClose(dataKey);
+                }
+              }}
             >
-              <Box
-                aria-label={`${dataKey} header`}
-                display="flex"
-                onMouseDown={(event) => {
-                  // Middle mouse button can also fire onClose
-                  if (event.button === 1) {
-                    event.preventDefault();
-                    onClose(dataKey);
-                  }
-                }}
+              {Icon && <Box marginRight={1}>{<Icon />}</Box>}
+              {/* TODO: add extra info to tooltip from data channel info */}
+              <Tooltip
+                enterDelay={400}
+                enterNextDelay={400}
+                title={
+                  <div>
+                    <Typography>System Name: {label}</Typography>
+                    <Typography>
+                      Description: {channelInfo?.description}
+                    </Typography>
+                    <Typography>Units: {channelInfo?.units}</Typography>
+                  </div>
+                }
               >
-                {Icon && <Box marginRight={1}>{<Icon />}</Box>}
                 <Box>{inner}</Box>
-              </Box>
-            </div>
+              </Tooltip>
+            </Box>
             <div
               style={{
                 display: 'flex',
