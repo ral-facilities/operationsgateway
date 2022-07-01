@@ -20,46 +20,43 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
           tabindex="0"
         >
           <div
-            style="overflow: hidden; flex: 1;"
+            aria-label="test header"
+            class="MuiBox-root css-18ugzm1"
           >
             <div
-              aria-label="test header"
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-12z0wuy"
             >
-              <div
-                class="MuiBox-root css-12z0wuy"
-              >
-                <div>
-                  Test
-                </div>
+              <div>
+                Icon
               </div>
-              <div
-                class="MuiBox-root css-0"
+            </div>
+            <div
+              class="MuiBox-root css-0"
+              data-mui-internal-clone-element="true"
+            >
+              <span
+                class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                data-testid="sort test"
+                role="button"
+                tabindex="0"
               >
-                <span
-                  class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                  data-testid="sort test"
-                  role="button"
-                  tabindex="0"
+                <p
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                 >
-                  <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                  >
-                    Test
-                  </p>
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                    data-testid="ArrowDownwardIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                    />
-                  </svg>
-                </span>
-              </div>
+                  Test
+                </p>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                  data-testid="ArrowDownwardIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                  />
+                </svg>
+              </span>
             </div>
           </div>
           <div
@@ -115,28 +112,25 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
           tabindex="0"
         >
           <div
-            style="overflow: hidden; flex: 1;"
+            aria-label="test header"
+            class="MuiBox-root css-18ugzm1"
           >
             <div
-              aria-label="test header"
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-12z0wuy"
             >
-              <div
-                class="MuiBox-root css-12z0wuy"
-              >
-                <div>
-                  Test
-                </div>
+              <div>
+                Icon
               </div>
-              <div
-                class="MuiBox-root css-0"
+            </div>
+            <div
+              class="MuiBox-root css-0"
+              data-mui-internal-clone-element="true"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                >
-                  Test
-                </p>
-              </div>
+                Test
+              </p>
             </div>
           </div>
           <div
