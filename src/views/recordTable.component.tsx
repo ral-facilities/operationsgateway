@@ -24,13 +24,11 @@ const RecordTable = React.memo(
     const [sort, setSort] = React.useState<{
       [column: string]: Order;
     }>({});
-    const [startDateRange, setStartDateRange] = React.useState<DateRange>({});
-    const [endDateRange, setEndDateRange] = React.useState<DateRange>({});
+    const [dateRange, setDateRange] = React.useState<DateRange>({});
     const [queryParams, setQueryParams] = React.useState<QueryParams>({
       page: page,
       sort: sort,
-      startDateRange: startDateRange,
-      endDateRange: endDateRange,
+      dateRange: dateRange,
     });
     const [availableColumns, setAvailableColumns] = React.useState<Column[]>(
       []
@@ -99,10 +97,9 @@ const RecordTable = React.memo(
       setQueryParams({
         page: page,
         sort: sort,
-        startDateRange: startDateRange,
-        endDateRange: endDateRange,
+        dateRange: dateRange,
       });
-    }, [page, sort, startDateRange, endDateRange]);
+    }, [page, sort, dateRange]);
 
     const onPageChange = (page: number) => {
       setPage(page);
@@ -125,13 +122,10 @@ const RecordTable = React.memo(
     };
 
     const handleDateTimeChange = (
-      label: 'startDateFilter' | 'endDateFilter',
       range: 'fromDate' | 'toDate',
       date?: string
     ) => {
-      label === 'startDateFilter'
-        ? setStartDateRange({ ...startDateRange, [range]: date })
-        : setEndDateRange({ ...endDateRange, [range]: date });
+      setDateRange({ ...dateRange, [range]: date });
     };
 
     return (

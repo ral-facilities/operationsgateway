@@ -34,7 +34,7 @@ const fetchRecordCountQuery = (): Promise<number> => {
 export const useRecordsPaginated = (
   queryParams: QueryParams
 ): UseQueryResult<Record[], AxiosError> => {
-  const { page, sort, startDateRange, endDateRange } = queryParams;
+  const { page, sort, dateRange } = queryParams;
   return useQuery<
     Record[],
     AxiosError,
@@ -44,15 +44,14 @@ export const useRecordsPaginated = (
       {
         page: number;
         sort?: SortType;
-        startDateRange?: DateRange;
-        endDateRange?: DateRange;
+        dateRange?: DateRange;
       }
     ]
   >(
-    ['records', { page, sort, startDateRange, endDateRange }],
+    ['records', { page, sort, dateRange }],
     (params) => {
-      const { page, sort, startDateRange, endDateRange } = params.queryKey[1];
-      return fetchRecords(page, sort, startDateRange, endDateRange);
+      const { page, sort, dateRange } = params.queryKey[1];
+      return fetchRecords(page, sort, dateRange);
     },
     {
       onError: (error) => {

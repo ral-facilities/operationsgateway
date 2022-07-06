@@ -71,8 +71,7 @@ export interface QueryParams {
   sort: SortType;
   filters?: FiltersType;
   page: number;
-  startDateRange: DateRange;
-  endDateRange: DateRange;
+  dateRange: DateRange;
 }
 
 export interface RecordRow {
