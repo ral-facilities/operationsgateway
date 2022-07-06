@@ -66,7 +66,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    */
 
   const [maxPage, setMaxPage] = React.useState(0);
-  const [selectedColumns, setselectedColumns] = React.useState<Column[]>([]);
+  const [selectedColumns, setSelectedColumns] = React.useState<Column[]>([]);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -98,9 +98,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         Header: accessor,
         accessor: accessor,
       };
-      setselectedColumns([...selectedColumns, columnToFilter]);
+      setSelectedColumns([...selectedColumns, columnToFilter]);
     } else {
-      setselectedColumns(
+      setSelectedColumns(
         selectedColumns.filter((col: Column) => {
           return col.accessor !== accessor;
         })
