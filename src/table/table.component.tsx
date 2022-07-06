@@ -32,7 +32,7 @@ const headerHeight = 31.2;
 const stickyColumnStyles: SxProps = {
   position: 'sticky',
   left: 0,
-  background: 'white', // theme colour later on
+  background: 'white', // TODO add theme colour later on
   zIndex: 2,
 };
 
@@ -199,7 +199,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 <MuiTableHead
                   sx={{
                     position: 'sticky',
-                    background: 'white', // theme colour later on
+                    background: 'white', // TODO add theme colour later on
                     top: 0,
                     zIndex: 1,
                   }}
@@ -224,7 +224,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   const { key, ...otherHeaderProps } =
                                     column.getHeaderProps();
 
-                                  const dataKey = column.render('id') as string;
+                                  const dataKey = column.id;
                                   const isIdColumn =
                                     dataKey.toUpperCase() === 'ID';
                                   let columnStyles: SxProps = {
@@ -279,7 +279,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const { key, ...otherCellProps } =
                             cell.getCellProps();
 
-                          const dataKey = cell.column.render('id') as string;
+                          const dataKey = cell.column.id;
                           const isIdColumn = dataKey.toUpperCase() === 'ID';
 
                           let columnStyles: SxProps = {
