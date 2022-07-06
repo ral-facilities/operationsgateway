@@ -17,8 +17,7 @@ const recordCollection = generateRecordCollection();
 const fetchRecords = async (
   page: number,
   sort?: SortType,
-  startDateRange?: DateRange,
-  endDateRange?: DateRange
+  dateRange?: DateRange
 ): Promise<Record[]> => {
   page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
   const endIndex = page * resultsPerPage;

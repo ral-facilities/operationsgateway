@@ -2,280 +2,229 @@
 
 exports[`DateTimeFilter tests pre-fills dates if specified 1`] = `
 <DocumentFragment>
-  <form
-    style="display: inline-grid;"
+  <div
+    class="MuiBox-root css-gpr0gn"
   >
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    <form
+      style="display: inline-grid; padding: 3px;"
     >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        <input
-          aria-invalid="false"
-          aria-label="startDateFilter from, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="startDateFilter from"
-          placeholder="From..."
-          type="tel"
-          value="2022-01-01 00:00:00"
-        />
+        From date/time
+      </p>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+          class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
         >
-          <button
-            aria-label="startDateFilter from, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
+          <input
+            aria-invalid="false"
+            aria-label="from, date-time input"
+            class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="from date-time"
+            placeholder="From..."
+            type="tel"
+            value="2022-01-01 00:00:00"
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              aria-label="from, date-time picker"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
             >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CalendarIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    </form>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
+    />
+    <form
+      style="display: inline-grid; padding: 3px;"
     >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        <input
-          aria-invalid="false"
-          aria-label="startDateFilter to, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="startDateFilter to"
-          placeholder="To..."
-          type="tel"
-          value="2022-01-02 00:00:00"
-        />
+        To date/time
+      </p>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+          class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
         >
-          <button
-            aria-label="startDateFilter to, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
+          <input
+            aria-invalid="false"
+            aria-label="to, date-time input"
+            class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="to date-time"
+            placeholder="To..."
+            type="tel"
+            value="2022-01-02 00:00:00"
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              aria-label="to, date-time picker"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
             >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CalendarIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </DocumentFragment>
 `;
 
-exports[`DateTimeFilter tests renders end date filter correctly 1`] = `
+exports[`DateTimeFilter tests renders date filter correctly 1`] = `
 <DocumentFragment>
-  <form
-    style="display: inline-grid;"
+  <div
+    class="MuiBox-root css-gpr0gn"
   >
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    <form
+      style="display: inline-grid; padding: 3px;"
     >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        <input
-          aria-invalid="false"
-          aria-label="endDateFilter from, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="endDateFilter from"
-          placeholder="From..."
-          type="tel"
-          value=""
-        />
+        From date/time
+      </p>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+          class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
         >
-          <button
-            aria-label="endDateFilter from, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
+          <input
+            aria-invalid="false"
+            aria-label="from, date-time input"
+            class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="from date-time"
+            placeholder="From..."
+            type="tel"
+            value=""
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              aria-label="from, date-time picker"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
             >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CalendarIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+    </form>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
+    />
+    <form
+      style="display: inline-grid; padding: 3px;"
     >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
+      <p
+        class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
       >
-        <input
-          aria-invalid="false"
-          aria-label="endDateFilter to, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="endDateFilter to"
-          placeholder="To..."
-          type="tel"
-          value=""
-        />
+        To date/time
+      </p>
+      <div
+        class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+      >
         <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+          class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
         >
-          <button
-            aria-label="endDateFilter to, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
+          <input
+            aria-invalid="false"
+            aria-label="to, date-time input"
+            class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="to date-time"
+            placeholder="To..."
+            type="tel"
+            value=""
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+            <button
+              aria-label="to, date-time picker"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
             >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CalendarIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </form>
-</DocumentFragment>
-`;
-
-exports[`DateTimeFilter tests renders start date filter correctly 1`] = `
-<DocumentFragment>
-  <form
-    style="display: inline-grid;"
-  >
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-    >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-      >
-        <input
-          aria-invalid="false"
-          aria-label="startDateFilter from, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="startDateFilter from"
-          placeholder="From..."
-          type="tel"
-          value=""
-        />
-        <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-        >
-          <button
-            aria-label="startDateFilter from, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-              />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-    >
-      <div
-        class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-      >
-        <input
-          aria-invalid="false"
-          aria-label="startDateFilter to, date-time input"
-          class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="startDateFilter to"
-          placeholder="To..."
-          type="tel"
-          value=""
-        />
-        <div
-          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-        >
-          <button
-            aria-label="startDateFilter to, date-time picker"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-            tabindex="0"
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-              data-testid="CalendarIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-              />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </DocumentFragment>
 `;
 
@@ -284,15 +233,17 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
   <div
     style="display: flex; flex-direction: row; width: 500px;"
   >
-    <div>
-      <h6
-        class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
-      >
-        Start date/time
-      </h6>
+    <div
+      class="MuiBox-root css-gpr0gn"
+    >
       <form
-        style="display: inline-grid;"
+        style="display: inline-grid; padding: 3px;"
       >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          From date/time
+        </p>
         <div
           class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
@@ -301,9 +252,9 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
           >
             <input
               aria-invalid="false"
-              aria-label="startDateFilter from, date-time input"
+              aria-label="from, date-time input"
               class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="startDateFilter from"
+              id="from date-time"
               placeholder="From..."
               type="tel"
               value="2021-01-01 00:00:00"
@@ -312,7 +263,7 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
               <button
-                aria-label="startDateFilter from, date-time picker"
+                aria-label="from, date-time picker"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
@@ -335,6 +286,18 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
             </div>
           </div>
         </div>
+      </form>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
+      />
+      <form
+        style="display: inline-grid; padding: 3px;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          To date/time
+        </p>
         <div
           class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
@@ -343,9 +306,9 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
           >
             <input
               aria-invalid="false"
-              aria-label="startDateFilter to, date-time input"
+              aria-label="to, date-time input"
               class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="startDateFilter to"
+              id="to date-time"
               placeholder="To..."
               type="tel"
               value="2021-01-02 00:00:00"
@@ -354,7 +317,7 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
               <button
-                aria-label="startDateFilter to, date-time picker"
+                aria-label="to, date-time picker"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
@@ -382,101 +345,6 @@ exports[`DateTimeInputBox tests renders correctly with input date-time ranges 1`
     <div
       style="margin-left: 15px; margin-right: 15px;"
     />
-    <div>
-      <h6
-        class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
-      >
-        End date/time
-      </h6>
-      <form
-        style="display: inline-grid;"
-      >
-        <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-        >
-          <div
-            class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-          >
-            <input
-              aria-invalid="false"
-              aria-label="endDateFilter from, date-time input"
-              class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="endDateFilter from"
-              placeholder="From..."
-              type="tel"
-              value="2022-01-01 00:00:00"
-            />
-            <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-            >
-              <button
-                aria-label="endDateFilter from, date-time picker"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CalendarIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-        >
-          <div
-            class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-          >
-            <input
-              aria-invalid="false"
-              aria-label="endDateFilter to, date-time input"
-              class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="endDateFilter to"
-              placeholder="To..."
-              type="tel"
-              value="2022-01-02 00:00:00"
-            />
-            <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-            >
-              <button
-                aria-label="endDateFilter to, date-time picker"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CalendarIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
   </div>
 </DocumentFragment>
 `;
@@ -486,15 +354,17 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
   <div
     style="display: flex; flex-direction: row; width: 500px;"
   >
-    <div>
-      <h6
-        class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
-      >
-        Start date/time
-      </h6>
+    <div
+      class="MuiBox-root css-gpr0gn"
+    >
       <form
-        style="display: inline-grid;"
+        style="display: inline-grid; padding: 3px;"
       >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          From date/time
+        </p>
         <div
           class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
@@ -503,9 +373,9 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
           >
             <input
               aria-invalid="false"
-              aria-label="startDateFilter from, date-time input"
+              aria-label="from, date-time input"
               class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="startDateFilter from"
+              id="from date-time"
               placeholder="From..."
               type="tel"
               value=""
@@ -514,7 +384,7 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
               <button
-                aria-label="startDateFilter from, date-time picker"
+                aria-label="from, date-time picker"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
@@ -537,6 +407,18 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
             </div>
           </div>
         </div>
+      </form>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
+      />
+      <form
+        style="display: inline-grid; padding: 3px;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          To date/time
+        </p>
         <div
           class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
@@ -545,9 +427,9 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
           >
             <input
               aria-invalid="false"
-              aria-label="startDateFilter to, date-time input"
+              aria-label="to, date-time input"
               class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="startDateFilter to"
+              id="to date-time"
               placeholder="To..."
               type="tel"
               value=""
@@ -556,7 +438,7 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
               <button
-                aria-label="startDateFilter to, date-time picker"
+                aria-label="to, date-time picker"
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
@@ -584,101 +466,6 @@ exports[`DateTimeInputBox tests renders correctly with no input date-time ranges
     <div
       style="margin-left: 15px; margin-right: 15px;"
     />
-    <div>
-      <h6
-        class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
-      >
-        End date/time
-      </h6>
-      <form
-        style="display: inline-grid;"
-      >
-        <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-        >
-          <div
-            class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-          >
-            <input
-              aria-invalid="false"
-              aria-label="endDateFilter from, date-time input"
-              class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="endDateFilter from"
-              placeholder="From..."
-              type="tel"
-              value=""
-            />
-            <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-            >
-              <button
-                aria-label="endDateFilter from, date-time picker"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CalendarIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-        >
-          <div
-            class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-          >
-            <input
-              aria-invalid="false"
-              aria-label="endDateFilter to, date-time input"
-              class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-              id="endDateFilter to"
-              placeholder="To..."
-              type="tel"
-              value=""
-            />
-            <div
-              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-            >
-              <button
-                aria-label="endDateFilter to, date-time picker"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="CalendarIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                  />
-                </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
   </div>
 </DocumentFragment>
 `;

@@ -87,8 +87,7 @@ describe('Record Table', () => {
     expect(useRecordsPaginated).toHaveBeenCalledWith({
       page: 0,
       sort: {},
-      startDateRange: {},
-      endDateRange: {},
+      dateRange: {},
     });
     expect(useRecordCount).toHaveBeenCalled();
   });
@@ -105,8 +104,7 @@ describe('Record Table', () => {
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 1,
       sort: {},
-      startDateRange: {},
-      endDateRange: {},
+      dateRange: {},
     });
   });
 
@@ -123,8 +121,7 @@ describe('Record Table', () => {
       sort: {
         id: 'asc',
       },
-      startDateRange: {},
-      endDateRange: {},
+      dateRange: {},
     });
 
     await act(async () => {
@@ -137,8 +134,7 @@ describe('Record Table', () => {
       sort: {
         id: 'desc',
       },
-      startDateRange: {},
-      endDateRange: {},
+      dateRange: {},
     });
 
     await act(async () => {
@@ -149,53 +145,33 @@ describe('Record Table', () => {
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {},
-      startDateRange: {},
-      endDateRange: {},
+      dateRange: {},
     });
   });
 
   it('updates start/end date fields on date-time change', async () => {
     createView();
 
-    const startDateFilterFromDate = screen.getByLabelText(
-      'startDateFilter from, date-time input'
-    );
-    await userEvent.type(startDateFilterFromDate, '2022-01-01 00:00:00');
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {},
-      startDateRange: {
+      dateRange: {
         fromDate: '2022-01-01 00:00:00',
       },
-      endDateRange: {},
     });
 
-    const startDateFilterToDate = screen.getByLabelText(
-      'startDateFilter to, date-time input'
-    );
-    await userEvent.type(startDateFilterToDate, '2022-01-02 00:00:00');
-
-    const endDateFilterFromDate = screen.getByLabelText(
-      'endDateFilter from, date-time input'
-    );
-    await userEvent.type(endDateFilterFromDate, '2022-01-03 00:00:00');
-
-    const endDateFilterToDate = screen.getByLabelText(
-      'endDateFilter to, date-time input'
-    );
-    await userEvent.type(endDateFilterToDate, '2022-01-04 00:00:00');
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {},
-      startDateRange: {
+      dateRange: {
         fromDate: '2022-01-01 00:00:00',
         toDate: '2022-01-02 00:00:00',
-      },
-      endDateRange: {
-        fromDate: '2022-01-03 00:00:00',
-        toDate: '2022-01-04 00:00:00',
       },
     });
   });

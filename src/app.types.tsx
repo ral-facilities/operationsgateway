@@ -1,16 +1,11 @@
 export const MicroFrontendId = 'scigateway';
 
-export interface DateFilter {
-  startDate?: string;
-  endDate?: string;
-}
-
 export interface TextFilter {
   value?: string | number;
   type: string;
 }
 
-export type Filter = string[] | TextFilter | DateFilter;
+export type Filter = string[] | TextFilter;
 
 export interface FiltersType {
   [column: string]: Filter;
