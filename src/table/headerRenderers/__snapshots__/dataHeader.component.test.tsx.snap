@@ -5,15 +5,15 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
   <table>
     <thead>
       <tr
-        data-rbd-droppable-context-id="1"
+        data-rbd-droppable-context-id="5"
         data-rbd-droppable-id="columns"
       >
         <th
-          aria-describedby="rbd-hidden-text-1-hidden-text-3"
+          aria-describedby="rbd-hidden-text-5-hidden-text-15"
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
-          data-rbd-drag-handle-context-id="1"
+          data-rbd-drag-handle-context-id="5"
           data-rbd-drag-handle-draggable-id="test"
-          data-rbd-draggable-context-id="1"
+          data-rbd-draggable-context-id="5"
           data-rbd-draggable-id="test"
           draggable="false"
           role="columnheader"
@@ -42,8 +42,19 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
                   role="button"
                   tabindex="0"
                 >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="FeedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8l-5-5zM7 7h5v2H7V7zm10 10H7v-2h10v2zm0-4H7v-2h10v2zm-2-4V5l4 4h-4z"
+                    />
+                  </svg>
                   <p
-                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-ukcrwb-MuiTypography-root"
                   >
                     Test
                   </p>
@@ -131,11 +142,24 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
               <div
                 class="MuiBox-root css-0"
               >
-                <p
-                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                >
-                  Test
-                </p>
+                <div>
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="FeedIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8l-5-5zM7 7h5v2H7V7zm10 10H7v-2h10v2zm0-4H7v-2h10v2zm-2-4V5l4 4h-4z"
+                    />
+                  </svg>
+                  <p
+                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                  >
+                    Test
+                  </p>
+                </div>
               </div>
             </div>
           </div>

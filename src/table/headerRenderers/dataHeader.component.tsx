@@ -1,3 +1,4 @@
+import { columnIconMappings } from '../../app.types';
 import {
   Typography,
   Box,
@@ -12,6 +13,7 @@ import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable } from 'react-beautiful-dnd';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -81,14 +83,21 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
     >
-      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      {columnIconMappings.get(dataKey.toUpperCase()) ?? <FeedIcon />}
+      <Typography
+        noWrap
+        sx={{ fontSize: 'inherit', lineHeight: 'inherit', paddingLeft: 1 }}
+      >
         {label}
       </Typography>
     </TableSortLabel>
   ) : (
-    <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
-      {label}
-    </Typography>
+    <div>
+      {columnIconMappings.get(dataKey.toUpperCase()) ?? <FeedIcon />}
+      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+        {label}
+      </Typography>
+    </div>
   );
 
   return (

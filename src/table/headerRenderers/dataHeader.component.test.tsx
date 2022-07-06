@@ -59,6 +59,24 @@ describe('Data Header', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('renders a unique icon depending on header content', () => {
+    // Default icon
+    createView();
+    screen.getByTestId('FeedIcon');
+
+    props.dataKey = 'ID';
+    createView();
+    screen.getByTestId('FingerprintIcon');
+
+    props.dataKey = 'shotNum';
+    createView();
+    screen.getByTestId('NumbersIcon');
+
+    props.dataKey = 'Timestamp';
+    createView();
+    screen.getByTestId('AccessTimeIcon');
+  });
+
   it('renders correctly with sort but no filter', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
