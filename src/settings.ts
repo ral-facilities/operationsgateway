@@ -1,6 +1,7 @@
-import { PluginRoute } from "./state/actions/actions.types";
+import { PluginRoute } from './state/actions/actions.types';
 
 export interface OperationsGatewaySettings {
+  apiUrl: string;
   routes: PluginRoute[];
 }
 

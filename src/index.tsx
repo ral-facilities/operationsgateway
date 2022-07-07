@@ -118,8 +118,8 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
       }
 
       // Ensure the facility name exists.
-      if (!('facilityName' in settings)) {
-        throw new Error('facilityName is undefined in settings');
+      if (!('apiUrl' in settings)) {
+        throw new Error('apiUrl is undefined in settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {
