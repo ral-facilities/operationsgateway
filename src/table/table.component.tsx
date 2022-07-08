@@ -1,5 +1,5 @@
 import React from 'react';
-import { Order, RecordRow } from '../app.types';
+import { Order, RecordRow, columnIconMappings } from '../app.types';
 import {
   Column,
   useTable,
@@ -212,6 +212,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       label={column.render('Header')}
                                       onClose={handleColumnClose}
                                       index={index}
+                                      icon={columnIconMappings.get(
+                                        column.id.toUpperCase()
+                                      )}
                                     />
                                   );
                                 })}

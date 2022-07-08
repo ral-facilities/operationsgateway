@@ -1,4 +1,3 @@
-import { columnIconMappings } from '../../app.types';
 import {
   Typography,
   Box,
@@ -31,7 +30,7 @@ export interface DataHeaderProps {
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;
-  icon?: React.ComponentType<unknown>;
+  icon?: React.ReactNode;
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
@@ -83,7 +82,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
     >
-      {columnIconMappings.get(dataKey.toUpperCase()) ?? <FeedIcon />}
       <Typography
         noWrap
         sx={{ fontSize: 'inherit', lineHeight: 'inherit', paddingLeft: 1 }}
@@ -93,7 +91,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     </TableSortLabel>
   ) : (
     <div>
-      {columnIconMappings.get(dataKey.toUpperCase()) ?? <FeedIcon />}
       <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
         {label}
       </Typography>
@@ -136,7 +133,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
                   }
                 }}
               >
-                {Icon && <Box marginRight={1}>{<Icon />}</Box>}
+                <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
                 <Box>{inner}</Box>
               </Box>
             </div>
