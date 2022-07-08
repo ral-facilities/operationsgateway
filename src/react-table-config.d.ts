@@ -110,7 +110,12 @@ declare module 'react-table' {
       UseGlobalFiltersColumnOptions<D>,
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
-      UseSortByColumnOptions<D> {}
+      UseSortByColumnOptions<D> {
+    channelInfo?: {
+      description?: string;
+      units?: string;
+    };
+  }
 
   // @ts-ignore
   export interface ColumnInstance<
@@ -118,7 +123,12 @@ declare module 'react-table' {
   > extends UseFiltersColumnProps<D>,
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
-      UseSortByColumnProps<D> {}
+      UseSortByColumnProps<D> {
+    channelInfo?: {
+      description?: string;
+      units?: string;
+    };
+  }
 
   // @ts-ignore
   export interface Cell<

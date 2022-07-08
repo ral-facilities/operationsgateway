@@ -40,6 +40,11 @@ const RecordTable = React.memo(
             const newColumn: Column = {
               Header: keys[i], // Provide an actual header here when we have it
               accessor: keys[i],
+              // TODO: get these from data channel info
+              channelInfo: {
+                units: `${keys[i]} units`,
+                description: `${keys[i]} description`,
+              },
             };
             myColumns.push(newColumn);
             accessors.add(keys[i]);

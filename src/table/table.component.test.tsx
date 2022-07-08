@@ -148,9 +148,9 @@ describe('Table', () => {
 
     let columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(3);
-    expect(columns[0]).toHaveTextContent('id');
-    expect(columns[1]).toHaveTextContent('shotNum');
-    expect(columns[2]).toHaveTextContent('timestamp');
+    expect(columns[0]).toHaveTextContent('ID');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Timestamp');
 
     // Remove middle column
     await act(async () => {
@@ -160,8 +160,8 @@ describe('Table', () => {
 
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(2);
-    expect(columns[0]).toHaveTextContent('id');
-    expect(columns[1]).toHaveTextContent('timestamp');
+    expect(columns[0]).toHaveTextContent('ID');
+    expect(columns[1]).toHaveTextContent('Timestamp');
 
     await act(async () => {
       screen.getByLabelText('shotNum checkbox').click();
@@ -171,9 +171,9 @@ describe('Table', () => {
     // Should expect the column previously in the middle to now be on the end
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(3);
-    expect(columns[0]).toHaveTextContent('id');
-    expect(columns[1]).toHaveTextContent('timestamp');
-    expect(columns[2]).toHaveTextContent('shotNum');
+    expect(columns[0]).toHaveTextContent('ID');
+    expect(columns[1]).toHaveTextContent('Timestamp');
+    expect(columns[2]).toHaveTextContent('Shot Number');
   });
 
   it('removes column sort when column is closed', async () => {

@@ -36,39 +36,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="id header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="id header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort id"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort id"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            id
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          id
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -113,39 +110,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="shotNum header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="shotNum header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort shotNum"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort shotNum"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            shotNum
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          shotNum
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -190,39 +184,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="timestamp header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="timestamp header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort timestamp"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort timestamp"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            timestamp
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          timestamp
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -267,39 +258,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="test1 header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="test1 header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort test1"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort test1"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            test1
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          test1
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -344,39 +332,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="test2 header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="test2 header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort test2"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort test2"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            test2
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          test2
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
@@ -421,39 +406,36 @@ exports[`Record Table renders correctly with columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    style="overflow: hidden; flex: 1;"
+                    aria-label="test3 header"
+                    class="MuiBox-root css-18ugzm1"
                   >
                     <div
-                      aria-label="test3 header"
-                      class="MuiBox-root css-k008qs"
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
                     >
-                      <div
-                        class="MuiBox-root css-0"
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort test3"
+                        role="button"
+                        tabindex="0"
                       >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort test3"
-                          role="button"
-                          tabindex="0"
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            test3
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                          test3
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
                     </div>
                   </div>
                   <div
