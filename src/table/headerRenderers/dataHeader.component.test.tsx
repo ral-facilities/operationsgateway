@@ -43,6 +43,10 @@ describe('Data Header', () => {
       label: 'Test',
       resizerProps: {},
       index: 0,
+      channelInfo: {
+        units: 'm',
+        description: 'test description',
+      },
     };
   });
 
@@ -140,5 +144,23 @@ describe('Data Header', () => {
       createView();
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
+  });
+
+  it('displays tooltip when user hovers over column name', async () => {
+    createView();
+    const header = screen.getByText('Test');
+
+    fireEvent(
+      header,
+      new MouseEvent('mouseover', {
+        bubbles: true,
+      })
+    );
+
+    expect(
+      await screen.findByText('Units: m', {
+        exact: false,
+      })
+    ).toBeInTheDocument();
   });
 });

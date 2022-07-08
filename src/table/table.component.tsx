@@ -6,6 +6,7 @@ import {
   useFlexLayout,
   useResizeColumns,
   useColumnOrder,
+  ColumnInstance,
 } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
@@ -92,13 +93,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const onChecked = (accessor: string, checked: boolean): void => {
     if (checked) {
-      const columnToFilter: Column = {
-        // Currently this relies on channel columns having the same name for their header and accessor
-        // This won't be the case in practice so we'll need to amend this later
-        Header: accessor,
-        accessor: accessor,
-      };
-      setSelectedColumns([...selectedColumns, columnToFilter]);
+      const columnToFilter = availableColumns.filter((col: Column) => {
+        return col.accessor === accessor;
+      });
+      setSelectedColumns([...selectedColumns, ...columnToFilter]);
     } else {
       setSelectedColumns(
         selectedColumns.filter((col: Column) => {
@@ -191,6 +189,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   const { key, ...otherHeaderProps } =
                                     column.getHeaderProps();
 
+                                  const { channelInfo } =
+                                    column as ColumnInstance;
+
                                   return (
                                     <DataHeader
                                       key={key}
@@ -206,7 +207,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                         flexDirection: 'row',
                                       }}
                                       resizerProps={column.getResizerProps()}
-                                      dataKey={column.render('id') as string}
+                                      dataKey={column.id}
                                       sort={sort}
                                       onSort={onSort}
                                       label={column.render('Header')}
@@ -215,6 +216,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       icon={columnIconMappings.get(
                                         column.id.toUpperCase()
                                       )}
+                                      channelInfo={channelInfo}
                                     />
                                   );
                                 })}
@@ -248,7 +250,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               }}
                               key={key}
                               {...otherCellProps}
-                              dataKey={key.toString()}
+                              dataKey={cell.column.id}
                               rowData={cell.render('Cell')}
                             />
                           );
