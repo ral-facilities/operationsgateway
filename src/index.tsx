@@ -135,6 +135,10 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
                 order: route['order'] ?? 0,
                 hideFromMenu: route['hideFromMenu'] ?? false,
                 admin: route['admin'] ?? false,
+                helpSteps:
+                  index === 0 && 'helpSteps' in settings
+                    ? settings['helpSteps']
+                    : [],
               },
             };
             document.dispatchEvent(

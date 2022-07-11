@@ -27,7 +27,7 @@ export const listenToMessages = (dispatch: Dispatch): void => {
       pluginMessage.detail &&
       pluginMessage.detail.type &&
       (pluginMessage.detail.type.startsWith(CustomFrontendMessageType) ||
-        pluginMessage.detail.type.startsWith('datagateway_common:api:'))
+        pluginMessage.detail.type.startsWith('operationsgateway:api:'))
     ) {
       // this is a valid message, so process it
       switch (pluginMessage.detail.type) {

@@ -7,6 +7,8 @@ export interface URLs {
 
 export interface OperationsGatewayState {
   urls: URLs;
+  pluginHost: string;
+  settingsLoaded: boolean;
 }
 
 export interface ActionType<T> {
