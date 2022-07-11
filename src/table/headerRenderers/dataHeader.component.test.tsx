@@ -41,9 +41,6 @@ describe('Data Header', () => {
       onSort: onSort,
       onClose: onClose,
       label: 'Test',
-      icon: function Icon() {
-        return <div>Icon</div>;
-      },
       resizerProps: {},
       index: 0,
       channelInfo: {
@@ -64,6 +61,12 @@ describe('Data Header', () => {
   });
 
   it('renders correctly with sort but no filter', () => {
+    const view = createView();
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('renders a column icon if provided', () => {
+    props.icon = <div>Icon</div>;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });

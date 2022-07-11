@@ -13,6 +13,7 @@ import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable } from 'react-beautiful-dnd';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -30,7 +31,7 @@ export interface DataHeaderProps {
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;
-  icon?: React.ComponentType<unknown>;
+  icon?: React.ReactNode;
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
@@ -84,14 +85,19 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
     >
-      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      <Typography
+        noWrap
+        sx={{ fontSize: 'inherit', lineHeight: 'inherit', paddingLeft: 1 }}
+      >
         {label}
       </Typography>
     </TableSortLabel>
   ) : (
-    <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
-      {label}
-    </Typography>
+    <div>
+      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+        {label}
+      </Typography>
+    </div>
   );
 
   return (
@@ -128,7 +134,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
                 }
               }}
             >
-              {Icon && <Box marginRight={1}>{<Icon />}</Box>}
+              <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
               {/* TODO: add extra info to tooltip from data channel info */}
               <Tooltip
                 enterDelay={400}
