@@ -3,7 +3,24 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import { Action } from 'redux';
 import { Record } from './app.types';
+import { initialState } from './state/reducers/operationsgateway.reducer';
+import { OperationsGatewayState } from './state/state.types';
+
+export let actions: Action[] = [];
+export let resetActions = (): void => {
+  actions = [];
+};
+export const getState = (): OperationsGatewayState => initialState;
+export const dispatch = (action: Action): void | Promise<void> => {
+  if (typeof action === 'function') {
+    action(dispatch, getState);
+    return Promise.resolve();
+  } else {
+    actions.push(action);
+  }
+};
 
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));
