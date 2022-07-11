@@ -6,8 +6,8 @@ import {
   randomNumber,
   resultsPerPage,
 } from '../recordGeneration';
-import { useSelector } from 'react-redux';
-import { OperationsGatewayState } from '../state/state.types';
+// import { useSelector } from 'react-redux';
+// import { OperationsGatewayState } from '../state/state.types';
 
 const sleep = (ms: number): Promise<unknown> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -35,9 +35,9 @@ export const useRecordsPaginated = (
   queryParams: QueryParams
 ): UseQueryResult<Record[], AxiosError> => {
   const { page, sort } = queryParams;
-  const apiUrl = useSelector(
-    (state: OperationsGatewayState) => state.urls.apiUrl
-  );
+  // const apiUrl = useSelector(
+  //   (state: OperationsGatewayState) => state.urls.apiUrl
+  // );
   return useQuery<
     Record[],
     AxiosError,
