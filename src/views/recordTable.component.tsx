@@ -38,6 +38,10 @@ const RecordTable = React.memo(
     const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
     const { data: count, isLoading: countLoading } = useRecordCount();
 
+    // Use this as the controlling variable for data having loaded
+    // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
+    const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
+
     const constructColumns = (parsed: RecordRow[]): Column[] => {
       let myColumns: Column[] = [];
       let accessors: Set<string> = new Set<string>();
@@ -94,6 +98,9 @@ const RecordTable = React.memo(
         const parsedData: RecordRow[] = parseData(data);
         const newAvailableColumns = constructColumns(parsedData);
         setAvailableColumns(newAvailableColumns);
+        setColumnsLoaded(true);
+      } else {
+        setColumnsLoaded(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, dataLoading]);
@@ -142,7 +149,7 @@ const RecordTable = React.memo(
           availableColumns={availableColumns}
           totalDataCount={count ?? 0}
           page={page}
-          loadedData={!dataLoading}
+          loadedData={columnsLoaded}
           loadedCount={!countLoading}
           resultsPerPage={resultsPerPage}
           onPageChange={onPageChange}
