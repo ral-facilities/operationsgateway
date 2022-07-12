@@ -1,4 +1,4 @@
-import { AccessTime, Numbers } from '@mui/icons-material';
+import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 
 export const MicroFrontendId = 'scigateway';
 
@@ -87,4 +87,6 @@ export interface DateRange {
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)
-  .set('SHOTNUM', <Numbers />);
+  .set('SHOTNUM', <Numbers />)
+  .set('ACTIVEAREA', <Place />)
+  .set('ACTIVEEXPERIMENT', <Science />);
