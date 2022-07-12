@@ -1,3 +1,5 @@
+import { Fingerprint, AccessTime, Numbers } from '@mui/icons-material';
+
 export const MicroFrontendId = 'scigateway';
 
 export interface TextFilter {
@@ -81,3 +83,8 @@ export interface DateRange {
   fromDate?: string;
   toDate?: string;
 }
+// Update this whenever we have a new icon for a specific column
+export const columnIconMappings = new Map()
+  .set('ID', <Fingerprint />)
+  .set('TIMESTAMP', <AccessTime />)
+  .set('SHOTNUM', <Numbers />);

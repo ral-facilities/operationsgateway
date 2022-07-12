@@ -1,11 +1,12 @@
 import React from 'react';
-import { Order, RecordRow } from '../app.types';
+import { Order, RecordRow, columnIconMappings } from '../app.types';
 import {
   Column,
   useTable,
   useFlexLayout,
   useResizeColumns,
   useColumnOrder,
+  ColumnInstance,
 } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
@@ -90,7 +91,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    */
 
   const [maxPage, setMaxPage] = React.useState(0);
-  const [selectedColumns, setselectedColumns] = React.useState<Column[]>([]);
+  const [selectedColumns, setSelectedColumns] = React.useState<Column[]>([]);
 
   const page = React.useMemo(() => {
     return props.page && props.page > 0 ? props.page : 0;
@@ -116,15 +117,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const onChecked = (accessor: string, checked: boolean): void => {
     if (checked) {
-      const columnToFilter: Column = {
-        // Currently this relies on channel columns having the same name for their header and accessor
-        // This won't be the case in practice so we'll need to amend this later
-        Header: accessor,
-        accessor: accessor,
-      };
-      setselectedColumns([...selectedColumns, columnToFilter]);
+      const columnToFilter = availableColumns.filter((col: Column) => {
+        return col.accessor === accessor;
+      });
+      setSelectedColumns([...selectedColumns, ...columnToFilter]);
     } else {
-      setselectedColumns(
+      setSelectedColumns(
         selectedColumns.filter((col: Column) => {
           return col.accessor !== accessor;
         })
@@ -142,11 +140,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     setColumnOrder(columnOrder.filter((item) => item !== column));
     onChecked(column, false);
   };
-
-  React.useEffect(() => {
-    handleColumnOpen('id');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -184,6 +177,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     if (result.destination)
       setColumnOrder(columnOrderUpdater(result, visibleColumns));
   };
+
+  // Ensure the ID column is opened automatically on table load
+  React.useEffect(() => {
+    if (loadedData && !columnOrder.includes('id')) handleColumnOpen('id');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedData, columnOrder]);
 
   return (
     <div>
@@ -244,6 +243,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                         ...stickyColumnStyles,
                                       }
                                     : columnStyles;
+                                  const { channelInfo } =
+                                    column as ColumnInstance;
 
                                   return (
                                     <DataHeader
@@ -257,6 +258,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       label={column.render('Header')}
                                       onClose={handleColumnClose}
                                       index={index}
+                                      icon={columnIconMappings.get(
+                                        column.id.toUpperCase()
+                                      )}
+                                      channelInfo={channelInfo}
                                     />
                                   );
                                 })}
@@ -306,7 +311,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               sx={columnStyles}
                               key={key}
                               {...otherCellProps}
-                              dataKey={key.toString()}
+                              dataKey={cell.column.id}
                               rowData={cell.render('Cell')}
                             />
                           );

@@ -6,12 +6,14 @@ import {
   TableCell,
   SxProps,
   styled,
+  Tooltip,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import FeedIcon from '@mui/icons-material/Feed';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -29,10 +31,11 @@ export interface DataHeaderProps {
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;
-  icon?: React.ComponentType<unknown>;
+  icon?: React.ReactNode;
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
+  channelInfo?: { units?: string; description?: string };
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -48,6 +51,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     resizerProps,
     onClose,
     index,
+    channelInfo,
   } = props;
 
   const [permitDragging, setPermitDragging] = React.useState<boolean>(true);
@@ -81,14 +85,19 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
     >
-      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      <Typography
+        noWrap
+        sx={{ fontSize: 'inherit', lineHeight: 'inherit', paddingLeft: 1 }}
+      >
         {label}
       </Typography>
     </TableSortLabel>
   ) : (
-    <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
-      {label}
-    </Typography>
+    <div>
+      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+        {label}
+      </Typography>
+    </div>
   );
 
   const TableCellContent = (props: {
@@ -107,27 +116,37 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         variant="head"
         sortDirection={currSortDirection}
       >
-        <div
-          style={{
+        <Box
+          aria-label={`${dataKey} header`}
+          display="flex"
+          sx={{
             overflow: 'hidden',
             flex: 1,
           }}
+          onMouseDown={(event) => {
+            // Middle mouse button can also fire onClose
+            if (dataKey.toUpperCase() !== 'ID' && event.button === 1) {
+              event.preventDefault();
+              onClose(dataKey);
+            }
+          }}
         >
-          <Box
-            aria-label={`${dataKey} header`}
-            display="flex"
-            onMouseDown={(event) => {
-              // Middle mouse button can also fire onClose
-              if (dataKey.toUpperCase() !== 'ID' && event.button === 1) {
-                event.preventDefault();
-                onClose(dataKey);
-              }
-            }}
+          <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
+          {/* TODO: add extra info to tooltip from data channel info */}
+          <Tooltip
+            enterDelay={400}
+            enterNextDelay={400}
+            title={
+              <div>
+                <Typography>System Name: {label}</Typography>
+                <Typography>Description: {channelInfo?.description}</Typography>
+                <Typography>Units: {channelInfo?.units}</Typography>
+              </div>
+            }
           >
-            {Icon && <Box marginRight={1}>{<Icon />}</Box>}
             <Box>{inner}</Box>
-          </Box>
-        </div>
+          </Tooltip>
+        </Box>
         <div
           style={{
             display: 'flex',

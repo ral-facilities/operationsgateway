@@ -41,11 +41,12 @@ describe('Data Header', () => {
       onSort: onSort,
       onClose: onClose,
       label: 'Test',
-      icon: function Icon() {
-        return <div>Test</div>;
-      },
       resizerProps: {},
       index: 0,
+      channelInfo: {
+        units: 'm',
+        description: 'test description',
+      },
     };
   });
 
@@ -60,6 +61,12 @@ describe('Data Header', () => {
   });
 
   it('renders correctly with sort but no filter', () => {
+    const view = createView();
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('renders a column icon if provided', () => {
+    props.icon = <div>Icon</div>;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -137,5 +144,23 @@ describe('Data Header', () => {
       createView();
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
+  });
+
+  it('displays tooltip when user hovers over column name', async () => {
+    createView();
+    const header = screen.getByText('Test');
+
+    fireEvent(
+      header,
+      new MouseEvent('mouseover', {
+        bubbles: true,
+      })
+    );
+
+    expect(
+      await screen.findByText('Units: m', {
+        exact: false,
+      })
+    ).toBeInTheDocument();
   });
 });
