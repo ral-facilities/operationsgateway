@@ -3,7 +3,7 @@
   "extends": [
     "config:base",
     "schedule:nonOfficeHours",
-    ":maintainLockFilesWeekly",
+    ":maintainLockFilesWeekly"
   ],
   "labels": ["dependencies"],
   "separateMinorPatch": true,
