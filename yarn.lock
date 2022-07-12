@@ -67,7 +67,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.16.3, @babel/eslint-parser@npm:^7.17.0":
+"@babel/eslint-parser@npm:7.17.0, @babel/eslint-parser@npm:^7.16.3":
   version: 7.17.0
   resolution: "@babel/eslint-parser@npm:7.17.0"
   dependencies:
@@ -1503,7 +1503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@craco/craco@npm:^6.4.3":
+"@craco/craco@npm:6.4.3":
   version: 6.4.3
   resolution: "@craco/craco@npm:6.4.3"
   dependencies:
@@ -1749,7 +1749,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.9.0":
+"@emotion/react@npm:11.9.0":
   version: 11.9.0
   resolution: "@emotion/react@npm:11.9.0"
   dependencies:
@@ -1792,7 +1792,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.8.1":
+"@emotion/styled@npm:11.8.1":
   version: 11.8.1
   resolution: "@emotion/styled@npm:11.8.1"
   dependencies:
@@ -2234,7 +2234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/icons-material@npm:^5.6.2":
+"@mui/icons-material@npm:5.6.2":
   version: 5.6.2
   resolution: "@mui/icons-material@npm:5.6.2"
   dependencies:
@@ -2250,7 +2250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/material@npm:^5.6.4":
+"@mui/material@npm:5.6.4":
   version: 5.6.4
   resolution: "@mui/material@npm:5.6.4"
   dependencies:
@@ -2724,7 +2724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.13.0, @testing-library/dom@npm:^8.5.0":
+"@testing-library/dom@npm:8.13.0, @testing-library/dom@npm:^8.5.0":
   version: 8.13.0
   resolution: "@testing-library/dom@npm:8.13.0"
   dependencies:
@@ -2740,7 +2740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.16.4":
+"@testing-library/jest-dom@npm:5.16.4":
   version: 5.16.4
   resolution: "@testing-library/jest-dom@npm:5.16.4"
   dependencies:
@@ -2757,7 +2757,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^13.2.0":
+"@testing-library/react@npm:13.2.0":
   version: 13.2.0
   resolution: "@testing-library/react@npm:13.2.0"
   dependencies:
@@ -2771,7 +2771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.1.1":
+"@testing-library/user-event@npm:14.1.1":
   version: 14.1.1
   resolution: "@testing-library/user-event@npm:14.1.1"
   peerDependencies:
@@ -3049,7 +3049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^27.5.0":
+"@types/jest@npm:*, @types/jest@npm:27.5.0":
   version: 27.5.0
   resolution: "@types/jest@npm:27.5.0"
   dependencies:
@@ -3080,7 +3080,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^17.0.31":
+"@types/node@npm:*, @types/node@npm:17.0.31":
   version: 17.0.31
   resolution: "@types/node@npm:17.0.31"
   checksum: 704618350f8420d5c47db0f7778398e821b7724369946f5c441a7e6b9343295553936400eb8309f0b07d5e39c240988ab3456b983712ca86265dabc9aee4ad3d
@@ -3136,12 +3136,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-beautiful-dnd@npm:^13.1.2":
+"@types/react-beautiful-dnd@npm:13.1.2":
   version: 13.1.2
   resolution: "@types/react-beautiful-dnd@npm:13.1.2"
   dependencies:
     "@types/react": "*"
   checksum: 28372854fcd4b7546aabe55ee6569da59fad10f117929cff8a9c6f928448e4dd08ed1139facca33232833b9de100edf017aab9a0ee34065f8fc0e2a7a1262b2c
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:18.0.4":
+  version: 18.0.4
+  resolution: "@types/react-dom@npm:18.0.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: decde42d02a90ac2fe94fd6bfd9c78d002c03762a2d940df9422bf61af89c03d05e2113fd55fe45521fe27fa872a79dfd654b7d6b89652b455425efdcb763c58
   languageName: node
   linkType: hard
 
@@ -3151,15 +3160,6 @@ __metadata:
   dependencies:
     "@types/react": "*"
   checksum: 5c87fb610e212f0942ebbf522dfca4c9dc2ac8afa4c601454415e7c42f993518868207faff7658d11974142937ba7af2f80e274c3a3f5e0e697bdd5547dbe1b0
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.0.4":
-  version: 18.0.4
-  resolution: "@types/react-dom@npm:18.0.4"
-  dependencies:
-    "@types/react": "*"
-  checksum: decde42d02a90ac2fe94fd6bfd9c78d002c03762a2d940df9422bf61af89c03d05e2113fd55fe45521fe27fa872a79dfd654b7d6b89652b455425efdcb763c58
   languageName: node
   linkType: hard
 
@@ -3184,7 +3184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router-dom@npm:^5.3.3":
+"@types/react-router-dom@npm:5.3.3":
   version: 5.3.3
   resolution: "@types/react-router-dom@npm:5.3.3"
   dependencies:
@@ -3205,7 +3205,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-table@npm:^7.7.12":
+"@types/react-table@npm:7.7.12":
   version: 7.7.12
   resolution: "@types/react-table@npm:7.7.12"
   dependencies:
@@ -3234,7 +3234,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.0.12":
+"@types/react@npm:18.0.12":
   version: 18.0.12
   resolution: "@types/react@npm:18.0.12"
   dependencies:
@@ -3317,7 +3317,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/testing-library__jest-dom@npm:^5.14.3, @types/testing-library__jest-dom@npm:^5.9.1":
+"@types/testing-library__jest-dom@npm:5.14.3, @types/testing-library__jest-dom@npm:^5.9.1":
   version: 5.14.3
   resolution: "@types/testing-library__jest-dom@npm:5.14.3"
   dependencies:
@@ -3376,7 +3376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.22.0, @typescript-eslint/eslint-plugin@npm:^5.5.0":
+"@typescript-eslint/eslint-plugin@npm:5.22.0, @typescript-eslint/eslint-plugin@npm:^5.5.0":
   version: 5.22.0
   resolution: "@typescript-eslint/eslint-plugin@npm:5.22.0"
   dependencies:
@@ -3410,7 +3410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.22.0, @typescript-eslint/parser@npm:^5.5.0":
+"@typescript-eslint/parser@npm:5.22.0, @typescript-eslint/parser@npm:^5.5.0":
   version: 5.22.0
   resolution: "@typescript-eslint/parser@npm:5.22.0"
   dependencies:
@@ -4210,22 +4210,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^0.21.1":
-  version: 0.21.4
-  resolution: "axios@npm:0.21.4"
-  dependencies:
-    follow-redirects: ^1.14.0
-  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
-  languageName: node
-  linkType: hard
-
-"axios@npm:^0.27.2":
+"axios@npm:0.27.2":
   version: 0.27.2
   resolution: "axios@npm:0.27.2"
   dependencies:
     follow-redirects: ^1.14.9
     form-data: ^4.0.0
   checksum: 38cb7540465fe8c4102850c4368053c21683af85c5fdf0ea619f9628abbcb59415d1e22ebc8a6390d2bbc9b58a9806c874f139767389c862ec9b772235f06854
+  languageName: node
+  linkType: hard
+
+"axios@npm:^0.21.1":
+  version: 0.21.4
+  resolution: "axios@npm:0.21.4"
+  dependencies:
+    follow-redirects: ^1.14.0
+  checksum: 44245f24ac971e7458f3120c92f9d66d1fc695e8b97019139de5b0cc65d9b8104647db01e5f46917728edfc0cfd88eb30fc4c55e6053eef4ace76768ce95ff3c
   languageName: node
   linkType: hard
 
@@ -5352,7 +5352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.3":
+"cross-env@npm:7.0.3":
   version: 7.0.3
   resolution: "cross-env@npm:7.0.3"
   dependencies:
@@ -5693,7 +5693,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-failed-log@npm:^2.9.5":
+"cypress-failed-log@npm:2.9.5":
   version: 2.9.5
   resolution: "cypress-failed-log@npm:2.9.5"
   dependencies:
@@ -5703,7 +5703,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^9.6.0":
+"cypress@npm:9.6.0":
   version: 9.6.0
   resolution: "cypress@npm:9.6.0"
   dependencies:
@@ -6445,7 +6445,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.5.0":
+"eslint-config-prettier@npm:8.5.0":
   version: 8.5.0
   resolution: "eslint-config-prettier@npm:8.5.0"
   peerDependencies:
@@ -6456,7 +6456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-react-app@npm:^7.0.1":
+"eslint-config-react-app@npm:7.0.1, eslint-config-react-app@npm:^7.0.1":
   version: 7.0.1
   resolution: "eslint-config-react-app@npm:7.0.1"
   dependencies:
@@ -6500,7 +6500,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-cypress@npm:^2.12.1":
+"eslint-plugin-cypress@npm:2.12.1":
   version: 2.12.1
   resolution: "eslint-plugin-cypress@npm:2.12.1"
   dependencies:
@@ -6587,7 +6587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^4.0.0":
+"eslint-plugin-prettier@npm:4.0.0":
   version: 4.0.0
   resolution: "eslint-plugin-prettier@npm:4.0.0"
   dependencies:
@@ -6707,7 +6707,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.14.0, eslint@npm:^8.3.0":
+"eslint@npm:8.14.0, eslint@npm:^8.3.0":
   version: 8.14.0
   resolution: "eslint@npm:8.14.0"
   dependencies:
@@ -6939,7 +6939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.3, express@npm:^4.18.1":
+"express@npm:4.18.1, express@npm:^4.17.3":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
   dependencies:
@@ -7761,7 +7761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"history@npm:^5.2.0, history@npm:^5.3.0":
+"history@npm:5.3.0, history@npm:^5.2.0":
   version: 5.3.0
   resolution: "history@npm:5.3.0"
   dependencies:
@@ -8015,7 +8015,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^21.6.16":
+"i18next@npm:21.6.16":
   version: 21.6.16
   resolution: "i18next@npm:21.6.16"
   dependencies:
@@ -8088,7 +8088,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutability-helper@npm:^3.1.1":
+"immutability-helper@npm:3.1.1":
   version: 3.1.1
   resolution: "immutability-helper@npm:3.1.1"
   checksum: 6fdbf6d2123efa567263e904bbaff07aca0e24560d270d34967b03aab8ec20bd3e4057f394d59e50eb6c4718c9415591a6281692bb0aafd522ad72cf4887133f
@@ -9623,7 +9623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loglevel@npm:^1.8.0":
+"loglevel@npm:1.8.0":
   version: 1.8.0
   resolution: "loglevel@npm:1.8.0"
   checksum: 41aeea17de24aba8dba68084a31fe9189648bce4f39c1277e021bb276c3c53a75b0d337395919cf271068ad40ecefabad0e4fdeb4a8f11908beee532b898f4a7
@@ -10403,57 +10403,57 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "operationsgateway@workspace:."
   dependencies:
-    "@babel/eslint-parser": ^7.17.0
-    "@craco/craco": ^6.4.3
-    "@emotion/react": ^11.9.0
-    "@emotion/styled": ^11.8.1
-    "@mui/icons-material": ^5.6.2
-    "@mui/material": ^5.6.4
-    "@testing-library/dom": ^8.13.0
-    "@testing-library/jest-dom": ^5.16.4
-    "@testing-library/react": ^13.2.0
-    "@testing-library/user-event": ^14.1.1
-    "@types/jest": ^27.5.0
-    "@types/node": ^17.0.31
-    "@types/react": ^18.0.12
-    "@types/react-beautiful-dnd": ^13.1.2
-    "@types/react-dom": ^18.0.4
-    "@types/react-router-dom": ^5.3.3
-    "@types/react-table": ^7.7.12
-    "@types/testing-library__jest-dom": ^5.14.3
-    "@typescript-eslint/eslint-plugin": ^5.22.0
-    "@typescript-eslint/parser": ^5.22.0
-    axios: ^0.27.2
-    cross-env: ^7.0.3
-    cypress: ^9.6.0
-    cypress-failed-log: ^2.9.5
-    eslint: ^8.14.0
-    eslint-config-prettier: ^8.5.0
-    eslint-config-react-app: ^7.0.1
-    eslint-plugin-cypress: ^2.12.1
-    eslint-plugin-prettier: ^4.0.0
-    express: ^4.18.1
-    history: ^5.3.0
-    i18next: ^21.6.16
-    immutability-helper: ^3.1.1
-    loglevel: ^1.8.0
-    prettier: ^2.6.2
-    react: ^18.1.0
-    react-beautiful-dnd: ^13.1.0
-    react-beautiful-dnd-test-utils: ^4.1.1
-    react-dom: ^18.1.0
-    react-draggable: ^4.4.5
-    react-i18next: ^11.16.7
-    react-query: ^3.38.1
-    react-router-dom: ^6.3.0
+    "@babel/eslint-parser": 7.17.0
+    "@craco/craco": 6.4.3
+    "@emotion/react": 11.9.0
+    "@emotion/styled": 11.8.1
+    "@mui/icons-material": 5.6.2
+    "@mui/material": 5.6.4
+    "@testing-library/dom": 8.13.0
+    "@testing-library/jest-dom": 5.16.4
+    "@testing-library/react": 13.2.0
+    "@testing-library/user-event": 14.1.1
+    "@types/jest": 27.5.0
+    "@types/node": 17.0.31
+    "@types/react": 18.0.12
+    "@types/react-beautiful-dnd": 13.1.2
+    "@types/react-dom": 18.0.4
+    "@types/react-router-dom": 5.3.3
+    "@types/react-table": 7.7.12
+    "@types/testing-library__jest-dom": 5.14.3
+    "@typescript-eslint/eslint-plugin": 5.22.0
+    "@typescript-eslint/parser": 5.22.0
+    axios: 0.27.2
+    cross-env: 7.0.3
+    cypress: 9.6.0
+    cypress-failed-log: 2.9.5
+    eslint: 8.14.0
+    eslint-config-prettier: 8.5.0
+    eslint-config-react-app: 7.0.1
+    eslint-plugin-cypress: 2.12.1
+    eslint-plugin-prettier: 4.0.0
+    express: 4.18.1
+    history: 5.3.0
+    i18next: 21.6.16
+    immutability-helper: 3.1.1
+    loglevel: 1.8.0
+    prettier: 2.6.2
+    react: 18.1.0
+    react-beautiful-dnd: 13.1.0
+    react-beautiful-dnd-test-utils: 4.1.1
+    react-dom: 18.1.0
+    react-draggable: 4.4.5
+    react-i18next: 11.16.7
+    react-query: 3.38.1
+    react-router-dom: 6.3.0
     react-scripts: 5.0.1
-    react-table: ^7.8.0
-    serve: ^13.0.2
-    serve-static: ^1.15.0
-    single-spa-react: ^4.6.1
-    start-server-and-test: ^1.14.0
-    typescript: ^4.6.4
-    web-vitals: ^2.1.0
+    react-table: 7.8.0
+    serve: 13.0.2
+    serve-static: 1.15.0
+    single-spa-react: 4.6.1
+    start-server-and-test: 1.14.0
+    typescript: 4.6.4
+    web-vitals: 2.1.4
   languageName: unknown
   linkType: soft
 
@@ -11646,7 +11646,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.6.2":
+"prettier@npm:2.6.2":
   version: 2.6.2
   resolution: "prettier@npm:2.6.2"
   bin:
@@ -11924,7 +11924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-beautiful-dnd-test-utils@npm:^4.1.1":
+"react-beautiful-dnd-test-utils@npm:4.1.1":
   version: 4.1.1
   resolution: "react-beautiful-dnd-test-utils@npm:4.1.1"
   peerDependencies:
@@ -11936,7 +11936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-beautiful-dnd@npm:^13.1.0":
+"react-beautiful-dnd@npm:13.1.0":
   version: 13.1.0
   resolution: "react-beautiful-dnd@npm:13.1.0"
   dependencies:
@@ -11986,7 +11986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.1.0":
+"react-dom@npm:18.1.0":
   version: 18.1.0
   resolution: "react-dom@npm:18.1.0"
   dependencies:
@@ -11998,7 +11998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-draggable@npm:^4.4.5":
+"react-draggable@npm:4.4.5":
   version: 4.4.5
   resolution: "react-draggable@npm:4.4.5"
   dependencies:
@@ -12018,7 +12018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^11.16.7":
+"react-i18next@npm:11.16.7":
   version: 11.16.7
   resolution: "react-i18next@npm:11.16.7"
   dependencies:
@@ -12058,7 +12058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:^3.38.1":
+"react-query@npm:3.38.1":
   version: 3.38.1
   resolution: "react-query@npm:3.38.1"
   dependencies:
@@ -12104,7 +12104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.3.0":
+"react-router-dom@npm:6.3.0":
   version: 6.3.0
   resolution: "react-router-dom@npm:6.3.0"
   dependencies:
@@ -12195,7 +12195,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-table@npm:^7.8.0":
+"react-table@npm:7.8.0":
   version: 7.8.0
   resolution: "react-table@npm:7.8.0"
   peerDependencies:
@@ -12219,7 +12219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.1.0":
+"react@npm:18.1.0":
   version: 18.1.0
   resolution: "react@npm:18.1.0"
   dependencies:
@@ -12895,7 +12895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serve-static@npm:1.15.0, serve-static@npm:^1.15.0":
+"serve-static@npm:1.15.0":
   version: 1.15.0
   resolution: "serve-static@npm:1.15.0"
   dependencies:
@@ -12907,7 +12907,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serve@npm:^13.0.2":
+"serve@npm:13.0.2":
   version: 13.0.2
   resolution: "serve@npm:13.0.2"
   dependencies:
@@ -13004,7 +13004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"single-spa-react@npm:^4.6.1":
+"single-spa-react@npm:4.6.1":
   version: 4.6.1
   resolution: "single-spa-react@npm:4.6.1"
   dependencies:
@@ -13279,7 +13279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"start-server-and-test@npm:^1.14.0":
+"start-server-and-test@npm:1.14.0":
   version: 1.14.0
   resolution: "start-server-and-test@npm:1.14.0"
   dependencies:
@@ -14049,7 +14049,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.6.4":
+"typescript@npm:4.6.4":
   version: 4.6.4
   resolution: "typescript@npm:4.6.4"
   bin:
@@ -14059,7 +14059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.6.4#~builtin<compat/typescript>":
   version: 4.6.4
   resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=7ad353"
   bin:
@@ -14372,7 +14372,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-vitals@npm:^2.1.0":
+"web-vitals@npm:2.1.4":
   version: 2.1.4
   resolution: "web-vitals@npm:2.1.4"
   checksum: 03d3f47dbf55c3dce07beb0ff5de8ddd52e2d0a53a8df5c84e7a16dda93543341d67231fa79b1d9772b091419af4ec0fd395b8bcf451a0e26846e3f76b3d0efc
