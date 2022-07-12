@@ -7,21 +7,21 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
   >
     <div>
       <label
-        for="id"
+        for="name"
       >
-        ID
+        Name
       </label>
       <span
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
-          aria-label="id checkbox"
+          aria-label="name checkbox"
           checked=""
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
-          id="id"
+          id="name"
           type="checkbox"
-          value="id"
+          value="name"
         />
         <svg
           aria-hidden="true"
@@ -41,21 +41,21 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
     </div>
     <div>
       <label
-        for="name"
+        for="timestamp"
       >
-        Name
+        Timestamp
       </label>
       <span
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
-          aria-label="name checkbox"
+          aria-label="timestamp checkbox"
           checked=""
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
-          id="name"
+          id="timestamp"
           type="checkbox"
-          value="name"
+          value="timestamp"
         />
         <svg
           aria-hidden="true"
@@ -84,20 +84,20 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
   >
     <div>
       <label
-        for="id"
+        for="name"
       >
-        ID
+        Name
       </label>
       <span
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
-          aria-label="id checkbox"
+          aria-label="name checkbox"
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
-          id="id"
+          id="name"
           type="checkbox"
-          value="id"
+          value="name"
         />
         <svg
           aria-hidden="true"
@@ -117,20 +117,20 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
     </div>
     <div>
       <label
-        for="name"
+        for="timestamp"
       >
-        Name
+        Timestamp
       </label>
       <span
         class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
       >
         <input
-          aria-label="name checkbox"
+          aria-label="timestamp checkbox"
           class="PrivateSwitchBase-input css-1m9pwf3"
           data-indeterminate="false"
-          id="name"
+          id="timestamp"
           type="checkbox"
-          value="name"
+          value="timestamp"
         />
         <svg
           aria-hidden="true"

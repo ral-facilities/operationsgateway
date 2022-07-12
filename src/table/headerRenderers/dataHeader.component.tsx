@@ -12,7 +12,7 @@ import Close from '@mui/icons-material/Close';
 import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import FeedIcon from '@mui/icons-material/Feed';
 
 const StyledClose = styled(Close)(() => ({
@@ -100,96 +100,113 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     </div>
   );
 
-  return (
+  const TableCellContent = (props: {
+    provided?: DraggableProvided;
+  }): React.ReactElement => {
+    const { provided } = props;
+    return (
+      <TableCell
+        {...provided?.draggableProps}
+        ref={provided?.innerRef}
+        {...provided?.dragHandleProps}
+        size="small"
+        component="th"
+        role="columnheader"
+        sx={sx}
+        variant="head"
+        sortDirection={currSortDirection}
+      >
+        <Box
+          aria-label={`${dataKey} header`}
+          display="flex"
+          sx={{
+            overflow: 'hidden',
+            flex: 1,
+          }}
+          onMouseDown={(event) => {
+            // Middle mouse button can also fire onClose
+            if (dataKey.toUpperCase() !== 'ID' && event.button === 1) {
+              event.preventDefault();
+              onClose(dataKey);
+            }
+          }}
+        >
+          <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
+          {/* TODO: add extra info to tooltip from data channel info */}
+          <Tooltip
+            enterDelay={400}
+            enterNextDelay={400}
+            title={
+              <div>
+                <Typography>System Name: {label}</Typography>
+                <Typography>Description: {channelInfo?.description}</Typography>
+                <Typography>Units: {channelInfo?.units}</Typography>
+              </div>
+            }
+          >
+            <Box>{inner}</Box>
+          </Tooltip>
+        </Box>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            // 40 - enough space for both close icon + divider and some space between them
+            width: dataKey.toUpperCase() === 'ID' ? '5px' : '40px',
+            justifyContent: 'space-between',
+          }}
+          onMouseOver={() => {
+            setPermitDragging(false);
+          }}
+          onMouseOut={() => {
+            setPermitDragging(true);
+          }}
+        >
+          {/* If this is an ID header, remove icon visibility but still render it
+          This ensures header widths remain consistent */}
+          <div aria-label={`close ${dataKey}`}>
+            <StyledClose
+              sx={
+                dataKey.toUpperCase() === 'ID'
+                  ? {
+                      display: 'none',
+                    }
+                  : {}
+              }
+              onClick={() => onClose(dataKey)}
+            />
+          </div>
+          <div
+            {...resizerProps}
+            style={{
+              cursor: 'col-resize',
+            }}
+          >
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                height: '100%',
+                borderRightWidth: 5,
+              }}
+            />
+          </div>
+        </div>
+      </TableCell>
+    );
+  };
+
+  // ID column must not be reordered
+  return dataKey.toUpperCase() !== 'ID' ? (
     <Draggable
       draggableId={dataKey}
       index={index}
       isDragDisabled={!permitDragging}
     >
-      {(provided) => {
-        return (
-          <TableCell
-            {...provided.draggableProps}
-            ref={provided.innerRef}
-            {...provided.dragHandleProps}
-            size="small"
-            component="th"
-            role="columnheader"
-            sx={sx}
-            variant="head"
-            sortDirection={currSortDirection}
-          >
-            <Box
-              aria-label={`${dataKey} header`}
-              display="flex"
-              sx={{
-                overflow: 'hidden',
-                flex: 1,
-              }}
-              onMouseDown={(event) => {
-                // Middle mouse button can also fire onClose
-                if (event.button === 1) {
-                  event.preventDefault();
-                  onClose(dataKey);
-                }
-              }}
-            >
-              <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
-              {/* TODO: add extra info to tooltip from data channel info */}
-              <Tooltip
-                enterDelay={400}
-                enterNextDelay={400}
-                title={
-                  <div>
-                    <Typography>System Name: {label}</Typography>
-                    <Typography>
-                      Description: {channelInfo?.description}
-                    </Typography>
-                    <Typography>Units: {channelInfo?.units}</Typography>
-                  </div>
-                }
-              >
-                <Box>{inner}</Box>
-              </Tooltip>
-            </Box>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                // 40 - enough space for both close icon + divider and some space between them
-                width: '40px',
-                justifyContent: 'space-between',
-              }}
-              onMouseOver={() => {
-                setPermitDragging(false);
-              }}
-              onMouseOut={() => {
-                setPermitDragging(true);
-              }}
-            >
-              <div aria-label={`close ${dataKey}`}>
-                <StyledClose onClick={() => onClose(dataKey)} />
-              </div>
-              <div
-                {...resizerProps}
-                style={{
-                  cursor: 'col-resize',
-                }}
-              >
-                <Divider
-                  orientation="vertical"
-                  flexItem
-                  sx={{
-                    height: '100%',
-                    borderRightWidth: 5,
-                  }}
-                />
-              </div>
-            </div>
-          </TableCell>
-        );
-      }}
+      {(provided) => <TableCellContent provided={provided} />}
     </Draggable>
+  ) : (
+    <TableCellContent />
   );
 };
 

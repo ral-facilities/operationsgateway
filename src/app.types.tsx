@@ -2,17 +2,12 @@ import { Fingerprint, AccessTime, Numbers } from '@mui/icons-material';
 
 export const MicroFrontendId = 'scigateway';
 
-export interface DateFilter {
-  startDate?: string;
-  endDate?: string;
-}
-
 export interface TextFilter {
   value?: string | number;
   type: string;
 }
 
-export type Filter = string[] | TextFilter | DateFilter;
+export type Filter = string[] | TextFilter;
 
 export interface FiltersType {
   [column: string]: Filter;
@@ -73,8 +68,7 @@ export interface QueryParams {
   sort: SortType;
   filters?: FiltersType;
   page: number;
-  startDate?: Date;
-  endDate?: Date;
+  dateRange: DateRange;
 }
 
 export interface RecordRow {
@@ -85,6 +79,10 @@ export interface RecordRow {
   [channel: string]: any;
 }
 
+export interface DateRange {
+  fromDate?: string;
+  toDate?: string;
+}
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('ID', <Fingerprint />)

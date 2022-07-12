@@ -12,12 +12,12 @@ describe('Column Checkboxes', () => {
   const onColumnClose = jest.fn();
   const availableColumns: Column[] = [
     {
-      Header: 'ID',
-      accessor: 'id',
-    },
-    {
       Header: 'Name',
       accessor: 'name',
+    },
+    {
+      Header: 'Timestamp',
+      accessor: 'timestamp',
     },
   ];
   const selectedColumns: Column[] = [];
@@ -50,23 +50,40 @@ describe('Column Checkboxes', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('does not render an ID checkbox if an ID column exists', () => {
+    const amendedColumns: Column[] = [
+      ...availableColumns,
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+    ];
+    props = {
+      ...props,
+      availableColumns: amendedColumns,
+    };
+
+    createView();
+    expect(screen.queryByLabelText('id checkbox')).toBeNull();
+  });
+
   it('calls onColumnOpen when checkbox is checked', async () => {
     createView();
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
+      screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnOpen).toHaveBeenCalledWith('id');
+    expect(onColumnOpen).toHaveBeenCalledWith('name');
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
     props.selectedColumns = availableColumns;
     createView();
     await act(async () => {
-      screen.getByLabelText('id checkbox').click();
+      screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnClose).toHaveBeenCalledWith('id');
+    expect(onColumnClose).toHaveBeenCalledWith('name');
   });
 
   it('returns null if a column is not fully defined', () => {
@@ -76,7 +93,7 @@ describe('Column Checkboxes', () => {
     createView();
     const checkboxes = screen.getAllByRole('checkbox');
     expect(checkboxes.length).toEqual(1);
-    expect(screen.queryByText('Name')).toBeNull();
+    expect(screen.queryByText('Timestamp')).toBeNull();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');

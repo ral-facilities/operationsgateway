@@ -1,8 +1,16 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
-import { Record, Order, QueryParams, Channel, RecordRow } from '../app.types';
+import {
+  Record,
+  Order,
+  QueryParams,
+  Channel,
+  RecordRow,
+  DateRange,
+} from '../app.types';
 import { Column } from 'react-table';
+import DateTimeInputBox from './dateTimeInput.component';
 
 export interface RecordTableProps {
   resultsPerPage: number;
@@ -16,9 +24,11 @@ const RecordTable = React.memo(
     const [sort, setSort] = React.useState<{
       [column: string]: Order;
     }>({});
+    const [dateRange, setDateRange] = React.useState<DateRange>({});
     const [queryParams, setQueryParams] = React.useState<QueryParams>({
       page: page,
-      sort: {},
+      sort: sort,
+      dateRange: dateRange,
     });
     const [availableColumns, setAvailableColumns] = React.useState<Column[]>(
       []
@@ -27,6 +37,10 @@ const RecordTable = React.memo(
 
     const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
     const { data: count, isLoading: countLoading } = useRecordCount();
+
+    // Use this as the controlling variable for data having loaded
+    // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
+    const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
 
     const constructColumns = (parsed: RecordRow[]): Column[] => {
       let myColumns: Column[] = [];
@@ -84,6 +98,9 @@ const RecordTable = React.memo(
         const parsedData: RecordRow[] = parseData(data);
         const newAvailableColumns = constructColumns(parsedData);
         setAvailableColumns(newAvailableColumns);
+        setColumnsLoaded(true);
+      } else {
+        setColumnsLoaded(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, dataLoading]);
@@ -92,8 +109,9 @@ const RecordTable = React.memo(
       setQueryParams({
         page: page,
         sort: sort,
+        dateRange: dateRange,
       });
-    }, [page, sort]);
+    }, [page, sort, dateRange]);
 
     const onPageChange = (page: number) => {
       setPage(page);
@@ -115,19 +133,30 @@ const RecordTable = React.memo(
       setSort(newSort);
     };
 
+    const handleDateTimeChange = (
+      range: 'fromDate' | 'toDate',
+      date?: string
+    ) => {
+      setDateRange({ ...dateRange, [range]: date });
+    };
+
     return (
-      <Table
-        data={parsedData}
-        availableColumns={availableColumns}
-        totalDataCount={count ?? 0}
-        page={page}
-        loadedData={!dataLoading}
-        loadedCount={!countLoading}
-        resultsPerPage={resultsPerPage}
-        onPageChange={onPageChange}
-        sort={sort}
-        onSort={handleSort}
-      />
+      <div>
+        <DateTimeInputBox onChange={handleDateTimeChange} />
+        <br />
+        <Table
+          data={parsedData}
+          availableColumns={availableColumns}
+          totalDataCount={count ?? 0}
+          page={page}
+          loadedData={columnsLoaded}
+          loadedCount={!countLoading}
+          resultsPerPage={resultsPerPage}
+          onPageChange={onPageChange}
+          sort={sort}
+          onSort={handleSort}
+        />
+      </div>
     );
   }
 );
