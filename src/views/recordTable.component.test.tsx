@@ -112,33 +112,33 @@ describe('Record Table', () => {
     createView();
 
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {
-        id: 'asc',
+        timestamp: 'asc',
       },
       dateRange: {},
     });
 
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {
-        id: 'desc',
+        timestamp: 'desc',
       },
       dateRange: {},
     });
 
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 

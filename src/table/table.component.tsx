@@ -178,9 +178,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       setColumnOrder(columnOrderUpdater(result, visibleColumns));
   };
 
-  // Ensure the ID column is opened automatically on table load
+  // Ensure the timestamp column is opened automatically on table load
   React.useEffect(() => {
-    if (loadedData && !columnOrder.includes('id')) handleColumnOpen('id');
+    if (loadedData && !columnOrder.includes('timestamp'))
+      handleColumnOpen('timestamp');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedData, columnOrder]);
 
@@ -224,8 +225,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     column.getHeaderProps();
 
                                   const dataKey = column.id;
-                                  const isIdColumn =
-                                    dataKey.toUpperCase() === 'ID';
+                                  const isTimestampColumn =
+                                    dataKey.toUpperCase() === 'TIMESTAMP';
                                   let columnStyles: SxProps = {
                                     minWidth: column.minWidth,
                                     width: column.width,
@@ -237,7 +238,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     flexDirection: 'row',
                                   };
 
-                                  columnStyles = isIdColumn
+                                  columnStyles = isTimestampColumn
                                     ? {
                                         ...columnStyles,
                                         ...stickyColumnStyles,
@@ -285,7 +286,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                             cell.getCellProps();
 
                           const dataKey = cell.column.id;
-                          const isIdColumn = dataKey.toUpperCase() === 'ID';
+                          const isTimestampColumn =
+                            dataKey.toUpperCase() === 'TIMESTAMP';
 
                           let columnStyles: SxProps = {
                             minWidth: cell.column.minWidth,
@@ -298,7 +300,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                             flexDirection: 'row',
                           };
 
-                          columnStyles = isIdColumn
+                          columnStyles = isTimestampColumn
                             ? {
                                 ...columnStyles,
                                 ...stickyColumnStyles,

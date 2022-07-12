@@ -16,8 +16,12 @@ describe('Column Checkboxes', () => {
       accessor: 'name',
     },
     {
-      Header: 'Timestamp',
-      accessor: 'timestamp',
+      Header: 'Active Area',
+      accessor: 'activeArea',
+    },
+    {
+      Header: 'Active Experiment',
+      accessor: 'activeExperiment',
     },
   ];
   const selectedColumns: Column[] = [];
@@ -50,12 +54,12 @@ describe('Column Checkboxes', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('does not render an ID checkbox if an ID column exists', () => {
+  it('does not render a timestamp checkbox if a timestamp column exists', () => {
     const amendedColumns: Column[] = [
       ...availableColumns,
       {
-        Header: 'ID',
-        accessor: 'id',
+        Header: 'Timestamp',
+        accessor: 'timestamp',
       },
     ];
     props = {
@@ -64,7 +68,7 @@ describe('Column Checkboxes', () => {
     };
 
     createView();
-    expect(screen.queryByLabelText('id checkbox')).toBeNull();
+    expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
   });
 
   it('calls onColumnOpen when checkbox is checked', async () => {
@@ -92,8 +96,8 @@ describe('Column Checkboxes', () => {
 
     createView();
     const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes.length).toEqual(1);
-    expect(screen.queryByText('Timestamp')).toBeNull();
+    expect(checkboxes.length).toEqual(2);
+    expect(screen.queryByText('Active Area')).toBeNull();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');

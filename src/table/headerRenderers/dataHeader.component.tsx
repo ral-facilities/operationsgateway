@@ -125,7 +125,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
-            if (dataKey.toUpperCase() !== 'ID' && event.button === 1) {
+            if (dataKey.toUpperCase() !== 'TIMESTAMP' && event.button === 1) {
               event.preventDefault();
               onClose(dataKey);
             }
@@ -152,7 +152,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             display: 'flex',
             flexDirection: 'row',
             // 40 - enough space for both close icon + divider and some space between them
-            width: dataKey.toUpperCase() === 'ID' ? '5px' : '40px',
+            width: dataKey.toUpperCase() === 'TIMESTAMP' ? '5px' : '40px',
             justifyContent: 'space-between',
           }}
           onMouseOver={() => {
@@ -162,12 +162,12 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             setPermitDragging(true);
           }}
         >
-          {/* If this is an ID header, remove icon visibility but still render it
+          {/* If this is a timestamp header, remove icon visibility but still render it
           This ensures header widths remain consistent */}
           <div aria-label={`close ${dataKey}`}>
             <StyledClose
               sx={
-                dataKey.toUpperCase() === 'ID'
+                dataKey.toUpperCase() === 'TIMESTAMP'
                   ? {
                       display: 'none',
                     }
@@ -196,8 +196,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     );
   };
 
-  // ID column must not be reordered
-  return dataKey.toUpperCase() !== 'ID' ? (
+  // Timestamp column must not be reordered
+  return dataKey.toUpperCase() !== 'TIMESTAMP' ? (
     <Draggable
       draggableId={dataKey}
       index={index}

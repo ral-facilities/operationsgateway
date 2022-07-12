@@ -1,4 +1,4 @@
-import { Fingerprint, AccessTime, Numbers } from '@mui/icons-material';
+import { AccessTime, Numbers } from '@mui/icons-material';
 
 export const MicroFrontendId = 'scigateway';
 
@@ -42,9 +42,9 @@ export interface Waveform {
 
 export interface RecordMetadata {
   dataVersion: string;
-  shotNum: number;
   timestamp: string;
-  activeArea?: string;
+  activeArea: string;
+  shotNum?: number;
   activeExperiment?: string;
 }
 
@@ -72,9 +72,10 @@ export interface QueryParams {
 }
 
 export interface RecordRow {
-  id: string;
-  shotNum: number;
   timestamp: string;
+  activeArea: string;
+  shotNum?: number;
+  activeExperiment?: string;
 
   [channel: string]: any;
 }
@@ -85,6 +86,5 @@ export interface DateRange {
 }
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
-  .set('ID', <Fingerprint />)
   .set('TIMESTAMP', <AccessTime />)
   .set('SHOTNUM', <Numbers />);

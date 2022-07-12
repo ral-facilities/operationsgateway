@@ -74,9 +74,10 @@ const RecordTable = React.memo(
 
       data.forEach((record: Record) => {
         let recordRow: RecordRow = {
-          id: record.id,
-          shotNum: record.metadata.shotNum,
           timestamp: record.metadata.timestamp,
+          shotNum: record.metadata.shotNum,
+          activeArea: record.metadata.activeArea,
+          activeExperiment: record.metadata.activeExperiment,
         };
 
         const keys = Object.keys(record.channels);
