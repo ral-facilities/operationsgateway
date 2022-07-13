@@ -16,6 +16,7 @@ import {
   TableRow as MuiTableRow,
   TablePagination as MuiTablePagination,
   Paper,
+  SxProps,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
@@ -25,6 +26,29 @@ import ColumnCheckboxes from './columnCheckboxes.component';
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
 const additionalHeaderSpace = 24 + 4.8;
+
+// 31.2 - the height of a column header with the close icon included
+const headerHeight = 31.2;
+
+const stickyColumnStyles: SxProps = {
+  position: 'sticky',
+  left: 0,
+  background: 'white', // TODO add theme colour later on
+  zIndex: 2,
+};
+
+export const columnOrderUpdater = (
+  result: any,
+  visibleColumns: Column[]
+): string[] => {
+  const items = Array.from(visibleColumns);
+  const [reorderedItem] = items.splice(result.source.index, 1);
+  items.splice(result.destination.index, 0, reorderedItem);
+
+  return items.map((column: Column) => {
+    return column.Header?.toString() ?? '';
+  });
+};
 
 export interface TableProps {
   data: RecordRow[];
@@ -149,29 +173,37 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const { columnOrder } = state;
 
-  const columnOrderUpdater = (result: any): string[] => {
-    const items = Array.from(visibleColumns);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    return items.map((column: Column) => {
-      return column.Header?.toString() ?? '';
-    });
-  };
-
   const handleOnDragEnd = (result: DropResult): void => {
-    if (!result.destination) return;
-    setColumnOrder(columnOrderUpdater(result));
+    if (result.destination)
+      setColumnOrder(columnOrderUpdater(result, visibleColumns));
   };
+
+  // Ensure the timestamp column is opened automatically on table load
+  React.useEffect(() => {
+    if (loadedData && !columnOrder.includes('timestamp'))
+      handleColumnOpen('timestamp');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadedData, columnOrder]);
 
   return (
     <div>
       {loadedData && totalDataCount > 0 ? (
         <div>
           <div>
-            <MuiTableContainer component={Paper}>
+            <MuiTableContainer
+              role="table-container"
+              component={Paper}
+              sx={{ maxHeight: 300, overflow: 'auto' }}
+            >
               <MuiTable {...getTableProps()}>
-                <MuiTableHead>
+                <MuiTableHead
+                  sx={{
+                    position: 'sticky',
+                    background: 'white', // TODO add theme colour later on
+                    top: 0,
+                    zIndex: 1,
+                  }}
+                >
                   {headerGroups.map((headerGroup) => {
                     const { key, ...otherHeaderGroupProps } =
                       headerGroup.getHeaderGroupProps();
@@ -184,11 +216,34 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                 {...otherHeaderGroupProps}
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
+                                sx={{
+                                  height: headerHeight, // Consistent height to account for headers that don't include any icons
+                                }}
                               >
                                 {headerGroup.headers.map((column, index) => {
                                   const { key, ...otherHeaderProps } =
                                     column.getHeaderProps();
 
+                                  const dataKey = column.id;
+                                  const isTimestampColumn =
+                                    dataKey.toUpperCase() === 'TIMESTAMP';
+                                  let columnStyles: SxProps = {
+                                    minWidth: column.minWidth,
+                                    width: column.width,
+                                    maxWidth: column.maxWidth,
+                                    paddingTop: '0px',
+                                    paddingBottom: '0px',
+                                    paddingRight: '0px',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                  };
+
+                                  columnStyles = isTimestampColumn
+                                    ? {
+                                        ...columnStyles,
+                                        ...stickyColumnStyles,
+                                      }
+                                    : columnStyles;
                                   const { channelInfo } =
                                     column as ColumnInstance;
 
@@ -196,18 +251,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     <DataHeader
                                       key={key}
                                       {...otherHeaderProps}
-                                      sx={{
-                                        minWidth: column.minWidth,
-                                        width: column.width,
-                                        maxWidth: column.maxWidth,
-                                        paddingTop: '0px',
-                                        paddingBottom: '0px',
-                                        paddingRight: '0px',
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                      }}
+                                      sx={columnStyles}
                                       resizerProps={column.getResizerProps()}
-                                      dataKey={column.id}
+                                      dataKey={dataKey}
                                       sort={sort}
                                       onSort={onSort}
                                       label={column.render('Header')}
@@ -238,16 +284,33 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         {row.cells.map((cell) => {
                           const { key, ...otherCellProps } =
                             cell.getCellProps();
+
+                          const dataKey = cell.column.id;
+                          const isTimestampColumn =
+                            dataKey.toUpperCase() === 'TIMESTAMP';
+
+                          let columnStyles: SxProps = {
+                            minWidth: cell.column.minWidth,
+                            width: cell.column.width,
+                            maxWidth: cell.column.maxWidth,
+                            paddingTop: '0px',
+                            paddingBottom: '0px',
+                            paddingRight: '0px',
+                            display: 'flex',
+                            flexDirection: 'row',
+                          };
+
+                          columnStyles = isTimestampColumn
+                            ? {
+                                ...columnStyles,
+                                ...stickyColumnStyles,
+                                zIndex: 0,
+                              }
+                            : columnStyles;
+
                           return (
                             <DataCell
-                              sx={{
-                                minWidth: cell.column.minWidth,
-                                width: cell.column.width,
-                                maxWidth: cell.column.maxWidth,
-                                paddingTop: '0px',
-                                paddingBottom: '0px',
-                                paddingRight: '0px',
-                              }}
+                              sx={columnStyles}
                               key={key}
                               {...otherCellProps}
                               dataKey={cell.column.id}

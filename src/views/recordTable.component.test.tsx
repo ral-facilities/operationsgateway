@@ -1,8 +1,14 @@
 import React from 'react';
 import { render, RenderResult, screen, act } from '@testing-library/react';
 import RecordTable, { RecordTableProps } from './recordTable.component';
-import { flushPromises, testRecords } from '../setupTests';
+import {
+  applyDatePickerWorkaround,
+  cleanupDatePickerWorkaround,
+  flushPromises,
+  testRecords,
+} from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
+import userEvent from '@testing-library/user-event';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -24,9 +30,11 @@ describe('Record Table', () => {
   };
 
   beforeEach(() => {
+    applyDatePickerWorkaround();
+    userEvent.setup();
     data = testRecords;
     props = {
-      resultsPerPage: 10,
+      resultsPerPage: 25,
     };
 
     (useRecordsPaginated as jest.Mock).mockReturnValue({
@@ -40,26 +48,36 @@ describe('Record Table', () => {
   });
 
   afterEach(() => {
+    cleanupDatePickerWorkaround();
     jest.clearAllMocks();
   });
 
-  it('renders correctly with no displayed columns', () => {
+  it('renders correctly', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with columns displayed', async () => {
-    const columns = ['id', 'shotNum', 'timestamp', 'test1', 'test2', 'test3'];
+  it('renders correctly while loading', () => {
+    (useRecordsPaginated as jest.Mock).mockReturnValue({
+      data: [],
+      isLoading: true,
+    });
+
+    (useRecordCount as jest.Mock).mockReturnValue({
+      isLoading: true,
+    });
+
     const view = createView();
+    expect(view.asFragment()).toMatchSnapshot();
+  });
 
-    // Query for each column
-    for (let column of columns) {
-      await act(async () => {
-        screen.getByLabelText(`${column} checkbox`).click();
-        await flushPromises();
-      });
-    }
+  it('renders correctly while data count is zero', () => {
+    (useRecordCount as jest.Mock).mockReturnValue({
+      data: 0,
+      isLoading: false,
+    });
 
+    const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -69,6 +87,7 @@ describe('Record Table', () => {
     expect(useRecordsPaginated).toHaveBeenCalledWith({
       page: 0,
       sort: {},
+      dateRange: {},
     });
     expect(useRecordCount).toHaveBeenCalled();
   });
@@ -85,46 +104,75 @@ describe('Record Table', () => {
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 1,
       sort: {},
+      dateRange: {},
     });
   });
 
   it('updates sort query parameter on sort', async () => {
     createView();
 
-    screen.getByLabelText('id checkbox').click();
-
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {
-        id: 'asc',
+        timestamp: 'asc',
       },
+      dateRange: {},
     });
 
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {
-        id: 'desc',
+        timestamp: 'desc',
       },
+      dateRange: {},
     });
 
     await act(async () => {
-      screen.getByTestId('sort id').click();
+      screen.getByTestId('sort timestamp').click();
       await flushPromises();
     });
 
     expect(useRecordsPaginated).toHaveBeenLastCalledWith({
       page: 0,
       sort: {},
+      dateRange: {},
+    });
+  });
+
+  it('updates start/end date fields on date-time change', async () => {
+    createView();
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
+      page: 0,
+      sort: {},
+      dateRange: {
+        fromDate: '2022-01-01 00:00:00',
+      },
+    });
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+
+    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
+      page: 0,
+      sort: {},
+      dateRange: {
+        fromDate: '2022-01-01 00:00:00',
+        toDate: '2022-01-02 00:00:00',
+      },
     });
   });
 
