@@ -67,7 +67,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:7.18.2":
+"@babel/eslint-parser@npm:7.18.2, @babel/eslint-parser@npm:^7.16.3":
   version: 7.18.2
   resolution: "@babel/eslint-parser@npm:7.18.2"
   dependencies:
@@ -78,20 +78,6 @@ __metadata:
     "@babel/core": ">=7.11.0"
     eslint: ^7.5.0 || ^8.0.0
   checksum: dc9328cf3304b25c9029682e6b6196761e18d3ab80d66c3085a69c6f240fa2db91b824a61672e94139e73683b7ceeefe9ff58acac1ee89fe73274007b16e43d5
-  languageName: node
-  linkType: hard
-
-"@babel/eslint-parser@npm:^7.16.3":
-  version: 7.17.0
-  resolution: "@babel/eslint-parser@npm:7.17.0"
-  dependencies:
-    eslint-scope: ^5.1.1
-    eslint-visitor-keys: ^2.1.0
-    semver: ^6.3.0
-  peerDependencies:
-    "@babel/core": ">=7.11.0"
-    eslint: ^7.5.0 || ^8.0.0
-  checksum: 1cedd9998dd89f779bbc5496531e3ef1b43d6f4fb7209ed5088938292b81287302cb47c0923ce074e84e83aa41b236b09bfecacdf20770f4cbfade2de9519c10
   languageName: node
   linkType: hard
 
@@ -1446,16 +1432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
-  version: 7.17.9
-  resolution: "@babel/runtime@npm:7.17.9"
-  dependencies:
-    regenerator-runtime: ^0.13.4
-  checksum: 4d56bdb82890f386d5a57c40ef985a0ed7f0a78f789377a2d0c3e8826819e0f7f16ba0fe906d9b2241c5f7ca56630ef0653f5bb99f03771f7b87ff8af4bf5fe3
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^7.15.4":
+"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.18.3
   resolution: "@babel/runtime@npm:7.18.3"
   dependencies:
@@ -3159,21 +3136,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.0.4":
+"@types/react-dom@npm:18.0.4, @types/react-dom@npm:^18.0.0":
   version: 18.0.4
   resolution: "@types/react-dom@npm:18.0.4"
   dependencies:
     "@types/react": "*"
   checksum: decde42d02a90ac2fe94fd6bfd9c78d002c03762a2d940df9422bf61af89c03d05e2113fd55fe45521fe27fa872a79dfd654b7d6b89652b455425efdcb763c58
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.0.0":
-  version: 18.0.3
-  resolution: "@types/react-dom@npm:18.0.3"
-  dependencies:
-    "@types/react": "*"
-  checksum: 5c87fb610e212f0942ebbf522dfca4c9dc2ac8afa4c601454415e7c42f993518868207faff7658d11974142937ba7af2f80e274c3a3f5e0e697bdd5547dbe1b0
   languageName: node
   linkType: hard
 
@@ -3237,18 +3205,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 18.0.8
-  resolution: "@types/react@npm:18.0.8"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 12d0e6bc390709926d8eaeb7d2edb4ef9c9fbe8eac41cb0619d958386700547bff91c880c2a12a9eb1e0d09afa4f1e86fd1b93164c627824465b72123f149f3b
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:18.0.12":
+"@types/react@npm:*, @types/react@npm:18.0.12":
   version: 18.0.12
   resolution: "@types/react@npm:18.0.12"
   dependencies:
