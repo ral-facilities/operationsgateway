@@ -24,18 +24,21 @@ export interface Record {
   channels: { [channel: string]: Channel };
 }
 
-export interface Scalar {
+export interface ScalarMetadata {
+  dataType: 'scalar';
   units: string;
 }
 
-export interface Image {
+export interface ImageMetadata {
+  dataType: 'image';
   horizontalPixels: number;
   verticalPixels: number;
   cameraGain: number;
   exposureTime: number;
 }
 
-export interface Waveform {
+export interface WaveformMetadata {
+  dataType: 'waveform';
   xUnits: number[];
   yUnits: number[];
 }
@@ -48,9 +51,22 @@ export interface RecordMetadata {
   activeExperiment?: string;
 }
 
-export interface ChannelMetadata {
-  dataType: Scalar | Image | Waveform;
+export type DataType = 'scalar' | 'image' | 'waveform';
+
+export interface FullChannelMetadata {
+  systemName: string;
+  dataType: DataType;
+  userFriendlyName?: string;
+  description?: string;
+  units?: string;
 }
+
+export interface FullScalarChannelMetadata extends FullChannelMetadata {
+  sf?: number;
+  scientificNotation?: boolean;
+}
+
+export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
 export interface Channel {
   metadata: ChannelMetadata;
