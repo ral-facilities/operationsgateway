@@ -59,7 +59,11 @@ const RecordTable = React.memo(
               (channel) => channel.systemName === keys[i]
             );
             const newColumn: Column = {
-              Header: keys[i], // Provide an actual header here when we have it
+              Header: channelInfo
+                ? channelInfo.userFriendlyName
+                  ? channelInfo.userFriendlyName
+                  : channelInfo.systemName
+                : keys[i], // Provide an actual header here when we have it
               accessor: keys[i],
               // TODO: get these from data channel info
               channelInfo: channelInfo,

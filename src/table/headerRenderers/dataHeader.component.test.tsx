@@ -160,22 +160,21 @@ describe('Data Header', () => {
     );
 
     expect(
-      await screen.findByText('System Name: Test', {
-        exact: false,
-      })
-    ).toBeInTheDocument();
-    expect(
       await screen.findByText('Units: m', {
         exact: false,
       })
     ).toBeInTheDocument();
+    expect(
+      screen.queryByText('System Name: Test', {
+        exact: false,
+      })
+    ).not.toBeInTheDocument();
   });
 
-  it('displays tooltip with friendly name when user hovers over column name', async () => {
-    if (props.channelInfo)
-      props.channelInfo.userFriendlyName = 'Test Friendly Name';
+  it('displays tooltip with system name when user hovers over friendly column name', async () => {
+    props.label = 'Test Friendly Name';
     createView();
-    const header = screen.getByText('Test');
+    const header = screen.getByText('Test Friendly Name');
 
     fireEvent(
       header,
@@ -185,7 +184,7 @@ describe('Data Header', () => {
     );
 
     expect(
-      await screen.findByText('Friendly Name: Test Friendly Name', {
+      await screen.findByText('System Name: Test', {
         exact: false,
       })
     ).toBeInTheDocument();
