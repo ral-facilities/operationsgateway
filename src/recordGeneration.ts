@@ -47,7 +47,7 @@ const generateChannels = (): any => {
       metadata: generateChannelMetadata(),
       data: randomNumber(100, 999),
     };
-    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
+    const randomName = 'Channel_' + randomNumber(1000, 9999).toString();
     returnedObject = {
       ...returnedObject,
       [randomName]: newChannel,

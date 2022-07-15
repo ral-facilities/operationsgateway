@@ -52,7 +52,17 @@ const RecordTable = React.memo(
         for (let i = 0; i < keys.length; i++) {
           if (!accessors.has(keys[i])) {
             const newColumn: Column = {
-              Header: keys[i], // Provide an actual header here when we have it
+              Header: () => {
+                // Provide an actual header here when we have it
+                const parts = keys[i].split('_');
+                const wordWrap = parts.map((part, i) => (
+                  <React.Fragment>
+                    {part}
+                    {i < parts.length - 1 && ['_', <wbr />]}
+                  </React.Fragment>
+                ));
+                return <React.Fragment>{wordWrap}</React.Fragment>;
+              },
               accessor: keys[i],
               // TODO: get these from data channel info
               channelInfo: {

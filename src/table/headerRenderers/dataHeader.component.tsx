@@ -84,17 +84,15 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       active={dataKey in sort}
       direction={currSortDirection}
       onClick={() => onSort(dataKey, nextSortDirection)}
+      sx={{ margin: 0 }}
     >
-      <Typography
-        noWrap
-        sx={{ fontSize: 'inherit', lineHeight: 'inherit', paddingLeft: 1 }}
-      >
+      <Typography sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
         {label}
       </Typography>
     </TableSortLabel>
   ) : (
     <div>
-      <Typography noWrap sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      <Typography sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
         {label}
       </Typography>
     </div>
@@ -120,8 +118,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           aria-label={`${dataKey} header`}
           display="flex"
           sx={{
-            overflow: 'hidden',
+            // overflow: 'hidden',
             flex: 1,
+            minWidth: 0,
           }}
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
@@ -154,6 +153,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             // 40 - enough space for both close icon + divider and some space between them
             width: dataKey.toUpperCase() === 'TIMESTAMP' ? '5px' : '40px',
             justifyContent: 'space-between',
+            zIndex: 2,
+            // TODO: switch to theme background color
+            backgroundColor: 'white',
           }}
           onMouseOver={() => {
             setPermitDragging(false);
