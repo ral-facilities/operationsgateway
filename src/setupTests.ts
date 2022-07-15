@@ -3,7 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-import { Record } from './app.types';
+import { FullScalarChannelMetadata, Record } from './app.types';
 
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));
@@ -36,65 +36,55 @@ export const cleanupDatePickerWorkaround = (): void => {
   delete window.matchMedia;
 };
 
-export const testRecords: Record[] = [
+export const testChannels: FullScalarChannelMetadata[] = [
   {
-    id: '1',
-    metadata: {
-      dataVersion: '1',
-      shotNum: 1,
-      timestamp: '1',
-      activeArea: '1',
-      activeExperiment: '1',
-    },
-    channels: {
-      test1: {
-        metadata: {
-          dataType: {
-            units: 'km',
-          },
-        },
-        data: 1,
-      },
-    },
+    systemName: 'test1',
+    dataType: 'scalar',
+    userFriendlyName: 'Test 1',
+    sf: 4,
   },
   {
-    id: '2',
-    metadata: {
-      dataVersion: '1',
-      shotNum: 2,
-      timestamp: '2',
-      activeArea: '2',
-      activeExperiment: '2',
-    },
-    channels: {
-      test2: {
-        metadata: {
-          dataType: {
-            units: 'km',
-          },
-        },
-        data: 2,
-      },
-    },
+    systemName: 'test2',
+    dataType: 'scalar',
+    sf: 2,
+    scientificNotation: false,
   },
   {
-    id: '3',
-    metadata: {
-      dataVersion: '3',
-      shotNum: 3,
-      timestamp: '3',
-      activeArea: '3',
-      activeExperiment: '3',
-    },
-    channels: {
-      test3: {
-        metadata: {
-          dataType: {
-            units: 'km',
-          },
-        },
-        data: 3,
-      },
-    },
+    systemName: 'test3',
+    dataType: 'scalar',
+    sf: 2,
+    scientificNotation: true,
   },
 ];
+
+export const generateRecord = (num: number): Record => {
+  const numStr = `${num}`;
+  return {
+    id: numStr,
+    metadata: {
+      dataVersion: numStr,
+      shotNum: num,
+      timestamp: numStr,
+      activeArea: numStr,
+      activeExperiment: numStr,
+    },
+    channels: {
+      [`test${num}`]: {
+        metadata: {
+          dataType: 'scalar',
+          units: 'km',
+        },
+        data:
+          num < 10
+            ? parseFloat(`${num}${num}${num}.${num}`)
+            : parseFloat(
+                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+              ),
+      },
+    },
+  };
+};
+
+export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
+  generateRecord(i + 1)
+);
