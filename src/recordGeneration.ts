@@ -5,7 +5,6 @@ import {
   ScalarMetadata,
   ChannelMetadata,
   FullChannelMetadata,
-  FullScalarChannelMetadata,
   DataType,
 } from './app.types';
 
@@ -32,16 +31,19 @@ export const getFullChannelMetadata = () => channelMetadata;
 const generateFullChannelMetadata = (
   channelName: string,
   dataType: DataType
-): FullChannelMetadata | FullScalarChannelMetadata => {
-  return {
+): FullChannelMetadata => {
+  const channelMetadata: FullChannelMetadata = {
     systemName: channelName,
     dataType: dataType,
     userFriendlyName: `${channelName} friendly name`,
     description: `${channelName} description`,
     units: `${channelName} units`,
-    sf: randomNumber(1, 5),
-    scientificNotation: Math.random() < 0.5,
   };
+  if (channelMetadata.dataType === 'scalar') {
+    channelMetadata.sf = randomNumber(1, 5);
+    channelMetadata.scientificNotation = Math.random() < 0.5;
+  }
+  return channelMetadata;
 };
 
 const generateRecord = (): Record => {

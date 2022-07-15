@@ -53,7 +53,7 @@ export interface RecordMetadata {
 
 export type DataType = 'scalar' | 'image' | 'waveform';
 
-export interface FullChannelMetadata {
+export interface FullCommonChannelMetadata {
   systemName: string;
   dataType: DataType;
   userFriendlyName?: string;
@@ -61,10 +61,24 @@ export interface FullChannelMetadata {
   units?: string;
 }
 
-export interface FullScalarChannelMetadata extends FullChannelMetadata {
+export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
+  dataType: 'scalar';
   sf?: number;
   scientificNotation?: boolean;
 }
+
+export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
+  dataType: 'image';
+}
+
+export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
+  dataType: 'waveform';
+}
+
+export type FullChannelMetadata =
+  | FullScalarChannelMetadata
+  | FullImageChannelMetadata
+  | FullWaveformChannelMetadata;
 
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 

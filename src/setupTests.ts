@@ -3,7 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-import { FullScalarChannelMetadata, Record } from './app.types';
+import { FullChannelMetadata, Record } from './app.types';
 
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));
@@ -36,7 +36,7 @@ export const cleanupDatePickerWorkaround = (): void => {
   delete window.matchMedia;
 };
 
-export const testChannels: FullScalarChannelMetadata[] = [
+export const testChannels: FullChannelMetadata[] = [
   {
     systemName: 'test1',
     dataType: 'scalar',

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
-import { FullScalarChannelMetadata, Order } from '../../app.types';
+import { FullChannelMetadata, Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -35,7 +35,7 @@ export interface DataHeaderProps {
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
-  channelInfo?: FullScalarChannelMetadata;
+  channelInfo?: FullChannelMetadata;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
