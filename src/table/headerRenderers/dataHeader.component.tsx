@@ -137,11 +137,11 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             enterNextDelay={400}
             title={
               <div>
-                <Typography>
-                  {channelInfo?.userFriendlyName
-                    ? `Friendly Name: ${channelInfo.userFriendlyName}`
-                    : `System Name: ${label}`}
-                </Typography>
+                {channelInfo && channelInfo.systemName !== label && (
+                  <Typography>
+                    System Name: {channelInfo.systemName}{' '}
+                  </Typography>
+                )}
                 <Typography>Description: {channelInfo?.description}</Typography>
                 <Typography>Units: {channelInfo?.units}</Typography>
               </div>
