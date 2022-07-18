@@ -47,7 +47,7 @@ export const testRecords: Record[] = [
       activeExperiment: '1',
     },
     channels: {
-      test1: {
+      test_1: {
         metadata: {
           dataType: {
             units: 'km',
@@ -67,7 +67,7 @@ export const testRecords: Record[] = [
       activeExperiment: '2',
     },
     channels: {
-      test2: {
+      test_2: {
         metadata: {
           dataType: {
             units: 'km',
@@ -87,7 +87,7 @@ export const testRecords: Record[] = [
       activeExperiment: '3',
     },
     channels: {
-      test3: {
+      test_3: {
         metadata: {
           dataType: {
             units: 'km',

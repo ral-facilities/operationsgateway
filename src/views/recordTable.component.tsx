@@ -57,9 +57,9 @@ const RecordTable = React.memo(
                 // TODO: do we need to split on things other than underscore?
                 const parts = keys[i].split('_');
                 const wordWrap = parts.map((part, i) => (
-                  <React.Fragment>
+                  <React.Fragment key={i}>
                     {part}
-                    {i < parts.length - 1 && ['_', <wbr />]}
+                    {i < parts.length - 1 && ['_', <wbr key={`wbr-${i}`} />]}
                   </React.Fragment>
                 ));
                 return <React.Fragment>{wordWrap}</React.Fragment>;

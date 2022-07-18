@@ -14,6 +14,7 @@ describe('Data Header', () => {
   let props: DataHeaderProps;
   const onSort = jest.fn();
   const onClose = jest.fn();
+  const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
 
   const createView = (): RenderResult => {
@@ -47,6 +48,8 @@ describe('Data Header', () => {
         units: 'm',
         description: 'test description',
       },
+      wordWrap: false,
+      onToggleWordWrap: onToggleWordWrap,
     };
   });
 
@@ -71,13 +74,36 @@ describe('Data Header', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('calls onClose when close icon is clicked', () => {
+  it('opens menu when menu icon is clicked', () => {
     createView();
-    const icon = screen.getByLabelText('close test');
+    const menuIcon = screen.getByLabelText('test menu');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(icon.firstChild);
+    fireEvent.click(menuIcon);
 
+    const menu = screen.getByRole('menu');
+
+    expect(menu).toMatchSnapshot();
+  });
+
+  it('calls onToggleWordWrap when toggle word wrap option is clicked', () => {
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+
+    fireEvent.click(menuIcon);
+
+    const closeOption = screen.getByText('Turn word wrap', { exact: false });
+    fireEvent.click(closeOption);
+    expect(onToggleWordWrap).toHaveBeenCalledWith('test');
+  });
+
+  it('calls onClose when close option is clicked', () => {
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+
+    fireEvent.click(menuIcon);
+
+    const closeOption = screen.getByText('Close');
+    fireEvent.click(closeOption);
     expect(onClose).toHaveBeenCalledWith('test');
   });
 

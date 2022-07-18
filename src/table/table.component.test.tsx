@@ -6,6 +6,7 @@ import {
   screen,
   cleanup,
   act,
+  fireEvent,
 } from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
@@ -202,6 +203,23 @@ describe('Table', () => {
     });
 
     expect(onSort).toHaveBeenCalledWith('shotNum', null);
+  });
+
+  it("updates columns when a column's word wrap is toggled", () => {
+    createView();
+
+    let menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap on')).toBeInTheDocument();
+
+    const wordWrap = screen.getByText('Turn word wrap on');
+    fireEvent.click(wordWrap);
+
+    menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
   });
 
   it('reorders columns correctly', () => {
