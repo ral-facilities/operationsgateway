@@ -5,23 +5,18 @@ import {
   Divider,
   TableCell,
   SxProps,
-  styled,
   Tooltip,
+  Menu,
+  MenuItem,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
-import Close from '@mui/icons-material/Close';
+import { MoreVert, Feed, Close, WrapText } from '@mui/icons-material';
 import React from 'react';
 import { Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
-import FeedIcon from '@mui/icons-material/Feed';
-
-const StyledClose = styled(Close)(() => ({
-  cursor: 'pointer',
-  color: 'black',
-  '&:hover': {
-    color: 'red',
-  },
-}));
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -34,9 +29,81 @@ export interface DataHeaderProps {
   icon?: React.ReactNode;
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
+  onToggleWordWrap: (column: string) => void;
   index: number;
   channelInfo?: { units?: string; description?: string };
+  wordWrap: boolean;
 }
+
+export interface ColumnMenuProps {
+  dataKey: string;
+  onClose: (column: string) => void;
+  onToggleWordWrap: (column: string) => void;
+  wordWrap: boolean;
+}
+
+const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
+  const { dataKey, onClose, onToggleWordWrap, wordWrap } = props;
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <IconButton
+        aria-label={`${dataKey} menu`}
+        id={`${dataKey}-menu-button`}
+        aria-controls={open ? `${dataKey}-menu` : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+        size="small"
+      >
+        <MoreVert fontSize="inherit" />
+      </IconButton>
+      <Menu
+        id={`${dataKey}-menu`}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': `${dataKey}-menu-button`,
+          dense: true,
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            onToggleWordWrap(dataKey);
+            handleClose();
+          }}
+        >
+          <ListItemIcon>
+            <WrapText />
+          </ListItemIcon>
+          <ListItemText>Turn word wrap {wordWrap ? 'off' : 'on'}</ListItemText>
+        </MenuItem>
+        {dataKey.toUpperCase() !== 'TIMESTAMP' && (
+          <MenuItem
+            onClick={() => {
+              onClose(dataKey);
+              handleClose();
+            }}
+          >
+            <ListItemIcon>
+              <Close />
+            </ListItemIcon>
+            <ListItemText>Close</ListItemText>
+          </MenuItem>
+        )}
+      </Menu>
+    </div>
+  );
+};
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   const {
@@ -52,6 +119,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onClose,
     index,
     channelInfo,
+    wordWrap,
+    onToggleWordWrap,
   } = props;
 
   const [permitDragging, setPermitDragging] = React.useState<boolean>(true);
@@ -86,13 +155,19 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
       onClick={() => onSort(dataKey, nextSortDirection)}
       sx={{ margin: 0 }}
     >
-      <Typography sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      <Typography
+        sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}
+        noWrap={!wordWrap}
+      >
         {label}
       </Typography>
     </TableSortLabel>
   ) : (
     <div>
-      <Typography sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
+      <Typography
+        sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}
+        noWrap={!wordWrap}
+      >
         {label}
       </Typography>
     </div>
@@ -130,7 +205,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             }
           }}
         >
-          <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
+          <Box marginRight={1}>{Icon ?? <Feed />}</Box>
           {/* TODO: add extra info to tooltip from data channel info */}
           <Tooltip
             enterDelay={400}
@@ -146,12 +221,12 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             <Box>{inner}</Box>
           </Tooltip>
         </Box>
-        <div
-          style={{
+        <Box
+          sx={{
             display: 'flex',
             flexDirection: 'row',
-            // 40 - enough space for both close icon + divider and some space between them
-            width: dataKey.toUpperCase() === 'TIMESTAMP' ? '5px' : '40px',
+            // 33 - enough space for both menu icon + divider
+            width: '33px',
             justifyContent: 'space-between',
             zIndex: 2,
             // TODO: switch to theme background color
@@ -164,20 +239,12 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             setPermitDragging(true);
           }}
         >
-          {/* If this is a timestamp header, remove icon visibility but still render it
-          This ensures header widths remain consistent */}
-          <div aria-label={`close ${dataKey}`}>
-            <StyledClose
-              sx={
-                dataKey.toUpperCase() === 'TIMESTAMP'
-                  ? {
-                      display: 'none',
-                    }
-                  : {}
-              }
-              onClick={() => onClose(dataKey)}
-            />
-          </div>
+          <ColumnMenu
+            dataKey={dataKey}
+            onClose={onClose}
+            wordWrap={wordWrap}
+            onToggleWordWrap={onToggleWordWrap}
+          />
           <div
             {...resizerProps}
             style={{
@@ -193,7 +260,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
               }}
             />
           </div>
-        </div>
+        </Box>
       </TableCell>
     );
   };

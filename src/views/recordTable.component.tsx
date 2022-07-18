@@ -54,6 +54,7 @@ const RecordTable = React.memo(
             const newColumn: Column = {
               Header: () => {
                 // Provide an actual header here when we have it
+                // TODO: do we need to split on things other than underscore?
                 const parts = keys[i].split('_');
                 const wordWrap = parts.map((part, i) => (
                   <React.Fragment>
@@ -69,6 +70,7 @@ const RecordTable = React.memo(
                 units: `${keys[i]} units`,
                 description: `${keys[i]} description`,
               },
+              wordWrap: false,
             };
             myColumns.push(newColumn);
             accessors.add(keys[i]);

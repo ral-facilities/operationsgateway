@@ -138,9 +138,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onChecked(column, false);
   };
 
+  const handleColumnWordWrapToggle = (column: string): void => {
+    const col = visibleColumns.find((col) => col.id === column);
+    if (col) col.wordWrap = !col.wordWrap;
+    setColumnOrder(columnOrder);
+  };
+
   const defaultColumn = React.useMemo(
     () => ({
-      minWidth: 30,
+      minWidth: 33,
       width: 150 + additionalHeaderSpace,
     }),
     []
@@ -239,7 +245,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                         ...stickyColumnStyles,
                                       }
                                     : columnStyles;
-                                  const { channelInfo } =
+                                  const { channelInfo, wordWrap } =
                                     column as ColumnInstance;
 
                                   return (
@@ -258,6 +264,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                         column.id.toUpperCase()
                                       )}
                                       channelInfo={channelInfo}
+                                      wordWrap={wordWrap}
+                                      onToggleWordWrap={
+                                        handleColumnWordWrapToggle
+                                      }
                                     />
                                   );
                                 })}
