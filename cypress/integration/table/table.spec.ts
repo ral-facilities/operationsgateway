@@ -23,7 +23,7 @@ describe('Table Component', () => {
     verifyColumnOrder(['timestamp', 'shotNum', 'activeArea']);
   });
 
-  it('moves a column left', () => {
+  it.only('moves a column left', () => {
     cy.get('#shotNum').check();
     cy.get('#activeArea').check();
 
@@ -81,5 +81,25 @@ describe('Table Component', () => {
 
     cy.get('[role="table-container"]').scrollTo('right');
     cy.get('[role="columnheader"]').eq(0).should('be.visible');
+  });
+
+  it('column headers overflow when word wrap is enabled', () => {
+    cy.get('[id^="Channel_"]').first().as("channelCheckbox");
+    cy.get("@channelCheckbox").check();
+
+    cy.get("@channelCheckbox").invoke('attr', 'id').then((channelName) => {
+      cy.get('[data-testid^="sort timestamp"] p').invoke('css', 'height').then((height) => {
+        const singleLineHeight = +height.replace('px', '');
+        cy.get(`[data-testid^="sort ${channelName}"] p`).invoke('css', 'height').then((height) => +height.replace('px', '')).should("equal", singleLineHeight);
+  
+        // can't use cypress to trigger the menu opening, so use native browser
+        cy.document().then($doc => {
+          const clickEvent = new Event('click', {bubbles: true});
+          $doc.querySelector(`#${channelName}-menu-button`)?.dispatchEvent(clickEvent);
+        })
+        cy.contains("Turn word wrap on").click();
+        cy.get(`[data-testid^="sort ${channelName}"] p`).invoke('css', 'height').then((height) => +height.replace('px', '')).should("be.gt", singleLineHeight);
+      });
+    })
   });
 });
