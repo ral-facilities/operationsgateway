@@ -2821,7 +2821,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:8.16.0":
+"@testing-library/dom@npm:8.16.0, @testing-library/dom@npm:^8.5.0":
   version: 8.16.0
   resolution: "@testing-library/dom@npm:8.16.0"
   dependencies:
@@ -2834,22 +2834,6 @@ __metadata:
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
   checksum: 37aabbec872522bcb51106ecb700d9be601293e75445084b6cc195921db4b2d06d6bd4c67ad834174c129f2199c39aa540b6d17c296fcbd701dc99fd800afe36
-  languageName: node
-  linkType: hard
-
-"@testing-library/dom@npm:^8.5.0":
-  version: 8.13.0
-  resolution: "@testing-library/dom@npm:8.13.0"
-  dependencies:
-    "@babel/code-frame": ^7.10.4
-    "@babel/runtime": ^7.12.5
-    "@types/aria-query": ^4.2.0
-    aria-query: ^5.0.0
-    chalk: ^4.1.0
-    dom-accessibility-api: ^0.5.9
-    lz-string: ^1.4.4
-    pretty-format: ^27.0.2
-  checksum: 880f1872b9949800d4444e3bdbd03df86d6f41ec7c27136dff1da29e87d2df2d7ee904afcdf895ffce351c25bd12119117eae023354d50e707ad56d43b2ed3ed
   languageName: node
   linkType: hard
 
@@ -5847,13 +5831,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-failed-log@npm:2.9.5":
-  version: 2.9.5
-  resolution: "cypress-failed-log@npm:2.9.5"
+"cypress-failed-log@npm:2.10.0":
+  version: 2.10.0
+  resolution: "cypress-failed-log@npm:2.10.0"
   dependencies:
     debug: 4.3.4
     logdown: 3.3.1
-  checksum: 70fc6947a53e7345a914ca336b0265340e3032097494f0d29a8a6edfe12dcb21fcf9480a60cede57db0572cdd4f546dbc00f3699cdc29306d10342166348e62c
+  checksum: 05fb09ac19c5f3ee8b1883102efea3fa3f73e2710fe6254fb2a2cba9cd33d45bb9ee454ded31d18d008c84bd1cf00a1b65a0b581a408e1d2d2a311a62817f8ff
   languageName: node
   linkType: hard
 
@@ -10589,7 +10573,7 @@ __metadata:
     axios: 0.27.2
     cross-env: 7.0.3
     cypress: 9.7.0
-    cypress-failed-log: 2.9.5
+    cypress-failed-log: 2.10.0
     date-fns: 2.28.0
     eslint: 8.19.0
     eslint-config-prettier: 8.5.0
