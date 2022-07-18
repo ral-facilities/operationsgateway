@@ -37,18 +37,22 @@ describe('Table', () => {
   const availableColumns: Column[] = [
     {
       Header: 'Timestamp',
+      id: 'timestamp',
       accessor: 'timestamp',
     },
     {
       Header: 'Shot Number',
+      id: 'shotNum',
       accessor: 'shotNum',
     },
     {
       Header: 'Active Area',
+      id: 'activeArea',
       accessor: 'activeArea',
     },
     {
       Header: 'Active Experiment',
+      id: 'activeExperiment',
       accessor: 'activeExperiment',
     },
   ];
@@ -226,10 +230,10 @@ describe('Table', () => {
     const visibleColumns = availableColumns;
 
     // Verify original order
-    expect(visibleColumns[0].Header).toEqual('Timestamp');
-    expect(visibleColumns[1].Header).toEqual('Shot Number');
-    expect(visibleColumns[2].Header).toEqual('Active Area');
-    expect(visibleColumns[3].Header).toEqual('Active Experiment');
+    expect(visibleColumns[0].id).toEqual('timestamp');
+    expect(visibleColumns[1].id).toEqual('shotNum');
+    expect(visibleColumns[2].id).toEqual('activeArea');
+    expect(visibleColumns[3].id).toEqual('activeExperiment');
 
     // Swap Shot Number and Active Area
     const draggedColumn = {
@@ -245,9 +249,9 @@ describe('Table', () => {
       draggedColumn,
       visibleColumns
     );
-    expect(visibleColumns[0].Header).toEqual('Timestamp');
-    expect(reorderedColumns[1]).toEqual('Active Area');
-    expect(reorderedColumns[2]).toEqual('Shot Number');
-    expect(visibleColumns[3].Header).toEqual('Active Experiment');
+    expect(visibleColumns[0].id).toEqual('timestamp');
+    expect(reorderedColumns[1]).toEqual('activeArea');
+    expect(reorderedColumns[2]).toEqual('shotNum');
+    expect(visibleColumns[3].id).toEqual('activeExperiment');
   });
 });

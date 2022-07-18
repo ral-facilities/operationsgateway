@@ -43,7 +43,7 @@ export const columnOrderUpdater = (
   items.splice(result.destination.index, 0, reorderedItem);
 
   return items.map((column: Column) => {
-    return column.Header?.toString() ?? '';
+    return column.id ?? '';
   });
 };
 
