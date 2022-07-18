@@ -56,13 +56,13 @@ const RecordTable = React.memo(
                 // Provide an actual header here when we have it
                 // TODO: do we need to split on things other than underscore?
                 const parts = keys[i].split('_');
-                const wordWrap = parts.map((part, i) => (
-                  <React.Fragment key={i}>
-                    {part}
-                    {i < parts.length - 1 && ['_', <wbr key={`wbr-${i}`} />]}
-                  </React.Fragment>
-                ));
-                return <React.Fragment>{wordWrap}</React.Fragment>;
+                const wordWrap = parts.map(
+                  (part, i) =>
+                    // \u200B renders a zero-width space character
+                    // which allows line-break but isn't visible
+                    part + (i < parts.length - 1 ? '_\u200B' : '')
+                );
+                return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
               },
               accessor: keys[i],
               // TODO: get these from data channel info

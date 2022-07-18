@@ -281,9 +281,7 @@ exports[`Record Table renders correctly 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                           >
-                            test_
-                            <wbr />
-                            1
+                            test_​1
                           </p>
                           <svg
                             aria-hidden="true"
