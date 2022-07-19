@@ -7,6 +7,7 @@ import { configureSite } from './state/slices/configSlice';
 import { requestPluginRerender } from './state/scigateway.actions';
 import { MicroFrontendId } from './app.types';
 import { useAppDispatch } from './state/hooks';
+import OGThemeProvider from './ogThemeProvider.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,10 +44,12 @@ const App: React.FunctionComponent = () => {
 
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <RecordTable resultsPerPage={resultsPerPage} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <OGThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RecordTable resultsPerPage={resultsPerPage} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </OGThemeProvider>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { Theme } from '@mui/material';
 import { createAction } from '@reduxjs/toolkit';
 import { MicroFrontendId } from '../app.types';
 
@@ -9,7 +10,7 @@ export const registerRoute = createAction(
 export const requestPluginRerender = createAction(
   `${CustomFrontendMessageType}:plugin_rerender`
 );
-export const sendThemeOptions = createAction(
+export const sendThemeOptions = createAction<{ theme: Theme }>(
   `${CustomFrontendMessageType}:send_themeoptions`
 );
 export const broadcastSignOut = createAction(

@@ -17,6 +17,7 @@ import {
   TablePagination as MuiTablePagination,
   Paper,
   SxProps,
+  Theme,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
@@ -30,10 +31,10 @@ const additionalHeaderSpace = 24 + 4.8;
 // 31.2 - the height of a column header with the close icon included
 const headerHeight = 31.2;
 
-const stickyColumnStyles: SxProps = {
+const stickyColumnStyles: SxProps<Theme> = {
   position: 'sticky',
   left: 0,
-  background: 'white', // TODO add theme colour later on
+  backgroundColor: (theme) => theme.palette.background.default,
   zIndex: 2,
 };
 
@@ -199,7 +200,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 <MuiTableHead
                   sx={{
                     position: 'sticky',
-                    background: 'white', // TODO add theme colour later on
+                    backgroundColor: (theme) =>
+                      theme.palette.background.default,
                     top: 0,
                     zIndex: 1,
                   }}
