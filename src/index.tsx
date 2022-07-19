@@ -7,8 +7,10 @@ import * as log from 'loglevel';
 import singleSpaReact from 'single-spa-react';
 import axios from 'axios';
 import { MicroFrontendId } from './app.types';
-import { PluginRoute, RegisterRouteType } from './state/actions/actions.types';
+import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
+import { store } from './state/store';
+import { Provider } from 'react-redux';
 
 export const pluginName = 'operationsgateway';
 
@@ -19,7 +21,9 @@ const render = (): void => {
   const root = createRoot(el);
   root.render(
     <React.StrictMode>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </React.StrictMode>
   );
 };
@@ -118,15 +122,15 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
       }
 
       // Ensure the facility name exists.
-      if (!('facilityName' in settings)) {
-        throw new Error('facilityName is undefined in settings');
+      if (!('apiUrl' in settings)) {
+        throw new Error('apiUrl is undefined in settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {
         settings['routes'].forEach((route: PluginRoute, index: number) => {
           if ('section' in route && 'link' in route && 'displayName' in route) {
             const registerRouteAction = {
-              type: RegisterRouteType,
+              type: registerRoute.type,
               payload: {
                 section: route['section'],
                 link: route['link'],
@@ -135,6 +139,10 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
                 order: route['order'] ?? 0,
                 hideFromMenu: route['hideFromMenu'] ?? false,
                 admin: route['admin'] ?? false,
+                helpSteps:
+                  index === 0 && 'helpSteps' in settings
+                    ? settings['helpSteps']
+                    : [],
               },
             };
             document.dispatchEvent(
