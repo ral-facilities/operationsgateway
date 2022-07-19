@@ -15,7 +15,7 @@ interface ConfigState {
 }
 
 // Define the initial state using that type
-const initialState = {
+export const initialState = {
   urls: {
     apiUrl: '',
   },
@@ -45,7 +45,7 @@ export const { settingsLoaded, loadPluginHostSetting, loadUrls } =
   configSlice.actions;
 
 // Defining a thunk
-export const configureSite = () => async (dispatch: AppDispatch) => {
+export const configureApp = () => async (dispatch: AppDispatch) => {
   const settingsResult = await settings;
   if (settingsResult) {
     dispatch(

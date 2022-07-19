@@ -3,7 +3,7 @@ import RecordTable from './views/recordTable.component';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { resultsPerPage } from './recordGeneration';
-import { configureSite } from './state/slices/configSlice';
+import { configureApp } from './state/slices/configSlice';
 import { requestPluginRerender } from './state/scigateway.actions';
 import { MicroFrontendId } from './app.types';
 import { useAppDispatch } from './state/hooks';
@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
 const App: React.FunctionComponent = () => {
   const dispatch = useAppDispatch();
   React.useEffect(() => {
-    dispatch(configureSite());
+    dispatch(configureApp());
   }, [dispatch]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

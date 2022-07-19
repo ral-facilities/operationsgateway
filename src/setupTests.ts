@@ -2,8 +2,29 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
+import { Action, ThunkAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { Record } from './app.types';
+import { RootState } from './state/store';
+import { initialState as initialConfigState } from './state/slices/configSlice';
+
+export let actions: Action[] = [];
+export let resetActions = (): void => {
+  actions = [];
+};
+export const getState = (): RootState => ({
+  config: initialConfigState,
+});
+export const dispatch = (
+  action: Action | ThunkAction<void, RootState, unknown, Action<string>>
+): void | Promise<void> => {
+  if (typeof action === 'function') {
+    action(dispatch, getState, null);
+    return Promise.resolve();
+  } else {
+    actions.push(action);
+  }
+};
 
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));
