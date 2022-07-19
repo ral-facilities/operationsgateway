@@ -5841,9 +5841,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:9.7.0":
-  version: 9.7.0
-  resolution: "cypress@npm:9.7.0"
+"cypress@npm:10.3.1":
+  version: 10.3.1
+  resolution: "cypress@npm:10.3.1"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -5889,7 +5889,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 45df7c85bc7ec2e187153ff2b98bf5106d2313d70e2367a5742b5269a9e82d3fdd730d5bbc32ac8da72aeb120a52f9384c2ba4e2fc86b532f68440f22d700fc9
+  checksum: 7c76157195ec9409b9665aa9f7698ffd221c74c17f5026769fa20f90a60869cc8274282fa5b9b65e495429839f7a0ba05d69cf12a8af7a318ebcd704f96156c2
   languageName: node
   linkType: hard
 
@@ -10572,7 +10572,7 @@ __metadata:
     "@typescript-eslint/parser": 5.30.6
     axios: 0.27.2
     cross-env: 7.0.3
-    cypress: 9.7.0
+    cypress: 10.3.1
     cypress-failed-log: 2.10.0
     date-fns: 2.28.0
     eslint: 8.19.0
