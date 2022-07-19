@@ -15,7 +15,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             style="min-width: 120px;"
           >
             <thead
-              class="MuiTableHead-root css-1rfd79b-MuiTableHead-root"
+              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-1b7t4vc-MuiTableRow-root"
@@ -25,7 +25,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 120px;"
               >
                 <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1lktqnh-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1f6rvfi-MuiTableCell-root"
                   role="columnheader"
                   scope="col"
                 >
@@ -388,7 +388,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 120px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -474,7 +474,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 120px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -560,7 +560,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 120px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -866,7 +866,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
             style="min-width: 30px;"
           >
             <thead
-              class="MuiTableHead-root css-1rfd79b-MuiTableHead-root"
+              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
             >
               <tr
                 class="MuiTableRow-root MuiTableRow-head css-1b7t4vc-MuiTableRow-root"
@@ -876,7 +876,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 30px;"
               >
                 <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1lktqnh-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1f6rvfi-MuiTableCell-root"
                   role="columnheader"
                   scope="col"
                 >
@@ -972,7 +972,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 30px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -998,7 +998,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 30px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1024,7 +1024,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
                 style="display: flex; flex: 1 0 auto; min-width: 30px;"
               >
                 <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1mh4eth-MuiTableCell-root"
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1k6w08n-MuiTableCell-root"
                 >
                   <div
                     class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
