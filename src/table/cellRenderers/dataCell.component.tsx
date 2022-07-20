@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, TableCell, Typography, SxProps, Grid } from '@mui/material';
+import { Divider, TableCell, Typography, SxProps, Grid, Theme } from '@mui/material';
 
 export interface DataCellProps {
   sx?: SxProps<Theme>;
