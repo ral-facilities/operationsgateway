@@ -11,6 +11,8 @@ import {
 } from '../app.types';
 import { Column } from 'react-table';
 import DateTimeInputBox from './dateTimeInput.component';
+import { useChannels } from '../api/channels';
+import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 
 export interface RecordTableProps {
   resultsPerPage: number;
@@ -38,6 +40,8 @@ const RecordTable = React.memo(
     const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
     const { data: count, isLoading: countLoading } = useRecordCount();
 
+    const { data: channels, isLoading: channelsLoading } = useChannels();
+
     // Use this as the controlling variable for data having loaded
     // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
     const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
@@ -51,15 +55,30 @@ const RecordTable = React.memo(
 
         for (let i = 0; i < keys.length; i++) {
           if (!accessors.has(keys[i])) {
+            const channelInfo = channels?.find(
+              (channel) => channel.systemName === keys[i]
+            );
             const newColumn: Column = {
               Header: keys[i], // Provide an actual header here when we have it
               accessor: keys[i],
               // TODO: get these from data channel info
-              channelInfo: {
-                units: `${keys[i]} units`,
-                description: `${keys[i]} description`,
-              },
+              channelInfo: channelInfo,
             };
+            if (channelInfo?.dataType === 'scalar') {
+              newColumn.Cell = ({ value }) =>
+                typeof value === 'number' &&
+                typeof channelInfo.sf === 'number' ? (
+                  <React.Fragment>
+                    {roundNumber(
+                      value,
+                      channelInfo.sf,
+                      channelInfo.scientificNotation ?? false
+                    )}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>{String(value ?? '')}</React.Fragment>
+                );
+            }
             myColumns.push(newColumn);
             accessors.add(keys[i]);
           }
@@ -95,7 +114,7 @@ const RecordTable = React.memo(
     };
 
     React.useEffect(() => {
-      if (data && !dataLoading) {
+      if (data && !dataLoading && !channelsLoading) {
         const parsedData: RecordRow[] = parseData(data);
         const newAvailableColumns = constructColumns(parsedData);
         setAvailableColumns(newAvailableColumns);
@@ -104,7 +123,7 @@ const RecordTable = React.memo(
         setColumnsLoaded(false);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, dataLoading]);
+    }, [data, dataLoading, channelsLoading]);
 
     React.useEffect(() => {
       setQueryParams({
