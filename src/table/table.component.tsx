@@ -229,7 +229,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   const dataKey = column.id;
                                   const isTimestampColumn =
                                     dataKey.toUpperCase() === 'TIMESTAMP';
-                                  let columnStyles: SxProps = {
+                                  let columnStyles: SxProps<Theme> = {
                                     minWidth: column.minWidth,
                                     width: column.width,
                                     maxWidth: column.maxWidth,
@@ -291,7 +291,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           const isTimestampColumn =
                             dataKey.toUpperCase() === 'TIMESTAMP';
 
-                          let columnStyles: SxProps = {
+                          let columnStyles: SxProps<Theme> = {
                             minWidth: cell.column.minWidth,
                             width: cell.column.width,
                             maxWidth: cell.column.maxWidth,

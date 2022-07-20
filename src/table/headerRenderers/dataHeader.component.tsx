@@ -27,7 +27,7 @@ export interface DataHeaderProps {
   disableSort?: boolean;
   dataKey: string;
   sort: { [column: string]: Order };
-  sx?: SxProps;
+  sx?: SxProps<Theme>;
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;

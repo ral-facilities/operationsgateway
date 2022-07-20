@@ -2,7 +2,7 @@ import React from 'react';
 import { Divider, TableCell, Typography, SxProps, Grid } from '@mui/material';
 
 export interface DataCellProps {
-  sx?: SxProps;
+  sx?: SxProps<Theme>;
   dataKey: string;
   rowData: any;
 }
