@@ -2,11 +2,14 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import { Action, ThunkAction } from '@reduxjs/toolkit';
+import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
 import { Record } from './app.types';
-import { RootState } from './state/store';
+import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
+import { render } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
+import { Provider } from 'react-redux';
 
 export let actions: Action[] = [];
 export let resetActions = (): void => {
@@ -25,6 +28,28 @@ export const dispatch = (
     actions.push(action);
   }
 };
+
+// This type interface extends the default options for render from RTL, as well
+// as allows the user to specify other things such as initialState, store.
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+  preloadedState?: PreloadedState<RootState>;
+  store?: AppStore;
+}
+
+export function renderWithProviders(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
+) {
+  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+    return <Provider store={store}>{children}</Provider>;
+  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+}
 
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));

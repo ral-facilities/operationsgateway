@@ -1,20 +1,30 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  combineReducers,
+  PreloadedState,
+} from '@reduxjs/toolkit';
 import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './middleware/operationsgateway.middleware';
 import configReducer from './slices/configSlice';
 
-export const store = configureStore({
-  reducer: {
-    config: configReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(OperationsGatewayMiddleware),
+const rootReducer = combineReducers({
+  config: configReducer,
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(OperationsGatewayMiddleware),
+  });
+}
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
+
+export const store = setupStore();
 
 listenToMessages(store.dispatch);
