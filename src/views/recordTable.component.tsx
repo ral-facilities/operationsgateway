@@ -52,13 +52,25 @@ const RecordTable = React.memo(
         for (let i = 0; i < keys.length; i++) {
           if (!accessors.has(keys[i])) {
             const newColumn: Column = {
-              Header: keys[i], // Provide an actual header here when we have it
+              Header: () => {
+                // Provide an actual header here when we have it
+                // TODO: do we need to split on things other than underscore?
+                const parts = keys[i].split('_');
+                const wordWrap = parts.map(
+                  (part, i) =>
+                    // \u200B renders a zero-width space character
+                    // which allows line-break but isn't visible
+                    part + (i < parts.length - 1 ? '_\u200B' : '')
+                );
+                return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
+              },
               accessor: keys[i],
               // TODO: get these from data channel info
               channelInfo: {
                 units: `${keys[i]} units`,
                 description: `${keys[i]} description`,
               },
+              wordWrap: false,
             };
             myColumns.push(newColumn);
             accessors.add(keys[i]);

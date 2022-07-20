@@ -26,11 +26,10 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
   };
 
   const checkboxes = availableColumns.map((column: Column) => {
-    const header = column.Header?.toString();
     const accessor = column.accessor?.toString();
-    return header && accessor && accessor.toUpperCase() !== 'TIMESTAMP' ? (
+    return accessor && accessor.toUpperCase() !== 'TIMESTAMP' ? (
       <div key={accessor}>
-        <label htmlFor={accessor}>{header}</label>
+        <label htmlFor={accessor}>{accessor}</label>
         <Checkbox
           onChange={(e) => handleColumnChecked(e.target.id, e.target.checked)}
           id={accessor}

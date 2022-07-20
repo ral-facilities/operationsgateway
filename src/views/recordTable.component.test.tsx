@@ -1,5 +1,11 @@
 import React from 'react';
-import { render, RenderResult, screen, act } from '@testing-library/react';
+import {
+  render,
+  RenderResult,
+  screen,
+  act,
+  fireEvent,
+} from '@testing-library/react';
 import RecordTable, { RecordTableProps } from './recordTable.component';
 import {
   applyDatePickerWorkaround,
@@ -54,6 +60,10 @@ describe('Record Table', () => {
 
   it('renders correctly', () => {
     const view = createView();
+
+    const test1Checkbox = screen.getByLabelText('test_1 checkbox');
+    fireEvent.click(test1Checkbox);
+
     expect(view.asFragment()).toMatchSnapshot();
   });
 
