@@ -10592,7 +10592,7 @@ __metadata:
     react-dom: 18.2.0
     react-draggable: 4.4.5
     react-i18next: 11.16.7
-    react-query: 3.38.1
+    react-query: 3.39.2
     react-router-dom: 6.3.0
     react-scripts: 5.0.1
     react-table: 7.8.0
@@ -12206,9 +12206,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-query@npm:3.38.1":
-  version: 3.38.1
-  resolution: "react-query@npm:3.38.1"
+"react-query@npm:3.39.2":
+  version: 3.39.2
+  resolution: "react-query@npm:3.39.2"
   dependencies:
     "@babel/runtime": ^7.5.5
     broadcast-channel: ^3.4.1
@@ -12220,7 +12220,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 2edb95dbc0184aa1858e7a47161372c871d0077583e439cfce4473231f426a222990ad313ad1eaf6fca1025e502d006f4f92008b346a83900be148a7e3ededc2
+  checksum: 83b199e66af28ab67ec4d22e51da42f02447186623db926b75d27a1c09a3383da6ddc9e5b83d82578fac7abdba7e6f265aecbffdb91db61981950d3d59409346
   languageName: node
   linkType: hard
 
