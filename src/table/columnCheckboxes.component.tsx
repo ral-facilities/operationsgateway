@@ -1,17 +1,26 @@
 import React from 'react';
 import { Column } from 'react-table';
 import { Checkbox } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import {
+  selectSelectedColumns,
+  selectColumnDefs,
+  selectColumn,
+  deselectColumn,
+} from '../state/slices/columnsSlice';
 
-export interface ColumnCheckboxesProps {
-  availableColumns: Column[];
-  selectedColumns: Column[];
-  onColumnOpen: (accessor: string) => void;
-  onColumnClose: (accessor: string) => void;
-}
+const ColumnCheckboxes = React.memo((): React.ReactElement => {
+  const selectedColumns = useAppSelector(selectSelectedColumns);
+  const columnDefs = useAppSelector(selectColumnDefs);
+  const dispatch = useAppDispatch();
 
-const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
-  const { availableColumns, selectedColumns, onColumnOpen, onColumnClose } =
-    props;
+  const onColumnOpen = (column: string): void => {
+    dispatch(selectColumn(column));
+  };
+
+  const onColumnClose = (column: string): void => {
+    dispatch(deselectColumn(column));
+  };
 
   const handleColumnChecked = (accessor: string, checked: boolean) => {
     checked ? onColumnOpen(accessor) : onColumnClose(accessor);
@@ -25,19 +34,19 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
     return match && match.length > 0;
   };
 
-  const checkboxes = availableColumns.map((column: Column) => {
-    const header = column.Header?.toString();
-    const accessor = column.accessor?.toString();
-    return header && accessor && accessor.toUpperCase() !== 'TIMESTAMP' ? (
-      <div key={accessor}>
-        <label htmlFor={accessor}>{header}</label>
+  const checkboxes = Object.keys(columnDefs).map((columnId: string) => {
+    return columnId.toUpperCase() !== 'TIMESTAMP' ? (
+      <div key={columnId}>
+        <label htmlFor={columnId}>
+          {columnDefs[columnId].Header?.toString() ?? columnId}
+        </label>
         <Checkbox
           onChange={(e) => handleColumnChecked(e.target.id, e.target.checked)}
-          id={accessor}
-          value={accessor}
-          checked={shouldBeChecked(accessor)}
+          id={columnId}
+          value={columnId}
+          checked={shouldBeChecked(columnId)}
           inputProps={{
-            'aria-label': `${accessor} checkbox`,
+            'aria-label': `${columnId} checkbox`,
           }}
         />
       </div>
@@ -45,7 +54,7 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
   });
 
   return <div style={{ overflow: 'auto', height: '150px' }}>{checkboxes}</div>;
-};
+});
 
 ColumnCheckboxes.displayName = 'ColumnCheckboxes';
 

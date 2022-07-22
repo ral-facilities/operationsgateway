@@ -69,6 +69,7 @@ export interface QueryParams {
   filters?: FiltersType;
   page: number;
   dateRange: DateRange;
+  resultsPerPage: number;
 }
 
 export interface RecordRow {

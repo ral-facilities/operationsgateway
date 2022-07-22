@@ -7,6 +7,7 @@ import {
   SxProps,
   styled,
   Tooltip,
+  Theme,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
@@ -27,7 +28,7 @@ export interface DataHeaderProps {
   disableSort?: boolean;
   dataKey: string;
   sort: { [column: string]: Order };
-  sx?: SxProps;
+  sx?: SxProps<Theme>;
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;
@@ -164,8 +165,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         >
           {/* If this is a timestamp header, remove icon visibility but still render it
           This ensures header widths remain consistent */}
-          <div aria-label={`close ${dataKey}`}>
+          <div>
             <StyledClose
+              aria-label={`close ${dataKey}`}
               sx={
                 dataKey.toUpperCase() === 'TIMESTAMP'
                   ? {

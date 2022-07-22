@@ -1,7 +1,6 @@
 import React from 'react';
 import { Order, RecordRow, columnIconMappings } from '../app.types';
 import {
-  Column,
   useTable,
   useFlexLayout,
   useResizeColumns,
@@ -9,6 +8,7 @@ import {
   ColumnInstance,
 } from 'react-table';
 import {
+  Backdrop,
   TableContainer as MuiTableContainer,
   Table as MuiTable,
   TableHead as MuiTableHead,
@@ -17,11 +17,20 @@ import {
   TablePagination as MuiTablePagination,
   Paper,
   SxProps,
+  Theme,
+  CircularProgress,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import ColumnCheckboxes from './columnCheckboxes.component';
+import { useAppSelector, useAppDispatch } from '../state/hooks';
+import {
+  deselectColumn,
+  reorderColumn,
+  selectAvailableColumns,
+  selectColumn,
+  selectHiddenColumns,
+} from '../state/slices/columnsSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -30,35 +39,22 @@ const additionalHeaderSpace = 24 + 4.8;
 // 31.2 - the height of a column header with the close icon included
 const headerHeight = 31.2;
 
-const stickyColumnStyles: SxProps = {
+const stickyColumnStyles: SxProps<Theme> = {
   position: 'sticky',
   left: 0,
-  background: 'white', // TODO add theme colour later on
+  backgroundColor: (theme) => theme.palette.background.default,
   zIndex: 2,
-};
-
-export const columnOrderUpdater = (
-  result: any,
-  visibleColumns: Column[]
-): string[] => {
-  const items = Array.from(visibleColumns);
-  const [reorderedItem] = items.splice(result.source.index, 1);
-  items.splice(result.destination.index, 0, reorderedItem);
-
-  return items.map((column: Column) => {
-    return column.Header?.toString() ?? '';
-  });
 };
 
 export interface TableProps {
   data: RecordRow[];
-  availableColumns: Column[];
   totalDataCount: number;
-  page: number | null;
+  page: number;
   loadedData: boolean;
   loadedCount: boolean;
   resultsPerPage: number;
   onPageChange: (page: number) => void;
+  onResultsPerPageChange: (resultsPerPage: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
 }
@@ -66,80 +62,34 @@ export interface TableProps {
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
-    availableColumns,
     totalDataCount,
     loadedData,
-    loadedCount,
+    page,
     resultsPerPage,
     onPageChange,
+    onResultsPerPageChange,
     sort,
     onSort,
   } = props;
 
   /*
    ** A note about the columns used in this file:
-   ** availableColumns - these are the columns passed in from RecordTable.
-   **                    They represent all columns that can currently be added to the
+   ** availableColumns - this represent all columns that can currently be added to the
    **                    display based on data received from the backend
-   ** selectedColumns   - these are the columns the user has selected to appear in the table
-   **                    This may include columns not in availableColumns (may have been
-   **                    added on another page). This ensures a consistent table display
+   ** hiddenColumns   -  these are the columns the user has *not* selected to appear in the table
+   **                    These are used to tell react-table which columns to show
    ** visibleColumns   - these are the columns that React Table says are currently in the
    **                    display. It contains all information about the displayed columns,
    **                    including column width, columnResizing boolean, etc. selectedColumns
    **                    does NOT contain this info and is defined by the user, not React Table
    */
 
-  const [maxPage, setMaxPage] = React.useState(0);
-  const [selectedColumns, setSelectedColumns] = React.useState<Column[]>([]);
-
-  const page = React.useMemo(() => {
-    return props.page && props.page > 0 ? props.page : 0;
-  }, [props.page]);
-
-  React.useEffect(() => {
-    if (loadedCount) {
-      const newMaxPage = ~~(1 + (totalDataCount - 1) / resultsPerPage);
-      if (newMaxPage !== maxPage) {
-        setMaxPage(newMaxPage);
-      } else if (maxPage > -1 && page > newMaxPage) {
-        onPageChange(0);
-      }
-    }
-  }, [
-    loadedCount,
-    maxPage,
-    onPageChange,
-    page,
-    resultsPerPage,
-    totalDataCount,
-  ]);
-
-  const onChecked = (accessor: string, checked: boolean): void => {
-    if (checked) {
-      const columnToFilter = availableColumns.filter((col: Column) => {
-        return col.accessor === accessor;
-      });
-      setSelectedColumns([...selectedColumns, ...columnToFilter]);
-    } else {
-      setSelectedColumns(
-        selectedColumns.filter((col: Column) => {
-          return col.accessor !== accessor;
-        })
-      );
-    }
-  };
-
-  const handleColumnOpen = (column: string): void => {
-    setColumnOrder([...columnOrder, column]);
-    onChecked(column, true);
-  };
-
-  const handleColumnClose = (column: string): void => {
-    onSort(column, null);
-    setColumnOrder(columnOrder.filter((item) => item !== column));
-    onChecked(column, false);
-  };
+  const availableColumns = useAppSelector(selectAvailableColumns);
+  const hiddenColumns = useAppSelector(selectHiddenColumns);
+  const columnOrder = useAppSelector(
+    (state) => state.columns.selectedColumnIds
+  );
+  const dispatch = useAppDispatch();
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -151,199 +101,223 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const tableInstance = useTable(
     {
-      columns: selectedColumns,
+      columns: availableColumns,
       data,
       defaultColumn,
+      initialState: {
+        columnOrder,
+        hiddenColumns,
+      },
+      useControlledState: (state) => {
+        return React.useMemo(
+          () => ({
+            ...state,
+            columnOrder: columnOrder,
+            hiddenColumns: hiddenColumns,
+          }),
+          // eslint complains that we don't need these deps when we really do
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          [state, columnOrder, hiddenColumns]
+        );
+      },
     },
     useResizeColumns,
     useFlexLayout,
     useColumnOrder
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state,
-    prepareRow,
-    setColumnOrder,
-    visibleColumns,
-  } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
-  const { columnOrder } = state;
+  const handleOnDragEnd = React.useCallback(
+    (result: DropResult): void => {
+      dispatch(reorderColumn(result));
+    },
+    [dispatch]
+  );
 
-  const handleOnDragEnd = (result: DropResult): void => {
-    if (result.destination)
-      setColumnOrder(columnOrderUpdater(result, visibleColumns));
-  };
+  const handleColumnClose = React.useCallback(
+    (column: string): void => {
+      dispatch(deselectColumn(column));
+    },
+    [dispatch]
+  );
 
   // Ensure the timestamp column is opened automatically on table load
   React.useEffect(() => {
     if (loadedData && !columnOrder.includes('timestamp'))
-      handleColumnOpen('timestamp');
+      dispatch(selectColumn('timestamp'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedData, columnOrder]);
 
   return (
     <div>
-      {loadedData && totalDataCount > 0 ? (
+      <div>
         <div>
-          <div>
-            <MuiTableContainer
-              role="table-container"
-              component={Paper}
-              sx={{ maxHeight: 300, overflow: 'auto' }}
-            >
-              <MuiTable {...getTableProps()}>
-                <MuiTableHead
-                  sx={{
-                    position: 'sticky',
-                    background: 'white', // TODO add theme colour later on
-                    top: 0,
-                    zIndex: 1,
-                  }}
-                >
-                  {headerGroups.map((headerGroup) => {
-                    const { key, ...otherHeaderGroupProps } =
-                      headerGroup.getHeaderGroupProps();
-                    return (
-                      <DragDropContext key={key} onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId="columns" direction="horizontal">
-                          {(provided) => {
-                            return (
-                              <MuiTableRow
-                                {...otherHeaderGroupProps}
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                sx={{
-                                  height: headerHeight, // Consistent height to account for headers that don't include any icons
-                                }}
-                              >
-                                {headerGroup.headers.map((column, index) => {
-                                  const { key, ...otherHeaderProps } =
-                                    column.getHeaderProps();
-
-                                  const dataKey = column.id;
-                                  const isTimestampColumn =
-                                    dataKey.toUpperCase() === 'TIMESTAMP';
-                                  let columnStyles: SxProps = {
-                                    minWidth: column.minWidth,
-                                    width: column.width,
-                                    maxWidth: column.maxWidth,
-                                    paddingTop: '0px',
-                                    paddingBottom: '0px',
-                                    paddingRight: '0px',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                  };
-
-                                  columnStyles = isTimestampColumn
-                                    ? {
-                                        ...columnStyles,
-                                        ...stickyColumnStyles,
-                                      }
-                                    : columnStyles;
-                                  const { channelInfo } =
-                                    column as ColumnInstance;
-
-                                  return (
-                                    <DataHeader
-                                      key={key}
-                                      {...otherHeaderProps}
-                                      sx={columnStyles}
-                                      resizerProps={column.getResizerProps()}
-                                      dataKey={dataKey}
-                                      sort={sort}
-                                      onSort={onSort}
-                                      label={column.render('Header')}
-                                      onClose={handleColumnClose}
-                                      index={index}
-                                      icon={columnIconMappings.get(
-                                        column.id.toUpperCase()
-                                      )}
-                                      channelInfo={channelInfo}
-                                    />
-                                  );
-                                })}
-                                {provided.placeholder}
-                              </MuiTableRow>
-                            );
-                          }}
-                        </Droppable>
-                      </DragDropContext>
-                    );
-                  })}
-                </MuiTableHead>
-                <MuiTableBody {...getTableBodyProps()}>
-                  {rows.map((row) => {
-                    prepareRow(row);
-                    const { key, ...otherRowProps } = row.getRowProps();
-                    return (
-                      <MuiTableRow key={key} {...otherRowProps}>
-                        {row.cells.map((cell) => {
-                          const { key, ...otherCellProps } =
-                            cell.getCellProps();
-
-                          const dataKey = cell.column.id;
-                          const isTimestampColumn =
-                            dataKey.toUpperCase() === 'TIMESTAMP';
-
-                          let columnStyles: SxProps = {
-                            minWidth: cell.column.minWidth,
-                            width: cell.column.width,
-                            maxWidth: cell.column.maxWidth,
-                            paddingTop: '0px',
-                            paddingBottom: '0px',
-                            paddingRight: '0px',
-                            display: 'flex',
-                            flexDirection: 'row',
-                          };
-
-                          columnStyles = isTimestampColumn
-                            ? {
-                                ...columnStyles,
-                                ...stickyColumnStyles,
-                                zIndex: 0,
-                              }
-                            : columnStyles;
-
+          <MuiTableContainer
+            role="table-container"
+            component={Paper}
+            sx={{ maxHeight: 300, overflow: 'auto' }}
+          >
+            <MuiTable {...getTableProps()}>
+              <MuiTableHead
+                sx={{
+                  position: 'sticky',
+                  backgroundColor: (theme) => theme.palette.background.default,
+                  top: 0,
+                  zIndex: 1,
+                }}
+              >
+                {headerGroups.map((headerGroup) => {
+                  const { key, ...otherHeaderGroupProps } =
+                    headerGroup.getHeaderGroupProps();
+                  return (
+                    <DragDropContext key={key} onDragEnd={handleOnDragEnd}>
+                      <Droppable droppableId="columns" direction="horizontal">
+                        {(provided) => {
                           return (
-                            <DataCell
-                              sx={columnStyles}
-                              key={key}
-                              {...otherCellProps}
-                              dataKey={cell.column.id}
-                              rowData={cell.render('Cell')}
-                            />
+                            <MuiTableRow
+                              {...otherHeaderGroupProps}
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                              sx={{
+                                height: headerHeight, // Consistent height to account for headers that don't include any icons
+                              }}
+                            >
+                              {headerGroup.headers.map((column, index) => {
+                                const { key, ...otherHeaderProps } =
+                                  column.getHeaderProps();
+
+                                const dataKey = column.id;
+                                const isTimestampColumn =
+                                  dataKey.toUpperCase() === 'TIMESTAMP';
+                                let columnStyles: SxProps<Theme> = {
+                                  minWidth: column.minWidth,
+                                  width: column.width,
+                                  maxWidth: column.maxWidth,
+                                  paddingTop: '0px',
+                                  paddingBottom: '0px',
+                                  paddingRight: '0px',
+                                  display: 'flex',
+                                  flexDirection: 'row',
+                                };
+
+                                columnStyles = isTimestampColumn
+                                  ? {
+                                      ...columnStyles,
+                                      ...stickyColumnStyles,
+                                    }
+                                  : columnStyles;
+                                const { channelInfo } =
+                                  column as ColumnInstance;
+
+                                return (
+                                  <DataHeader
+                                    key={key}
+                                    {...otherHeaderProps}
+                                    sx={columnStyles}
+                                    resizerProps={column.getResizerProps()}
+                                    dataKey={dataKey}
+                                    sort={sort}
+                                    onSort={onSort}
+                                    label={column.render('Header')}
+                                    onClose={handleColumnClose}
+                                    index={index}
+                                    icon={columnIconMappings.get(
+                                      column.id.toUpperCase()
+                                    )}
+                                    channelInfo={channelInfo}
+                                  />
+                                );
+                              })}
+                              {provided.placeholder}
+                            </MuiTableRow>
                           );
-                        })}
-                      </MuiTableRow>
-                    );
-                  })}
-                </MuiTableBody>
-              </MuiTable>
-            </MuiTableContainer>
-          </div>
-          <MuiTablePagination
-            component="div"
-            count={totalDataCount}
-            onPageChange={(e, page) => onPageChange(page)}
-            page={page}
-            rowsPerPage={resultsPerPage}
-          />
-          <ColumnCheckboxes
-            availableColumns={availableColumns}
-            selectedColumns={selectedColumns}
-            onColumnOpen={handleColumnOpen}
-            onColumnClose={handleColumnClose}
-          />
+                        }}
+                      </Droppable>
+                    </DragDropContext>
+                  );
+                })}
+              </MuiTableHead>
+              <MuiTableBody
+                {...getTableBodyProps()}
+                sx={{ position: 'relative', height: 270 }}
+                aria-describedby="table-loading-indicator"
+                aria-busy={!(loadedData && totalDataCount > 0)}
+              >
+                {rows.map((row) => {
+                  prepareRow(row);
+                  const { key, ...otherRowProps } = row.getRowProps();
+                  return (
+                    <MuiTableRow key={key} {...otherRowProps}>
+                      {row.cells.map((cell) => {
+                        const { key, ...otherCellProps } = cell.getCellProps();
+
+                        const dataKey = cell.column.id;
+                        const isTimestampColumn =
+                          dataKey.toUpperCase() === 'TIMESTAMP';
+
+                        let columnStyles: SxProps<Theme> = {
+                          minWidth: cell.column.minWidth,
+                          width: cell.column.width,
+                          maxWidth: cell.column.maxWidth,
+                          paddingTop: '0px',
+                          paddingBottom: '0px',
+                          paddingRight: '0px',
+                          display: 'flex',
+                          flexDirection: 'row',
+                        };
+
+                        columnStyles = isTimestampColumn
+                          ? {
+                              ...columnStyles,
+                              ...stickyColumnStyles,
+                              zIndex: 0,
+                            }
+                          : columnStyles;
+
+                        return (
+                          <DataCell
+                            sx={columnStyles}
+                            key={key}
+                            {...otherCellProps}
+                            dataKey={cell.column.id}
+                            rowData={cell.render('Cell')}
+                          />
+                        );
+                      })}
+                    </MuiTableRow>
+                  );
+                })}
+                {/* Need to make this a tr with a td column with the correct colSpan 
+                    to be a valid HTML table */}
+                {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+                <Backdrop
+                  component="tr"
+                  sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+                  open={!(loadedData && totalDataCount > 0)}
+                  role="none"
+                  aria-hidden={false}
+                >
+                  <td colSpan={columnOrder.length ?? 1}>
+                    <CircularProgress id="table-loading-indicator" />
+                  </td>
+                </Backdrop>
+              </MuiTableBody>
+            </MuiTable>
+          </MuiTableContainer>
         </div>
-      ) : (
-        <div>
-          <p>Loading...</p>
-        </div>
-      )}
+        <MuiTablePagination
+          component="div"
+          count={totalDataCount}
+          onPageChange={(e, page) => onPageChange(page)}
+          page={page}
+          rowsPerPage={resultsPerPage}
+          onRowsPerPageChange={(event) =>
+            onResultsPerPageChange(parseInt(event.target.value))
+          }
+        />
+      </div>
     </div>
   );
 });

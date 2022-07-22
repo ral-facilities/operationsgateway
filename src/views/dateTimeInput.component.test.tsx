@@ -1,6 +1,5 @@
 import React from 'react';
 import DateTimeInputBox, {
-  DateTimeInputBoxProps,
   DateTimeFilter,
   DateTimeFilterProps,
   datesEqual,
@@ -12,7 +11,11 @@ import userEvent from '@testing-library/user-event';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
+  getState,
+  renderWithProviders,
 } from '../setupTests';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
@@ -258,17 +261,16 @@ describe('DateTimeFilter tests', () => {
 });
 
 describe('DateTimeInputBox tests', () => {
-  let props: DateTimeInputBoxProps;
-  const onChange = jest.fn();
+  let state: PreloadedState<RootState>;
 
-  const createView = (): RenderResult => {
-    return render(<DateTimeInputBox {...props} />);
+  const createView = (initialState = state) => {
+    return renderWithProviders(<DateTimeInputBox />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
-    props = {
-      onChange: onChange,
-    };
+    state = { ...getState(), search: { ...getState().search } };
   });
 
   afterEach(() => {
@@ -282,16 +284,31 @@ describe('DateTimeInputBox tests', () => {
   });
 
   it('renders correctly with input date-time ranges', () => {
-    props = {
-      ...props,
-      dateRange: {
-        fromDate: '2021-01-01 00:00:00',
-        toDate: '2021-01-02 00:00:00',
-      },
+    state.search.dateRange = {
+      fromDate: '2021-01-01 00:00:00',
+      toDate: '2021-01-02 00:00:00',
     };
 
     const view = createView();
 
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('updates start/end date fields on date-time change', async () => {
+    const { store } = createView();
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    expect(store.getState().search.dateRange.fromDate).toEqual(
+      '2022-01-01 00:00:00'
+    );
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+
+    expect(store.getState().search.dateRange.toDate).toEqual(
+      '2022-01-02 00:00:00'
+    );
   });
 });
