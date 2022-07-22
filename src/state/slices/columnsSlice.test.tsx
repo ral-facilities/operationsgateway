@@ -3,10 +3,6 @@ import ColumnsReducer, {
   reorderColumn,
   selectHiddenColumns,
 } from './columnsSlice';
-import { actions, resetActions, dispatch } from '../../setupTests';
-import { setSettings } from '../../settings';
-
-jest.mock('loglevel');
 
 describe('columnsSlice', () => {
   // only test the hard to test bits of columnSlice here - like column reordering logic

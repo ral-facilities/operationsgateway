@@ -6,7 +6,6 @@ import {
   useResizeColumns,
   useColumnOrder,
   ColumnInstance,
-  usePagination,
 } from 'react-table';
 import {
   Backdrop,

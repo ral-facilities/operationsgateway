@@ -7,7 +7,6 @@ import { Column } from 'react-table';
 import { flushPromises, renderWithProviders, getState } from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
-import { changeSort, selectColumn } from '../state/slices/columnsSlice';
 
 describe('Table', () => {
   let props: TableProps;

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Column } from 'react-table';
-import ColumnCheckboxes, {
-  ColumnCheckboxesProps,
-} from './columnCheckboxes.component';
-import { render, RenderResult, screen, act } from '@testing-library/react';
+import ColumnCheckboxes from './columnCheckboxes.component';
+import { screen, act } from '@testing-library/react';
 import { flushPromises, getState, renderWithProviders } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
