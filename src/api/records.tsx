@@ -1,11 +1,9 @@
 import { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
-import { QueryParams, Record, SortType, DateRange } from '../app.types';
-import {
-  generateRecordCollection,
-  randomNumber,
-  resultsPerPage,
-} from '../recordGeneration';
+import { Channel, Record, RecordRow, SortType, DateRange } from '../app.types';
+import { generateRecordCollection, randomNumber } from '../recordGeneration';
+import { useAppSelector } from '../state/hooks';
+import { selectQueryParams } from '../state/slices/searchSlice';
 
 const sleep = (ms: number): Promise<unknown> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -16,6 +14,7 @@ const recordCollection = generateRecordCollection();
 // TODO change this when we have an API to query
 const fetchRecords = async (
   page: number,
+  resultsPerPage: number,
   sort?: SortType,
   dateRange?: DateRange
 ): Promise<Record[]> => {
@@ -30,31 +29,57 @@ const fetchRecordCountQuery = (): Promise<number> => {
   return Promise.resolve(recordCollection.length);
 };
 
-export const useRecordsPaginated = (
-  queryParams: QueryParams
-): UseQueryResult<Record[], AxiosError> => {
-  const { page, sort, dateRange } = queryParams;
+export const useRecordsPaginated = (): UseQueryResult<
+  RecordRow[],
+  AxiosError
+> => {
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
   return useQuery<
     Record[],
     AxiosError,
-    Record[],
+    RecordRow[],
     [
       string,
       {
         page: number;
+        resultsPerPage: number;
         sort?: SortType;
         dateRange?: DateRange;
       }
     ]
   >(
-    ['records', { page, sort, dateRange }],
+    ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      const { page, sort, dateRange } = params.queryKey[1];
-      return fetchRecords(page, sort, dateRange);
+      const { page, resultsPerPage, sort, dateRange } = params.queryKey[1];
+      return fetchRecords(page, resultsPerPage, sort, dateRange);
     },
     {
       onError: (error) => {
         console.log('Got error ' + error.message);
+      },
+      select: (data) => {
+        let newData: RecordRow[] = [];
+
+        data.forEach((record: Record) => {
+          let recordRow: RecordRow = {
+            timestamp: record.metadata.timestamp,
+            shotNum: record.metadata.shotNum,
+            activeArea: record.metadata.activeArea,
+            activeExperiment: record.metadata.activeExperiment,
+          };
+
+          const keys = Object.keys(record.channels);
+          keys.forEach((key: string) => {
+            const channel: Channel = record.channels[key];
+            const channelData = channel.data;
+            recordRow[key] = channelData;
+          });
+
+          newData.push(recordRow);
+        });
+
+        return newData;
       },
     }
   );

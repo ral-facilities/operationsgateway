@@ -7,9 +7,13 @@ import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './middleware/operationsgateway.middleware';
 import configReducer from './slices/configSlice';
+import columnsReducer from './slices/columnsSlice';
+import searchReducer from './slices/searchSlice';
 
 const rootReducer = combineReducers({
   config: configReducer,
+  columns: columnsReducer,
+  search: searchReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Order, RecordRow, columnIconMappings } from '../app.types';
 import {
-  Column,
   useTable,
   useFlexLayout,
   useResizeColumns,
   useColumnOrder,
   ColumnInstance,
+  usePagination,
 } from 'react-table';
 import {
   TableContainer as MuiTableContainer,
@@ -22,7 +22,14 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import ColumnCheckboxes from './columnCheckboxes.component';
+import { useAppSelector, useAppDispatch } from '../state/hooks';
+import {
+  deselectColumn,
+  reorderColumn,
+  selectAvailableColumns,
+  selectColumn,
+  selectHiddenColumns,
+} from '../state/slices/columnsSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -38,28 +45,15 @@ const stickyColumnStyles: SxProps<Theme> = {
   zIndex: 2,
 };
 
-export const columnOrderUpdater = (
-  result: any,
-  visibleColumns: Column[]
-): string[] => {
-  const items = Array.from(visibleColumns);
-  const [reorderedItem] = items.splice(result.source.index, 1);
-  items.splice(result.destination.index, 0, reorderedItem);
-
-  return items.map((column: Column) => {
-    return column.Header?.toString() ?? '';
-  });
-};
-
 export interface TableProps {
   data: RecordRow[];
-  availableColumns: Column[];
   totalDataCount: number;
-  page: number | null;
+  page: number;
   loadedData: boolean;
   loadedCount: boolean;
   resultsPerPage: number;
   onPageChange: (page: number) => void;
+  onResultsPerPageChange: (resultsPerPage: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
 }
@@ -67,36 +61,45 @@ export interface TableProps {
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
-    availableColumns,
     totalDataCount,
     loadedData,
     loadedCount,
+    page,
     resultsPerPage,
     onPageChange,
+    onResultsPerPageChange,
     sort,
     onSort,
   } = props;
 
   /*
    ** A note about the columns used in this file:
-   ** availableColumns - these are the columns passed in from RecordTable.
-   **                    They represent all columns that can currently be added to the
+   ** availableColumns - this represent all columns that can currently be added to the
    **                    display based on data received from the backend
-   ** selectedColumns   - these are the columns the user has selected to appear in the table
-   **                    This may include columns not in availableColumns (may have been
-   **                    added on another page). This ensures a consistent table display
+   ** hiddenColumns   -  these are the columns the user has *not* selected to appear in the table
+   **                    These are used to tell react-table which columns to show
    ** visibleColumns   - these are the columns that React Table says are currently in the
    **                    display. It contains all information about the displayed columns,
    **                    including column width, columnResizing boolean, etc. selectedColumns
    **                    does NOT contain this info and is defined by the user, not React Table
    */
 
-  const [maxPage, setMaxPage] = React.useState(0);
-  const [selectedColumns, setSelectedColumns] = React.useState<Column[]>([]);
+  const availableColumns = useAppSelector(selectAvailableColumns);
+  const hiddenColumns = useAppSelector(selectHiddenColumns);
+  const columnOrder = useAppSelector(
+    (state) => state.columns.selectedColumnIds
+  );
+  const dispatch = useAppDispatch();
 
-  const page = React.useMemo(() => {
-    return props.page && props.page > 0 ? props.page : 0;
-  }, [props.page]);
+  const defaultColumn = React.useMemo(
+    () => ({
+      minWidth: 30,
+      width: 150 + additionalHeaderSpace,
+    }),
+    []
+  );
+
+  const [maxPage, setMaxPage] = React.useState(0);
 
   React.useEffect(() => {
     if (loadedCount) {
@@ -116,73 +119,61 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
   ]);
 
-  const onChecked = (accessor: string, checked: boolean): void => {
-    if (checked) {
-      const columnToFilter = availableColumns.filter((col: Column) => {
-        return col.accessor === accessor;
-      });
-      setSelectedColumns([...selectedColumns, ...columnToFilter]);
-    } else {
-      setSelectedColumns(
-        selectedColumns.filter((col: Column) => {
-          return col.accessor !== accessor;
-        })
-      );
-    }
-  };
-
-  const handleColumnOpen = (column: string): void => {
-    setColumnOrder([...columnOrder, column]);
-    onChecked(column, true);
-  };
-
-  const handleColumnClose = (column: string): void => {
-    onSort(column, null);
-    setColumnOrder(columnOrder.filter((item) => item !== column));
-    onChecked(column, false);
-  };
-
-  const defaultColumn = React.useMemo(
-    () => ({
-      minWidth: 30,
-      width: 150 + additionalHeaderSpace,
-    }),
-    []
-  );
-
   const tableInstance = useTable(
     {
-      columns: selectedColumns,
+      columns: availableColumns,
       data,
       defaultColumn,
+      initialState: {
+        columnOrder,
+        hiddenColumns,
+        pageIndex: page,
+        pageSize: resultsPerPage,
+      },
+      pageCount: maxPage,
+      manualPagination: true,
+      useControlledState: (state) => {
+        return React.useMemo(
+          () => ({
+            ...state,
+            columnOrder: columnOrder,
+            hiddenColumns: hiddenColumns,
+            pageIndex: page,
+            pageSize: resultsPerPage,
+          }),
+          // eslint complains that we don't need these deps when we really do
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          [state, columnOrder, hiddenColumns, page, resultsPerPage]
+        );
+      },
     },
     useResizeColumns,
     useFlexLayout,
-    useColumnOrder
+    useColumnOrder,
+    usePagination
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    state,
-    prepareRow,
-    setColumnOrder,
-    visibleColumns,
-  } = tableInstance;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
-  const { columnOrder } = state;
+  const handleOnDragEnd = React.useCallback(
+    (result: DropResult): void => {
+      dispatch(reorderColumn(result));
+    },
+    [dispatch]
+  );
 
-  const handleOnDragEnd = (result: DropResult): void => {
-    if (result.destination)
-      setColumnOrder(columnOrderUpdater(result, visibleColumns));
-  };
+  const handleColumnClose = React.useCallback(
+    (column: string): void => {
+      dispatch(deselectColumn(column));
+    },
+    [dispatch]
+  );
 
   // Ensure the timestamp column is opened automatically on table load
   React.useEffect(() => {
     if (loadedData && !columnOrder.includes('timestamp'))
-      handleColumnOpen('timestamp');
+      dispatch(selectColumn('timestamp'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadedData, columnOrder]);
 
@@ -333,12 +324,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             onPageChange={(e, page) => onPageChange(page)}
             page={page}
             rowsPerPage={resultsPerPage}
-          />
-          <ColumnCheckboxes
-            availableColumns={availableColumns}
-            selectedColumns={selectedColumns}
-            onColumnOpen={handleColumnOpen}
-            onColumnClose={handleColumnClose}
+            onRowsPerPageChange={(event) =>
+              onResultsPerPageChange(parseInt(event.target.value))
+            }
           />
         </div>
       ) : (

@@ -7,8 +7,8 @@ import {
   broadcastSignOut,
 } from '../scigateway.actions';
 import { MicroFrontendId } from '../../app.types';
-import { AppDispatch } from '../store';
-import { AnyAction, Dispatch, Middleware } from '@reduxjs/toolkit';
+import { AppDispatch, RootState } from '../store';
+import { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 const broadcastMessage = (action: AnyAction): void => {
   document.dispatchEvent(new CustomEvent(MicroFrontendId, { detail: action }));
@@ -50,10 +50,8 @@ export const listenToMessages = (dispatch: AppDispatch): void => {
   });
 };
 
-const OperationsGatewayMiddleware: Middleware =
-  () =>
-  (next: Dispatch) =>
-  (action: AnyAction): AnyAction => {
+const OperationsGatewayMiddleware: Middleware<{}, RootState> =
+  () => (next) => (action: AnyAction) => {
     if (action.payload && action.payload.broadcast) {
       broadcastMessage(action);
     }

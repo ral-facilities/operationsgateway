@@ -2,7 +2,6 @@ import React from 'react';
 import RecordTable from './views/recordTable.component';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { resultsPerPage } from './recordGeneration';
 import { configureApp } from './state/slices/configSlice';
 import { requestPluginRerender } from './state/scigateway.actions';
 import { MicroFrontendId } from './app.types';
@@ -46,7 +45,7 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <OGThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <RecordTable resultsPerPage={resultsPerPage} />
+          <RecordTable />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </OGThemeProvider>
