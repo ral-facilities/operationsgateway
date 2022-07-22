@@ -65,7 +65,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     data,
     totalDataCount,
     loadedData,
-    loadedCount,
     page,
     resultsPerPage,
     onPageChange,
@@ -101,26 +100,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
-  const [maxPage, setMaxPage] = React.useState(0);
-
-  React.useEffect(() => {
-    if (loadedCount) {
-      const newMaxPage = ~~(1 + (totalDataCount - 1) / resultsPerPage);
-      if (newMaxPage !== maxPage) {
-        setMaxPage(newMaxPage);
-      } else if (maxPage > -1 && page > newMaxPage) {
-        onPageChange(0);
-      }
-    }
-  }, [
-    loadedCount,
-    maxPage,
-    onPageChange,
-    page,
-    resultsPerPage,
-    totalDataCount,
-  ]);
-
   const tableInstance = useTable(
     {
       columns: availableColumns,
@@ -129,30 +108,23 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       initialState: {
         columnOrder,
         hiddenColumns,
-        pageIndex: page,
-        pageSize: resultsPerPage,
       },
-      pageCount: maxPage,
-      manualPagination: true,
       useControlledState: (state) => {
         return React.useMemo(
           () => ({
             ...state,
             columnOrder: columnOrder,
             hiddenColumns: hiddenColumns,
-            pageIndex: page,
-            pageSize: resultsPerPage,
           }),
           // eslint complains that we don't need these deps when we really do
           // eslint-disable-next-line react-hooks/exhaustive-deps
-          [state, columnOrder, hiddenColumns, page, resultsPerPage]
+          [state, columnOrder, hiddenColumns]
         );
       },
     },
     useResizeColumns,
     useFlexLayout,
-    useColumnOrder,
-    usePagination
+    useColumnOrder
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -272,7 +244,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 {...getTableBodyProps()}
                 sx={{ position: 'relative', height: 270 }}
                 aria-describedby="table-loading-indicator"
-                aria-busy={loadedData && totalDataCount > 0}
+                aria-busy={!(loadedData && totalDataCount > 0)}
               >
                 {rows.map((row) => {
                   prepareRow(row);
@@ -320,12 +292,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 })}
                 {/* Need to make this a tr with a td column with the correct colSpan 
                     to be a valid HTML table */}
+                {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
                 <Backdrop
                   component="tr"
                   sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
                   open={!(loadedData && totalDataCount > 0)}
+                  role="none"
+                  aria-hidden={false}
                 >
-                  <td colSpan={columnOrder.length}>
+                  <td colSpan={columnOrder.length ?? 1}>
                     <CircularProgress id="table-loading-indicator" />
                   </td>
                 </Backdrop>

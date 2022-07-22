@@ -62,11 +62,10 @@ exports[`Data Header renders a column icon if provided 1`] = `
           <div
             style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
           >
-            <div
-              aria-label="close test"
-            >
+            <div>
               <svg
                 aria-hidden="true"
+                aria-label="close test"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
                 data-testid="CloseIcon"
                 focusable="false"
@@ -162,11 +161,10 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
           <div
             style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
           >
-            <div
-              aria-label="close test"
-            >
+            <div>
               <svg
                 aria-hidden="true"
+                aria-label="close test"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
                 data-testid="CloseIcon"
                 focusable="false"
@@ -246,11 +244,10 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
           <div
             style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
           >
-            <div
-              aria-label="close test"
-            >
+            <div>
               <svg
                 aria-hidden="true"
+                aria-label="close test"
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
                 data-testid="CloseIcon"
                 focusable="false"

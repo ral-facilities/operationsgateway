@@ -51,11 +51,6 @@ export const columnsSlice = createSlice({
       state.columnDefs = byId;
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setSelectedColumns: (state, action: PayloadAction<Column[]>) => {
-      state.selectedColumnIds = action.payload.map(
-        (col) => col.accessor?.toString() ?? ''
-      );
-    },
     selectColumn: (state, action: PayloadAction<string>) => {
       state.selectedColumnIds.push(action.payload);
     },
@@ -104,7 +99,6 @@ export const columnsSlice = createSlice({
 
 export const {
   setColumns,
-  setSelectedColumns,
   selectColumn,
   deselectColumn,
   reorderColumn,

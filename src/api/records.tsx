@@ -58,10 +58,8 @@ export const useRecordsPaginated = (): UseQueryResult<
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
-      select: (data) => {
-        let newData: RecordRow[] = [];
-
-        data.forEach((record: Record) => {
+      select: (data) =>
+        data.map((record: Record) => {
           let recordRow: RecordRow = {
             timestamp: record.metadata.timestamp,
             shotNum: record.metadata.shotNum,
@@ -76,11 +74,8 @@ export const useRecordsPaginated = (): UseQueryResult<
             recordRow[key] = channelData;
           });
 
-          newData.push(recordRow);
-        });
-
-        return newData;
-      },
+          return recordRow;
+        }),
     }
   );
 };

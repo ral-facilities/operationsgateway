@@ -4,43 +4,36 @@ import ColumnCheckboxes, {
   ColumnCheckboxesProps,
 } from './columnCheckboxes.component';
 import { render, RenderResult, screen, act } from '@testing-library/react';
-import { flushPromises } from '../setupTests';
+import { flushPromises, getState, renderWithProviders } from '../setupTests';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
 
 describe('Column Checkboxes', () => {
-  let props: ColumnCheckboxesProps;
-  const onColumnOpen = jest.fn();
-  const onColumnClose = jest.fn();
-  const availableColumns: Column[] = [
-    {
+  const columnDefs: { [id: string]: Column } = {
+    name: {
       Header: 'Name',
       accessor: 'name',
     },
-    {
+    activeArea: {
       Header: 'Active Area',
       accessor: 'activeArea',
     },
-    {
+    activeExperiment: {
       Header: 'Active Experiment',
       accessor: 'activeExperiment',
     },
-  ];
-  const selectedColumns: Column[] = [];
+  };
 
-  const createView = (): RenderResult => {
-    return render(<ColumnCheckboxes {...props} />);
+  let state: PreloadedState<RootState>;
+
+  const createView = (initialState = state) => {
+    return renderWithProviders(<ColumnCheckboxes />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
-    props = {
-      onColumnOpen: onColumnOpen,
-      onColumnClose: onColumnClose,
-      availableColumns: availableColumns,
-      selectedColumns: selectedColumns,
-    };
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    state = { ...getState(), columns: { ...getState().columns, columnDefs } };
   });
 
   it('renders correctly when unchecked', () => {
@@ -49,55 +42,45 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    props.selectedColumns = availableColumns;
+    state.columns.selectedColumnIds = Object.keys(columnDefs);
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('does not render a timestamp checkbox if a timestamp column exists', () => {
-    const amendedColumns: Column[] = [
-      ...availableColumns,
-      {
+    const amendedColumnDefs = {
+      ...columnDefs,
+      timestamp: {
         Header: 'Timestamp',
         accessor: 'timestamp',
       },
-    ];
-    props = {
-      ...props,
-      availableColumns: amendedColumns,
     };
+    state.columns.columnDefs = amendedColumnDefs;
 
     createView();
     expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
   });
 
-  it('calls onColumnOpen when checkbox is checked', async () => {
-    createView();
+  it('sends selectColumn when checkbox is checked', async () => {
+    const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnOpen).toHaveBeenCalledWith('name');
+
+    expect(store.getState().columns.selectedColumnIds).toEqual(['name']);
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    props.selectedColumns = availableColumns;
-    createView();
+    state.columns.selectedColumnIds = Object.keys(columnDefs);
+    const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnClose).toHaveBeenCalledWith('name');
-  });
-
-  it('returns null if a column is not fully defined', () => {
-    availableColumns[1].Header = undefined;
-    availableColumns[1].accessor = undefined;
-
-    createView();
-    const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes.length).toEqual(2);
-    expect(screen.queryByText('Active Area')).toBeNull();
+    expect(store.getState().columns.selectedColumnIds).toEqual(
+      Object.keys(columnDefs).filter((id) => id !== 'name')
+    );
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');

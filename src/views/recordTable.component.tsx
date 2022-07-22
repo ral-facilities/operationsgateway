@@ -12,10 +12,7 @@ import {
   changeResultsPerPage,
 } from '../state/slices/columnsSlice';
 import ColumnCheckboxes from '../table/columnCheckboxes.component';
-import {
-  changeDateRange,
-  selectQueryParams,
-} from '../state/slices/searchSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const dispatch = useAppDispatch();
@@ -66,13 +63,6 @@ const RecordTable = React.memo((): React.ReactElement => {
     }
   }, [data, columnsLoaded, dispatch]);
 
-  const handleDateTimeChange = React.useCallback(
-    (range: 'fromDate' | 'toDate', date?: string) => {
-      dispatch(changeDateRange({ range, date }));
-    },
-    [dispatch]
-  );
-
   const onPageChange = React.useCallback(
     (page: number) => {
       dispatch(changePage(page));
@@ -98,7 +88,7 @@ const RecordTable = React.memo((): React.ReactElement => {
   // page layout container
   return (
     <div>
-      <DateTimeInputBox onChange={handleDateTimeChange} />
+      <DateTimeInputBox />
       <br />
       <Table
         data={data ?? []}

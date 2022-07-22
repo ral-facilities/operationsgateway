@@ -1,15 +1,13 @@
 import React from 'react';
-import Table, { TableProps, columnOrderUpdater } from './table.component';
-import {
-  render,
-  RenderResult,
-  screen,
-  cleanup,
-  act,
-} from '@testing-library/react';
+import Table, { TableProps } from './table.component';
+import { screen, cleanup, act, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import { flushPromises } from '../setupTests';
+import { flushPromises, renderWithProviders, getState } from '../setupTests';
+import { RootState } from '../state/store';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { changeSort, selectColumn } from '../state/slices/columnsSlice';
 
 describe('Table', () => {
   let props: TableProps;
@@ -33,66 +31,68 @@ describe('Table', () => {
       activeExperiment: '3',
     },
   ];
-  const availableColumns: Column[] = [
-    {
+  const columnDefs: { [id: string]: Column } = {
+    timestamp: {
       Header: 'Timestamp',
       accessor: 'timestamp',
     },
-    {
+    shotNum: {
       Header: 'Shot Number',
       accessor: 'shotNum',
     },
-    {
+    activeArea: {
       Header: 'Active Area',
       accessor: 'activeArea',
     },
-    {
+    activeExperiment: {
       Header: 'Active Experiment',
       accessor: 'activeExperiment',
     },
-  ];
+  };
   const onPageChange = jest.fn();
+  const onResultsPerPageChange = jest.fn();
   const onSort = jest.fn();
+  let state: PreloadedState<RootState>;
 
-  const createView = (): RenderResult => {
-    return render(<Table {...props} />);
+  const createView = (initialState = state) => {
+    return renderWithProviders(<Table {...props} />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
     props = {
       data: recordRows,
-      availableColumns: availableColumns,
       totalDataCount: recordRows.length,
       page: 0,
       loadedData: true,
       loadedCount: true,
       resultsPerPage: 25,
       onPageChange: onPageChange,
+      onResultsPerPageChange: onResultsPerPageChange,
       onSort: onSort,
       sort: {},
     };
+    state = { columns: { ...getState().columns, columnDefs } };
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly, with timestamp column displayed', () => {
+  it('renders correctly, with timestamp column displayed by default', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders correctly with all columns displayed', async () => {
+    state.columns.selectedColumnIds = [
+      'timestamp',
+      'shotNum',
+      'activeArea',
+      'activeExperiment',
+    ];
     const view = createView();
-
-    await act(async () => {
-      screen.getByLabelText('shotNum checkbox').click();
-      await flushPromises();
-      screen.getByLabelText('activeArea checkbox').click();
-      await flushPromises();
-      screen.getByLabelText('activeExperiment checkbox').click();
-      await flushPromises();
-    });
 
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -104,132 +104,50 @@ describe('Table', () => {
   });
 
   it('calls onPageChange when page is changed', async () => {
+    const user = userEvent.setup();
     const recordCount = recordRows.length;
     props.resultsPerPage = 1;
     createView();
     screen.getByText(`1–1 of ${recordCount}`);
 
+    await user.click(screen.getByLabelText('Go to next page'));
+
     await act(async () => {
-      screen.getByLabelText('Go to next page').click();
       await flushPromises();
     });
 
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 
-  it('displays page loading message when loadedData is false and totalDataCount is zero', () => {
+  // TODO: improve test once fixed to pagination errors is merged
+  it('calls onResultsPerPageChange when resultsPerPage is changed', async () => {
+    const user = userEvent.setup();
+    createView();
+    const resultsPerPage = screen.getByRole('button', {
+      name: /Rows per page/i,
+    });
+    await user.click(resultsPerPage);
+
+    const listbox = within(screen.getByRole('listbox'));
+
+    await user.click(listbox.getByText('10'));
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(onResultsPerPageChange).toHaveBeenCalledWith(10);
+  });
+
+  it('displays page loading message when loadedData is false and totalDataCount is zero', async () => {
     props.loadedData = false;
     createView();
-    screen.getByText('Loading...');
+    screen.getByRole('progressbar');
 
     cleanup();
     props.loadedData = true;
     props.totalDataCount = 0;
     createView();
-    screen.getByText('Loading...');
-  });
-
-  it('reverts to first page if the current page number accidentally goes above the maximum available', () => {
-    props.page = 100;
-    createView();
-    expect(onPageChange).toBeCalledWith(0);
-  });
-
-  it('waits until we have a result count before counting a maximum page', () => {
-    props.loadedCount = false;
-    createView();
-    expect(onPageChange).not.toHaveBeenCalled();
-  });
-
-  it('adds columns in correct order on checkbox click', async () => {
-    createView();
-
-    await act(async () => {
-      screen.getByLabelText('shotNum checkbox').click();
-      await flushPromises();
-      screen.getByLabelText('activeArea checkbox').click();
-      await flushPromises();
-      screen.getByLabelText('activeExperiment checkbox').click();
-      await flushPromises();
-    });
-
-    let columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('Timestamp');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Area');
-    expect(columns[3]).toHaveTextContent('Active Experiment');
-
-    // Remove middle column
-    await act(async () => {
-      screen.getByLabelText('activeArea checkbox').click();
-      await flushPromises();
-    });
-
-    columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(3);
-    expect(columns[0]).toHaveTextContent('Timestamp');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Experiment');
-
-    await act(async () => {
-      screen.getByLabelText('activeArea checkbox').click();
-      await flushPromises();
-    });
-
-    // Should expect the column previously in the middle to now be on the end
-    columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('Timestamp');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Experiment');
-    expect(columns[3]).toHaveTextContent('Active Area');
-  });
-
-  it('removes column sort when column is closed', async () => {
-    createView();
-
-    await act(async () => {
-      screen.getByLabelText('shotNum checkbox').click();
-      await flushPromises();
-    });
-
-    expect(onSort).not.toHaveBeenCalled();
-
-    await act(async () => {
-      screen.getByLabelText('shotNum checkbox').click();
-      await flushPromises();
-    });
-
-    expect(onSort).toHaveBeenCalledWith('shotNum', null);
-  });
-
-  it('reorders columns correctly', () => {
-    const visibleColumns = availableColumns;
-
-    // Verify original order
-    expect(visibleColumns[0].Header).toEqual('Timestamp');
-    expect(visibleColumns[1].Header).toEqual('Shot Number');
-    expect(visibleColumns[2].Header).toEqual('Active Area');
-    expect(visibleColumns[3].Header).toEqual('Active Experiment');
-
-    // Swap Shot Number and Active Area
-    const draggedColumn = {
-      source: {
-        index: 1,
-      },
-      destination: {
-        index: 2,
-      },
-    };
-
-    const reorderedColumns: string[] = columnOrderUpdater(
-      draggedColumn,
-      visibleColumns
-    );
-    expect(visibleColumns[0].Header).toEqual('Timestamp');
-    expect(reorderedColumns[1]).toEqual('Active Area');
-    expect(reorderedColumns[2]).toEqual('Shot Number');
-    expect(visibleColumns[3].Header).toEqual('Active Experiment');
+    screen.getByRole('progressbar');
   });
 });

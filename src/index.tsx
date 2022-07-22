@@ -20,11 +20,11 @@ const render = (): void => {
 
   const root = createRoot(el);
   root.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+    // </React.StrictMode>
   );
 };
 

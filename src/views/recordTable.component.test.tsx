@@ -1,14 +1,25 @@
 import React from 'react';
-import { render, RenderResult, screen, act } from '@testing-library/react';
-import RecordTable, { RecordTableProps } from './recordTable.component';
+import {
+  render,
+  RenderResult,
+  screen,
+  act,
+  fireEvent,
+  within,
+} from '@testing-library/react';
+import RecordTable from './recordTable.component';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   flushPromises,
-  testRecords,
+  getState,
+  renderWithProviders,
+  testRecordRows,
 } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -23,19 +34,18 @@ jest.mock('../api/records', () => {
 
 describe('Record Table', () => {
   let data;
-  let props: RecordTableProps;
+  let state: PreloadedState<RootState>;
 
-  const createView = (): RenderResult => {
-    return render(<RecordTable {...props} />);
+  const createView = (initialState = state) => {
+    return renderWithProviders(<RecordTable />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
     applyDatePickerWorkaround();
     userEvent.setup();
-    data = testRecords;
-    props = {
-      resultsPerPage: 25,
-    };
+    data = testRecordRows;
 
     (useRecordsPaginated as jest.Mock).mockReturnValue({
       data: data,
@@ -45,6 +55,8 @@ describe('Record Table', () => {
       data: data.length,
       isLoading: false,
     });
+
+    state = getState();
   });
 
   afterEach(() => {
@@ -84,96 +96,94 @@ describe('Record Table', () => {
   it('calls the correct data fetching hooks on load', () => {
     createView();
 
-    expect(useRecordsPaginated).toHaveBeenCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {},
-    });
+    expect(useRecordsPaginated).toHaveBeenCalled();
     expect(useRecordCount).toHaveBeenCalled();
   });
 
-  it('updates page query parameter on page change', async () => {
-    props.resultsPerPage = 1;
+  it('can sort columns and removes column sort when column is closed', async () => {
+    const user = userEvent.setup();
     createView();
 
+    await user.click(screen.getByLabelText('shotNum checkbox'));
+    await user.click(screen.getByTestId('sort shotNum'));
+
     await act(async () => {
-      screen.getByLabelText('Go to next page').click();
       await flushPromises();
     });
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 1,
-      sort: {},
-      dateRange: {},
-    });
+    expect(screen.getByTestId('sort shotNum')).toHaveClass('Mui-active');
+
+    const icon = screen.getByLabelText('close shotNum');
+    fireEvent.click(icon);
+
+    expect(screen.getByLabelText('shotNum checkbox')).toHaveProperty(
+      'checked',
+      false
+    );
+
+    await user.click(screen.getByLabelText('shotNum checkbox'));
+
+    expect(screen.getByTestId('sort shotNum')).not.toHaveClass('Mui-active');
   });
 
-  it('updates sort query parameter on sort', async () => {
+  // TODO: improve this test when pagination test improvements are merged
+  // TODO: this test is similar to the one in table - either we keep the redux
+  // state in recordTable and do the test here - or we move the state into table
+  // and do the test there
+  it('paginates correctly', async () => {
+    state = { ...state, columns: { ...state.columns, resultsPerPage: 1 } };
+    const user = userEvent.setup();
     createView();
 
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
-    });
+    await user.click(screen.getByLabelText('Go to next page'));
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {
-        timestamp: 'asc',
-      },
-      dateRange: {},
-    });
+    screen.getByText(`2–2 of ${data.length}`);
 
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
+    const resultsPerPage = screen.getByRole('button', {
+      name: /Rows per page/i,
     });
+    await user.click(resultsPerPage);
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {
-        timestamp: 'desc',
-      },
-      dateRange: {},
-    });
+    const listbox = within(screen.getByRole('listbox'));
 
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
-    });
+    await user.click(listbox.getByText('10'));
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {},
-    });
+    screen.getByText(`1–3 of ${data.length}`);
   });
 
-  it('updates start/end date fields on date-time change', async () => {
+  it('adds columns in correct order on checkbox click', async () => {
+    const user = userEvent.setup();
     createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.click(screen.getByLabelText('shotNum checkbox'));
+    await user.click(screen.getByLabelText('activeArea checkbox'));
+    await user.click(screen.getByLabelText('activeExperiment checkbox'));
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {
-        fromDate: '2022-01-01 00:00:00',
-      },
-    });
+    let columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(4);
+    expect(columns[0]).toHaveTextContent('timestamp');
+    expect(columns[1]).toHaveTextContent('shotNum');
+    expect(columns[2]).toHaveTextContent('activeArea');
+    expect(columns[3]).toHaveTextContent('activeExperiment');
 
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+    // Remove middle column
+    await user.click(screen.getByLabelText('activeArea checkbox'));
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {
-        fromDate: '2022-01-01 00:00:00',
-        toDate: '2022-01-02 00:00:00',
-      },
-    });
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(3);
+    expect(columns[0]).toHaveTextContent('timestamp');
+    expect(columns[1]).toHaveTextContent('shotNum');
+    expect(columns[2]).toHaveTextContent('activeExperiment');
+
+    await user.click(screen.getByLabelText('activeArea checkbox'));
+
+    // Should expect the column previously in the middle to now be on the end
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(4);
+    expect(columns[0]).toHaveTextContent('timestamp');
+    expect(columns[1]).toHaveTextContent('shotNum');
+    expect(columns[2]).toHaveTextContent('activeExperiment');
+    expect(columns[3]).toHaveTextContent('activeArea');
   });
 
   it.todo('updates available columns when data from backend changes');
