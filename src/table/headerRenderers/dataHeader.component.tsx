@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 import React from 'react';
-import { Order } from '../../app.types';
+import { FullChannelMetadata, Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -35,7 +35,7 @@ export interface DataHeaderProps {
   resizerProps: TableResizerProps;
   onClose: (column: string) => void;
   index: number;
-  channelInfo?: { units?: string; description?: string };
+  channelInfo?: FullChannelMetadata;
 }
 
 const DataHeader = (props: DataHeaderProps): React.ReactElement => {
@@ -132,13 +132,16 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
         >
           <Box marginRight={1}>{Icon ?? <FeedIcon />}</Box>
-          {/* TODO: add extra info to tooltip from data channel info */}
           <Tooltip
             enterDelay={400}
             enterNextDelay={400}
             title={
               <div>
-                <Typography>System Name: {label}</Typography>
+                {channelInfo && channelInfo.systemName !== label && (
+                  <Typography>
+                    System Name: {channelInfo.systemName}{' '}
+                  </Typography>
+                )}
                 <Typography>Description: {channelInfo?.description}</Typography>
                 <Typography>Units: {channelInfo?.units}</Typography>
               </div>
