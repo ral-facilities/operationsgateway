@@ -35,7 +35,7 @@ const generateFullChannelMetadata = (
   const channelMetadata: FullChannelMetadata = {
     systemName: channelName,
     dataType: dataType,
-    userFriendlyName: `${channelName} friendly name`,
+    userFriendlyName: channelName.slice(0, 7) + ' ' + channelName.slice(7),
     description: `${channelName} description`,
     units: `${channelName} units`,
   };
