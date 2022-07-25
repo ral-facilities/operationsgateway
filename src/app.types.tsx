@@ -63,7 +63,7 @@ export interface FullCommonChannelMetadata {
 
 export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
   dataType: 'scalar';
-  sf?: number;
+  significantFigures?: number;
   scientificNotation?: boolean;
 }
 

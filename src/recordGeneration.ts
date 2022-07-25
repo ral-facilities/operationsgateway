@@ -40,7 +40,7 @@ const generateFullChannelMetadata = (
     units: `${channelName} units`,
   };
   if (channelMetadata.dataType === 'scalar') {
-    channelMetadata.sf = randomNumber(1, 5);
+    channelMetadata.significantFigures = randomNumber(1, 5);
     channelMetadata.scientificNotation = Math.random() < 0.5;
   }
   return channelMetadata;

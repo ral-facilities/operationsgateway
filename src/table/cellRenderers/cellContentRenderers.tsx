@@ -1,6 +1,6 @@
 export const roundNumber = (
   num: number,
-  sf: number,
+  significantFigures: number,
   scientificNotation: boolean
 ): string => {
   /*
@@ -11,15 +11,16 @@ export const roundNumber = (
   */
 
   // TODO: what to return here?
-  if (sf <= 0) return 'Invalid significant figure';
+  if (significantFigures <= 0) return 'Invalid significant figure';
 
   // count number of digits before decimal point (and ignore minus sign)
   const [integerPart] = num.toString().replace('-', '').split('.');
   const intDigits = integerPart.length;
 
-  const decimalPlaces = intDigits >= sf ? 0 : sf - intDigits;
+  const decimalPlaces =
+    intDigits >= significantFigures ? 0 : significantFigures - intDigits;
   const rounded = scientificNotation
-    ? num.toExponential(sf - 1)
+    ? num.toExponential(significantFigures - 1)
     : num.toFixed(decimalPlaces);
 
   return rounded;
