@@ -54,22 +54,22 @@ describe('cell content renderers', () => {
 
     it('handles significantFigures of 0 correctly in normal mode', () => {
       const result = roundNumber(916.3, 0, false);
-      expect(result).toBe('Invalid significant figure');
+      expect(result).toBe('916.3');
     });
 
     it('handles significantFigures of 0 correctly in scientific mode', () => {
       const result = roundNumber(916.3, 0, true);
-      expect(result).toBe('Invalid significant figure');
+      expect(result).toBe('916.3');
     });
 
     it('handles negative number significantFigures correctly in normal mode', () => {
       const result = roundNumber(916.3, -1, false);
-      expect(result).toBe('Invalid significant figure');
+      expect(result).toBe('916.3');
     });
 
     it('handles negative number significantFigures correctly in scientific mode', () => {
       const result = roundNumber(916.3, -1, true);
-      expect(result).toBe('Invalid significant figure');
+      expect(result).toBe('916.3');
     });
   });
 });

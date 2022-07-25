@@ -10,8 +10,7 @@ export const roundNumber = (
   displayed as 9.2e2 or 916 in scientific or normal mode respectively.
   */
 
-  // TODO: what to return here?
-  if (significantFigures <= 0) return 'Invalid significant figure';
+  if (significantFigures <= 0) return num.toString();
 
   // count number of digits before decimal point (and ignore minus sign)
   const [integerPart] = num.toString().replace('-', '').split('.');
