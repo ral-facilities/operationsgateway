@@ -41,18 +41,18 @@ export const testChannels: FullChannelMetadata[] = [
     systemName: 'test1',
     dataType: 'scalar',
     userFriendlyName: 'Test 1',
-    sf: 4,
+    significantFigures: 4,
   },
   {
     systemName: 'test2',
     dataType: 'scalar',
-    sf: 2,
+    significantFigures: 2,
     scientificNotation: false,
   },
   {
     systemName: 'test3',
     dataType: 'scalar',
-    sf: 2,
+    significantFigures: 2,
     scientificNotation: true,
   },
 ];

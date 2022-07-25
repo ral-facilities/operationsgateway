@@ -71,11 +71,11 @@ const RecordTable = React.memo(
             if (channelInfo?.dataType === 'scalar') {
               newColumn.Cell = ({ value }) =>
                 typeof value === 'number' &&
-                typeof channelInfo.sf === 'number' ? (
+                typeof channelInfo.significantFigures === 'number' ? (
                   <React.Fragment>
                     {roundNumber(
                       value,
-                      channelInfo.sf,
+                      channelInfo.significantFigures,
                       channelInfo.scientificNotation ?? false
                     )}
                   </React.Fragment>
