@@ -37,7 +37,7 @@ describe('cell content renderers', () => {
       expect(result).toBe('916.3');
     });
 
-    it('rounds 916.3 to 9.16e+2 when significantFigures is 4 in scientific mode', () => {
+    it('rounds 916.3 to 9.163e+2 when significantFigures is 4 in scientific mode', () => {
       const result = roundNumber(916.3, 4, true);
       expect(result).toBe('9.163e+2');
     });
@@ -47,7 +47,7 @@ describe('cell content renderers', () => {
       expect(result).toBe('916.30');
     });
 
-    it('rounds 916.3 to 9.160e+2 when significantFigures is 5 in scientific mode', () => {
+    it('rounds 916.3 to 9.1630e+2 when significantFigures is 5 in scientific mode', () => {
       const result = roundNumber(916.3, 5, true);
       expect(result).toBe('9.1630e+2');
     });
