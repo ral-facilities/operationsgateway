@@ -7959,7 +7959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"html-escaper@npm:^2.0.0, html-escaper@npm:^2.0.2":
+"html-escaper@npm:^2.0.0":
   version: 2.0.2
   resolution: "html-escaper@npm:2.0.2"
   checksum: d2df2da3ad40ca9ee3a39c5cc6475ef67c8f83c234475f24d8e9ce0dc80a2c82df8e1d6fa78ddd1e9022a586ea1bd247a615e80a5cd9273d90111ddda7d9e974
@@ -10591,7 +10591,7 @@ __metadata:
     react-beautiful-dnd-test-utils: 4.1.1
     react-dom: 18.2.0
     react-draggable: 4.4.5
-    react-i18next: 11.16.7
+    react-i18next: 11.18.1
     react-query: 3.39.2
     react-router-dom: 6.3.0
     react-scripts: 5.0.1
@@ -12166,12 +12166,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:11.16.7":
-  version: 11.16.7
-  resolution: "react-i18next@npm:11.16.7"
+"react-i18next@npm:11.18.1":
+  version: 11.18.1
+  resolution: "react-i18next@npm:11.18.1"
   dependencies:
     "@babel/runtime": ^7.14.5
-    html-escaper: ^2.0.2
     html-parse-stringify: ^3.0.1
   peerDependencies:
     i18next: ">= 19.0.0"
@@ -12181,7 +12180,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 666594e20dcff000294e904b6ea36f4e5fa2d3b7cebf8c78f04ec3b96ff52d9ad2931adb0d6865ccbd870cc8a782f76a77dfc134653647c8fd73c4217a65e0e6
+  checksum: 3614d4f41a2bad2831aee7c02da6403955eacf7aeef1cd73635a99b072e72f2ebed3e83ac2bc1bfe72421cb2de025bfbecc9929bfc495ba1f055d49851bf6e62
   languageName: node
   linkType: hard
 
