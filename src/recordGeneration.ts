@@ -6,6 +6,7 @@ import {
   ChannelMetadata,
   FullChannelMetadata,
   DataType,
+  ScalarChannel,
 } from './app.types';
 
 // TODO this needs to be somewhere else. Perhaps a setting?
@@ -64,26 +65,26 @@ const generateRecordMetadata = (): RecordMetadata => {
   };
 };
 
-const generateChannels = (): any => {
-  let returnedObject = {};
+const generateChannels = (): Channel[] => {
+  let channels: Channel[] = [];
   const random = randomNumber(3, 6);
 
   for (let i = 0; i < random; i++) {
-    const newChannel: Channel = {
+    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
+    const newChannel: ScalarChannel = {
+      name: randomName,
       metadata: generateChannelMetadata(),
       data: randomNumber(1000, 9999) / 10,
     };
-    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
+    
     channelMetadata.push(
       generateFullChannelMetadata(randomName, newChannel.metadata.dataType)
     );
-    returnedObject = {
-      ...returnedObject,
-      [randomName]: newChannel,
-    };
+
+    channels.push(newChannel);
   }
 
-  return returnedObject;
+  return channels;
 };
 
 const generateChannelMetadata = (): ChannelMetadata => {

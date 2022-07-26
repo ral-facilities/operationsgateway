@@ -21,26 +21,37 @@ export type AdditionalFilters = {
 export interface Record {
   id: string;
   metadata: RecordMetadata;
-  channels: { [channel: string]: Channel };
+  channels: Channel[];
+}
+
+export interface RecordRow {
+  timestamp: string;
+  activeArea: string;
+  shotNum?: number;
+  activeExperiment?: string;
+
+  [channel: string]: any;
 }
 
 export interface ScalarMetadata {
   dataType: 'scalar';
-  units: string;
+  units?: string;
 }
 
 export interface ImageMetadata {
   dataType: 'image';
   horizontalPixels: number;
+  horizontalPixelUnits: string;
   verticalPixels: number;
+  verticalPixelUnits: string;
   cameraGain: number;
   exposureTime: number;
 }
 
 export interface WaveformMetadata {
   dataType: 'waveform';
-  xUnits: number[];
-  yUnits: number[];
+  xUnits: string;
+  yUnits: string;
 }
 
 export interface RecordMetadata {
@@ -83,8 +94,22 @@ export type FullChannelMetadata =
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
 export interface Channel {
+  name: string;
   metadata: ChannelMetadata;
-  data: any;
+}
+
+export interface ScalarChannel extends Channel {
+  data: number;
+}
+
+export interface ImageChannel extends Channel {
+  imagePath: string;
+  thumbnail: string;
+}
+
+export interface WaveformChannel extends Channel {
+  waveformId: string;
+  thumbnail: string;
 }
 
 export type Order = 'asc' | 'desc';
@@ -99,15 +124,6 @@ export interface QueryParams {
   filters?: FiltersType;
   page: number;
   dateRange: DateRange;
-}
-
-export interface RecordRow {
-  timestamp: string;
-  activeArea: string;
-  shotNum?: number;
-  activeExperiment?: string;
-
-  [channel: string]: any;
 }
 
 export interface DateRange {

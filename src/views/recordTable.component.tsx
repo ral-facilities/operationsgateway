@@ -8,6 +8,9 @@ import {
   Channel,
   RecordRow,
   DateRange,
+  ScalarChannel,
+  ImageChannel,
+  WaveformChannel,
 } from '../app.types';
 import { Column } from 'react-table';
 import DateTimeInputBox from './dateTimeInput.component';
@@ -103,11 +106,23 @@ const RecordTable = React.memo(
           activeExperiment: record.metadata.activeExperiment,
         };
 
-        const keys = Object.keys(record.channels);
-        keys.forEach((key: string) => {
-          const channel: Channel = record.channels[key];
-          const channelData = channel.data;
-          recordRow[key] = channelData;
+        const recordChannels = record.channels;
+        recordChannels.forEach((channel: Channel) => {
+          let channelData;
+          const channelDataType = channel.metadata.dataType;
+          
+          switch (channelDataType) {
+            case 'scalar':
+              channelData = (channel as ScalarChannel).data;
+              break;
+            case 'image':
+              channelData = (channel as ImageChannel).thumbnail;
+              break;
+            default:
+              channelData = (channel as WaveformChannel).thumbnail;
+          }
+
+          recordRow[channel.name] = channelData;
         });
 
         newData.push(recordRow);
