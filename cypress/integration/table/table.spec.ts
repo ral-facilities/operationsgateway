@@ -23,7 +23,7 @@ describe('Table Component', () => {
     verifyColumnOrder(['timestamp', 'shotNum', 'activeArea']);
   });
 
-  it.only('moves a column left', () => {
+  it('moves a column left', () => {
     cy.get('#shotNum').check();
     cy.get('#activeArea').check();
 
