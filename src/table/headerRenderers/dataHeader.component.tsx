@@ -123,8 +123,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onToggleWordWrap,
   } = props;
 
-  const [permitDragging, setPermitDragging] = React.useState<boolean>(true);
-
   const currSortDirection = sort[dataKey];
 
   //Apply default sort on page load (but only if not already defined in URL params)
@@ -265,11 +263,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
 
   // Timestamp column must not be reordered
   return dataKey.toUpperCase() !== 'TIMESTAMP' ? (
-    <Draggable
-      draggableId={dataKey}
-      index={index}
-      isDragDisabled={!permitDragging}
-    >
+    <Draggable draggableId={dataKey} index={index}>
       {(provided) => <TableCellContent provided={provided} />}
     </Draggable>
   ) : (
