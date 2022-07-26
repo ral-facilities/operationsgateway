@@ -67,7 +67,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.2.1"],\
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
-            ["i18next", "npm:21.6.16"],\
+            ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
@@ -11350,10 +11350,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next", [\
-        ["npm:21.6.16", {\
-          "packageLocation": "./.yarn/cache/i18next-npm-21.6.16-61e6655d62-f210130fd8.zip/node_modules/i18next/",\
+        ["npm:21.8.14", {\
+          "packageLocation": "./.yarn/cache/i18next-npm-21.8.14-e641769f6a-83b1a57d76.zip/node_modules/i18next/",\
           "packageDependencies": [\
-            ["i18next", "npm:21.6.16"],\
+            ["i18next", "npm:21.8.14"],\
             ["@babel/runtime", "npm:7.18.3"]\
           ],\
           "linkType": "HARD"\
@@ -14103,7 +14103,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.2.1"],\
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
-            ["i18next", "npm:21.6.16"],\
+            ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
@@ -16696,7 +16696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-native", null],\
             ["html-escaper", "npm:2.0.2"],\
             ["html-parse-stringify", "npm:3.0.1"],\
-            ["i18next", "npm:21.6.16"],\
+            ["i18next", "npm:21.8.14"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-native", null]\
