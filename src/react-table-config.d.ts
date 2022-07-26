@@ -47,6 +47,7 @@ import {
   UseSortByOptions,
   UseSortByState,
 } from 'react-table';
+import { FullChannelMetadata } from './app.types';
 
 declare module 'react-table' {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
@@ -112,10 +113,7 @@ declare module 'react-table' {
       UseResizeColumnsColumnOptions<D>,
       UseSortByColumnOptions<D> {
     wordWrap: boolean;
-    channelInfo?: {
-      description?: string;
-      units?: string;
-    };
+    channelInfo?: FullChannelMetadata;
   }
 
   // @ts-ignore
@@ -126,10 +124,7 @@ declare module 'react-table' {
       UseResizeColumnsColumnProps<D>,
       UseSortByColumnProps<D> {
     wordWrap: boolean;
-    channelInfo?: {
-      description?: string;
-      units?: string;
-    };
+    channelInfo?: FullChannelMetadata;
   }
 
   // @ts-ignore

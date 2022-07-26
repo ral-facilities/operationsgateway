@@ -281,7 +281,7 @@ exports[`Record Table renders correctly 1`] = `
                           <p
                             class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                           >
-                            test_​1
+                            Test 1
                           </p>
                           <svg
                             aria-hidden="true"
@@ -379,7 +379,7 @@ exports[`Record Table renders correctly 1`] = `
                         <p
                           class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                         >
-                          1
+                          111.1
                         </p>
                       </div>
                       <hr

@@ -1,15 +1,21 @@
 import {
   Channel,
-  ChannelMetadata,
   Record,
   RecordMetadata,
-  Scalar,
+  ScalarMetadata,
+  ChannelMetadata,
+  FullChannelMetadata,
+  DataType,
 } from './app.types';
 
 // TODO this needs to be somewhere else. Perhaps a setting?
 export const resultsPerPage = 25;
 
+let channelMetadata: FullChannelMetadata[] = [];
+
 export const generateRecordCollection = (): Record[] => {
+  channelMetadata = [];
+
   let records: Record[] = [];
   const random = randomNumber(resultsPerPage * 3, resultsPerPage * 10);
 
@@ -18,6 +24,27 @@ export const generateRecordCollection = (): Record[] => {
   }
 
   return records;
+};
+
+export const getFullChannelMetadata = () => channelMetadata;
+
+const generateFullChannelMetadata = (
+  channelName: string,
+  dataType: DataType
+): FullChannelMetadata => {
+  const channelMetadata: FullChannelMetadata = {
+    systemName: channelName,
+    dataType: dataType,
+    // give some friendly names, but leave some without to test word wrap
+    userFriendlyName: Math.random() < 0.5 ? channelName.split("_").join(" ") : undefined,
+    description: `${channelName} description`,
+    units: `${channelName} units`,
+  };
+  if (channelMetadata.dataType === 'scalar') {
+    channelMetadata.significantFigures = randomNumber(1, 5);
+    channelMetadata.scientificNotation = Math.random() < 0.5;
+  }
+  return channelMetadata;
 };
 
 const generateRecord = (): Record => {
@@ -45,9 +72,12 @@ const generateChannels = (): any => {
   for (let i = 0; i < random; i++) {
     const newChannel: Channel = {
       metadata: generateChannelMetadata(),
-      data: randomNumber(100, 999),
+      data: randomNumber(1000, 9999) / 10,
     };
     const randomName = 'Channel_' + randomNumber(1000, 9999).toString();
+    channelMetadata.push(
+      generateFullChannelMetadata(randomName, newChannel.metadata.dataType)
+    );
     returnedObject = {
       ...returnedObject,
       [randomName]: newChannel,
@@ -58,13 +88,12 @@ const generateChannels = (): any => {
 };
 
 const generateChannelMetadata = (): ChannelMetadata => {
-  return {
-    dataType: generateScalar(),
-  };
+  return generateScalar();
 };
 
-const generateScalar = (): Scalar => {
+const generateScalar = (): ScalarMetadata => {
   return {
+    dataType: 'scalar',
     units: 'km',
   };
 };
