@@ -212,7 +212,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             enterNextDelay={400}
             title={
               <div>
-                {channelInfo && channelInfo.systemName !== label && (
+                {channelInfo?.userFriendlyName && (
                   <Typography>
                     System Name: {channelInfo.systemName}{' '}
                   </Typography>
