@@ -9,12 +9,12 @@ import {
   renderWithProviders,
   testRecordRows,
   testChannels,
-  generateRecord,
 } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { useChannels } from '../api/channels';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -32,6 +32,7 @@ jest.mock('../api/channels');
 describe('Record Table', () => {
   let data;
   let channelData;
+  let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
     return renderWithProviders(<RecordTable />, {

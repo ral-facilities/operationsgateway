@@ -21,8 +21,8 @@ describe('Table', () => {
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
     generateRow(i + 1)
   );
-  const columnDefs: Column[] = [
-    {
+  const columnDefs: { [id: string]: Column } = {
+    timestamp: {
       Header: 'Timestamp',
       accessor: 'timestamp',
     },
