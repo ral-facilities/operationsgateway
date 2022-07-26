@@ -248,9 +248,9 @@ describe('Table', () => {
       draggedColumn,
       visibleColumns
     );
-    expect(visibleColumns[0].id).toEqual('timestamp');
+    expect(reorderedColumns[0]).toEqual('timestamp');
     expect(reorderedColumns[1]).toEqual('activeArea');
     expect(reorderedColumns[2]).toEqual('shotNum');
-    expect(visibleColumns[3].id).toEqual('activeExperiment');
+    expect(reorderedColumns[3]).toEqual('activeExperiment');
   });
 });
