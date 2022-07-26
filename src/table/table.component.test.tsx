@@ -10,28 +10,19 @@ import { PreloadedState } from '@reduxjs/toolkit';
 
 describe('Table', () => {
   let props: TableProps;
-  const recordRows: RecordRow[] = [
+  const generateRow = (num: number): RecordRow => ({
+    timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00Z`)
+      .getTime()
+      .toString(),
+    activeArea: `${num}`,
+    shotNum: num,
+    activeExperiment: `${num}`,
+  });
+  const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
+    generateRow(i + 1)
+  );
+  const columnDefs: Column[] = [
     {
-      timestamp: new Date('2022-01-01T00:00:00Z').getTime().toString(),
-      activeArea: '1',
-      shotNum: 1,
-      activeExperiment: '1',
-    },
-    {
-      timestamp: new Date('2022-01-02T00:00:00Z').getTime().toString(),
-      activeArea: '2',
-      shotNum: 2,
-      activeExperiment: '2',
-    },
-    {
-      timestamp: new Date('2022-01-03T00:00:00Z').getTime().toString(),
-      activeArea: '3',
-      shotNum: 3,
-      activeExperiment: '3',
-    },
-  ];
-  const columnDefs: { [id: string]: Column } = {
-    timestamp: {
       Header: 'Timestamp',
       accessor: 'timestamp',
     },
@@ -104,10 +95,12 @@ describe('Table', () => {
 
   it('calls onPageChange when page is changed', async () => {
     const user = userEvent.setup();
-    const recordCount = recordRows.length;
-    props.resultsPerPage = 1;
+    props.data = Array.from(Array(12), (_, i) => generateRow(i + 1));
+    const recordCount = props.data.length;
+    props.totalDataCount = recordCount;
+    props.resultsPerPage = 10;
     createView();
-    screen.getByText(`1–1 of ${recordCount}`);
+    screen.getByText(`1–10 of ${recordCount}`);
 
     await user.click(screen.getByLabelText('Go to next page'));
 

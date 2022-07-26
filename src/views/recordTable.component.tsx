@@ -13,6 +13,8 @@ import {
 } from '../state/slices/columnsSlice';
 import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import { selectQueryParams } from '../state/slices/searchSlice';
+import { useChannels } from '../api/channels';
+import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const dispatch = useAppDispatch();
@@ -23,45 +25,69 @@ const RecordTable = React.memo((): React.ReactElement => {
   const { data, isLoading: dataLoading } = useRecordsPaginated();
   const { data: count, isLoading: countLoading } = useRecordCount();
 
+  const { data: channels, isLoading: channelsLoading } = useChannels();
+
   // Use this as the controlling variable for data having loaded
   // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
   const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
 
-  const constructColumns = (parsed: RecordRow[]): Column[] => {
-    let myColumns: Column[] = [];
-    let accessors: Set<string> = new Set<string>();
+  const constructColumns = React.useCallback(
+    (parsed: RecordRow[]): Column[] => {
+      let myColumns: Column[] = [];
+      let accessors: Set<string> = new Set<string>();
 
-    parsed.forEach((recordRow: RecordRow) => {
-      const keys = Object.keys(recordRow);
+      parsed.forEach((recordRow: RecordRow) => {
+        const keys = Object.keys(recordRow);
 
-      for (let i = 0; i < keys.length; i++) {
-        if (!accessors.has(keys[i])) {
-          const newColumn: Column = {
-            Header: keys[i], // Provide an actual header here when we have it
-            accessor: keys[i],
-            // TODO: get these from data channel info
-            channelInfo: {
-              units: `${keys[i]} units`,
-              description: `${keys[i]} description`,
-            },
-          };
-          myColumns.push(newColumn);
-          accessors.add(keys[i]);
+        for (let i = 0; i < keys.length; i++) {
+          if (!accessors.has(keys[i])) {
+            const channelInfo = channels?.find(
+              (channel) => channel.systemName === keys[i]
+            );
+            const newColumn: Column = {
+              Header: channelInfo
+                ? channelInfo.userFriendlyName
+                  ? channelInfo.userFriendlyName
+                  : channelInfo.systemName
+                : keys[i], // Provide an actual header here when we have it
+              accessor: keys[i],
+              // TODO: get these from data channel info
+              channelInfo: channelInfo,
+            };
+            if (channelInfo?.dataType === 'scalar') {
+              newColumn.Cell = ({ value }) =>
+                typeof value === 'number' &&
+                typeof channelInfo.significantFigures === 'number' ? (
+                  <React.Fragment>
+                    {roundNumber(
+                      value,
+                      channelInfo.significantFigures,
+                      channelInfo.scientificNotation ?? false
+                    )}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>{String(value ?? '')}</React.Fragment>
+                );
+            }
+            myColumns.push(newColumn);
+            accessors.add(keys[i]);
+          }
         }
-      }
-    });
+      });
 
-    return myColumns;
-  };
+      return myColumns;
+    },
+    [channels]
+  );
 
   React.useEffect(() => {
-    if (data && !columnsLoaded) {
+    if (data && !channelsLoading && !columnsLoaded) {
       // columns normally don't reload each time the data changes
       const newAvailableColumns = constructColumns(data);
       dispatch(setColumns(newAvailableColumns));
       setColumnsLoaded(true);
     }
-  }, [data, columnsLoaded, dispatch]);
+  }, [data, channelsLoading, columnsLoaded, dispatch, constructColumns]);
 
   const onPageChange = React.useCallback(
     (page: number) => {

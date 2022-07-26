@@ -8,6 +8,8 @@ import {
   getState,
   renderWithProviders,
   testRecordRows,
+  testChannels,
+  generateRecord,
 } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
@@ -25,9 +27,11 @@ jest.mock('../api/records', () => {
   };
 });
 
+jest.mock('../api/channels');
+
 describe('Record Table', () => {
   let data;
-  let state: PreloadedState<RootState>;
+  let channelData;
 
   const createView = (initialState = state) => {
     return renderWithProviders(<RecordTable />, {
@@ -39,6 +43,7 @@ describe('Record Table', () => {
     applyDatePickerWorkaround();
     userEvent.setup();
     data = testRecordRows;
+    channelData = testChannels;
 
     (useRecordsPaginated as jest.Mock).mockReturnValue({
       data: data,
@@ -46,6 +51,10 @@ describe('Record Table', () => {
     });
     (useRecordCount as jest.Mock).mockReturnValue({
       data: data.length,
+      isLoading: false,
+    });
+    (useChannels as jest.Mock).mockReturnValue({
+      data: channelData,
       isLoading: false,
     });
 
@@ -72,6 +81,11 @@ describe('Record Table', () => {
       isLoading: true,
     });
 
+    (useChannels as jest.Mock).mockReturnValue({
+      data: [],
+      isLoading: true,
+    });
+
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -91,6 +105,7 @@ describe('Record Table', () => {
 
     expect(useRecordsPaginated).toHaveBeenCalled();
     expect(useRecordCount).toHaveBeenCalled();
+    expect(useChannels).toHaveBeenCalled();
   });
 
   it('can sort columns and removes column sort when column is closed', async () => {
@@ -177,6 +192,17 @@ describe('Record Table', () => {
     expect(columns[1]).toHaveTextContent('shotNum');
     expect(columns[2]).toHaveTextContent('activeExperiment');
     expect(columns[3]).toHaveTextContent('activeArea');
+  });
+
+  it('rounds numbers correctly in scalar columns', async () => {
+    createView();
+
+    await act(async () => {
+      screen.getByLabelText('test3 checkbox').click();
+      await flushPromises();
+    });
+
+    expect(screen.getByText('3.3e+2')).toBeInTheDocument();
   });
 
   it.todo('updates available columns when data from backend changes');

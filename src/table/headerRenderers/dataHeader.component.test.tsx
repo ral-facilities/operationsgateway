@@ -44,6 +44,8 @@ describe('Data Header', () => {
       resizerProps: {},
       index: 0,
       channelInfo: {
+        systemName: 'Test',
+        dataType: 'scalar',
         units: 'm',
         description: 'test description',
       },
@@ -159,6 +161,30 @@ describe('Data Header', () => {
 
     expect(
       await screen.findByText('Units: m', {
+        exact: false,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText('System Name: Test', {
+        exact: false,
+      })
+    ).not.toBeInTheDocument();
+  });
+
+  it('displays tooltip with system name when user hovers over friendly column name', async () => {
+    props.label = 'Test Friendly Name';
+    createView();
+    const header = screen.getByText('Test Friendly Name');
+
+    fireEvent(
+      header,
+      new MouseEvent('mouseover', {
+        bubbles: true,
+      })
+    );
+
+    expect(
+      await screen.findByText('System Name: Test', {
         exact: false,
       })
     ).toBeInTheDocument();
