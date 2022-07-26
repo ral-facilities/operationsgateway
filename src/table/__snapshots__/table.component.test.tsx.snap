@@ -108,15 +108,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                         />
                       </button>
                     </div>
-                    <div
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
                       draggable="false"
                       role="separator"
                       style="cursor: col-resize;"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-                      />
-                    </div>
+                      tabindex="-1"
+                    />
                   </div>
                 </th>
                 <th
@@ -207,15 +206,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                         />
                       </button>
                     </div>
-                    <div
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
                       draggable="false"
                       role="separator"
                       style="cursor: col-resize;"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-                      />
-                    </div>
+                      tabindex="-1"
+                    />
                   </div>
                 </th>
                 <th
@@ -306,15 +304,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                         />
                       </button>
                     </div>
-                    <div
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
                       draggable="false"
                       role="separator"
                       style="cursor: col-resize;"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-                      />
-                    </div>
+                      tabindex="-1"
+                    />
                   </div>
                 </th>
                 <th
@@ -405,15 +402,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                         />
                       </button>
                     </div>
-                    <div
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
                       draggable="false"
                       role="separator"
                       style="cursor: col-resize;"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-                      />
-                    </div>
+                      tabindex="-1"
+                    />
                   </div>
                 </th>
               </tr>
@@ -999,15 +995,14 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
                         />
                       </button>
                     </div>
-                    <div
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
                       draggable="false"
                       role="separator"
                       style="cursor: col-resize;"
-                    >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-                      />
-                    </div>
+                      tabindex="-1"
+                    />
                   </div>
                 </th>
               </tr>

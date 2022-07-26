@@ -164,13 +164,11 @@ exports[`Data Header renders a column icon if provided 1`] = `
                 />
               </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>
@@ -274,13 +272,11 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
                 />
               </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>
@@ -368,13 +364,11 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
                 />
               </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>

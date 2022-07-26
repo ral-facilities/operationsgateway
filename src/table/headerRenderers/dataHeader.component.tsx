@@ -236,12 +236,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             // TODO: switch to theme background color
             backgroundColor: 'white',
           }}
-          onMouseOver={() => {
-            setPermitDragging(false);
-          }}
-          onMouseOut={() => {
-            setPermitDragging(true);
-          }}
         >
           <ColumnMenu
             dataKey={dataKey}
@@ -249,21 +243,21 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             wordWrap={wordWrap}
             onToggleWordWrap={onToggleWordWrap}
           />
-          <div
+          <Divider
             {...resizerProps}
-            style={{
+            // contentEditable makes it so that react-beautiful-dnd won't listen to drag
+            // events from this component. Also need to add tabIndex -1 to make it not
+            // focusable as it looks like a text editor if focused on!
+            contentEditable
+            tabIndex={-1}
+            orientation="vertical"
+            flexItem
+            sx={{
+              height: '100%',
+              borderRightWidth: 5,
               cursor: 'col-resize',
             }}
-          >
-            <Divider
-              orientation="vertical"
-              flexItem
-              sx={{
-                height: '100%',
-                borderRightWidth: 5,
-              }}
-            />
-          </div>
+          />
         </Box>
       </TableCell>
     );
