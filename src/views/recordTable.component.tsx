@@ -6,7 +6,6 @@ import { Column } from 'react-table';
 import DateTimeInputBox from './dateTimeInput.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
-  setColumns,
   changeSort,
   changePage,
   changeResultsPerPage,
@@ -30,6 +29,7 @@ const RecordTable = React.memo((): React.ReactElement => {
   // Use this as the controlling variable for data having loaded
   // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
   const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
+  const [availableColumns, setAvailableColumns] = React.useState<Column[]>([]);
 
   const constructColumns = React.useCallback(
     (parsed: RecordRow[]): Column[] => {
@@ -65,7 +65,6 @@ const RecordTable = React.memo((): React.ReactElement => {
               accessor: keys[i],
               // TODO: get these from data channel info
               channelInfo: channelInfo,
-              wordWrap: false,
             };
             if (channelInfo?.dataType === 'scalar') {
               newColumn.Cell = ({ value }) =>
@@ -97,7 +96,7 @@ const RecordTable = React.memo((): React.ReactElement => {
     if (data && !channelsLoading && !columnsLoaded) {
       // columns normally don't reload each time the data changes
       const newAvailableColumns = constructColumns(data);
-      dispatch(setColumns(newAvailableColumns));
+      setAvailableColumns(newAvailableColumns);
       setColumnsLoaded(true);
     }
   }, [data, channelsLoading, columnsLoaded, dispatch, constructColumns]);
@@ -131,6 +130,7 @@ const RecordTable = React.memo((): React.ReactElement => {
       <br />
       <Table
         data={data ?? []}
+        availableColumns={availableColumns}
         totalDataCount={count ?? 0}
         page={page}
         loadedData={!dataLoading && columnsLoaded}
@@ -141,7 +141,7 @@ const RecordTable = React.memo((): React.ReactElement => {
         sort={sort}
         onSort={handleSort}
       />
-      <ColumnCheckboxes />
+      <ColumnCheckboxes availableColumns={availableColumns} />
     </div>
   );
 });

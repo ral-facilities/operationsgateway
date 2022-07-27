@@ -6,6 +6,7 @@ import {
   useResizeColumns,
   useColumnOrder,
   ColumnInstance,
+  Column,
 } from 'react-table';
 import {
   Backdrop,
@@ -27,9 +28,11 @@ import { useAppSelector, useAppDispatch } from '../state/hooks';
 import {
   deselectColumn,
   reorderColumn,
-  selectAvailableColumns,
+  toggleWordWrap,
+  selectColumnStates,
   selectColumn,
   selectHiddenColumns,
+  selectSelectedIds,
 } from '../state/slices/columnsSlice';
 
 // 24 - the width of the close icon in header
@@ -45,6 +48,7 @@ const stickyColumnStyles: SxProps<Theme> = {
 
 export interface TableProps {
   data: RecordRow[];
+  availableColumns: Column[];
   totalDataCount: number;
   page: number;
   loadedData: boolean;
@@ -59,6 +63,7 @@ export interface TableProps {
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
+    availableColumns,
     totalDataCount,
     loadedData,
     page,
@@ -73,7 +78,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    ** A note about the columns used in this file:
    ** availableColumns - this represent all columns that can currently be added to the
    **                    display based on data received from the backend
-   ** hiddenColumns   -  these are the columns the user has *not* selected to appear in the table
+   ** columnStates     - this represents the user defined column states from redux (e.g. wordWrap state)
+   ** hiddenColumns    - these are the columns the user has *not* selected to appear in the table
    **                    These are used to tell react-table which columns to show
    ** visibleColumns   - these are the columns that React Table says are currently in the
    **                    display. It contains all information about the displayed columns,
@@ -81,18 +87,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    **                    does NOT contain this info and is defined by the user, not React Table
    */
 
-  const availableColumns = useAppSelector(selectAvailableColumns);
-  const hiddenColumns = useAppSelector(selectHiddenColumns);
-  const columnOrder = useAppSelector(
-    (state) => state.columns.selectedColumnIds
+  const columnStates = useAppSelector(selectColumnStates);
+  const hiddenColumns = useAppSelector((state) =>
+    selectHiddenColumns(state, availableColumns)
   );
+  const columnOrder = useAppSelector(selectSelectedIds);
   const dispatch = useAppDispatch();
-
-  const handleColumnWordWrapToggle = (column: string): void => {
-    const col = visibleColumns.find((col) => col.id === column);
-    if (col) col.wordWrap = !col.wordWrap;
-    setColumnOrder(columnOrder);
-  };
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -131,6 +131,13 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
+
+  const handleColumnWordWrapToggle = React.useCallback(
+    (column: string): void => {
+      dispatch(toggleWordWrap(column));
+    },
+    [dispatch]
+  );
 
   const handleOnDragEnd = React.useCallback(
     (result: DropResult): void => {
@@ -209,7 +216,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       ...stickyColumnStyles,
                                     }
                                   : columnStyles;
-                                const { channelInfo, wordWrap } =
+                                const { channelInfo } =
                                   column as ColumnInstance;
 
                                 return (
@@ -228,7 +235,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       column.id.toUpperCase()
                                     )}
                                     channelInfo={channelInfo}
-                                    wordWrap={wordWrap}
+                                    wordWrap={
+                                      columnStates[dataKey]?.wordWrap ?? false
+                                    }
                                     onToggleWordWrap={
                                       handleColumnWordWrapToggle
                                     }

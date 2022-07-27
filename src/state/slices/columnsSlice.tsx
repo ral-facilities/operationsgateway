@@ -3,13 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Column } from 'react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
-import { Order } from '../../app.types';
+import { ColumnState, Order } from '../../app.types';
 import { resultsPerPage } from '../../recordGeneration';
 
 // Define a type for the slice state
 interface ColumnsState {
-  columnDefs: {
-    [id: string]: Column;
+  columnStates: {
+    [id: string]: ColumnState;
   };
   selectedColumnIds: string[];
   page: number;
@@ -21,7 +21,7 @@ interface ColumnsState {
 
 // Define the initial state using that type
 export const initialState = {
-  columnDefs: {},
+  columnStates: {},
   selectedColumnIds: [],
   page: 0,
   resultsPerPage: resultsPerPage,
@@ -33,23 +33,6 @@ export const columnsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    // Use the PayloadAction type to declare the contents of `action.payload`
-    setColumns: (state, action: PayloadAction<Column[]>) => {
-      // reduce the collection by the id property into a shape of { 1: { ...user }}
-      const byId = action.payload.reduce(
-        (
-          byId: {
-            [id: string]: Column;
-          },
-          col
-        ) => {
-          byId[col.accessor?.toString() ?? ''] = col;
-          return byId;
-        },
-        {}
-      );
-      state.columnDefs = byId;
-    },
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
       state.selectedColumnIds.push(action.payload);
@@ -94,21 +77,34 @@ export const columnsSlice = createSlice({
       state.resultsPerPage = action.payload;
       state.page = 0;
     },
+    toggleWordWrap: (state, action: PayloadAction<string>) => {
+      if (state.columnStates[action.payload]) {
+        state.columnStates[action.payload].wordWrap =
+          !state.columnStates[action.payload].wordWrap;
+      } else {
+        state.columnStates[action.payload] = { wordWrap: true };
+      }
+    },
   },
 });
 
 export const {
-  setColumns,
   selectColumn,
   deselectColumn,
   reorderColumn,
   changeSort,
   changePage,
   changeResultsPerPage,
+  toggleWordWrap,
 } = columnsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectColumnDefs = (state: RootState) => state.columns.columnDefs;
+export const selectColumnStates = (state: RootState) =>
+  state.columns.columnStates;
+export const selectAvailableColumns = (
+  state: RootState,
+  availableColumns: Column[]
+) => availableColumns;
 export const selectSelectedIds = (state: RootState) =>
   state.columns.selectedColumnIds;
 export const selectSort = (state: RootState) => state.columns.sort;
@@ -136,10 +132,10 @@ const selectSelectedIdsIgnoreOrder = createSelector(
 );
 
 export const selectSelectedColumns = createSelector(
-  selectColumnDefs,
+  selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
-  (columnDefs, selectedIds) => {
-    return Object.values(columnDefs).filter((col) => {
+  (availableColumns, selectedIds) => {
+    return availableColumns.filter((col) => {
       if (col.accessor?.toString()) {
         return selectedIds.includes(col.accessor.toString());
       } else {
@@ -150,19 +146,14 @@ export const selectSelectedColumns = createSelector(
 );
 
 export const selectHiddenColumns = createSelector(
-  selectColumnDefs,
+  selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
-  (columnDefs, selectedIds) => {
-    return Object.keys(columnDefs).filter((colId) => {
-      return !selectedIds.includes(colId);
-    });
-  }
-);
-
-export const selectAvailableColumns = createSelector(
-  selectColumnDefs,
-  (columnDefs) => {
-    return Object.values(columnDefs);
+  (availableColumns, selectedIds) => {
+    return availableColumns
+      .filter((col) => {
+        return !selectedIds.includes(col.accessor?.toString() ?? '');
+      })
+      .map((col) => col.accessor?.toString() ?? '');
   }
 );
 

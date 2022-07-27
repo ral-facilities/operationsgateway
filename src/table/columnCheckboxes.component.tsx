@@ -15,7 +15,9 @@ export interface ColumnCheckboxesProps {
 const ColumnCheckboxes = React.memo(
   (props: ColumnCheckboxesProps): React.ReactElement => {
     const { availableColumns } = props;
-    const selectedColumns = useAppSelector(selectSelectedColumns);
+    const selectedColumns = useAppSelector((state) =>
+      selectSelectedColumns(state, availableColumns)
+    );
     const dispatch = useAppDispatch();
 
     const onColumnOpen = (column: string): void => {

@@ -115,6 +115,11 @@ export interface DateRange {
   fromDate?: string;
   toDate?: string;
 }
+
+export interface ColumnState {
+  wordWrap?: boolean;
+}
+
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)

@@ -112,7 +112,6 @@ declare module 'react-table' {
       UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
       UseSortByColumnOptions<D> {
-    wordWrap: boolean;
     channelInfo?: FullChannelMetadata;
   }
 
@@ -123,7 +122,6 @@ declare module 'react-table' {
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
       UseSortByColumnProps<D> {
-    wordWrap: boolean;
     channelInfo?: FullChannelMetadata;
   }
 
