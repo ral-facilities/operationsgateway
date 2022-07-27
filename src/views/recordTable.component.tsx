@@ -16,6 +16,7 @@ import { Column } from 'react-table';
 import DateTimeInputBox from './dateTimeInput.component';
 import { useChannels } from '../api/channels';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+import { parseISO, format } from 'date-fns';
 
 export interface RecordTableProps {
   resultsPerPage: number;
@@ -112,8 +113,11 @@ const RecordTable = React.memo(
       let newData: RecordRow[] = [];
 
       data.forEach((record: Record) => {
+        const timestampString = record.metadata.timestamp;
+        const timestampDate = parseISO(timestampString);
+        const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
         let recordRow: RecordRow = {
-          timestamp: record.metadata.timestamp,
+          timestamp: formattedDate,
           shotnum: record.metadata.shotnum,
           activeArea: record.metadata.activeArea,
           activeExperiment: record.metadata.activeExperiment,
@@ -131,9 +135,17 @@ const RecordTable = React.memo(
               break;
             case 'image':
               channelData = (channel as ImageChannel).thumbnail;
+              // TODO make this a thumbnail later to access a larger version of image
+              channelData = (
+                <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+              );
               break;
             case 'waveform':
               channelData = (channel as WaveformChannel).thumbnail;
+              // TODO make this a thumbnail later to access a larger version of image
+              channelData = (
+                <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+              );
           }
 
           recordRow[key] = channelData;
