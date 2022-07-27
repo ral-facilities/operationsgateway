@@ -1,15 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
 import { QueryParams, Record, SortType, DateRange } from '../app.types';
-import {
-  generateRecordCollection,
-  randomNumber,
-  resultsPerPage,
-} from '../recordGeneration';
-
-const sleep = (ms: number): Promise<unknown> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+import { generateRecordCollection, resultsPerPage } from '../recordGeneration';
+import { generateActualChannelMetadata } from './channels';
 
 // TODO fetch this with useSelector when Redux is available
 const apiUrl = 'http://opsgateway-epac-dev.clf.stfc.ac.uk:8000';
@@ -17,7 +10,7 @@ const apiUrl = 'http://opsgateway-epac-dev.clf.stfc.ac.uk:8000';
 const recordCollection = generateRecordCollection();
 
 // TODO change this when we have an API to query
-export const fetchRecords = async (
+const fetchRecords = async (
   page: number,
   sort?: SortType,
   dateRange?: DateRange
@@ -27,7 +20,9 @@ export const fetchRecords = async (
   const startIndex = endIndex - resultsPerPage;
 
   return axios.get(`${apiUrl}/records`).then((response) => {
-    return response.data;
+    const records: Record[] = response.data;
+    generateActualChannelMetadata(records);
+    return records;
   });
 };
 
