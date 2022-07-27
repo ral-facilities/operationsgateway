@@ -106,11 +106,12 @@ const RecordTable = React.memo(
           activeExperiment: record.metadata.activeExperiment,
         };
 
-        const recordChannels = record.channels;
-        recordChannels.forEach((channel: Channel) => {
+        const keys = Object.keys(record.channels);
+        keys.forEach((key: string) => {
+          const channel: Channel = record.channels[key];
           let channelData;
           const channelDataType = channel.metadata.dataType;
-          
+
           switch (channelDataType) {
             case 'scalar':
               channelData = (channel as ScalarChannel).data;
@@ -122,7 +123,7 @@ const RecordTable = React.memo(
               channelData = (channel as WaveformChannel).thumbnail;
           }
 
-          recordRow[channel.name] = channelData;
+          recordRow[key] = channelData;
         });
 
         newData.push(recordRow);

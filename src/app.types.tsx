@@ -21,7 +21,7 @@ export type AdditionalFilters = {
 export interface Record {
   id: string;
   metadata: RecordMetadata;
-  channels: Channel[];
+  channels: { [channel: string]: Channel };
 }
 
 export interface RecordRow {
@@ -94,7 +94,6 @@ export type FullChannelMetadata =
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
 export interface Channel {
-  name: string;
   metadata: ChannelMetadata;
 }
 

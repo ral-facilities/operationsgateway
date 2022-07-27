@@ -1,5 +1,4 @@
 import {
-  Channel,
   Record,
   RecordMetadata,
   ScalarMetadata,
@@ -65,26 +64,26 @@ const generateRecordMetadata = (): RecordMetadata => {
   };
 };
 
-const generateChannels = (): Channel[] => {
-  let channels: Channel[] = [];
+const generateChannels = (): any => {
+  let returnedObject = {};
   const random = randomNumber(3, 6);
 
   for (let i = 0; i < random; i++) {
-    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
     const newChannel: ScalarChannel = {
-      name: randomName,
       metadata: generateChannelMetadata(),
       data: randomNumber(1000, 9999) / 10,
     };
-    
+    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
     channelMetadata.push(
       generateFullChannelMetadata(randomName, newChannel.metadata.dataType)
     );
-
-    channels.push(newChannel);
+    returnedObject = {
+      ...returnedObject,
+      [randomName]: newChannel,
+    };
   }
 
-  return channels;
+  return returnedObject;
 };
 
 const generateChannelMetadata = (): ChannelMetadata => {
