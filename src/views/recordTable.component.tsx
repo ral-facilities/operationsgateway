@@ -84,7 +84,7 @@ const RecordTable = React.memo(
               channelInfo: channelInfo,
               wordWrap: false,
             };
-            if (channelInfo?.dataType === 'scalar') {
+            if (channelInfo?.channel_dtype === 'scalar') {
               newColumn.Cell = ({ value }) =>
                 typeof value === 'number' &&
                 typeof channelInfo.significantFigures === 'number' ? (
@@ -114,7 +114,7 @@ const RecordTable = React.memo(
       data.forEach((record: Record) => {
         let recordRow: RecordRow = {
           timestamp: record.metadata.timestamp,
-          shotNum: record.metadata.shotNum,
+          shotnum: record.metadata.shotnum,
           activeArea: record.metadata.activeArea,
           activeExperiment: record.metadata.activeExperiment,
         };
@@ -123,7 +123,7 @@ const RecordTable = React.memo(
         keys.forEach((key: string) => {
           const channel: Channel = record.channels[key];
           let channelData;
-          const channelDataType = channel.metadata.dataType;
+          const channelDataType = channel.metadata.channel_dtype;
 
           switch (channelDataType) {
             case 'scalar':
@@ -132,7 +132,7 @@ const RecordTable = React.memo(
             case 'image':
               channelData = (channel as ImageChannel).thumbnail;
               break;
-            default:
+            case 'waveform':
               channelData = (channel as WaveformChannel).thumbnail;
           }
 

@@ -39,19 +39,19 @@ export const cleanupDatePickerWorkaround = (): void => {
 export const testChannels: FullChannelMetadata[] = [
   {
     systemName: 'test_1',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     userFriendlyName: 'Test 1',
     significantFigures: 4,
   },
   {
     systemName: 'test_2',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: false,
   },
   {
     systemName: 'test_3',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: true,
   },
@@ -63,7 +63,7 @@ export const generateRecord = (num: number): Record => {
     id: numStr,
     metadata: {
       dataVersion: numStr,
-      shotNum: num,
+      shotnum: num,
       timestamp: numStr,
       activeArea: numStr,
       activeExperiment: numStr,
@@ -71,7 +71,7 @@ export const generateRecord = (num: number): Record => {
     channels: {
       [`test_${num}`]: {
         metadata: {
-          dataType: 'scalar',
+          channel_dtype: 'scalar',
           units: 'km',
         },
         data:

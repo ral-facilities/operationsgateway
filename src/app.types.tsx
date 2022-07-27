@@ -27,19 +27,19 @@ export interface Record {
 export interface RecordRow {
   timestamp: string;
   activeArea: string;
-  shotNum?: number;
+  shotnum?: number;
   activeExperiment?: string;
 
   [channel: string]: any;
 }
 
 export interface ScalarMetadata {
-  dataType: 'scalar';
+  channel_dtype: 'scalar';
   units?: string;
 }
 
 export interface ImageMetadata {
-  dataType: 'image';
+  channel_dtype: 'image';
   horizontalPixels: number;
   horizontalPixelUnits: string;
   verticalPixels: number;
@@ -49,7 +49,7 @@ export interface ImageMetadata {
 }
 
 export interface WaveformMetadata {
-  dataType: 'waveform';
+  channel_dtype: 'waveform';
   xUnits: string;
   yUnits: string;
 }
@@ -58,7 +58,7 @@ export interface RecordMetadata {
   dataVersion: string;
   timestamp: string;
   activeArea: string;
-  shotNum?: number;
+  shotnum?: number;
   activeExperiment?: string;
 }
 
@@ -66,24 +66,24 @@ export type DataType = 'scalar' | 'image' | 'waveform';
 
 export interface FullCommonChannelMetadata {
   systemName: string;
-  dataType: DataType;
+  channel_dtype: DataType;
   userFriendlyName?: string;
   description?: string;
   units?: string;
 }
 
 export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'scalar';
+  channel_dtype: 'scalar';
   significantFigures?: number;
   scientificNotation?: boolean;
 }
 
 export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'image';
+  channel_dtype: 'image';
 }
 
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'waveform';
+  channel_dtype: 'waveform';
 }
 
 export type FullChannelMetadata =
@@ -98,7 +98,7 @@ export interface Channel {
 }
 
 export interface ScalarChannel extends Channel {
-  data: number;
+  data: number | string;
 }
 
 export interface ImageChannel extends Channel {

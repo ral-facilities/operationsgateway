@@ -34,13 +34,14 @@ const generateFullChannelMetadata = (
 ): FullChannelMetadata => {
   const channelMetadata: FullChannelMetadata = {
     systemName: channelName,
-    dataType: dataType,
+    channel_dtype: dataType,
     // give some friendly names, but leave some without to test word wrap
-    userFriendlyName: Math.random() < 0.5 ? channelName.split("_").join(" ") : undefined,
+    userFriendlyName:
+      Math.random() < 0.5 ? channelName.split('_').join(' ') : undefined,
     description: `${channelName} description`,
     units: `${channelName} units`,
   };
-  if (channelMetadata.dataType === 'scalar') {
+  if (channelMetadata.channel_dtype === 'scalar') {
     channelMetadata.significantFigures = randomNumber(1, 5);
     channelMetadata.scientificNotation = Math.random() < 0.5;
   }
@@ -58,7 +59,7 @@ const generateRecord = (): Record => {
 const generateRecordMetadata = (): RecordMetadata => {
   return {
     dataVersion: randomNumber(100, 999).toString(),
-    shotNum: randomNumber(100, 999),
+    shotnum: randomNumber(100, 999),
     timestamp: randomDate().getTime().toString(),
     activeArea: randomNumber(100, 999).toString(),
     activeExperiment: randomNumber(100, 999).toString(),
@@ -76,7 +77,7 @@ const generateChannels = (): any => {
     };
     const randomName = 'Channel_' + randomNumber(1000, 9999).toString();
     channelMetadata.push(
-      generateFullChannelMetadata(randomName, newChannel.metadata.dataType)
+      generateFullChannelMetadata(randomName, newChannel.metadata.channel_dtype)
     );
     returnedObject = {
       ...returnedObject,
@@ -93,7 +94,7 @@ const generateChannelMetadata = (): ChannelMetadata => {
 
 const generateScalar = (): ScalarMetadata => {
   return {
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     units: 'km',
   };
 };
