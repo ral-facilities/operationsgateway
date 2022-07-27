@@ -683,7 +683,7 @@ exports[`Record Table renders correctly 1`] = `
             <label
               for="test_1"
             >
-              test_1
+              Test 1
             </label>
             <span
               class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"

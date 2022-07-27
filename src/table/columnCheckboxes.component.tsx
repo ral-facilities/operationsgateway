@@ -27,9 +27,14 @@ const ColumnCheckboxes = (props: ColumnCheckboxesProps): React.ReactElement => {
 
   const checkboxes = availableColumns.map((column: Column) => {
     const accessor = column.accessor?.toString();
+    const label = column.channelInfo?.userFriendlyName
+      ? column.channelInfo?.userFriendlyName
+      : column.channelInfo?.systemName
+      ? column.channelInfo?.systemName
+      : accessor;
     return accessor && accessor.toUpperCase() !== 'TIMESTAMP' ? (
       <div key={accessor}>
-        <label htmlFor={accessor}>{accessor}</label>
+        <label htmlFor={accessor}>{label}</label>
         <Checkbox
           onChange={(e) => handleColumnChecked(e.target.id, e.target.checked)}
           id={accessor}
