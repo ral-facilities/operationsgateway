@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
 import { QueryParams, Record, SortType, DateRange } from '../app.types';
-import { generateRecordCollection, resultsPerPage } from '../recordGeneration';
 import { generateActualChannelMetadata } from './channels';
 
 // TODO fetch this with useSelector when Redux is available
 const apiUrl = 'http://opsgateway-epac-dev.clf.stfc.ac.uk:8000';
 
-const recordCollection = generateRecordCollection();
+// TODO this needs to be somewhere else. Perhaps a setting?
+const resultsPerPage = 25;
 
 // TODO change this when we have an API to query
 const fetchRecords = async (
@@ -27,7 +27,7 @@ const fetchRecords = async (
 };
 
 const fetchRecordCountQuery = (): Promise<number> => {
-  return Promise.resolve(recordCollection.length);
+  return axios.get(`${apiUrl}/records/count`).then((response) => response.data);
 };
 
 export const useRecordsPaginated = (
