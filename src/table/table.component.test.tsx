@@ -27,28 +27,28 @@ describe('Table', () => {
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
     generateRow(i + 1)
   );
-  const columnDefs: { [id: string]: Column } = {
-    timestamp: {
+  const availableColumns: Column[] = [
+    {
       Header: 'Timestamp',
       id: 'timestamp',
       accessor: 'timestamp',
     },
-    shotNum: {
+    {
       Header: 'Shot Number',
       id: 'shotNum',
       accessor: 'shotNum',
     },
-    activeArea: {
+    {
       Header: 'Active Area',
       id: 'activeArea',
       accessor: 'activeArea',
     },
-    activeExperiment: {
+    {
       Header: 'Active Experiment',
       id: 'activeExperiment',
       accessor: 'activeExperiment',
     },
-  };
+  ];
   const onPageChange = jest.fn();
   const onResultsPerPageChange = jest.fn();
   const onSort = jest.fn();
@@ -63,6 +63,7 @@ describe('Table', () => {
   beforeEach(() => {
     props = {
       data: recordRows,
+      availableColumns,
       totalDataCount: recordRows.length,
       page: 0,
       loadedData: true,
@@ -73,7 +74,7 @@ describe('Table', () => {
       onSort: onSort,
       sort: {},
     };
-    state = { columns: { ...getState().columns, columnDefs } };
+    state = { columns: { ...getState().columns } };
   });
 
   afterEach(() => {
@@ -121,7 +122,6 @@ describe('Table', () => {
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 
-  // TODO: improve test once fixed to pagination errors is merged
   it('calls onResultsPerPageChange when resultsPerPage is changed', async () => {
     const user = userEvent.setup();
     createView();

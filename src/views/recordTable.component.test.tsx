@@ -16,6 +16,7 @@ import {
   renderWithProviders,
   testRecordRows,
   testChannels,
+  generateRecordRow,
 } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
@@ -133,8 +134,11 @@ describe('Record Table', () => {
 
     expect(screen.getByTestId('sort shotNum')).toHaveClass('Mui-active');
 
-    const icon = screen.getByLabelText('close shotNum');
-    fireEvent.click(icon);
+    let menuIcon = screen.getByLabelText('shotNum menu');
+    fireEvent.click(menuIcon);
+
+    const close = screen.getByText('Close');
+    fireEvent.click(close);
 
     expect(screen.getByLabelText('shotNum checkbox')).toHaveProperty(
       'checked',
@@ -146,18 +150,28 @@ describe('Record Table', () => {
     expect(screen.getByTestId('sort shotNum')).not.toHaveClass('Mui-active');
   });
 
-  // TODO: improve this test when pagination test improvements are merged
   // TODO: this test is similar to the one in table - either we keep the redux
   // state in recordTable and do the test here - or we move the state into table
   // and do the test there
   it('paginates correctly', async () => {
-    state = { ...state, columns: { ...state.columns, resultsPerPage: 1 } };
+    state = { ...state, columns: { ...state.columns, resultsPerPage: 10 } };
+    data = Array.from(Array(12), (_, i) => generateRecordRow(i + 1));
+    (useRecordsPaginated as jest.Mock).mockReturnValue({
+      data,
+      isLoading: false,
+    });
+    (useRecordCount as jest.Mock).mockReturnValue({
+      data: data.length,
+      isLoading: false,
+    });
     const user = userEvent.setup();
     createView();
 
+    screen.getByText(`1–10 of ${data.length}`);
+
     await user.click(screen.getByLabelText('Go to next page'));
 
-    screen.getByText(`2–2 of ${data.length}`);
+    screen.getByText(`11–12 of ${data.length}`);
 
     const resultsPerPage = screen.getByRole('button', {
       name: /Rows per page/i,
@@ -166,9 +180,9 @@ describe('Record Table', () => {
 
     const listbox = within(screen.getByRole('listbox'));
 
-    await user.click(listbox.getByText('10'));
+    await user.click(listbox.getByText('25'));
 
-    screen.getByText(`1–3 of ${data.length}`);
+    screen.getByText(`1–12 of ${data.length}`);
   });
 
   it('adds columns in correct order on checkbox click', async () => {

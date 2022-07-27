@@ -52,20 +52,23 @@ describe('columnsSlice', () => {
     });
 
     it('hidden columns selector ignores order of selectedColumnIds', () => {
+      const availableColumns = [
+        { accessor: '1' },
+        { accessor: '2' },
+        { accessor: '3' },
+        { accessor: '4' },
+        { accessor: '5' },
+      ];
       state = {
         columns: {
           ...state.columns,
-          columnDefs: {
-            1: { accessor: '1' },
-            2: { accessor: '2' },
-            3: { accessor: '3' },
-            4: { accessor: '4' },
-            5: { accessor: '5' },
-          },
           selectedColumnIds: ['1', '2', '3'],
         },
       };
-      expect(selectHiddenColumns(state)).toStrictEqual(['4', '5']);
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
+        '4',
+        '5',
+      ]);
 
       // Swap
       let draggedColumn = {
@@ -80,7 +83,10 @@ describe('columnsSlice', () => {
         columns: ColumnsReducer(state.columns, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenColumns(state)).toStrictEqual(['4', '5']);
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
+        '4',
+        '5',
+      ]);
 
       expect(selectHiddenColumns.recomputations()).toBe(1);
 
@@ -97,7 +103,10 @@ describe('columnsSlice', () => {
         columns: ColumnsReducer(state.columns, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenColumns(state)).toStrictEqual(['4', '5']);
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
+        '4',
+        '5',
+      ]);
 
       expect(selectHiddenColumns.recomputations()).toBe(1);
     });

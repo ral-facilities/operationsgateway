@@ -99,7 +99,9 @@ describe('Column Checkboxes', () => {
       await flushPromises();
     });
     expect(store.getState().columns.selectedColumnIds).toEqual(
-      Object.keys(columnDefs).filter((id) => id !== 'name')
+      availableColumns
+        .filter((col) => col.accessor !== 'name')
+        .map((col) => col.accessor)
     );
   });
 

@@ -139,7 +139,9 @@ export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
   generateRecord(i + 1)
 );
 
-export const testRecordRows = testRecords.map((record: Record) => {
+export const generateRecordRow = (num: number) => {
+  const record = generateRecord(num);
+
   let recordRow: RecordRow = {
     timestamp: record.metadata.timestamp,
     shotNum: record.metadata.shotNum,
@@ -155,4 +157,8 @@ export const testRecordRows = testRecords.map((record: Record) => {
   });
 
   return recordRow;
-});
+};
+
+export const testRecordRows = Array.from(Array(3), (_, i) =>
+  generateRecordRow(i + 1)
+);
