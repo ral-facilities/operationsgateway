@@ -1,13 +1,6 @@
 import React from 'react';
 import RecordTable from './recordTable.component';
-import {
-  render,
-  RenderResult,
-  screen,
-  act,
-  fireEvent,
-  within,
-} from '@testing-library/react';
+import { screen, act, fireEvent, within } from '@testing-library/react';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
