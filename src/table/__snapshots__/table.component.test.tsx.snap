@@ -648,7 +648,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
         class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
         >
           <div
             class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
@@ -1052,7 +1052,7 @@ exports[`Table renders correctly, with timestamp column displayed 1`] = `
         class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar"
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
         >
           <div
             class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
