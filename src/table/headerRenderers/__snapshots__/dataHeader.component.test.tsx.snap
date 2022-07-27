@@ -1,5 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Data Header opens menu when menu icon is clicked 1`] = `
+<ul
+  aria-labelledby="test-menu-button"
+  class="MuiList-root MuiList-padding MuiList-dense MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
+  role="menu"
+  tabindex="-1"
+>
+  <li
+    class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root Mui-focusVisible css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    role="menuitem"
+    tabindex="0"
+  >
+    <div
+      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="WrapTextIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M4 19h6v-2H4v2zM20 5H4v2h16V5zm-3 6H4v2h13.25c1.1 0 2 .9 2 2s-.9 2-2 2H15v-2l-3 3 3 3v-2h2c2.21 0 4-1.79 4-4s-1.79-4-4-4z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+      >
+        Turn word wrap 
+        on
+      </span>
+    </div>
+    <span
+      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </li>
+  <li
+    class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    role="menuitem"
+    tabindex="-1"
+  >
+    <div
+      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        data-testid="CloseIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+        />
+      </svg>
+    </div>
+    <div
+      class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+      >
+        Close
+      </span>
+    </div>
+    <span
+      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+    />
+  </li>
+</ul>
+`;
+
 exports[`Data Header renders a column icon if provided 1`] = `
 <DocumentFragment>
   <table>
@@ -21,7 +98,7 @@ exports[`Data Header renders a column icon if provided 1`] = `
         >
           <div
             aria-label="test header"
-            class="MuiBox-root css-18ugzm1"
+            class="MuiBox-root css-914c56"
           >
             <div
               class="MuiBox-root css-12z0wuy"
@@ -35,13 +112,13 @@ exports[`Data Header renders a column icon if provided 1`] = `
               data-mui-internal-clone-element="true"
             >
               <span
-                class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
                 data-testid="sort test"
                 role="button"
                 tabindex="0"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-ukcrwb-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                 >
                   Test
                 </p>
@@ -60,29 +137,38 @@ exports[`Data Header renders a column icon if provided 1`] = `
             </div>
           </div>
           <div
-            style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+            class="MuiBox-root css-1a2fdn1"
           >
             <div>
-              <svg
-                aria-hidden="true"
-                aria-label="close test"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                data-testid="CloseIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                aria-haspopup="true"
+                aria-label="test menu"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                id="test-menu-button"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                  data-testid="MoreVertIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
-              </svg>
+              </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>
@@ -112,7 +198,7 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
         >
           <div
             aria-label="test header"
-            class="MuiBox-root css-18ugzm1"
+            class="MuiBox-root css-914c56"
           >
             <div
               class="MuiBox-root css-12z0wuy"
@@ -134,13 +220,13 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
               data-mui-internal-clone-element="true"
             >
               <span
-                class="MuiButtonBase-root MuiTableSortLabel-root css-1qgma8u-MuiButtonBase-root-MuiTableSortLabel-root"
+                class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
                 data-testid="sort test"
                 role="button"
                 tabindex="0"
               >
                 <p
-                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-ukcrwb-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                 >
                   Test
                 </p>
@@ -159,29 +245,38 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
             </div>
           </div>
           <div
-            style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+            class="MuiBox-root css-1a2fdn1"
           >
             <div>
-              <svg
-                aria-hidden="true"
-                aria-label="close test"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                data-testid="CloseIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                aria-haspopup="true"
+                aria-label="test menu"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                id="test-menu-button"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                  data-testid="MoreVertIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
-              </svg>
+              </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>
@@ -211,7 +306,7 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
         >
           <div
             aria-label="test header"
-            class="MuiBox-root css-18ugzm1"
+            class="MuiBox-root css-914c56"
           >
             <div
               class="MuiBox-root css-12z0wuy"
@@ -242,29 +337,38 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
             </div>
           </div>
           <div
-            style="display: flex; flex-direction: row; width: 40px; justify-content: space-between;"
+            class="MuiBox-root css-1a2fdn1"
           >
             <div>
-              <svg
-                aria-hidden="true"
-                aria-label="close test"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
-                data-testid="CloseIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                aria-haspopup="true"
+                aria-label="test menu"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                id="test-menu-button"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                  data-testid="MoreVertIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
-              </svg>
+              </button>
             </div>
-            <div
-              style="cursor: col-resize;"
-            >
-              <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ck7sc0-MuiDivider-root"
-              />
-            </div>
+            <hr
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+              contenteditable="true"
+              tabindex="-1"
+            />
           </div>
         </th>
       </tr>

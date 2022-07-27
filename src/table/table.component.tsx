@@ -36,9 +36,6 @@ import {
 // 4.8 - the width of the divider
 const additionalHeaderSpace = 24 + 4.8;
 
-// 31.2 - the height of a column header with the close icon included
-const headerHeight = 31.2;
-
 const stickyColumnStyles: SxProps<Theme> = {
   position: 'sticky',
   left: 0,
@@ -91,9 +88,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   );
   const dispatch = useAppDispatch();
 
+  const handleColumnWordWrapToggle = (column: string): void => {
+    const col = visibleColumns.find((col) => col.id === column);
+    if (col) col.wordWrap = !col.wordWrap;
+    setColumnOrder(columnOrder);
+  };
+
   const defaultColumn = React.useMemo(
     () => ({
-      minWidth: 30,
+      minWidth: 33,
       width: 150 + additionalHeaderSpace,
     }),
     []
@@ -180,9 +183,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               {...otherHeaderGroupProps}
                               {...provided.droppableProps}
                               ref={provided.innerRef}
-                              sx={{
-                                height: headerHeight, // Consistent height to account for headers that don't include any icons
-                              }}
                             >
                               {headerGroup.headers.map((column, index) => {
                                 const { key, ...otherHeaderProps } =
@@ -200,6 +200,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   paddingRight: '0px',
                                   display: 'flex',
                                   flexDirection: 'row',
+                                  overflow: 'hidden',
                                 };
 
                                 columnStyles = isTimestampColumn
@@ -208,7 +209,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       ...stickyColumnStyles,
                                     }
                                   : columnStyles;
-                                const { channelInfo } =
+                                const { channelInfo, wordWrap } =
                                   column as ColumnInstance;
 
                                 return (
@@ -227,6 +228,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       column.id.toUpperCase()
                                     )}
                                     channelInfo={channelInfo}
+                                    wordWrap={wordWrap}
+                                    onToggleWordWrap={
+                                      handleColumnWordWrapToggle
+                                    }
                                   />
                                 );
                               })}

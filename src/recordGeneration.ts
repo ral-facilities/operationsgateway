@@ -35,7 +35,8 @@ const generateFullChannelMetadata = (
   const channelMetadata: FullChannelMetadata = {
     systemName: channelName,
     dataType: dataType,
-    userFriendlyName: channelName.slice(0, 7) + ' ' + channelName.slice(7),
+    // give some friendly names, but leave some without to test word wrap
+    userFriendlyName: Math.random() < 0.5 ? channelName.split("_").join(" ") : undefined,
     description: `${channelName} description`,
     units: `${channelName} units`,
   };
@@ -73,7 +74,7 @@ const generateChannels = (): any => {
       metadata: generateChannelMetadata(),
       data: randomNumber(1000, 9999) / 10,
     };
-    const randomName = 'Channel' + randomNumber(1000, 9999).toString();
+    const randomName = 'Channel_' + randomNumber(1000, 9999).toString();
     channelMetadata.push(
       generateFullChannelMetadata(randomName, newChannel.metadata.dataType)
     );

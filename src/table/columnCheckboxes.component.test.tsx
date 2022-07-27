@@ -1,37 +1,52 @@
 import React from 'react';
 import { Column } from 'react-table';
-import ColumnCheckboxes from './columnCheckboxes.component';
+import ColumnCheckboxes, {
+  ColumnCheckboxesProps,
+} from './columnCheckboxes.component';
 import { screen, act } from '@testing-library/react';
 import { flushPromises, getState, renderWithProviders } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
 describe('Column Checkboxes', () => {
-  const columnDefs: { [id: string]: Column } = {
-    name: {
+  let props: ColumnCheckboxesProps;
+  const availableColumns: Column[] = [
+    {
       Header: 'Name',
       accessor: 'name',
     },
-    activeArea: {
+    {
       Header: 'Active Area',
       accessor: 'activeArea',
+      channelInfo: {
+        systemName: 'active_area',
+        dataType: 'scalar',
+      },
     },
-    activeExperiment: {
+    {
       Header: 'Active Experiment',
       accessor: 'activeExperiment',
+      channelInfo: {
+        systemName: 'activeExperiment',
+        userFriendlyName: 'Active Experiment',
+        dataType: 'scalar',
+      },
     },
-  };
+  ];
 
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithProviders(<ColumnCheckboxes />, {
+    return renderWithProviders(<ColumnCheckboxes {...props} />, {
       preloadedState: initialState,
     });
   };
 
   beforeEach(() => {
-    state = { ...getState(), columns: { ...getState().columns, columnDefs } };
+    state = { ...getState(), columns: { ...getState().columns } };
+    props = {
+      availableColumns,
+    };
   });
 
   it('renders correctly when unchecked', () => {
@@ -40,20 +55,25 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    state.columns.selectedColumnIds = Object.keys(columnDefs);
+    state.columns.selectedColumnIds = availableColumns.map(
+      (col) => col.accessor
+    );
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('does not render a timestamp checkbox if a timestamp column exists', () => {
-    const amendedColumnDefs = {
-      ...columnDefs,
-      timestamp: {
+    const amendedColumns: Column[] = [
+      ...availableColumns,
+      {
         Header: 'Timestamp',
         accessor: 'timestamp',
       },
+    ];
+    props = {
+      ...props,
+      availableColumns: amendedColumns,
     };
-    state.columns.columnDefs = amendedColumnDefs;
 
     createView();
     expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
@@ -70,7 +90,9 @@ describe('Column Checkboxes', () => {
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    state.columns.selectedColumnIds = Object.keys(columnDefs);
+    state.columns.selectedColumnIds = availableColumns.map(
+      (col) => col.accessor
+    );
     const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
@@ -79,6 +101,15 @@ describe('Column Checkboxes', () => {
     expect(store.getState().columns.selectedColumnIds).toEqual(
       Object.keys(columnDefs).filter((id) => id !== 'name')
     );
+  });
+
+  it('returns null if a column is not fully defined', () => {
+    availableColumns[0].accessor = undefined;
+
+    createView();
+    const checkboxes = screen.getAllByRole('checkbox');
+    expect(checkboxes.length).toEqual(2);
+    expect(screen.queryByText('name')).toBeNull();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');

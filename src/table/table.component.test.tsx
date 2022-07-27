@@ -1,6 +1,12 @@
 import React from 'react';
 import Table, { TableProps } from './table.component';
-import { screen, cleanup, act, within } from '@testing-library/react';
+import {
+  screen,
+  cleanup,
+  act,
+  within,
+  fireEvent,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
@@ -24,18 +30,22 @@ describe('Table', () => {
   const columnDefs: { [id: string]: Column } = {
     timestamp: {
       Header: 'Timestamp',
+      id: 'timestamp',
       accessor: 'timestamp',
     },
     shotNum: {
       Header: 'Shot Number',
+      id: 'shotNum',
       accessor: 'shotNum',
     },
     activeArea: {
       Header: 'Active Area',
+      id: 'activeArea',
       accessor: 'activeArea',
     },
     activeExperiment: {
       Header: 'Active Experiment',
+      id: 'activeExperiment',
       accessor: 'activeExperiment',
     },
   };
@@ -141,5 +151,22 @@ describe('Table', () => {
     props.totalDataCount = 0;
     createView();
     screen.getByRole('progressbar');
+  });
+
+  it("updates columns when a column's word wrap is toggled", () => {
+    createView();
+
+    let menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap on')).toBeInTheDocument();
+
+    const wordWrap = screen.getByText('Turn word wrap on');
+    fireEvent.click(wordWrap);
+
+    menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
   });
 });
