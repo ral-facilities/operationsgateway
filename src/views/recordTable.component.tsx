@@ -62,14 +62,27 @@ const RecordTable = React.memo(
               (channel) => channel.systemName === keys[i]
             );
             const newColumn: Column = {
-              Header: channelInfo
-                ? channelInfo.userFriendlyName
+              Header: () => {
+                const headerName = channelInfo
                   ? channelInfo.userFriendlyName
-                  : channelInfo.systemName
-                : keys[i], // Provide an actual header here when we have it
+                    ? channelInfo.userFriendlyName
+                    : channelInfo.systemName
+                  : keys[i];
+                // Provide an actual header here when we have it
+                // TODO: do we need to split on things other than underscore?
+                const parts = headerName.split('_');
+                const wordWrap = parts.map(
+                  (part, i) =>
+                    // \u200B renders a zero-width space character
+                    // which allows line-break but isn't visible
+                    part + (i < parts.length - 1 ? '_\u200B' : '')
+                );
+                return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
+              },
               accessor: keys[i],
               // TODO: get these from data channel info
               channelInfo: channelInfo,
+              wordWrap: false,
             };
             if (channelInfo?.dataType === 'scalar') {
               newColumn.Cell = ({ value }) =>

@@ -18,10 +18,19 @@ describe('Column Checkboxes', () => {
     {
       Header: 'Active Area',
       accessor: 'activeArea',
+      channelInfo: {
+        systemName: 'active_area',
+        dataType: 'scalar',
+      },
     },
     {
       Header: 'Active Experiment',
       accessor: 'activeExperiment',
+      channelInfo: {
+        systemName: 'activeExperiment',
+        userFriendlyName: 'Active Experiment',
+        dataType: 'scalar',
+      },
     },
   ];
   const selectedColumns: Column[] = [];
@@ -91,13 +100,12 @@ describe('Column Checkboxes', () => {
   });
 
   it('returns null if a column is not fully defined', () => {
-    availableColumns[1].Header = undefined;
-    availableColumns[1].accessor = undefined;
+    availableColumns[0].accessor = undefined;
 
     createView();
     const checkboxes = screen.getAllByRole('checkbox');
     expect(checkboxes.length).toEqual(2);
-    expect(screen.queryByText('Active Area')).toBeNull();
+    expect(screen.queryByText('name')).toBeNull();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');
