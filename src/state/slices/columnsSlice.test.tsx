@@ -51,6 +51,11 @@ describe('columnsSlice', () => {
       state = { columns: initialState };
     });
 
+    /**
+     * Test that the memoization of selectSelectedIdsIgnoreOrder works and that
+     * reordering columns does not cause updates to selectHiddenColumns (which
+     * saves on rerenders)
+     */
     it('hidden columns selector ignores order of selectedColumnIds', () => {
       const availableColumns = [
         { accessor: '1' },

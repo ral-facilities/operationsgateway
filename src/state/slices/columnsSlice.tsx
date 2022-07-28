@@ -11,6 +11,8 @@ interface ColumnsState {
   columnStates: {
     [id: string]: ColumnState;
   };
+  // selectedColumnIds stores info for both what columns are selected and also
+  // the order that the user wants the columns in
   selectedColumnIds: string[];
   page: number;
   resultsPerPage: number;
@@ -123,6 +125,16 @@ function arrayEquals(a: string[], b: string[]) {
   );
 }
 
+/**
+ * @returns A selector for an array of column ids which are currently selected,
+ * which only changes when a column is selected/deselected and not when columns are reordered
+ *
+ * For selectSelectedColumns and selectHiddenColumns, these don't are about the
+ * order of selectedIds, and if they changed when the order of columns changed
+ * then there would be unnecessary rerendering where selectedColumns/hiddenColumns
+ * are used. We use memoizeOptions to pass the arrayEquals function to check
+ * whether selectedIds has changed if you ignore order.
+ */
 const selectSelectedIdsIgnoreOrder = createSelector(
   selectSelectedIds,
   (selectedIds) => selectedIds,
@@ -131,6 +143,12 @@ const selectSelectedIdsIgnoreOrder = createSelector(
   }
 );
 
+/**
+ * @returns A selector for an array of Column objects which are currently selected,
+ * which only changes when a column is selected/deselected and not when columns are reordered
+ * @params state - the current redux state
+ * @params availableColumns - array of all the columns the user can select
+ */
 export const selectSelectedColumns = createSelector(
   selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
@@ -145,6 +163,12 @@ export const selectSelectedColumns = createSelector(
   }
 );
 
+/**
+ * @returns A selector for an array of Column objects which are currently ___not___ selected,
+ * which only changes when a column is selected/deselected and not when columns are reordered
+ * @params state - the current redux state
+ * @params availableColumns - array of all the columns the user can select
+ */
 export const selectHiddenColumns = createSelector(
   selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
