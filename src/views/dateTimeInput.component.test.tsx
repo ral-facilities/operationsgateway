@@ -11,7 +11,7 @@ import userEvent from '@testing-library/user-event';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
-  getState,
+  getInitialState,
   renderWithProviders,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
@@ -270,7 +270,7 @@ describe('DateTimeInputBox tests', () => {
   };
 
   beforeEach(() => {
-    state = { ...getState(), search: { ...getState().search } };
+    state = { ...getInitialState(), search: { ...getInitialState().search } };
   });
 
   afterEach(() => {
