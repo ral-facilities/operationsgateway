@@ -9,7 +9,7 @@ import {
   changeSort,
   changePage,
   changeResultsPerPage,
-} from '../state/slices/columnsSlice';
+} from '../state/slices/tableSlice';
 import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { useChannels } from '../api/channels';

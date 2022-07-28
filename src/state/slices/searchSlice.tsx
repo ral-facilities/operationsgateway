@@ -2,7 +2,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { DateRange } from '../../app.types';
-import { selectPage, selectSort, selectResultsPerPage } from './columnsSlice';
+import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 
 // Define a type for the slice state
 interface SearchState {

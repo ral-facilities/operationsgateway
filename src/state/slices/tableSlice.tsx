@@ -7,7 +7,7 @@ import { ColumnState, Order } from '../../app.types';
 import { resultsPerPage } from '../../recordGeneration';
 
 // Define a type for the slice state
-interface ColumnsState {
+interface TableState {
   columnStates: {
     [id: string]: ColumnState;
   };
@@ -28,10 +28,10 @@ export const initialState = {
   page: 0,
   resultsPerPage: resultsPerPage,
   sort: {},
-} as ColumnsState;
+} as TableState;
 
-export const columnsSlice = createSlice({
-  name: 'columns',
+export const tableSlice = createSlice({
+  name: 'table',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -98,21 +98,21 @@ export const {
   changePage,
   changeResultsPerPage,
   toggleWordWrap,
-} = columnsSlice.actions;
+} = tableSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectColumnStates = (state: RootState) =>
-  state.columns.columnStates;
+  state.table.columnStates;
 export const selectAvailableColumns = (
   state: RootState,
   availableColumns: Column[]
 ) => availableColumns;
 export const selectSelectedIds = (state: RootState) =>
-  state.columns.selectedColumnIds;
-export const selectSort = (state: RootState) => state.columns.sort;
-export const selectPage = (state: RootState) => state.columns.page;
+  state.table.selectedColumnIds;
+export const selectSort = (state: RootState) => state.table.sort;
+export const selectPage = (state: RootState) => state.table.page;
 export const selectResultsPerPage = (state: RootState) =>
-  state.columns.resultsPerPage;
+  state.table.resultsPerPage;
 
 function arrayEquals(a: string[], b: string[]) {
   const sortedA = [...a].sort();
@@ -181,4 +181,4 @@ export const selectHiddenColumns = createSelector(
   }
 );
 
-export default columnsSlice.reducer;
+export default tableSlice.reducer;

@@ -147,7 +147,7 @@ describe('Record Table', () => {
   // state in recordTable and do the test here - or we move the state into table
   // and do the test there
   it('paginates correctly', async () => {
-    state = { ...state, columns: { ...state.columns, resultsPerPage: 10 } };
+    state = { ...state, table: { ...state.table, resultsPerPage: 10 } };
     data = Array.from(Array(12), (_, i) => generateRecordRow(i + 1));
     (useRecordsPaginated as jest.Mock).mockReturnValue({
       data,

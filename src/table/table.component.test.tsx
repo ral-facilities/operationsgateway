@@ -74,7 +74,7 @@ describe('Table', () => {
       onSort: onSort,
       sort: {},
     };
-    state = { columns: { ...getState().columns } };
+    state = { table: { ...getState().table } };
   });
 
   afterEach(() => {
@@ -87,7 +87,7 @@ describe('Table', () => {
   });
 
   it('renders correctly with all columns displayed', async () => {
-    state.columns.selectedColumnIds = [
+    state.table.selectedColumnIds = [
       'timestamp',
       'shotNum',
       'activeArea',

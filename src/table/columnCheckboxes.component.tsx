@@ -6,7 +6,7 @@ import {
   selectSelectedColumns,
   selectColumn,
   deselectColumn,
-} from '../state/slices/columnsSlice';
+} from '../state/slices/tableSlice';
 
 export interface ColumnCheckboxesProps {
   availableColumns: Column[];

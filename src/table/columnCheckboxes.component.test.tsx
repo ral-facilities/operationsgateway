@@ -43,7 +43,7 @@ describe('Column Checkboxes', () => {
   };
 
   beforeEach(() => {
-    state = { ...getState(), columns: { ...getState().columns } };
+    state = { ...getState(), table: { ...getState().table } };
     props = {
       availableColumns,
     };
@@ -55,9 +55,7 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    state.columns.selectedColumnIds = availableColumns.map(
-      (col) => col.accessor
-    );
+    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -86,19 +84,17 @@ describe('Column Checkboxes', () => {
       await flushPromises();
     });
 
-    expect(store.getState().columns.selectedColumnIds).toEqual(['name']);
+    expect(store.getState().table.selectedColumnIds).toEqual(['name']);
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    state.columns.selectedColumnIds = availableColumns.map(
-      (col) => col.accessor
-    );
+    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
     const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(store.getState().columns.selectedColumnIds).toEqual(
+    expect(store.getState().table.selectedColumnIds).toEqual(
       availableColumns
         .filter((col) => col.accessor !== 'name')
         .map((col) => col.accessor)

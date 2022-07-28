@@ -7,7 +7,7 @@ import '@testing-library/jest-dom';
 import { Channel, FullChannelMetadata, Record, RecordRow } from './app.types';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
-import { initialState as initialColumnsState } from './state/slices/columnsSlice';
+import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
@@ -19,7 +19,7 @@ export let resetActions = (): void => {
 };
 export const getState = (): RootState => ({
   config: initialConfigState,
-  columns: initialColumnsState,
+  table: initialTableState,
   search: initialSearchState,
 });
 export const dispatch = (

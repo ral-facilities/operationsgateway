@@ -7,12 +7,12 @@ import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './middleware/operationsgateway.middleware';
 import configReducer from './slices/configSlice';
-import columnsReducer from './slices/columnsSlice';
+import tableReducer from './slices/tableSlice';
 import searchReducer from './slices/searchSlice';
 
 const rootReducer = combineReducers({
   config: configReducer,
-  columns: columnsReducer,
+  table: tableReducer,
   search: searchReducer,
 });
 

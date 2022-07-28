@@ -33,7 +33,7 @@ import {
   selectColumn,
   selectHiddenColumns,
   selectSelectedIds,
-} from '../state/slices/columnsSlice';
+} from '../state/slices/tableSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider

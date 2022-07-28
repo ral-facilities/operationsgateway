@@ -2,9 +2,9 @@ import ColumnsReducer, {
   initialState,
   reorderColumn,
   selectHiddenColumns,
-} from './columnsSlice';
+} from './tableSlice';
 
-describe('columnsSlice', () => {
+describe('tableSlice', () => {
   // only test the hard to test bits of columnSlice here - like column reordering logic
   describe('Reducer', () => {
     let state: typeof initialState;
@@ -45,10 +45,10 @@ describe('columnsSlice', () => {
   });
 
   describe('Selectors', () => {
-    let state: { columns: typeof initialState };
+    let state: { table: typeof initialState };
 
     beforeEach(() => {
-      state = { columns: initialState };
+      state = { table: initialState };
     });
 
     /**
@@ -65,8 +65,8 @@ describe('columnsSlice', () => {
         { accessor: '5' },
       ];
       state = {
-        columns: {
-          ...state.columns,
+        table: {
+          ...state.table,
           selectedColumnIds: ['1', '2', '3'],
         },
       };
@@ -85,7 +85,7 @@ describe('columnsSlice', () => {
         },
       };
       state = {
-        columns: ColumnsReducer(state.columns, reorderColumn(draggedColumn)),
+        table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
       expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
@@ -105,7 +105,7 @@ describe('columnsSlice', () => {
         },
       };
       state = {
-        columns: ColumnsReducer(state.columns, reorderColumn(draggedColumn)),
+        table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
       expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
