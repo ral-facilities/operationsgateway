@@ -5,7 +5,7 @@ import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   flushPromises,
-  getState,
+  getInitialState,
   renderWithProviders,
   testRecordRows,
   testChannels,
@@ -60,7 +60,7 @@ describe('Record Table', () => {
       isLoading: false,
     });
 
-    state = getState();
+    state = getInitialState();
   });
 
   afterEach(() => {

@@ -10,7 +10,11 @@ import {
 import userEvent from '@testing-library/user-event';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import { flushPromises, renderWithProviders, getState } from '../setupTests';
+import {
+  flushPromises,
+  renderWithProviders,
+  getInitialState,
+} from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 
@@ -74,7 +78,7 @@ describe('Table', () => {
       onSort: onSort,
       sort: {},
     };
-    state = { table: { ...getState().table } };
+    state = { table: { ...getInitialState().table } };
   });
 
   afterEach(() => {

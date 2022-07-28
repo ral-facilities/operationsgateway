@@ -17,7 +17,7 @@ export let actions: Action[] = [];
 export let resetActions = (): void => {
   actions = [];
 };
-export const getState = (): RootState => ({
+export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
   search: initialSearchState,
@@ -26,7 +26,7 @@ export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
 ): void | Promise<void> => {
   if (typeof action === 'function') {
-    action(dispatch, getState, null);
+    action(dispatch, getInitialState, null);
     return Promise.resolve();
   } else {
     actions.push(action);

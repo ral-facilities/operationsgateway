@@ -4,7 +4,11 @@ import ColumnCheckboxes, {
   ColumnCheckboxesProps,
 } from './columnCheckboxes.component';
 import { screen, act } from '@testing-library/react';
-import { flushPromises, getState, renderWithProviders } from '../setupTests';
+import {
+  flushPromises,
+  getInitialState,
+  renderWithProviders,
+} from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
@@ -43,7 +47,7 @@ describe('Column Checkboxes', () => {
   };
 
   beforeEach(() => {
-    state = { ...getState(), table: { ...getState().table } };
+    state = { ...getInitialState(), table: { ...getInitialState().table } };
     props = {
       availableColumns,
     };
