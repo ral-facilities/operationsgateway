@@ -183,25 +183,14 @@ const RecordTable = React.memo(
     };
 
     const handleSort = (column: string, order: Order | null) => {
-      let columnName;
-      if (
-        ['timestamp', 'shotnum', 'activeArea', 'activeExperiment'].includes(
-          column
-        )
-      ) {
-        columnName = `metadata.${column}`;
-      } else {
-        columnName = `channels.${column}`;
-      }
-
       let newSort = sort;
       if (order !== null) {
         newSort = {
           ...newSort,
-          [columnName]: order,
+          [column]: order,
         };
       } else {
-        const { [columnName]: order, ...rest } = newSort;
+        const { [column]: order, ...rest } = newSort;
         newSort = {
           ...rest,
         };
