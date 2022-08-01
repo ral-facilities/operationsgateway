@@ -1,5 +1,10 @@
 import React from 'react';
-import { Order, RecordRow, columnIconMappings } from '../app.types';
+import {
+  Order,
+  RecordRow,
+  columnIconMappings,
+  ColumnState,
+} from '../app.types';
 import {
   useTable,
   useFlexLayout,
@@ -24,16 +29,6 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import { useAppSelector, useAppDispatch } from '../state/hooks';
-import {
-  deselectColumn,
-  reorderColumn,
-  toggleWordWrap,
-  selectColumnStates,
-  selectColumn,
-  selectHiddenColumns,
-  selectSelectedIds,
-} from '../state/slices/tableSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -49,6 +44,9 @@ const stickyColumnStyles: SxProps<Theme> = {
 export interface TableProps {
   data: RecordRow[];
   availableColumns: Column[];
+  columnStates: { [id: string]: ColumnState };
+  hiddenColumns: string[];
+  columnOrder: string[];
   totalDataCount: number;
   page: number;
   loadedData: boolean;
@@ -58,12 +56,18 @@ export interface TableProps {
   onResultsPerPageChange: (resultsPerPage: number) => void;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
+  onColumnWordWrapToggle: (column: string) => void;
+  onDragEnd: (result: DropResult) => void;
+  onColumnClose: (column: string) => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
   const {
     data,
     availableColumns,
+    columnStates,
+    hiddenColumns,
+    columnOrder,
     totalDataCount,
     loadedData,
     page,
@@ -72,6 +76,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onResultsPerPageChange,
     sort,
     onSort,
+    onColumnWordWrapToggle,
+    onDragEnd,
+    onColumnClose,
   } = props;
 
   /*
@@ -86,13 +93,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
    **                    including column width, columnResizing boolean, etc. selectedColumns
    **                    does NOT contain this info and is defined by the user, not React Table
    */
-
-  const columnStates = useAppSelector(selectColumnStates);
-  const hiddenColumns = useAppSelector((state) =>
-    selectHiddenColumns(state, availableColumns)
-  );
-  const columnOrder = useAppSelector(selectSelectedIds);
-  const dispatch = useAppDispatch();
 
   const defaultColumn = React.useMemo(
     () => ({
@@ -132,34 +132,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
-  const handleColumnWordWrapToggle = React.useCallback(
-    (column: string): void => {
-      dispatch(toggleWordWrap(column));
-    },
-    [dispatch]
-  );
-
-  const handleOnDragEnd = React.useCallback(
-    (result: DropResult): void => {
-      dispatch(reorderColumn(result));
-    },
-    [dispatch]
-  );
-
-  const handleColumnClose = React.useCallback(
-    (column: string): void => {
-      dispatch(deselectColumn(column));
-    },
-    [dispatch]
-  );
-
-  // Ensure the timestamp column is opened automatically on table load
-  React.useEffect(() => {
-    if (loadedData && !columnOrder.includes('timestamp'))
-      dispatch(selectColumn('timestamp'));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadedData, columnOrder]);
-
   return (
     <div>
       <div>
@@ -182,7 +154,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                   const { key, ...otherHeaderGroupProps } =
                     headerGroup.getHeaderGroupProps();
                   return (
-                    <DragDropContext key={key} onDragEnd={handleOnDragEnd}>
+                    <DragDropContext key={key} onDragEnd={onDragEnd}>
                       <Droppable droppableId="columns" direction="horizontal">
                         {(provided) => {
                           return (
@@ -229,7 +201,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     sort={sort}
                                     onSort={onSort}
                                     label={column.render('Header')}
-                                    onClose={handleColumnClose}
+                                    onClose={onColumnClose}
                                     index={index}
                                     icon={columnIconMappings.get(
                                       column.id.toUpperCase()
@@ -238,9 +210,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     wordWrap={
                                       columnStates[dataKey]?.wordWrap ?? false
                                     }
-                                    onToggleWordWrap={
-                                      handleColumnWordWrapToggle
-                                    }
+                                    onToggleWordWrap={onColumnWordWrapToggle}
                                   />
                                 );
                               })}

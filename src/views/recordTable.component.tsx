@@ -1,19 +1,23 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
-import { Order, RecordRow } from '../app.types';
-import { Column } from 'react-table';
-import DateTimeInputBox from './dateTimeInput.component';
+import { Order } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   changeSort,
   changePage,
   changeResultsPerPage,
+  selectColumnStates,
+  selectHiddenColumns,
+  selectSelectedIds,
+  deselectColumn,
+  reorderColumn,
+  selectColumn,
+  toggleWordWrap,
 } from '../state/slices/tableSlice';
-import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import { selectQueryParams } from '../state/slices/searchSlice';
-import { useChannels } from '../api/channels';
-import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+import { useAvailableColumns } from '../api/channels';
+import { DropResult } from 'react-beautiful-dnd';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const dispatch = useAppDispatch();
@@ -23,83 +27,13 @@ const RecordTable = React.memo((): React.ReactElement => {
 
   const { data, isLoading: dataLoading } = useRecordsPaginated();
   const { data: count, isLoading: countLoading } = useRecordCount();
+  const { data: availableColumns, isLoading: columnsLoading } = useAvailableColumns();
 
-  const { data: channels, isLoading: channelsLoading } = useChannels();
-
-  // Use this as the controlling variable for data having loaded
-  // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
-  const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
-  const [availableColumns, setAvailableColumns] = React.useState<Column[]>([]);
-
-  const constructColumns = React.useCallback(
-    (parsed: RecordRow[]): Column[] => {
-      let myColumns: Column[] = [];
-      let accessors: Set<string> = new Set<string>();
-
-      parsed.forEach((recordRow: RecordRow) => {
-        const keys = Object.keys(recordRow);
-
-        for (let i = 0; i < keys.length; i++) {
-          if (!accessors.has(keys[i])) {
-            const channelInfo = channels?.find(
-              (channel) => channel.systemName === keys[i]
-            );
-            const newColumn: Column = {
-              Header: () => {
-                const headerName = channelInfo
-                  ? channelInfo.userFriendlyName
-                    ? channelInfo.userFriendlyName
-                    : channelInfo.systemName
-                  : keys[i];
-                // Provide an actual header here when we have it
-                // TODO: do we need to split on things other than underscore?
-                const parts = headerName.split('_');
-                const wordWrap = parts.map(
-                  (part, i) =>
-                    // \u200B renders a zero-width space character
-                    // which allows line-break but isn't visible
-                    part + (i < parts.length - 1 ? '_\u200B' : '')
-                );
-                return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
-              },
-              accessor: keys[i],
-              // TODO: get these from data channel info
-              channelInfo: channelInfo,
-            };
-            if (channelInfo?.dataType === 'scalar') {
-              newColumn.Cell = ({ value }) =>
-                typeof value === 'number' &&
-                typeof channelInfo.significantFigures === 'number' ? (
-                  <React.Fragment>
-                    {roundNumber(
-                      value,
-                      channelInfo.significantFigures,
-                      channelInfo.scientificNotation ?? false
-                    )}
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>{String(value ?? '')}</React.Fragment>
-                );
-            }
-            myColumns.push(newColumn);
-            accessors.add(keys[i]);
-          }
-        }
-      });
-
-      return myColumns;
-    },
-    [channels]
+  const columnStates = useAppSelector(selectColumnStates);
+  const hiddenColumns = useAppSelector((state) =>
+    selectHiddenColumns(state, availableColumns ?? [])
   );
-
-  React.useEffect(() => {
-    if (data && !channelsLoading && !columnsLoaded) {
-      // columns normally don't reload each time the data changes
-      const newAvailableColumns = constructColumns(data);
-      setAvailableColumns(newAvailableColumns);
-      setColumnsLoaded(true);
-    }
-  }, [data, channelsLoading, columnsLoaded, dispatch, constructColumns]);
+  const columnOrder = useAppSelector(selectSelectedIds);
 
   const onPageChange = React.useCallback(
     (page: number) => {
@@ -122,27 +56,54 @@ const RecordTable = React.memo((): React.ReactElement => {
     [dispatch]
   );
 
-  // TODO: move the non-Table components out of recordTable and into some sort of
-  // page layout container
+  const handleColumnWordWrapToggle = React.useCallback(
+    (column: string): void => {
+      dispatch(toggleWordWrap(column));
+    },
+    [dispatch]
+  );
+
+  const handleOnDragEnd = React.useCallback(
+    (result: DropResult): void => {
+      dispatch(reorderColumn(result));
+    },
+    [dispatch]
+  );
+
+  const handleColumnClose = React.useCallback(
+    (column: string): void => {
+      dispatch(deselectColumn(column));
+    },
+    [dispatch]
+  );
+
+  // Ensure the timestamp column is opened automatically on table load
+  React.useEffect(() => {
+    if (!dataLoading && !columnOrder.includes('timestamp')) {
+      dispatch(selectColumn('timestamp'));
+    }
+  }, [dataLoading, columnOrder, dispatch]);
+
   return (
-    <div>
-      <DateTimeInputBox />
-      <br />
-      <Table
-        data={data ?? []}
-        availableColumns={availableColumns}
-        totalDataCount={count ?? 0}
-        page={page}
-        loadedData={!dataLoading && columnsLoaded}
-        loadedCount={!countLoading}
-        resultsPerPage={resultsPerPage}
-        onResultsPerPageChange={onResultsPerPageChange}
-        onPageChange={onPageChange}
-        sort={sort}
-        onSort={handleSort}
-      />
-      <ColumnCheckboxes availableColumns={availableColumns} />
-    </div>
+    <Table
+      data={data ?? []}
+      availableColumns={availableColumns ?? []}
+      columnStates={columnStates}
+      hiddenColumns={hiddenColumns}
+      columnOrder={columnOrder}
+      totalDataCount={count ?? 0}
+      page={page}
+      loadedData={!dataLoading && !columnsLoading}
+      loadedCount={!countLoading}
+      resultsPerPage={resultsPerPage}
+      onResultsPerPageChange={onResultsPerPageChange}
+      onPageChange={onPageChange}
+      sort={sort}
+      onSort={handleSort}
+      onColumnWordWrapToggle={handleColumnWordWrapToggle}
+      onDragEnd={handleOnDragEnd}
+      onColumnClose={handleColumnClose}
+    />
   );
 });
 

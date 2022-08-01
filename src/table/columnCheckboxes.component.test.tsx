@@ -1,8 +1,6 @@
 import React from 'react';
 import { Column } from 'react-table';
-import ColumnCheckboxes, {
-  ColumnCheckboxesProps,
-} from './columnCheckboxes.component';
+import ColumnCheckboxes from './columnCheckboxes.component';
 import { screen, act } from '@testing-library/react';
 import {
   flushPromises,
@@ -11,9 +9,20 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { useAvailableColumns } from '../api/channels';
+
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/channels');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useChannels: jest.fn(),
+    useAvailableColumns: jest.fn(),
+  };
+});
 
 describe('Column Checkboxes', () => {
-  let props: ColumnCheckboxesProps;
   const availableColumns: Column[] = [
     {
       Header: 'Name',
@@ -41,16 +50,17 @@ describe('Column Checkboxes', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithProviders(<ColumnCheckboxes {...props} />, {
+    return renderWithProviders(<ColumnCheckboxes />, {
       preloadedState: initialState,
     });
   };
 
   beforeEach(() => {
     state = { ...getInitialState(), table: { ...getInitialState().table } };
-    props = {
-      availableColumns,
-    };
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: availableColumns,
+      isLoading: false,
+    });
   });
 
   it('renders correctly when unchecked', () => {
@@ -72,10 +82,10 @@ describe('Column Checkboxes', () => {
         accessor: 'timestamp',
       },
     ];
-    props = {
-      ...props,
-      availableColumns: amendedColumns,
-    };
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: amendedColumns,
+      isLoading: false,
+    });
 
     createView();
     expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
@@ -107,6 +117,10 @@ describe('Column Checkboxes', () => {
 
   it('returns null if a column is not fully defined', () => {
     availableColumns[0].accessor = undefined;
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: availableColumns,
+      isLoading: false,
+    });
 
     createView();
     const checkboxes = screen.getAllByRole('checkbox');

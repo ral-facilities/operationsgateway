@@ -1,6 +1,12 @@
 import React from 'react';
 import RecordTable from './recordTable.component';
-import { screen, act, fireEvent, within } from '@testing-library/react';
+import {
+  screen,
+  act,
+  fireEvent,
+  within,
+  waitFor,
+} from '@testing-library/react';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
@@ -15,7 +21,8 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import { useChannels } from '../api/channels';
+import { useAvailableColumns, constructColumns } from '../api/channels';
+import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -28,7 +35,16 @@ jest.mock('../api/records', () => {
   };
 });
 
-jest.mock('../api/channels');
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/channels');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useChannels: jest.fn(),
+    useAvailableColumns: jest.fn(),
+  };
+});
 
 describe('Record Table', () => {
   let data;
@@ -55,8 +71,8 @@ describe('Record Table', () => {
       data: data.length,
       isLoading: false,
     });
-    (useChannels as jest.Mock).mockReturnValue({
-      data: channelData,
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: constructColumns(channelData),
       isLoading: false,
     });
 
@@ -71,9 +87,6 @@ describe('Record Table', () => {
   it('renders correctly', () => {
     const view = createView();
 
-    const test1Checkbox = screen.getByLabelText('test_1 checkbox');
-    fireEvent.click(test1Checkbox);
-
     expect(view.asFragment()).toMatchSnapshot();
   });
 
@@ -87,7 +100,7 @@ describe('Record Table', () => {
       isLoading: true,
     });
 
-    (useChannels as jest.Mock).mockReturnValue({
+    (useAvailableColumns as jest.Mock).mockReturnValue({
       data: [],
       isLoading: true,
     });
@@ -111,14 +124,15 @@ describe('Record Table', () => {
 
     expect(useRecordsPaginated).toHaveBeenCalled();
     expect(useRecordCount).toHaveBeenCalled();
-    expect(useChannels).toHaveBeenCalled();
+    expect(useAvailableColumns).toHaveBeenCalled();
   });
 
   it('can sort columns and removes column sort when column is closed', async () => {
     const user = userEvent.setup();
-    createView();
+    const { store } = createView({
+      table: { ...state.table, selectedColumnIds: ['timestamp', 'shotNum'] },
+    });
 
-    await user.click(screen.getByLabelText('shotNum checkbox'));
     await user.click(screen.getByTestId('sort shotNum'));
 
     await act(async () => {
@@ -133,19 +147,17 @@ describe('Record Table', () => {
     const close = screen.getByText('Close');
     fireEvent.click(close);
 
-    expect(screen.getByLabelText('shotNum checkbox')).toHaveProperty(
-      'checked',
-      false
-    );
+    await waitFor(() => {
+      expect(screen.queryByTestId('sort shotNum')).not.toBeInTheDocument();
+    });
 
-    await user.click(screen.getByLabelText('shotNum checkbox'));
+    act(() => {
+      store.dispatch(selectColumn('shotNum'));
+    });
 
     expect(screen.getByTestId('sort shotNum')).not.toHaveClass('Mui-active');
   });
 
-  // TODO: this test is similar to the one in table - either we keep the redux
-  // state in recordTable and do the test here - or we move the state into table
-  // and do the test there
   it('paginates correctly', async () => {
     state = { ...state, table: { ...state.table, resultsPerPage: 10 } };
     data = Array.from(Array(12), (_, i) => generateRecordRow(i + 1));
@@ -178,50 +190,73 @@ describe('Record Table', () => {
     screen.getByText(`1–12 of ${data.length}`);
   });
 
-  it('adds columns in correct order on checkbox click', async () => {
-    const user = userEvent.setup();
-    createView();
+  it('adds columns in correct order on checkbox click', () => {
+    const { store } = createView();
 
-    await user.click(screen.getByLabelText('shotNum checkbox'));
-    await user.click(screen.getByLabelText('activeArea checkbox'));
-    await user.click(screen.getByLabelText('activeExperiment checkbox'));
+    act(() => {
+      store.dispatch(selectColumn('shotNum'));
+      store.dispatch(selectColumn('activeArea'));
+      store.dispatch(selectColumn('activeExperiment'));
+    });
 
     let columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('timestamp');
-    expect(columns[1]).toHaveTextContent('shotNum');
-    expect(columns[2]).toHaveTextContent('activeArea');
-    expect(columns[3]).toHaveTextContent('activeExperiment');
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Area');
+    expect(columns[3]).toHaveTextContent('Active Experiment');
 
     // Remove middle column
-    await user.click(screen.getByLabelText('activeArea checkbox'));
+    act(() => {
+      store.dispatch(deselectColumn('activeArea'));
+    });
 
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(3);
-    expect(columns[0]).toHaveTextContent('timestamp');
-    expect(columns[1]).toHaveTextContent('shotNum');
-    expect(columns[2]).toHaveTextContent('activeExperiment');
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Experiment');
 
-    await user.click(screen.getByLabelText('activeArea checkbox'));
+    act(() => {
+      store.dispatch(selectColumn('activeArea'));
+    });
 
     // Should expect the column previously in the middle to now be on the end
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('timestamp');
-    expect(columns[1]).toHaveTextContent('shotNum');
-    expect(columns[2]).toHaveTextContent('activeExperiment');
-    expect(columns[3]).toHaveTextContent('activeArea');
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Experiment');
+    expect(columns[3]).toHaveTextContent('Active Area');
   });
 
   it('rounds numbers correctly in scalar columns', async () => {
-    createView();
+    createView({
+      table: { ...state.table, selectedColumnIds: ['timestamp', 'test_3'] },
+    });
 
     await act(async () => {
-      screen.getByLabelText('test_3 checkbox').click();
       await flushPromises();
     });
 
     expect(screen.getByText('3.3e+2')).toBeInTheDocument();
+  });
+
+  it("updates columns when a column's word wrap is toggled", async () => {
+    createView();
+
+    let menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap on')).toBeInTheDocument();
+
+    const wordWrap = screen.getByText('Turn word wrap on');
+    fireEvent.click(wordWrap);
+
+    menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
   });
 
   it.todo('updates available columns when data from backend changes');

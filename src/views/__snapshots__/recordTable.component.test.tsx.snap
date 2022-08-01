@@ -3,815 +3,340 @@
 exports[`Record Table renders correctly 1`] = `
 <DocumentFragment>
   <div>
-    <div
-      style="display: flex; flex-direction: row; width: 500px;"
-    >
-      <div
-        class="MuiBox-root css-gpr0gn"
-      >
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            From date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="from, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="from date-time"
-                placeholder="From..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="from, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-        <hr
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
-        />
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            To date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="to, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="to date-time"
-                placeholder="To..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="to, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        style="margin-left: 15px; margin-right: 15px;"
-      />
-    </div>
-    <br />
     <div>
       <div>
-        <div>
-          <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
-            role="table-container"
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
+          role="table-container"
+        >
+          <table
+            class="MuiTable-root css-rqglhn-MuiTable-root"
+            role="table"
+            style="min-width: 33px;"
           >
-            <table
-              class="MuiTable-root css-rqglhn-MuiTable-root"
-              role="table"
-              style="min-width: 66px;"
+            <thead
+              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
             >
-              <thead
-                class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+                data-rbd-droppable-context-id="0"
+                data-rbd-droppable-id="columns"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
               >
-                <tr
-                  class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-                  data-rbd-droppable-context-id="0"
-                  data-rbd-droppable-id="columns"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 66px;"
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+                  role="columnheader"
+                  scope="col"
                 >
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
-                    role="columnheader"
-                    scope="col"
+                  <div
+                    aria-label="timestamp header"
+                    class="MuiBox-root css-914c56"
                   >
                     <div
-                      aria-label="timestamp header"
-                      class="MuiBox-root css-914c56"
-                    >
-                      <div
-                        class="MuiBox-root css-12z0wuy"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="AccessTimeIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                          />
-                          <path
-                            d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root css-0"
-                        data-mui-internal-clone-element="true"
-                      >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort timestamp"
-                          role="button"
-                          tabindex="0"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            timestamp
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root css-1as59zz"
-                    >
-                      <div>
-                        <button
-                          aria-haspopup="true"
-                          aria-label="timestamp menu"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                          id="timestamp-menu-button"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                            data-testid="MoreVertIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
-                        </button>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                        contenteditable="true"
-                        draggable="false"
-                        role="separator"
-                        style="cursor: col-resize;"
-                        tabindex="-1"
-                      />
-                    </div>
-                  </th>
-                  <th
-                    aria-describedby="rbd-hidden-text-0-hidden-text-0"
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
-                    data-rbd-drag-handle-context-id="0"
-                    data-rbd-drag-handle-draggable-id="test_1"
-                    data-rbd-draggable-context-id="0"
-                    data-rbd-draggable-id="test_1"
-                    draggable="false"
-                    role="columnheader"
-                    scope="col"
-                    tabindex="0"
-                  >
-                    <div
-                      aria-label="test_1 header"
-                      class="MuiBox-root css-914c56"
-                    >
-                      <div
-                        class="MuiBox-root css-12z0wuy"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="FeedIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M16 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8l-5-5zM7 7h5v2H7V7zm10 10H7v-2h10v2zm0-4H7v-2h10v2zm-2-4V5l4 4h-4z"
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root css-0"
-                        data-mui-internal-clone-element="true"
-                      >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort test_1"
-                          role="button"
-                          tabindex="0"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            Test 1
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiBox-root css-1as59zz"
-                    >
-                      <div>
-                        <button
-                          aria-haspopup="true"
-                          aria-label="test_1 menu"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                          id="test_1-menu-button"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                            data-testid="MoreVertIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
-                        </button>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                        contenteditable="true"
-                        draggable="false"
-                        role="separator"
-                        style="cursor: col-resize;"
-                        tabindex="-1"
-                      />
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                aria-busy="false"
-                aria-describedby="table-loading-indicator"
-                class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
-                role="rowgroup"
-              >
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 66px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          1
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          111.1
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 66px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          2
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        />
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 66px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          3
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        />
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  aria-hidden="false"
-                  class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-                  role="none"
-                  style="opacity: 0; webkit-transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-                >
-                  <td
-                    colspan="2"
-                  >
-                    <span
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
-                      id="table-loading-indicator"
-                      role="progressbar"
-                      style="width: 40px; height: 40px;"
+                      class="MuiBox-root css-12z0wuy"
                     >
                       <svg
-                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                        viewBox="22 22 44 44"
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="AccessTimeIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
                       >
-                        <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                          cx="44"
-                          cy="44"
-                          fill="none"
-                          r="20.2"
-                          stroke-width="3.6"
+                        <path
+                          d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                        <path
+                          d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
                         />
                       </svg>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                    <div
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort timestamp"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                        >
+                          Timestamp
+                        </p>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiBox-root css-1as59zz"
+                  >
+                    <div>
+                      <button
+                        aria-haspopup="true"
+                        aria-label="timestamp menu"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                        id="timestamp-menu-button"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                          data-testid="MoreVertIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                          />
+                        </svg>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
+                      </button>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
+                      draggable="false"
+                      role="separator"
+                      style="cursor: col-resize;"
+                      tabindex="-1"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              aria-busy="false"
+              aria-describedby="table-loading-indicator"
+              class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
+              role="rowgroup"
+            >
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        1
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        2
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        3
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                aria-hidden="false"
+                class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+                role="none"
+                style="opacity: 0; visibility: hidden;"
+              >
+                <td
+                  colspan="1"
+                >
+                  <span
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                    id="table-loading-indicator"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+      <div
+        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      >
         <div
-          class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          />
+          <p
+            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+            id=":r1:"
+          >
+            Rows per page:
+          </p>
+          <div
+            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+            variant="standard"
           >
             <div
-              class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby=":r1: :r0:"
+              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              id=":r0:"
+              role="button"
+              tabindex="0"
+            >
+              25
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+              tabindex="-1"
+              value="25"
             />
-            <p
-              class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-              id=":r3:"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              Rows per page:
-            </p>
-            <div
-              class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-              variant="standard"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby=":r3: :r2:"
-                class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                id=":r2:"
-                role="button"
-                tabindex="0"
-              >
-                25
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                tabindex="-1"
-                value="25"
+              <path
+                d="M7 10l5 5 5-5z"
               />
+            </svg>
+          </div>
+          <p
+            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          >
+            1–3 of 3
+          </p>
+          <div
+            class="MuiTablePagination-actions"
+          >
+            <button
+              aria-label="Go to previous page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to previous page"
+              type="button"
+            >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
-                data-testid="ArrowDropDownIcon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M7 10l5 5 5-5z"
+                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
                 />
               </svg>
-            </div>
-            <p
-              class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+            </button>
+            <button
+              aria-label="Go to next page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to next page"
+              type="button"
             >
-              1–3 of 3
-            </p>
-            <div
-              class="MuiTablePagination-actions"
-            >
-              <button
-                aria-label="Go to previous page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to previous page"
-                type="button"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowLeftIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Go to next page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to next page"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                  />
-                </svg>
-              </button>
-            </div>
+                <path
+                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      style="overflow: auto; height: 150px;"
-    >
-      <div>
-        <label
-          for="shotNum"
-        >
-          shotNum
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="shotNum checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="shotNum"
-            type="checkbox"
-            value="shotNum"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="activeArea"
-        >
-          activeArea
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="activeArea checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="activeArea"
-            type="checkbox"
-            value="activeArea"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="activeExperiment"
-        >
-          activeExperiment
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="activeExperiment checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="activeExperiment"
-            type="checkbox"
-            value="activeExperiment"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_1"
-        >
-          Test 1
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_1 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_1"
-            type="checkbox"
-            value="test_1"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_2"
-        >
-          test_2
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_2 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_2"
-            type="checkbox"
-            value="test_2"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_3"
-        >
-          test_3
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_3 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_3"
-            type="checkbox"
-            value="test_3"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
       </div>
     </div>
   </div>
@@ -821,661 +346,340 @@ exports[`Record Table renders correctly 1`] = `
 exports[`Record Table renders correctly while data count is zero 1`] = `
 <DocumentFragment>
   <div>
-    <div
-      style="display: flex; flex-direction: row; width: 500px;"
-    >
-      <div
-        class="MuiBox-root css-gpr0gn"
-      >
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            From date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="from, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="from date-time"
-                placeholder="From..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="from, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-        <hr
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
-        />
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            To date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="to, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="to date-time"
-                placeholder="To..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="to, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        style="margin-left: 15px; margin-right: 15px;"
-      />
-    </div>
-    <br />
     <div>
       <div>
-        <div>
-          <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
-            role="table-container"
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
+          role="table-container"
+        >
+          <table
+            class="MuiTable-root css-rqglhn-MuiTable-root"
+            role="table"
+            style="min-width: 33px;"
           >
-            <table
-              class="MuiTable-root css-rqglhn-MuiTable-root"
-              role="table"
-              style="min-width: 33px;"
+            <thead
+              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
             >
-              <thead
-                class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+              <tr
+                class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+                data-rbd-droppable-context-id="1"
+                data-rbd-droppable-id="columns"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
               >
-                <tr
-                  class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-                  data-rbd-droppable-context-id="1"
-                  data-rbd-droppable-id="columns"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 33px;"
+                <th
+                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+                  role="columnheader"
+                  scope="col"
                 >
-                  <th
-                    class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
-                    role="columnheader"
-                    scope="col"
+                  <div
+                    aria-label="timestamp header"
+                    class="MuiBox-root css-914c56"
                   >
                     <div
-                      aria-label="timestamp header"
-                      class="MuiBox-root css-914c56"
+                      class="MuiBox-root css-12z0wuy"
                     >
-                      <div
-                        class="MuiBox-root css-12z0wuy"
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="AccessTimeIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
                       >
+                        <path
+                          d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                        <path
+                          d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiBox-root css-0"
+                      data-mui-internal-clone-element="true"
+                    >
+                      <span
+                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                        data-testid="sort timestamp"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                        >
+                          Timestamp
+                        </p>
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                          data-testid="AccessTimeIcon"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                          data-testid="ArrowDownwardIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
                         >
                           <path
-                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                          />
-                          <path
-                            d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
                           />
                         </svg>
-                      </div>
-                      <div
-                        class="MuiBox-root css-0"
-                        data-mui-internal-clone-element="true"
-                      >
-                        <span
-                          class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                          data-testid="sort timestamp"
-                          role="button"
-                          tabindex="0"
-                        >
-                          <p
-                            class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                          >
-                            timestamp
-                          </p>
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                            data-testid="ArrowDownwardIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                            />
-                          </svg>
-                        </span>
-                      </div>
+                      </span>
                     </div>
-                    <div
-                      class="MuiBox-root css-1as59zz"
-                    >
-                      <div>
-                        <button
-                          aria-haspopup="true"
-                          aria-label="timestamp menu"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                          id="timestamp-menu-button"
-                          tabindex="0"
-                          type="button"
+                  </div>
+                  <div
+                    class="MuiBox-root css-1as59zz"
+                  >
+                    <div>
+                      <button
+                        aria-haspopup="true"
+                        aria-label="timestamp menu"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                        id="timestamp-menu-button"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                          data-testid="MoreVertIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                            data-testid="MoreVertIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          <path
+                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
                           />
-                        </button>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                        contenteditable="true"
-                        draggable="false"
-                        role="separator"
-                        style="cursor: col-resize;"
-                        tabindex="-1"
-                      />
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                aria-busy="true"
-                aria-describedby="table-loading-indicator"
-                class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
-                role="rowgroup"
-              >
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 33px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          1
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 33px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          2
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                  role="row"
-                  style="display: flex; flex: 1 0 auto; min-width: 33px;"
-                >
-                  <td
-                    class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                    >
-                      <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                        >
-                          3
-                        </p>
-                      </div>
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  aria-hidden="false"
-                  class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-                  role="none"
-                  style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-                >
-                  <td
-                    colspan="1"
-                  >
-                    <span
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
-                      id="table-loading-indicator"
-                      role="progressbar"
-                      style="width: 40px; height: 40px;"
-                    >
-                      <svg
-                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                        viewBox="22 22 44 44"
-                      >
-                        <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                          cx="44"
-                          cy="44"
-                          fill="none"
-                          r="20.2"
-                          stroke-width="3.6"
+                        </svg>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                         />
-                      </svg>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                      </button>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                      contenteditable="true"
+                      draggable="false"
+                      role="separator"
+                      style="cursor: col-resize;"
+                      tabindex="-1"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              aria-busy="true"
+              aria-describedby="table-loading-indicator"
+              class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
+              role="rowgroup"
+            >
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        1
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        2
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+                role="row"
+                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              >
+                <td
+                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                  >
+                    <div
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                      >
+                        3
+                      </p>
+                    </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr
+                aria-hidden="false"
+                class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+                role="none"
+                style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+              >
+                <td
+                  colspan="1"
+                >
+                  <span
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                    id="table-loading-indicator"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+      <div
+        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      >
         <div
-          class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          />
+          <p
+            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+            id=":r6:"
+          >
+            Rows per page:
+          </p>
+          <div
+            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+            variant="standard"
           >
             <div
-              class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby=":r6: :r5:"
+              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              id=":r5:"
+              role="button"
+              tabindex="0"
+            >
+              25
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+              tabindex="-1"
+              value="25"
             />
-            <p
-              class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-              id=":re:"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              Rows per page:
-            </p>
-            <div
-              class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-              variant="standard"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby=":re: :rd:"
-                class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                id=":rd:"
-                role="button"
-                tabindex="0"
-              >
-                25
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                tabindex="-1"
-                value="25"
+              <path
+                d="M7 10l5 5 5-5z"
               />
+            </svg>
+          </div>
+          <p
+            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          >
+            0–0 of 0
+          </p>
+          <div
+            class="MuiTablePagination-actions"
+          >
+            <button
+              aria-label="Go to previous page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to previous page"
+              type="button"
+            >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
-                data-testid="ArrowDropDownIcon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M7 10l5 5 5-5z"
+                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
                 />
               </svg>
-            </div>
-            <p
-              class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+            </button>
+            <button
+              aria-label="Go to next page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to next page"
+              type="button"
             >
-              0–0 of 0
-            </p>
-            <div
-              class="MuiTablePagination-actions"
-            >
-              <button
-                aria-label="Go to previous page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to previous page"
-                type="button"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowLeftIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Go to next page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to next page"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                  />
-                </svg>
-              </button>
-            </div>
+                <path
+                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      style="overflow: auto; height: 150px;"
-    >
-      <div>
-        <label
-          for="shotNum"
-        >
-          shotNum
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="shotNum checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="shotNum"
-            type="checkbox"
-            value="shotNum"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="activeArea"
-        >
-          activeArea
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="activeArea checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="activeArea"
-            type="checkbox"
-            value="activeArea"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="activeExperiment"
-        >
-          activeExperiment
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="activeExperiment checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="activeExperiment"
-            type="checkbox"
-            value="activeExperiment"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_1"
-        >
-          Test 1
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_1 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_1"
-            type="checkbox"
-            value="test_1"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_2"
-        >
-          test_2
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_2 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_2"
-            type="checkbox"
-            value="test_2"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
-      </div>
-      <div>
-        <label
-          for="test_3"
-        >
-          test_3
-        </label>
-        <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-        >
-          <input
-            aria-label="test_3 checkbox"
-            class="PrivateSwitchBase-input css-1m9pwf3"
-            data-indeterminate="false"
-            id="test_3"
-            type="checkbox"
-            value="test_3"
-          />
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="CheckBoxOutlineBlankIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-            />
-          </svg>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </span>
       </div>
     </div>
   </div>
@@ -1485,283 +689,161 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
 exports[`Record Table renders correctly while loading 1`] = `
 <DocumentFragment>
   <div>
-    <div
-      style="display: flex; flex-direction: row; width: 500px;"
-    >
-      <div
-        class="MuiBox-root css-gpr0gn"
-      >
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            From date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="from, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="from date-time"
-                placeholder="From..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="from, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-        <hr
-          class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-14g9otx-MuiDivider-root"
-        />
-        <form
-          style="display: inline-grid; padding: 3px;"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
-          >
-            To date/time
-          </p>
-          <div
-            class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-          >
-            <div
-              class="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-1ptx2yq-MuiInputBase-root-MuiInput-root"
-            >
-              <input
-                aria-invalid="false"
-                aria-label="to, date-time input"
-                class="MuiInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
-                id="to date-time"
-                placeholder="To..."
-                type="tel"
-                value=""
-              />
-              <div
-                class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
-              >
-                <button
-                  aria-label="to, date-time picker"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeSmall css-1bkxqye-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="CalendarIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        style="margin-left: 15px; margin-right: 15px;"
-      />
-    </div>
-    <br />
     <div>
       <div>
-        <div>
-          <div
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
-            role="table-container"
-          >
-            <table
-              class="MuiTable-root css-rqglhn-MuiTable-root"
-              role="table"
-              style="min-width: 0px;"
-            >
-              <thead
-                class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
-              />
-              <tbody
-                aria-busy="true"
-                aria-describedby="table-loading-indicator"
-                class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
-                role="rowgroup"
-              >
-                <tr
-                  aria-hidden="false"
-                  class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-                  role="none"
-                  style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
-                >
-                  <td
-                    colspan="0"
-                  >
-                    <span
-                      class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
-                      id="table-loading-indicator"
-                      role="progressbar"
-                      style="width: 40px; height: 40px;"
-                    >
-                      <svg
-                        class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                        viewBox="22 22 44 44"
-                      >
-                        <circle
-                          class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                          cx="44"
-                          cy="44"
-                          fill="none"
-                          r="20.2"
-                          stroke-width="3.6"
-                        />
-                      </svg>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
         <div
-          class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
+          role="table-container"
+        >
+          <table
+            class="MuiTable-root css-rqglhn-MuiTable-root"
+            role="table"
+            style="min-width: 0px;"
+          >
+            <thead
+              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+            />
+            <tbody
+              aria-busy="true"
+              aria-describedby="table-loading-indicator"
+              class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
+              role="rowgroup"
+            >
+              <tr
+                aria-hidden="false"
+                class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+                role="none"
+                style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+              >
+                <td
+                  colspan="0"
+                >
+                  <span
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                    id="table-loading-indicator"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div
+        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          />
+          <p
+            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+            id=":r4:"
+          >
+            Rows per page:
+          </p>
+          <div
+            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+            variant="standard"
           >
             <div
-              class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby=":r4: :r3:"
+              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              id=":r3:"
+              role="button"
+              tabindex="0"
+            >
+              25
+            </div>
+            <input
+              aria-hidden="true"
+              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+              tabindex="-1"
+              value="25"
             />
-            <p
-              class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-              id=":ra:"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              data-testid="ArrowDropDownIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              Rows per page:
-            </p>
-            <div
-              class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-              variant="standard"
-            >
-              <div
-                aria-expanded="false"
-                aria-haspopup="listbox"
-                aria-labelledby=":ra: :r9:"
-                class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                id=":r9:"
-                role="button"
-                tabindex="0"
-              >
-                25
-              </div>
-              <input
-                aria-hidden="true"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-                tabindex="-1"
-                value="25"
+              <path
+                d="M7 10l5 5 5-5z"
               />
+            </svg>
+          </div>
+          <p
+            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          >
+            0–0 of 0
+          </p>
+          <div
+            class="MuiTablePagination-actions"
+          >
+            <button
+              aria-label="Go to previous page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to previous page"
+              type="button"
+            >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
-                data-testid="ArrowDropDownIcon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowLeftIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M7 10l5 5 5-5z"
+                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
                 />
               </svg>
-            </div>
-            <p
-              class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+            </button>
+            <button
+              aria-label="Go to next page"
+              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+              disabled=""
+              tabindex="-1"
+              title="Go to next page"
+              type="button"
             >
-              0–0 of 0
-            </p>
-            <div
-              class="MuiTablePagination-actions"
-            >
-              <button
-                aria-label="Go to previous page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to previous page"
-                type="button"
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="KeyboardArrowRightIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowLeftIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                  />
-                </svg>
-              </button>
-              <button
-                aria-label="Go to next page"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-                disabled=""
-                tabindex="-1"
-                title="Go to next page"
-                type="button"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                  data-testid="KeyboardArrowRightIcon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                  />
-                </svg>
-              </button>
-            </div>
+                <path
+                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <div
-      style="overflow: auto; height: 150px;"
-    />
   </div>
 </DocumentFragment>
 `;

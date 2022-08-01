@@ -1,5 +1,5 @@
 import React from 'react';
-import RecordTable from './views/recordTable.component';
+import DataView from './views/dataView.component';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { configureApp } from './state/slices/configSlice';
@@ -48,7 +48,7 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <OGThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <RecordTable />
+          <DataView />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </OGThemeProvider>

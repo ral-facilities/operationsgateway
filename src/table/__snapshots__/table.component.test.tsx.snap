@@ -817,7 +817,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Table renders correctly, with timestamp column displayed by default 1`] = `
+exports[`Table renders correctly, with only timestamp column 1`] = `
 <DocumentFragment>
   <div>
     <div>
@@ -1067,7 +1067,7 @@ exports[`Table renders correctly, with timestamp column displayed by default 1`]
           />
           <p
             class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r1:"
+            id=":r2:"
           >
             Rows per page:
           </p>
@@ -1078,9 +1078,9 @@ exports[`Table renders correctly, with timestamp column displayed by default 1`]
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby=":r1: :r0:"
+              aria-labelledby=":r2: :r1:"
               class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r0:"
+              id=":r1:"
               role="button"
               tabindex="0"
             >

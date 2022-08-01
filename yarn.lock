@@ -2650,6 +2650,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reach/observe-rect@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "@reach/observe-rect@npm:1.2.0"
+  checksum: 7dd903eeaad0e22c6d973bd26265d91eadba56ab5134701ceb3e85214db75339fae94aa7e8b88a65e8daa64bc7cf1b915d4ffcdfd324466b561dc6adc3c6e070
+  languageName: node
+  linkType: hard
+
 "@reduxjs/toolkit@npm:^1.8.3":
   version: 1.8.3
   resolution: "@reduxjs/toolkit@npm:1.8.3"
@@ -2923,6 +2930,27 @@ __metadata:
     "@svgr/plugin-svgo": ^5.5.0
     loader-utils: ^2.0.0
   checksum: 540391bd63791625d26d6b5e0dd3c716ef51176bfba53bf0979a1ac4781afd2672f4bef2d76cf3d9cdc8e9ee61bda6863ed405a237b10406633ede4cd524f1cc
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-virtual@npm:beta":
+  version: 3.0.0-beta.13
+  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.13"
+  dependencies:
+    "@reach/observe-rect": ^1.1.0
+    "@tanstack/virtual-core": 3.0.0-beta.13
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 532f4bc87118b8991dc07b2b3a519ab9d4291bf54bd396ea14ed34db90c21205fdfb949932ebdf1e323ffcd5d6384cd37269c57f3b2ab3ea1bc7d6753f0437c4
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.0.0-beta.13":
+  version: 3.0.0-beta.13
+  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.13"
+  dependencies:
+    "@reach/observe-rect": ^1.1.0
+  checksum: f8493320815f5fefda995817e3ca77e63c2ffa8c6e4baaafe74c05f714ae48db9437ed0571ccd4b76ddbc78acaab1c1728677e91719c7b0895d86af0fa1ec036
   languageName: node
   linkType: hard
 
@@ -10780,6 +10808,7 @@ __metadata:
     "@mui/material": 5.9.2
     "@mui/x-date-pickers": 5.0.0-beta.0
     "@reduxjs/toolkit": ^1.8.3
+    "@tanstack/react-virtual": beta
     "@testing-library/dom": 8.16.0
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.3.0

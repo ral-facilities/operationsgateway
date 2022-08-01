@@ -1,22 +1,9 @@
 import React from 'react';
 import Table, { TableProps } from './table.component';
-import {
-  screen,
-  cleanup,
-  act,
-  within,
-  fireEvent,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { screen, cleanup, render } from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import {
-  flushPromises,
-  renderWithProviders,
-  getInitialState,
-} from '../setupTests';
-import { RootState } from '../state/store';
-import { PreloadedState } from '@reduxjs/toolkit';
+import { flushPromises } from '../setupTests';
 
 describe('Table', () => {
   let props: TableProps;
@@ -56,42 +43,48 @@ describe('Table', () => {
   const onPageChange = jest.fn();
   const onResultsPerPageChange = jest.fn();
   const onSort = jest.fn();
-  let state: PreloadedState<RootState>;
+  const onColumnClose = jest.fn();
+  const onDragEnd = jest.fn();
+  const onColumnWordWrapToggle = jest.fn();
 
-  const createView = (initialState = state) => {
-    return renderWithProviders(<Table {...props} />, {
-      preloadedState: initialState,
-    });
+  const createView = () => {
+    return render(<Table {...props} />);
   };
 
   beforeEach(() => {
     props = {
       data: recordRows,
       availableColumns,
+      columnStates: {},
+      hiddenColumns: ['shotNum', 'activeArea', 'activeExperiment'],
+      columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
       page: 0,
       loadedData: true,
       loadedCount: true,
       resultsPerPage: 25,
-      onPageChange: onPageChange,
-      onResultsPerPageChange: onResultsPerPageChange,
-      onSort: onSort,
+      onPageChange,
+      onResultsPerPageChange,
+      onSort,
+      onColumnClose,
+      onDragEnd,
+      onColumnWordWrapToggle,
       sort: {},
     };
-    state = { table: { ...getInitialState().table } };
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly, with timestamp column displayed by default', () => {
+  it('renders correctly, with only timestamp column', () => {
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders correctly with all columns displayed', async () => {
-    state.table.selectedColumnIds = [
+    props.hiddenColumns = [];
+    props.columnOrder = [
       'timestamp',
       'shotNum',
       'activeArea',
@@ -108,43 +101,6 @@ describe('Table', () => {
     screen.getByText(`1–${recordCount} of ${recordCount}`);
   });
 
-  it('calls onPageChange when page is changed', async () => {
-    const user = userEvent.setup();
-    props.data = Array.from(Array(12), (_, i) => generateRow(i + 1));
-    const recordCount = props.data.length;
-    props.totalDataCount = recordCount;
-    props.resultsPerPage = 10;
-    createView();
-    screen.getByText(`1–10 of ${recordCount}`);
-
-    await user.click(screen.getByLabelText('Go to next page'));
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    expect(onPageChange).toHaveBeenCalledWith(1);
-  });
-
-  it('calls onResultsPerPageChange when resultsPerPage is changed', async () => {
-    const user = userEvent.setup();
-    createView();
-    const resultsPerPage = screen.getByRole('button', {
-      name: /Rows per page/i,
-    });
-    await user.click(resultsPerPage);
-
-    const listbox = within(screen.getByRole('listbox'));
-
-    await user.click(listbox.getByText('10'));
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    expect(onResultsPerPageChange).toHaveBeenCalledWith(10);
-  });
-
   it('displays page loading message when loadedData is false and totalDataCount is zero', async () => {
     props.loadedData = false;
     createView();
@@ -155,22 +111,5 @@ describe('Table', () => {
     props.totalDataCount = 0;
     createView();
     screen.getByRole('progressbar');
-  });
-
-  it("updates columns when a column's word wrap is toggled", () => {
-    createView();
-
-    let menuIcon = screen.getByLabelText('timestamp menu');
-    fireEvent.click(menuIcon);
-
-    expect(screen.getByText('Turn word wrap on')).toBeInTheDocument();
-
-    const wordWrap = screen.getByText('Turn word wrap on');
-    fireEvent.click(wordWrap);
-
-    menuIcon = screen.getByLabelText('timestamp menu');
-    fireEvent.click(menuIcon);
-
-    expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
   });
 });
