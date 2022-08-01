@@ -10,10 +10,9 @@ const sleep = (ms: number): Promise<unknown> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-const channels = getFullChannelMetadata();
-
 // TODO change this when we have an API to query
 const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
+  const channels = getFullChannelMetadata();
   await sleep(randomNumber(0, 1000));
   return Promise.resolve(channels);
 };
@@ -96,8 +95,10 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
   return myColumns;
 };
 
+const useAvailableColumnsOptions = {
+  select: (data: FullChannelMetadata[]) => constructColumns(data),
+};
+
 export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
-  return useChannels({
-    select: (data: FullChannelMetadata[]) => constructColumns(data),
-  });
+  return useChannels(useAvailableColumnsOptions);
 };

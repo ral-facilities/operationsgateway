@@ -37,7 +37,12 @@ export const tableSlice = createSlice({
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
-      state.selectedColumnIds.push(action.payload);
+      // if it's the timestamp column, add to the beginning of the array
+      if (action.payload === 'timestamp') {
+        state.selectedColumnIds.unshift(action.payload);
+      } else {
+        state.selectedColumnIds.push(action.payload);
+      }
     },
     deselectColumn: (state, action: PayloadAction<string>) => {
       delete state.sort[action.payload];
