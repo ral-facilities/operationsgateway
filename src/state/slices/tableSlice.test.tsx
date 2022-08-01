@@ -1,7 +1,9 @@
 import ColumnsReducer, {
   changeSort,
+  deselectColumn,
   initialState,
   reorderColumn,
+  selectColumn,
   selectHiddenColumns,
 } from './tableSlice';
 
@@ -12,6 +14,39 @@ describe('tableSlice', () => {
 
     beforeEach(() => {
       state = initialState;
+    });
+
+    it('selectColumn adds new columns in the correct order', () => {
+      state = ColumnsReducer(state, selectColumn('shotNum'));
+      expect(state.selectedColumnIds).toEqual(['shotNum']);
+
+      state = ColumnsReducer(state, selectColumn('timestamp'));
+      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotNum']);
+
+      state = ColumnsReducer(state, selectColumn('activeArea'));
+      expect(state.selectedColumnIds).toEqual([
+        'timestamp',
+        'shotNum',
+        'activeArea',
+      ]);
+    });
+
+    it('deselectColumn removes columns in the correct order', () => {
+      state = {
+        ...state,
+        selectedColumnIds: [
+          'timestamp',
+          'shotNum',
+          'activeArea',
+          'activeExperiment',
+        ],
+      };
+      state = ColumnsReducer(state, deselectColumn('activeArea'));
+      expect(state.selectedColumnIds).toEqual([
+        'timestamp',
+        'shotNum',
+        'activeExperiment',
+      ],);
     });
 
     it('should reorder columns correctly when reorderColumns action is sent', () => {
