@@ -11,15 +11,28 @@ const resultsPerPage = 25;
 
 // TODO change this when we have an API to query
 const fetchRecords = async (
-  page: number,
-  sort?: SortType,
-  dateRange?: DateRange
+  sort: SortType,
+  dateRange?: DateRange,
+  offsetParams?: {
+    startIndex: number;
+    stopIndex: number;
+  }
 ): Promise<Record[]> => {
-  page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-  const endIndex = page * resultsPerPage;
-  const startIndex = endIndex - resultsPerPage;
+  const params = new URLSearchParams();
 
-  return axios.get(`${apiUrl}/records`).then((response) => {
+  for (const [key, value] of Object.entries(sort)) {
+    params.append('order', `${key} ${value}`);
+  }
+
+  if (offsetParams) {
+    params.append('skip', JSON.stringify(offsetParams.startIndex));
+    params.append(
+      'limit',
+      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex + 1)
+    );
+  }
+
+  return axios.get(`${apiUrl}/records`, { params }).then((response) => {
     const records: Record[] = response.data;
     generateActualChannelMetadata(records);
     return records;
@@ -42,15 +55,18 @@ export const useRecordsPaginated = (
       string,
       {
         page: number;
-        sort?: SortType;
+        sort: SortType;
         dateRange?: DateRange;
       }
     ]
   >(
     ['records', { page, sort, dateRange }],
     (params) => {
-      const { page, sort, dateRange } = params.queryKey[1];
-      return fetchRecords(page, sort, dateRange);
+      let { page, sort, dateRange } = params.queryKey[1];
+      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
+      const startIndex = (page - 1) * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage - 1;
+      return fetchRecords(sort, dateRange, { startIndex, stopIndex });
     },
     {
       onError: (error) => {

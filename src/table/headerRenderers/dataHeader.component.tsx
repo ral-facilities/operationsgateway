@@ -123,6 +123,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onToggleWordWrap,
   } = props;
 
+  // TODO currently, when sort is empty, API returns sort by timestamp ASC
+  // Factor this in by detecting this and applying the MUI asc sort icon on timestamp header
   const currSortDirection = sort[dataKey];
 
   //Apply default sort on page load (but only if not already defined in URL params)
