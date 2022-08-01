@@ -3,7 +3,6 @@ import Table, { TableProps } from './table.component';
 import { screen, cleanup, render } from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
-import { flushPromises } from '../setupTests';
 
 describe('Table', () => {
   let props: TableProps;
