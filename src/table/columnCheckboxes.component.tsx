@@ -84,7 +84,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
             onChange={(e) => handleColumnChecked(e.target.id, e.target.checked)}
             id={accessor}
             value={accessor}
-            checked={shouldBeChecked(accessor ?? '')}
+            checked={accessor ? shouldBeChecked(accessor) : false}
             inputProps={{
               'aria-label': `${accessor} checkbox`,
             }}
