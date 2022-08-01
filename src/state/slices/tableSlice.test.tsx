@@ -1,4 +1,5 @@
 import ColumnsReducer, {
+  changeSort,
   initialState,
   reorderColumn,
   selectHiddenColumns,
@@ -41,6 +42,26 @@ describe('tableSlice', () => {
         'shotNum',
         'activeExperiment',
       ]);
+    });
+
+    it('should update sort correctly when changeSort action is sent', () => {
+      state = ColumnsReducer(
+        state,
+        changeSort({ column: 'timestamp', order: 'asc' })
+      );
+      expect(state.sort).toEqual({ timestamp: 'asc' });
+
+      state = ColumnsReducer(
+        state,
+        changeSort({ column: 'shotNum', order: 'desc' })
+      );
+      expect(state.sort).toEqual({ timestamp: 'asc', shotNum: 'desc' });
+
+      state = ColumnsReducer(
+        state,
+        changeSort({ column: 'timestamp', order: null })
+      );
+      expect(state.sort).toEqual({ shotNum: 'desc' });
     });
   });
 
