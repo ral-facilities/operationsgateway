@@ -4,7 +4,15 @@
 // learn more: https://github.com/testing-library/jest-dom
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
-import { Channel, FullChannelMetadata, Record, RecordRow } from './app.types';
+import {
+  Channel,
+  FullChannelMetadata,
+  ImageChannel,
+  Record,
+  RecordRow,
+  ScalarChannel,
+  WaveformChannel,
+} from './app.types';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
@@ -109,6 +117,18 @@ export const testChannels: FullChannelMetadata[] = [
 
 export const generateRecord = (num: number): Record => {
   const numStr = `${num}`;
+  const channel: ScalarChannel = {
+    metadata: {
+      channel_dtype: 'scalar',
+      units: 'km',
+    },
+    data:
+      num < 10
+        ? parseFloat(`${num}${num}${num}.${num}`)
+        : parseFloat(
+            numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+          ),
+  };
   return {
     id: numStr,
     metadata: {
@@ -119,18 +139,7 @@ export const generateRecord = (num: number): Record => {
       activeExperiment: numStr,
     },
     channels: {
-      [`test_${num}`]: {
-        metadata: {
-          channel_dtype: 'scalar',
-          units: 'km',
-        },
-        data:
-          num < 10
-            ? parseFloat(`${num}${num}${num}.${num}`)
-            : parseFloat(
-                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-              ),
-      },
+      [`test_${num}`]: channel,
     },
   };
 };
@@ -144,7 +153,7 @@ export const generateRecordRow = (num: number) => {
 
   let recordRow: RecordRow = {
     timestamp: record.metadata.timestamp,
-    shotNum: record.metadata.shotNum,
+    shotnum: record.metadata.shotnum,
     activeArea: record.metadata.activeArea,
     activeExperiment: record.metadata.activeExperiment,
   };
@@ -152,7 +161,28 @@ export const generateRecordRow = (num: number) => {
   const keys = Object.keys(record.channels);
   keys.forEach((key: string) => {
     const channel: Channel = record.channels[key];
-    const channelData = channel.data;
+    let channelData;
+    const channelDataType = channel.metadata.channel_dtype;
+
+    switch (channelDataType) {
+      case 'scalar':
+        channelData = (channel as ScalarChannel).data;
+        break;
+      case 'image':
+        channelData = (channel as ImageChannel).thumbnail;
+        // TODO make this a thumbnail later to access a larger version of image
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+        break;
+      case 'waveform':
+        channelData = (channel as WaveformChannel).thumbnail;
+        // TODO make this a thumbnail later to access a larger version of image
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+    }
+
     recordRow[key] = channelData;
   });
 

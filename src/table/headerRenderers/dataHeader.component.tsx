@@ -124,26 +124,15 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onToggleWordWrap,
   } = props;
 
-  // Header exists in sort object as metadata.dataKey or channels.dataKey
-  // Therefore, we construct a sortKey to refer to this property
-  const sortKey = [
-    'timestamp',
-    'shotnum',
-    'activeArea',
-    'activeExperiment',
-  ].includes(dataKey)
-    ? `metadata.${dataKey}`
-    : `channels.${dataKey}`;
-
   // TODO currently, when sort is empty, API returns sort by timestamp ASC
   // Factor this in by detecting this and applying the MUI asc sort icon on timestamp header
-  const currSortDirection = sort[sortKey];
+  const currSortDirection = sort[dataKey];
 
   //Apply default sort on page load (but only if not already defined in URL params)
   //This will apply them in the order of the column definitions given to a table
   React.useEffect(() => {
     if (defaultSort !== undefined && currSortDirection === undefined)
-      onSort(sortKey, defaultSort);
+      onSort(dataKey, defaultSort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -162,9 +151,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   const inner = !disableSort ? (
     <TableSortLabel
       data-testid={`sort ${dataKey}`}
-      active={sortKey in sort}
+      active={dataKey in sort}
       direction={currSortDirection}
-      onClick={() => onSort(sortKey, nextSortDirection)}
+      onClick={() => onSort(dataKey, nextSortDirection)}
       sx={{ margin: 0 }}
     >
       <Typography

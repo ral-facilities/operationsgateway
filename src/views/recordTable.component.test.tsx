@@ -130,32 +130,32 @@ describe('Record Table', () => {
   it('can sort columns and removes column sort when column is closed', async () => {
     const user = userEvent.setup();
     const { store } = createView({
-      table: { ...state.table, selectedColumnIds: ['timestamp', 'shotNum'] },
+      table: { ...state.table, selectedColumnIds: ['timestamp', 'shotnum'] },
     });
 
-    await user.click(screen.getByTestId('sort shotNum'));
+    await user.click(screen.getByTestId('sort shotnum'));
 
     await act(async () => {
       await flushPromises();
     });
 
-    expect(screen.getByTestId('sort shotNum')).toHaveClass('Mui-active');
+    expect(screen.getByTestId('sort shotnum')).toHaveClass('Mui-active');
 
-    let menuIcon = screen.getByLabelText('shotNum menu');
+    let menuIcon = screen.getByLabelText('shotnum menu');
     fireEvent.click(menuIcon);
 
     const close = screen.getByText('Close');
     fireEvent.click(close);
 
     await waitFor(() => {
-      expect(screen.queryByTestId('sort shotNum')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('sort shotnum')).not.toBeInTheDocument();
     });
 
     act(() => {
-      store.dispatch(selectColumn('shotNum'));
+      store.dispatch(selectColumn('shotnum'));
     });
 
-    expect(screen.getByTestId('sort shotNum')).not.toHaveClass('Mui-active');
+    expect(screen.getByTestId('sort shotnum')).not.toHaveClass('Mui-active');
   });
 
   it('paginates correctly', async () => {
@@ -194,7 +194,7 @@ describe('Record Table', () => {
     const { store } = createView();
 
     act(() => {
-      store.dispatch(selectColumn('shotNum'));
+      store.dispatch(selectColumn('shotnum'));
       store.dispatch(selectColumn('activeArea'));
       store.dispatch(selectColumn('activeExperiment'));
     });

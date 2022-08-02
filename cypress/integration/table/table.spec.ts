@@ -28,7 +28,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotNum').check();
+    cy.get('#shotnum').check();
 
     verifyColumnOrder(['Timestamp', 'Shot Number']);
     cy.get('#activeArea').check();
@@ -42,7 +42,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotNum').check();
+    cy.get('#shotnum').check();
     cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
@@ -69,7 +69,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotNum').check();
+    cy.get('#shotnum').check();
     cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
@@ -96,7 +96,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotNum').check();
+    cy.get('#shotnum').check();
     cy.get('[role="columnheader"]').should('be.visible');
 
     cy.get('[role="table-container"]').scrollTo('bottom');

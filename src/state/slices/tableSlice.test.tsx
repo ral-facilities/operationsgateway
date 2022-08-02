@@ -17,16 +17,16 @@ describe('tableSlice', () => {
     });
 
     it('selectColumn adds new columns in the correct order', () => {
-      state = ColumnsReducer(state, selectColumn('shotNum'));
-      expect(state.selectedColumnIds).toEqual(['shotNum']);
+      state = ColumnsReducer(state, selectColumn('shotnum'));
+      expect(state.selectedColumnIds).toEqual(['shotnum']);
 
       state = ColumnsReducer(state, selectColumn('timestamp'));
-      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotNum']);
+      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
 
       state = ColumnsReducer(state, selectColumn('activeArea'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
-        'shotNum',
+        'shotnum',
         'activeArea',
       ]);
     });
@@ -36,7 +36,7 @@ describe('tableSlice', () => {
         ...state,
         selectedColumnIds: [
           'timestamp',
-          'shotNum',
+          'shotnum',
           'activeArea',
           'activeExperiment',
         ],
@@ -44,9 +44,9 @@ describe('tableSlice', () => {
       state = ColumnsReducer(state, deselectColumn('activeArea'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
-        'shotNum',
+        'shotnum',
         'activeExperiment',
-      ],);
+      ]);
     });
 
     it('should reorder columns correctly when reorderColumns action is sent', () => {
@@ -54,7 +54,7 @@ describe('tableSlice', () => {
         ...state,
         selectedColumnIds: [
           'timestamp',
-          'shotNum',
+          'shotnum',
           'activeArea',
           'activeExperiment',
         ],
@@ -74,7 +74,7 @@ describe('tableSlice', () => {
       expect(updatedState.selectedColumnIds).toEqual([
         'timestamp',
         'activeArea',
-        'shotNum',
+        'shotnum',
         'activeExperiment',
       ]);
     });
@@ -88,15 +88,15 @@ describe('tableSlice', () => {
 
       state = ColumnsReducer(
         state,
-        changeSort({ column: 'shotNum', order: 'desc' })
+        changeSort({ column: 'shotnum', order: 'desc' })
       );
-      expect(state.sort).toEqual({ timestamp: 'asc', shotNum: 'desc' });
+      expect(state.sort).toEqual({ timestamp: 'asc', shotnum: 'desc' });
 
       state = ColumnsReducer(
         state,
         changeSort({ column: 'timestamp', order: null })
       );
-      expect(state.sort).toEqual({ shotNum: 'desc' });
+      expect(state.sort).toEqual({ shotnum: 'desc' });
     });
   });
 

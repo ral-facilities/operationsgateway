@@ -11,7 +11,7 @@ describe('Table', () => {
       .getTime()
       .toString(),
     activeArea: `${num}`,
-    shotNum: num,
+    shotnum: num,
     activeExperiment: `${num}`,
   });
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
@@ -25,8 +25,8 @@ describe('Table', () => {
     },
     {
       Header: 'Shot Number',
-      id: 'shotNum',
-      accessor: 'shotNum',
+      id: 'shotnum',
+      accessor: 'shotnum',
     },
     {
       Header: 'Active Area',
@@ -55,7 +55,7 @@ describe('Table', () => {
       data: recordRows,
       availableColumns,
       columnStates: {},
-      hiddenColumns: ['shotNum', 'activeArea', 'activeExperiment'],
+      hiddenColumns: ['shotnum', 'activeArea', 'activeExperiment'],
       columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
       page: 0,
@@ -85,7 +85,7 @@ describe('Table', () => {
     props.hiddenColumns = [];
     props.columnOrder = [
       'timestamp',
-      'shotNum',
+      'shotnum',
       'activeArea',
       'activeExperiment',
     ];

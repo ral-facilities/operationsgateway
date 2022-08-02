@@ -30,7 +30,17 @@ const fetchRecords = async (
   const params = new URLSearchParams();
 
   for (const [key, value] of Object.entries(sort)) {
-    params.append('order', `${key} ${value}`);
+    // API recognises sort values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const sortKey = [
+      'timestamp',
+      'shotnum',
+      'activeArea',
+      'activeExperiment',
+    ].includes(key)
+      ? `metadata.${key}`
+      : `channels.${key}`;
+    params.append('order', `${sortKey} ${value}`);
   }
 
   if (offsetParams) {
