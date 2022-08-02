@@ -76,9 +76,13 @@ const generateChannels = (): any => {
       data: randomNumber(1000, 9999) / 10,
     };
     const randomName = 'Channel_' + randomNumber(1000, 9999).toString();
-    channelMetadata.push(
-      generateFullChannelMetadata(randomName, newChannel.metadata.channel_dtype)
-    );
+    if (!channelMetadata.find((channel) => channel.systemName === randomName))
+      channelMetadata.push(
+        generateFullChannelMetadata(
+          randomName,
+          newChannel.metadata.channel_dtype
+        )
+      );
     returnedObject = {
       ...returnedObject,
       [randomName]: newChannel,

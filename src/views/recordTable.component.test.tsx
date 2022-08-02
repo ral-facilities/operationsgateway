@@ -1,23 +1,28 @@
 import React from 'react';
+import RecordTable from './recordTable.component';
 import {
-  render,
-  RenderResult,
   screen,
   act,
   fireEvent,
+  within,
+  waitFor,
 } from '@testing-library/react';
-import RecordTable, { RecordTableProps } from './recordTable.component';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   flushPromises,
+  getInitialState,
+  renderWithProviders,
+  testRecordRows,
   testChannels,
-  testRecords,
-  generateRecord,
+  generateRecordRow,
 } from '../setupTests';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
-import { useChannels } from '../api/channels';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
+import { useAvailableColumns, constructColumns } from '../api/channels';
+import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -30,25 +35,33 @@ jest.mock('../api/records', () => {
   };
 });
 
-jest.mock('../api/channels');
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/channels');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useChannels: jest.fn(),
+    useAvailableColumns: jest.fn(),
+  };
+});
 
 describe('Record Table', () => {
   let data;
   let channelData;
-  let props: RecordTableProps;
+  let state: PreloadedState<RootState>;
 
-  const createView = (): RenderResult => {
-    return render(<RecordTable {...props} />);
+  const createView = (initialState = state) => {
+    return renderWithProviders(<RecordTable />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
     applyDatePickerWorkaround();
     userEvent.setup();
-    data = testRecords;
+    data = testRecordRows;
     channelData = testChannels;
-    props = {
-      resultsPerPage: 25,
-    };
 
     (useRecordsPaginated as jest.Mock).mockReturnValue({
       data: data,
@@ -58,10 +71,12 @@ describe('Record Table', () => {
       data: data.length,
       isLoading: false,
     });
-    (useChannels as jest.Mock).mockReturnValue({
-      data: channelData,
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: constructColumns(channelData),
       isLoading: false,
     });
+
+    state = getInitialState();
   });
 
   afterEach(() => {
@@ -71,9 +86,6 @@ describe('Record Table', () => {
 
   it('renders correctly', () => {
     const view = createView();
-
-    const test1Checkbox = screen.getByLabelText('test_1 checkbox');
-    fireEvent.click(test1Checkbox);
 
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -88,7 +100,7 @@ describe('Record Table', () => {
       isLoading: true,
     });
 
-    (useChannels as jest.Mock).mockReturnValue({
+    (useAvailableColumns as jest.Mock).mockReturnValue({
       data: [],
       isLoading: true,
     });
@@ -110,117 +122,141 @@ describe('Record Table', () => {
   it('calls the correct data fetching hooks on load', () => {
     createView();
 
-    expect(useRecordsPaginated).toHaveBeenCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {},
-    });
+    expect(useRecordsPaginated).toHaveBeenCalled();
     expect(useRecordCount).toHaveBeenCalled();
-    expect(useChannels).toHaveBeenCalled();
+    expect(useAvailableColumns).toHaveBeenCalled();
   });
 
-  it('updates page query parameter on page change', async () => {
-    data = Array.from(Array(12), (_, i) => generateRecord(i + 1));
+  it('can sort columns and removes column sort when column is closed', async () => {
+    const user = userEvent.setup();
+    const { store } = createView({
+      table: { ...state.table, selectedColumnIds: ['timestamp', 'shotNum'] },
+    });
+
+    await user.click(screen.getByTestId('sort shotNum'));
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(screen.getByTestId('sort shotNum')).toHaveClass('Mui-active');
+
+    let menuIcon = screen.getByLabelText('shotNum menu');
+    fireEvent.click(menuIcon);
+
+    const close = screen.getByText('Close');
+    fireEvent.click(close);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('sort shotNum')).not.toBeInTheDocument();
+    });
+
+    act(() => {
+      store.dispatch(selectColumn('shotNum'));
+    });
+
+    expect(screen.getByTestId('sort shotNum')).not.toHaveClass('Mui-active');
+  });
+
+  it('paginates correctly', async () => {
+    state = { ...state, table: { ...state.table, resultsPerPage: 10 } };
+    data = Array.from(Array(12), (_, i) => generateRecordRow(i + 1));
     (useRecordsPaginated as jest.Mock).mockReturnValue({
-      data: data,
+      data,
       isLoading: false,
     });
     (useRecordCount as jest.Mock).mockReturnValue({
       data: data.length,
       isLoading: false,
     });
-    props.resultsPerPage = 10;
+    const user = userEvent.setup();
     createView();
 
-    await act(async () => {
-      screen.getByLabelText('Go to next page').click();
-      await flushPromises();
-    });
+    screen.getByText(`1–10 of ${data.length}`);
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 1,
-      sort: {},
-      dateRange: {},
+    await user.click(screen.getByLabelText('Go to next page'));
+
+    screen.getByText(`11–12 of ${data.length}`);
+
+    const resultsPerPage = screen.getByRole('button', {
+      name: /Rows per page/i,
     });
+    await user.click(resultsPerPage);
+
+    const listbox = within(screen.getByRole('listbox'));
+
+    await user.click(listbox.getByText('25'));
+
+    screen.getByText(`1–12 of ${data.length}`);
   });
 
-  it('updates sort query parameter on sort', async () => {
-    createView();
+  it('adds columns in correct order on checkbox click', () => {
+    const { store } = createView();
 
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
+    act(() => {
+      store.dispatch(selectColumn('shotNum'));
+      store.dispatch(selectColumn('activeArea'));
+      store.dispatch(selectColumn('activeExperiment'));
     });
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {
-        timestamp: 'asc',
-      },
-      dateRange: {},
+    let columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(4);
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Area');
+    expect(columns[3]).toHaveTextContent('Active Experiment');
+
+    // Remove middle column
+    act(() => {
+      store.dispatch(deselectColumn('activeArea'));
     });
 
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(3);
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Experiment');
+
+    act(() => {
+      store.dispatch(selectColumn('activeArea'));
     });
 
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {
-        timestamp: 'desc',
-      },
-      dateRange: {},
-    });
-
-    await act(async () => {
-      screen.getByTestId('sort timestamp').click();
-      await flushPromises();
-    });
-
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {},
-    });
-  });
-
-  it('updates start/end date fields on date-time change', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {
-        fromDate: '2022-01-01 00:00:00',
-      },
-    });
-
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
-
-    expect(useRecordsPaginated).toHaveBeenLastCalledWith({
-      page: 0,
-      sort: {},
-      dateRange: {
-        fromDate: '2022-01-01 00:00:00',
-        toDate: '2022-01-02 00:00:00',
-      },
-    });
+    // Should expect the column previously in the middle to now be on the end
+    columns = screen.getAllByRole('columnheader');
+    expect(columns.length).toEqual(4);
+    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[1]).toHaveTextContent('Shot Number');
+    expect(columns[2]).toHaveTextContent('Active Experiment');
+    expect(columns[3]).toHaveTextContent('Active Area');
   });
 
   it('rounds numbers correctly in scalar columns', async () => {
-    createView();
+    createView({
+      table: { ...state.table, selectedColumnIds: ['timestamp', 'test_3'] },
+    });
 
     await act(async () => {
-      screen.getByLabelText('test_3 checkbox').click();
       await flushPromises();
     });
 
     expect(screen.getByText('3.3e+2')).toBeInTheDocument();
+  });
+
+  it("updates columns when a column's word wrap is toggled", async () => {
+    createView();
+
+    let menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap on')).toBeInTheDocument();
+
+    const wordWrap = screen.getByText('Turn word wrap on');
+    fireEvent.click(wordWrap);
+
+    menuIcon = screen.getByLabelText('timestamp menu');
+    fireEvent.click(menuIcon);
+
+    expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
   });
 
   it.todo('updates available columns when data from backend changes');

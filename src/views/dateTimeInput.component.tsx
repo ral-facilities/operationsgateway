@@ -3,7 +3,8 @@ import { format, isValid, isEqual, isBefore } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { DateRange } from '../app.types';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { changeDateRange } from '../state/slices/searchSlice';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -218,13 +219,16 @@ export const DateTimeFilter = (
 
 DateTimeFilter.displayName = 'DateTimeFilter';
 
-export interface DateTimeInputBoxProps {
-  dateRange?: DateRange;
-  onChange: (range: 'fromDate' | 'toDate', date?: string) => void;
-}
+const DateTimeInputBox = (): React.ReactElement => {
+  const dateRange = useAppSelector((state) => state.search.dateRange);
 
-const DateTimeInputBox = (props: DateTimeInputBoxProps): React.ReactElement => {
-  const { dateRange, onChange } = props;
+  const dispatch = useAppDispatch();
+  const handleDateTimeChange = React.useCallback(
+    (range: 'fromDate' | 'toDate', date?: string) => {
+      dispatch(changeDateRange({ range, date }));
+    },
+    [dispatch]
+  );
 
   return (
     <div
@@ -237,7 +241,7 @@ const DateTimeInputBox = (props: DateTimeInputBoxProps): React.ReactElement => {
       <DateTimeFilter
         receivedFromDate={dateRange?.fromDate}
         receivedToDate={dateRange?.toDate}
-        onChange={onChange}
+        onChange={handleDateTimeChange}
       />
       <div style={{ marginLeft: 15, marginRight: 15 }} />
     </div>

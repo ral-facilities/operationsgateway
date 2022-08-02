@@ -1,15 +1,28 @@
 import React from 'react';
 import { Column } from 'react-table';
-import ColumnCheckboxes, {
-  ColumnCheckboxesProps,
-} from './columnCheckboxes.component';
-import { render, RenderResult, screen, act } from '@testing-library/react';
-import { flushPromises } from '../setupTests';
+import ColumnCheckboxes from './columnCheckboxes.component';
+import { screen, act } from '@testing-library/react';
+import {
+  flushPromises,
+  getInitialState,
+  renderWithProviders,
+} from '../setupTests';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
+import { useAvailableColumns } from '../api/channels';
+
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/channels');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useChannels: jest.fn(),
+    useAvailableColumns: jest.fn(),
+  };
+});
 
 describe('Column Checkboxes', () => {
-  let props: ColumnCheckboxesProps;
-  const onColumnOpen = jest.fn();
-  const onColumnClose = jest.fn();
   const availableColumns: Column[] = [
     {
       Header: 'Name',
@@ -33,23 +46,21 @@ describe('Column Checkboxes', () => {
       },
     },
   ];
-  const selectedColumns: Column[] = [];
 
-  const createView = (): RenderResult => {
-    return render(<ColumnCheckboxes {...props} />);
+  let state: PreloadedState<RootState>;
+
+  const createView = (initialState = state) => {
+    return renderWithProviders(<ColumnCheckboxes />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
-    props = {
-      onColumnOpen: onColumnOpen,
-      onColumnClose: onColumnClose,
-      availableColumns: availableColumns,
-      selectedColumns: selectedColumns,
-    };
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    state = { ...getInitialState(), table: { ...getInitialState().table } };
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: availableColumns,
+      isLoading: false,
+    });
   });
 
   it('renders correctly when unchecked', () => {
@@ -58,7 +69,7 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    props.selectedColumns = availableColumns;
+    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -71,36 +82,45 @@ describe('Column Checkboxes', () => {
         accessor: 'timestamp',
       },
     ];
-    props = {
-      ...props,
-      availableColumns: amendedColumns,
-    };
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: amendedColumns,
+      isLoading: false,
+    });
 
     createView();
     expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
   });
 
-  it('calls onColumnOpen when checkbox is checked', async () => {
-    createView();
+  it('sends selectColumn when checkbox is checked', async () => {
+    const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnOpen).toHaveBeenCalledWith('name');
+
+    expect(store.getState().table.selectedColumnIds).toEqual(['name']);
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    props.selectedColumns = availableColumns;
-    createView();
+    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
+    const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
-    expect(onColumnClose).toHaveBeenCalledWith('name');
+    expect(store.getState().table.selectedColumnIds).toEqual(
+      availableColumns
+        .filter((col) => col.accessor !== 'name')
+        .map((col) => col.accessor)
+    );
   });
 
   it('returns null if a column is not fully defined', () => {
     availableColumns[0].accessor = undefined;
+    (useAvailableColumns as jest.Mock).mockReturnValue({
+      data: availableColumns,
+      isLoading: false,
+    });
 
     createView();
     const checkboxes = screen.getAllByRole('checkbox');
