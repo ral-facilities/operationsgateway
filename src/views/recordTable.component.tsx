@@ -1,202 +1,111 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
+import { Order } from '../app.types';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
-  Record,
-  Order,
-  QueryParams,
-  Channel,
-  RecordRow,
-  DateRange,
-} from '../app.types';
-import { Column } from 'react-table';
-import DateTimeInputBox from './dateTimeInput.component';
-import { useChannels } from '../api/channels';
-import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+  changeSort,
+  changePage,
+  changeResultsPerPage,
+  selectColumnStates,
+  selectHiddenColumns,
+  selectSelectedIds,
+  deselectColumn,
+  reorderColumn,
+  selectColumn,
+  toggleWordWrap,
+} from '../state/slices/tableSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
+import { useAvailableColumns } from '../api/channels';
+import { DropResult } from 'react-beautiful-dnd';
 
-export interface RecordTableProps {
-  resultsPerPage: number;
-}
+const RecordTable = React.memo((): React.ReactElement => {
+  const dispatch = useAppDispatch();
 
-const RecordTable = React.memo(
-  (props: RecordTableProps): React.ReactElement => {
-    const { resultsPerPage } = props;
+  const queryParams = useAppSelector(selectQueryParams);
+  const { sort, page, resultsPerPage } = queryParams;
 
-    const [page, setPage] = React.useState(0);
-    const [sort, setSort] = React.useState<{
-      [column: string]: Order;
-    }>({});
-    const [dateRange, setDateRange] = React.useState<DateRange>({});
-    const [queryParams, setQueryParams] = React.useState<QueryParams>({
-      page: page,
-      sort: sort,
-      dateRange: dateRange,
-    });
-    const [availableColumns, setAvailableColumns] = React.useState<Column[]>(
-      []
-    );
-    const [parsedData, setParsedData] = React.useState<RecordRow[]>([]);
+  const { data, isLoading: dataLoading } = useRecordsPaginated();
+  const { data: count, isLoading: countLoading } = useRecordCount();
+  const { data: availableColumns, isLoading: columnsLoading } = useAvailableColumns();
 
-    const { data, isLoading: dataLoading } = useRecordsPaginated(queryParams);
-    const { data: count, isLoading: countLoading } = useRecordCount();
+  const columnStates = useAppSelector(selectColumnStates);
+  const hiddenColumns = useAppSelector((state) =>
+    selectHiddenColumns(state, availableColumns ?? [])
+  );
+  const columnOrder = useAppSelector(selectSelectedIds);
 
-    const { data: channels, isLoading: channelsLoading } = useChannels();
+  const onPageChange = React.useCallback(
+    (page: number) => {
+      dispatch(changePage(page));
+    },
+    [dispatch]
+  );
 
-    // Use this as the controlling variable for data having loaded
-    // As there is a disconnect between data loaded from the backend and time before it is processed and ready for display, we use this to keep track of available data instead
-    const [columnsLoaded, setColumnsLoaded] = React.useState<boolean>(false);
+  const onResultsPerPageChange = React.useCallback(
+    (resultsPerPage: number) => {
+      dispatch(changeResultsPerPage(resultsPerPage));
+    },
+    [dispatch]
+  );
 
-    const constructColumns = (parsed: RecordRow[]): Column[] => {
-      let myColumns: Column[] = [];
-      let accessors: Set<string> = new Set<string>();
+  const handleSort = React.useCallback(
+    (column: string, order: Order | null) => {
+      dispatch(changeSort({ column, order }));
+    },
+    [dispatch]
+  );
 
-      parsed.forEach((recordRow: RecordRow) => {
-        const keys = Object.keys(recordRow);
+  const handleColumnWordWrapToggle = React.useCallback(
+    (column: string): void => {
+      dispatch(toggleWordWrap(column));
+    },
+    [dispatch]
+  );
 
-        for (let i = 0; i < keys.length; i++) {
-          if (!accessors.has(keys[i])) {
-            const channelInfo = channels?.find(
-              (channel) => channel.systemName === keys[i]
-            );
-            const newColumn: Column = {
-              Header: () => {
-                const headerName = channelInfo
-                  ? channelInfo.userFriendlyName
-                    ? channelInfo.userFriendlyName
-                    : channelInfo.systemName
-                  : keys[i];
-                // Provide an actual header here when we have it
-                // TODO: do we need to split on things other than underscore?
-                const parts = headerName.split('_');
-                const wordWrap = parts.map(
-                  (part, i) =>
-                    // \u200B renders a zero-width space character
-                    // which allows line-break but isn't visible
-                    part + (i < parts.length - 1 ? '_\u200B' : '')
-                );
-                return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
-              },
-              accessor: keys[i],
-              // TODO: get these from data channel info
-              channelInfo: channelInfo,
-              wordWrap: false,
-            };
-            if (channelInfo?.dataType === 'scalar') {
-              newColumn.Cell = ({ value }) =>
-                typeof value === 'number' &&
-                typeof channelInfo.significantFigures === 'number' ? (
-                  <React.Fragment>
-                    {roundNumber(
-                      value,
-                      channelInfo.significantFigures,
-                      channelInfo.scientificNotation ?? false
-                    )}
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>{String(value ?? '')}</React.Fragment>
-                );
-            }
-            myColumns.push(newColumn);
-            accessors.add(keys[i]);
-          }
-        }
-      });
+  const handleOnDragEnd = React.useCallback(
+    (result: DropResult): void => {
+      dispatch(reorderColumn(result));
+    },
+    [dispatch]
+  );
 
-      return myColumns;
-    };
+  const handleColumnClose = React.useCallback(
+    (column: string): void => {
+      dispatch(deselectColumn(column));
+    },
+    [dispatch]
+  );
 
-    const parseData = (data: Record[]): RecordRow[] => {
-      let newData: RecordRow[] = [];
+  // Ensure the timestamp column is opened automatically on table load
+  React.useEffect(() => {
+    if (!dataLoading && !columnOrder.includes('timestamp')) {
+      dispatch(selectColumn('timestamp'));
+    }
+  }, [dataLoading, columnOrder, dispatch]);
 
-      data.forEach((record: Record) => {
-        let recordRow: RecordRow = {
-          timestamp: record.metadata.timestamp,
-          shotNum: record.metadata.shotNum,
-          activeArea: record.metadata.activeArea,
-          activeExperiment: record.metadata.activeExperiment,
-        };
-
-        const keys = Object.keys(record.channels);
-        keys.forEach((key: string) => {
-          const channel: Channel = record.channels[key];
-          const channelData = channel.data;
-          recordRow[key] = channelData;
-        });
-
-        newData.push(recordRow);
-      });
-
-      setParsedData(newData);
-      return newData;
-    };
-
-    React.useEffect(() => {
-      if (data && !dataLoading && !channelsLoading) {
-        const parsedData: RecordRow[] = parseData(data);
-        const newAvailableColumns = constructColumns(parsedData);
-        setAvailableColumns(newAvailableColumns);
-        setColumnsLoaded(true);
-      } else {
-        setColumnsLoaded(false);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, dataLoading, channelsLoading]);
-
-    React.useEffect(() => {
-      setQueryParams({
-        page: page,
-        sort: sort,
-        dateRange: dateRange,
-      });
-    }, [page, sort, dateRange]);
-
-    const onPageChange = (page: number) => {
-      setPage(page);
-    };
-
-    const handleSort = (column: string, order: Order | null) => {
-      let newSort = sort;
-      if (order !== null) {
-        newSort = {
-          ...newSort,
-          [column]: order,
-        };
-      } else {
-        const { [column]: order, ...rest } = newSort;
-        newSort = {
-          ...rest,
-        };
-      }
-      setSort(newSort);
-    };
-
-    const handleDateTimeChange = (
-      range: 'fromDate' | 'toDate',
-      date?: string
-    ) => {
-      setDateRange({ ...dateRange, [range]: date });
-    };
-
-    return (
-      <div>
-        <DateTimeInputBox onChange={handleDateTimeChange} />
-        <br />
-        <Table
-          data={parsedData}
-          availableColumns={availableColumns}
-          totalDataCount={count ?? 0}
-          page={page}
-          loadedData={columnsLoaded}
-          loadedCount={!countLoading}
-          resultsPerPage={resultsPerPage}
-          onPageChange={onPageChange}
-          sort={sort}
-          onSort={handleSort}
-        />
-      </div>
-    );
-  }
-);
+  return (
+    <Table
+      data={data ?? []}
+      availableColumns={availableColumns ?? []}
+      columnStates={columnStates}
+      hiddenColumns={hiddenColumns}
+      columnOrder={columnOrder}
+      totalDataCount={count ?? 0}
+      page={page}
+      loadedData={!dataLoading && !columnsLoading}
+      loadedCount={!countLoading}
+      resultsPerPage={resultsPerPage}
+      onResultsPerPageChange={onResultsPerPageChange}
+      onPageChange={onPageChange}
+      sort={sort}
+      onSort={handleSort}
+      onColumnWordWrapToggle={handleColumnWordWrapToggle}
+      onDragEnd={handleOnDragEnd}
+      onColumnClose={handleColumnClose}
+    />
+  );
+});
 
 RecordTable.displayName = 'RecordTable';
 

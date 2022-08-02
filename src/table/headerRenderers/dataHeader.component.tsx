@@ -6,6 +6,7 @@ import {
   TableCell,
   SxProps,
   Tooltip,
+  Theme,
   Menu,
   MenuItem,
   IconButton,
@@ -22,7 +23,7 @@ export interface DataHeaderProps {
   disableSort?: boolean;
   dataKey: string;
   sort: { [column: string]: Order };
-  sx?: SxProps;
+  sx?: SxProps<Theme>;
   onSort: (column: string, order: Order | null) => void;
   defaultSort?: Order;
   label?: React.ReactNode;
@@ -204,7 +205,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
         >
           <Box marginRight={1}>{Icon ?? <Feed />}</Box>
-          {/* TODO: add extra info to tooltip from data channel info */}
           <Tooltip
             enterDelay={400}
             enterNextDelay={400}
@@ -231,8 +231,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             width: '33px',
             justifyContent: 'space-between',
             zIndex: 2,
-            // TODO: switch to theme background color
-            backgroundColor: 'white',
+            backgroundColor: (theme) => theme.palette.background.default,
           }}
         >
           <ColumnMenu

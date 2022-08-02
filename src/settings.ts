@@ -1,7 +1,10 @@
-import { PluginRoute } from "./state/actions/actions.types";
+import { PluginRoute } from './state/scigateway.actions';
 
 export interface OperationsGatewaySettings {
+  apiUrl: string;
   routes: PluginRoute[];
+  helpSteps?: { target: string; content: string }[];
+  pluginHost?: string;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;
