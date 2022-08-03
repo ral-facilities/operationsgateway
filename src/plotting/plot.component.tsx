@@ -12,8 +12,9 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import React from 'react';
-import { Scatter } from 'react-chartjs-2';
+import { Scatter, Line } from 'react-chartjs-2';
 import { useRecords } from '../api/records';
+import { PlotType } from '../app.types';
 
 ChartJS.register(
   LinearScale,
@@ -26,15 +27,16 @@ ChartJS.register(
 );
 
 interface PlotProps {
-  data: ChartData<'scatter'>;
+  data: ChartData<PlotType>;
   title: string;
+  type: PlotType;
 }
 
 const Plot = (props: PlotProps) => {
-  const { data, title } = props;
+  const { data, title, type } = props;
 
   const options = React.useMemo(() => {
-    const options: ChartOptions<'scatter'> = {
+    const options: ChartOptions<PlotType> = {
       plugins: {
         title: {
           text: title,
@@ -50,15 +52,20 @@ const Plot = (props: PlotProps) => {
     return options;
   }, [title]);
 
-  return <Scatter data={data} options={options} />;
+  if (type === 'scatter')
+    return <Scatter data={data as ChartData<'scatter'>} options={options} />;
+  if (type === 'line')
+    return <Line data={data as ChartData<'line'>} options={options} />;
+  return null;
 };
 
 interface ConnectedPlotProps {
   title: string;
+  type: PlotType;
 }
 
 const ConnectedPlot = (props: ConnectedPlotProps) => {
-  const { title } = props;
+  const { title, type } = props;
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
@@ -72,7 +79,7 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
     };
   }, [records]);
 
-  return <Plot data={chartData} title={title} />;
+  return <Plot data={chartData} title={title} type={type} />;
 };
 
 export default ConnectedPlot;

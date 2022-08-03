@@ -4,6 +4,7 @@ import Plot from './plot.component';
 import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { PlotType } from '../app.types';
 
 interface PlotWindowProps {}
 
@@ -11,6 +12,7 @@ const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
   const [plotTitle, setPlotTitle] = React.useState('');
+  const [plotType, setPlotType] = React.useState<PlotType>('scatter');
 
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = React.useCallback(() => {
@@ -58,7 +60,11 @@ const PlotWindow = (props: PlotWindowProps) => {
                 <ChevronLeftIcon />
               </IconButton>
             </Box>
-            <PlotSettings changePlotTitle={setPlotTitle} />
+            <PlotSettings
+              changePlotTitle={setPlotTitle}
+              plotType={plotType}
+              changePlotType={setPlotType}
+            />
           </Box>
         </Drawer>
       </Grid>
@@ -82,7 +88,7 @@ const PlotWindow = (props: PlotWindowProps) => {
         >
           <SettingsIcon />
         </IconButton>
-        <Plot title={plotTitle} />
+        <Plot title={plotTitle} type={plotType} />
       </Grid>
     </Grid>
   );

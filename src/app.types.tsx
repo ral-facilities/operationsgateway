@@ -120,6 +120,8 @@ export interface ColumnState {
   wordWrap?: boolean;
 }
 
+export type PlotType = 'scatter' | 'line';
+
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)
