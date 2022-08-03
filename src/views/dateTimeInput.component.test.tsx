@@ -12,7 +12,7 @@ import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   getInitialState,
-  renderWithProviders,
+  renderWithStore,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -264,7 +264,7 @@ describe('DateTimeInputBox tests', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithProviders(<DateTimeInputBox />, {
+    return renderWithStore(<DateTimeInputBox />, {
       preloadedState: initialState,
     });
   };
