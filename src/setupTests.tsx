@@ -12,6 +12,7 @@ import { initialState as initialSearchState } from './state/slices/searchSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 export let actions: Action[] = [];
 export let resetActions = (): void => {
@@ -40,7 +41,38 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   store?: AppStore;
 }
 
+export const createTestQueryClient = (): QueryClient =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
 export function renderWithProviders(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
+) {
+  const testQueryClient = createTestQueryClient();
+  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+    return (
+      <Provider store={store}>
+        <QueryClientProvider client={testQueryClient}>
+          {children}
+        </QueryClientProvider>
+      </Provider>
+    );
+  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+}
+
+export function renderWithStore(
   ui: React.ReactElement,
   {
     preloadedState = {},
