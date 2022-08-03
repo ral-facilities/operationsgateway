@@ -12,7 +12,6 @@ import {
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
-import { generateActualChannelMetadata } from './channels';
 import { parseISO, format } from 'date-fns';
 
 // TODO fetch this with useSelector when Redux is available
@@ -53,7 +52,6 @@ const fetchRecords = async (
 
   return axios.get(`${apiUrl}/records`, { params }).then((response) => {
     const records: Record[] = response.data;
-    generateActualChannelMetadata(records);
     return records;
   });
 };
