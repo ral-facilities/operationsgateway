@@ -19,7 +19,7 @@ import { selectUrls } from '../state/slices/configSlice';
 const fetchRecords = async (
   apiUrl: string,
   sort: SortType,
-  dateRange?: DateRange,
+  dateRange: DateRange,
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -41,6 +41,20 @@ const fetchRecords = async (
     params.append('order', `${sortKey} ${value}`);
   }
 
+  if (Object.keys(dateRange).length > 0) {
+    const timestampObj = {
+      $and: [
+        {
+          'metadata.timestamp': {
+            $gt: dateRange.fromDate,
+            $lt: dateRange.toDate,
+          },
+        },
+      ],
+    };
+    params.append('conditions', JSON.stringify(timestampObj));
+  }
+
   if (offsetParams) {
     params.append('skip', JSON.stringify(offsetParams.startIndex));
     params.append(
@@ -55,8 +69,28 @@ const fetchRecords = async (
   });
 };
 
-const fetchRecordCountQuery = (apiUrl: string): Promise<number> => {
-  return axios.get(`${apiUrl}/records/count`).then((response) => response.data);
+const fetchRecordCountQuery = (
+  apiUrl: string,
+  dateRange: DateRange
+): Promise<number> => {
+  const params = new URLSearchParams();
+  if (Object.keys(dateRange).length > 0) {
+    const timestampObj = {
+      $and: [
+        {
+          'metadata.timestamp': {
+            $gt: dateRange.fromDate,
+            $lt: dateRange.toDate,
+          },
+        },
+      ],
+    };
+    params.append('conditions', JSON.stringify(timestampObj));
+  }
+
+  return axios
+    .get(`${apiUrl}/records/count`, { params })
+    .then((response) => response.data);
 };
 
 export const useRecordsPaginated = (): UseQueryResult<
@@ -77,7 +111,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         page: number;
         resultsPerPage: number;
         sort: SortType;
-        dateRange?: DateRange;
+        dateRange: DateRange;
       }
     ]
   >(
@@ -147,11 +181,18 @@ export const useRecordsPaginated = (): UseQueryResult<
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const { dateRange } = useAppSelector(selectQueryParams);
 
-  return useQuery<number, AxiosError, number, [string]>(
-    ['recordCount'],
+  return useQuery<
+    number,
+    AxiosError,
+    number,
+    [string, { dateRange: DateRange }]
+  >(
+    ['recordCount', { dateRange }],
     (params) => {
-      return fetchRecordCountQuery(apiUrl);
+      const { dateRange } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, dateRange);
     },
     {
       onError: (error) => {
