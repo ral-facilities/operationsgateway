@@ -4,7 +4,7 @@ import Plot from './plot.component';
 import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { PlotType } from '../app.types';
+import { AxisSettings, PlotType } from '../app.types';
 
 interface PlotWindowProps {}
 
@@ -13,6 +13,12 @@ const drawerWidth = 300;
 const PlotWindow = (props: PlotWindowProps) => {
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
+  const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
+    scale: 'time',
+  });
+  const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
+    scale: 'linear',
+  });
 
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = React.useCallback(() => {
@@ -64,6 +70,10 @@ const PlotWindow = (props: PlotWindowProps) => {
               changePlotTitle={setPlotTitle}
               plotType={plotType}
               changePlotType={setPlotType}
+              XAxisSettings={XAxisSettings}
+              changeXAxisSettings={setXAxisSettings}
+              YAxesSettings={YAxesSettings}
+              changeYAxesSettings={setYAxesSettings}
             />
           </Box>
         </Drawer>
@@ -88,7 +98,12 @@ const PlotWindow = (props: PlotWindowProps) => {
         >
           <SettingsIcon />
         </IconButton>
-        <Plot title={plotTitle} type={plotType} />
+        <Plot
+          title={plotTitle}
+          type={plotType}
+          XAxisSettings={XAxisSettings}
+          YAxesSettings={YAxesSettings}
+        />
       </Grid>
     </Grid>
   );

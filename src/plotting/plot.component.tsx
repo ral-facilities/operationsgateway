@@ -4,6 +4,7 @@ import {
   ChartOptions,
   Legend,
   LinearScale,
+  LogarithmicScale,
   LineElement,
   PointElement,
   TimeScale,
@@ -14,10 +15,11 @@ import 'chartjs-adapter-date-fns';
 import React from 'react';
 import { Scatter, Line } from 'react-chartjs-2';
 import { useRecords } from '../api/records';
-import { PlotType } from '../app.types';
+import { AxisSettings, PlotType } from '../app.types';
 
 ChartJS.register(
   LinearScale,
+  LogarithmicScale,
   TimeScale,
   PointElement,
   LineElement,
@@ -30,10 +32,12 @@ interface PlotProps {
   data: ChartData<PlotType>;
   title: string;
   type: PlotType;
+  XAxisSettings: AxisSettings;
+  YAxesSettings: AxisSettings;
 }
 
 const Plot = (props: PlotProps) => {
-  const { data, title, type } = props;
+  const { data, title, type, XAxisSettings, YAxesSettings } = props;
 
   const options = React.useMemo(() => {
     const options: ChartOptions<PlotType> = {
@@ -45,12 +49,15 @@ const Plot = (props: PlotProps) => {
       },
       scales: {
         x: {
-          type: 'time',
+          type: XAxisSettings.scale,
+        },
+        y: {
+          type: YAxesSettings.scale,
         },
       },
     };
     return options;
-  }, [title]);
+  }, [title, XAxisSettings, YAxesSettings]);
 
   if (type === 'scatter')
     return <Scatter data={data as ChartData<'scatter'>} options={options} />;
@@ -62,10 +69,12 @@ const Plot = (props: PlotProps) => {
 interface ConnectedPlotProps {
   title: string;
   type: PlotType;
+  XAxisSettings: AxisSettings;
+  YAxesSettings: AxisSettings;
 }
 
 const ConnectedPlot = (props: ConnectedPlotProps) => {
-  const { title, type } = props;
+  const { title, type, XAxisSettings, YAxesSettings } = props;
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
@@ -79,7 +88,15 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
     };
   }, [records]);
 
-  return <Plot data={chartData} title={title} type={type} />;
+  return (
+    <Plot
+      data={chartData}
+      title={title}
+      type={type}
+      XAxisSettings={XAxisSettings}
+      YAxesSettings={YAxesSettings}
+    />
+  );
 };
 
 export default ConnectedPlot;
