@@ -13,12 +13,11 @@ import {
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { parseISO, format } from 'date-fns';
-
-// TODO fetch this with useSelector when Redux is available
-const apiUrl = 'http://opsgateway-epac-dev.clf.stfc.ac.uk:8000';
+import { selectUrls } from '../state/slices/configSlice';
 
 // TODO change this when we have an API to query
 const fetchRecords = async (
+  apiUrl: string,
   sort: SortType,
   dateRange?: DateRange,
   offsetParams?: {
@@ -56,7 +55,7 @@ const fetchRecords = async (
   });
 };
 
-const fetchRecordCountQuery = (): Promise<number> => {
+const fetchRecordCountQuery = (apiUrl: string): Promise<number> => {
   return axios.get(`${apiUrl}/records/count`).then((response) => response.data);
 };
 
@@ -66,6 +65,8 @@ export const useRecordsPaginated = (): UseQueryResult<
 > => {
   const { page, resultsPerPage, sort, dateRange } =
     useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
   return useQuery<
     Record[],
     AxiosError,
@@ -86,7 +87,7 @@ export const useRecordsPaginated = (): UseQueryResult<
       page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
       const startIndex = (page - 1) * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
-      return fetchRecords(sort, dateRange, { startIndex, stopIndex });
+      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },
     {
       onError: (error) => {
@@ -145,10 +146,12 @@ export const useRecordsPaginated = (): UseQueryResult<
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
   return useQuery<number, AxiosError, number, [string]>(
     ['recordCount'],
-    () => {
-      return fetchRecordCountQuery();
+    (params) => {
+      return fetchRecordCountQuery(apiUrl);
     },
     {
       onError: (error) => {

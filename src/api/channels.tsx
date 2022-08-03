@@ -4,9 +4,8 @@ import { Channel, FullChannelMetadata, Record } from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
-
-// TODO fetch this with useSelector when Redux is available
-const apiUrl = 'http://opsgateway-epac-dev.clf.stfc.ac.uk:8000';
+import { selectUrls } from '../state/slices/configSlice';
+import { useAppSelector } from '../state/hooks';
 
 export const generateChannelMetadata = (
   records: Record[]
@@ -32,7 +31,7 @@ export const generateChannelMetadata = (
 };
 
 // TODO change this when we have an API to query
-const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
+const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios.get(`${apiUrl}/records`).then((response) => {
     const records: Record[] = response.data;
     const metadata = generateChannelMetadata(records);
@@ -43,10 +42,12 @@ const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
 export const useChannels = <T = FullChannelMetadata[],>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
 ): UseQueryResult<T, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
   return useQuery(
     ['channels'],
     (params) => {
-      return fetchChannels();
+      return fetchChannels(apiUrl);
     },
     {
       onError: (error) => {
