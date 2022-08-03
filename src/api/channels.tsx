@@ -17,7 +17,7 @@ const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
   return Promise.resolve(channels);
 };
 
-export const useChannels = <T = FullChannelMetadata[],>(
+export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
 ): UseQueryResult<T, AxiosError> => {
   return useQuery(

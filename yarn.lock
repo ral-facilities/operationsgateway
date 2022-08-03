@@ -5139,6 +5139,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chart.js@npm:^3.8.2":
+  version: 3.8.2
+  resolution: "chart.js@npm:3.8.2"
+  checksum: a60fef3c98ed6890ce0e1e094900aa573aa1f5fa2edc7363f52efb6850730666ac479a193e86fba17dc340a1651d6b273fac7632c3e0c40c9ed5a70d09b118da
+  languageName: node
+  linkType: hard
+
+"chartjs-adapter-date-fns@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "chartjs-adapter-date-fns@npm:2.0.0"
+  peerDependencies:
+    chart.js: ^3.0.0
+  checksum: 08ee2f99da4a15434e28da733cb0489fe94012ac1a493fbf01d660bcf17df3bb28ce767939c2881b67b3bbefe1a7ffe70dcea4cbd860ab6c2c670d90816e8176
+  languageName: node
+  linkType: hard
+
 "check-more-types@npm:2.24.0, check-more-types@npm:^2.24.0":
   version: 2.24.0
   resolution: "check-more-types@npm:2.24.0"
@@ -10707,6 +10723,8 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.31.0
     "@typescript-eslint/parser": 5.31.0
     axios: 0.27.2
+    chart.js: ^3.8.2
+    chartjs-adapter-date-fns: ^2.0.0
     cross-env: 7.0.3
     cypress: 9.7.0
     cypress-failed-log: 2.10.0
@@ -10725,6 +10743,7 @@ __metadata:
     react: 18.2.0
     react-beautiful-dnd: 13.1.0
     react-beautiful-dnd-test-utils: 4.1.1
+    react-chartjs-2: ^4.3.1
     react-dom: 18.2.0
     react-draggable: 4.4.5
     react-i18next: 11.18.1
@@ -12232,6 +12251,16 @@ __metadata:
     react: ^16.8.5 || ^17.0.0
     react-dom: ^16.8.5 || ^17.0.0
   checksum: 12b7e9fbe872783e0f899e03f2e80deee085aa1e2cec3d556c1d06bdbafbda7a3c9cf7a3a6b26544617eb2e50d0e3518001bd8300370704bf5a8c9c21f54ec90
+  languageName: node
+  linkType: hard
+
+"react-chartjs-2@npm:^4.3.1":
+  version: 4.3.1
+  resolution: "react-chartjs-2@npm:4.3.1"
+  peerDependencies:
+    chart.js: ^3.5.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 574d12cc43b9b4a0f1e04cc692982e16ef7083c03da2a8a9fc2180fe9bcadc793008f81d8f4eec5465925eff84c95d7c523cb74376858b363ae75a83bb3c2a5d
   languageName: node
   linkType: hard
 
