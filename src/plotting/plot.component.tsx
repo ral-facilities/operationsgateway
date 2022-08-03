@@ -7,6 +7,7 @@ import {
   LineElement,
   PointElement,
   TimeScale,
+  Title,
   Tooltip,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
@@ -20,28 +21,44 @@ ChartJS.register(
   PointElement,
   LineElement,
   Tooltip,
-  Legend
+  Legend,
+  Title
 );
 
 interface PlotProps {
   data: ChartData<'scatter'>;
+  title: string;
 }
 
-const options: ChartOptions<'scatter'> = {
-  scales: {
-    x: {
-      type: 'time',
-    },
-  },
-};
-
 const Plot = (props: PlotProps) => {
-  const { data } = props;
+  const { data, title } = props;
+
+  const options = React.useMemo(() => {
+    const options: ChartOptions<'scatter'> = {
+      plugins: {
+        title: {
+          text: title,
+          display: true,
+        },
+      },
+      scales: {
+        x: {
+          type: 'time',
+        },
+      },
+    };
+    return options;
+  }, [title]);
 
   return <Scatter data={data} options={options} />;
 };
 
-const ConnectedPlot = () => {
+interface ConnectedPlotProps {
+  title: string;
+}
+
+const ConnectedPlot = (props: ConnectedPlotProps) => {
+  const { title } = props;
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
@@ -55,7 +72,7 @@ const ConnectedPlot = () => {
     };
   }, [records]);
 
-  return <Plot data={chartData} />;
+  return <Plot data={chartData} title={title} />;
 };
 
 export default ConnectedPlot;
