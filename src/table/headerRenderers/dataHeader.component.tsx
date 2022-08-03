@@ -232,7 +232,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             // 33 - enough space for both menu icon + divider
             width: '33px',
             justifyContent: 'space-between',
-            zIndex: 2,
+            zIndex: 0,
             backgroundColor: (theme) => theme.palette.background.default,
           }}
         >
