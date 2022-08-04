@@ -81,7 +81,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -179,7 +179,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -277,7 +277,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -375,7 +375,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -898,7 +898,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button

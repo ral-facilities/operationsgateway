@@ -81,7 +81,7 @@ exports[`Record Table renders correctly 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -424,7 +424,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
