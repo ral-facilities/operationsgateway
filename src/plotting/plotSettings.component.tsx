@@ -56,7 +56,7 @@ const StyledTab = styled(Tab)(() => ({
   width: 10,
 }));
 
-interface PlotSettingsProps {
+export interface PlotSettingsProps {
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
@@ -213,7 +213,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 </FormLabel>
                 <RadioGroup
                   row
-                  aria-labelledby="x-linear-log-group-label"
+                  aria-labelledby="x-scale-group-label"
                   name="x scale radio buttons group"
                   value={XScale}
                   onChange={handleChangeXScale}
@@ -261,7 +261,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 </FormLabel>
                 <RadioGroup
                   row
-                  aria-labelledby="y-linear-log-group-label"
+                  aria-labelledby="y-scale-group-label"
                   name="y scale radio buttons group"
                   value={YScale}
                   onChange={handleChangeYScale}

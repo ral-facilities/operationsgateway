@@ -62,7 +62,10 @@ const PlotWindow = (props: PlotWindowProps) => {
               alignItems="center"
             >
               <Typography>Config</Typography>
-              <IconButton onClick={handleDrawerClose}>
+              <IconButton
+                onClick={handleDrawerClose}
+                aria-label="close settings"
+              >
                 <ChevronLeftIcon />
               </IconButton>
             </Box>
@@ -92,7 +95,7 @@ const PlotWindow = (props: PlotWindowProps) => {
       >
         <IconButton
           color="inherit"
-          aria-label="open drawer"
+          aria-label="open settings"
           onClick={handleDrawerOpen}
           sx={{ position: 'absolute', ...(open && { display: 'none' }) }}
         >

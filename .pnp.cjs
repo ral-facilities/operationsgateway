@@ -73,6 +73,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
+            ["jest-canvas-mock", "npm:2.4.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["react", "npm:18.2.0"],\
@@ -8541,6 +8542,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["cssfontparser", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/cssfontparser-npm-1.2.1-f48947509b-952d487cdd.zip/node_modules/cssfontparser/",\
+          "packageDependencies": [\
+            ["cssfontparser", "npm:1.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["cssnano", [\
         ["npm:5.1.12", {\
           "packageLocation": "./.yarn/cache/cssnano-npm-5.1.12-053744178f-5bc6a6195e.zip/node_modules/cssnano/",\
@@ -12254,6 +12264,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jest-canvas-mock", [\
+        ["npm:2.4.0", {\
+          "packageLocation": "./.yarn/cache/jest-canvas-mock-npm-2.4.0-f993bb2728-feda3c9a33.zip/node_modules/jest-canvas-mock/",\
+          "packageDependencies": [\
+            ["jest-canvas-mock", "npm:2.4.0"],\
+            ["cssfontparser", "npm:1.2.1"],\
+            ["moo-color", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jest-changed-files", [\
         ["npm:27.5.1", {\
           "packageLocation": "./.yarn/cache/jest-changed-files-npm-27.5.1-e3b21b0242-95e9dc74c3.zip/node_modules/jest-changed-files/",\
@@ -13893,6 +13914,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["moo-color", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/moo-color-npm-1.0.3-50b8650764-02bf59b6bb.zip/node_modules/moo-color/",\
+          "packageDependencies": [\
+            ["moo-color", "npm:1.0.3"],\
+            ["color-name", "npm:1.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ms", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/ms-npm-2.0.0-9e1101a471-0e6a22b8b7.zip/node_modules/ms/",\
@@ -14340,6 +14371,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
+            ["jest-canvas-mock", "npm:2.4.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["react", "npm:18.2.0"],\

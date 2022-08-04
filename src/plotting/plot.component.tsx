@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import React from 'react';
-import { Scatter, Line } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import { useRecords } from '../api/records';
 import { AxisSettings, PlotType } from '../app.types';
 
@@ -28,15 +28,11 @@ ChartJS.register(
   Title
 );
 
-interface PlotProps {
+type FullPlotProps = {
   data: ChartData<PlotType>;
-  title: string;
-  type: PlotType;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
-}
+} & PlotProps;
 
-const Plot = (props: PlotProps) => {
+export const Plot = (props: FullPlotProps) => {
   const { data, title, type, XAxisSettings, YAxesSettings } = props;
 
   const options = React.useMemo(() => {
@@ -59,22 +55,24 @@ const Plot = (props: PlotProps) => {
     return options;
   }, [title, XAxisSettings, YAxesSettings]);
 
-  if (type === 'scatter')
-    return <Scatter data={data as ChartData<'scatter'>} options={options} />;
-  if (type === 'line')
-    return <Line data={data as ChartData<'line'>} options={options} />;
-  return null;
+  return (
+    <Chart
+      data={data}
+      options={options}
+      type={type}
+      aria-label={`${title} plot`}
+    />
+  );
 };
 
-interface ConnectedPlotProps {
+interface PlotProps {
   title: string;
   type: PlotType;
   XAxisSettings: AxisSettings;
   YAxesSettings: AxisSettings;
 }
 
-const ConnectedPlot = (props: ConnectedPlotProps) => {
-  const { title, type, XAxisSettings, YAxesSettings } = props;
+const ConnectedPlot = (props: PlotProps) => {
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
@@ -88,15 +86,7 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
     };
   }, [records]);
 
-  return (
-    <Plot
-      data={chartData}
-      title={title}
-      type={type}
-      XAxisSettings={XAxisSettings}
-      YAxesSettings={YAxesSettings}
-    />
-  );
+  return <Plot data={chartData} {...props} />;
 };
 
 export default ConnectedPlot;
