@@ -10,6 +10,8 @@ import {
   TimeScale,
   Title,
   Tooltip,
+  ScatterController,
+  LineController,
 } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import React from 'react';
@@ -25,7 +27,9 @@ ChartJS.register(
   LineElement,
   Tooltip,
   Legend,
-  Title
+  Title,
+  ScatterController,
+  LineController
 );
 
 type FullPlotProps = {
