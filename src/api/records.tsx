@@ -15,7 +15,6 @@ import { selectQueryParams } from '../state/slices/searchSlice';
 import { parseISO, format } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
 
-// TODO change this when we have an API to query
 const fetchRecords = async (
   apiUrl: string,
   sort: SortType,
@@ -151,7 +150,6 @@ export const useRecordsPaginated = (): UseQueryResult<
                 break;
               case 'image':
                 channelData = (channel as ImageChannel).thumbnail;
-                // TODO make this a thumbnail later to access a larger version of image
                 channelData = (
                   <img
                     src={`data:image/jpeg;base64,${channelData}`}
@@ -161,7 +159,6 @@ export const useRecordsPaginated = (): UseQueryResult<
                 break;
               case 'waveform':
                 channelData = (channel as WaveformChannel).thumbnail;
-                // TODO make this a thumbnail later to access a larger version of image
                 channelData = (
                   <img
                     src={`data:image/jpeg;base64,${channelData}`}

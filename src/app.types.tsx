@@ -117,7 +117,6 @@ export interface SortType {
   [column: string]: Order;
 }
 
-// TODO remove optionals and make mandatory when implemented
 export interface QueryParams {
   sort: SortType;
   filters?: FiltersType;

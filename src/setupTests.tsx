@@ -202,14 +202,12 @@ export const generateRecordRow = (num: number) => {
         break;
       case 'image':
         channelData = (channel as ImageChannel).thumbnail;
-        // TODO make this a thumbnail later to access a larger version of image
         channelData = (
           <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
         );
         break;
       case 'waveform':
         channelData = (channel as WaveformChannel).thumbnail;
-        // TODO make this a thumbnail later to access a larger version of image
         channelData = (
           <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
         );

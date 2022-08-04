@@ -30,7 +30,6 @@ export const generateChannelMetadata = (
   return metadata;
 };
 
-// TODO change this when we have an API to query
 const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios.get(`${apiUrl}/records`).then((response) => {
     const records: Record[] = response.data;

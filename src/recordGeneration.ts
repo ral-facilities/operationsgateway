@@ -8,8 +8,7 @@ import {
   ScalarChannel,
 } from './app.types';
 
-// TODO this needs to be somewhere else. Perhaps a setting?
-export const resultsPerPage = 25;
+const resultsPerPage = 25;
 
 let channelMetadata: FullChannelMetadata[] = [];
 
