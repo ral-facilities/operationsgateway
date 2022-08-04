@@ -1,0 +1,13 @@
+{
+  "facilityName": "Generic",
+  "apiUrl": "http://opsgateway-epac-dev.clf.stfc.ac.uk:8000",
+  "routes": [
+    {
+      "section": "Homepage",
+      "link": "/operationsgateway",
+      "displayName": "OperationsGateway",
+      "order": 0
+    }
+  ],
+  "pluginHost": "http://localhost:3000"
+}

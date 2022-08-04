@@ -1,4 +1,8 @@
-import { getHandleSelector } from '../../support/util';
+import {
+  getHandleSelector,
+  testRecordResponse,
+  testRecordCountResponse,
+} from '../../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   for (let i = 0; i < columns.length; i++) {
@@ -8,7 +12,18 @@ const verifyColumnOrder = (columns: string[]): void => {
 
 describe('Table Component', () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.intercept('**/records**', (req) => {
+      req.reply({
+        statusCode: 200,
+        body: testRecordResponse,
+      });
+    }).as('getRecords');
+
+    cy.intercept('**/records/count', (req) => {
+      req.reply({ statusCode: 200, body: testRecordCountResponse });
+    }).as('getRecordCount');
+
+    cy.visit('/').wait(['@getRecords', '@getRecordCount']);
   });
 
   it('initialises with a timestamp column', () => {
@@ -126,7 +141,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('[id^="Channel_"]').first().as('channelCheckbox');
+    cy.get('[id^="CHANNEL_"]').first().as('channelCheckbox');
     cy.get('@channelCheckbox').invoke('attr', 'id').as('channelName');
     cy.get('@channelCheckbox').check();
 
