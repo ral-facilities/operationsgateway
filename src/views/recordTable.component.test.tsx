@@ -110,6 +110,10 @@ describe('Record Table', () => {
   });
 
   it('renders correctly while data count is zero', () => {
+    (useRecordsPaginated as jest.Mock).mockReturnValue({
+      data: [],
+      isLoading: false,
+    });
     (useRecordCount as jest.Mock).mockReturnValue({
       data: 0,
       isLoading: false,
