@@ -61,7 +61,7 @@ describe('Table Component', () => {
     cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
-      .eq(0)
+      .first()
       .as('secondColumn')
       .should('contain', 'Shot Number');
     cy.get(getHandleSelector())
@@ -88,7 +88,7 @@ describe('Table Component', () => {
     cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
-      .eq(0)
+      .first()
       .as('secondColumn')
       .should('contain', 'Shot Number');
     cy.get(getHandleSelector())
@@ -131,7 +131,7 @@ describe('Table Component', () => {
     }
 
     cy.get('[role="table-container"]').scrollTo('right');
-    cy.get('[role="columnheader"]').eq(0).should('be.visible');
+    cy.get('[role="columnheader"]').first().should('be.visible');
   });
 
   it('column headers overflow when word wrap is enabled', () => {
@@ -168,6 +168,139 @@ describe('Table Component', () => {
             .then((height) => +height.replace('px', ''))
             .should('be.gt', singleLineHeight);
         });
+    });
+  });
+
+  it.skip('should be able to resize a column', () => {
+    let columnWidth = 0;
+
+    cy.get('[role="columnheader"]')
+      .first()
+      .should(($column) => {
+        const { width } = $column[0].getBoundingClientRect();
+        columnWidth = width;
+      });
+
+    cy.get('[role="separator"]')
+      .first()
+      .trigger('mousedown')
+      .trigger('mousemove', { clientX: 200, force: true })
+      .trigger('mouseup');
+
+    cy.get('[role="columnheader"]')
+      .first()
+      .should(($column) => {
+        const { width } = $column[0].getBoundingClientRect();
+        expect(width).to.be.greaterThan(columnWidth);
+      });
+  });
+
+  describe('should be able to sort by', () => {
+    it('ascending order', () => {
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.wait(200);
+      cy.get('[aria-sort="ascending"]').should('exist');
+      cy.get('.MuiTableSortLabel-iconDirectionAsc').should('be.visible');
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
+    });
+
+    it('descending order', () => {
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.get('[aria-sort="descending"]').should('exist');
+      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('be.visible');
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
+    });
+
+    it('no order', () => {
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.wait(200);
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.wait(200);
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.wait(200);
+      cy.get('[aria-sort="ascending"]').should('not.exist');
+      cy.get('[aria-sort="descending"]').should('not.exist');
+      cy.get('.MuiTableSortLabel-iconDirectionAsc').should(
+        'have.css',
+        'opacity',
+        '0'
+      );
+      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('not.exist');
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
+    });
+
+    it('multiple columns', () => {
+      cy.get('#shotnum').check();
+      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      cy.wait(200);
+      cy.get('[data-testid="sort shotnum"]').click().wait('@getRecords');
+
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').eq(0).contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('1');
+          });
+      });
+    });
+  });
+
+  describe('should be able to search by', () => {
+    it('date from', () => {
+      cy.get('input[id="from date-time"]').type('2022-01-01 00:00:00');
+
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
+    });
+
+    it('date to', () => {
+      cy.get('input[id="to date-time"]').type('2022-01-31 00:00:00');
+
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
+    });
+
+    it('date between', () => {
+      cy.get('input[id="from date-time"]').type('2022-01-01 00:00:00');
+      cy.get('input[id="to date-time"]').type('2022-01-31 00:00:00');
+
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().contains('2022-01-01 00:00:00');
+          });
+      });
     });
   });
 });
