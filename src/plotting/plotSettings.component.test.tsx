@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
-import { RadioGroup } from '@mui/material';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsProps;
