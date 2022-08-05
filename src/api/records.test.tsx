@@ -34,11 +34,9 @@ const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
 
 describe('records api functions', () => {
   let mockData: Record[];
-  let params: URLSearchParams;
 
   beforeEach(() => {
     mockData = testRecords;
-    params = new URLSearchParams();
   });
 
   afterEach(() => {

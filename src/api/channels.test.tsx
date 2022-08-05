@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { renderHook, waitFor } from '@testing-library/react';
 import {
-  useAvailableColumns,
   useChannels,
   generateChannelMetadata,
   constructColumns,
@@ -11,11 +10,9 @@ import { testRecords, renderWithProvidersForHook } from '../setupTests';
 
 describe('channels api functions', () => {
   let mockData: Record[];
-  let params: URLSearchParams;
 
   beforeEach(() => {
     mockData = testRecords;
-    params = new URLSearchParams();
   });
 
   afterEach(() => {
