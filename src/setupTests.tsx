@@ -58,6 +58,20 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
+export const renderWithProvidersForHook = (): any => {
+  const testQueryClient = createTestQueryClient();
+  const state = getInitialState();
+  const store = setupStore(state);
+  const wrapper = ({ children }) => (
+    <Provider store={store}>
+      <QueryClientProvider client={testQueryClient}>
+        {children}
+      </QueryClientProvider>
+    </Provider>
+  );
+  return wrapper;
+};
+
 export function renderWithProviders(
   ui: React.ReactElement,
   {
@@ -149,24 +163,55 @@ export const testChannels: FullChannelMetadata[] = [
 
 export const generateRecord = (num: number): Record => {
   const numStr = `${num}`;
-  const channel: ScalarChannel = {
-    metadata: {
-      channel_dtype: 'scalar',
-      units: 'km',
-    },
-    data:
-      num < 10
-        ? parseFloat(`${num}${num}${num}.${num}`)
-        : parseFloat(
-            numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-          ),
-  };
+
+  let channel: Channel;
+
+  if (num % 3 === 0) {
+    channel = {
+      metadata: {
+        channel_dtype: 'scalar',
+        units: 'km',
+      },
+      data:
+        num < 10
+          ? parseFloat(`${num}${num}${num}.${num}`)
+          : parseFloat(
+              numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+            ),
+    } as ScalarChannel;
+  } else if (num % 3 === 1) {
+    channel = {
+      metadata: {
+        channel_dtype: 'image',
+        horizontalPixels: num,
+        horizontalPixelUnits: numStr,
+        verticalPixels: num,
+        verticalPixelUnits: numStr,
+        cameraGain: num,
+        exposureTime: num,
+      },
+      imagePath: numStr,
+      thumbnail: numStr,
+    } as ImageChannel;
+  } else {
+    channel = {
+      metadata: {
+        channel_dtype: 'waveform',
+        xUnits: numStr,
+        yUnits: numStr,
+      },
+      waveformId: numStr,
+      thumbnail: numStr,
+    } as WaveformChannel;
+  }
+
   return {
     id: numStr,
     metadata: {
       dataVersion: numStr,
       shotnum: num,
-      timestamp: numStr,
+      timestamp:
+        num < 10 ? `2022-01-0${num} 00:00:00` : `2022-01-${num} 00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
