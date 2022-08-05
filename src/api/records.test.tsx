@@ -11,11 +11,6 @@ import { useRecordCount, useRecordsPaginated } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
-// jest.mock('../state/hooks', () => ({
-//   ...jest.requireActual('../state/hooks'),
-//   useAppSelector: jest.fn(),
-// }));
-
 const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
   if (!x || !y) return false;
   if (x.length !== y.length) return false;

@@ -101,11 +101,17 @@ describe('channels api functions', () => {
   });
 
   describe('useChannels', () => {
-    it('sends axios request to fetch channels and returns successful response', async () => {
+    beforeEach(() => {
       (axios.get as jest.Mock).mockResolvedValue({
         data: mockData,
       });
+    });
 
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('sends axios request to fetch channels and returns successful response', async () => {
       const { result } = renderHook(() => useChannels(), {
         wrapper: renderWithProvidersForHook(),
       });
@@ -129,11 +135,26 @@ describe('channels api functions', () => {
         },
       ];
 
+      expect(axios.get).toHaveBeenCalledWith('/records');
       expect(result.current.data).toEqual(expected);
     });
 
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
+    it.skip('sends axios request to fetch records and throws an appropriate error on failure', async () => {
+      (axios.get as jest.Mock).mockRejectedValue({
+        message: 'Test error',
+      });
+
+      const { result } = renderHook(() => useChannels(), {
+        wrapper: renderWithProvidersForHook(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isError).toBeTruthy();
+      });
+
+      expect(axios.get).toHaveBeenCalledWith('/records');
+
+      // TODO expect further error assertions
+    });
   });
 });
