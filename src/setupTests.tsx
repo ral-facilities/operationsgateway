@@ -58,9 +58,8 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
-export const renderWithProvidersForHook = (): any => {
+export const renderWithProvidersForHook = (state = {}): any => {
   const testQueryClient = createTestQueryClient();
-  const state = getInitialState();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
     <Provider store={store}>
