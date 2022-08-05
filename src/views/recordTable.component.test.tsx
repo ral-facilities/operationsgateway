@@ -12,7 +12,7 @@ import {
   cleanupDatePickerWorkaround,
   flushPromises,
   getInitialState,
-  renderWithStore,
+  renderComponentWithStore,
   testRecordRows,
   testChannels,
   generateRecordRow,
@@ -52,7 +52,7 @@ describe('Record Table', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<RecordTable />, {
+    return renderComponentWithStore(<RecordTable />, {
       preloadedState: initialState,
     });
   };

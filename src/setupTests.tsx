@@ -58,7 +58,7 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
-export const renderWithProvidersForHook = (state = {}): any => {
+export const hooksWrapperWithProviders = (state = {}): any => {
   const testQueryClient = createTestQueryClient();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
@@ -71,7 +71,7 @@ export const renderWithProvidersForHook = (state = {}): any => {
   return wrapper;
 };
 
-export function renderWithProviders(
+export function renderComponentWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -93,7 +93,7 @@ export function renderWithProviders(
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
 
-export function renderWithStore(
+export function renderComponentWithStore(
   ui: React.ReactElement,
   {
     preloadedState = {},

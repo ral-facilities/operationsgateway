@@ -2,7 +2,7 @@ import { Record, RecordRow } from '../app.types';
 import {
   testRecords,
   testRecordRows,
-  renderWithProvidersForHook,
+  hooksWrapperWithProviders,
   getInitialState,
 } from '../setupTests';
 import axios from 'axios';
@@ -66,7 +66,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -104,7 +104,7 @@ describe('records api functions', () => {
       );
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: renderWithProvidersForHook(state),
+        wrapper: hooksWrapperWithProviders(state),
       });
 
       await waitFor(() => {
@@ -129,7 +129,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -158,7 +158,7 @@ describe('records api functions', () => {
 
     it('sends axios request to fetch record count and returns successful response', async () => {
       const { result } = renderHook(() => useRecordCount(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -190,7 +190,7 @@ describe('records api functions', () => {
       );
 
       const { result } = renderHook(() => useRecordCount(), {
-        wrapper: renderWithProvidersForHook(state),
+        wrapper: hooksWrapperWithProviders(state),
       });
 
       await waitFor(() => {
@@ -210,7 +210,7 @@ describe('records api functions', () => {
       });
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {

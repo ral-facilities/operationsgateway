@@ -6,7 +6,7 @@ import {
   constructColumns,
 } from './channels';
 import { FullChannelMetadata, Record } from '../app.types';
-import { testRecords, renderWithProvidersForHook } from '../setupTests';
+import { testRecords, hooksWrapperWithProviders } from '../setupTests';
 
 describe('channels api functions', () => {
   let mockData: Record[];
@@ -113,7 +113,7 @@ describe('channels api functions', () => {
 
     it('sends axios request to fetch channels and returns successful response', async () => {
       const { result } = renderHook(() => useChannels(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -145,7 +145,7 @@ describe('channels api functions', () => {
       });
 
       const { result } = renderHook(() => useChannels(), {
-        wrapper: renderWithProvidersForHook(),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
