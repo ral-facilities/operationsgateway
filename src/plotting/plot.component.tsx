@@ -38,6 +38,33 @@ type FullPlotProps = {
 
 export const Plot = (props: FullPlotProps) => {
   const { data, title, type, XAxisSettings, YAxesSettings } = props;
+  const [redraw, setRedraw] = React.useState(false);
+  const setRedrawTrue = React.useCallback(() => {
+    setRedraw(true);
+  }, [setRedraw]);
+
+  React.useEffect(() => {
+    window.addEventListener(
+      `resize OperationsGateway Plot - ${title}`,
+      setRedrawTrue,
+      false
+    );
+    return () => {
+      window.removeEventListener(
+        `resize OperationsGateway Plot - ${title}`,
+        setRedrawTrue,
+        false
+      );
+    };
+  }, [setRedrawTrue, title]);
+
+  // reset redraw state
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  React.useEffect(() => {
+    if (redraw) {
+      setRedraw(false);
+    }
+  });
 
   const options = React.useMemo(() => {
     const options: ChartOptions<PlotType> = {
@@ -55,6 +82,8 @@ export const Plot = (props: FullPlotProps) => {
           type: YAxesSettings.scale,
         },
       },
+      maintainAspectRatio: false,
+      responsive: true,
     };
     return options;
   }, [title, XAxisSettings, YAxesSettings]);
@@ -65,6 +94,7 @@ export const Plot = (props: FullPlotProps) => {
       options={options}
       type={type}
       aria-label={`${title} plot`}
+      redraw={redraw}
     />
   );
 };
@@ -90,7 +120,14 @@ const ConnectedPlot = (props: PlotProps) => {
     };
   }, [records]);
 
-  return <Plot data={chartData} {...props} />;
+  return (
+    <div
+      className="chart-container"
+      style={{ position: 'relative', height: '100%', width: '100%' }}
+    >
+      <Plot data={chartData} {...props} />
+    </div>
+  );
 };
 
 export default ConnectedPlot;
