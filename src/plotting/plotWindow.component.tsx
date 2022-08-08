@@ -104,9 +104,7 @@ const PlotWindow = (props: PlotWindowProps) => {
 
         <Grid
           item
-          // need to use style for conditional styles as otherwise
-          // they aren't injected into the popup if you use MUI/emotion styling
-          style={
+          sx={
             open
               ? {
                   marginLeft: `${drawerWidth}px`,
@@ -120,7 +118,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             color="inherit"
             aria-label="open settings"
             onClick={handleDrawerOpen}
-            style={{
+            sx={{
               position: 'absolute',
               zIndex: 1,
               ...(open && { display: 'none' }),
