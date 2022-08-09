@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "2.14.0",
+    "@emotion/cache": "11.10.1",
     "@emotion/react": "11.9.0",
     "@emotion/styled": "11.9.3",
     "@mui/icons-material": "5.8.4",

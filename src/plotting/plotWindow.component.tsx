@@ -52,10 +52,11 @@ const PlotWindow = (props: PlotWindowProps) => {
         container
         direction="row"
         id="plotting-window"
-        sx={{
+        sx={(theme) => ({
           position: 'relative',
           height: '100%',
-        }}
+          backgroundColor: theme.palette.background.default,
+        })}
         spacing={0}
       >
         <Grid item>

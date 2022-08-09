@@ -1,23 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import createCache from '@emotion/cache';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
-
-function copyStyles(sourceDoc: Document, targetDoc: Document): void {
-  Array.from(sourceDoc.styleSheets).forEach((styleSheet) => {
-    if (styleSheet.ownerNode) {
-      const nodeCopy = targetDoc.importNode(styleSheet.ownerNode, true);
-      targetDoc.head.appendChild(nodeCopy);
-    }
-  });
-}
 
 let windowResizeTimeout: number | undefined;
 
 interface WindowPortalState {
   window: Window | null;
   containerEl: HTMLDivElement | null;
+  styleCache: EmotionCache | null;
 }
 
 interface WindowPortalProps {
@@ -35,10 +29,8 @@ class WindowPortal extends React.PureComponent<
   constructor(props: WindowPortalProps) {
     super(props);
 
-    this.state = { window: null, containerEl: null };
+    this.state = { window: null, styleCache: null, containerEl: null };
     this.handleResize = this.handleResize.bind(this);
-    this.mutatationObserverCallback =
-      this.mutatationObserverCallback.bind(this);
   }
 
   handleResize() {
@@ -50,27 +42,6 @@ class WindowPortal extends React.PureComponent<
     }, 100);
   }
 
-  // Callback function to execute when mutations are observed
-  mutatationObserverCallback(
-    mutationsList: MutationRecord[],
-    observer: MutationObserver
-  ) {
-    for (let mutation of mutationsList) {
-      if (
-        this.state.window &&
-        mutation.addedNodes.length &&
-        mutation.addedNodes[0].nodeType === Node.ELEMENT_NODE &&
-        (mutation.addedNodes[0] as Element).tagName.toLowerCase() === 'style'
-      ) {
-        const nodeCopy = this.state.window.document.importNode(
-          mutation.addedNodes[0],
-          true
-        );
-        this.state.window.document.head.appendChild(nodeCopy);
-      }
-    }
-  }
-
   componentDidMount() {
     // open a new browser window and store a reference to it
     let externalWindow = window.open(
@@ -80,6 +51,7 @@ class WindowPortal extends React.PureComponent<
     );
     // create a container div
     let el = document.createElement('div');
+    const cache = createCache({ key: 'external', container: el });
 
     if (externalWindow) {
       externalWindow.document.title = `OperationsGateway Plot - ${this.props.title}`;
@@ -87,7 +59,11 @@ class WindowPortal extends React.PureComponent<
       // append the container <div> (that will have props.children appended to it via React Portal) to the body of the new window
       externalWindow.document.body.appendChild(el);
 
-      this.setState({ window: externalWindow, containerEl: el });
+      this.setState({
+        window: externalWindow,
+        styleCache: cache,
+        containerEl: el,
+      });
     }
   }
 
@@ -106,24 +82,6 @@ class WindowPortal extends React.PureComponent<
     if (prevState.window === null && this.state.window) {
       // chart js doesn't resize properly without this as it is listening to the original window's resize events
       this.state.window.addEventListener('resize', this.handleResize);
-
-      // copy over our CSS styling
-      copyStyles(document, this.state.window.document);
-
-      // code below watches main window's styles so that conditional styles work correctly
-
-      // Select the node that will be observed for mutations
-      const targetNode = window.document.getElementsByTagName('head')[0];
-
-      // Options for the observer (which mutations to observe)
-      // Set childList to true as we want to observe if style tag has been added as a child of the head element.)
-      const config = { attributes: false, childList: true, subtree: false };
-
-      // Create an observer instance linked to the callback function
-      this.observer = new MutationObserver(this.mutatationObserverCallback);
-
-      // Start observing the target node for configured mutations
-      this.observer.observe(targetNode, config);
     }
     if (prevProps.title !== this.props.title && this.state.window) {
       // eslint-disable-next-line react/no-direct-mutation-state
@@ -136,12 +94,15 @@ class WindowPortal extends React.PureComponent<
   }
 
   render() {
-    const { containerEl } = this.state;
-    if (!containerEl) {
+    const { containerEl, styleCache } = this.state;
+    if (!containerEl || !styleCache) {
       return null;
     }
     // create the React portal only once containerEl has been appended to the new window
-    return ReactDOM.createPortal(this.props.children, containerEl);
+    return ReactDOM.createPortal(
+      <CacheProvider value={styleCache}>{this.props.children}</CacheProvider>,
+      containerEl
+    );
   }
 }
 
