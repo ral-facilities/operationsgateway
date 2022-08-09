@@ -9,11 +9,13 @@ import OperationsGatewayMiddleware, {
 import configReducer from './slices/configSlice';
 import tableReducer from './slices/tableSlice';
 import searchReducer from './slices/searchSlice';
+import plotReducer from './slices/plotSlice';
 
 const rootReducer = combineReducers({
   config: configReducer,
   table: tableReducer,
   search: searchReducer,
+  plots: plotReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {

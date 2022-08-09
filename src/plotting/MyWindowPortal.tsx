@@ -82,6 +82,7 @@ class WindowPortal extends React.PureComponent<
     if (prevState.window === null && this.state.window) {
       // chart js doesn't resize properly without this as it is listening to the original window's resize events
       this.state.window.addEventListener('resize', this.handleResize);
+      this.state.window.addEventListener('beforeunload', this.props.onClose);
     }
     if (prevProps.title !== this.props.title && this.state.window) {
       // eslint-disable-next-line react/no-direct-mutation-state
