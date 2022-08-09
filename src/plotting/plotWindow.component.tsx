@@ -14,7 +14,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
   const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
-    scale: 'time',
+    scale: 'linear',
   });
   const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
     scale: 'linear',
