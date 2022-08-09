@@ -72,23 +72,60 @@ export const Plot = (props: FullPlotProps) => {
 interface PlotProps {
   title: string;
   type: PlotType;
+  XAxis: string;
+  YAxis: string;
   XAxisSettings: AxisSettings;
   YAxesSettings: AxisSettings;
 }
 
 const ConnectedPlot = (props: PlotProps) => {
+  const { XAxis, YAxis } = props;
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
-    const data =
-      records?.map((record) => ({
-        x: parseInt(record.metadata.timestamp),
-        y: record.metadata.shotNum ?? NaN,
-      })) ?? [];
+    const hello =
+      records?.map((record) => {
+        let XAxisString = NaN;
+        let YAxisString = NaN;
+
+        if (XAxis === 'timestamp') {
+          XAxisString = parseInt(record.metadata.timestamp);
+        } else if (XAxis === 'shotNum') {
+          XAxisString = record.metadata.shotNum ?? NaN;
+        } else if (Object.keys(record.channels).includes(XAxis)) {
+          const channel = record.channels[XAxis];
+          XAxisString = parseInt(channel.data);
+        }
+
+        if (YAxis === 'timestamp') {
+          YAxisString = parseInt(record.metadata.timestamp);
+        } else if (YAxis === 'shotNum') {
+          YAxisString = record.metadata.shotNum ?? NaN;
+        } else if (Object.keys(record.channels).includes(YAxis)) {
+          const channel = record.channels[YAxis];
+          YAxisString = parseInt(channel.data);
+        }
+
+        return {
+          x: XAxisString,
+          y: YAxisString,
+        };
+      }) ?? [];
+
+    // const data =
+    //   records?.map((record) => ({
+    //     x:
+    //       XAxis === 'timestamp'
+    //         ? parseInt(record.metadata.timestamp)
+    //         : record.channels[XAxis],
+    //     y: record.metadata.shotNum ?? NaN,
+    //   })) ?? [];
     return {
-      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
+      datasets: [
+        { label: 'Shot Number', backgroundColor: '#e31a1c', data: hello },
+      ],
     };
-  }, [records]);
+  }, [XAxis, YAxis, records]);
 
   return <Plot data={chartData} {...props} />;
 };

@@ -19,8 +19,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
     scale: 'linear',
   });
+  const [XAxis, setXAxis] = React.useState<string>('');
+  const [YAxis, setYAxis] = React.useState<string>('');
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
   }, [setOpen]);
@@ -73,6 +75,10 @@ const PlotWindow = (props: PlotWindowProps) => {
               changePlotTitle={setPlotTitle}
               plotType={plotType}
               changePlotType={setPlotType}
+              XAxis={XAxis}
+              YAxis={YAxis}
+              changeXAxis={setXAxis}
+              changeYAxis={setYAxis}
               XAxisSettings={XAxisSettings}
               changeXAxisSettings={setXAxisSettings}
               YAxesSettings={YAxesSettings}
@@ -104,6 +110,8 @@ const PlotWindow = (props: PlotWindowProps) => {
         <Plot
           title={plotTitle}
           type={plotType}
+          XAxis={XAxis}
+          YAxis={YAxis}
           XAxisSettings={XAxisSettings}
           YAxesSettings={YAxesSettings}
         />

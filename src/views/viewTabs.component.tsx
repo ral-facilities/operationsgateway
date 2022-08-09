@@ -44,7 +44,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 }));
 
 const ViewTabs = () => {
-  const [value, setValue] = React.useState<TabValue>('Data');
+  const [value, setValue] = React.useState<TabValue>('Plots');
 
   const handleChange = (event: React.SyntheticEvent, newValue: TabValue) => {
     setValue(newValue);

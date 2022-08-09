@@ -13,9 +13,10 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  InputAdornment,
+  Autocomplete,
 } from '@mui/material';
-import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
+import { ScatterPlot, ShowChart, Search } from '@mui/icons-material';
 import { AxisSettings, PlotType } from '../app.types';
 
 type TabValue = 'X' | 'Y';
@@ -60,6 +61,10 @@ export interface PlotSettingsProps {
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
+  XAxis: string;
+  YAxis: string;
+  changeXAxis: (value: string) => void;
+  changeYAxis: (value: string) => void;
   XAxisSettings: AxisSettings;
   changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
   YAxesSettings: AxisSettings;
@@ -73,6 +78,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changePlotTitle,
     plotType,
     changePlotType,
+    XAxis,
+    YAxis,
+    changeXAxis,
+    changeYAxis,
     XAxisSettings,
     changeXAxisSettings,
     YAxesSettings,
@@ -96,6 +105,20 @@ const PlotSettings = (props: PlotSettingsProps) => {
       changePlotType(newChartType ?? 'scatter');
     },
     [changePlotType]
+  );
+
+  const handleXAxisChange = React.useCallback(
+    (value: string) => {
+      changeXAxis(value);
+    },
+    [changeXAxis]
+  );
+
+  const handleYAxisChange = React.useCallback(
+    (value: string) => {
+      changeYAxis(value);
+    },
+    [changeYAxis]
   );
 
   const handleChangeXScale = React.useCallback(
@@ -131,6 +154,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
+  const options = ['timestamp', 'shotNum'];
+
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
@@ -160,10 +185,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
           aria-label="chart type"
         >
           <ToggleButton value="scatter" aria-label="scatter chart">
-            <ScatterPlotIcon />
+            <ScatterPlot />
           </ToggleButton>
           <ToggleButton value="line" aria-label="line chart">
-            <ShowChartIcon />
+            <ShowChart />
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
@@ -206,7 +231,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 // TODO: this needs to be enabled for all non-time X axes
                 // and we need to make sure we set XAxisSettings.scale to time
                 // when a user selects Time, and to linear (default) when they don't
-                disabled={true}
               >
                 <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
                   Scale
@@ -228,8 +252,42 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     control={<Radio />}
                     label="Log"
                   />
+                  <FormControlLabel
+                    value="time"
+                    control={<Radio />}
+                    label="Time"
+                  />
                 </RadioGroup>
               </FormControl>
+            </Grid>
+            <Grid container item spacing={1}>
+              <Autocomplete
+                disablePortal
+                freeSolo
+                id="select x axis"
+                options={options}
+                fullWidth
+                value={XAxis}
+                onChange={(_, newValue) => {
+                  handleXAxisChange(newValue ?? '');
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search"
+                    variant="outlined"
+                    size="small"
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
             </Grid>
           </Grid>
         </TabPanel>
@@ -276,8 +334,42 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     control={<Radio />}
                     label="Log"
                   />
+                  <FormControlLabel
+                    value="time"
+                    control={<Radio />}
+                    label="Time"
+                  />
                 </RadioGroup>
               </FormControl>
+            </Grid>
+            <Grid container item spacing={1}>
+              <Autocomplete
+                disablePortal
+                freeSolo
+                id="select y axis"
+                options={options}
+                fullWidth
+                value={YAxis}
+                onChange={(_, newValue) => {
+                  handleYAxisChange(newValue ?? '');
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search"
+                    variant="outlined"
+                    size="small"
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
             </Grid>
           </Grid>
         </TabPanel>
