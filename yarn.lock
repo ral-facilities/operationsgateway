@@ -2961,9 +2961,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:8.16.0, @testing-library/dom@npm:^8.5.0":
-  version: 8.16.0
-  resolution: "@testing-library/dom@npm:8.16.0"
+"@testing-library/dom@npm:8.17.1, @testing-library/dom@npm:^8.5.0":
+  version: 8.17.1
+  resolution: "@testing-library/dom@npm:8.17.1"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -2973,7 +2973,7 @@ __metadata:
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: 37aabbec872522bcb51106ecb700d9be601293e75445084b6cc195921db4b2d06d6bd4c67ad834174c129f2199c39aa540b6d17c296fcbd701dc99fd800afe36
+  checksum: e4df091fcf84c9eac4a6ee4c76674c1d562bf98732f0ac8820972d7718ab10397b672b9f082aace3cacd1f610fc77de6e1b6094e67afe1df0443bf22eb9deab2
   languageName: node
   linkType: hard
 
@@ -10760,7 +10760,7 @@ __metadata:
     "@mui/x-date-pickers": 5.0.0-beta.0
     "@reduxjs/toolkit": ^1.8.3
     "@tanstack/react-virtual": beta
-    "@testing-library/dom": 8.16.0
+    "@testing-library/dom": 8.17.1
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 13.3.0
     "@testing-library/user-event": 14.4.2
