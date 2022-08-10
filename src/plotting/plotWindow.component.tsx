@@ -1,18 +1,11 @@
 import React from 'react';
 import PlotSettings from './plotSettings.component';
 import Plot from './plot.component';
-import {
-  Box,
-  Grid,
-  Drawer,
-  IconButton,
-  Typography,
-  styled,
-} from '@mui/material';
+import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AxisSettings, PlotType } from '../app.types';
-import MyWindowPortal from './MyWindowPortal';
+import WindowPortal from './windowPortal.component';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -47,7 +40,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   }, [plotTitle, untitledTitle]);
 
   return (
-    <MyWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
+    <WindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
       <Grid
         container
         direction="row"
@@ -135,7 +128,7 @@ const PlotWindow = (props: PlotWindowProps) => {
           />
         </Grid>
       </Grid>
-    </MyWindowPortal>
+    </WindowPortal>
   );
 };
 
