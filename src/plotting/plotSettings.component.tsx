@@ -21,8 +21,8 @@ import {
   MenuItem,
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
-import { AxisSettings, PlotType } from '../app.types';
-import { useAvailableColumns } from '../api/channels';
+import { AxisSettings, FullChannelMetadata, PlotType } from '../app.types';
+import { useAvailableColumns, useChannels } from '../api/channels';
 import { Column } from 'react-table';
 
 const StyledClose = styled(Close)(() => ({
@@ -181,25 +181,32 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
-  const { data: availableColumns } = useAvailableColumns();
+  const { data: channels } = useChannels();
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
     string[]
-  >([]);
+  >(['timestamp', 'shotNum', 'activeArea', 'activeExperiment']);
 
-  const populateChannels = (availCols: Column[]): void => {
-    let ops: string[] = [];
+  const populateChannels = (metadata: FullChannelMetadata[]): void => {
+    let ops: string[] = [
+      'timestamp',
+      'shotNum',
+      'activeArea',
+      'activeExperiment',
+    ];
 
-    availCols.forEach((col: Column) => {
-      ops.push(col.accessor as string);
+    metadata.forEach((meta: FullChannelMetadata) => {
+      if (meta.dataType === 'scalar') {
+        ops.push(meta.systemName);
+      }
     });
 
     setAxisSelectionOptions(ops);
   };
 
   React.useEffect(() => {
-    if (availableColumns) populateChannels(availableColumns);
-  }, [availableColumns]);
+    if (channels) populateChannels(channels);
+  }, [channels]);
 
   return (
     <Grid container direction="column" spacing={1}>
