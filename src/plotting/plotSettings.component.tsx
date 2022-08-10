@@ -105,6 +105,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const [title, setTitle] = React.useState('');
   const deferredTitle = React.useDeferredValue(title);
 
+  const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
+  const [YAxisInputVal, setYAxisInputVal] = React.useState<string>('');
+
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.target.value);
@@ -302,11 +305,18 @@ const PlotSettings = (props: PlotSettingsProps) => {
               <Autocomplete
                 disablePortal
                 freeSolo
-                clearOnEscape
+                clearOnBlur
                 id="select x axis"
                 options={options}
                 fullWidth
-                value={XAxis}
+                onInputChange={(_, newInputValue, reason) => {
+                  if (reason === 'reset') {
+                    setXAxisInputVal('');
+                  } else {
+                    setXAxisInputVal(newInputValue);
+                  }
+                }}
+                value={XAxisInputVal}
                 onChange={(_, newValue) => {
                   handleXAxisChange(newValue ?? '');
                 }}
@@ -426,11 +436,18 @@ const PlotSettings = (props: PlotSettingsProps) => {
               <Autocomplete
                 disablePortal
                 freeSolo
-                clearOnEscape
+                clearOnBlur
                 id="select y axes"
                 options={options}
                 fullWidth
-                value={YAxis}
+                onInputChange={(_, newInputValue, reason) => {
+                  if (reason === 'reset') {
+                    setYAxisInputVal('');
+                  } else {
+                    setYAxisInputVal(newInputValue);
+                  }
+                }}
+                value={YAxisInputVal}
                 onChange={(_, newValue) => {
                   handleYAxisChange(newValue ?? '');
                 }}
