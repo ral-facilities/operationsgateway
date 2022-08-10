@@ -22,8 +22,7 @@ import {
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
 import { AxisSettings, FullChannelMetadata, PlotType } from '../app.types';
-import { useAvailableColumns, useChannels } from '../api/channels';
-import { Column } from 'react-table';
+import { useChannels } from '../api/channels';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -187,7 +186,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
     string[]
   >(['timestamp', 'shotNum', 'activeArea', 'activeExperiment']);
 
-  const populateChannels = (metadata: FullChannelMetadata[]): void => {
+  const populateAxisSelectionOptions = (
+    metadata: FullChannelMetadata[]
+  ): void => {
     let ops: string[] = [
       'timestamp',
       'shotNum',
@@ -205,7 +206,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
   };
 
   React.useEffect(() => {
-    if (channels) populateChannels(channels);
+    if (channels) populateAxisSelectionOptions(channels);
   }, [channels]);
 
   return (
