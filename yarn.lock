@@ -5146,7 +5146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-adapter-date-fns@npm:^2.0.0":
+"chartjs-adapter-date-fns@npm:2.0.0":
   version: 2.0.0
   resolution: "chartjs-adapter-date-fns@npm:2.0.0"
   peerDependencies:
@@ -10750,7 +10750,7 @@ __metadata:
     "@typescript-eslint/parser": 5.31.0
     axios: 0.27.2
     chart.js: 3.9.1
-    chartjs-adapter-date-fns: ^2.0.0
+    chartjs-adapter-date-fns: 2.0.0
     cross-env: 7.0.3
     cypress: 9.7.0
     cypress-failed-log: 2.10.0
