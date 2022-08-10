@@ -83,47 +83,58 @@ const ConnectedPlot = (props: PlotProps) => {
   const { data: records } = useRecords();
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
-    const hello =
+    const data =
       records?.map((record) => {
-        let XAxisString = NaN;
-        let YAxisString = NaN;
+        let formattedXAxis = NaN;
+        let formattedYAxis = NaN;
 
-        if (XAxis === 'timestamp') {
-          XAxisString = parseInt(record.metadata.timestamp);
-        } else if (XAxis === 'shotNum') {
-          XAxisString = record.metadata.shotNum ?? NaN;
-        } else if (Object.keys(record.channels).includes(XAxis)) {
-          const channel = record.channels[XAxis];
-          XAxisString = parseInt(channel.data);
+        switch (XAxis) {
+          case 'timestamp':
+            formattedXAxis = parseInt(record.metadata.timestamp);
+            break;
+          case 'shotNum':
+            formattedXAxis = record.metadata.shotNum ?? NaN;
+            break;
+          case 'activeArea':
+            formattedXAxis = parseInt(record.metadata.activeArea);
+            break;
+          case 'activeExperiment':
+            formattedXAxis = parseInt(record.metadata.activeExperiment ?? '');
+            break;
+          default:
+            if (Object.keys(record.channels).includes(XAxis)) {
+              const channel = record.channels[XAxis];
+              formattedXAxis = parseInt(channel.data);
+            }
         }
 
-        if (YAxis === 'timestamp') {
-          YAxisString = parseInt(record.metadata.timestamp);
-        } else if (YAxis === 'shotNum') {
-          YAxisString = record.metadata.shotNum ?? NaN;
-        } else if (Object.keys(record.channels).includes(YAxis)) {
-          const channel = record.channels[YAxis];
-          YAxisString = parseInt(channel.data);
+        switch (YAxis) {
+          case 'timestamp':
+            formattedYAxis = parseInt(record.metadata.timestamp);
+            break;
+          case 'shotNum':
+            formattedYAxis = record.metadata.shotNum ?? NaN;
+            break;
+          case 'activeArea':
+            formattedYAxis = parseInt(record.metadata.activeArea);
+            break;
+          case 'activeExperiment':
+            formattedYAxis = parseInt(record.metadata.activeExperiment ?? '');
+            break;
+          default:
+            if (Object.keys(record.channels).includes(YAxis)) {
+              const channel = record.channels[YAxis];
+              formattedYAxis = parseInt(channel.data);
+            }
         }
 
         return {
-          x: XAxisString,
-          y: YAxisString,
+          x: formattedXAxis,
+          y: formattedYAxis,
         };
       }) ?? [];
-
-    // const data =
-    //   records?.map((record) => ({
-    //     x:
-    //       XAxis === 'timestamp'
-    //         ? parseInt(record.metadata.timestamp)
-    //         : record.channels[XAxis],
-    //     y: record.metadata.shotNum ?? NaN,
-    //   })) ?? [];
     return {
-      datasets: [
-        { label: 'Shot Number', backgroundColor: '#e31a1c', data: hello },
-      ],
+      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
     };
   }, [XAxis, YAxis, records]);
 

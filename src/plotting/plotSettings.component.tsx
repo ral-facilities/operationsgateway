@@ -179,7 +179,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
-  const options = ['timestamp', 'shotNum'];
+  // TODO populate this with full list of channels when API is connected
+  const options = ['timestamp', 'shotNum', 'activeArea', 'activeExperiment'];
 
   return (
     <Grid container direction="column" spacing={1}>
@@ -422,13 +423,15 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 </InputLabel>
                 <Select
                   label="Data display channels"
+                  value={YAxis}
                   onChange={(event) =>
                     handleYAxisChange((event.target.value as string) ?? '')
                   }
                   sx={{ fontSize: 12 }}
                 >
-                  <MenuItem value="timestamp">timestamp</MenuItem>
-                  <MenuItem value="shotNum">shotNum</MenuItem>
+                  {options.map((option) => {
+                    return <MenuItem value={option}>{option}</MenuItem>;
+                  })}
                 </Select>
               </FormControl>
             </Grid>
