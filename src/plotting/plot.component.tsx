@@ -107,6 +107,9 @@ const ConnectedPlot = (props: PlotProps) => {
             }
         }
 
+        // If no valid x value, we have no point to plot
+        if (!formattedXAxis) return { x: NaN, y: NaN };
+
         switch (YAxis) {
           case 'timestamp':
             formattedYAxis = parseInt(record.metadata.timestamp);

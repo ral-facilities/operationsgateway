@@ -23,7 +23,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [XAxis, setXAxis] = React.useState<string>('');
   const [YAxis, setYAxis] = React.useState<string>('');
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
   }, [setOpen]);
