@@ -16,8 +16,7 @@ import {
 import 'chartjs-adapter-date-fns';
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
-import { useRecords } from '../api/records';
-import { AxisSettings, PlotType } from '../app.types';
+import { AxisSettings, PlotType, Record } from '../app.types';
 
 ChartJS.register(
   LinearScale,
@@ -70,6 +69,7 @@ export const Plot = (props: FullPlotProps) => {
 };
 
 interface PlotProps {
+  records: Record[];
   title: string;
   type: PlotType;
   XAxis: string;
@@ -79,8 +79,7 @@ interface PlotProps {
 }
 
 const ConnectedPlot = (props: PlotProps) => {
-  const { XAxis, YAxis } = props;
-  const { data: records } = useRecords();
+  const { XAxis, YAxis, records } = props;
 
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
     const data =

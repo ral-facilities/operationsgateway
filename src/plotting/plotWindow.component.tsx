@@ -5,6 +5,7 @@ import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AxisSettings, PlotType } from '../app.types';
+import { useRecords } from '../api/records';
 
 interface PlotWindowProps {}
 
@@ -29,6 +30,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
   }, [setOpen]);
+
+  const { data: records } = useRecords();
 
   return (
     <Grid
@@ -108,6 +111,7 @@ const PlotWindow = (props: PlotWindowProps) => {
           <SettingsIcon />
         </IconButton>
         <Plot
+          records={records ?? []}
           title={plotTitle}
           type={plotType}
           XAxis={XAxis}

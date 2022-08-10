@@ -22,6 +22,8 @@ import {
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
 import { AxisSettings, PlotType } from '../app.types';
+import { useAvailableColumns } from '../api/channels';
+import { Column } from 'react-table';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -179,8 +181,25 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
-  // TODO populate this with full list of channels when API is connected
-  const options = ['timestamp', 'shotNum', 'activeArea', 'activeExperiment'];
+  const { data: availableColumns } = useAvailableColumns();
+
+  const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
+    string[]
+  >([]);
+
+  const populateChannels = (availCols: Column[]): void => {
+    let ops: string[] = [];
+
+    availCols.forEach((col: Column) => {
+      ops.push(col.accessor as string);
+    });
+
+    setAxisSelectionOptions(ops);
+  };
+
+  React.useEffect(() => {
+    if (availableColumns) populateChannels(availableColumns);
+  }, [availableColumns]);
 
   return (
     <Grid container direction="column" spacing={1}>
@@ -308,7 +327,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select x axis"
-                options={options}
+                options={axisSelectionOptions}
                 fullWidth
                 onInputChange={(_, newInputValue, reason) => {
                   if (reason === 'reset') {
@@ -429,7 +448,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }
                   sx={{ fontSize: 12 }}
                 >
-                  {options.map((option) => {
+                  {axisSelectionOptions.map((option) => {
                     return <MenuItem value={option}>{option}</MenuItem>;
                   })}
                 </Select>
@@ -441,7 +460,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select y axes"
-                options={options}
+                options={axisSelectionOptions}
                 fullWidth
                 onInputChange={(_, newInputValue, reason) => {
                   if (reason === 'reset') {
