@@ -58,7 +58,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.31.0"],\
             ["@typescript-eslint/parser", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.31.0"],\
             ["axios", "npm:0.27.2"],\
-            ["chart.js", "npm:3.8.2"],\
+            ["chart.js", "npm:3.9.1"],\
             ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
@@ -7651,10 +7651,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["chart.js", [\
-        ["npm:3.8.2", {\
-          "packageLocation": "./.yarn/cache/chart.js-npm-3.8.2-aaabab7030-a60fef3c98.zip/node_modules/chart.js/",\
+        ["npm:3.9.1", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-3.9.1-931bfaba91-9ab0c0ac01.zip/node_modules/chart.js/",\
           "packageDependencies": [\
-            ["chart.js", "npm:3.8.2"]\
+            ["chart.js", "npm:3.9.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7672,7 +7672,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["@types/chart.js", null],\
-            ["chart.js", "npm:3.8.2"]\
+            ["chart.js", "npm:3.9.1"]\
           ],\
           "packagePeers": [\
             "@types/chart.js",\
@@ -14356,7 +14356,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.31.0"],\
             ["@typescript-eslint/parser", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.31.0"],\
             ["axios", "npm:0.27.2"],\
-            ["chart.js", "npm:3.8.2"],\
+            ["chart.js", "npm:3.9.1"],\
             ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
@@ -16869,7 +16869,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-chartjs-2", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.3.1"],\
             ["@types/chart.js", null],\
             ["@types/react", "npm:18.0.12"],\
-            ["chart.js", "npm:3.8.2"],\
+            ["chart.js", "npm:3.9.1"],\
             ["react", "npm:18.2.0"]\
           ],\
           "packagePeers": [\
