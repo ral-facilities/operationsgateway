@@ -18,6 +18,18 @@ describe('Plot Window component', () => {
     const user = userEvent.setup();
     createView();
 
+    await user.click(screen.getByRole('button', { name: 'close settings' }));
+
+    // expect plot & settings button to be visible but not settings panel
+    // use waitFor to account for drawer animations
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('button', { name: 'close settings' })
+      ).not.toBeInTheDocument();
+    });
+    expect(screen.getByRole('img', { name: 'plot' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
+
     await user.click(screen.getByRole('button', { name: 'open settings' }));
 
     // expect plot & settings panel to be visible but not settings button
@@ -31,17 +43,5 @@ describe('Plot Window component', () => {
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();
-
-    await user.click(screen.getByRole('button', { name: 'close settings' }));
-
-    // expect plot & settings button to be visible but not settings panel
-    // use waitFor to account for drawer animations
-    await waitFor(() => {
-      expect(
-        screen.queryByRole('button', { name: 'close settings' })
-      ).not.toBeInTheDocument();
-    });
-    expect(screen.getByRole('img', { name: 'plot' })).toBeVisible();
-    expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
   });
 });
