@@ -24,7 +24,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
     window.dispatchEvent(
