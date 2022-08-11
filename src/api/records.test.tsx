@@ -121,30 +121,7 @@ describe('records api functions', () => {
     });
 
     it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure',
-      async () => {
-        (axios.get as jest.Mock).mockRejectedValue({
-          message: 'Test error',
-        });
-
-        params.append('limit', '25');
-        params.append('skip', '0');
-
-        const { result } = renderHook(() => useRecordsPaginated(), {
-          wrapper: hooksWrapperWithProviders(),
-        });
-
-        await waitFor(() => {
-          expect(result.current.isError).toBeTruthy();
-        });
-
-        expect(axios.get).toHaveBeenCalledWith(
-          '/records',
-          expect.objectContaining({ params })
-        );
-
-        // TODO expect further error assertions
-      }
+      'sends axios request to fetch records and throws an appropriate error on failure'
     );
   });
 
