@@ -154,7 +154,7 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it.only('allows user to select an x-axis (keyboard only)', async () => {
+  it('allows user to select an x-axis (keyboard only)', async () => {
     const user = userEvent.setup();
     createView();
 
@@ -169,7 +169,7 @@ describe('Plot Settings component', () => {
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
   });
 
-  it.only('allows user to select an x-axis (mouse and keyboard)', async () => {
+  it('allows user to select an x-axis (mouse and keyboard)', async () => {
     const user = userEvent.setup();
     createView();
 
@@ -181,4 +181,6 @@ describe('Plot Settings component', () => {
 
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
   });
+
+  it.todo('renders correctly with Y tab in view');
 });
