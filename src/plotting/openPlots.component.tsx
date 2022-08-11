@@ -6,6 +6,7 @@ import { closePlot, selectOpenPlots } from '../state/slices/plotSlice';
 const OpenPlots = () => {
   const openPlots = Object.keys(useAppSelector(selectOpenPlots));
   const dispatch = useAppDispatch();
+  console.log('openPlots', openPlots);
   return (
     <>
       {openPlots.map((item) => {

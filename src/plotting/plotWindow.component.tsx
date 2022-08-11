@@ -11,7 +11,6 @@ interface PlotWindowProps {
   onClose: () => void;
   untitledTitle: string;
 }
-
 const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
