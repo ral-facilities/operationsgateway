@@ -1,29 +1,72 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from '../setupTests';
+import { useChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
+
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/records');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useChannels: jest.fn(),
+  };
+});
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsProps;
   const changePlotTitle = jest.fn();
   const changePlotType = jest.fn();
+  const changeXAxis = jest.fn();
+  const changeYAxis = jest.fn();
   const changeXAxisSettings = jest.fn();
   const changeYAxesSettings = jest.fn();
 
   const createView = () => {
-    return render(<PlotSettings {...props} />);
+    return renderWithProviders(<PlotSettings {...props} />);
   };
+
+  const metadata: FullChannelMetadata[] = [
+    {
+      systemName: 'CHANNEL_1',
+      dataType: 'scalar',
+    },
+    {
+      systemName: 'CHANNEL_2',
+      dataType: 'scalar',
+    },
+    {
+      systemName: 'CHANNEL_3',
+      dataType: 'scalar',
+    },
+  ];
 
   beforeEach(() => {
     props = {
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,
+      XAxis: '',
+      changeXAxis,
       XAxisSettings: { scale: 'time' },
       changeXAxisSettings,
+      YAxis: '',
+      changeYAxis,
       YAxesSettings: { scale: 'linear' },
       changeYAxesSettings,
     };
+
+    (useChannels as jest.Mock).mockReturnValue({
+      data: metadata,
+      isLoading: false,
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('renders plot settings form correctly', () => {
@@ -109,5 +152,33 @@ describe('Plot Settings component', () => {
       ...props.YAxesSettings,
       scale: 'logarithmic',
     });
+  });
+
+  it.only('allows user to select an x-axis (keyboard only)', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'CHANNEL');
+    autocomplete.focus();
+    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
+    fireEvent.keyDown(autocomplete, { key: 'Enter' });
+
+    expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
+  });
+
+  it.only('allows user to select an x-axis (mouse and keyboard)', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'CHANNEL');
+    await user.click(screen.getByText('CHANNEL_1'));
+
+    expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
   });
 });

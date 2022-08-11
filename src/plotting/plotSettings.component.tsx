@@ -337,6 +337,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 id="select x axis"
                 options={axisSelectionOptions}
                 fullWidth
+                role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
                   if (reason === 'reset') {
                     setXAxisInputVal('');
@@ -457,7 +458,11 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   sx={{ fontSize: 12 }}
                 >
                   {axisSelectionOptions.map((option) => {
-                    return <MenuItem value={option}>{option}</MenuItem>;
+                    return (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    );
                   })}
                 </Select>
               </FormControl>
@@ -470,6 +475,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 id="select y axes"
                 options={axisSelectionOptions}
                 fullWidth
+                role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
                   if (reason === 'reset') {
                     setYAxisInputVal('');
