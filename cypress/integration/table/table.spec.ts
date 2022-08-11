@@ -104,6 +104,35 @@ describe('Table Component', () => {
     verifyColumnOrder(['Timestamp', 'Active Area', 'Shot Number']);
   });
 
+  it('can resize columns', () => {
+    cy.get('[aria-describedby="table-loading-indicator"]').should(
+      'have.attr',
+      'aria-busy',
+      'false'
+    );
+
+    cy.get('#shotNum').check();
+
+    cy.get('[role="columnheader"]').first().as('firstColumn');
+    cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
+    cy.get('[role="columnheader"] hr').last().as('secondColumnResizeHandle');
+
+    let initialWidth = 0;
+    cy.get('@firstColumn').then(($column) => {
+      let { width } = $column[0].getBoundingClientRect();
+      width = Math.round(width * 100) / 100;
+      initialWidth = width;
+    });
+
+    cy.dragAndDrop('@firstColumnResizeHandle', '@secondColumnResizeHandle');
+
+    cy.get('@firstColumn').should(($column) => {
+      let { width } = $column[0].getBoundingClientRect();
+      width = Math.round(width * 100) / 100;
+      expect(width).to.be.greaterThan(initialWidth);
+    });
+  });
+
   it('has sticky headers', () => {
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
