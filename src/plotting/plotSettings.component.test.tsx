@@ -51,7 +51,7 @@ describe('Plot Settings component', () => {
       changePlotType,
       XAxis: '',
       changeXAxis,
-      XAxisSettings: { scale: 'time' },
+      XAxisSettings: { scale: 'linear' },
       changeXAxisSettings,
       YAxis: '',
       changeYAxis,
@@ -69,8 +69,16 @@ describe('Plot Settings component', () => {
     jest.clearAllMocks();
   });
 
-  it('renders plot settings form correctly', () => {
+  it('renders plot settings form correctly (x-axis tab selected)', () => {
     const view = createView();
+
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('renders plot settings form correctly (y-axis tab selected)', async () => {
+    const user = userEvent.setup();
+    const view = createView();
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -124,12 +132,48 @@ describe('Plot Settings component', () => {
   });
 
   it('does not let the user change the X axis scale if time is selected as the X axis', async () => {
+    props.XAxis = 'timestamp';
+    props.XAxisSettings.scale = 'time';
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
     const radioButtons = within(radioGroup).getAllByRole('radio');
     radioButtons.forEach((radioButton) => {
       expect(radioButton).toBeDisabled();
+    });
+  });
+
+  it('does not let the user change the Y axis scale if time is selected as the Y axis', async () => {
+    props.YAxis = 'timestamp';
+    props.YAxesSettings.scale = 'time';
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
+    const radioButtons = within(radioGroup).getAllByRole('radio');
+    radioButtons.forEach((radioButton) => {
+      expect(radioButton).toBeDisabled();
+    });
+  });
+
+  it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
+    expect(
+      within(radioGroup).getByRole('radio', {
+        name: 'Linear',
+      })
+    ).toBeChecked();
+
+    await user.click(screen.getByRole('radio', { name: 'Log' }));
+
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.YAxesSettings,
+      scale: 'logarithmic',
     });
   });
 
@@ -167,6 +211,10 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.XAxisSettings,
+      scale: 'linear',
+    });
   });
 
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
@@ -180,7 +228,121 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByText('CHANNEL_1'));
 
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.XAxisSettings,
+      scale: 'linear',
+    });
   });
 
-  it.todo('renders correctly with Y tab in view');
+  it('allows user to select a y-axis (keyboard only)', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'CHANNEL');
+    autocomplete.focus();
+    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
+    fireEvent.keyDown(autocomplete, { key: 'Enter' });
+
+    expect(changeYAxis).toHaveBeenCalledWith('CHANNEL_1');
+    expect(changeYAxesSettings).toHaveBeenCalledWith({
+      ...props.YAxesSettings,
+      scale: 'linear',
+    });
+  });
+
+  it('allows user to select a y-axis (mouse and keyboard)', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'CHANNEL');
+    await user.click(screen.getByText('CHANNEL_1'));
+
+    expect(changeYAxis).toHaveBeenCalledWith('CHANNEL_1');
+    expect(changeYAxesSettings).toHaveBeenCalledWith({
+      ...props.YAxesSettings,
+      scale: 'linear',
+    });
+  });
+
+  it('changes scale to time automatically if time is selected as x-axis', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'time');
+    autocomplete.focus();
+    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
+    fireEvent.keyDown(autocomplete, { key: 'Enter' });
+
+    expect(changeXAxis).toHaveBeenCalledWith('timestamp');
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.XAxisSettings,
+      scale: 'time',
+    });
+  });
+
+  it('changes scale to time automatically if time is selected as y-axis', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    let autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'time');
+    autocomplete.focus();
+    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
+    fireEvent.keyDown(autocomplete, { key: 'Enter' });
+
+    expect(changeYAxis).toHaveBeenCalledWith('timestamp');
+    expect(changeYAxesSettings).toHaveBeenCalledWith({
+      ...props.YAxesSettings,
+      scale: 'time',
+    });
+  });
+
+  it('removes x-axis from display when we click Close on its label', async () => {
+    const user = userEvent.setup();
+    props.XAxis = 'test';
+    createView();
+
+    await user.click(screen.getByLabelText('Remove test axis'));
+    expect(changeXAxis).toHaveBeenLastCalledWith('');
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.XAxisSettings,
+      scale: 'linear',
+    });
+  });
+
+  it('removes y-axis from display when we click Close on its label', async () => {
+    const user = userEvent.setup();
+    props.YAxis = 'test';
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Remove test axis'));
+    expect(changeYAxis).toHaveBeenLastCalledWith('');
+    expect(changeYAxesSettings).toHaveBeenCalledWith({
+      ...props.YAxesSettings,
+      scale: 'linear',
+    });
+  });
+
+  it.todo('check we can select channels on y axis with both input boxes');
+
+  it.todo('preserves axes selections when moving between tabs');
 });

@@ -372,6 +372,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
             {XAxis && (
               <Grid container item>
                 <Box
+                  aria-label={`${XAxis} label`}
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -382,7 +383,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }}
                 >
                   <Typography noWrap>{XAxis}</Typography>
-                  <StyledClose onClick={() => handleXAxisChange('')} />
+                  <StyledClose
+                    aria-label={`Remove ${XAxis} axis`}
+                    onClick={() => handleXAxisChange('')}
+                  />
                 </Box>
               </Grid>
             )}
@@ -510,6 +514,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
             {YAxis && (
               <Grid container item>
                 <Box
+                  aria-label={`${YAxis} label`}
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -520,7 +525,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }}
                 >
                   <Typography noWrap>{YAxis}</Typography>
-                  <StyledClose onClick={() => handleYAxisChange('')} />
+                  <StyledClose
+                    aria-label={`Remove ${YAxis} axis`}
+                    onClick={() => handleYAxisChange('')}
+                  />
                 </Box>
               </Grid>
             )}
