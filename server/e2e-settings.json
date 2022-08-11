@@ -1,5 +1,4 @@
 {
-  "facilityName": "Generic",
   "apiUrl": "http://opsgateway-epac-dev.clf.stfc.ac.uk:8000",
   "routes": [
     {

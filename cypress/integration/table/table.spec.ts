@@ -1,8 +1,4 @@
-import {
-  getHandleSelector,
-  testRecordResponse,
-  testRecordCountResponse,
-} from '../../support/util';
+import { getHandleSelector } from '../../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   for (let i = 0; i < columns.length; i++) {
@@ -15,12 +11,12 @@ describe('Table Component', () => {
     cy.intercept('**/records**', (req) => {
       req.reply({
         statusCode: 200,
-        body: testRecordResponse,
+        fixture: 'records.json',
       });
     }).as('getRecords');
 
     cy.intercept('**/records/count', (req) => {
-      req.reply({ statusCode: 200, body: testRecordCountResponse });
+      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
     cy.visit('/').wait(['@getRecords', '@getRecordCount']);
@@ -111,7 +107,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotNum').check();
+    cy.get('#shotnum').check();
 
     cy.get('[role="columnheader"]').first().as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
@@ -200,31 +196,7 @@ describe('Table Component', () => {
     });
   });
 
-  it.skip('should be able to resize a column', () => {
-    let columnWidth = 0;
-
-    cy.get('[role="columnheader"]')
-      .first()
-      .should(($column) => {
-        const { width } = $column[0].getBoundingClientRect();
-        columnWidth = width;
-      });
-
-    cy.get('[role="separator"]')
-      .first()
-      .trigger('mousedown')
-      .trigger('mousemove', { clientX: 200, force: true })
-      .trigger('mouseup');
-
-    cy.get('[role="columnheader"]')
-      .first()
-      .should(($column) => {
-        const { width } = $column[0].getBoundingClientRect();
-        expect(width).to.be.greaterThan(columnWidth);
-      });
-  });
-
-  describe('should be able to sort by', () => {
+  describe.skip('should be able to sort by', () => {
     it('ascending order', () => {
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
       cy.wait(200);

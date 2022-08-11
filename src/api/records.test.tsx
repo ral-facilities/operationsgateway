@@ -120,29 +120,32 @@ describe('records api functions', () => {
       ).toBeTruthy();
     });
 
-    it.skip('sends axios request to fetch records and throws an appropriate error on failure', async () => {
-      (axios.get as jest.Mock).mockRejectedValue({
-        message: 'Test error',
-      });
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure',
+      async () => {
+        (axios.get as jest.Mock).mockRejectedValue({
+          message: 'Test error',
+        });
 
-      params.append('limit', '25');
-      params.append('skip', '0');
+        params.append('limit', '25');
+        params.append('skip', '0');
 
-      const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: hooksWrapperWithProviders(),
-      });
+        const { result } = renderHook(() => useRecordsPaginated(), {
+          wrapper: hooksWrapperWithProviders(),
+        });
 
-      await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
-      });
+        await waitFor(() => {
+          expect(result.current.isError).toBeTruthy();
+        });
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+        expect(axios.get).toHaveBeenCalledWith(
+          '/records',
+          expect.objectContaining({ params })
+        );
 
-      // TODO expect further error assertions
-    });
+        // TODO expect further error assertions
+      }
+    );
   });
 
   describe('useRecordCount', () => {
