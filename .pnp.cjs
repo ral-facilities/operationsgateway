@@ -58,6 +58,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.32.0"],\
             ["@typescript-eslint/parser", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.32.0"],\
             ["axios", "npm:0.27.2"],\
+            ["chart.js", "npm:3.9.1"],\
+            ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
             ["cypress-failed-log", "npm:2.10.0"],\
@@ -71,11 +73,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
+            ["jest-canvas-mock", "npm:2.4.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["react", "npm:18.2.0"],\
             ["react-beautiful-dnd", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.1.0"],\
             ["react-beautiful-dnd-test-utils", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.1.1"],\
+            ["react-chartjs-2", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.3.1"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-draggable", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.4.5"],\
             ["react-i18next", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:11.18.1"],\
@@ -7723,6 +7727,37 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["chart.js", [\
+        ["npm:3.9.1", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-3.9.1-931bfaba91-9ab0c0ac01.zip/node_modules/chart.js/",\
+          "packageDependencies": [\
+            ["chart.js", "npm:3.9.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["chartjs-adapter-date-fns", [\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/chartjs-adapter-date-fns-npm-2.0.0-8412d1dcec-08ee2f99da.zip/node_modules/chartjs-adapter-date-fns/",\
+          "packageDependencies": [\
+            ["chartjs-adapter-date-fns", "npm:2.0.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/chartjs-adapter-date-fns-virtual-1ff1682308/0/cache/chartjs-adapter-date-fns-npm-2.0.0-8412d1dcec-08ee2f99da.zip/node_modules/chartjs-adapter-date-fns/",\
+          "packageDependencies": [\
+            ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
+            ["@types/chart.js", null],\
+            ["chart.js", "npm:3.9.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/chart.js",\
+            "chart.js"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["check-more-types", [\
         ["npm:2.24.0", {\
           "packageLocation": "./.yarn/cache/check-more-types-npm-2.24.0-fa2e491b27-b09080ec34.zip/node_modules/check-more-types/",\
@@ -8580,6 +8615,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cssesc-npm-3.0.0-15ec56f86f-f8c4ababff.zip/node_modules/cssesc/",\
           "packageDependencies": [\
             ["cssesc", "npm:3.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["cssfontparser", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/cssfontparser-npm-1.2.1-f48947509b-952d487cdd.zip/node_modules/cssfontparser/",\
+          "packageDependencies": [\
+            ["cssfontparser", "npm:1.2.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12310,6 +12354,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jest-canvas-mock", [\
+        ["npm:2.4.0", {\
+          "packageLocation": "./.yarn/cache/jest-canvas-mock-npm-2.4.0-f993bb2728-feda3c9a33.zip/node_modules/jest-canvas-mock/",\
+          "packageDependencies": [\
+            ["jest-canvas-mock", "npm:2.4.0"],\
+            ["cssfontparser", "npm:1.2.1"],\
+            ["moo-color", "npm:1.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jest-changed-files", [\
         ["npm:27.5.1", {\
           "packageLocation": "./.yarn/cache/jest-changed-files-npm-27.5.1-e3b21b0242-95e9dc74c3.zip/node_modules/jest-changed-files/",\
@@ -13949,6 +14004,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["moo-color", [\
+        ["npm:1.0.3", {\
+          "packageLocation": "./.yarn/cache/moo-color-npm-1.0.3-50b8650764-02bf59b6bb.zip/node_modules/moo-color/",\
+          "packageDependencies": [\
+            ["moo-color", "npm:1.0.3"],\
+            ["color-name", "npm:1.1.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ms", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/ms-npm-2.0.0-9e1101a471-0e6a22b8b7.zip/node_modules/ms/",\
@@ -14381,6 +14446,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/eslint-plugin", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.32.0"],\
             ["@typescript-eslint/parser", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.32.0"],\
             ["axios", "npm:0.27.2"],\
+            ["chart.js", "npm:3.9.1"],\
+            ["chartjs-adapter-date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
             ["cypress-failed-log", "npm:2.10.0"],\
@@ -14394,11 +14461,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["i18next", "npm:21.8.14"],\
             ["immutability-helper", "npm:3.1.1"],\
+            ["jest-canvas-mock", "npm:2.4.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["react", "npm:18.2.0"],\
             ["react-beautiful-dnd", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.1.0"],\
             ["react-beautiful-dnd-test-utils", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.1.1"],\
+            ["react-chartjs-2", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.3.1"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-draggable", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.4.5"],\
             ["react-i18next", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:11.18.1"],\
@@ -16872,6 +16941,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/testing-library__react",\
             "@types/testing-library__user-event",\
             "jest"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-chartjs-2", [\
+        ["npm:4.3.1", {\
+          "packageLocation": "./.yarn/cache/react-chartjs-2-npm-4.3.1-467e2ad798-574d12cc43.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "npm:4.3.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.3.1", {\
+          "packageLocation": "./.yarn/__virtual__/react-chartjs-2-virtual-bf5c06da04/0/cache/react-chartjs-2-npm-4.3.1-467e2ad798-574d12cc43.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.3.1"],\
+            ["@types/chart.js", null],\
+            ["@types/react", "npm:18.0.12"],\
+            ["chart.js", "npm:3.9.1"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/chart.js",\
+            "@types/react",\
+            "chart.js",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\

@@ -1,0 +1,472 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plot Settings component renders plot settings form correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":r0:"
+          id=":r0:-label"
+        >
+          Title
+        </label>
+        <div
+          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r0:"
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-1ftyaf0"
+            >
+              <span>
+                Title
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for=":r1:"
+            id=":r1:-label"
+          >
+            Hours
+          </label>
+          <div
+            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              id=":r1:"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-1ftyaf0"
+              >
+                <span>
+                  Hours
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+      >
+        <div
+          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for=":r2:"
+            id=":r2:-label"
+          >
+            Points
+          </label>
+          <div
+            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              id=":r2:"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-1ftyaf0"
+              >
+                <span>
+                  Points
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        aria-label="chart type"
+        class="MuiToggleButtonGroup-root css-1gjgmky-MuiToggleButtonGroup-root"
+        role="group"
+      >
+        <button
+          aria-label="scatter chart"
+          aria-pressed="true"
+          class="MuiButtonBase-root MuiToggleButton-root Mui-selected MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-ueukts-MuiButtonBase-root-MuiToggleButton-root"
+          tabindex="0"
+          type="button"
+          value="scatter"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ScatterPlotIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              cx="7"
+              cy="14"
+              r="3"
+            />
+            <circle
+              cx="11"
+              cy="6"
+              r="3"
+            />
+            <circle
+              cx="16.6"
+              cy="17.6"
+              r="3"
+            />
+          </svg>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <button
+          aria-label="line chart"
+          aria-pressed="false"
+          class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-ueukts-MuiButtonBase-root-MuiToggleButton-root"
+          tabindex="0"
+          type="button"
+          value="line"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+            data-testid="ShowChartIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="m3.5 18.49 6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"
+            />
+          </svg>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-1gsv261"
+      >
+        <div
+          class="MuiTabs-root css-1yb2e4d-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              aria-label="tabs"
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-controls="X-tabpanel"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="X-tab"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                X
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="Y-tabpanel"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="Y-tab"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                Y
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="X-tab"
+        id="X-tabpanel"
+        role="tabpanel"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1w7ngrt-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+              >
+                <div
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+                    data-shrink="false"
+                    for=":r3:"
+                    id=":r3:-label"
+                  >
+                    Min
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <input
+                      aria-invalid="false"
+                      class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                      id=":r3:"
+                      type="text"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-1ftyaf0"
+                      >
+                        <span>
+                          Min
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+              >
+                <div
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+                    data-shrink="false"
+                    for=":r4:"
+                    id=":r4:-label"
+                  >
+                    Max
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <input
+                      aria-invalid="false"
+                      class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                      id=":r4:"
+                      type="text"
+                      value=""
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-1ftyaf0"
+                      >
+                        <span>
+                          Max
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+            >
+              <div
+                class="MuiFormControl-root css-qtsj9i-MuiFormControl-root"
+              >
+                <label
+                  class="MuiFormLabel-root MuiFormLabel-colorPrimary Mui-disabled css-7dax6m-MuiFormLabel-root"
+                  id="x-scale-group-label"
+                >
+                  Scale
+                </label>
+                <div
+                  aria-labelledby="x-scale-group-label"
+                  class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
+                  role="radiogroup"
+                >
+                  <label
+                    class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+                  >
+                    <span
+                      aria-disabled="true"
+                      class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root Mui-disabled MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-disabled css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+                      tabindex="-1"
+                    >
+                      <input
+                        class="PrivateSwitchBase-input css-1m9pwf3"
+                        disabled=""
+                        name="x scale radio buttons group"
+                        type="radio"
+                        value="linear"
+                      />
+                      <span
+                        class="css-hyxlzm"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                          data-testid="RadioButtonUncheckedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          />
+                        </svg>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                          data-testid="RadioButtonCheckedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                          />
+                        </svg>
+                      </span>
+                    </span>
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                    >
+                      Linear
+                    </span>
+                  </label>
+                  <label
+                    class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+                  >
+                    <span
+                      aria-disabled="true"
+                      class="MuiRadio-root MuiRadio-colorPrimary MuiButtonBase-root Mui-disabled MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root Mui-disabled css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+                      tabindex="-1"
+                    >
+                      <input
+                        class="PrivateSwitchBase-input css-1m9pwf3"
+                        disabled=""
+                        name="x scale radio buttons group"
+                        type="radio"
+                        value="logarithmic"
+                      />
+                      <span
+                        class="css-hyxlzm"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hbvpl3-MuiSvgIcon-root"
+                          data-testid="RadioButtonUncheckedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          />
+                        </svg>
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hhw7if-MuiSvgIcon-root"
+                          data-testid="RadioButtonCheckedIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                          />
+                        </svg>
+                      </span>
+                    </span>
+                    <span
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                    >
+                      Log
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="Y-tab"
+        hidden=""
+        id="Y-tabpanel"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

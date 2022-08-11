@@ -2664,7 +2664,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:^1.8.3":
+"@reduxjs/toolkit@npm:1.8.3":
   version: 1.8.3
   resolution: "@reduxjs/toolkit@npm:1.8.3"
   dependencies:
@@ -5196,6 +5196,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chart.js@npm:3.9.1":
+  version: 3.9.1
+  resolution: "chart.js@npm:3.9.1"
+  checksum: 9ab0c0ac01215af0b3f020f2e313030fd6e347b48ed17d5484ee9c4e8ead45e78ae71bea16c397621c386b409ce0b14bf17f9f6c2492cd15b56c0f433efdfff6
+  languageName: node
+  linkType: hard
+
+"chartjs-adapter-date-fns@npm:2.0.0":
+  version: 2.0.0
+  resolution: "chartjs-adapter-date-fns@npm:2.0.0"
+  peerDependencies:
+    chart.js: ^3.0.0
+  checksum: 08ee2f99da4a15434e28da733cb0489fe94012ac1a493fbf01d660bcf17df3bb28ce767939c2881b67b3bbefe1a7ffe70dcea4cbd860ab6c2c670d90816e8176
+  languageName: node
+  linkType: hard
+
 "check-more-types@npm:2.24.0, check-more-types@npm:^2.24.0":
   version: 2.24.0
   resolution: "check-more-types@npm:2.24.0"
@@ -5887,6 +5903,13 @@ __metadata:
   bin:
     cssesc: bin/cssesc
   checksum: f8c4ababffbc5e2ddf2fa9957dda1ee4af6048e22aeda1869d0d00843223c1b13ad3f5d88b51caa46c994225eacb636b764eb807a8883e2fb6f99b4f4e8c48b2
+  languageName: node
+  linkType: hard
+
+"cssfontparser@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "cssfontparser@npm:1.2.1"
+  checksum: 952d487cddab591fb944f2a4c326a7736bc963784a6d92b6ad4051f3bf5ee49a732eff62e29a52ff085197cb07f5bd66525a2245ded7fd356113ac81be9238b9
   languageName: node
   linkType: hard
 
@@ -8904,6 +8927,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-canvas-mock@npm:2.4.0":
+  version: 2.4.0
+  resolution: "jest-canvas-mock@npm:2.4.0"
+  dependencies:
+    cssfontparser: ^1.2.1
+    moo-color: ^1.0.2
+  checksum: feda3c9a3301dc8f1ce3eee3d6cd944d3e2f50d713f1a3f159bdd85b88b275871c400dc0a4a50d14b36eef347dde2d7223e50d1109501b80668d87253712675e
+  languageName: node
+  linkType: hard
+
 "jest-changed-files@npm:^27.5.1":
   version: 27.5.1
   resolution: "jest-changed-files@npm:27.5.1"
@@ -10391,6 +10424,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"moo-color@npm:^1.0.2":
+  version: 1.0.3
+  resolution: "moo-color@npm:1.0.3"
+  dependencies:
+    color-name: ^1.1.4
+  checksum: 02bf59b6bbd5e86641bc062e2dc0843e6e579e18ef67e1c8e93bfc01945df578f20e66ce16aa9632db2aa0e16806e0914a26eb345a804f45fff1ae12a8906a29
+  languageName: node
+  linkType: hard
+
 "ms@npm:2.0.0":
   version: 2.0.0
   resolution: "ms@npm:2.0.0"
@@ -10758,7 +10800,7 @@ __metadata:
     "@mui/icons-material": 5.8.4
     "@mui/material": 5.9.2
     "@mui/x-date-pickers": 5.0.0-beta.0
-    "@reduxjs/toolkit": ^1.8.3
+    "@reduxjs/toolkit": 1.8.3
     "@tanstack/react-virtual": beta
     "@testing-library/dom": 8.16.0
     "@testing-library/jest-dom": 5.16.4
@@ -10775,6 +10817,8 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.32.0
     "@typescript-eslint/parser": 5.32.0
     axios: 0.27.2
+    chart.js: 3.9.1
+    chartjs-adapter-date-fns: 2.0.0
     cross-env: 7.0.3
     cypress: 9.7.0
     cypress-failed-log: 2.10.0
@@ -10788,16 +10832,18 @@ __metadata:
     history: 5.3.0
     i18next: 21.8.14
     immutability-helper: 3.1.1
+    jest-canvas-mock: 2.4.0
     loglevel: 1.8.0
     prettier: 2.7.1
     react: 18.2.0
     react-beautiful-dnd: 13.1.0
     react-beautiful-dnd-test-utils: 4.1.1
+    react-chartjs-2: 4.3.1
     react-dom: 18.2.0
     react-draggable: 4.4.5
     react-i18next: 11.18.1
     react-query: 3.39.2
-    react-redux: ^8.0.2
+    react-redux: 8.0.2
     react-router-dom: 6.3.0
     react-scripts: 5.0.1
     react-table: 7.8.0
@@ -12303,6 +12349,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-chartjs-2@npm:4.3.1":
+  version: 4.3.1
+  resolution: "react-chartjs-2@npm:4.3.1"
+  peerDependencies:
+    chart.js: ^3.5.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 574d12cc43b9b4a0f1e04cc692982e16ef7083c03da2a8a9fc2180fe9bcadc793008f81d8f4eec5465925eff84c95d7c523cb74376858b363ae75a83bb3c2a5d
+  languageName: node
+  linkType: hard
+
 "react-dev-utils@npm:^12.0.1":
   version: 12.0.1
   resolution: "react-dev-utils@npm:12.0.1"
@@ -12424,28 +12480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^7.2.0":
-  version: 7.2.8
-  resolution: "react-redux@npm:7.2.8"
-  dependencies:
-    "@babel/runtime": ^7.15.4
-    "@types/react-redux": ^7.1.20
-    hoist-non-react-statics: ^3.3.2
-    loose-envify: ^1.4.0
-    prop-types: ^15.7.2
-    react-is: ^17.0.2
-  peerDependencies:
-    react: ^16.8.3 || ^17 || ^18
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: ecf1933e91013f2d41bfc781515b536bf81eb1f70ff228607841094c8330fe77d522372b359687e51c0b52b9888dba73db9ac0486aace1896ab9eb9daec102d5
-  languageName: node
-  linkType: hard
-
-"react-redux@npm:^8.0.2":
+"react-redux@npm:8.0.2":
   version: 8.0.2
   resolution: "react-redux@npm:8.0.2"
   dependencies:
@@ -12474,6 +12509,27 @@ __metadata:
     redux:
       optional: true
   checksum: 44c1739c45dad04ecc65a290897c73828ff0bf43f2b7618ed5ef6d4ceecedae38e76cecd189a5ecedf579c28ead05427bc000fb45ad30b9fcd5c2be27cd3ac73
+  languageName: node
+  linkType: hard
+
+"react-redux@npm:^7.2.0":
+  version: 7.2.8
+  resolution: "react-redux@npm:7.2.8"
+  dependencies:
+    "@babel/runtime": ^7.15.4
+    "@types/react-redux": ^7.1.20
+    hoist-non-react-statics: ^3.3.2
+    loose-envify: ^1.4.0
+    prop-types: ^15.7.2
+    react-is: ^17.0.2
+  peerDependencies:
+    react: ^16.8.3 || ^17 || ^18
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: ecf1933e91013f2d41bfc781515b536bf81eb1f70ff228607841094c8330fe77d522372b359687e51c0b52b9888dba73db9ac0486aace1896ab9eb9daec102d5
   languageName: node
   linkType: hard
 
