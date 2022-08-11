@@ -57,7 +57,7 @@ const PlotGrid = (props: PlotGridProps) => {
       </Grid>
       <Grid container item spacing={4}>
         {Object.entries(plots).map(([plotTitle, plotConfig]) => (
-          <Grid item>
+          <Grid item key={plotTitle}>
             <PlotCard plotTitle={plotTitle} plotConfig={plotConfig} />
           </Grid>
         ))}
