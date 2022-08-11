@@ -1,20 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { ChartData } from 'chart.js';
 import { PlotType } from '../app.types';
-import { Plot } from './plot.component';
-
-// can't actually render charts in JSDom, so mock to test we're passing the right props
-jest.mock('react-chartjs-2', () => ({
-  Chart: (props) => (
-    <canvas role="img">
-      {Object.entries(props).map(
-        ([propName, propValue]) =>
-          `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-      )}
-    </canvas>
-  ),
-}));
 
 describe('Plot component', () => {
   const testData: ChartData<PlotType> = {
@@ -30,7 +17,27 @@ describe('Plot component', () => {
     ],
   };
 
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
   it('renders a plot which passes the correct props to chart.js', () => {
+    // can't actually render charts in JSDom, so mock to test we're passing the right props
+    jest.doMock('react-chartjs-2', () => ({
+      Chart: jest.fn((props) => {
+        return (
+          <canvas role="img">
+            {Object.entries(props).map(
+              ([propName, propValue]) =>
+                `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+            )}
+          </canvas>
+        );
+      }),
+    }));
+
+    const { Plot } = require('./plot.component');
+
     const view = render(
       <Plot
         data={testData}
@@ -42,5 +49,42 @@ describe('Plot component', () => {
     );
 
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('redraws the plot in response to resize events', () => {
+    // mock to just a mock jest function which we can then inspect the calls of
+    jest.doMock('react-chartjs-2', () => ({
+      Chart: jest.fn(() => null),
+    }));
+
+    const { Plot } = require('./plot.component');
+
+    render(
+      <Plot
+        data={testData}
+        title="Test"
+        type="scatter"
+        XAxisSettings={{ scale: 'time' }}
+        YAxesSettings={{ scale: 'linear' }}
+      />
+    );
+
+    const { Chart } = require('react-chartjs-2');
+
+    expect(Chart).toHaveBeenCalledWith(
+      expect.objectContaining({ redraw: false }),
+      expect.anything()
+    );
+    jest.clearAllMocks();
+
+    fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
+    expect(Chart).toHaveBeenCalledWith(
+      expect.objectContaining({ redraw: true }),
+      expect.anything()
+    );
+    expect(Chart).toHaveBeenCalledWith(
+      expect.objectContaining({ redraw: false }),
+      expect.anything()
+    );
   });
 });

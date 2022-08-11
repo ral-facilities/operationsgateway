@@ -40,10 +40,13 @@ options={
     "y": {
       "type": "linear"
     }
-  }
+  },
+  "maintainAspectRatio": false,
+  "responsive": true
 }
 type="scatter"
 aria-label="Test plot"
+redraw=false
 
   </canvas>
 </DocumentFragment>
