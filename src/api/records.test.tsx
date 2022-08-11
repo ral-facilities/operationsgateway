@@ -85,7 +85,10 @@ describe('records api functions', () => {
     it('can send sort and date range parameters as part of request', async () => {
       state = {
         ...getInitialState(),
-        table: { ...getInitialState().table, sort: { timestamp: 'asc' } },
+        table: {
+          ...getInitialState().table,
+          sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
+        },
         search: {
           ...getInitialState().search,
           dateRange: {
@@ -98,6 +101,7 @@ describe('records api functions', () => {
       params.append('limit', '25');
       params.append('skip', '0');
       params.append('order', 'timestamp asc');
+      params.append('order', 'CHANNEL_1 desc');
       params.append(
         'conditions',
         "{$and:[{'metadata.timestamp':'$gt':'2022-01-01 00:00:00','$lt':'2022-01-02 00:00:00'}]"
