@@ -24,8 +24,6 @@ class WindowPortal extends React.PureComponent<
   WindowPortalProps,
   WindowPortalState
 > {
-  private observer: MutationObserver | undefined;
-
   constructor(props: WindowPortalProps) {
     super(props);
 
@@ -68,7 +66,6 @@ class WindowPortal extends React.PureComponent<
   }
 
   componentWillUnmount() {
-    this.observer?.disconnect();
     this.state.window?.removeEventListener('resize', this.handleResize);
 
     // tidy up by closing the window if we unmount
