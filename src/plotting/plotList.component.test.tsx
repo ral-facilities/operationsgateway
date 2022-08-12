@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotGrid from './plotGrid.component';
+import PlotList from './plotList.component';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { renderWithStore, getInitialState } from '../setupTests';
 import { RootState } from '../state/store';
@@ -10,7 +10,7 @@ describe('Plot Settings component', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<PlotGrid />, {
+    return renderWithStore(<PlotList />, {
       preloadedState: initialState,
     });
   };

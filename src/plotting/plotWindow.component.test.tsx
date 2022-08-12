@@ -10,9 +10,9 @@ jest.mock('react-chartjs-2', () => ({
   Chart: (props) => <mock-Chart role="img" {...props} />,
 }));
 
-jest.mock('./windowPortal.component', () => ({ children }) => (
+jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // @ts-ignore
-  <mock-WindowPortal>{children}</mock-WindowPortal>
+  <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
 ));
 
 describe('Plot Window component', () => {

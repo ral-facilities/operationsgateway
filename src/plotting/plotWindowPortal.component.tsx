@@ -8,23 +8,23 @@ import createCache from '@emotion/cache';
 
 let windowResizeTimeout: number | undefined;
 
-interface WindowPortalState {
+interface PlotWindowPortalState {
   window: Window | null;
   containerEl: HTMLDivElement | null;
   styleCache: EmotionCache | null;
 }
 
-interface WindowPortalProps {
+interface PlotWindowPortalProps {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-class WindowPortal extends React.PureComponent<
-  WindowPortalProps,
-  WindowPortalState
+class PlotWindowPortal extends React.PureComponent<
+  PlotWindowPortalProps,
+  PlotWindowPortalState
 > {
-  constructor(props: WindowPortalProps) {
+  constructor(props: PlotWindowPortalProps) {
     super(props);
 
     this.state = { window: null, styleCache: null, containerEl: null };
@@ -73,8 +73,8 @@ class WindowPortal extends React.PureComponent<
   }
 
   componentDidUpdate(
-    prevProps: WindowPortalProps,
-    prevState: WindowPortalState
+    prevProps: PlotWindowPortalProps,
+    prevState: PlotWindowPortalState
   ) {
     if (prevState.window === null && this.state.window) {
       // chart js doesn't resize properly without this as it is listening to the original window's resize events
@@ -104,4 +104,4 @@ class WindowPortal extends React.PureComponent<
   }
 }
 
-export default WindowPortal;
+export default PlotWindowPortal;

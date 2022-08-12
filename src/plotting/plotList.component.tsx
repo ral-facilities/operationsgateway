@@ -38,9 +38,9 @@ const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
   );
 };
 
-interface PlotGridProps {}
+interface PlotListProps {}
 
-const PlotGrid = (props: PlotGridProps) => {
+const PlotList = (props: PlotListProps) => {
   const dispatch = useAppDispatch();
   const plots = useAppSelector(selectPlots);
 
@@ -66,4 +66,4 @@ const PlotGrid = (props: PlotGridProps) => {
   );
 };
 
-export default PlotGrid;
+export default PlotList;

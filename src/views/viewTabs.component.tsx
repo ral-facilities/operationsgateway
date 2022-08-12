@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DataView from './dataView.component';
-import PlotGrid from '../plotting/plotGrid.component';
+import PlotList from '../plotting/plotList.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -62,7 +62,7 @@ const ViewTabs = () => {
         <DataView />
       </TabPanel>
       <TabPanel value={value} label={'Plots'}>
-        <PlotGrid />
+        <PlotList />
       </TabPanel>
     </Box>
   );

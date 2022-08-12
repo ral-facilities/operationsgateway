@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import WindowPortal from './windowPortal.component';
+import PlotWindowPortal from './plotWindowPortal.component';
 
 describe('Plot Window component', () => {
   const TestComponent = () => <div id="test">Test</div>;
@@ -30,9 +30,9 @@ describe('Plot Window component', () => {
 
   const createView = () =>
     render(
-      <WindowPortal onClose={onClose} title="test title">
+      <PlotWindowPortal onClose={onClose} title="test title">
         <TestComponent />
-      </WindowPortal>
+      </PlotWindowPortal>
     );
 
   it('renders child in separate document and initialises event listeners, and handles unmounting correctly', () => {
@@ -59,9 +59,9 @@ describe('Plot Window component', () => {
     const { rerender } = createView();
 
     rerender(
-      <WindowPortal onClose={onClose} title="new test title">
+      <PlotWindowPortal onClose={onClose} title="new test title">
         <TestComponent />
-      </WindowPortal>
+      </PlotWindowPortal>
     );
 
     expect(newDocument.title).toEqual(
@@ -75,9 +75,9 @@ describe('Plot Window component', () => {
     const newMockOnClose = jest.fn();
 
     rerender(
-      <WindowPortal onClose={newMockOnClose} title="test title">
+      <PlotWindowPortal onClose={newMockOnClose} title="test title">
         <TestComponent />
-      </WindowPortal>
+      </PlotWindowPortal>
     );
 
     expect(mockRemoveEventListener).toHaveBeenCalledWith(

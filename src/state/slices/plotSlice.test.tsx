@@ -1,7 +1,6 @@
 import PlotReducer, { initialState, createPlot, closePlot } from './plotSlice';
 
 describe('plotSlice', () => {
-  // only test the hard to test bits of columnSlice here - like column reordering logic
   describe('Reducer', () => {
     let state: typeof initialState;
 
