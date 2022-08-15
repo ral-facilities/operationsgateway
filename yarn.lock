@@ -8365,12 +8365,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:21.8.14":
-  version: 21.8.14
-  resolution: "i18next@npm:21.8.14"
+"i18next@npm:21.9.0":
+  version: 21.9.0
+  resolution: "i18next@npm:21.9.0"
   dependencies:
     "@babel/runtime": ^7.17.2
-  checksum: 83b1a57d761c3d29b90f4e87eb9945902fa13d7750f11bc7f22e8c9999f7e5bf9b2a30c44a9b47569c8ea704573b02a562c2678cf2281073197ace07657d21be
+  checksum: b3d2f06cdecefd8e7d25a5961f6a6d26e7fb08aeb35c9cb548d08fd8acf809ec977052a1ba3a01a2da63cff6c8484829c26aa3ff627a803f8f2d5a38de923469
   languageName: node
   linkType: hard
 
@@ -10830,7 +10830,7 @@ __metadata:
     eslint-plugin-prettier: 4.2.1
     express: 4.18.1
     history: 5.3.0
-    i18next: 21.8.14
+    i18next: 21.9.0
     immutability-helper: 3.1.1
     jest-canvas-mock: 2.4.0
     loglevel: 1.8.0
