@@ -83,7 +83,7 @@ const ConnectedPlot = (props: PlotProps) => {
     const data =
       records?.map((record) => ({
         x: parseInt(record.metadata.timestamp),
-        y: record.metadata.shotNum ?? NaN,
+        y: record.metadata.shotnum ?? NaN,
       })) ?? [];
     return {
       datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],

@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../setupTests';
 
 // need to mock to avoid errors
 jest.mock('react-chartjs-2', () => ({
@@ -11,7 +11,7 @@ jest.mock('react-chartjs-2', () => ({
 
 describe('Plot Window component', () => {
   const createView = () => {
-    return renderWithProviders(<PlotWindow />);
+    return renderComponentWithProviders(<PlotWindow />);
   };
 
   it('renders plot window correctly with settings pane both open and closed', async () => {
