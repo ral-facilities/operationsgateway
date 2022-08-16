@@ -167,6 +167,42 @@ export const useRecordsPaginated = (): UseQueryResult<
   );
 };
 
+// TODO: should we integrate this with useRecordsPaginated? and have options to
+// pass the recordRow select function and which of the query params to apply?
+export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+  return useQuery<
+    Record[],
+    AxiosError,
+    Record[],
+    [
+      string,
+      {
+        page: number;
+        resultsPerPage: number;
+        sort: SortType;
+        dateRange: DateRange;
+      }
+    ]
+  >(
+    ['records', { page, resultsPerPage, sort, dateRange }],
+    (params) => {
+      let { page, sort, dateRange } = params.queryKey[1];
+      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
+      const startIndex = (page - 1) * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage - 1;
+      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
+
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { dateRange } = useAppSelector(selectQueryParams);

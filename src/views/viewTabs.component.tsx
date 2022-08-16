@@ -4,6 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DataView from './dataView.component';
+import PlotWindow from '../plotting/plotWindow.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -24,7 +25,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`${label}-tab`}
       {...other}
     >
-      {value === label && <Box sx={{ p: 1 }}>{children}</Box>}
+      {value === label && <Box>{children}</Box>}
     </div>
   );
 }
@@ -52,7 +53,7 @@ const ViewTabs = () => {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="tabs">
+        <Tabs value={value} onChange={handleChange} aria-label="view tabs">
           <StyledTab value="Data" label="Data" {...a11yProps('Data')} />
           <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
         </Tabs>
@@ -61,7 +62,7 @@ const ViewTabs = () => {
         <DataView />
       </TabPanel>
       <TabPanel value={value} label={'Plots'}>
-        Plots
+        <PlotWindow />
       </TabPanel>
     </Box>
   );

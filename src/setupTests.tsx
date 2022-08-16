@@ -2,8 +2,9 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
+// need to mock <canvas> for plotting
+import 'jest-canvas-mock';
 import {
   Channel,
   FullChannelMetadata,
@@ -13,6 +14,7 @@ import {
   ScalarChannel,
   WaveformChannel,
 } from './app.types';
+import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';

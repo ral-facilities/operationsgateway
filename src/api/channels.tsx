@@ -39,7 +39,7 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   });
 };
 
-export const useChannels = <T = FullChannelMetadata[],>(
+export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
 ): UseQueryResult<T, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);

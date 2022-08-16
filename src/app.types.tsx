@@ -134,6 +134,13 @@ export interface ColumnState {
   wordWrap?: boolean;
 }
 
+export type PlotType = 'scatter' | 'line';
+export interface AxisSettings {
+  scale: 'linear' | 'logarithmic' | 'time';
+  min?: number;
+  max?: number;
+}
+
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)
