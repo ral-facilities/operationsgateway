@@ -142,15 +142,12 @@ export const cleanupDatePickerWorkaround = (): void => {
 export const testChannels: FullChannelMetadata[] = [
   {
     systemName: 'test_1',
-    channel_dtype: 'scalar',
+    channel_dtype: 'image',
     userFriendlyName: 'Test 1',
-    significantFigures: 4,
   },
   {
     systemName: 'test_2',
-    channel_dtype: 'scalar',
-    significantFigures: 2,
-    scientificNotation: false,
+    channel_dtype: 'waveform',
   },
   {
     systemName: 'test_3',
@@ -246,15 +243,11 @@ export const generateRecordRow = (num: number) => {
         break;
       case 'image':
         channelData = (channel as ImageChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
+        channelData = `<img src="data:image/jpeg;base64,${channelData}" alt="${key}" />`;
         break;
       case 'waveform':
         channelData = (channel as WaveformChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
+        channelData = `<img src="data:image/jpeg;base64,${channelData}" alt="${key}" />`;
     }
 
     recordRow[key] = channelData;

@@ -150,21 +150,12 @@ export const useRecordsPaginated = (): UseQueryResult<
                 break;
               case 'image':
                 channelData = (channel as ImageChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                  />
-                );
+                channelData = `<img src="data:image/jpeg;base64,${channelData}" alt="${key}" />`;
+
                 break;
               case 'waveform':
                 channelData = (channel as WaveformChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                  />
-                );
+                channelData = `<img src="data:image/jpeg;base64,${channelData}" alt="${key}" />`;
             }
 
             recordRow[key] = channelData;

@@ -3,7 +3,6 @@ import axios, { AxiosError } from 'axios';
 import { Channel, FullChannelMetadata, Record } from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
-import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
 
@@ -100,21 +99,6 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       // TODO: get these from data channel info
       channelInfo: channel,
     };
-    if (channel.channel_dtype === 'scalar') {
-      newColumn.Cell = ({ value }) =>
-        typeof value === 'number' &&
-        typeof channel.significantFigures === 'number' ? (
-          <React.Fragment>
-            {roundNumber(
-              value,
-              channel.significantFigures,
-              channel.scientificNotation ?? false
-            )}
-          </React.Fragment>
-        ) : (
-          <React.Fragment>{String(value ?? '')}</React.Fragment>
-        );
-    }
     myColumns.push(newColumn);
   });
   return myColumns;

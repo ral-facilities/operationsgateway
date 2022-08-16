@@ -1,4 +1,4 @@
-import { Record, RecordRow } from '../app.types';
+import { Record } from '../app.types';
 import {
   testRecords,
   testRecordRows,
@@ -10,30 +10,6 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { useRecordCount, useRecordsPaginated } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-
-const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
-  if (!x || !y) return false;
-  if (x.length !== y.length) return false;
-
-  for (let i = 0; i < x.length; i++) {
-    const xRow = x[i];
-    const yRow = y[i];
-
-    const xKeys = Object.keys(xRow);
-    const yKeys = Object.keys(yRow);
-
-    for (let i = 0; i < xKeys.length; i++) {
-      if (xKeys[i] !== yKeys[i]) return false;
-    }
-
-    if (xRow.timestamp !== yRow.timestamp) return false;
-    if (xRow.shotnum !== yRow.shotnum) return false;
-    if (xRow.activeArea !== yRow.activeArea) return false;
-    if (xRow.activeExperiment !== yRow.activeExperiment) return false;
-  }
-
-  return true;
-};
 
 describe('records api functions', () => {
   let mockData: Record[];
@@ -77,9 +53,7 @@ describe('records api functions', () => {
         '/records',
         expect.objectContaining({ params })
       );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(result.current.data).toEqual(testRecordRows);
     });
 
     it('can send sort and date range parameters as part of request', async () => {
@@ -119,9 +93,7 @@ describe('records api functions', () => {
         '/records',
         expect.objectContaining({ params })
       );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(result.current.data).toEqual(testRecordRows);
     });
 
     it.todo(
@@ -188,25 +160,8 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(mockData.length);
     });
 
-    it.skip('sends axios request to fetch record count and throws an appropriate error on failure', async () => {
-      (axios.get as jest.Mock).mockRejectedValue({
-        message: 'Test error',
-      });
-
-      const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: hooksWrapperWithProviders(),
-      });
-
-      await waitFor(() => {
-        expect(result.current.isError).toBeTruthy();
-      });
-
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
-
-      // TODO expect further error assertions
-    });
+    it.todo(
+      'sends axios request to fetch record count and throws an appropriate error on failure'
+    );
   });
 });
