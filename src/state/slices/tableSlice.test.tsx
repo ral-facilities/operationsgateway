@@ -8,7 +8,6 @@ import ColumnsReducer, {
 } from './tableSlice';
 
 describe('tableSlice', () => {
-  // only test the hard to test bits of columnSlice here - like column reordering logic
   describe('Reducer', () => {
     let state: typeof initialState;
 
@@ -46,7 +45,7 @@ describe('tableSlice', () => {
         'timestamp',
         'shotNum',
         'activeExperiment',
-      ],);
+      ]);
     });
 
     it('should reorder columns correctly when reorderColumns action is sent', () => {
