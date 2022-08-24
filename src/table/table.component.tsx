@@ -241,8 +241,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         const isTimestampColumn =
                           dataKey.toUpperCase() === 'TIMESTAMP';
 
-                        const { channelInfo } = cell.column as ColumnInstance;
-
                         let columnStyles: SxProps<Theme> = {
                           minWidth: cell.column.minWidth,
                           width: cell.column.width,
@@ -268,8 +266,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                             key={key}
                             {...otherCellProps}
                             dataKey={cell.column.id}
-                            rowData={cell.value}
-                            channelInfo={channelInfo}
+                            rowData={cell.render('Cell')}
                           />
                         );
                       })}

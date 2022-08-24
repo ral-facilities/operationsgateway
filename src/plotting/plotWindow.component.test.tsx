@@ -10,6 +10,10 @@ jest.mock('react-chartjs-2', () => ({
 }));
 
 describe('Plot Window component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const createView = () => {
     return renderComponentWithProviders(<PlotWindow />);
   };
