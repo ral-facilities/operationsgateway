@@ -31,11 +31,14 @@ ChartJS.register(
   LineController
 );
 
-type FullPlotProps = {
-  data: ChartData<PlotType>;
-} & PlotProps;
+interface PlotProps {
+  title: string;
+  type: PlotType;
+  XAxisSettings: AxisSettings;
+  YAxesSettings: AxisSettings;
+}
 
-export const Plot = (props: FullPlotProps) => {
+export const Plot = (props: { data: ChartData<PlotType> } & PlotProps) => {
   const { data, title, type, XAxisSettings, YAxesSettings } = props;
 
   const options = React.useMemo(() => {
@@ -68,67 +71,54 @@ export const Plot = (props: FullPlotProps) => {
   );
 };
 
-interface PlotProps {
+export const getFormattedAxisData = (
+  record: Record,
+  axisName: string
+): number => {
+  let formattedData = NaN;
+
+  switch (axisName) {
+    case 'timestamp':
+      formattedData = Math.floor(new Date(record.metadata.timestamp).getTime());
+      break;
+    case 'shotNum':
+      formattedData = record.metadata.shotNum ?? NaN;
+      break;
+    case 'activeArea':
+      formattedData = parseInt(record.metadata.activeArea);
+      break;
+    case 'activeExperiment':
+      formattedData = record.metadata.activeExperiment
+        ? parseInt(record.metadata.activeExperiment)
+        : NaN;
+      break;
+    default:
+      if (Object.keys(record.channels).includes(axisName)) {
+        const channel = record.channels[axisName];
+        formattedData = parseFloat(channel.data);
+      }
+  }
+
+  return formattedData;
+};
+
+export type ConnectedPlotProps = {
   records: Record[];
-  title: string;
-  type: PlotType;
   XAxis: string;
   YAxis: string;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
-}
+} & PlotProps;
 
-const ConnectedPlot = (props: PlotProps) => {
+const ConnectedPlot = (props: ConnectedPlotProps) => {
   const { XAxis, YAxis, records } = props;
 
-  const chartData: ChartData<'scatter'> = React.useMemo(() => {
+  const chartData: ChartData<PlotType> = React.useMemo(() => {
     const data =
       records?.map((record) => {
-        let formattedXAxis = NaN;
-        let formattedYAxis = NaN;
+        const formattedXAxis = getFormattedAxisData(record, XAxis);
+        const formattedYAxis = getFormattedAxisData(record, YAxis);
 
-        switch (XAxis) {
-          case 'timestamp':
-            formattedXAxis = parseInt(record.metadata.timestamp);
-            break;
-          case 'shotNum':
-            formattedXAxis = record.metadata.shotNum ?? NaN;
-            break;
-          case 'activeArea':
-            formattedXAxis = parseInt(record.metadata.activeArea);
-            break;
-          case 'activeExperiment':
-            formattedXAxis = parseInt(record.metadata.activeExperiment ?? '');
-            break;
-          default:
-            if (Object.keys(record.channels).includes(XAxis)) {
-              const channel = record.channels[XAxis];
-              formattedXAxis = parseInt(channel.data);
-            }
-        }
-
-        // If no valid x value, we have no point to plot
-        if (!formattedXAxis) return { x: NaN, y: NaN };
-
-        switch (YAxis) {
-          case 'timestamp':
-            formattedYAxis = parseInt(record.metadata.timestamp);
-            break;
-          case 'shotNum':
-            formattedYAxis = record.metadata.shotNum ?? NaN;
-            break;
-          case 'activeArea':
-            formattedYAxis = parseInt(record.metadata.activeArea);
-            break;
-          case 'activeExperiment':
-            formattedYAxis = parseInt(record.metadata.activeExperiment ?? '');
-            break;
-          default:
-            if (Object.keys(record.channels).includes(YAxis)) {
-              const channel = record.channels[YAxis];
-              formattedYAxis = parseInt(channel.data);
-            }
-        }
+        // If no valid x or y value, we have no point to plot
+        if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
 
         return {
           x: formattedXAxis,
@@ -136,11 +126,19 @@ const ConnectedPlot = (props: PlotProps) => {
         };
       }) ?? [];
     return {
-      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
+      datasets: [{ label: YAxis, backgroundColor: '#e31a1c', data }],
     };
   }, [XAxis, YAxis, records]);
 
-  return <Plot data={chartData} {...props} />;
+  return (
+    <Plot
+      data={chartData}
+      title={props.title}
+      type={props.type}
+      XAxisSettings={props.XAxisSettings}
+      YAxesSettings={props.YAxesSettings}
+    />
+  );
 };
 
 export default ConnectedPlot;

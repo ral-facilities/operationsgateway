@@ -148,12 +148,37 @@ export const generateRecord = (num: number): Record => {
     metadata: {
       dataVersion: numStr,
       shotNum: num,
-      timestamp: numStr,
+      timestamp:
+        num < 10 ? `2022-01-0${num}T00:00:00` : `2022-01-${num}T00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
     channels: {
-      [`test_${num}`]: {
+      [`test_1`]: {
+        metadata: {
+          dataType: 'scalar',
+          units: 'km',
+        },
+        data:
+          num < 10
+            ? parseFloat(`${num}${num}${num}.${num}`)
+            : parseFloat(
+                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+              ),
+      },
+      [`test_2`]: {
+        metadata: {
+          dataType: 'scalar',
+          units: 'km',
+        },
+        data:
+          num < 10
+            ? parseFloat(`${num}${num}${num}.${num}`)
+            : parseFloat(
+                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+              ),
+      },
+      [`test_3`]: {
         metadata: {
           dataType: 'scalar',
           units: 'km',
