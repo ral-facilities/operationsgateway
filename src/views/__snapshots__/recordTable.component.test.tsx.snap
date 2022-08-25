@@ -349,6 +349,16 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
     <div>
       <div>
         <div
+          aria-label="no results message"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1pnr7o4-MuiPaper-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter css-1kgxqm0-MuiTypography-root"
+          >
+            No results found with current filters applied, please modify filter settings and try again.
+          </h6>
+        </div>
+        <div
           class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
           role="table-container"
         >
@@ -464,7 +474,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
               </tr>
             </thead>
             <tbody
-              aria-busy="true"
+              aria-busy="false"
               aria-describedby="table-loading-indicator"
               class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
               role="rowgroup"
@@ -473,7 +483,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                 aria-hidden="false"
                 class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
                 role="none"
-                style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                style="opacity: 0; visibility: hidden;"
               >
                 <td
                   colspan="1"

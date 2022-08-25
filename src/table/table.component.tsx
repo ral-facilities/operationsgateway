@@ -138,7 +138,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       <div>
         <div>
           {loadedData && totalDataCount <= 0 && (
-            <Paper sx={{ padding: 2, margin: 2 }}>
+            <Paper
+              sx={{ padding: 2, margin: 2 }}
+              aria-label="no results message"
+            >
               <Typography align="center" variant="h6" component="h6">
                 No results found with current filters applied, please modify
                 filter settings and try again.
