@@ -18,6 +18,7 @@ jest.mock('../api/channels', () => {
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsProps;
+  let user;
   const changePlotTitle = jest.fn();
   const changePlotType = jest.fn();
   const changeXAxis = jest.fn();
@@ -59,6 +60,8 @@ describe('Plot Settings component', () => {
       changeYAxesSettings,
     };
 
+    user = userEvent.setup({ delay: null });
+
     (useChannels as jest.Mock).mockReturnValue({
       data: metadata,
       isLoading: false,
@@ -76,7 +79,6 @@ describe('Plot Settings component', () => {
   });
 
   it('renders plot settings form correctly (y-axis tab selected)', async () => {
-    const user = userEvent.setup();
     const view = createView();
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
@@ -84,7 +86,6 @@ describe('Plot Settings component', () => {
   });
 
   it('lets user change the plot title and calls changePlotTitle', async () => {
-    const user = userEvent.setup();
     createView();
 
     const titleInput = screen.getByRole('textbox', { name: 'Title' });
@@ -97,7 +98,6 @@ describe('Plot Settings component', () => {
   });
 
   it('renders plot type button and calls changePlotType on click', async () => {
-    const user = userEvent.setup();
     createView();
 
     expect(
@@ -112,7 +112,6 @@ describe('Plot Settings component', () => {
   });
 
   it('lets user switch between X and Y settings tabs', async () => {
-    const user = userEvent.setup();
     createView();
 
     // should load X tab initially
@@ -146,7 +145,6 @@ describe('Plot Settings component', () => {
   it('does not let the user change the Y axis scale if time is selected as the Y axis', async () => {
     props.YAxis = 'timestamp';
     props.YAxesSettings.scale = 'time';
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -159,7 +157,6 @@ describe('Plot Settings component', () => {
   });
 
   it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
-    const user = userEvent.setup();
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
@@ -178,7 +175,6 @@ describe('Plot Settings component', () => {
   });
 
   it('renders Y scale radio buttons and calls changeYAxesSettings on click', async () => {
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -199,7 +195,6 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to select an x-axis (keyboard only)', async () => {
-    const user = userEvent.setup();
     createView();
 
     let autocomplete = screen.getByRole('autocomplete');
@@ -218,7 +213,6 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
-    const user = userEvent.setup();
     createView();
 
     let autocomplete = screen.getByRole('autocomplete');
@@ -235,7 +229,6 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to select a y-axis (keyboard only)', async () => {
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -256,7 +249,6 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to select a y-axis (mouse and keyboard)', async () => {
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -275,7 +267,6 @@ describe('Plot Settings component', () => {
   });
 
   it('changes scale to time automatically if time is selected as x-axis', async () => {
-    const user = userEvent.setup();
     createView();
 
     let autocomplete = screen.getByRole('autocomplete');
@@ -294,7 +285,6 @@ describe('Plot Settings component', () => {
   });
 
   it('changes scale to time automatically if time is selected as y-axis', async () => {
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -315,7 +305,6 @@ describe('Plot Settings component', () => {
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {
-    const user = userEvent.setup();
     props.XAxis = 'test';
     createView();
 
@@ -328,7 +317,6 @@ describe('Plot Settings component', () => {
   });
 
   it('removes y-axis from display when we click Close on its label', async () => {
-    const user = userEvent.setup();
     props.YAxis = 'test';
     createView();
 

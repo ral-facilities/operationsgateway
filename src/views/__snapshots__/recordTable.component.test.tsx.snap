@@ -143,7 +143,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        1
+                        2022-01-01T00:00:00
                       </p>
                     </div>
                     <hr
@@ -169,7 +169,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        2
+                        2022-01-02T00:00:00
                       </p>
                     </div>
                     <hr
@@ -195,7 +195,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        3
+                        2022-01-03T00:00:00
                       </p>
                     </div>
                     <hr
@@ -486,7 +486,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        1
+                        2022-01-01T00:00:00
                       </p>
                     </div>
                     <hr
@@ -512,7 +512,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        2
+                        2022-01-02T00:00:00
                       </p>
                     </div>
                     <hr
@@ -538,7 +538,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        3
+                        2022-01-03T00:00:00
                       </p>
                     </div>
                     <hr
