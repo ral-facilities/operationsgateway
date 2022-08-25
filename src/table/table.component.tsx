@@ -25,6 +25,7 @@ import {
   SxProps,
   Theme,
   CircularProgress,
+  Typography,
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
@@ -136,6 +137,14 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     <div>
       <div>
         <div>
+          {loadedData && totalDataCount <= 0 && (
+            <Paper sx={{ padding: 2, margin: 2 }}>
+              <Typography align="center" variant="h6" component="h6">
+                No results found with current filters applied, please modify
+                filter settings and try again.
+              </Typography>
+            </Paper>
+          )}
           <MuiTableContainer
             role="table-container"
             component={Paper}
@@ -227,7 +236,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 {...getTableBodyProps()}
                 sx={{ position: 'relative', height: 270 }}
                 aria-describedby="table-loading-indicator"
-                aria-busy={!(loadedData && totalDataCount > 0)}
+                aria-busy={!loadedData}
               >
                 {rows.map((row) => {
                   prepareRow(row);
@@ -279,7 +288,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 <Backdrop
                   component="tr"
                   sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
-                  open={!(loadedData && totalDataCount > 0)}
+                  open={!loadedData}
                   role="none"
                   aria-hidden={false}
                 >
