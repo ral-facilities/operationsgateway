@@ -305,10 +305,10 @@ describe('Plot Settings component', () => {
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {
-    props.XAxis = 'test';
+    props.XAxis = 'timestamp';
     createView();
 
-    await user.click(screen.getByLabelText('Remove test axis'));
+    await user.click(screen.getByLabelText('Remove timestamp axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith('');
     expect(changeXAxisSettings).toHaveBeenCalledWith({
       ...props.XAxisSettings,
@@ -317,20 +317,16 @@ describe('Plot Settings component', () => {
   });
 
   it('removes y-axis from display when we click Close on its label', async () => {
-    props.YAxis = 'test';
+    props.YAxis = 'shotNum';
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove test axis'));
+    await user.click(screen.getByLabelText('Remove shotNum axis'));
     expect(changeYAxis).toHaveBeenLastCalledWith('');
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
       scale: 'linear',
     });
   });
-
-  it.todo('check we can select channels on y axis with both input boxes');
-
-  it.todo('preserves axes selections when moving between tabs');
 });

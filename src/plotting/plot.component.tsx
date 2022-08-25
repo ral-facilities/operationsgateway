@@ -79,7 +79,7 @@ export const getFormattedAxisData = (
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = Math.floor(new Date(record.metadata.timestamp).getTime());
+      formattedData = new Date(record.metadata.timestamp).getTime();
       break;
     case 'shotNum':
       formattedData = record.metadata.shotNum ?? NaN;
