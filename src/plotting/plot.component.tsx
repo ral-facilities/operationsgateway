@@ -82,7 +82,7 @@ const ConnectedPlot = (props: PlotProps) => {
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
     const data =
       records?.map((record) => ({
-        x: Math.floor(new Date(record.metadata.timestamp).getTime()),
+        x: new Date(record.metadata.timestamp).getTime(),
         y: record.metadata.shotnum ?? NaN,
       })) ?? [];
 
