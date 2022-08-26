@@ -1,7 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { ChartData } from 'chart.js';
-import { PlotType, Record } from '../app.types';
+import {
+  FullScalarChannelMetadata,
+  PlotType,
+  Record,
+  ScalarChannel,
+} from '../app.types';
 import ConnectedPlot, {
   ConnectedPlotProps,
   Plot,
@@ -9,8 +14,9 @@ import ConnectedPlot, {
 } from './plot.component';
 import {
   testRecords,
-  renderWithProviders,
+  renderComponentWithProviders,
   generateRecord,
+  testChannels,
 } from '../setupTests';
 
 // can't actually render charts in JSDom, so mock to test we're passing the right props
@@ -24,6 +30,8 @@ jest.mock('react-chartjs-2', () => ({
     </canvas>
   ),
 }));
+
+const testScalarChannels = testChannels as FullScalarChannelMetadata[];
 
 describe('Plot component', () => {
   const testData: ChartData<PlotType> = {
@@ -58,7 +66,9 @@ describe('getFormattedAxisData function', () => {
   let testRecord: Record;
 
   beforeEach(() => {
-    testRecord = generateRecord(4);
+    // record with num = 3 creates a record with a scalar channel called test_3
+    // this corresponds with scalar metadata channel test_3 in testChannels variable
+    testRecord = generateRecord(3);
   });
 
   it('formats timestamp correctly', () => {
@@ -66,39 +76,65 @@ describe('getFormattedAxisData function', () => {
       new Date(testRecord.metadata.timestamp).getTime()
     );
 
-    const result = getFormattedAxisData(testRecord, 'timestamp');
+    const result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'timestamp'
+    );
     expect(result).toEqual(unixTimestamp);
   });
 
   it('formats shot number correctly', () => {
-    let result = getFormattedAxisData(testRecord, 'activeExperiment');
-    expect(result).toEqual(testRecord.metadata.shotNum);
+    let result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'activeExperiment'
+    );
+    expect(result).toEqual(testRecord.metadata.shotnum);
 
-    testRecord.metadata.shotNum = undefined;
-    result = getFormattedAxisData(testRecord, 'shotNum');
+    testRecord.metadata.shotnum = undefined;
+    result = getFormattedAxisData(testRecord, testScalarChannels, 'shotnum');
     expect(result).toEqual(NaN);
   });
 
   it('formats activeArea correctly', () => {
-    const result = getFormattedAxisData(testRecord, 'activeArea');
+    const result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'activeArea'
+    );
     expect(result).toEqual(parseInt(testRecord.metadata.activeArea));
   });
 
   it('formats activeExperiment correctly', () => {
     testRecord.metadata.activeExperiment = '4';
-    let result = getFormattedAxisData(testRecord, 'activeExperiment');
+    let result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'activeExperiment'
+    );
     expect(result).toEqual(parseInt(testRecord.metadata.activeExperiment));
 
     testRecord.metadata.activeExperiment = undefined;
-    result = getFormattedAxisData(testRecord, 'activeExperiment');
+    result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'activeExperiment'
+    );
     expect(result).toEqual(NaN);
   });
 
   it('formats channel data correctly', () => {
-    let result = getFormattedAxisData(testRecord, 'test_1');
-    expect(result).toEqual(testRecord.channels['test_1'].data);
+    let result = getFormattedAxisData(testRecord, testScalarChannels, 'test_3');
+    expect(result).toEqual(
+      (testRecord.channels['test_3'] as ScalarChannel).data
+    );
 
-    result = getFormattedAxisData(testRecord, 'invalid_channel');
+    result = getFormattedAxisData(
+      testRecord,
+      testScalarChannels,
+      'invalid_channel'
+    );
     expect(result).toEqual(NaN);
   });
 });
@@ -107,14 +143,15 @@ describe('ConnectedPlot component', () => {
   let props: ConnectedPlotProps;
 
   const createView = () => {
-    return renderWithProviders(<ConnectedPlot {...props} />);
+    return renderComponentWithProviders(<ConnectedPlot {...props} />);
   };
 
   it('constructs data to insert into a Plot component', () => {
     props = {
       records: testRecords,
+      channels: testScalarChannels,
       XAxis: 'timestamp',
-      YAxis: 'shotNum',
+      YAxis: 'shotnum',
       title: 'test title',
       type: 'scatter',
       XAxisSettings: {
@@ -134,6 +171,7 @@ describe('ConnectedPlot component', () => {
     amendedTestRecords[1].metadata.activeExperiment = undefined;
     props = {
       records: amendedTestRecords,
+      channels: testScalarChannels,
       XAxis: 'activeArea',
       YAxis: 'activeExperiment',
       title: 'test title',
@@ -153,8 +191,9 @@ describe('ConnectedPlot component', () => {
   it('constructs an empty dataset if we have no records available', () => {
     props = {
       records: [],
+      channels: testScalarChannels,
       XAxis: 'timestamp',
-      YAxis: 'shotNum',
+      YAxis: 'shotnum',
       title: 'test title',
       type: 'line',
       XAxisSettings: {

@@ -21,8 +21,11 @@ import {
   MenuItem,
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
-import { AxisSettings, FullChannelMetadata, PlotType } from '../app.types';
-import { useChannels } from '../api/channels';
+import {
+  AxisSettings,
+  FullScalarChannelMetadata,
+  PlotType,
+} from '../app.types';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -71,6 +74,7 @@ const StyledTab = styled(Tab)(() => ({
 }));
 
 export interface PlotSettingsProps {
+  channels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
@@ -88,6 +92,7 @@ type Scale = AxisSettings['scale'];
 
 const PlotSettings = (props: PlotSettingsProps) => {
   const {
+    channels,
     changePlotTitle,
     plotType,
     changePlotType,
@@ -180,26 +185,22 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
-  const { data: channels } = useChannels();
-
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
     string[]
-  >(['timestamp', 'shotNum', 'activeArea', 'activeExperiment']);
+  >(['timestamp', 'shotnum', 'activeArea', 'activeExperiment']);
 
   const populateAxisSelectionOptions = (
-    metadata: FullChannelMetadata[]
+    metadata: FullScalarChannelMetadata[]
   ): void => {
     let ops: string[] = [
       'timestamp',
-      'shotNum',
+      'shotnum',
       'activeArea',
       'activeExperiment',
     ];
 
-    metadata.forEach((meta: FullChannelMetadata) => {
-      if (meta.dataType === 'scalar') {
-        ops.push(meta.systemName);
-      }
+    metadata.forEach((meta: FullScalarChannelMetadata) => {
+      ops.push(meta.systemName);
     });
 
     setAxisSelectionOptions(ops);

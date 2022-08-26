@@ -8,7 +8,7 @@ exports[`ConnectedPlot component constructs an empty dataset if we have no recor
     data={
   "datasets": [
     {
-      "label": "shotNum",
+      "label": "shotnum",
       "backgroundColor": "#e31a1c",
       "data": []
     }
@@ -45,7 +45,7 @@ exports[`ConnectedPlot component constructs data to insert into a Plot component
     data={
   "datasets": [
     {
-      "label": "shotNum",
+      "label": "shotnum",
       "backgroundColor": "#e31a1c",
       "data": [
         {

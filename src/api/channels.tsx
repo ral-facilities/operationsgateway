@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { Channel, FullChannelMetadata, Record } from '../app.types';
+import { Channel, FullChannelMetadata, FullScalarChannelMetadata, Record } from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
@@ -120,10 +120,27 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
   return myColumns;
 };
 
+export const getScalarChannels = (
+  channels: FullChannelMetadata[]
+): FullScalarChannelMetadata[] => {
+  return channels.filter((channel) => channel.channel_dtype === 'scalar') as FullScalarChannelMetadata[];
+};
+
 const useAvailableColumnsOptions = {
   select: (data: FullChannelMetadata[]) => constructColumns(data),
 };
 
+const useScalarChannelsOptions = {
+  select: (data: FullChannelMetadata[]) => getScalarChannels(data),
+};
+
 export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
   return useChannels(useAvailableColumnsOptions);
+};
+
+export const useScalarChannels = (): UseQueryResult<
+  FullScalarChannelMetadata[],
+  AxiosError
+> => {
+  return useChannels(useScalarChannelsOptions);
 };

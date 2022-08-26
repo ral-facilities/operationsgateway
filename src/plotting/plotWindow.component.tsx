@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AxisSettings, PlotType } from '../app.types';
 import { useRecords } from '../api/records';
+import { useScalarChannels } from '../api/channels';
 
 interface PlotWindowProps {}
 
@@ -32,6 +33,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   }, [setOpen]);
 
   const { data: records } = useRecords();
+  const { data: channels } = useScalarChannels();
 
   return (
     <Grid
@@ -75,6 +77,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               </IconButton>
             </Box>
             <PlotSettings
+              channels={channels ?? []}
               changePlotTitle={setPlotTitle}
               plotType={plotType}
               changePlotType={setPlotType}
@@ -112,6 +115,7 @@ const PlotWindow = (props: PlotWindowProps) => {
         </IconButton>
         <Plot
           records={records ?? []}
+          channels={channels ?? []}
           title={plotTitle}
           type={plotType}
           XAxis={XAxis}

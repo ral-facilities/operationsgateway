@@ -143,7 +143,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        2022-01-01T00:00:00
+                        2022-01-01 00:00:00
                       </p>
                     </div>
                     <hr
@@ -169,7 +169,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        2022-01-02T00:00:00
+                        2022-01-02 00:00:00
                       </p>
                     </div>
                     <hr
@@ -195,7 +195,7 @@ exports[`Record Table renders correctly 1`] = `
                       <p
                         class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
                       >
-                        2022-01-03T00:00:00
+                        2022-01-03 00:00:00
                       </p>
                     </div>
                     <hr
@@ -479,84 +479,6 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
               class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
               role="rowgroup"
             >
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2022-01-01T00:00:00
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2022-01-02T00:00:00
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2022-01-03T00:00:00
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
               <tr
                 aria-hidden="false"
                 class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"

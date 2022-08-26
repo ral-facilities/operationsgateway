@@ -2,19 +2,8 @@ import React from 'react';
 import { fireEvent, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../setupTests';
-import { useChannels } from '../api/channels';
-import { FullChannelMetadata } from '../app.types';
-
-jest.mock('../api/channels', () => {
-  const originalModule = jest.requireActual('../api/records');
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    useChannels: jest.fn(),
-  };
-});
+import { renderComponentWithProviders } from '../setupTests';
+import { FullScalarChannelMetadata } from '../app.types';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsProps;
@@ -27,26 +16,27 @@ describe('Plot Settings component', () => {
   const changeYAxesSettings = jest.fn();
 
   const createView = () => {
-    return renderWithProviders(<PlotSettings {...props} />);
+    return renderComponentWithProviders(<PlotSettings {...props} />);
   };
 
-  const metadata: FullChannelMetadata[] = [
+  const channels: FullScalarChannelMetadata[] = [
     {
       systemName: 'CHANNEL_1',
-      dataType: 'scalar',
+      channel_dtype: 'scalar',
     },
     {
       systemName: 'CHANNEL_2',
-      dataType: 'scalar',
+      channel_dtype: 'scalar',
     },
     {
       systemName: 'CHANNEL_3',
-      dataType: 'scalar',
+      channel_dtype: 'scalar',
     },
   ];
 
   beforeEach(() => {
     props = {
+      channels,
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,
@@ -61,11 +51,6 @@ describe('Plot Settings component', () => {
     };
 
     user = userEvent.setup({ delay: null });
-
-    (useChannels as jest.Mock).mockReturnValue({
-      data: metadata,
-      isLoading: false,
-    });
   });
 
   afterEach(() => {
@@ -317,12 +302,12 @@ describe('Plot Settings component', () => {
   });
 
   it('removes y-axis from display when we click Close on its label', async () => {
-    props.YAxis = 'shotNum';
+    props.YAxis = 'shotnum';
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove shotNum axis'));
+    await user.click(screen.getByLabelText('Remove shotnum axis'));
     expect(changeYAxis).toHaveBeenLastCalledWith('');
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,

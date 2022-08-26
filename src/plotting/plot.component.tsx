@@ -100,8 +100,8 @@ export const getFormattedAxisData = (
         : NaN;
       break;
     default:
-      const sysNames = scalarChannels.map((channel) => channel.systemName);
-      if (sysNames.includes(axisName)) {
+      const systemNames = scalarChannels.map((channel) => channel.systemName);
+      if (systemNames.includes(axisName)) {
         const channel: ScalarChannel = record.channels[
           axisName
         ] as ScalarChannel;
@@ -141,7 +141,7 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
       }) ?? [];
 
     return {
-      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
+      datasets: [{ label: YAxis, backgroundColor: '#e31a1c', data }],
     };
   }, [XAxis, YAxis, channels, records]);
 
