@@ -4,6 +4,7 @@ import {
   useChannels,
   generateChannelMetadata,
   constructColumns,
+  getScalarChannels,
 } from './channels';
 import { FullChannelMetadata, Record } from '../app.types';
 import { testRecords, hooksWrapperWithProviders } from '../setupTests';
@@ -97,6 +98,53 @@ describe('channels api functions', () => {
         expect(response[i].accessor).toEqual(expected[i].accessor);
         expect(response[i]['channelInfo']).toEqual(expected[i].channelInfo);
       }
+    });
+  });
+
+  describe('getScalarChannels', () => {
+    let channels: FullChannelMetadata[];
+
+    beforeEach(() => {
+      channels = [
+        {
+          channel_dtype: 'image',
+          systemName: 'test_1',
+        },
+        {
+          channel_dtype: 'waveform',
+          systemName: 'test_2',
+        },
+        {
+          channel_dtype: 'scalar',
+          systemName: 'test_3',
+        },
+      ];
+    });
+
+    it('returns scalar channels in channel array', () => {
+      const result = getScalarChannels(channels);
+      expect(result).toEqual([
+        {
+          channel_dtype: 'scalar',
+          systemName: 'test_3',
+        },
+      ]);
+    });
+
+    it('returns empty array if no scalar channels exist', () => {
+      channels = [
+        {
+          channel_dtype: 'image',
+          systemName: 'test_1',
+        },
+        {
+          channel_dtype: 'waveform',
+          systemName: 'test_2',
+        },
+      ];
+
+      const result = getScalarChannels(channels);
+      expect(result).toEqual([]);
     });
   });
 

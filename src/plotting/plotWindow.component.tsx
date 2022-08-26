@@ -1,7 +1,15 @@
 import React from 'react';
 import PlotSettings from './plotSettings.component';
 import Plot from './plot.component';
-import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Drawer,
+  IconButton,
+  Typography,
+  Backdrop,
+  CircularProgress,
+} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AxisSettings, PlotType } from '../app.types';
@@ -32,8 +40,8 @@ const PlotWindow = (props: PlotWindowProps) => {
     setOpen(false);
   }, [setOpen]);
 
-  const { data: records } = useRecords();
-  const { data: channels } = useScalarChannels();
+  const { data: records, isLoading: recordsLoading } = useRecords();
+  const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
   return (
     <Grid
@@ -91,6 +99,19 @@ const PlotWindow = (props: PlotWindowProps) => {
               changeYAxesSettings={setYAxesSettings}
             />
           </Box>
+          {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+          <Backdrop
+            component="div"
+            sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+            open={recordsLoading || channelsLoading}
+            role="none"
+            aria-hidden={false}
+          >
+            <CircularProgress
+              id="settings-loading-indicator"
+              aria-label="settings-loading-indicator"
+            />
+          </Backdrop>
         </Drawer>
       </Grid>
 
@@ -124,6 +145,19 @@ const PlotWindow = (props: PlotWindowProps) => {
           YAxesSettings={YAxesSettings}
         />
       </Grid>
+      {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+      <Backdrop
+        component="div"
+        sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+        open={recordsLoading || channelsLoading}
+        role="none"
+        aria-hidden={false}
+      >
+        <CircularProgress
+          id="plot-loading-indicator"
+          aria-label="plot-loading-indicator"
+        />
+      </Backdrop>
     </Grid>
   );
 };
