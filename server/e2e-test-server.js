@@ -4,9 +4,9 @@ var serveStatic = require('serve-static');
 
 var app = express();
 
-// app.get('/operationsgateway-settings.json', function (req, res) {
-//   res.sendFile(path.resolve('./server/e2e-settings.json'));
-// });
+app.get('/operationsgateway-settings.json', function (req, res) {
+  res.sendFile(path.resolve('./server/e2e-settings.json'));
+});
 
 app.use(
   express.json(),

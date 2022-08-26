@@ -5,8 +5,16 @@
 import '@testing-library/jest-dom';
 // need to mock <canvas> for plotting
 import 'jest-canvas-mock';
+import {
+  Channel,
+  FullChannelMetadata,
+  ImageChannel,
+  Record,
+  RecordRow,
+  ScalarChannel,
+  WaveformChannel,
+} from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
-import { Channel, FullChannelMetadata, Record, RecordRow } from './app.types';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
@@ -52,7 +60,20 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
-export function renderWithProviders(
+export const hooksWrapperWithProviders = (state = {}): any => {
+  const testQueryClient = createTestQueryClient();
+  const store = setupStore(state);
+  const wrapper = ({ children }) => (
+    <Provider store={store}>
+      <QueryClientProvider client={testQueryClient}>
+        {children}
+      </QueryClientProvider>
+    </Provider>
+  );
+  return wrapper;
+};
+
+export function renderComponentWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -74,7 +95,7 @@ export function renderWithProviders(
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
 
-export function renderWithStore(
+export function renderComponentWithStore(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -123,19 +144,19 @@ export const cleanupDatePickerWorkaround = (): void => {
 export const testChannels: FullChannelMetadata[] = [
   {
     systemName: 'test_1',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     userFriendlyName: 'Test 1',
     significantFigures: 4,
   },
   {
     systemName: 'test_2',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: false,
   },
   {
     systemName: 'test_3',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: true,
   },
@@ -143,28 +164,60 @@ export const testChannels: FullChannelMetadata[] = [
 
 export const generateRecord = (num: number): Record => {
   const numStr = `${num}`;
+
+  let channel: Channel;
+
+  if (num % 3 === 0) {
+    channel = {
+      metadata: {
+        channel_dtype: 'scalar',
+        units: 'km',
+      },
+      data:
+        num < 10
+          ? parseFloat(`${num}${num}${num}.${num}`)
+          : parseFloat(
+              numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+            ),
+    } as ScalarChannel;
+  } else if (num % 3 === 1) {
+    channel = {
+      metadata: {
+        channel_dtype: 'image',
+        horizontalPixels: num,
+        horizontalPixelUnits: numStr,
+        verticalPixels: num,
+        verticalPixelUnits: numStr,
+        cameraGain: num,
+        exposureTime: num,
+      },
+      imagePath: numStr,
+      thumbnail: numStr,
+    } as ImageChannel;
+  } else {
+    channel = {
+      metadata: {
+        channel_dtype: 'waveform',
+        xUnits: numStr,
+        yUnits: numStr,
+      },
+      waveformId: numStr,
+      thumbnail: numStr,
+    } as WaveformChannel;
+  }
+
   return {
     id: numStr,
     metadata: {
       dataVersion: numStr,
-      shotNum: num,
-      timestamp: numStr,
+      shotnum: num,
+      timestamp:
+        num < 10 ? `2022-01-0${num} 00:00:00` : `2022-01-${num} 00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
     channels: {
-      [`test_${num}`]: {
-        metadata: {
-          dataType: 'scalar',
-          units: 'km',
-        },
-        data:
-          num < 10
-            ? parseFloat(`${num}${num}${num}.${num}`)
-            : parseFloat(
-                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-              ),
-      },
+      [`test_${num}`]: channel,
     },
   };
 };
@@ -178,7 +231,7 @@ export const generateRecordRow = (num: number) => {
 
   let recordRow: RecordRow = {
     timestamp: record.metadata.timestamp,
-    shotNum: record.metadata.shotNum,
+    shotnum: record.metadata.shotnum,
     activeArea: record.metadata.activeArea,
     activeExperiment: record.metadata.activeExperiment,
   };
@@ -186,7 +239,26 @@ export const generateRecordRow = (num: number) => {
   const keys = Object.keys(record.channels);
   keys.forEach((key: string) => {
     const channel: Channel = record.channels[key];
-    const channelData = channel.data;
+    let channelData;
+    const channelDataType = channel.metadata.channel_dtype;
+
+    switch (channelDataType) {
+      case 'scalar':
+        channelData = (channel as ScalarChannel).data;
+        break;
+      case 'image':
+        channelData = (channel as ImageChannel).thumbnail;
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+        break;
+      case 'waveform':
+        channelData = (channel as WaveformChannel).thumbnail;
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+    }
+
     recordRow[key] = channelData;
   });
 

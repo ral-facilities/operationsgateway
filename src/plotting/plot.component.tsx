@@ -82,9 +82,10 @@ const ConnectedPlot = (props: PlotProps) => {
   const chartData: ChartData<'scatter'> = React.useMemo(() => {
     const data =
       records?.map((record) => ({
-        x: parseInt(record.metadata.timestamp),
-        y: record.metadata.shotNum ?? NaN,
+        x: new Date(record.metadata.timestamp).getTime(),
+        y: record.metadata.shotnum ?? NaN,
       })) ?? [];
+
     return {
       datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
     };

@@ -90,6 +90,9 @@ export const DateTimeFilter = (
             mask="____-__-__ __:__:__"
             value={fromDate}
             maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
+            componentsProps={{
+              actionBar: { actions: ['clear'] },
+            }}
             onChange={(date) => {
               setFromDate(date as Date);
               if (!popupOpen) {
@@ -154,6 +157,9 @@ export const DateTimeFilter = (
             mask="____-__-__ __:__:__"
             value={toDate}
             minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
+            componentsProps={{
+              actionBar: { actions: ['clear'] },
+            }}
             onChange={(date) => {
               setToDate(date as Date);
               if (!popupOpen) {

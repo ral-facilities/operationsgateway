@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '../store';
 import { settings } from '../../settings';
+import { RootState } from '../store';
 
 interface URLs {
   apiUrl: string;
@@ -43,6 +44,8 @@ export const configSlice = createSlice({
 
 export const { settingsLoaded, loadPluginHostSetting, loadUrls } =
   configSlice.actions;
+
+export const selectUrls = (state: RootState) => state.config.urls;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {

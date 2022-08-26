@@ -1,6 +1,6 @@
 import React from 'react';
 import Table, { TableProps } from './table.component';
-import { screen, cleanup, render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
 
@@ -11,7 +11,7 @@ describe('Table', () => {
       .getTime()
       .toString(),
     activeArea: `${num}`,
-    shotNum: num,
+    shotnum: num,
     activeExperiment: `${num}`,
   });
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
@@ -25,8 +25,8 @@ describe('Table', () => {
     },
     {
       Header: 'Shot Number',
-      id: 'shotNum',
-      accessor: 'shotNum',
+      id: 'shotnum',
+      accessor: 'shotnum',
     },
     {
       Header: 'Active Area',
@@ -55,7 +55,7 @@ describe('Table', () => {
       data: recordRows,
       availableColumns,
       columnStates: {},
-      hiddenColumns: ['shotNum', 'activeArea', 'activeExperiment'],
+      hiddenColumns: ['shotnum', 'activeArea', 'activeExperiment'],
       columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
       page: 0,
@@ -85,7 +85,7 @@ describe('Table', () => {
     props.hiddenColumns = [];
     props.columnOrder = [
       'timestamp',
-      'shotNum',
+      'shotnum',
       'activeArea',
       'activeExperiment',
     ];
@@ -100,15 +100,16 @@ describe('Table', () => {
     screen.getByText(`1–${recordCount} of ${recordCount}`);
   });
 
-  it('displays page loading message when loadedData is false and totalDataCount is zero', async () => {
+  it('displays page loading message when loadedData is false', async () => {
     props.loadedData = false;
     createView();
     screen.getByRole('progressbar');
+  });
 
-    cleanup();
-    props.loadedData = true;
+  it('displays no results message when total data count is zero', () => {
     props.totalDataCount = 0;
     createView();
-    screen.getByRole('progressbar');
+
+    screen.getByLabelText('no results message');
   });
 });
