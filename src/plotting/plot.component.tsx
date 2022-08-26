@@ -16,7 +16,13 @@ import {
 import 'chartjs-adapter-date-fns';
 import React from 'react';
 import { Chart } from 'react-chartjs-2';
-import { AxisSettings, PlotType, Record } from '../app.types';
+import {
+  AxisSettings,
+  FullScalarChannelMetadata,
+  PlotType,
+  Record,
+  ScalarChannel,
+} from '../app.types';
 
 ChartJS.register(
   LinearScale,
@@ -73,6 +79,7 @@ export const Plot = (props: { data: ChartData<PlotType> } & PlotProps) => {
 
 export const getFormattedAxisData = (
   record: Record,
+  scalarChannels: FullScalarChannelMetadata[],
   axisName: string
 ): number => {
   let formattedData = NaN;
@@ -81,8 +88,8 @@ export const getFormattedAxisData = (
     case 'timestamp':
       formattedData = new Date(record.metadata.timestamp).getTime();
       break;
-    case 'shotNum':
-      formattedData = record.metadata.shotNum ?? NaN;
+    case 'shotnum':
+      formattedData = record.metadata.shotnum ?? NaN;
       break;
     case 'activeArea':
       formattedData = parseInt(record.metadata.activeArea);
@@ -93,9 +100,15 @@ export const getFormattedAxisData = (
         : NaN;
       break;
     default:
-      if (Object.keys(record.channels).includes(axisName)) {
-        const channel = record.channels[axisName];
-        formattedData = parseFloat(channel.data);
+      const sysNames = scalarChannels.map((channel) => channel.systemName);
+      if (sysNames.includes(axisName)) {
+        const channel: ScalarChannel = record.channels[
+          axisName
+        ] as ScalarChannel;
+        formattedData =
+          typeof channel.data === 'number'
+            ? channel.data
+            : parseFloat(channel.data);
       }
   }
 
@@ -104,18 +117,19 @@ export const getFormattedAxisData = (
 
 export type ConnectedPlotProps = {
   records: Record[];
+  channels: FullScalarChannelMetadata[];
   XAxis: string;
   YAxis: string;
 } & PlotProps;
 
 const ConnectedPlot = (props: ConnectedPlotProps) => {
-  const { XAxis, YAxis, records } = props;
+  const { XAxis, YAxis, records, channels } = props;
 
   const chartData: ChartData<PlotType> = React.useMemo(() => {
     const data =
       records?.map((record) => {
-        const formattedXAxis = getFormattedAxisData(record, XAxis);
-        const formattedYAxis = getFormattedAxisData(record, YAxis);
+        const formattedXAxis = getFormattedAxisData(record, channels, XAxis);
+        const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
 
         // If no valid x or y value, we have no point to plot
         if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
@@ -125,10 +139,11 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
           y: formattedYAxis,
         };
       }) ?? [];
+
     return {
-      datasets: [{ label: YAxis, backgroundColor: '#e31a1c', data }],
+      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
     };
-  }, [XAxis, YAxis, records]);
+  }, [XAxis, YAxis, channels, records]);
 
   return (
     <Plot

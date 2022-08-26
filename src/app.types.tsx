@@ -24,30 +24,41 @@ export interface Record {
   channels: { [channel: string]: Channel };
 }
 
+export interface RecordRow {
+  timestamp: string;
+  activeArea: string;
+  shotnum?: number;
+  activeExperiment?: string;
+
+  [channel: string]: any;
+}
+
 export interface ScalarMetadata {
-  dataType: 'scalar';
-  units: string;
+  channel_dtype: 'scalar';
+  units?: string;
 }
 
 export interface ImageMetadata {
-  dataType: 'image';
+  channel_dtype: 'image';
   horizontalPixels: number;
+  horizontalPixelUnits: string;
   verticalPixels: number;
+  verticalPixelUnits: string;
   cameraGain: number;
   exposureTime: number;
 }
 
 export interface WaveformMetadata {
-  dataType: 'waveform';
-  xUnits: number[];
-  yUnits: number[];
+  channel_dtype: 'waveform';
+  xUnits: string;
+  yUnits: string;
 }
 
 export interface RecordMetadata {
   dataVersion: string;
   timestamp: string;
   activeArea: string;
-  shotNum?: number;
+  shotnum?: number;
   activeExperiment?: string;
 }
 
@@ -55,24 +66,24 @@ export type DataType = 'scalar' | 'image' | 'waveform';
 
 export interface FullCommonChannelMetadata {
   systemName: string;
-  dataType: DataType;
+  channel_dtype: DataType;
   userFriendlyName?: string;
   description?: string;
   units?: string;
 }
 
 export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'scalar';
+  channel_dtype: 'scalar';
   significantFigures?: number;
   scientificNotation?: boolean;
 }
 
 export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'image';
+  channel_dtype: 'image';
 }
 
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
-  dataType: 'waveform';
+  channel_dtype: 'waveform';
 }
 
 export type FullChannelMetadata =
@@ -84,7 +95,20 @@ export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
 export interface Channel {
   metadata: ChannelMetadata;
-  data: any;
+}
+
+export interface ScalarChannel extends Channel {
+  data: number | string;
+}
+
+export interface ImageChannel extends Channel {
+  imagePath: string;
+  thumbnail: string;
+}
+
+export interface WaveformChannel extends Channel {
+  waveformId: string;
+  thumbnail: string;
 }
 
 export type Order = 'asc' | 'desc';
@@ -93,22 +117,12 @@ export interface SortType {
   [column: string]: Order;
 }
 
-// TODO remove optionals and make mandatory when implemented
 export interface QueryParams {
   sort: SortType;
   filters?: FiltersType;
   page: number;
   dateRange: DateRange;
   resultsPerPage: number;
-}
-
-export interface RecordRow {
-  timestamp: string;
-  activeArea: string;
-  shotNum?: number;
-  activeExperiment?: string;
-
-  [channel: string]: any;
 }
 
 export interface DateRange {

@@ -46,7 +46,7 @@ describe('Data Header', () => {
       index: 0,
       channelInfo: {
         systemName: 'Test',
-        dataType: 'scalar',
+        channel_dtype: 'scalar',
         units: 'm',
         description: 'test description',
       },
@@ -199,7 +199,7 @@ describe('Data Header', () => {
 
   it('displays tooltip with system name when user hovers over friendly column name', async () => {
     props.label = 'Test Friendly Name';
-    props.channelInfo.userFriendlyName = props.label;
+    props.channelInfo.userFriendlyName = props.label as string;
     createView();
     const header = screen.getByText('Test Friendly Name');
 
