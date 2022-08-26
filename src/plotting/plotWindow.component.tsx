@@ -103,8 +103,9 @@ const PlotWindow = (props: PlotWindowProps) => {
                   marginLeft: `${drawerWidth}px`,
                   width: `calc(100% - ${drawerWidth}px)`,
                   position: 'relative',
+                  height: '100%',
                 }
-              : { width: '100%', position: 'relative' }
+              : { width: '100%', position: 'relative', height: '100%' }
           }
         >
           <IconButton

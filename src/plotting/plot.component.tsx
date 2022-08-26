@@ -1,39 +1,19 @@
-import {
-  Chart as ChartJS,
-  ChartData,
-  ChartOptions,
-  Legend,
-  LinearScale,
-  LogarithmicScale,
-  LineElement,
-  PointElement,
-  TimeScale,
-  Title,
-  Tooltip,
-  ScatterController,
-  LineController,
-} from 'chart.js';
-import 'chartjs-adapter-date-fns';
 import React from 'react';
-import { Chart } from 'react-chartjs-2';
+import {
+  VictoryChart,
+  VictoryScatter,
+  VictoryLine,
+  VictoryZoomContainer,
+  VictoryLabel,
+  VictoryTheme,
+  VictoryLegend,
+  VictoryTooltip,
+} from 'victory';
 import { useRecords } from '../api/records';
 import { AxisSettings, PlotType } from '../app.types';
 
-ChartJS.register(
-  LinearScale,
-  LogarithmicScale,
-  TimeScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-  Title,
-  ScatterController,
-  LineController
-);
-
 type FullPlotProps = {
-  data: ChartData<PlotType>;
+  data?: unknown[];
 } & PlotProps;
 
 export const Plot = (props: FullPlotProps) => {
@@ -42,6 +22,8 @@ export const Plot = (props: FullPlotProps) => {
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
   }, [setRedraw]);
+
+  const graphRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     window.addEventListener(
@@ -66,36 +48,59 @@ export const Plot = (props: FullPlotProps) => {
     }
   });
 
-  const options = React.useMemo(() => {
-    const options: ChartOptions<PlotType> = {
-      plugins: {
-        title: {
-          text: title,
-          display: true,
-        },
-      },
-      scales: {
-        x: {
-          type: XAxisSettings.scale,
-        },
-        y: {
-          type: YAxesSettings.scale,
-        },
-      },
-      maintainAspectRatio: false,
-      responsive: true,
-    };
-    return options;
-  }, [title, XAxisSettings, YAxesSettings]);
-
   return (
-    <Chart
-      data={data}
-      options={options}
-      type={type}
-      aria-label={`${title} plot`}
-      redraw={redraw}
-    />
+    <div style={{ width: '100%', height: '100%' }} ref={graphRef}>
+      <VictoryChart
+        containerComponent={<VictoryZoomContainer />}
+        scale={{ x: XAxisSettings.scale, y: YAxesSettings.scale }}
+        theme={VictoryTheme.material}
+        width={graphRef?.current?.offsetWidth ?? 0}
+        height={graphRef?.current?.offsetHeight ?? 0}
+      >
+        <VictoryLabel
+          text={title}
+          x={
+            graphRef?.current?.offsetWidth
+              ? graphRef.current.offsetWidth / 2
+              : 200
+          }
+          y={10}
+          textAnchor="middle"
+        />
+        <VictoryLegend
+          x={
+            graphRef?.current?.offsetWidth
+              ? graphRef.current.offsetWidth / 2 - 50
+              : 170
+          }
+          y={20}
+          orientation="horizontal"
+          data={[{ name: 'shotNum', symbol: { fill: '#e31a1c' } }]}
+        />
+        {type === 'line' && (
+          <VictoryLine
+            style={{
+              data: { stroke: '#e31a1c' },
+            }}
+            data={data}
+            x="timestamp"
+            y="shotNum"
+          />
+        )}
+        {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
+        <VictoryScatter
+          style={{
+            data: { fill: '#e31a1c' },
+          }}
+          data={data}
+          x="timestamp"
+          y="shotNum"
+          size={type === 'line' ? 2 : 3}
+          labels={({ datum }) => `(${datum._x}, ${datum._y})`}
+          labelComponent={<VictoryTooltip />}
+        />
+      </VictoryChart>
+    </div>
   );
 };
 
@@ -109,15 +114,13 @@ interface PlotProps {
 const ConnectedPlot = (props: PlotProps) => {
   const { data: records } = useRecords();
 
-  const chartData: ChartData<'scatter'> = React.useMemo(() => {
+  const chartData: unknown[] = React.useMemo(() => {
     const data =
       records?.map((record) => ({
-        x: parseInt(record.metadata.timestamp),
-        y: record.metadata.shotNum ?? NaN,
+        timestamp: parseInt(record.metadata.timestamp),
+        shotNum: record.metadata.shotNum ?? NaN,
       })) ?? [];
-    return {
-      datasets: [{ label: 'Shot Number', backgroundColor: '#e31a1c', data }],
-    };
+    return data;
   }, [records]);
 
   return (
