@@ -130,6 +130,10 @@ describe('getFormattedAxisData function', () => {
       (testRecord.channels['test_3'] as ScalarChannel).data
     );
 
+    (testRecord.channels['test_3'] as ScalarChannel).data = '1';
+    result = getFormattedAxisData(testRecord, testScalarChannels, 'test_3');
+    expect(result).toEqual(1);
+
     result = getFormattedAxisData(
       testRecord,
       testScalarChannels,

@@ -126,19 +126,18 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
   const { XAxis, YAxis, records, channels } = props;
 
   const chartData: ChartData<PlotType> = React.useMemo(() => {
-    const data =
-      records?.map((record) => {
-        const formattedXAxis = getFormattedAxisData(record, channels, XAxis);
-        const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
+    const data = records.map((record) => {
+      const formattedXAxis = getFormattedAxisData(record, channels, XAxis);
+      const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
 
-        // If no valid x or y value, we have no point to plot
-        if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
+      // If no valid x or y value, we have no point to plot
+      if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
 
-        return {
-          x: formattedXAxis,
-          y: formattedYAxis,
-        };
-      }) ?? [];
+      return {
+        x: formattedXAxis,
+        y: formattedYAxis,
+      };
+    });
 
     return {
       datasets: [{ label: YAxis, backgroundColor: '#e31a1c', data }],
