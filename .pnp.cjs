@@ -93,7 +93,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.6.1"],\
             ["start-server-and-test", "npm:1.14.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
-            ["web-vitals", "npm:2.1.4"]\
+            ["web-vitals", "npm:3.0.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -14481,7 +14481,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.6.1"],\
             ["start-server-and-test", "npm:1.14.0"],\
             ["typescript", "patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=7ad353"],\
-            ["web-vitals", "npm:2.1.4"]\
+            ["web-vitals", "npm:3.0.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -19995,10 +19995,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["web-vitals", [\
-        ["npm:2.1.4", {\
-          "packageLocation": "./.yarn/cache/web-vitals-npm-2.1.4-68bdd9ecb2-03d3f47dbf.zip/node_modules/web-vitals/",\
+        ["npm:3.0.0", {\
+          "packageLocation": "./.yarn/cache/web-vitals-npm-3.0.0-2c2fa544c0-f389768297.zip/node_modules/web-vitals/",\
           "packageDependencies": [\
-            ["web-vitals", "npm:2.1.4"]\
+            ["web-vitals", "npm:3.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
