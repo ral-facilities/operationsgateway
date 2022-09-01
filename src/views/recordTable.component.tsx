@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
-import { Order } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   changeSort,
@@ -18,6 +17,7 @@ import {
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
+import { Order } from '../app.types';
 
 const RecordTable = React.memo((): React.ReactElement => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,8 @@ const RecordTable = React.memo((): React.ReactElement => {
 
   const { data, isLoading: dataLoading } = useRecordsPaginated();
   const { data: count, isLoading: countLoading } = useRecordCount();
-  const { data: availableColumns, isLoading: columnsLoading } = useAvailableColumns();
+  const { data: availableColumns, isLoading: columnsLoading } =
+    useAvailableColumns();
 
   const columnStates = useAppSelector(selectColumnStates);
   const hiddenColumns = useAppSelector((state) =>

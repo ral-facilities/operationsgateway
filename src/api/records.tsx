@@ -1,37 +1,95 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
-import { Channel, Record, RecordRow, SortType, DateRange } from '../app.types';
-import { generateRecordCollection, randomNumber } from '../recordGeneration';
+import {
+  Channel,
+  DateRange,
+  ImageChannel,
+  Record,
+  RecordRow,
+  ScalarChannel,
+  SortType,
+  WaveformChannel,
+} from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
+import { parseISO, format } from 'date-fns';
+import { selectUrls } from '../state/slices/configSlice';
 
-const sleep = (ms: number): Promise<unknown> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
-const recordCollection = generateRecordCollection();
-
-// TODO change this when we have an API to query
 const fetchRecords = async (
-  page?: number,
-  resultsPerPage?: number,
-  sort?: SortType,
-  dateRange?: DateRange
-): Promise<Record[]> => {
-  if (typeof page !== 'undefined' && typeof resultsPerPage !== 'undefined') {
-    page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-    const endIndex = page * resultsPerPage;
-    const startIndex = endIndex - resultsPerPage;
-    await sleep(randomNumber(0, 1000));
-    return Promise.resolve(recordCollection.slice(startIndex, endIndex));
-  } else {
-    await sleep(randomNumber(0, 1000));
-    return Promise.resolve(recordCollection);
+  apiUrl: string,
+  sort: SortType,
+  dateRange: DateRange,
+  offsetParams?: {
+    startIndex: number;
+    stopIndex: number;
   }
+): Promise<Record[]> => {
+  const params = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(sort)) {
+    // API recognises sort values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const sortKey = [
+      'timestamp',
+      'shotnum',
+      'activeArea',
+      'activeExperiment',
+    ].includes(key)
+      ? `metadata.${key}`
+      : `channels.${key}`;
+    params.append('order', `${sortKey} ${value}`);
+  }
+
+  if (Object.keys(dateRange).length > 0) {
+    const timestampObj = {
+      $and: [
+        {
+          'metadata.timestamp': {
+            $gt: dateRange.fromDate,
+            $lt: dateRange.toDate,
+          },
+        },
+      ],
+    };
+    params.append('conditions', JSON.stringify(timestampObj));
+  }
+
+  if (offsetParams) {
+    params.append('skip', JSON.stringify(offsetParams.startIndex));
+    params.append(
+      'limit',
+      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex + 1)
+    );
+  }
+
+  return axios.get(`${apiUrl}/records`, { params }).then((response) => {
+    const records: Record[] = response.data;
+    return records;
+  });
 };
 
-const fetchRecordCountQuery = (): Promise<number> => {
-  return Promise.resolve(recordCollection.length);
+const fetchRecordCountQuery = (
+  apiUrl: string,
+  dateRange: DateRange
+): Promise<number> => {
+  const params = new URLSearchParams();
+  if (Object.keys(dateRange).length > 0) {
+    const timestampObj = {
+      $and: [
+        {
+          'metadata.timestamp': {
+            $gt: dateRange.fromDate,
+            $lt: dateRange.toDate,
+          },
+        },
+      ],
+    };
+    params.append('conditions', JSON.stringify(timestampObj));
+  }
+
+  return axios
+    .get(`${apiUrl}/records/count`, { params })
+    .then((response) => response.data);
 };
 
 export const useRecordsPaginated = (): UseQueryResult<
@@ -40,6 +98,8 @@ export const useRecordsPaginated = (): UseQueryResult<
 > => {
   const { page, resultsPerPage, sort, dateRange } =
     useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
   return useQuery<
     Record[],
     AxiosError,
@@ -49,15 +109,18 @@ export const useRecordsPaginated = (): UseQueryResult<
       {
         page: number;
         resultsPerPage: number;
-        sort?: SortType;
-        dateRange?: DateRange;
+        sort: SortType;
+        dateRange: DateRange;
       }
     ]
   >(
     ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      const { page, resultsPerPage, sort, dateRange } = params.queryKey[1];
-      return fetchRecords(page, resultsPerPage, sort, dateRange);
+      let { page, sort, dateRange } = params.queryKey[1];
+      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
+      const startIndex = (page - 1) * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage - 1;
+      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },
     {
       onError: (error) => {
@@ -65,9 +128,12 @@ export const useRecordsPaginated = (): UseQueryResult<
       },
       select: (data) =>
         data.map((record: Record) => {
+          const timestampString = record.metadata.timestamp;
+          const timestampDate = parseISO(timestampString);
+          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
           let recordRow: RecordRow = {
-            timestamp: record.metadata.timestamp,
-            shotNum: record.metadata.shotNum,
+            timestamp: formattedDate,
+            shotnum: record.metadata.shotnum,
             activeArea: record.metadata.activeArea,
             activeExperiment: record.metadata.activeExperiment,
           };
@@ -75,7 +141,32 @@ export const useRecordsPaginated = (): UseQueryResult<
           const keys = Object.keys(record.channels);
           keys.forEach((key: string) => {
             const channel: Channel = record.channels[key];
-            const channelData = channel.data;
+            let channelData;
+            const channelDataType = channel.metadata.channel_dtype;
+
+            switch (channelDataType) {
+              case 'scalar':
+                channelData = (channel as ScalarChannel).data;
+                break;
+              case 'image':
+                channelData = (channel as ImageChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                  />
+                );
+                break;
+              case 'waveform':
+                channelData = (channel as WaveformChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                  />
+                );
+            }
+
             recordRow[key] = channelData;
           });
 
@@ -88,7 +179,9 @@ export const useRecordsPaginated = (): UseQueryResult<
 // TODO: should we integrate this with useRecordsPaginated? and have options to
 // pass the recordRow select function and which of the query params to apply?
 export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
-  const { dateRange } = useAppSelector(selectQueryParams);
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
   return useQuery<
     Record[],
     AxiosError,
@@ -96,14 +189,20 @@ export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
     [
       string,
       {
-        dateRange?: DateRange;
+        page: number;
+        resultsPerPage: number;
+        sort: SortType;
+        dateRange: DateRange;
       }
     ]
   >(
-    ['records', { dateRange }],
+    ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      const { dateRange } = params.queryKey[1];
-      return fetchRecords(undefined, undefined, undefined, dateRange);
+      let { page, sort, dateRange } = params.queryKey[1];
+      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
+      const startIndex = (page - 1) * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage - 1;
+      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },
     {
       onError: (error) => {
@@ -114,10 +213,19 @@ export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
-  return useQuery<number, AxiosError, number, [string]>(
-    ['recordCount'],
-    () => {
-      return fetchRecordCountQuery();
+  const { apiUrl } = useAppSelector(selectUrls);
+  const { dateRange } = useAppSelector(selectQueryParams);
+
+  return useQuery<
+    number,
+    AxiosError,
+    number,
+    [string, { dateRange: DateRange }]
+  >(
+    ['recordCount', { dateRange }],
+    (params) => {
+      const { dateRange } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, dateRange);
     },
     {
       onError: (error) => {

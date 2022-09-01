@@ -75,7 +75,7 @@ export const Plot = (props: FullPlotProps) => {
           }
           y={20}
           orientation="horizontal"
-          data={[{ name: 'shotNum', symbol: { fill: '#e31a1c' } }]}
+          data={[{ name: 'shotnum', symbol: { fill: '#e31a1c' } }]}
         />
         {type === 'line' && (
           <VictoryLine
@@ -84,7 +84,7 @@ export const Plot = (props: FullPlotProps) => {
             }}
             data={data}
             x="timestamp"
-            y="shotNum"
+            y="shotnum"
           />
         )}
         {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
@@ -94,7 +94,7 @@ export const Plot = (props: FullPlotProps) => {
           }}
           data={data}
           x="timestamp"
-          y="shotNum"
+          y="shotnum"
           size={type === 'line' ? 2 : 3}
           labels={({ datum }) => `(${datum._x}, ${datum._y})`}
           labelComponent={<VictoryTooltip />}
@@ -117,8 +117,8 @@ const ConnectedPlot = (props: PlotProps) => {
   const chartData: unknown[] = React.useMemo(() => {
     const data =
       records?.map((record) => ({
-        timestamp: parseInt(record.metadata.timestamp),
-        shotNum: record.metadata.shotNum ?? NaN,
+        timestamp: new Date(record.metadata.timestamp).getTime(),
+        shotnum: record.metadata.shotnum ?? NaN,
       })) ?? [];
     return data;
   }, [records]);

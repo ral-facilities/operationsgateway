@@ -12,7 +12,7 @@ import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   getInitialState,
-  renderWithStore,
+  renderComponentWithStore,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -199,29 +199,7 @@ describe('DateTimeFilter tests', () => {
     expect(onChange).toHaveBeenLastCalledWith('fromDate');
   });
 
-  it.skip('calls onChange when opening calendar and selecting elements', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    const dateFilterToDate = screen.getByLabelText('to, date-time picker');
-    await userEvent.click(dateFilterToDate);
-
-    const secondDay = screen.getByLabelText('Jan 2, 2022');
-    await userEvent.click(secondDay);
-
-    const firstHour = screen.getByLabelText('1 hours');
-    await userEvent.click(firstHour);
-
-    const fiveMins = screen.getByLabelText('05 minutes');
-    await userEvent.click(fiveMins);
-
-    const fiveSeconds = screen.getByLabelText('05 seconds');
-    await userEvent.click(fiveSeconds);
-
-    expect(onChange).toHaveBeenCalledWith('toDate', '2022-01-02 01:05:05');
-  });
+  it.todo('calls onChange when opening calendar and selecting elements');
 
   it('displays helper text while typing date-time', async () => {
     createView();
@@ -264,7 +242,7 @@ describe('DateTimeInputBox tests', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<DateTimeInputBox />, {
+    return renderComponentWithStore(<DateTimeInputBox />, {
       preloadedState: initialState,
     });
   };

@@ -1,12 +1,12 @@
 import React from 'react';
 import ViewTabs from './viewTabs.component';
+import { renderComponentWithProviders } from '../setupTests';
 import { screen, within } from '@testing-library/react';
-import { renderWithProviders } from '../setupTests';
 import userEvent from '@testing-library/user-event';
 
 describe('View Tabs', () => {
   const createView = () => {
-    return renderWithProviders(<ViewTabs />);
+    return renderComponentWithProviders(<ViewTabs />);
   };
 
   it('lets users switch between tabs', async () => {

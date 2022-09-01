@@ -2,13 +2,13 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
-import { renderWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../setupTests';
 
 // need to mock to avoid errors
-jest.mock('react-chartjs-2', () => ({
-  // @ts-ignore
-  Chart: (props) => <mock-Chart role="img" {...props} />,
-}));
+// jest.mock('react-chartjs-2', () => ({
+//   // @ts-ignore
+//   Chart: (props) => <mock-Chart role="img" {...props} />,
+// }));
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // @ts-ignore
@@ -16,8 +16,12 @@ jest.mock('./plotWindowPortal.component', () => ({ children }) => (
 ));
 
 describe('Plot Window component', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const createView = () => {
-    return renderWithProviders(
+    return renderComponentWithProviders(
       <PlotWindow onClose={jest.fn()} untitledTitle="untitled" />
     );
   };
