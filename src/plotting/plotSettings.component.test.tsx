@@ -26,6 +26,10 @@ describe('Plot Settings component', () => {
     };
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders plot settings form correctly', () => {
     const view = createView();
 
