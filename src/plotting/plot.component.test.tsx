@@ -21,7 +21,8 @@ describe('Plot component', () => {
     jest.resetModules();
   });
 
-  it('renders a plot which passes the correct props to chart.js', () => {
+  // Refactor with Victory
+  it.skip('renders a plot which passes the correct props to chart.js', () => {
     // can't actually render charts in JSDom, so mock to test we're passing the right props
     jest.doMock('react-chartjs-2', () => ({
       Chart: jest.fn((props) => {
@@ -51,7 +52,8 @@ describe('Plot component', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('redraws the plot in response to resize events', () => {
+  // Refactor with Victory
+  it.skip('redraws the plot in response to resize events', () => {
     // mock to just a mock jest function which we can then inspect the calls of
     jest.doMock('react-chartjs-2', () => ({
       Chart: jest.fn(() => null),

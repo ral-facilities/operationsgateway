@@ -1,6 +1,6 @@
 import React from 'react';
 import OpenPlots from './openPlots.component';
-import { getInitialState, renderWithStore } from '../setupTests';
+import { getInitialState, renderComponentWithStore } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
@@ -14,7 +14,7 @@ describe('Open Plots component', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<OpenPlots />, {
+    return renderComponentWithStore(<OpenPlots />, {
       preloadedState: initialState,
     });
   };

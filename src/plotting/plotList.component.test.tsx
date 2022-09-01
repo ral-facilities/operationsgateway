@@ -1,7 +1,7 @@
 import React from 'react';
 import PlotList from './plotList.component';
 import { PreloadedState } from '@reduxjs/toolkit';
-import { renderWithStore, getInitialState } from '../setupTests';
+import { renderComponentWithStore, getInitialState } from '../setupTests';
 import { RootState } from '../state/store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -10,7 +10,7 @@ describe('Plot Settings component', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<PlotList />, {
+    return renderComponentWithStore(<PlotList />, {
       preloadedState: initialState,
     });
   };

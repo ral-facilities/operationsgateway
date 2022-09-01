@@ -419,7 +419,7 @@ exports[`Plot Settings component renders plot settings form correctly 1`] = `
                         disabled=""
                         name="x scale radio buttons group"
                         type="radio"
-                        value="logarithmic"
+                        value="log"
                       />
                       <span
                         class="css-hyxlzm"
