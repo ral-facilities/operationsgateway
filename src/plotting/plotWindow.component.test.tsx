@@ -4,18 +4,21 @@ import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../setupTests';
 
-// need to mock to avoid errors
-// jest.mock('react-chartjs-2', () => ({
-//   // @ts-ignore
-//   Chart: (props) => <mock-Chart role="img" {...props} />,
-// }));
-
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // @ts-ignore
   <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
 ));
 
+jest.mock('./plot.component', () => () => (
+  // @ts-ignore
+  <mock-Plot data-testid="mock-plot" />
+));
+
 describe('Plot Window component', () => {
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -26,8 +29,7 @@ describe('Plot Window component', () => {
     );
   };
 
-  // Refactor with Victory
-  it.skip('renders plot window correctly with settings pane both open and closed', async () => {
+  it('renders plot window correctly with settings pane both open and closed', async () => {
     const user = userEvent.setup();
     const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
     createView();
@@ -46,7 +48,7 @@ describe('Plot Window component', () => {
         screen.queryByRole('button', { name: 'close settings' })
       ).not.toBeInTheDocument();
     });
-    expect(screen.getByRole('img', { name: 'untitled plot' })).toBeVisible();
+    expect(screen.getByTestId('mock-plot')).toBeVisible();
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
@@ -63,7 +65,7 @@ describe('Plot Window component', () => {
         screen.queryByRole('button', { name: 'open settings' })
       ).not.toBeInTheDocument();
     });
-    expect(screen.getByRole('img', { name: 'untitled plot' })).toBeVisible();
+    expect(screen.getByTestId('mock-plot')).toBeVisible();
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();
