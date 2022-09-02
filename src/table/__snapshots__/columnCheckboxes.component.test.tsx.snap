@@ -17,7 +17,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
           name
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="name checkbox"
@@ -53,7 +53,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
           activeArea
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="activeArea checkbox"
@@ -89,7 +89,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
           Active Experiment
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="activeExperiment checkbox"
@@ -138,7 +138,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
           name
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="name checkbox"
@@ -173,7 +173,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
           activeArea
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="activeArea checkbox"
@@ -208,7 +208,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
           Active Experiment
         </label>
         <span
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             aria-label="activeExperiment checkbox"
