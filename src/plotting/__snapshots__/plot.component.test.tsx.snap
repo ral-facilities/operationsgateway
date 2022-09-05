@@ -2,186 +2,166 @@
 
 exports[`ConnectedPlot component constructs an empty dataset if we have no records available 1`] = `
 <DocumentFragment>
-  <canvas
-    role="img"
+  <div
+    style="width: 100%; height: 100%;"
   >
-    data={
-  "datasets": [
-    {
-      "label": "shotnum",
-      "backgroundColor": "#e31a1c",
-      "data": []
-    }
-  ]
-}
-options={
-  "plugins": {
-    "title": {
-      "text": "test title",
-      "display": true
-    }
-  },
-  "scales": {
-    "x": {
-      "type": "time"
-    },
-    "y": {
-      "type": "logarithmic"
+    <mock-victorychart
+      containercomponent="[object Object]"
+      height="0"
+      scale="{
+  \\"x\\": \\"time\\",
+  \\"y\\": \\"log\\"
+}"
+      width="0"
+    >
+      <mock-victorylabel
+        text="test title"
+        textanchor="middle"
+        x="200"
+        y="10"
+      />
+      <mock-victorylegend
+        data="[
+  {
+    \\"name\\": \\"shotnum\\",
+    \\"symbol\\": {
+      \\"fill\\": \\"#e31a1c\\"
     }
   }
-}
-type="line"
-aria-label="test title plot"
-
-  </canvas>
+]"
+        orientation="horizontal"
+        x="170"
+        y="20"
+      />
+      <mock-victoryline
+        data="[]"
+        x="timestamp"
+        y="shotnum"
+      />
+      <mock-victoryscatter
+        data="[]"
+        labelcomponent="[object Object]"
+        size="2"
+        x="timestamp"
+        y="shotnum"
+      />
+    </mock-victorychart>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`ConnectedPlot component constructs data to insert into a Plot component 1`] = `
 <DocumentFragment>
-  <canvas
-    role="img"
+  <div
+    style="width: 100%; height: 100%;"
   >
-    data={
-  "datasets": [
-    {
-      "label": "shotnum",
-      "backgroundColor": "#e31a1c",
-      "data": [
-        {
-          "x": 1640995200000,
-          "y": 1
-        },
-        {
-          "x": 1641081600000,
-          "y": 2
-        },
-        {
-          "x": 1641168000000,
-          "y": 3
-        }
-      ]
-    }
-  ]
-}
-options={
-  "plugins": {
-    "title": {
-      "text": "test title",
-      "display": true
-    }
-  },
-  "scales": {
-    "x": {
-      "type": "time"
-    },
-    "y": {
-      "type": "linear"
+    <mock-victorychart
+      containercomponent="[object Object]"
+      height="0"
+      scale="{
+  \\"x\\": \\"time\\",
+  \\"y\\": \\"linear\\"
+}"
+      width="0"
+    >
+      <mock-victorylabel
+        text="test title"
+        textanchor="middle"
+        x="200"
+        y="10"
+      />
+      <mock-victorylegend
+        data="[
+  {
+    \\"name\\": \\"shotnum\\",
+    \\"symbol\\": {
+      \\"fill\\": \\"#e31a1c\\"
     }
   }
-}
-type="scatter"
-aria-label="test title plot"
-
-  </canvas>
+]"
+        orientation="horizontal"
+        x="170"
+        y="20"
+      />
+      <mock-victoryscatter
+        data="[
+  {
+    \\"x\\": 1640995200000,
+    \\"y\\": 1
+  },
+  {
+    \\"x\\": 1641081600000,
+    \\"y\\": 2
+  },
+  {
+    \\"x\\": 1641168000000,
+    \\"y\\": 3
+  }
+]"
+        labelcomponent="[object Object]"
+        size="3"
+        x="timestamp"
+        y="shotnum"
+      />
+    </mock-victorychart>
+  </div>
 </DocumentFragment>
 `;
 
 exports[`ConnectedPlot component inserts null points if an x or y value does not exist 1`] = `
 <DocumentFragment>
-  <canvas
-    role="img"
+  <div
+    style="width: 100%; height: 100%;"
   >
-    data={
-  "datasets": [
-    {
-      "label": "activeExperiment",
-      "backgroundColor": "#e31a1c",
-      "data": [
-        {
-          "x": 1,
-          "y": 1
-        },
-        {
-          "x": null,
-          "y": null
-        },
-        {
-          "x": 3,
-          "y": 3
-        }
-      ]
-    }
-  ]
-}
-options={
-  "plugins": {
-    "title": {
-      "text": "test title",
-      "display": true
-    }
-  },
-  "scales": {
-    "x": {
-      "type": "linear"
-    },
-    "y": {
-      "type": "logarithmic"
+    <mock-victorychart
+      containercomponent="[object Object]"
+      height="0"
+      scale="{
+  \\"x\\": \\"linear\\",
+  \\"y\\": \\"log\\"
+}"
+      width="0"
+    >
+      <mock-victorylabel
+        text="test title"
+        textanchor="middle"
+        x="200"
+        y="10"
+      />
+      <mock-victorylegend
+        data="[
+  {
+    \\"name\\": \\"shotnum\\",
+    \\"symbol\\": {
+      \\"fill\\": \\"#e31a1c\\"
     }
   }
-}
-type="scatter"
-aria-label="test title plot"
-
-  </canvas>
-</DocumentFragment>
-`;
-
-exports[`Plot component renders a plot which passes the correct props to chart.js 1`] = `
-<DocumentFragment>
-  <canvas
-    role="img"
-  >
-    data={
-  "datasets": [
-    {
-      "label": "Test",
-      "data": [
-        {
-          "x": 1,
-          "y": 1
-        },
-        {
-          "x": 2,
-          "y": 2
-        },
-        {
-          "x": 3,
-          "y": 3
-        }
-      ]
-    }
-  ]
-}
-options={
-  "plugins": {
-    "title": {
-      "text": "Test",
-      "display": true
-    }
+]"
+        orientation="horizontal"
+        x="170"
+        y="20"
+      />
+      <mock-victoryscatter
+        data="[
+  {
+    \\"x\\": 1,
+    \\"y\\": 1
   },
-  "scales": {
-    "x": {
-      "type": "time"
-    },
-    "y": {
-      "type": "linear"
-    }
+  {
+    \\"x\\": null,
+    \\"y\\": null
+  },
+  {
+    \\"x\\": 3,
+    \\"y\\": 3
   }
-}
-type="scatter"
-aria-label="Test plot"
-
-  </canvas>
+]"
+        labelcomponent="[object Object]"
+        size="3"
+        x="timestamp"
+        y="shotnum"
+      />
+    </mock-victorychart>
+  </div>
 </DocumentFragment>
 `;

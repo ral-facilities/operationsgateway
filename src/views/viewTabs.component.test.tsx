@@ -4,17 +4,6 @@ import { renderComponentWithProviders } from '../setupTests';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('react-chartjs-2', () => ({
-  Chart: (props) => (
-    <canvas role="img">
-      {Object.entries(props).map(
-        ([propName, propValue]) =>
-          `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-      )}
-    </canvas>
-  ),
-}));
-
 describe('View Tabs', () => {
   const createView = () => {
     return renderComponentWithProviders(<ViewTabs />);
