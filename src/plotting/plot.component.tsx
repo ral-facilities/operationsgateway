@@ -56,6 +56,9 @@ export const Plot = (props: FullPlotProps) => {
         theme={VictoryTheme.material}
         width={graphRef?.current?.offsetWidth ?? 0}
         height={graphRef?.current?.offsetHeight ?? 0}
+        // might need something fancier than this to prevent label overflow...
+        // this can render 6 characters without overflow
+        padding={{ top: 50, left: 60, right: 50, bottom: 50 }}
       >
         <VictoryLabel
           text={title}
