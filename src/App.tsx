@@ -7,6 +7,7 @@ import { requestPluginRerender } from './state/scigateway.actions';
 import { MicroFrontendId } from './app.types';
 import { useAppDispatch } from './state/hooks';
 import OGThemeProvider from './ogThemeProvider.component';
+import OpenPlots from './plotting/openPlots.component';
 import { RootState } from './state/store';
 import { connect } from 'react-redux';
 import Preloader from './preloader/preloader.component';
@@ -64,6 +65,9 @@ const App: React.FunctionComponent = () => {
               fallback={<Preloader loading={true}>Finished loading</Preloader>}
             >
               <ViewTabs />
+              {/* Open plots is it's own component so that the open plots are always mounted
+                  no matter which other components the user has mounted in ViewTabs etc. */}
+              <OpenPlots />
             </React.Suspense>
           </ConnectedPreloader>
           <ReactQueryDevtools initialIsOpen={false} />

@@ -136,7 +136,7 @@ export interface ColumnState {
 
 export type PlotType = 'scatter' | 'line';
 export interface AxisSettings {
-  scale: 'linear' | 'logarithmic' | 'time';
+  scale: 'linear' | 'log' | 'time';
   min?: number;
   max?: number;
 }

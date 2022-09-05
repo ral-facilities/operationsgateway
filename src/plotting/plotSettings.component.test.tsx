@@ -26,6 +26,10 @@ describe('Plot Settings component', () => {
     };
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders plot settings form correctly', () => {
     const view = createView();
 
@@ -107,7 +111,7 @@ describe('Plot Settings component', () => {
 
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
-      scale: 'logarithmic',
+      scale: 'log',
     });
   });
 });

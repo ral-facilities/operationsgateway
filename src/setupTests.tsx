@@ -24,6 +24,16 @@ import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
+// this is needed because of https://github.com/facebook/jest/issues/8987
+// @ts-ignore
+let mockActualReact;
+jest.doMock('react', () => {
+  if (!mockActualReact) {
+    mockActualReact = jest.requireActual('react');
+  }
+  return mockActualReact;
+});
+
 export let actions: Action[] = [];
 export let resetActions = (): void => {
   actions = [];
