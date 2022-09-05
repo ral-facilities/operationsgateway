@@ -154,6 +154,7 @@ export const useRecordsPaginated = (): UseQueryResult<
                   <img
                     src={`data:image/jpeg;base64,${channelData}`}
                     alt={key}
+                    style={{ border: '1px solid #000000' }}
                   />
                 );
                 break;
@@ -163,6 +164,7 @@ export const useRecordsPaginated = (): UseQueryResult<
                   <img
                     src={`data:image/jpeg;base64,${channelData}`}
                     alt={key}
+                    style={{ border: '1px solid #000000' }}
                   />
                 );
             }
