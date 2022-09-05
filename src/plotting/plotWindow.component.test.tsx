@@ -11,10 +11,15 @@ import { useScalarChannels } from '../api/channels';
 import { useRecords } from '../api/records';
 import { FullScalarChannelMetadata } from '../app.types';
 
-// need to mock to avoid errors
-jest.mock('react-chartjs-2', () => ({
-  Chart: (props) => <canvas role="img" {...props} />,
-}));
+jest.mock('./plotWindowPortal.component', () => ({ children }) => (
+  // @ts-ignore
+  <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
+));
+
+jest.mock('./plot.component', () => () => (
+  // @ts-ignore
+  <mock-Plot data-testid="mock-plot" />
+));
 
 jest.mock('../api/channels', () => {
   const originalModule = jest.requireActual('../api/channels');
@@ -38,6 +43,8 @@ jest.mock('../api/records', () => {
 
 describe('Plot Window component', () => {
   beforeEach(() => {
+    jest.resetModules();
+
     (useScalarChannels as jest.Mock).mockReturnValue({
       data: testChannels as FullScalarChannelMetadata[],
       isLoading: false,
@@ -53,15 +60,23 @@ describe('Plot Window component', () => {
   });
 
   const createView = () => {
-    return renderComponentWithProviders(<PlotWindow />);
+    return renderComponentWithProviders(
+      <PlotWindow onClose={jest.fn()} untitledTitle="untitled" />
+    );
   };
 
   it('renders plot window correctly with settings pane both open and closed', async () => {
     const user = userEvent.setup();
+    const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
     createView();
 
     await user.click(screen.getByRole('button', { name: 'close settings' }));
 
+    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
+    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
+      'resize OperationsGateway Plot - untitled'
+    );
+    dispatchEventSpy.mockClear();
     // expect plot & settings button to be visible but not settings panel
     // use waitFor to account for drawer animations
     await waitFor(() => {
@@ -69,10 +84,15 @@ describe('Plot Window component', () => {
         screen.queryByRole('button', { name: 'close settings' })
       ).not.toBeInTheDocument();
     });
-    expect(screen.getByRole('img', { name: 'plot' })).toBeVisible();
+    expect(screen.getByTestId('mock-plot')).toBeVisible();
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
+
+    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
+    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
+      'resize OperationsGateway Plot - untitled'
+    );
 
     // expect plot & settings panel to be visible but not settings button
     // use waitFor to account for drawer animations
@@ -81,7 +101,7 @@ describe('Plot Window component', () => {
         screen.queryByRole('button', { name: 'open settings' })
       ).not.toBeInTheDocument();
     });
-    expect(screen.getByRole('img', { name: 'plot' })).toBeVisible();
+    expect(screen.getByTestId('mock-plot')).toBeVisible();
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();

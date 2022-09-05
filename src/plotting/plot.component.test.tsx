@@ -1,15 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { ChartData } from 'chart.js';
-import {
-  FullScalarChannelMetadata,
-  PlotType,
-  Record,
-  ScalarChannel,
-} from '../app.types';
+import { render, fireEvent } from '@testing-library/react';
+import { FullScalarChannelMetadata, Record, ScalarChannel } from '../app.types';
 import ConnectedPlot, {
   ConnectedPlotProps,
-  Plot,
   getFormattedAxisData,
 } from './plot.component';
 import {
@@ -19,36 +12,195 @@ import {
   testChannels,
 } from '../setupTests';
 
-// can't actually render charts in JSDom, so mock to test we're passing the right props
-jest.mock('react-chartjs-2', () => ({
-  Chart: (props) => (
-    <canvas role="img">
-      {Object.entries(props).map(
-        ([propName, propValue]) =>
-          `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-      )}
-    </canvas>
-  ),
-}));
-
 const testScalarChannels = testChannels as FullScalarChannelMetadata[];
 
-describe('Plot component', () => {
-  const testData: ChartData<PlotType> = {
-    datasets: [
-      {
-        label: 'Test',
-        data: [
-          { x: 1, y: 1 },
-          { x: 2, y: 2 },
-          { x: 3, y: 3 },
-        ],
-      },
-    ],
-  };
+jest.mock('victory', () => {
+  const originalModule = jest.requireActual('victory');
 
-  it('renders a plot which passes the correct props to chart.js', () => {
-    const view = render(
+  return {
+    __esModule: true,
+    ...originalModule,
+    VictoryChart: (props) => (
+      // @ts-ignore
+      <mock-VictoryChart
+        {...props}
+        scale={JSON.stringify(props.scale, null, 2)}
+      />
+    ),
+    VictoryZoomContainer: (props) => (
+      // @ts-ignore
+      <mock-VictoryZoomContainer {...props} />
+    ),
+    VictoryTheme: (props) => (
+      // @ts-ignore
+      <mock-VictoryTheme {...props} />
+    ),
+    VictoryScatter: (props) => (
+      // @ts-ignore
+      <mock-VictoryScatter
+        {...props}
+        data={JSON.stringify(props.data, null, 2)}
+      />
+    ),
+    VictoryLine: (props) => (
+      // @ts-ignore
+      <mock-VictoryLine {...props} data={JSON.stringify(props.data, null, 2)} />
+    ),
+    VictoryLabel: (props) => (
+      // @ts-ignore
+      <mock-VictoryLabel {...props} />
+    ),
+    VictoryLegend: (props) => (
+      // @ts-ignore
+      <mock-VictoryLegend
+        {...props}
+        data={JSON.stringify(props.data, null, 2)}
+      />
+    ),
+  };
+});
+
+describe('Plot component', () => {
+  const mockVictoryChart = jest.fn();
+  const mockVictoryZoomContainer = jest.fn();
+  const mockVictoryTheme = jest.fn();
+  const mockVictoryScatter = jest.fn();
+  const mockVictoryLine = jest.fn();
+  const mockVictoryLabel = jest.fn();
+  const mockVictoryLegend = jest.fn();
+
+  const testData: unknown[] = [
+    {
+      label: 'Test',
+      data: [
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+      ],
+    },
+  ];
+
+  beforeEach(() => {
+    jest.resetModules();
+    jest.doMock('victory', () => ({
+      VictoryChart: jest.fn((props) => {
+        mockVictoryChart(props);
+        // @ts-ignore
+        return <mock-VictoryChart {...props} />;
+      }),
+      VictoryZoomContainer: jest.fn((props) => {
+        mockVictoryZoomContainer(props);
+        // @ts-ignore
+        return <mock-VictoryZoomContainer {...props} />;
+      }),
+      VictoryTheme: jest.fn((props) => {
+        mockVictoryTheme(props);
+        // @ts-ignore
+        return <mock-VictoryTheme {...props} />;
+      }),
+      VictoryScatter: jest.fn((props) => {
+        mockVictoryScatter(props);
+        // @ts-ignore
+        return <mock-VictoryScatter {...props} />;
+      }),
+      VictoryLine: jest.fn((props) => {
+        mockVictoryLine(props);
+        // @ts-ignore
+        return <mock-VictoryLine {...props} />;
+      }),
+      VictoryLabel: jest.fn((props) => {
+        mockVictoryLabel(props);
+        // @ts-ignore
+        return <mock-VictoryLabel {...props} />;
+      }),
+      VictoryLegend: jest.fn((props) => {
+        mockVictoryLegend(props);
+        // @ts-ignore
+        return <mock-VictoryLegend {...props} />;
+      }),
+      VictoryTooltip: jest.fn((props) => {
+        // @ts-ignore
+        return <mock-VictoryTooltip {...props} />;
+      }),
+    }));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders a scatter plot with the correct elements passed the correct props', () => {
+    const { Plot } = require('./plot.component');
+
+    render(
+      <Plot
+        data={testData}
+        title="scatter plot"
+        type="scatter"
+        XAxisSettings={{ scale: 'time' }}
+        YAxesSettings={{ scale: 'linear' }}
+      />
+    );
+
+    expect(mockVictoryChart).toHaveBeenCalledWith(
+      expect.objectContaining({
+        scale: { x: 'time', y: 'linear' },
+      })
+    );
+    expect(mockVictoryLabel).toHaveBeenCalledWith(
+      expect.objectContaining({
+        text: 'scatter plot',
+      })
+    );
+    expect(mockVictoryLegend).toHaveBeenCalled();
+    expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: testData,
+      })
+    );
+    expect(mockVictoryLine).not.toHaveBeenCalled();
+  });
+
+  it('renders a line plot with the correct elements passed the correct props', () => {
+    const { Plot } = require('./plot.component');
+
+    render(
+      <Plot
+        data={testData}
+        title="line plot"
+        type="line"
+        XAxisSettings={{ scale: 'linear' }}
+        YAxesSettings={{ scale: 'log' }}
+      />
+    );
+
+    expect(mockVictoryChart).toHaveBeenCalledWith(
+      expect.objectContaining({
+        scale: { x: 'linear', y: 'log' },
+      })
+    );
+    expect(mockVictoryLabel).toHaveBeenCalledWith(
+      expect.objectContaining({
+        text: 'line plot',
+      })
+    );
+    expect(mockVictoryLegend).toHaveBeenCalled();
+    expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: testData,
+      })
+    );
+    expect(mockVictoryLine).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: testData,
+      })
+    );
+  });
+
+  it('redraws the plot in response to resize events', () => {
+    const { Plot } = require('./plot.component');
+
+    render(
       <Plot
         data={testData}
         title="Test"
@@ -58,7 +210,12 @@ describe('Plot component', () => {
       />
     );
 
-    expect(view.asFragment()).toMatchSnapshot();
+    expect(mockVictoryChart).toHaveBeenCalledTimes(1);
+
+    fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
+
+    // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
+    expect(mockVictoryChart).toHaveBeenCalledTimes(3);
   });
 });
 
@@ -184,7 +341,7 @@ describe('ConnectedPlot component', () => {
         scale: 'linear',
       },
       YAxesSettings: {
-        scale: 'logarithmic',
+        scale: 'log',
       },
     };
 
@@ -204,7 +361,7 @@ describe('ConnectedPlot component', () => {
         scale: 'time',
       },
       YAxesSettings: {
-        scale: 'logarithmic',
+        scale: 'log',
       },
     };
 

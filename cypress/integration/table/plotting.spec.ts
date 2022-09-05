@@ -6,7 +6,9 @@ describe('Plotting Components', () => {
 
   // TODO: once data isn't randomly generated, use an image snapshot plugin to
   // assert we're making the correct graphs
-  it('shows a graph', () => {
+  // TODO: how to do this for popups? not possible with cypress apparently
+  // see: https://docs.cypress.io/guides/references/trade-offs#Permanent-trade-offs
+  it.skip('shows a graph', () => {
     cy.get('canvas').should('be.visible');
   });
 });
