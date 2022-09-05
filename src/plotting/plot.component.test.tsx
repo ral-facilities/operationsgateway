@@ -2,13 +2,13 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
 describe('Plot component', () => {
-  const victoryChart = jest.fn();
-  const victoryZoomContainer = jest.fn();
-  const victoryTheme = jest.fn();
-  const victoryScatter = jest.fn();
-  const victoryLine = jest.fn();
-  const victoryLabel = jest.fn();
-  const victoryLegend = jest.fn();
+  const mockVictoryChart = jest.fn();
+  const mockVictoryZoomContainer = jest.fn();
+  const mockVictoryTheme = jest.fn();
+  const mockVictoryScatter = jest.fn();
+  const mockVictoryLine = jest.fn();
+  const mockVictoryLabel = jest.fn();
+  const mockVictoryLegend = jest.fn();
 
   const testData: unknown[] = [
     {
@@ -25,26 +25,43 @@ describe('Plot component', () => {
     jest.resetModules();
     jest.doMock('victory', () => ({
       VictoryChart: jest.fn((props) => {
-        victoryChart(props);
-        return <svg role="img" {...props}></svg>;
+        mockVictoryChart(props);
+        // @ts-ignore
+        return <mock-VictoryChart {...props} />;
       }),
       VictoryZoomContainer: jest.fn((props) => {
-        victoryZoomContainer(props);
+        mockVictoryZoomContainer(props);
+        // @ts-ignore
+        return <mock-VictoryZoomContainer {...props} />;
       }),
       VictoryTheme: jest.fn((props) => {
-        victoryTheme(props);
+        mockVictoryTheme(props);
+        // @ts-ignore
+        return <mock-VictoryTheme {...props} />;
       }),
       VictoryScatter: jest.fn((props) => {
-        victoryScatter(props);
+        mockVictoryScatter(props);
+        // @ts-ignore
+        return <mock-VictoryScatter {...props} />;
       }),
       VictoryLine: jest.fn((props) => {
-        victoryLine(props);
+        mockVictoryLine(props);
+        // @ts-ignore
+        return <mock-VictoryLine {...props} />;
       }),
       VictoryLabel: jest.fn((props) => {
-        victoryLabel(props);
+        mockVictoryLabel(props);
+        // @ts-ignore
+        return <mock-VictoryLabel {...props} />;
       }),
       VictoryLegend: jest.fn((props) => {
-        victoryLegend(props);
+        mockVictoryLegend(props);
+        // @ts-ignore
+        return <mock-VictoryLegend {...props} />;
+      }),
+      VictoryTooltip: jest.fn((props) => {
+        // @ts-ignore
+        return <mock-VictoryTooltip {...props} />;
       }),
     }));
   });
@@ -66,23 +83,23 @@ describe('Plot component', () => {
       />
     );
 
-    expect(victoryChart).toHaveBeenCalledWith(
+    expect(mockVictoryChart).toHaveBeenCalledWith(
       expect.objectContaining({
         scale: { x: 'time', y: 'linear' },
       })
     );
-    expect(victoryLabel).toHaveBeenCalledWith(
+    expect(mockVictoryLabel).toHaveBeenCalledWith(
       expect.objectContaining({
         text: 'scatter plot',
       })
     );
-    expect(victoryLegend).toHaveBeenCalled();
-    expect(victoryScatter).toHaveBeenCalledWith(
+    expect(mockVictoryLegend).toHaveBeenCalled();
+    expect(mockVictoryScatter).toHaveBeenCalledWith(
       expect.objectContaining({
         data: testData,
       })
     );
-    expect(victoryLine).not.toHaveBeenCalled();
+    expect(mockVictoryLine).not.toHaveBeenCalled();
   });
 
   it('renders a line plot with the correct elements passed the correct props', () => {
@@ -98,36 +115,30 @@ describe('Plot component', () => {
       />
     );
 
-    expect(victoryChart).toHaveBeenCalledWith(
+    expect(mockVictoryChart).toHaveBeenCalledWith(
       expect.objectContaining({
         scale: { x: 'linear', y: 'log' },
       })
     );
-    expect(victoryLabel).toHaveBeenCalledWith(
+    expect(mockVictoryLabel).toHaveBeenCalledWith(
       expect.objectContaining({
         text: 'line plot',
       })
     );
-    expect(victoryLegend).toHaveBeenCalled();
-    expect(victoryScatter).toHaveBeenCalledWith(
+    expect(mockVictoryLegend).toHaveBeenCalled();
+    expect(mockVictoryScatter).toHaveBeenCalledWith(
       expect.objectContaining({
         data: testData,
       })
     );
-    expect(victoryLine).toHaveBeenCalledWith(
+    expect(mockVictoryLine).toHaveBeenCalledWith(
       expect.objectContaining({
         data: testData,
       })
     );
   });
 
-  // Refactor with Victory
-  it.skip('redraws the plot in response to resize events', () => {
-    // mock to just a mock jest function which we can then inspect the calls of
-    // jest.doMock('react-chartjs-2', () => ({
-    //   Chart: jest.fn(() => null),
-    // }));
-
+  it('redraws the plot in response to resize events', () => {
     const { Plot } = require('./plot.component');
 
     render(
@@ -140,22 +151,11 @@ describe('Plot component', () => {
       />
     );
 
-    // const { Chart } = require('react-chartjs-2');
-
-    expect(victoryChart).toHaveBeenCalledWith(
-      expect.objectContaining({ redraw: false }),
-      expect.anything()
-    );
-    jest.clearAllMocks();
+    expect(mockVictoryChart).toHaveBeenCalledTimes(1);
 
     fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
-    expect(victoryChart).toHaveBeenCalledWith(
-      expect.objectContaining({ redraw: true }),
-      expect.anything()
-    );
-    expect(victoryChart).toHaveBeenCalledWith(
-      expect.objectContaining({ redraw: false }),
-      expect.anything()
-    );
+
+    // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
+    expect(mockVictoryChart).toHaveBeenCalledTimes(3);
   });
 });
