@@ -35,6 +35,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   });
   const [XAxis, setXAxis] = React.useState<string>('');
   const [YAxis, setYAxis] = React.useState<string>('');
+  const [plotChannels, setPlotChannels] = React.useState<string[]>([]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -110,6 +111,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
+                plotChannels={plotChannels}
+                changePlotChannels={setPlotChannels}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

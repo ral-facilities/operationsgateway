@@ -16,9 +16,6 @@ import {
   InputAdornment,
   Autocomplete,
   Typography,
-  InputLabel,
-  Select,
-  MenuItem,
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
 import {
@@ -86,6 +83,8 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
   YAxesSettings: AxisSettings;
   changeYAxesSettings: (YAxesSettings: AxisSettings) => void;
+  plotChannels: string[];
+  changePlotChannels: (plotChannels: string[]) => void;
 }
 
 type Scale = AxisSettings['scale'];
@@ -97,13 +96,13 @@ const PlotSettings = (props: PlotSettingsProps) => {
     plotType,
     changePlotType,
     XAxis,
-    YAxis,
     changeXAxis,
-    changeYAxis,
     XAxisSettings,
     changeXAxisSettings,
     YAxesSettings,
     changeYAxesSettings,
+    plotChannels,
+    changePlotChannels,
   } = props;
   const { scale: XScale } = XAxisSettings;
   const { scale: YScale } = YAxesSettings;
@@ -112,7 +111,28 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const deferredTitle = React.useDeferredValue(title);
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
-  const [YAxisInputVal, setYAxisInputVal] = React.useState<string>('');
+  const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
+
+  const addPlotChannel = React.useCallback(
+    (channel: string) => {
+      const newPlotChannels = Array.from(plotChannels);
+      newPlotChannels.push(channel);
+      changePlotChannels(newPlotChannels);
+    },
+    [changePlotChannels, plotChannels]
+  );
+
+  const removePlotChannel = React.useCallback(
+    (channel: string) => {
+      const newPlotChannels = Array.from(plotChannels);
+      const index = newPlotChannels.indexOf(channel);
+      if (index > -1) {
+        newPlotChannels.splice(index, 1);
+        changePlotChannels(newPlotChannels);
+      }
+    },
+    [changePlotChannels, plotChannels]
+  );
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,18 +178,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
       }
     },
     [changeXAxis, handleChangeXScale]
-  );
-
-  const handleYAxisChange = React.useCallback(
-    (value: string) => {
-      changeYAxis(value);
-      if (value === 'timestamp') {
-        handleChangeYScale('time');
-      } else {
-        handleChangeYScale('linear');
-      }
-    },
-    [changeYAxis, handleChangeYScale]
   );
 
   React.useEffect(() => {
@@ -447,50 +455,25 @@ const PlotSettings = (props: PlotSettingsProps) => {
               </FormControl>
             </Grid>
             <Grid container item>
-              <FormControl fullWidth>
-                <InputLabel
-                  id="select data display channel"
-                  sx={{ fontSize: 12 }}
-                >
-                  Data display channels
-                </InputLabel>
-                <Select
-                  label="Data display channels"
-                  value={YAxis}
-                  onChange={(event) =>
-                    handleYAxisChange((event.target.value as string) ?? '')
-                  }
-                  sx={{ fontSize: 12 }}
-                >
-                  {axisSelectionOptions.map((option) => {
-                    return (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid container item>
               <Autocomplete
                 disablePortal
                 freeSolo
                 clearOnBlur
-                id="select y axes"
+                id="select data channels"
                 options={axisSelectionOptions}
                 fullWidth
                 role="autocomplete"
+                value={autocompleteValue}
                 onInputChange={(_, newInputValue, reason) => {
-                  if (reason === 'reset') {
-                    setYAxisInputVal('');
-                  } else {
-                    setYAxisInputVal(newInputValue);
+                  if (reason === 'input') {
+                    setAutocompleteValue(newInputValue);
                   }
                 }}
-                value={YAxisInputVal}
                 onChange={(_, newValue) => {
-                  handleYAxisChange(newValue ?? '');
+                  if (newValue) {
+                    addPlotChannel(newValue);
+                    setAutocompleteValue('');
+                  }
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -512,10 +495,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 )}
               />
             </Grid>
-            {YAxis && (
-              <Grid container item>
+            {plotChannels.map((plotChannel) => (
+              <Grid container item key={plotChannel}>
                 <Box
-                  aria-label={`${YAxis} label`}
+                  aria-label={`${plotChannel} label`}
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -525,14 +508,14 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{YAxis}</Typography>
+                  <Typography noWrap>{plotChannel}</Typography>
                   <StyledClose
-                    aria-label={`Remove ${YAxis} axis`}
-                    onClick={() => handleYAxisChange('')}
+                    aria-label={`Remove ${plotChannel} axis`}
+                    onClick={() => removePlotChannel(plotChannel)}
                   />
                 </Box>
               </Grid>
-            )}
+            ))}
           </Grid>
         </TabPanel>
       </Grid>
