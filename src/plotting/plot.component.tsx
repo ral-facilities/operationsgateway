@@ -16,6 +16,17 @@ import {
   Record,
   ScalarChannel,
 } from '../app.types';
+import { format } from 'date-fns';
+
+const formatTooltipLabel = (
+  label: string,
+  scale: AxisSettings['scale']
+): string => {
+  if (scale === 'time') {
+    return format(new Date(label), 'yyyy-MM-dd HH:mm:ss:SSS');
+  }
+  return label;
+};
 
 interface PlotProps {
   data?: unknown[];
@@ -30,7 +41,6 @@ interface PlotProps {
 export const Plot = (props: PlotProps) => {
   const { data, title, type, XAxisSettings, YAxesSettings, XAxis, YAxis } =
     props;
-  console.log('data is ' + JSON.stringify(data));
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -112,7 +122,17 @@ export const Plot = (props: PlotProps) => {
           x={XAxis}
           y={YAxis}
           size={type === 'line' ? 2 : 3}
-          labels={({ datum }) => `(${datum._x}, ${datum._y})`}
+          labels={({ datum }) => {
+            const formattedXLabel = formatTooltipLabel(
+              datum._x,
+              XAxisSettings.scale
+            );
+            const formattedYLabel = formatTooltipLabel(
+              datum._y,
+              YAxesSettings.scale
+            );
+            return `(${formattedXLabel}, ${formattedYLabel})`;
+          }}
           labelComponent={<VictoryTooltip />}
         />
       </VictoryChart>
@@ -175,8 +195,8 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
       if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
 
       return {
-        x: formattedXAxis,
-        y: formattedYAxis,
+        [XAxis]: formattedXAxis,
+        [YAxis]: formattedYAxis,
       };
     });
     return data;
