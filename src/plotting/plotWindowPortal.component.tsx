@@ -57,6 +57,18 @@ class PlotWindowPortal extends React.PureComponent<
       // append the container <div> (that will have props.children appended to it via React Portal) to the body of the new window
       externalWindow.document.body.appendChild(el);
 
+      // reset body margin
+      const element = document.createElement('style');
+      externalWindow.document.head.appendChild(element);
+
+      const sheet = element.sheet;
+
+      var styles = 'body {';
+      styles += 'margin:0;';
+      styles += '}';
+
+      sheet?.insertRule(styles, 0);
+
       this.setState({
         window: externalWindow,
         styleCache: cache,
