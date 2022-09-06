@@ -8,6 +8,7 @@ exports[`ConnectedPlot component constructs an empty dataset if we have no recor
     <mock-victorychart
       containercomponent="[object Object]"
       height="0"
+      padding="[object Object]"
       scale="{
   \\"x\\": \\"time\\",
   \\"y\\": \\"log\\"
@@ -58,6 +59,7 @@ exports[`ConnectedPlot component constructs data to insert into a Plot component
     <mock-victorychart
       containercomponent="[object Object]"
       height="0"
+      padding="[object Object]"
       scale="{
   \\"x\\": \\"time\\",
   \\"y\\": \\"linear\\"
@@ -86,16 +88,16 @@ exports[`ConnectedPlot component constructs data to insert into a Plot component
       <mock-victoryscatter
         data="[
   {
-    \\"x\\": 1640995200000,
-    \\"y\\": 1
+    \\"timestamp\\": 1640995200000,
+    \\"shotnum\\": 1
   },
   {
-    \\"x\\": 1641081600000,
-    \\"y\\": 2
+    \\"timestamp\\": 1641081600000,
+    \\"shotnum\\": 2
   },
   {
-    \\"x\\": 1641168000000,
-    \\"y\\": 3
+    \\"timestamp\\": 1641168000000,
+    \\"shotnum\\": 3
   }
 ]"
         labelcomponent="[object Object]"
@@ -116,6 +118,7 @@ exports[`ConnectedPlot component inserts null points if an x or y value does not
     <mock-victorychart
       containercomponent="[object Object]"
       height="0"
+      padding="[object Object]"
       scale="{
   \\"x\\": \\"linear\\",
   \\"y\\": \\"log\\"
@@ -131,7 +134,7 @@ exports[`ConnectedPlot component inserts null points if an x or y value does not
       <mock-victorylegend
         data="[
   {
-    \\"name\\": \\"shotnum\\",
+    \\"name\\": \\"activeExperiment\\",
     \\"symbol\\": {
       \\"fill\\": \\"#e31a1c\\"
     }
@@ -144,22 +147,22 @@ exports[`ConnectedPlot component inserts null points if an x or y value does not
       <mock-victoryscatter
         data="[
   {
-    \\"x\\": 1,
-    \\"y\\": 1
+    \\"activeArea\\": 1,
+    \\"activeExperiment\\": 1
   },
   {
-    \\"x\\": null,
-    \\"y\\": null
+    \\"activeArea\\": null,
+    \\"activeExperiment\\": null
   },
   {
-    \\"x\\": 3,
-    \\"y\\": 3
+    \\"activeArea\\": 3,
+    \\"activeExperiment\\": 3
   }
 ]"
         labelcomponent="[object Object]"
         size="3"
-        x="timestamp"
-        y="shotnum"
+        x="activeArea"
+        y="activeExperiment"
       />
     </mock-victorychart>
   </div>

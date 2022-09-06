@@ -18,10 +18,10 @@ import {
 } from '../app.types';
 import { format } from 'date-fns';
 
-const formatTooltipLabel = (
-  label: string,
+export const formatTooltipLabel = (
+  label: number,
   scale: AxisSettings['scale']
-): string => {
+): number | string => {
   if (scale === 'time') {
     return format(new Date(label), 'yyyy-MM-dd HH:mm:ss:SSS');
   }
@@ -192,7 +192,8 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
       const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
 
       // If no valid x or y value, we have no point to plot
-      if (!formattedXAxis || !formattedYAxis) return { x: NaN, y: NaN };
+      if (!formattedXAxis || !formattedYAxis)
+        return { [XAxis]: NaN, [YAxis]: NaN };
 
       return {
         [XAxis]: formattedXAxis,

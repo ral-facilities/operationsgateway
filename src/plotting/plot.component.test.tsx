@@ -4,6 +4,7 @@ import { FullScalarChannelMetadata, Record, ScalarChannel } from '../app.types';
 import ConnectedPlot, {
   ConnectedPlotProps,
   getFormattedAxisData,
+  formatTooltipLabel,
 } from './plot.component';
 import {
   testRecords,
@@ -216,6 +217,20 @@ describe('Plot component', () => {
 
     // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
     expect(mockVictoryChart).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe('formatTooltipLabel function', () => {
+  it('formats timestamp correctly', () => {
+    const label = 1640995200000;
+    const result = formatTooltipLabel(label, 'time');
+    expect(result).toEqual('2022-01-01 00:00:00:000');
+  });
+
+  it('returns the original label if scale is not time', () => {
+    const label = 123456;
+    const result = formatTooltipLabel(label, 'linear');
+    expect(result).toEqual(label);
   });
 });
 
