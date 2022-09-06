@@ -23,10 +23,14 @@ interface PlotProps {
   type: PlotType;
   XAxisSettings: AxisSettings;
   YAxesSettings: AxisSettings;
+  XAxis: string;
+  YAxis: string;
 }
 
 export const Plot = (props: PlotProps) => {
-  const { data, title, type, XAxisSettings, YAxesSettings } = props;
+  const { data, title, type, XAxisSettings, YAxesSettings, XAxis, YAxis } =
+    props;
+  console.log('data is ' + JSON.stringify(data));
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -87,7 +91,7 @@ export const Plot = (props: PlotProps) => {
           }
           y={20}
           orientation="horizontal"
-          data={[{ name: 'shotnum', symbol: { fill: '#e31a1c' } }]}
+          data={[{ name: YAxis, symbol: { fill: '#e31a1c' } }]}
         />
         {type === 'line' && (
           <VictoryLine
@@ -95,8 +99,8 @@ export const Plot = (props: PlotProps) => {
               data: { stroke: '#e31a1c' },
             }}
             data={data}
-            x="timestamp"
-            y="shotnum"
+            x={XAxis}
+            y={YAxis}
           />
         )}
         {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
@@ -105,8 +109,8 @@ export const Plot = (props: PlotProps) => {
             data: { fill: '#e31a1c' },
           }}
           data={data}
-          x="timestamp"
-          y="shotnum"
+          x={XAxis}
+          y={YAxis}
           size={type === 'line' ? 2 : 3}
           labels={({ datum }) => `(${datum._x}, ${datum._y})`}
           labelComponent={<VictoryTooltip />}
@@ -157,8 +161,6 @@ export const getFormattedAxisData = (
 export type ConnectedPlotProps = {
   records: Record[];
   channels: FullScalarChannelMetadata[];
-  XAxis: string;
-  YAxis: string;
 } & PlotProps;
 
 const ConnectedPlot = (props: ConnectedPlotProps) => {
@@ -187,6 +189,8 @@ const ConnectedPlot = (props: ConnectedPlotProps) => {
       type={props.type}
       XAxisSettings={props.XAxisSettings}
       YAxesSettings={props.YAxesSettings}
+      XAxis={XAxis}
+      YAxis={YAxis}
     />
   );
 };
