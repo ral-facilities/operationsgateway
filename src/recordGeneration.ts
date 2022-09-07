@@ -2,7 +2,6 @@ import {
   Record,
   RecordMetadata,
   ScalarMetadata,
-  ChannelMetadata,
   FullChannelMetadata,
   DataType,
   ScalarChannel,
@@ -91,7 +90,7 @@ const generateChannels = (): any => {
   return returnedObject;
 };
 
-const generateChannelMetadata = (): ChannelMetadata => {
+const generateChannelMetadata = (): ScalarMetadata => {
   return generateScalar();
 };
 
