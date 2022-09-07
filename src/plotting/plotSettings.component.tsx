@@ -13,10 +13,27 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  InputAdornment,
+  Autocomplete,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
-import ScatterPlotIcon from '@mui/icons-material/ScatterPlot';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import { AxisSettings, PlotType } from '../app.types';
+import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
+import {
+  AxisSettings,
+  FullScalarChannelMetadata,
+  PlotType,
+} from '../app.types';
+
+const StyledClose = styled(Close)(() => ({
+  cursor: 'pointer',
+  color: 'black',
+  '&:hover': {
+    color: 'red',
+  },
+}));
 
 type TabValue = 'X' | 'Y';
 
@@ -57,9 +74,14 @@ const StyledTab = styled(Tab)(() => ({
 }));
 
 export interface PlotSettingsProps {
+  channels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
+  XAxis: string;
+  YAxis: string;
+  changeXAxis: (value: string) => void;
+  changeYAxis: (value: string) => void;
   XAxisSettings: AxisSettings;
   changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
   YAxesSettings: AxisSettings;
@@ -70,9 +92,14 @@ type Scale = AxisSettings['scale'];
 
 const PlotSettings = (props: PlotSettingsProps) => {
   const {
+    channels,
     changePlotTitle,
     plotType,
     changePlotType,
+    XAxis,
+    YAxis,
+    changeXAxis,
+    changeYAxis,
     XAxisSettings,
     changeXAxisSettings,
     YAxesSettings,
@@ -83,6 +110,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const [title, setTitle] = React.useState('');
   const deferredTitle = React.useDeferredValue(title);
+
+  const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
+  const [YAxisInputVal, setYAxisInputVal] = React.useState<string>('');
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,23 +129,47 @@ const PlotSettings = (props: PlotSettingsProps) => {
   );
 
   const handleChangeXScale = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (value: string) => {
       changeXAxisSettings({
         ...XAxisSettings,
-        scale: (event.target as HTMLInputElement).value as Scale,
+        scale: value as Scale,
       });
     },
     [XAxisSettings, changeXAxisSettings]
   );
 
   const handleChangeYScale = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (value: string) => {
       changeYAxesSettings({
         ...YAxesSettings,
-        scale: (event.target as HTMLInputElement).value as Scale,
+        scale: value as Scale,
       });
     },
     [YAxesSettings, changeYAxesSettings]
+  );
+
+  const handleXAxisChange = React.useCallback(
+    (value: string) => {
+      changeXAxis(value);
+      if (value === 'timestamp') {
+        handleChangeXScale('time');
+      } else {
+        handleChangeXScale('linear');
+      }
+    },
+    [changeXAxis, handleChangeXScale]
+  );
+
+  const handleYAxisChange = React.useCallback(
+    (value: string) => {
+      changeYAxis(value);
+      if (value === 'timestamp') {
+        handleChangeYScale('time');
+      } else {
+        handleChangeYScale('linear');
+      }
+    },
+    [changeYAxis, handleChangeYScale]
   );
 
   React.useEffect(() => {
@@ -131,6 +185,31 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [setXYTabValue]
   );
 
+  const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
+    string[]
+  >(['timestamp', 'shotnum', 'activeArea', 'activeExperiment']);
+
+  const populateAxisSelectionOptions = (
+    metadata: FullScalarChannelMetadata[]
+  ): void => {
+    let ops: string[] = [
+      'timestamp',
+      'shotnum',
+      'activeArea',
+      'activeExperiment',
+    ];
+
+    metadata.forEach((meta: FullScalarChannelMetadata) => {
+      ops.push(meta.systemName);
+    });
+
+    setAxisSelectionOptions(ops);
+  };
+
+  React.useEffect(() => {
+    if (channels) populateAxisSelectionOptions(channels);
+  }, [channels]);
+
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
@@ -141,15 +220,31 @@ const PlotSettings = (props: PlotSettingsProps) => {
           value={title}
           onChange={handleChangeTitle}
           fullWidth
+          InputProps={{ style: { fontSize: 12 } }}
+          InputLabelProps={{ style: { fontSize: 12 } }}
         />
       </Grid>
       <Grid container item spacing={1}>
         {/* TODO: what do these control? we need to hook them up */}
         <Grid item xs={6}>
-          <TextField label="Hours" variant="outlined" size="small" fullWidth />
+          <TextField
+            label="Hours"
+            variant="outlined"
+            size="small"
+            fullWidth
+            InputProps={{ style: { fontSize: 12 } }}
+            InputLabelProps={{ style: { fontSize: 12 } }}
+          />
         </Grid>
         <Grid item xs={6}>
-          <TextField label="Points" variant="outlined" size="small" fullWidth />
+          <TextField
+            label="Points"
+            variant="outlined"
+            size="small"
+            fullWidth
+            InputProps={{ style: { fontSize: 12 } }}
+            InputLabelProps={{ style: { fontSize: 12 } }}
+          />
         </Grid>
       </Grid>
       <Grid item>
@@ -160,10 +255,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
           aria-label="chart type"
         >
           <ToggleButton value="scatter" aria-label="scatter chart">
-            <ScatterPlotIcon />
+            <ScatterPlot />
           </ToggleButton>
           <ToggleButton value="line" aria-label="line chart">
-            <ShowChartIcon />
+            <ShowChart />
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
@@ -189,6 +284,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   variant="outlined"
                   size="small"
                   fullWidth
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -197,16 +294,18 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   variant="outlined"
                   size="small"
                   fullWidth
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                 />
               </Grid>
             </Grid>
             <Grid item>
               <FormControl
+                disabled={XAxisSettings.scale === 'time'}
                 sx={{ flexDirection: 'row', alignItems: 'center' }}
                 // TODO: this needs to be enabled for all non-time X axes
                 // and we need to make sure we set XAxisSettings.scale to time
                 // when a user selects Time, and to linear (default) when they don't
-                disabled={true}
               >
                 <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
                   Scale
@@ -216,7 +315,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   aria-labelledby="x-scale-group-label"
                   name="x scale radio buttons group"
                   value={XScale}
-                  onChange={handleChangeXScale}
+                  onChange={(_, value) => handleChangeXScale(value)}
                 >
                   <FormControlLabel
                     value="linear"
@@ -231,6 +330,67 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
+            <Grid container item>
+              <Autocomplete
+                disablePortal
+                freeSolo
+                clearOnBlur
+                id="select x axis"
+                options={axisSelectionOptions}
+                fullWidth
+                role="autocomplete"
+                onInputChange={(_, newInputValue, reason) => {
+                  if (reason === 'reset') {
+                    setXAxisInputVal('');
+                  } else {
+                    setXAxisInputVal(newInputValue);
+                  }
+                }}
+                value={XAxisInputVal}
+                onChange={(_, newValue) => {
+                  handleXAxisChange(newValue ?? '');
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search"
+                    variant="outlined"
+                    size="small"
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    InputProps={{
+                      ...params.InputProps,
+                      style: { fontSize: 12 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            {XAxis && (
+              <Grid container item>
+                <Box
+                  aria-label={`${XAxis} label`}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: 'inherit',
+                    justifyContent: 'space-between',
+                    border: 1,
+                    padding: 1,
+                  }}
+                >
+                  <Typography noWrap>{XAxis}</Typography>
+                  <StyledClose
+                    aria-label={`Remove ${XAxis} axis`}
+                    onClick={() => handleXAxisChange('')}
+                  />
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </TabPanel>
         <TabPanel value={XYTabValue} label={'Y'}>
@@ -243,6 +403,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   variant="outlined"
                   size="small"
                   fullWidth
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -251,11 +413,16 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   variant="outlined"
                   size="small"
                   fullWidth
+                  InputProps={{ style: { fontSize: 12 } }}
+                  InputLabelProps={{ style: { fontSize: 12 } }}
                 />
               </Grid>
             </Grid>
             <Grid item>
-              <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FormControl
+                disabled={YAxesSettings.scale === 'time'}
+                sx={{ flexDirection: 'row', alignItems: 'center' }}
+              >
                 <FormLabel id="y-scale-group-label" sx={{ mr: 1 }}>
                   Scale
                 </FormLabel>
@@ -264,7 +431,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   aria-labelledby="y-scale-group-label"
                   name="y scale radio buttons group"
                   value={YScale}
-                  onChange={handleChangeYScale}
+                  onChange={(_, value) => handleChangeYScale(value)}
                 >
                   <FormControlLabel
                     value="linear"
@@ -279,6 +446,93 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
+            <Grid container item>
+              <FormControl fullWidth>
+                <InputLabel
+                  id="select data display channel"
+                  sx={{ fontSize: 12 }}
+                >
+                  Data display channels
+                </InputLabel>
+                <Select
+                  label="Data display channels"
+                  value={YAxis}
+                  onChange={(event) =>
+                    handleYAxisChange((event.target.value as string) ?? '')
+                  }
+                  sx={{ fontSize: 12 }}
+                >
+                  {axisSelectionOptions.map((option) => {
+                    return (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid container item>
+              <Autocomplete
+                disablePortal
+                freeSolo
+                clearOnBlur
+                id="select y axes"
+                options={axisSelectionOptions}
+                fullWidth
+                role="autocomplete"
+                onInputChange={(_, newInputValue, reason) => {
+                  if (reason === 'reset') {
+                    setYAxisInputVal('');
+                  } else {
+                    setYAxisInputVal(newInputValue);
+                  }
+                }}
+                value={YAxisInputVal}
+                onChange={(_, newValue) => {
+                  handleYAxisChange(newValue ?? '');
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Search all channels"
+                    variant="outlined"
+                    size="small"
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    InputProps={{
+                      ...params.InputProps,
+                      style: { fontSize: 12 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            {YAxis && (
+              <Grid container item>
+                <Box
+                  aria-label={`${YAxis} label`}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: 'inherit',
+                    justifyContent: 'space-between',
+                    border: 1,
+                    padding: 1,
+                  }}
+                >
+                  <Typography noWrap>{YAxis}</Typography>
+                  <StyledClose
+                    aria-label={`Remove ${YAxis} axis`}
+                    onClick={() => handleYAxisChange('')}
+                  />
+                </Box>
+              </Grid>
+            )}
           </Grid>
         </TabPanel>
       </Grid>

@@ -32,8 +32,8 @@ describe('Column Checkboxes', () => {
       Header: 'Active Area',
       accessor: 'activeArea',
       channelInfo: {
-        systemName: 'active_area',
-        dataType: 'scalar',
+        systemName: 'activeArea',
+        channel_dtype: 'scalar',
       },
     },
     {
@@ -42,7 +42,7 @@ describe('Column Checkboxes', () => {
       channelInfo: {
         systemName: 'activeExperiment',
         userFriendlyName: 'Active Experiment',
-        dataType: 'scalar',
+        channel_dtype: 'scalar',
       },
     },
   ];
