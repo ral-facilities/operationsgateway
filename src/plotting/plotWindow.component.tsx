@@ -1,10 +1,20 @@
 import React from 'react';
 import PlotSettings from './plotSettings.component';
 import Plot from './plot.component';
-import { Box, Grid, Drawer, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Drawer,
+  IconButton,
+  Typography,
+  Backdrop,
+  CircularProgress,
+} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { AxisSettings, PlotType } from '../app.types';
+import { useRecords } from '../api/records';
+import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 
 interface PlotWindowProps {
@@ -18,11 +28,13 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
   const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
-    scale: 'time',
+    scale: 'linear',
   });
   const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
     scale: 'linear',
   });
+  const [XAxis, setXAxis] = React.useState<string>('');
+  const [YAxis, setYAxis] = React.useState<string>('');
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -37,6 +49,9 @@ const PlotWindow = (props: PlotWindowProps) => {
       new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
     );
   }, [plotTitle, untitledTitle]);
+
+  const { data: records, isLoading: recordsLoading } = useRecords();
+  const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
@@ -83,15 +98,33 @@ const PlotWindow = (props: PlotWindowProps) => {
                 </IconButton>
               </Box>
               <PlotSettings
+                channels={channels ?? []}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
                 changePlotType={setPlotType}
+                XAxis={XAxis}
+                YAxis={YAxis}
+                changeXAxis={setXAxis}
+                changeYAxis={setYAxis}
                 XAxisSettings={XAxisSettings}
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
               />
             </Box>
+            {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+            <Backdrop
+              component="div"
+              sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+              open={recordsLoading || channelsLoading}
+              role="none"
+              aria-hidden={false}
+            >
+              <CircularProgress
+                id="settings-loading-indicator"
+                aria-label="settings-loading-indicator"
+              />
+            </Backdrop>
           </Drawer>
         </Grid>
 
@@ -121,12 +154,29 @@ const PlotWindow = (props: PlotWindowProps) => {
             <SettingsIcon />
           </IconButton>
           <Plot
+            records={records ?? []}
+            channels={channels ?? []}
             title={plotTitle || untitledTitle}
             type={plotType}
+            XAxis={XAxis}
+            YAxis={YAxis}
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
           />
         </Grid>
+        {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+        <Backdrop
+          component="div"
+          sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+          open={recordsLoading || channelsLoading}
+          role="none"
+          aria-hidden={false}
+        >
+          <CircularProgress
+            id="plot-loading-indicator"
+            aria-label="plot-loading-indicator"
+          />
+        </Backdrop>
       </Grid>
     </PlotWindowPortal>
   );

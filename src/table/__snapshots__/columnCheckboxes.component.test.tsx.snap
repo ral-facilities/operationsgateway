@@ -50,7 +50,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
         <label
           for="activeArea"
         >
-          active_area
+          activeArea
         </label>
         <span
           class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
@@ -170,7 +170,7 @@ exports[`Column Checkboxes renders correctly when unchecked 1`] = `
         <label
           for="activeArea"
         >
-          active_area
+          activeArea
         </label>
         <span
           class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"

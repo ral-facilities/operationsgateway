@@ -9,15 +9,38 @@ import {
   VictoryLegend,
   VictoryTooltip,
 } from 'victory';
-import { useRecords } from '../api/records';
-import { AxisSettings, PlotType } from '../app.types';
+import {
+  AxisSettings,
+  FullScalarChannelMetadata,
+  PlotType,
+  Record,
+  ScalarChannel,
+} from '../app.types';
+import { format } from 'date-fns';
 
-type FullPlotProps = {
+export const formatTooltipLabel = (
+  label: number,
+  scale: AxisSettings['scale']
+): number | string => {
+  if (scale === 'time') {
+    return format(new Date(label), 'yyyy-MM-dd HH:mm:ss:SSS');
+  }
+  return label;
+};
+
+export interface PlotProps {
   data?: unknown[];
-} & PlotProps;
+  title: string;
+  type: PlotType;
+  XAxisSettings: AxisSettings;
+  YAxesSettings: AxisSettings;
+  XAxis: string;
+  YAxis: string;
+}
 
-export const Plot = (props: FullPlotProps) => {
-  const { data, title, type, XAxisSettings, YAxesSettings } = props;
+export const Plot = (props: PlotProps) => {
+  const { data, title, type, XAxisSettings, YAxesSettings, XAxis, YAxis } =
+    props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -78,7 +101,7 @@ export const Plot = (props: FullPlotProps) => {
           }
           y={20}
           orientation="horizontal"
-          data={[{ name: 'shotnum', symbol: { fill: '#e31a1c' } }]}
+          data={[{ name: YAxis, symbol: { fill: '#e31a1c' } }]}
         />
         {type === 'line' && (
           <VictoryLine
@@ -86,8 +109,8 @@ export const Plot = (props: FullPlotProps) => {
               data: { stroke: '#e31a1c' },
             }}
             data={data}
-            x="timestamp"
-            y="shotnum"
+            x={XAxis}
+            y={YAxis}
           />
         )}
         {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
@@ -96,10 +119,20 @@ export const Plot = (props: FullPlotProps) => {
             data: { fill: '#e31a1c' },
           }}
           data={data}
-          x="timestamp"
-          y="shotnum"
+          x={XAxis}
+          y={YAxis}
           size={type === 'line' ? 2 : 3}
-          labels={({ datum }) => `(${datum._x}, ${datum._y})`}
+          labels={({ datum }) => {
+            const formattedXLabel = formatTooltipLabel(
+              datum._x,
+              XAxisSettings.scale
+            );
+            const formattedYLabel = formatTooltipLabel(
+              datum._y,
+              YAxesSettings.scale
+            );
+            return `(${formattedXLabel}, ${formattedYLabel})`;
+          }}
           labelComponent={<VictoryTooltip />}
         />
       </VictoryChart>
@@ -107,32 +140,79 @@ export const Plot = (props: FullPlotProps) => {
   );
 };
 
-interface PlotProps {
-  title: string;
-  type: PlotType;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
-}
+export const getFormattedAxisData = (
+  record: Record,
+  scalarChannels: FullScalarChannelMetadata[],
+  axisName: string
+): number => {
+  let formattedData = NaN;
 
-const ConnectedPlot = (props: PlotProps) => {
-  const { data: records } = useRecords();
+  switch (axisName) {
+    case 'timestamp':
+      formattedData = new Date(record.metadata.timestamp).getTime();
+      break;
+    case 'shotnum':
+      formattedData = record.metadata.shotnum ?? NaN;
+      break;
+    case 'activeArea':
+      formattedData = parseInt(record.metadata.activeArea);
+      break;
+    case 'activeExperiment':
+      formattedData = record.metadata.activeExperiment
+        ? parseInt(record.metadata.activeExperiment)
+        : NaN;
+      break;
+    default:
+      const systemNames = scalarChannels.map((channel) => channel.systemName);
+      if (systemNames.includes(axisName)) {
+        const channel: ScalarChannel = record.channels[
+          axisName
+        ] as ScalarChannel;
+        formattedData =
+          typeof channel.data === 'number'
+            ? channel.data
+            : parseFloat(channel.data);
+      }
+  }
+
+  return formattedData;
+};
+
+export type ConnectedPlotProps = {
+  records: Record[];
+  channels: FullScalarChannelMetadata[];
+} & PlotProps;
+
+const ConnectedPlot = (props: ConnectedPlotProps) => {
+  const { XAxis, YAxis, records, channels } = props;
 
   const chartData: unknown[] = React.useMemo(() => {
-    const data =
-      records?.map((record) => ({
-        timestamp: new Date(record.metadata.timestamp).getTime(),
-        shotnum: record.metadata.shotnum ?? NaN,
-      })) ?? [];
+    const data = records.map((record) => {
+      const formattedXAxis = getFormattedAxisData(record, channels, XAxis);
+      const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
+
+      // If no valid x or y value, we have no point to plot
+      if (!formattedXAxis || !formattedYAxis)
+        return { [XAxis]: NaN, [YAxis]: NaN };
+
+      return {
+        [XAxis]: formattedXAxis,
+        [YAxis]: formattedYAxis,
+      };
+    });
     return data;
-  }, [records]);
+  }, [XAxis, YAxis, channels, records]);
 
   return (
-    <div
-      className="chart-container"
-      style={{ position: 'relative', height: '100%', width: '100%' }}
-    >
-      <Plot data={chartData} {...props} />
-    </div>
+    <Plot
+      data={chartData}
+      title={props.title}
+      type={props.type}
+      XAxisSettings={props.XAxisSettings}
+      YAxesSettings={props.YAxesSettings}
+      XAxis={XAxis}
+      YAxis={YAxis}
+    />
   );
 };
 

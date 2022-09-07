@@ -2,7 +2,14 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
+import {
+  renderComponentWithProviders,
+  testChannels,
+  testRecords,
+} from '../setupTests';
+import { useScalarChannels } from '../api/channels';
+import { useRecords } from '../api/records';
+import { FullScalarChannelMetadata } from '../app.types';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // @ts-ignore
@@ -14,9 +21,38 @@ jest.mock('./plot.component', () => () => (
   <mock-Plot data-testid="mock-plot" />
 ));
 
+jest.mock('../api/channels', () => {
+  const originalModule = jest.requireActual('../api/channels');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useScalarChannels: jest.fn(),
+  };
+});
+
+jest.mock('../api/records', () => {
+  const originalModule = jest.requireActual('../api/records');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useRecords: jest.fn(),
+  };
+});
+
 describe('Plot Window component', () => {
   beforeEach(() => {
     jest.resetModules();
+
+    (useScalarChannels as jest.Mock).mockReturnValue({
+      data: testChannels as FullScalarChannelMetadata[],
+      isLoading: false,
+    });
+    (useRecords as jest.Mock).mockReturnValue({
+      data: testRecords,
+      isLoading: false,
+    });
   });
 
   afterEach(() => {
@@ -69,5 +105,26 @@ describe('Plot Window component', () => {
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();
+  });
+
+  it('renders correctly while records and channels are loading', () => {
+    (useScalarChannels as jest.Mock).mockReturnValueOnce({
+      data: [],
+      isLoading: true,
+    });
+    (useRecords as jest.Mock).mockReturnValueOnce({
+      data: [],
+      isLoading: true,
+    });
+
+    createView();
+    screen.getByLabelText('settings-loading-indicator');
+    screen.getByLabelText('plot-loading-indicator');
+  });
+
+  it('calls useRecords and useScalarChannels hooks on load', () => {
+    createView();
+    expect(useRecords).toHaveBeenCalled();
+    expect(useScalarChannels).toHaveBeenCalled();
   });
 });
