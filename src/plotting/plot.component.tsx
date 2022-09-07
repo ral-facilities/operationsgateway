@@ -28,7 +28,7 @@ export const formatTooltipLabel = (
   return label;
 };
 
-interface PlotProps {
+export interface PlotProps {
   data?: unknown[];
   title: string;
   type: PlotType;
