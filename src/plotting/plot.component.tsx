@@ -8,6 +8,7 @@ import {
   VictoryTheme,
   VictoryLegend,
   VictoryTooltip,
+  VictoryGroup,
 } from 'victory';
 import {
   AxisSettings,
@@ -29,18 +30,16 @@ export const formatTooltipLabel = (
 };
 
 export interface PlotProps {
-  data?: unknown[];
+  datasets?: plotDataset[];
   title: string;
   type: PlotType;
   XAxisSettings: AxisSettings;
   YAxesSettings: AxisSettings;
   XAxis: string;
-  YAxis: string;
 }
 
 export const Plot = (props: PlotProps) => {
-  const { data, title, type, XAxisSettings, YAxesSettings, XAxis, YAxis } =
-    props;
+  const { datasets, title, type, XAxisSettings, YAxesSettings, XAxis } = props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -94,47 +93,57 @@ export const Plot = (props: PlotProps) => {
           textAnchor="middle"
         />
         <VictoryLegend
-          x={
-            graphRef?.current?.offsetWidth
-              ? graphRef.current.offsetWidth / 2 - 50
-              : 170
-          }
+          x={50}
           y={20}
+          gutter={20}
+          symbolSpacer={5}
           orientation="horizontal"
-          data={[{ name: YAxis, symbol: { fill: '#e31a1c' } }]}
+          data={datasets?.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          })}
         />
-        {type === 'line' && (
-          <VictoryLine
-            style={{
-              data: { stroke: '#e31a1c' },
-            }}
-            data={data}
-            x={XAxis}
-            y={YAxis}
-          />
-        )}
-        {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
-        <VictoryScatter
-          style={{
-            data: { fill: '#e31a1c' },
-          }}
-          data={data}
-          x={XAxis}
-          y={YAxis}
-          size={type === 'line' ? 2 : 3}
-          labels={({ datum }) => {
-            const formattedXLabel = formatTooltipLabel(
-              datum._x,
-              XAxisSettings.scale
-            );
-            const formattedYLabel = formatTooltipLabel(
-              datum._y,
-              YAxesSettings.scale
-            );
-            return `(${formattedXLabel}, ${formattedYLabel})`;
-          }}
-          labelComponent={<VictoryTooltip />}
-        />
+        {datasets?.map((dataset) => (
+          <VictoryGroup
+            key={dataset.name}
+            // data={dataset.data}
+            // x={XAxis}
+            // y={dataset.name}
+          >
+            {type === 'line' && (
+              <VictoryLine
+                style={{
+                  data: { stroke: '#e31a1c' },
+                }}
+                data={dataset.data}
+                x={XAxis}
+                y={dataset.name}
+              />
+            )}
+            {/* We render a scatter graph no matter what as otherwise line charts
+            wouldn't be able to have hover tooltips */}
+            <VictoryScatter
+              style={{
+                data: { fill: '#e31a1c' },
+              }}
+              data={dataset.data}
+              x={XAxis}
+              y={dataset.name}
+              size={type === 'line' ? 2 : 3}
+              labels={({ datum }) => {
+                const formattedXLabel = formatTooltipLabel(
+                  datum._x,
+                  XAxisSettings.scale
+                );
+                const formattedYLabel = formatTooltipLabel(
+                  datum._y,
+                  YAxesSettings.scale
+                );
+                return `(${formattedXLabel}, ${formattedYLabel})`;
+              }}
+              labelComponent={<VictoryTooltip />}
+            />
+          </VictoryGroup>
+        ))}
       </VictoryChart>
     </div>
   );
@@ -178,40 +187,61 @@ export const getFormattedAxisData = (
   return formattedData;
 };
 
+type plotDataset = {
+  name: string;
+  data: {
+    [point: string]: number;
+  }[];
+};
+
 export type ConnectedPlotProps = {
   records: Record[];
   channels: FullScalarChannelMetadata[];
+  selectedChannels: string[];
 } & PlotProps;
 
 const ConnectedPlot = (props: ConnectedPlotProps) => {
-  const { XAxis, YAxis, records, channels } = props;
+  const { XAxis, selectedChannels, records, channels } = props;
 
-  const chartData: unknown[] = React.useMemo(() => {
-    const data = records.map((record) => {
+  let plotDatasets: plotDataset[] = [];
+
+  selectedChannels.forEach((plotChannelName) => {
+    // Add the initial entry for dataset called plotChannelName
+    // data field is currently empty, the below loop populates it
+    const newDataset: plotDataset = {
+      name: plotChannelName,
+      data: [],
+    };
+
+    // Populate the above data field
+    records.forEach((record) => {
       const formattedXAxis = getFormattedAxisData(record, channels, XAxis);
-      const formattedYAxis = getFormattedAxisData(record, channels, YAxis);
+      const formattedYAxis = getFormattedAxisData(
+        record,
+        channels,
+        plotChannelName
+      );
 
-      // If no valid x or y value, we have no point to plot
-      if (!formattedXAxis || !formattedYAxis)
-        return { [XAxis]: NaN, [YAxis]: NaN };
-
-      return {
-        [XAxis]: formattedXAxis,
-        [YAxis]: formattedYAxis,
-      };
+      if (formattedXAxis && formattedYAxis) {
+        const currentData = newDataset.data;
+        currentData.push({
+          [XAxis]: formattedXAxis,
+          [plotChannelName]: formattedYAxis,
+        });
+      }
     });
-    return data;
-  }, [XAxis, YAxis, channels, records]);
+
+    plotDatasets.push(newDataset);
+  });
 
   return (
     <Plot
-      data={chartData}
+      datasets={plotDatasets}
       title={props.title}
       type={props.type}
       XAxisSettings={props.XAxisSettings}
       YAxesSettings={props.YAxesSettings}
       XAxis={XAxis}
-      YAxis={YAxis}
     />
   );
 };

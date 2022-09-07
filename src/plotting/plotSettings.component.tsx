@@ -83,8 +83,8 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
   YAxesSettings: AxisSettings;
   changeYAxesSettings: (YAxesSettings: AxisSettings) => void;
-  plotChannels: string[];
-  changePlotChannels: (plotChannels: string[]) => void;
+  selectedChannels: string[];
+  changeSelectedChannels: (selectedChannels: string[]) => void;
 }
 
 type Scale = AxisSettings['scale'];
@@ -101,8 +101,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changeXAxisSettings,
     YAxesSettings,
     changeYAxesSettings,
-    plotChannels,
-    changePlotChannels,
+    selectedChannels,
+    changeSelectedChannels,
   } = props;
   const { scale: XScale } = XAxisSettings;
   const { scale: YScale } = YAxesSettings;
@@ -115,23 +115,23 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const addPlotChannel = React.useCallback(
     (channel: string) => {
-      const newPlotChannels = Array.from(plotChannels);
-      newPlotChannels.push(channel);
-      changePlotChannels(newPlotChannels);
+      const newselectedChannels = Array.from(selectedChannels);
+      newselectedChannels.push(channel);
+      changeSelectedChannels(newselectedChannels);
     },
-    [changePlotChannels, plotChannels]
+    [changeSelectedChannels, selectedChannels]
   );
 
   const removePlotChannel = React.useCallback(
     (channel: string) => {
-      const newPlotChannels = Array.from(plotChannels);
-      const index = newPlotChannels.indexOf(channel);
+      const newselectedChannels = Array.from(selectedChannels);
+      const index = newselectedChannels.indexOf(channel);
       if (index > -1) {
-        newPlotChannels.splice(index, 1);
-        changePlotChannels(newPlotChannels);
+        newselectedChannels.splice(index, 1);
+        changeSelectedChannels(newselectedChannels);
       }
     },
-    [changePlotChannels, plotChannels]
+    [changeSelectedChannels, selectedChannels]
   );
 
   const handleChangeTitle = React.useCallback(
@@ -495,7 +495,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 )}
               />
             </Grid>
-            {plotChannels.map((plotChannel) => (
+            {selectedChannels.map((plotChannel) => (
               <Grid container item key={plotChannel}>
                 <Box
                   aria-label={`${plotChannel} label`}
