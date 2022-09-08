@@ -1,6 +1,6 @@
 import React from 'react';
 import PlotButtons from './plotButtons.component';
-import { screen, render, fireEvent } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Plot Buttons component', () => {
