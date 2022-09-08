@@ -1,8 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { FullScalarChannelMetadata } from '../app.types';
 import { PlotProps, formatTooltipLabel } from './plot.component';
-import { testChannels } from '../setupTests';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();

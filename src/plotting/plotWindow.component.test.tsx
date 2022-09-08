@@ -8,7 +8,7 @@ import {
   testRecords,
 } from '../setupTests';
 import { useScalarChannels } from '../api/channels';
-import { useRecords } from '../api/records';
+import { usePlotRecords } from '../api/records';
 import { FullScalarChannelMetadata } from '../app.types';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
@@ -37,7 +37,7 @@ jest.mock('../api/records', () => {
   return {
     __esModule: true,
     ...originalModule,
-    useRecords: jest.fn(),
+    usePlotRecords: jest.fn(),
   };
 });
 
@@ -49,8 +49,11 @@ describe('Plot Window component', () => {
       data: testChannels as FullScalarChannelMetadata[],
       isLoading: false,
     });
-    (useRecords as jest.Mock).mockReturnValue({
-      data: testRecords,
+    (usePlotRecords as jest.Mock).mockReturnValue({
+      data: testRecords.map((r) => ({
+        timestamp: r.metadata.timestamp,
+        shotNum: r.metadata.shotnum,
+      })),
       isLoading: false,
     });
   });
@@ -85,6 +88,7 @@ describe('Plot Window component', () => {
       ).not.toBeInTheDocument();
     });
     expect(screen.getByTestId('mock-plot')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Export Plot' })).toBeVisible();
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
@@ -102,6 +106,7 @@ describe('Plot Window component', () => {
       ).not.toBeInTheDocument();
     });
     expect(screen.getByTestId('mock-plot')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Export Plot' })).toBeVisible();
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();
@@ -112,7 +117,7 @@ describe('Plot Window component', () => {
       data: [],
       isLoading: true,
     });
-    (useRecords as jest.Mock).mockReturnValueOnce({
+    (usePlotRecords as jest.Mock).mockReturnValueOnce({
       data: [],
       isLoading: true,
     });
@@ -122,9 +127,9 @@ describe('Plot Window component', () => {
     screen.getByLabelText('plot-loading-indicator');
   });
 
-  it('calls useRecords and useScalarChannels hooks on load', () => {
+  it('calls usePlotRecords and useScalarChannels hooks on load', () => {
     createView();
-    expect(useRecords).toHaveBeenCalled();
+    expect(usePlotRecords).toHaveBeenCalled();
     expect(useScalarChannels).toHaveBeenCalled();
   });
 });
