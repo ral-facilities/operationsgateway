@@ -114,11 +114,11 @@ export type Channel = ScalarChannel | ImageChannel | WaveformChannel;
 
 // Type guards because TS can't deal with nested discriminated unions
 export const isChannelScalar = (c: Channel): c is ScalarChannel =>
-  c.metadata.channel_dtype === 'scalar';
+  c?.metadata?.channel_dtype === 'scalar';
 export const isChannelImage = (c: Channel): c is ImageChannel =>
-  c.metadata.channel_dtype === 'image';
+  c?.metadata?.channel_dtype === 'image';
 export const isChannelWaveform = (c: Channel): c is WaveformChannel =>
-  c.metadata.channel_dtype === 'waveform';
+  c?.metadata?.channel_dtype === 'waveform';
 
 export type Order = 'asc' | 'desc';
 
