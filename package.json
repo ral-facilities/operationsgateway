@@ -73,6 +73,9 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "resetMocks": false
+  },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "@babel/eslint-parser": "7.18.2",
