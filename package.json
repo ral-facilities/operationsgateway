@@ -56,12 +56,6 @@
     "cy:run": "cypress run",
     "postinstall": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "lint-staged": {
     "src/**/*.{tsx,ts,js,jsx,json}": [
       "eslint --max-warnings=0 --fix",

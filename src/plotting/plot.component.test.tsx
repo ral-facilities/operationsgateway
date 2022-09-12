@@ -34,6 +34,7 @@ describe('plotting', () => {
   beforeEach(() => {
     jest.resetModules();
 
+    /* eslint-disable @typescript-eslint/ban-ts-comment */
     jest.doMock('victory', () => ({
       VictoryChart: (props) => {
         mockVictoryChart(props);
@@ -93,6 +94,7 @@ describe('plotting', () => {
       },
     }));
   });
+  /* eslint-enable @typescript-eslint/ban-ts-comment */
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -112,6 +114,7 @@ describe('plotting', () => {
         YAxis: 'test y-axis',
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
@@ -148,6 +151,7 @@ describe('plotting', () => {
         YAxis: 'test y-axis',
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
@@ -190,6 +194,7 @@ describe('plotting', () => {
         YAxis: 'test y-axis',
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
@@ -222,6 +227,7 @@ describe('plotting', () => {
         },
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const ConnectedPlot = require('./plot.component').default;
       render(<ConnectedPlot {...props} />);
 
@@ -270,6 +276,7 @@ describe('plotting', () => {
         },
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const ConnectedPlot = require('./plot.component').default;
       render(<ConnectedPlot {...props} />);
 
@@ -322,6 +329,7 @@ describe('plotting', () => {
         },
       };
 
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const ConnectedPlot = require('./plot.component').default;
       render(<ConnectedPlot {...props} />);
 

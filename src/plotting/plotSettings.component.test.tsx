@@ -182,7 +182,7 @@ describe('Plot Settings component', () => {
   it('allows user to select an x-axis (keyboard only)', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -200,7 +200,7 @@ describe('Plot Settings component', () => {
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -218,7 +218,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -238,7 +238,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -254,7 +254,7 @@ describe('Plot Settings component', () => {
   it('changes scale to time automatically if time is selected as x-axis', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'time');
@@ -274,7 +274,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'time');
