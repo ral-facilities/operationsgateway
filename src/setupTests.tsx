@@ -2,26 +2,51 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import '@testing-library/jest-dom';
-import { Channel, FullChannelMetadata, Record, RecordRow } from './app.types';
+// need to mock <canvas> for plotting
+import 'jest-canvas-mock';
+import {
+  Channel,
+  FullChannelMetadata,
+  ImageChannel,
+  Record,
+  RecordRow,
+  ScalarChannel,
+  WaveformChannel,
+} from './app.types';
+import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialState as initialPlotState } from './state/slices/plotSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
+// this is needed because of https://github.com/facebook/jest/issues/8987
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+let mockActualReact;
+jest.doMock('react', () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (!mockActualReact) {
+    mockActualReact = jest.requireActual('react');
+  }
+  return mockActualReact;
+});
+
 export let actions: Action[] = [];
-export let resetActions = (): void => {
+export const resetActions = (): void => {
   actions = [];
 };
 export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
   search: initialSearchState,
+  plot: initialPlotState,
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
@@ -50,7 +75,20 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
-export function renderWithProviders(
+export const hooksWrapperWithProviders = (state = {}) => {
+  const testQueryClient = createTestQueryClient();
+  const store = setupStore(state);
+  const wrapper = ({ children }) => (
+    <Provider store={store}>
+      <QueryClientProvider client={testQueryClient}>
+        {children}
+      </QueryClientProvider>
+    </Provider>
+  );
+  return wrapper;
+};
+
+export function renderComponentWithProviders(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -60,7 +98,9 @@ export function renderWithProviders(
   }: ExtendedRenderOptions = {}
 ) {
   const testQueryClient = createTestQueryClient();
-  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
     return (
       <Provider store={store}>
         <QueryClientProvider client={testQueryClient}>
@@ -72,7 +112,7 @@ export function renderWithProviders(
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }
 
-export function renderWithStore(
+export function renderComponentWithStore(
   ui: React.ReactElement,
   {
     preloadedState = {},
@@ -81,7 +121,9 @@ export function renderWithStore(
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
@@ -104,11 +146,11 @@ export const applyDatePickerWorkaround = (): void => {
       media: query,
       // this is the media query that @material-ui/pickers uses to determine if a device is a desktop device
       matches: query === '(pointer: fine)',
-      onchange: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      addListener: () => {},
-      removeListener: () => {},
+      onchange: () => unknown,
+      addEventListener: () => unknown,
+      removeEventListener: () => unknown,
+      addListener: () => unknown,
+      removeListener: () => unknown,
       dispatchEvent: () => false,
     }),
   });
@@ -121,19 +163,19 @@ export const cleanupDatePickerWorkaround = (): void => {
 export const testChannels: FullChannelMetadata[] = [
   {
     systemName: 'test_1',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     userFriendlyName: 'Test 1',
     significantFigures: 4,
   },
   {
     systemName: 'test_2',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: false,
   },
   {
     systemName: 'test_3',
-    dataType: 'scalar',
+    channel_dtype: 'scalar',
     significantFigures: 2,
     scientificNotation: true,
   },
@@ -141,28 +183,60 @@ export const testChannels: FullChannelMetadata[] = [
 
 export const generateRecord = (num: number): Record => {
   const numStr = `${num}`;
+
+  let channel: Channel;
+
+  if (num % 3 === 0) {
+    channel = {
+      metadata: {
+        channel_dtype: 'scalar',
+        units: 'km',
+      },
+      data:
+        num < 10
+          ? parseFloat(`${num}${num}${num}.${num}`)
+          : parseFloat(
+              numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
+            ),
+    } as ScalarChannel;
+  } else if (num % 3 === 1) {
+    channel = {
+      metadata: {
+        channel_dtype: 'image',
+        horizontalPixels: num,
+        horizontalPixelUnits: numStr,
+        verticalPixels: num,
+        verticalPixelUnits: numStr,
+        cameraGain: num,
+        exposureTime: num,
+      },
+      imagePath: numStr,
+      thumbnail: numStr,
+    } as ImageChannel;
+  } else {
+    channel = {
+      metadata: {
+        channel_dtype: 'waveform',
+        xUnits: numStr,
+        yUnits: numStr,
+      },
+      waveformId: numStr,
+      thumbnail: numStr,
+    } as WaveformChannel;
+  }
+
   return {
     id: numStr,
     metadata: {
       dataVersion: numStr,
-      shotNum: num,
-      timestamp: numStr,
+      shotnum: num,
+      timestamp:
+        num < 10 ? `2022-01-0${num} 00:00:00` : `2022-01-${num} 00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
     channels: {
-      [`test_${num}`]: {
-        metadata: {
-          dataType: 'scalar',
-          units: 'km',
-        },
-        data:
-          num < 10
-            ? parseFloat(`${num}${num}${num}.${num}`)
-            : parseFloat(
-                numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-              ),
-      },
+      [`test_${num}`]: channel,
     },
   };
 };
@@ -174,9 +248,9 @@ export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
 export const generateRecordRow = (num: number) => {
   const record = generateRecord(num);
 
-  let recordRow: RecordRow = {
+  const recordRow: RecordRow = {
     timestamp: record.metadata.timestamp,
-    shotNum: record.metadata.shotNum,
+    shotnum: record.metadata.shotnum,
     activeArea: record.metadata.activeArea,
     activeExperiment: record.metadata.activeExperiment,
   };
@@ -184,7 +258,26 @@ export const generateRecordRow = (num: number) => {
   const keys = Object.keys(record.channels);
   keys.forEach((key: string) => {
     const channel: Channel = record.channels[key];
-    const channelData = channel.data;
+    let channelData;
+    const channelDataType = channel.metadata.channel_dtype;
+
+    switch (channelDataType) {
+      case 'scalar':
+        channelData = (channel as ScalarChannel).data;
+        break;
+      case 'image':
+        channelData = (channel as ImageChannel).thumbnail;
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+        break;
+      case 'waveform':
+        channelData = (channel as WaveformChannel).thumbnail;
+        channelData = (
+          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
+        );
+    }
+
     recordRow[key] = channelData;
   });
 

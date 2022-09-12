@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Open Plots component renders windows for each open plot 1`] = `
+<DocumentFragment>
+  <mock-plotwindow
+    untitledtitle="Plot 1"
+  />
+  <mock-plotwindow
+    untitledtitle="Plot 3"
+  />
+</DocumentFragment>
+`;

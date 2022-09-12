@@ -13,7 +13,6 @@ describe('App', () => {
     const el = document.createElement('div');
     const root = createRoot(el);
 
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     await act(async () => {
       root.render(
         <React.StrictMode>

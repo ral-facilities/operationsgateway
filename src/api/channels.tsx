@@ -1,29 +1,60 @@
 import React from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
+import {
+  Channel,
+  FullChannelMetadata,
+  FullScalarChannelMetadata,
+  Record,
+} from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
-import { FullChannelMetadata } from '../app.types';
-import { getFullChannelMetadata, randomNumber } from '../recordGeneration';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+import { selectUrls } from '../state/slices/configSlice';
+import { useAppSelector } from '../state/hooks';
 
-const sleep = (ms: number): Promise<unknown> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+export const generateChannelMetadata = (
+  records: Record[]
+): FullChannelMetadata[] => {
+  const metadata: FullChannelMetadata[] = [];
+
+  records.forEach((record: Record) => {
+    const keys = Object.keys(record.channels);
+    keys.forEach((key: string) => {
+      if (!metadata.find((channel) => channel.systemName === key)) {
+        const channel: Channel = record.channels[key];
+        const channelDataType = channel.metadata.channel_dtype;
+        const newMetadata: FullChannelMetadata = {
+          systemName: key,
+          channel_dtype: channelDataType,
+        };
+        metadata.push(newMetadata);
+      }
+    });
+  });
+
+  return metadata;
 };
 
-// TODO change this when we have an API to query
-const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
-  const channels = getFullChannelMetadata();
-  await sleep(randomNumber(0, 1000));
-  return Promise.resolve(channels);
+// TODO change this when we have a proper channel info endpoint to query
+// This just fetches metadata from the records endpoint at the moment
+const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
+  return axios.get(`${apiUrl}/records`).then((response) => {
+    const records: Record[] = response.data;
+    const metadata = generateChannelMetadata(records);
+    return metadata;
+  });
 };
 
-export const useChannels = <T = FullChannelMetadata[],>(
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
 ): UseQueryResult<T, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
   return useQuery(
     ['channels'],
     (params) => {
-      return fetchChannels();
+      return fetchChannels(apiUrl);
     },
     {
       onError: (error) => {
@@ -35,13 +66,13 @@ export const useChannels = <T = FullChannelMetadata[],>(
 };
 
 export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
-  let myColumns: Column[] = [
+  const myColumns: Column[] = [
     {
       accessor: 'timestamp',
       Header: 'Timestamp',
     },
     {
-      accessor: 'shotNum',
+      accessor: 'shotnum',
       Header: 'Shot Number',
     },
     {
@@ -75,7 +106,7 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       // TODO: get these from data channel info
       channelInfo: channel,
     };
-    if (channel.dataType === 'scalar') {
+    if (channel.channel_dtype === 'scalar') {
       newColumn.Cell = ({ value }) =>
         typeof value === 'number' &&
         typeof channel.significantFigures === 'number' ? (
@@ -95,10 +126,29 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
   return myColumns;
 };
 
+export const getScalarChannels = (
+  channels: FullChannelMetadata[]
+): FullScalarChannelMetadata[] => {
+  return channels.filter(
+    (channel) => channel.channel_dtype === 'scalar'
+  ) as FullScalarChannelMetadata[];
+};
+
 const useAvailableColumnsOptions = {
   select: (data: FullChannelMetadata[]) => constructColumns(data),
 };
 
+const useScalarChannelsOptions = {
+  select: (data: FullChannelMetadata[]) => getScalarChannels(data),
+};
+
 export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
   return useChannels(useAvailableColumnsOptions);
+};
+
+export const useScalarChannels = (): UseQueryResult<
+  FullScalarChannelMetadata[],
+  AxiosError
+> => {
+  return useChannels(useScalarChannelsOptions);
 };

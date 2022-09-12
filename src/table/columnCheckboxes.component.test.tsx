@@ -2,7 +2,11 @@ import React from 'react';
 import { Column } from 'react-table';
 import ColumnCheckboxes from './columnCheckboxes.component';
 import { screen, act } from '@testing-library/react';
-import { flushPromises, getInitialState, renderWithStore } from '../setupTests';
+import {
+  flushPromises,
+  getInitialState,
+  renderComponentWithStore,
+} from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { useAvailableColumns } from '../api/channels';
@@ -28,8 +32,8 @@ describe('Column Checkboxes', () => {
       Header: 'Active Area',
       accessor: 'activeArea',
       channelInfo: {
-        systemName: 'active_area',
-        dataType: 'scalar',
+        systemName: 'activeArea',
+        channel_dtype: 'scalar',
       },
     },
     {
@@ -38,7 +42,7 @@ describe('Column Checkboxes', () => {
       channelInfo: {
         systemName: 'activeExperiment',
         userFriendlyName: 'Active Experiment',
-        dataType: 'scalar',
+        channel_dtype: 'scalar',
       },
     },
   ];
@@ -46,7 +50,7 @@ describe('Column Checkboxes', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderWithStore(<ColumnCheckboxes />, {
+    return renderComponentWithStore(<ColumnCheckboxes />, {
       preloadedState: initialState,
     });
   };

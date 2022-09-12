@@ -81,7 +81,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -122,16 +122,16 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                   aria-describedby="rbd-hidden-text-1-hidden-text-2"
                   class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
                   data-rbd-drag-handle-context-id="1"
-                  data-rbd-drag-handle-draggable-id="shotNum"
+                  data-rbd-drag-handle-draggable-id="shotnum"
                   data-rbd-draggable-context-id="1"
-                  data-rbd-draggable-id="shotNum"
+                  data-rbd-draggable-id="shotnum"
                   draggable="false"
                   role="columnheader"
                   scope="col"
                   tabindex="0"
                 >
                   <div
-                    aria-label="shotNum header"
+                    aria-label="shotnum header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -155,7 +155,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     >
                       <span
                         class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort shotNum"
+                        data-testid="sort shotnum"
                         role="button"
                         tabindex="0"
                       >
@@ -179,14 +179,14 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
                         aria-haspopup="true"
-                        aria-label="shotNum menu"
+                        aria-label="shotnum menu"
                         class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="shotNum-menu-button"
+                        id="shotnum-menu-button"
                         tabindex="0"
                         type="button"
                       >
@@ -277,7 +277,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -375,7 +375,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -730,13 +730,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
           </p>
           <div
             class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-            variant="standard"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby=":r8: :r7:"
-              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
               id=":r7:"
               role="button"
               tabindex="0"
@@ -751,7 +750,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -898,7 +897,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                     </div>
                   </div>
                   <div
-                    class="MuiBox-root css-1as59zz"
+                    class="MuiBox-root css-2luut9"
                   >
                     <div>
                       <button
@@ -1073,13 +1072,12 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
           </p>
           <div
             class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-            variant="standard"
           >
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
               aria-labelledby=":r2: :r1:"
-              class="MuiTablePagination-select MuiSelect-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
               id=":r1:"
               role="button"
               tabindex="0"
@@ -1094,7 +1092,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTablePagination-selectIcon MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
               data-testid="ArrowDropDownIcon"
               focusable="false"
               viewBox="0 0 24 24"

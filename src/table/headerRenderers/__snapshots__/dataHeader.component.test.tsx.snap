@@ -8,7 +8,7 @@ exports[`Data Header opens menu when menu icon is clicked 1`] = `
   tabindex="-1"
 >
   <li
-    class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root Mui-focusVisible css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
     role="menuitem"
     tabindex="0"
   >
@@ -42,7 +42,7 @@ exports[`Data Header opens menu when menu icon is clicked 1`] = `
     />
   </li>
   <li
-    class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
     role="menuitem"
     tabindex="-1"
   >
@@ -137,7 +137,7 @@ exports[`Data Header renders a column icon if provided 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root css-1as59zz"
+            class="MuiBox-root css-2luut9"
           >
             <div>
               <button
@@ -245,7 +245,7 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root css-1as59zz"
+            class="MuiBox-root css-2luut9"
           >
             <div>
               <button
@@ -337,7 +337,7 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root css-1as59zz"
+            class="MuiBox-root css-2luut9"
           >
             <div>
               <button
