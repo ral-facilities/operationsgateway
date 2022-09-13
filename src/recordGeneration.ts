@@ -6,6 +6,7 @@ import {
   FullChannelMetadata,
   DataType,
   ScalarChannel,
+  Channel,
 } from './app.types';
 
 export const resultsPerPage = 25;
@@ -65,7 +66,7 @@ const generateRecordMetadata = (): RecordMetadata => {
   };
 };
 
-const generateChannels = (): unknown => {
+const generateChannels = (): { [channel: string]: Channel } => {
   let returnedObject = {};
   const random = randomNumber(3, 6);
 

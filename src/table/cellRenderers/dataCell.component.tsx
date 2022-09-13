@@ -11,7 +11,7 @@ import {
 export interface DataCellProps {
   sx?: SxProps<Theme>;
   dataKey: string;
-  rowData: unknown;
+  rowData: React.ReactNode;
 }
 
 const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
