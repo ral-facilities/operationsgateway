@@ -26,6 +26,7 @@ import {
   FullScalarChannelMetadata,
   PlotType,
 } from '../app.types';
+import ColourPicker from './colourPicker.component';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -113,6 +114,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [YAxisInputVal, setYAxisInputVal] = React.useState<string>('');
+  const [colour, setColour] = React.useState<string>('');
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -526,10 +528,19 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }}
                 >
                   <Typography noWrap>{YAxis}</Typography>
-                  <StyledClose
-                    aria-label={`Remove ${YAxis} axis`}
-                    onClick={() => handleYAxisChange('')}
-                  />
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <ColourPicker colour={colour} onChange={setColour} />
+                    <StyledClose
+                      aria-label={`Remove ${YAxis} axis`}
+                      onClick={() => handleYAxisChange('')}
+                    />
+                  </Box>
                 </Box>
               </Grid>
             )}
