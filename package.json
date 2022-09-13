@@ -53,12 +53,17 @@
     "e2e:interactive": "start-server-and-test e2e:serve http://localhost:3000 cy:open",
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "postinstall": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "lint-staged": {
+    "src/**/*.{tsx,ts,js,jsx,json}": [
+      "eslint --max-warnings=0 --fix",
+      "prettier --write"
+    ],
+    "cypress/**/*.{tsx,ts,js,jsx}": [
+      "eslint --max-warnings=0 --fix",
+      "prettier --write"
     ]
   },
   "browserslist": {
@@ -95,7 +100,9 @@
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-prettier": "4.2.1",
     "express": "4.18.1",
+    "husky": "8.0.1",
     "jest-canvas-mock": "2.4.0",
+    "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.0.1",

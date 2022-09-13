@@ -116,9 +116,9 @@ export const useRecordsPaginated = (): UseQueryResult<
   >(
     ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      let { page, sort, dateRange } = params.queryKey[1];
-      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-      const startIndex = (page - 1) * resultsPerPage;
+      const { page, sort, dateRange } = params.queryKey[1];
+      // React Table pagination is zero-based
+      const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
       return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },
@@ -131,7 +131,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           const timestampString = record.metadata.timestamp;
           const timestampDate = parseISO(timestampString);
           const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
-          let recordRow: RecordRow = {
+          const recordRow: RecordRow = {
             timestamp: formattedDate,
             shotnum: record.metadata.shotnum,
             activeArea: record.metadata.activeArea,
@@ -200,9 +200,9 @@ export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
   >(
     ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      let { page, sort, dateRange } = params.queryKey[1];
-      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-      const startIndex = (page - 1) * resultsPerPage;
+      const { page, sort, dateRange } = params.queryKey[1];
+      // React Table pagination is zero-based
+      const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
       return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },

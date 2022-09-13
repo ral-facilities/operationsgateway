@@ -30,7 +30,7 @@ export interface RecordRow {
   shotnum?: number;
   activeExperiment?: string;
 
-  [channel: string]: any;
+  [channel: string]: unknown;
 }
 
 export interface ScalarMetadata {

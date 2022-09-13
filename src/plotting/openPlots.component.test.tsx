@@ -6,6 +6,7 @@ import { RootState } from '../state/store';
 
 // need to mock to avoid errors
 jest.mock('./plotWindow.component', () => (props) => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-PlotWindow {...props} />
 ));
