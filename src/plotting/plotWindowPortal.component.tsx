@@ -42,13 +42,13 @@ class PlotWindowPortal extends React.PureComponent<
 
   componentDidMount() {
     // open a new browser window and store a reference to it
-    let externalWindow = window.open(
+    const externalWindow = window.open(
       '',
       '',
       'width=600,height=400,left=200,top=200'
     );
     // create a container div
-    let el = document.createElement('div');
+    const el = document.createElement('div');
     const cache = createCache({ key: 'external', container: el });
 
     if (externalWindow) {

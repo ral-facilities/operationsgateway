@@ -192,7 +192,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const populateAxisSelectionOptions = (
     metadata: FullScalarChannelMetadata[]
   ): void => {
-    let ops: string[] = [
+    const ops: string[] = [
       'timestamp',
       'shotnum',
       'activeArea',
