@@ -203,7 +203,7 @@ export type ConnectedPlotProps = {
 const ConnectedPlot = (props: ConnectedPlotProps) => {
   const { XAxis, selectedChannels, records, channels } = props;
 
-  let plotDatasets: plotDataset[] = [];
+  const plotDatasets: plotDataset[] = [];
 
   selectedChannels.forEach((plotChannelName) => {
     // Add the initial entry for dataset called plotChannelName
