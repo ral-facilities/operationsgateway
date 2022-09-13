@@ -34,7 +34,6 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [YAxis, setYAxis] = React.useState<string>('');
   const [selectedChannels, setSelectedChannels] = React.useState<string[]>([]);
 
   const [open, setOpen] = React.useState(true);
@@ -104,9 +103,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 plotType={plotType}
                 changePlotType={setPlotType}
                 XAxis={XAxis}
-                YAxis={YAxis}
                 changeXAxis={setXAxis}
-                changeYAxis={setYAxis}
                 XAxisSettings={XAxisSettings}
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}

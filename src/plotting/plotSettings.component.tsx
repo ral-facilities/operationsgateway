@@ -76,9 +76,7 @@ export interface PlotSettingsProps {
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
   XAxis: string;
-  YAxis: string;
   changeXAxis: (value: string) => void;
-  changeYAxis: (value: string) => void;
   XAxisSettings: AxisSettings;
   changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
   YAxesSettings: AxisSettings;
@@ -112,27 +110,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
-
-  const addPlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      newselectedChannels.push(channel);
-      changeSelectedChannels(newselectedChannels);
-    },
-    [changeSelectedChannels, selectedChannels]
-  );
-
-  const removePlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      const index = newselectedChannels.indexOf(channel);
-      if (index > -1) {
-        newselectedChannels.splice(index, 1);
-        changeSelectedChannels(newselectedChannels);
-      }
-    },
-    [changeSelectedChannels, selectedChannels]
-  );
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -191,6 +168,31 @@ const PlotSettings = (props: PlotSettingsProps) => {
       setXYTabValue(newValue);
     },
     [setXYTabValue]
+  );
+
+  const addPlotChannel = React.useCallback(
+    (channel: string) => {
+      const newselectedChannels = Array.from(selectedChannels);
+      newselectedChannels.push(channel);
+      changeSelectedChannels(newselectedChannels);
+    },
+    [changeSelectedChannels, selectedChannels]
+  );
+
+  const removePlotChannel = React.useCallback(
+    (channel: string) => {
+      const newselectedChannels = Array.from(selectedChannels);
+      const index = newselectedChannels.indexOf(channel);
+      if (index > -1) {
+        newselectedChannels.splice(index, 1);
+        changeSelectedChannels(newselectedChannels);
+
+        if (newselectedChannels.length === 0) {
+          handleChangeYScale('linear');
+        }
+      }
+    },
+    [changeSelectedChannels, handleChangeYScale, selectedChannels]
   );
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
