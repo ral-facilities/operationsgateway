@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColourPicker component renders colour picker when square is clicked 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-79elbk"
+  >
+    <button
+      aria-haspopup="dialog"
+      aria-label="Pick colour"
+      class="MuiBox-root css-3mx4ey"
+    />
+    <div
+      class="MuiBox-root css-1sdlk3t"
+      role="dialog"
+    >
+      <div
+        class="react-colorful"
+      >
+        <div
+          class="react-colorful__saturation"
+          style="background-color: rgb(255, 0, 0);"
+        >
+          <div
+            aria-label="Color"
+            aria-valuetext="Saturation 100%, Brightness 100%"
+            class="react-colorful__interactive"
+            role="slider"
+            tabindex="0"
+          >
+            <div
+              class="react-colorful__pointer react-colorful__saturation-pointer"
+              style="top: 0%; left: 100%;"
+            >
+              <div
+                class="react-colorful__pointer-fill"
+                style="background-color: rgb(255, 0, 0);"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="react-colorful__hue react-colorful__last-control"
+        >
+          <div
+            aria-label="Hue"
+            aria-valuemax="360"
+            aria-valuemin="0"
+            aria-valuenow="0"
+            class="react-colorful__interactive"
+            role="slider"
+            tabindex="0"
+          >
+            <div
+              class="react-colorful__pointer react-colorful__hue-pointer"
+              style="top: 50%; left: 0%;"
+            >
+              <div
+                class="react-colorful__pointer-fill"
+                style="background-color: rgb(255, 0, 0);"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ColourPicker component renders coloured square when popover is not open 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-79elbk"
+  >
+    <button
+      aria-haspopup="dialog"
+      aria-label="Pick colour"
+      class="MuiBox-root css-3mx4ey"
+    />
+  </div>
+</DocumentFragment>
+`;

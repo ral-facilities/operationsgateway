@@ -61,8 +61,8 @@ const ColourPicker = (props: ColourPickerProps) => {
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
         sx={{
-          width: 20,
-          height: 20,
+          width: 24,
+          height: 24,
           borderRadius: '8px',
           border: '3px solid #fff',
           boxShadow:
@@ -70,11 +70,15 @@ const ColourPicker = (props: ColourPickerProps) => {
           cursor: 'pointer',
           backgroundColor: colour,
         }}
+        component="button"
         onClick={() => toggle(!isOpen)}
+        aria-label="Pick colour"
+        aria-haspopup="dialog"
       />
 
       {isOpen && (
         <Box
+          role="dialog"
           sx={{
             position: 'absolute',
             top: 'calc(100% + 2px)',
