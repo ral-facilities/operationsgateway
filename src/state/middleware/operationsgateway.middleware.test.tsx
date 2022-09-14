@@ -40,7 +40,7 @@ describe('OperationsGateway Middleware', () => {
 
   beforeEach(() => {
     events = [];
-    handler = () => {};
+    handler = () => undefined;
 
     document.dispatchEvent = (e: Event) => {
       events.push(e as CustomEvent<AnyAction>);

@@ -1,6 +1,11 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { Channel, FullChannelMetadata, FullScalarChannelMetadata, Record } from '../app.types';
+import {
+  Channel,
+  FullChannelMetadata,
+  FullScalarChannelMetadata,
+  Record,
+} from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
@@ -10,7 +15,7 @@ import { useAppSelector } from '../state/hooks';
 export const generateChannelMetadata = (
   records: Record[]
 ): FullChannelMetadata[] => {
-  let metadata: FullChannelMetadata[] = [];
+  const metadata: FullChannelMetadata[] = [];
 
   records.forEach((record: Record) => {
     const keys = Object.keys(record.channels);
@@ -40,6 +45,7 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
 ): UseQueryResult<T, AxiosError> => {
@@ -60,7 +66,7 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
 };
 
 export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
-  let myColumns: Column[] = [
+  const myColumns: Column[] = [
     {
       accessor: 'timestamp',
       Header: 'Timestamp',
@@ -123,7 +129,9 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
 export const getScalarChannels = (
   channels: FullChannelMetadata[]
 ): FullScalarChannelMetadata[] => {
-  return channels.filter((channel) => channel.channel_dtype === 'scalar') as FullScalarChannelMetadata[];
+  return channels.filter(
+    (channel) => channel.channel_dtype === 'scalar'
+  ) as FullScalarChannelMetadata[];
 };
 
 const useAvailableColumnsOptions = {

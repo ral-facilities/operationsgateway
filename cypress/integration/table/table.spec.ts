@@ -68,7 +68,7 @@ describe('Table Component', () => {
     cy.dragAndDrop('@thirdColumn', '@secondColumn');
 
     // Wait for draggable elements to settle before testing the DOM again
-    // eslint-disable-next-line testing-library/await-async-utils
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
     verifyColumnOrder(['Timestamp', 'Active Area', 'Shot Number']);
   });
@@ -95,7 +95,7 @@ describe('Table Component', () => {
     cy.dragAndDrop('@secondColumn', '@thirdColumn');
 
     // Wait for draggable elements to settle before testing the DOM again
-    // eslint-disable-next-line testing-library/await-async-utils
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
     verifyColumnOrder(['Timestamp', 'Active Area', 'Shot Number']);
   });
@@ -199,6 +199,7 @@ describe('Table Component', () => {
   describe.skip('should be able to sort by', () => {
     it('ascending order', () => {
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);
       cy.get('[aria-sort="ascending"]').should('exist');
       cy.get('.MuiTableSortLabel-iconDirectionAsc').should('be.visible');
@@ -227,10 +228,13 @@ describe('Table Component', () => {
 
     it('no order', () => {
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);
       cy.get('[aria-sort="ascending"]').should('not.exist');
       cy.get('[aria-sort="descending"]').should('not.exist');
@@ -252,6 +256,7 @@ describe('Table Component', () => {
     it('multiple columns', () => {
       cy.get('#shotnum').check();
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);
       cy.get('[data-testid="sort shotnum"]').click().wait('@getRecords');
 

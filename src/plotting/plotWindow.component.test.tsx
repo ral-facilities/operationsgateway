@@ -12,11 +12,13 @@ import { usePlotRecords } from '../api/records';
 import { FullScalarChannelMetadata } from '../app.types';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
 ));
 
 jest.mock('./plot.component', () => () => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-Plot data-testid="mock-plot" />
 ));

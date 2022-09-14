@@ -38,6 +38,7 @@ const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PlotListProps {}
 
 const PlotList = (props: PlotListProps) => {
