@@ -63,7 +63,7 @@ class PlotWindowPortal extends React.PureComponent<
 
       const sheet = element.sheet;
 
-      var styles = 'body {';
+      let styles = 'body {';
       styles += 'margin:0;';
       styles += '}';
 

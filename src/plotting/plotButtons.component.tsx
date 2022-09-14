@@ -9,8 +9,8 @@ import { formatTooltipLabel } from './plot.component';
  */
 function exportChart(svg: HTMLElement | null, title: string): void {
   if (svg && svg.firstChild) {
-    let svgURL = new XMLSerializer().serializeToString(svg.firstChild);
-    let svgBlob = new Blob([svgURL], { type: 'image/svg+xml;charset=utf-8' });
+    const svgURL = new XMLSerializer().serializeToString(svg.firstChild);
+    const svgBlob = new Blob([svgURL], { type: 'image/svg+xml;charset=utf-8' });
     const objectUrl = window.URL.createObjectURL(svgBlob);
 
     const link = document.createElement('a');
@@ -42,10 +42,10 @@ function exportData(
     );
     const csvArray = [headerRow, ...dataRows];
 
-    let csvContent =
+    const csvContent =
       'data:text/csv;charset=utf-8,' +
       csvArray.map((x) => x.join(',')).join('\n');
-    var encodedUri = encodeURI(csvContent);
+    const encodedUri = encodeURI(csvContent);
 
     const link = document.createElement('a');
     link.href = encodedUri;
