@@ -129,7 +129,7 @@ describe('Plot Buttons component', () => {
     expect(document.createElement).toHaveBeenCalledWith('a');
 
     expect(mockLink.href).toEqual(
-      'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09 09:30:00,1%0A2022-08-09 09:31:00,2%0A2022-08-09 09:32:00,3'
+      'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09%2009:30:00,1%0A2022-08-09%2009:31:00,2%0A2022-08-09%2009:32:00,3'
     );
     expect(mockLink.download).toEqual('test.csv');
     expect(mockLink.target).toEqual('_blank');
