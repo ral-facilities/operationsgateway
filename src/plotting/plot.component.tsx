@@ -20,7 +20,7 @@ export const formatTooltipLabel = (label: number | Date): number | string => {
 };
 
 export interface PlotProps {
-  data?: Record<string, number | Date>[];
+  data?: { [channel: string]: number | Date }[];
   title: string;
   type: PlotType;
   XAxisSettings: AxisSettings;

@@ -32,7 +32,7 @@ function exportChart(svg: HTMLElement | null, title: string): void {
  *  @param title The title of the plot (for the file name)
  */
 function exportData(
-  data: Record<string, number | Date>[] | undefined,
+  data: { [channel: string]: number | Date }[] | undefined,
   title: string
 ): void {
   if (data && data.length > 0) {
@@ -60,7 +60,7 @@ function exportData(
 }
 
 interface PlotButtonsProps {
-  data?: Record<string, number | Date>[];
+  data?: { [channel: string]: number | Date }[];
   svgRef: React.MutableRefObject<HTMLElement | null>;
   title: string;
 }
