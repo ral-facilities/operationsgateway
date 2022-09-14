@@ -225,35 +225,75 @@ export const getFormattedAxisData = (
   return formattedData;
 };
 
+type plotDataset = {
+  name: string;
+  data: {
+    [point: string]: number | Date;
+  }[];
+};
+
 // currently pass in the x and y axes just to sort out the select function but
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
-  YAxis: string
-): UseQueryResult<{ [channel: string]: number | Date }[], AxiosError> => {
+  selectedChannels: string[]
+): UseQueryResult<plotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
-      select: (data: Record[]) =>
-        // use reduce instead of map so we can skip invalid values
-        data.reduce<{ [channel: string]: number | Date }[]>(
-          (result, record) => {
-            const formattedXAxis = getFormattedAxisData(record, XAxis);
-            const formattedYAxis = getFormattedAxisData(record, YAxis);
+      select: (records: Record[]) => {
+        const plotDatasets: plotDataset[] = [];
 
-            // Only add to result array if we have valid x and y value
+        selectedChannels.forEach((plotChannelName) => {
+          // Add the initial entry for dataset called plotChannelName
+          // data field is currently empty, the below loop populates it
+          const newDataset: plotDataset = {
+            name: plotChannelName,
+            data: [],
+          };
+
+          // Populate the above data field
+          records.forEach((record) => {
+            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedYAxis = getFormattedAxisData(
+              record,
+              plotChannelName
+            );
+
             if (formattedXAxis && formattedYAxis) {
-              result.push({
+              const currentData = newDataset.data;
+              currentData.push({
                 [XAxis]: formattedXAxis,
-                [YAxis]: formattedYAxis,
+                [plotChannelName]: formattedYAxis,
               });
             }
+          });
 
-            return result;
-          },
-          []
-        ),
+          plotDatasets.push(newDataset);
+        });
+
+        return plotDatasets;
+      },
+
+      // use reduce instead of map so we can skip invalid values
+      // data.reduce<{ [channel: string]: number | Date }[]>(
+      //   (result, record) => {
+      //     const formattedXAxis = getFormattedAxisData(record, XAxis);
+      //     const formattedYAxis = getFormattedAxisData(record, YAxis);
+
+      //     // Only add to result array if we have valid x and y value
+      //     if (formattedXAxis && formattedYAxis) {
+      //       result.push({
+      //         [XAxis]: formattedXAxis,
+      //         [YAxis]: formattedYAxis,
+      //       });
+      //     }
+
+      //     return result;
+      //   },
+      //   []
+      // ),
     }),
-    [XAxis, YAxis]
+    [XAxis, selectedChannels]
   );
 
   return useRecords(usePlotRecordsOptions);
