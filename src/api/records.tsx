@@ -193,12 +193,12 @@ export const useRecordsPaginated = (): UseQueryResult<
 export const getFormattedAxisData = (
   record: Record,
   axisName: string
-): number => {
-  let formattedData = NaN;
+): number | Date => {
+  let formattedData: number | Date = NaN;
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = new Date(record.metadata.timestamp).getTime();
+      formattedData = parseISO(record.metadata.timestamp);
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
@@ -229,7 +229,7 @@ export const getFormattedAxisData = (
 export const usePlotRecords = (
   XAxis: string,
   YAxis: string
-): UseQueryResult<{ [channel: string]: number }[], AxiosError> => {
+): UseQueryResult<{ [channel: string]: number | Date }[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
       select: (data: Record[]) =>

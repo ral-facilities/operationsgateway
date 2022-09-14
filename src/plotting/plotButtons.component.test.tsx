@@ -10,15 +10,15 @@ describe('Plot Buttons component', () => {
   const plotButtonsProps: React.ComponentProps<typeof PlotButtons> = {
     data: [
       {
-        timestamp: '2022-08-09T09:30:00',
+        timestamp: new Date('2022-08-09T09:30:00'),
         shotNum: 1,
       },
       {
-        timestamp: '2022-08-09T09:31:00',
+        timestamp: new Date('2022-08-09T09:31:00'),
         shotNum: 2,
       },
       {
-        timestamp: '2022-08-09T09:32:00',
+        timestamp: new Date('2022-08-09T09:32:00'),
         shotNum: 3,
       },
     ],
@@ -129,7 +129,7 @@ describe('Plot Buttons component', () => {
     expect(document.createElement).toHaveBeenCalledWith('a');
 
     expect(mockLink.href).toEqual(
-      'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09T09:30:00,1%0A2022-08-09T09:31:00,2%0A2022-08-09T09:32:00,3'
+      'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09 09:30:00,1%0A2022-08-09 09:31:00,2%0A2022-08-09 09:32:00,3'
     );
     expect(mockLink.download).toEqual('test.csv');
     expect(mockLink.target).toEqual('_blank');

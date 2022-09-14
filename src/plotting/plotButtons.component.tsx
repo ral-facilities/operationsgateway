@@ -1,5 +1,6 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
+import { formatTooltipLabel } from './plot.component';
 
 /**
  *  Exports the graph as SVG
@@ -31,12 +32,14 @@ function exportChart(svg: HTMLElement | null, title: string): void {
  *  @param title The title of the plot (for the file name)
  */
 function exportData(
-  data: Record<string, unknown>[] | undefined,
+  data: Record<string, number | Date>[] | undefined,
   title: string
 ): void {
   if (data && data.length > 0) {
     const headerRow = Object.keys(data[0]);
-    const dataRows = data.map((x) => Object.values(x));
+    const dataRows = data.map((x) =>
+      Object.values(x).map((y) => formatTooltipLabel(y))
+    );
     const csvArray = [headerRow, ...dataRows];
 
     let csvContent =
@@ -57,7 +60,7 @@ function exportData(
 }
 
 interface PlotButtonsProps {
-  data?: Record<string, unknown>[];
+  data?: Record<string, number | Date>[];
   svgRef: React.MutableRefObject<HTMLElement | null>;
   title: string;
 }

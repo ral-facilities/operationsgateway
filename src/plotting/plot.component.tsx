@@ -12,18 +12,15 @@ import {
 import { AxisSettings, PlotType } from '../app.types';
 import { format } from 'date-fns';
 
-export const formatTooltipLabel = (
-  label: number,
-  scale: AxisSettings['scale']
-): number | string => {
-  if (scale === 'time') {
-    return format(new Date(label), 'yyyy-MM-dd HH:mm:ss:SSS');
+export const formatTooltipLabel = (label: number | Date): number | string => {
+  if (label instanceof Date) {
+    return format(label, 'yyyy-MM-dd HH:mm:ss');
   }
   return label;
 };
 
 export interface PlotProps {
-  data?: Record<string, unknown>[];
+  data?: Record<string, number | Date>[];
   title: string;
   type: PlotType;
   XAxisSettings: AxisSettings;
@@ -139,14 +136,8 @@ const Plot = (props: PlotProps) => {
           y={YAxis}
           size={type === 'line' ? 2 : 3}
           labels={({ datum }) => {
-            const formattedXLabel = formatTooltipLabel(
-              datum._x,
-              XAxisSettings.scale
-            );
-            const formattedYLabel = formatTooltipLabel(
-              datum._y,
-              YAxesSettings.scale
-            );
+            const formattedXLabel = formatTooltipLabel(datum._x);
+            const formattedYLabel = formatTooltipLabel(datum._y);
             return `(${formattedXLabel}, ${formattedYLabel})`;
           }}
           labelComponent={<VictoryTooltip />}

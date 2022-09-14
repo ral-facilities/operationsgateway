@@ -17,6 +17,7 @@ import {
 } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { parseISO } from 'date-fns';
 
 const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
   if (!x || !y) return false;
@@ -275,12 +276,10 @@ describe('records api functions', () => {
     });
 
     it('formats timestamp correctly', () => {
-      const unixTimestamp = Math.floor(
-        new Date(testRecord.metadata.timestamp).getTime()
-      );
+      const timestamp = parseISO(testRecord.metadata.timestamp);
 
       const result = getFormattedAxisData(testRecord, 'timestamp');
-      expect(result).toEqual(unixTimestamp);
+      expect(result).toEqual(timestamp);
     });
 
     it('formats shot number correctly', () => {

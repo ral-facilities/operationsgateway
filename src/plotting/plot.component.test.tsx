@@ -203,14 +203,14 @@ describe('plotting', () => {
 
 describe('formatTooltipLabel function', () => {
   it('formats timestamp correctly', () => {
-    const label = 1640995200000;
-    const result = formatTooltipLabel(label, 'time');
-    expect(result).toEqual('2022-01-01 00:00:00:000');
+    const label = new Date(1640995200000);
+    const result = formatTooltipLabel(label);
+    expect(result).toEqual('2022-01-01 00:00:00');
   });
 
-  it('returns the original label if scale is not time', () => {
+  it('returns the original label if it is not a date', () => {
     const label = 123456;
-    const result = formatTooltipLabel(label, 'linear');
+    const result = formatTooltipLabel(label);
     expect(result).toEqual(label);
   });
 });
