@@ -1,15 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import { FullScalarChannelMetadata, Record, ScalarChannel } from '../app.types';
-import {
-  PlotProps,
-  ConnectedPlotProps,
-  getFormattedAxisData,
-  formatTooltipLabel,
-} from './plot.component';
-import { testRecords, generateRecord, testChannels } from '../setupTests';
-
-const testScalarChannels = testChannels as FullScalarChannelMetadata[];
+import { PlotProps, formatTooltipLabel } from './plot.component';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -92,6 +83,12 @@ describe('plotting', () => {
           />
         );
       },
+      VictoryTooltip: (props) => {
+        return (
+          // @ts-ignore
+          <mock-VictoryTooltip {...props} />
+        );
+      },
     }));
   });
   /* eslint-enable @typescript-eslint/ban-ts-comment */
@@ -115,7 +112,7 @@ describe('plotting', () => {
       };
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { Plot } = require('./plot.component');
+      const { default: Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
 
@@ -152,7 +149,7 @@ describe('plotting', () => {
       };
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { Plot } = require('./plot.component');
+      const { default: Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
 
@@ -195,7 +192,7 @@ describe('plotting', () => {
       };
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { Plot } = require('./plot.component');
+      const { default: Plot } = require('./plot.component');
 
       render(<Plot {...props} />);
 
@@ -207,249 +204,18 @@ describe('plotting', () => {
       expect(mockVictoryChart).toHaveBeenCalledTimes(3);
     });
   });
-
-  describe('ConnectedPlot component', () => {
-    let props: ConnectedPlotProps;
-
-    it('constructs data to insert into a Plot component', () => {
-      props = {
-        records: testRecords,
-        channels: testScalarChannels,
-        XAxis: 'timestamp',
-        YAxis: 'shotnum',
-        title: 'test title',
-        type: 'scatter',
-        XAxisSettings: {
-          scale: 'time',
-        },
-        YAxesSettings: {
-          scale: 'linear',
-        },
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const ConnectedPlot = require('./plot.component').default;
-      render(<ConnectedPlot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'time', y: 'linear' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'test title',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-
-      const expectedData = testRecords.map((record: Record) => {
-        return {
-          timestamp: new Date(record.metadata.timestamp).getTime(),
-          shotnum: record.metadata.shotnum,
-        };
-      });
-
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expectedData,
-        })
-      );
-      expect(mockVictoryLine).not.toHaveBeenCalled();
-    });
-
-    it('inserts null points if an x or y value does not exist', () => {
-      const amendedTestRecords = testRecords;
-      amendedTestRecords[1].metadata.activeExperiment = undefined;
-      props = {
-        records: amendedTestRecords,
-        channels: testScalarChannels,
-        XAxis: 'activeArea',
-        YAxis: 'activeExperiment',
-        title: 'test title',
-        type: 'scatter',
-        XAxisSettings: {
-          scale: 'linear',
-        },
-        YAxesSettings: {
-          scale: 'log',
-        },
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const ConnectedPlot = require('./plot.component').default;
-      render(<ConnectedPlot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'linear', y: 'log' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'test title',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: [
-            {
-              activeArea: 1,
-              activeExperiment: 1,
-            },
-            {
-              activeArea: NaN,
-              activeExperiment: NaN,
-            },
-            {
-              activeArea: 3,
-              activeExperiment: 3,
-            },
-          ],
-        })
-      );
-      expect(mockVictoryLine).not.toHaveBeenCalled();
-    });
-
-    it('constructs an empty dataset if we have no records available', () => {
-      props = {
-        records: [],
-        channels: testScalarChannels,
-        XAxis: 'timestamp',
-        YAxis: 'shotnum',
-        title: 'test title',
-        type: 'line',
-        XAxisSettings: {
-          scale: 'time',
-        },
-        YAxesSettings: {
-          scale: 'log',
-        },
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const ConnectedPlot = require('./plot.component').default;
-      render(<ConnectedPlot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'time', y: 'log' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'test title',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: [],
-        })
-      );
-      expect(mockVictoryLine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: [],
-        })
-      );
-    });
-  });
 });
 
 describe('formatTooltipLabel function', () => {
   it('formats timestamp correctly', () => {
-    const label = 1640995200000;
-    const result = formatTooltipLabel(label, 'time');
-    expect(result).toEqual('2022-01-01 00:00:00:000');
+    const label = new Date(1640995200000);
+    const result = formatTooltipLabel(label);
+    expect(result).toEqual('2022-01-01 00:00:00');
   });
 
-  it('returns the original label if scale is not time', () => {
+  it('returns the original label if it is not a date', () => {
     const label = 123456;
-    const result = formatTooltipLabel(label, 'linear');
+    const result = formatTooltipLabel(label);
     expect(result).toEqual(label);
-  });
-});
-
-describe('getFormattedAxisData function', () => {
-  let testRecord: Record;
-
-  beforeEach(() => {
-    // record with num = 3 creates a record with a scalar channel called test_3
-    // this corresponds with scalar metadata channel test_3 in testChannels variable
-    testRecord = generateRecord(3);
-  });
-
-  it('formats timestamp correctly', () => {
-    const unixTimestamp = Math.floor(
-      new Date(testRecord.metadata.timestamp).getTime()
-    );
-
-    const result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'timestamp'
-    );
-    expect(result).toEqual(unixTimestamp);
-  });
-
-  it('formats shot number correctly', () => {
-    let result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'activeExperiment'
-    );
-    expect(result).toEqual(testRecord.metadata.shotnum);
-
-    testRecord.metadata.shotnum = undefined;
-    result = getFormattedAxisData(testRecord, testScalarChannels, 'shotnum');
-    expect(result).toEqual(NaN);
-  });
-
-  it('formats activeArea correctly', () => {
-    const result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'activeArea'
-    );
-    expect(result).toEqual(parseInt(testRecord.metadata.activeArea));
-  });
-
-  it('formats activeExperiment correctly', () => {
-    testRecord.metadata.activeExperiment = '4';
-    let result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'activeExperiment'
-    );
-    expect(result).toEqual(parseInt(testRecord.metadata.activeExperiment));
-
-    testRecord.metadata.activeExperiment = undefined;
-    result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'activeExperiment'
-    );
-    expect(result).toEqual(NaN);
-  });
-
-  it('formats channel data correctly', () => {
-    let result = getFormattedAxisData(testRecord, testScalarChannels, 'test_3');
-    expect(result).toEqual(
-      (testRecord.channels['test_3'] as ScalarChannel).data
-    );
-
-    (testRecord.channels['test_3'] as ScalarChannel).data = '1';
-    result = getFormattedAxisData(testRecord, testScalarChannels, 'test_3');
-    expect(result).toEqual(1);
-
-    result = getFormattedAxisData(
-      testRecord,
-      testScalarChannels,
-      'invalid_channel'
-    );
-    expect(result).toEqual(NaN);
   });
 });
