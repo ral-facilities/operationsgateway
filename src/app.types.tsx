@@ -150,6 +150,13 @@ export interface AxisSettings {
   max?: number;
 }
 
+export type PlotDataset = {
+  name: string;
+  data: {
+    [x: string]: number;
+  }[];
+};
+
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)

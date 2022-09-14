@@ -1,5 +1,6 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
+import { PlotDataset } from '../app.types';
 import { formatTooltipLabel } from './plot.component';
 
 /**
@@ -26,21 +27,71 @@ function exportChart(svg: HTMLElement | null, title: string): void {
   }
 }
 
+type DataRow = {
+  [column: string]: number;
+};
+
 /**
  *  Exports the graph data as a CSV
  *  @param data The data to export
  *  @param title The title of the plot (for the file name)
  */
-function exportData(
-  data: { [channel: string]: number | Date }[] | undefined,
-  title: string
-): void {
-  if (data && data.length > 0) {
-    const headerRow = Object.keys(data[0]);
-    const dataRows = data.map((x) =>
-      Object.values(x).map((y) => formatTooltipLabel(y))
-    );
-    const csvArray = [headerRow, ...dataRows];
+function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
+  if (plots && plots.length > 0) {
+    const headerRow = [XAxis].concat(plots.map((plot) => plot.name));
+
+    const dataRows: DataRow[] = [];
+
+    plots.forEach((plot) => {
+      const plotDataset = plot.data;
+      for (let i = 0; i < plotDataset.length; i++) {
+        const currentPoint: { [point: string]: number } = plotDataset[i];
+        const currentPointXVal = currentPoint[XAxis];
+        const currentPointYVal = currentPoint[plot.name];
+
+        const matchingDataRow = dataRows.find(
+          (dataRow) => dataRow[XAxis] === currentPointXVal
+        );
+        let newDataRow: DataRow;
+        if (matchingDataRow) {
+          newDataRow = {
+            ...matchingDataRow,
+
+            [plot.name]: currentPointYVal,
+          };
+          dataRows[dataRows.indexOf(matchingDataRow)] = newDataRow;
+        } else {
+          newDataRow = {
+            [XAxis]: currentPointXVal,
+
+            [plot.name]: currentPointYVal,
+          };
+          dataRows.push(newDataRow);
+        }
+      }
+    });
+
+    const sortedDataRows = dataRows.sort((row1, row2) => {
+      const row1XVal = row1[XAxis];
+      const row2XVal = row2[XAxis];
+
+      if (row1XVal > row2XVal) return 1;
+      if (row1XVal < row2XVal) return -1;
+      return 0;
+    });
+
+    const finalPrintedRows = sortedDataRows.map((dataRow) => {
+      return headerRow.map((header) => {
+        if (Object.keys(dataRow).includes(header)) {
+          return header === 'timestamp'
+            ? formatTooltipLabel(dataRow[header], 'time')
+            : dataRow[header];
+        }
+        return '';
+      });
+    });
+
+    const csvArray = [headerRow, ...finalPrintedRows];
 
     const csvContent =
       'data:text/csv;charset=utf-8,' +
@@ -60,13 +111,14 @@ function exportData(
 }
 
 interface PlotButtonsProps {
-  data?: { [channel: string]: number | Date }[];
+  data?: PlotDataset[];
   svgRef: React.MutableRefObject<HTMLElement | null>;
   title: string;
+  XAxis: string;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, svgRef, title } = props;
+  const { data, svgRef, title, XAxis } = props;
   return (
     <ButtonGroup size="small" aria-label="plot actions">
       {/* TODO: link these buttons up to save graph config to redux/session */}
@@ -75,7 +127,9 @@ const PlotButtons = (props: PlotButtonsProps) => {
       <Button onClick={() => exportChart(svgRef.current, title)}>
         Export Plot
       </Button>
-      <Button onClick={() => exportData(data, title)}>Export Plot Data</Button>
+      <Button onClick={() => exportData(title, XAxis, data)}>
+        Export Plot Data
+      </Button>
     </ButtonGroup>
   );
 };

@@ -55,7 +55,7 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
-    YAxis
+    selectedChannels
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
@@ -166,6 +166,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 data={records}
                 svgRef={svgRef}
                 title={plotTitle || untitledTitle}
+                XAxis={XAxis}
               />
             </Grid>
           </Grid>

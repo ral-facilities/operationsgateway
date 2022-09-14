@@ -6,6 +6,7 @@ import {
   DateRange,
   ImageChannel,
   isChannelScalar,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
@@ -194,12 +195,12 @@ export const useRecordsPaginated = (): UseQueryResult<
 export const getFormattedAxisData = (
   record: Record,
   axisName: string
-): number | Date => {
-  let formattedData: number | Date = NaN;
+): number => {
+  let formattedData = NaN;
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = parseISO(record.metadata.timestamp);
+      formattedData = Math.floor(new Date(record.metadata.timestamp).getTime());
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
@@ -225,28 +226,21 @@ export const getFormattedAxisData = (
   return formattedData;
 };
 
-type plotDataset = {
-  name: string;
-  data: {
-    [point: string]: number | Date;
-  }[];
-};
-
 // currently pass in the x and y axes just to sort out the select function but
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
   selectedChannels: string[]
-): UseQueryResult<plotDataset[], AxiosError> => {
+): UseQueryResult<PlotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
       select: (records: Record[]) => {
-        const plotDatasets: plotDataset[] = [];
+        const plotDatasets: PlotDataset[] = [];
 
         selectedChannels.forEach((plotChannelName) => {
           // Add the initial entry for dataset called plotChannelName
           // data field is currently empty, the below loop populates it
-          const newDataset: plotDataset = {
+          const newDataset: PlotDataset = {
             name: plotChannelName,
             data: [],
           };

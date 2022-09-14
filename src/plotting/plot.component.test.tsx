@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
+import { PlotDataset } from '../app.types';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -10,14 +11,36 @@ describe('plotting', () => {
   const mockVictoryLine = jest.fn();
   const mockVictoryLabel = jest.fn();
   const mockVictoryLegend = jest.fn();
+  const mockVictoryGroup = jest.fn();
 
-  const testData: unknown[] = [
+  const testData: PlotDataset[] = [
     {
-      label: 'Test',
+      name: 'CHANNEL_1',
       data: [
         { x: 1, y: 1 },
         { x: 2, y: 2 },
         { x: 3, y: 3 },
+      ],
+    },
+    {
+      name: 'CHANNEL_2',
+      data: [
+        { x: 11, y: 11 },
+        { x: 22, y: 22 },
+        { x: 33, y: 33 },
+        { x: 44, y: 44 },
+        { x: 55, y: 55 },
+        { x: 66, y: 66 },
+      ],
+    },
+    {
+      name: 'CHANNEL_3',
+      data: [
+        { x: 1, y: 2 },
+        { x: 2, y: 3 },
+        { x: 3, y: 4 },
+        { x: 5, y: 6 },
+        { x: 7, y: 8 },
       ],
     },
   ];
@@ -68,6 +91,11 @@ describe('plotting', () => {
           />
         );
       },
+      VictoryGroup: (props) => {
+        mockVictoryGroup(props);
+        // @ts-ignore
+        return <mock-VictoryGroup {...props} />;
+      },
       VictoryLabel: (props) => {
         mockVictoryLabel(props);
         // @ts-ignore
@@ -100,17 +128,19 @@ describe('plotting', () => {
   describe('Plot component', () => {
     let props: PlotProps;
 
-    it('renders a scatter plot with the correct elements passed the correct props', () => {
+    beforeEach(() => {
       props = {
-        data: testData,
+        datasets: testData,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },
         YAxesSettings: { scale: 'linear' },
         XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
+        svgRef: React.createRef<HTMLElement>(),
       };
+    });
 
+    it('renders a scatter plot with the correct elements passed the correct props', () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { default: Plot } = require('./plot.component');
 
@@ -126,26 +156,34 @@ describe('plotting', () => {
           text: 'scatter plot',
         })
       );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
+          data: testData.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          }),
         })
       );
+      expect(mockVictoryScatter.mock.calls.length).toEqual(testData.length);
       expect(mockVictoryLine).not.toHaveBeenCalled();
+
+      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
+        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testData[i].data,
+            x: 'test x-axis',
+            y: testData[i].name,
+          })
+        );
+      }
     });
 
     it('renders a line plot with the correct elements passed the correct props', () => {
       props = {
-        data: testData,
+        ...props,
         title: 'line plot',
         type: 'line',
         XAxisSettings: { scale: 'linear' },
         YAxesSettings: { scale: 'log' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
       };
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -163,34 +201,35 @@ describe('plotting', () => {
           text: 'line plot',
         })
       );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
+          data: testData.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          }),
         })
       );
-      expect(mockVictoryLine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
-        })
-      );
+      expect(mockVictoryScatter.mock.calls.length).toEqual(testData.length);
+      expect(mockVictoryLine.mock.calls.length).toEqual(testData.length);
+
+      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
+        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testData[i].data,
+            x: 'test x-axis',
+            y: testData[i].name,
+          })
+        );
+        expect(mockVictoryLine.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testData[i].data,
+            x: 'test x-axis',
+            y: testData[i].name,
+          })
+        );
+      }
     });
 
     it('redraws the plot in response to resize events', () => {
-      props = {
-        data: testData,
-        title: 'Test',
-        type: 'scatter',
-        XAxisSettings: { scale: 'time' },
-        YAxesSettings: { scale: 'linear' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
-      };
-
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { default: Plot } = require('./plot.component');
 
@@ -208,14 +247,14 @@ describe('plotting', () => {
 
 describe('formatTooltipLabel function', () => {
   it('formats timestamp correctly', () => {
-    const label = new Date(1640995200000);
-    const result = formatTooltipLabel(label);
+    const label = 1640995200000;
+    const result = formatTooltipLabel(label, 'time');
     expect(result).toEqual('2022-01-01 00:00:00');
   });
 
   it('returns the original label if it is not a date', () => {
     const label = 123456;
-    const result = formatTooltipLabel(label);
+    const result = formatTooltipLabel(label, 'linear');
     expect(result).toEqual(label);
   });
 });
