@@ -251,16 +251,16 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      const expectedData = mockData.map((record: Record) => {
-        return {
-          activeArea: record.metadata.activeExperiment
-            ? parseInt(record.metadata.activeArea)
-            : NaN,
-          activeExperiment: record.metadata.activeExperiment
-            ? parseInt(record.metadata.activeExperiment)
-            : NaN,
-        };
-      });
+      const expectedData = mockData
+        .filter((record: Record) => {
+          return Boolean(record.metadata.activeExperiment);
+        })
+        .map((record: Record) => {
+          return {
+            activeArea: parseInt(record.metadata.activeArea),
+            activeExperiment: parseInt(record.metadata.activeExperiment),
+          };
+        });
 
       expect(result.current.data).toEqual(expectedData);
     });
