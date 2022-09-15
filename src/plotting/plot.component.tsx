@@ -18,7 +18,7 @@ export const formatTooltipLabel = (
   scale: AxisSettings['scale']
 ): number | string => {
   if (scale === 'time') {
-    return format(label, 'yyyy-MM-dd HH:mm:ss:SSS');
+    return format(label, 'yyyy-MM-dd HH:mm:ss');
   }
   return label;
 };

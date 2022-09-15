@@ -27,6 +27,12 @@ function exportChart(svg: HTMLElement | null, title: string): void {
   }
 }
 
+/**
+ * A custom type for mapping an X value in a plot to multiple Y values
+ * This can be used to represent one row of data in a CSV file
+ *
+ * Each DataRow has an X value and at least one other value
+ */
 type DataRow = {
   [column: string]: number;
 };
@@ -38,22 +44,29 @@ type DataRow = {
  */
 function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
   if (plots && plots.length > 0) {
+    // First row of file, i.e. the column names
     const headerRow = [XAxis].concat(plots.map((plot) => plot.name));
 
+    // Array of rows following the first row, i.e. the actual data
     const dataRows: DataRow[] = [];
 
+    // For each plotted dataset, extract data points and add to array of data rows
     plots.forEach((plot) => {
       const plotDataset = plot.data;
       for (let i = 0; i < plotDataset.length; i++) {
-        const currentPoint: { [point: string]: number } = plotDataset[i];
+        const currentPoint: { [x: string]: number } = plotDataset[i];
+
+        // Extract the X and Y values for this point in the dataset
         const currentPointXVal = currentPoint[XAxis];
         const currentPointYVal = currentPoint[plot.name];
 
+        // See if we already have a data row matching this X value
         const matchingDataRow = dataRows.find(
           (dataRow) => dataRow[XAxis] === currentPointXVal
         );
         let newDataRow: DataRow;
         if (matchingDataRow) {
+          // Found matching data row, add a "column" to it for this piece of data
           newDataRow = {
             ...matchingDataRow,
 
@@ -61,6 +74,7 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
           };
           dataRows[dataRows.indexOf(matchingDataRow)] = newDataRow;
         } else {
+          // Make a new data row for this X value
           newDataRow = {
             [XAxis]: currentPointXVal,
 
@@ -71,6 +85,7 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
       }
     });
 
+    // Sort by X value ascending
     const sortedDataRows = dataRows.sort((row1, row2) => {
       const row1XVal = row1[XAxis];
       const row2XVal = row2[XAxis];
@@ -80,7 +95,9 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
       return 0;
     });
 
-    const finalPrintedRows = sortedDataRows.map((dataRow) => {
+    // Transform the DataRow array into a 2D array of data, corresponding to rows in CSV
+    // This is usually numbered data but is string in the case of formatted timestamps
+    const finalCsvRows = sortedDataRows.map((dataRow) => {
       return headerRow.map((header) => {
         if (Object.keys(dataRow).includes(header)) {
           return header === 'timestamp'
@@ -91,7 +108,7 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
       });
     });
 
-    const csvArray = [headerRow, ...finalPrintedRows];
+    const csvArray = [headerRow, ...finalCsvRows];
 
     const csvContent =
       'data:text/csv;charset=utf-8,' +
