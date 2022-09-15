@@ -237,7 +237,10 @@ describe('plotting', () => {
 
       expect(mockVictoryChart).toHaveBeenCalledTimes(1);
 
-      fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
+      fireEvent(
+        window,
+        new Event(`resize OperationsGateway Plot - ${props.title}`)
+      );
 
       // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
       expect(mockVictoryChart).toHaveBeenCalledTimes(3);
