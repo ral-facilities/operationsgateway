@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
-import { PlotDataset } from '../app.types';
+import { testPlotDatasets } from '../setupTests';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -12,38 +12,6 @@ describe('plotting', () => {
   const mockVictoryLabel = jest.fn();
   const mockVictoryLegend = jest.fn();
   const mockVictoryGroup = jest.fn();
-
-  const testData: PlotDataset[] = [
-    {
-      name: 'CHANNEL_1',
-      data: [
-        { x: 1, y: 1 },
-        { x: 2, y: 2 },
-        { x: 3, y: 3 },
-      ],
-    },
-    {
-      name: 'CHANNEL_2',
-      data: [
-        { x: 11, y: 11 },
-        { x: 22, y: 22 },
-        { x: 33, y: 33 },
-        { x: 44, y: 44 },
-        { x: 55, y: 55 },
-        { x: 66, y: 66 },
-      ],
-    },
-    {
-      name: 'CHANNEL_3',
-      data: [
-        { x: 1, y: 2 },
-        { x: 2, y: 3 },
-        { x: 3, y: 4 },
-        { x: 5, y: 6 },
-        { x: 7, y: 8 },
-      ],
-    },
-  ];
 
   beforeEach(() => {
     jest.resetModules();
@@ -130,7 +98,7 @@ describe('plotting', () => {
 
     beforeEach(() => {
       props = {
-        datasets: testData,
+        datasets: testPlotDatasets,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },
@@ -158,20 +126,22 @@ describe('plotting', () => {
       );
       expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData.map((dataset) => {
+          data: testPlotDatasets.map((dataset) => {
             return { name: dataset.name, symbol: { fill: '#e31a1c' } };
           }),
         })
       );
-      expect(mockVictoryScatter.mock.calls.length).toEqual(testData.length);
+      expect(mockVictoryScatter.mock.calls.length).toEqual(
+        testPlotDatasets.length
+      );
       expect(mockVictoryLine).not.toHaveBeenCalled();
 
       for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
         expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
           expect.objectContaining({
-            data: testData[i].data,
+            data: testPlotDatasets[i].data,
             x: 'test x-axis',
-            y: testData[i].name,
+            y: testPlotDatasets[i].name,
           })
         );
       }
@@ -203,27 +173,31 @@ describe('plotting', () => {
       );
       expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData.map((dataset) => {
+          data: testPlotDatasets.map((dataset) => {
             return { name: dataset.name, symbol: { fill: '#e31a1c' } };
           }),
         })
       );
-      expect(mockVictoryScatter.mock.calls.length).toEqual(testData.length);
-      expect(mockVictoryLine.mock.calls.length).toEqual(testData.length);
+      expect(mockVictoryScatter.mock.calls.length).toEqual(
+        testPlotDatasets.length
+      );
+      expect(mockVictoryLine.mock.calls.length).toEqual(
+        testPlotDatasets.length
+      );
 
       for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
         expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
           expect.objectContaining({
-            data: testData[i].data,
+            data: testPlotDatasets[i].data,
             x: 'test x-axis',
-            y: testData[i].name,
+            y: testPlotDatasets[i].name,
           })
         );
         expect(mockVictoryLine.mock.calls[i][0]).toEqual(
           expect.objectContaining({
-            data: testData[i].data,
+            data: testPlotDatasets[i].data,
             x: 'test x-axis',
-            y: testData[i].name,
+            y: testPlotDatasets[i].name,
           })
         );
       }

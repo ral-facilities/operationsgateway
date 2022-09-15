@@ -235,9 +235,7 @@ export const usePlotRecords = (
   const usePlotRecordsOptions = React.useMemo(
     () => ({
       select: (records: Record[]) => {
-        const plotDatasets: PlotDataset[] = [];
-
-        selectedChannels.forEach((plotChannelName) => {
+        const plotDatasets = selectedChannels.map((plotChannelName) => {
           // Add the initial entry for dataset called plotChannelName
           // data field is currently empty, the below loop populates it
           const newDataset: PlotDataset = {
@@ -262,7 +260,7 @@ export const usePlotRecords = (
             }
           });
 
-          plotDatasets.push(newDataset);
+          return newDataset;
         });
 
         return plotDatasets;
