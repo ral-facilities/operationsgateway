@@ -30,28 +30,17 @@ export const formatTooltipLabel = (
 
 export interface PlotProps {
   datasets?: PlotDataset[];
-  // data?: { [channel: string]: number | Date }[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
   YAxesSettings: YAxisSettings;
   XAxis: string;
-  // YAxis: string;
   svgRef: React.MutableRefObject<HTMLElement | null>;
 }
 
 const Plot = (props: PlotProps) => {
-  const {
-    // data,
-    datasets,
-    title,
-    type,
-    XAxisSettings,
-    YAxesSettings,
-    XAxis,
-    // YAxis,
-    svgRef,
-  } = props;
+  const { datasets, title, type, XAxisSettings, YAxesSettings, XAxis, svgRef } =
+    props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -128,12 +117,7 @@ const Plot = (props: PlotProps) => {
           })}
         />
         {datasets?.map((dataset) => (
-          <VictoryGroup
-            key={dataset.name}
-            // data={dataset.data}
-            // x={XAxis}
-            // y={dataset.name}
-          >
+          <VictoryGroup key={dataset.name}>
             {type === 'line' && (
               <VictoryLine
                 style={{

@@ -171,7 +171,6 @@ const PlotWindow = (props: PlotWindowProps) => {
             </Grid>
           </Grid>
           <Plot
-            // data={records}
             datasets={records}
             title={plotTitle || untitledTitle}
             type={plotType}

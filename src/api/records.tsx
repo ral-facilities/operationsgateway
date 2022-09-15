@@ -267,25 +267,6 @@ export const usePlotRecords = (
 
         return plotDatasets;
       },
-
-      // use reduce instead of map so we can skip invalid values
-      // data.reduce<{ [channel: string]: number | Date }[]>(
-      //   (result, record) => {
-      //     const formattedXAxis = getFormattedAxisData(record, XAxis);
-      //     const formattedYAxis = getFormattedAxisData(record, YAxis);
-
-      //     // Only add to result array if we have valid x and y value
-      //     if (formattedXAxis && formattedYAxis) {
-      //       result.push({
-      //         [XAxis]: formattedXAxis,
-      //         [YAxis]: formattedYAxis,
-      //       });
-      //     }
-
-      //     return result;
-      //   },
-      //   []
-      // ),
     }),
     [XAxis, selectedChannels]
   );
