@@ -144,10 +144,17 @@ export interface ColumnState {
 }
 
 export type PlotType = 'scatter' | 'line';
-export interface AxisSettings {
-  scale: 'linear' | 'log' | 'time';
+interface AxisSettings {
   min?: number;
   max?: number;
+}
+
+export interface XAxisSettings extends AxisSettings {
+  scale: 'linear' | 'log' | 'time';
+}
+
+export interface YAxisSettings extends AxisSettings {
+  scale: 'linear' | 'log';
 }
 
 export type PlotDataset = {

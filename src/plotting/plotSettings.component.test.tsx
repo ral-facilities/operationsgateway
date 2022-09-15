@@ -127,21 +127,6 @@ describe('Plot Settings component', () => {
     });
   });
 
-  // TODO remove timestamp as selectable channel on y-axis
-  it.skip('does not let the user change the Y axis scale if time is selected as the Y axis', async () => {
-    props.YAxis = 'timestamp';
-    props.YAxesSettings.scale = 'time';
-    createView();
-
-    await user.click(screen.getByRole('tab', { name: 'Y' }));
-
-    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
-    const radioButtons = within(radioGroup).getAllByRole('radio');
-    radioButtons.forEach((radioButton) => {
-      expect(radioButton).toBeDisabled();
-    });
-  });
-
   it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
     createView();
 
@@ -258,27 +243,6 @@ describe('Plot Settings component', () => {
     expect(changeXAxis).toHaveBeenCalledWith('timestamp');
     expect(changeXAxisSettings).toHaveBeenCalledWith({
       ...props.XAxisSettings,
-      scale: 'time',
-    });
-  });
-
-  // TODO remove timestamp as selectable channel on y-axis
-  it.skip('changes scale to time automatically if time is selected as y-axis', async () => {
-    createView();
-
-    await user.click(screen.getByRole('tab', { name: 'Y' }));
-
-    const autocomplete = screen.getByRole('autocomplete');
-    const input = within(autocomplete).getByRole('combobox');
-
-    await user.type(input, 'time');
-    autocomplete.focus();
-    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
-    fireEvent.keyDown(autocomplete, { key: 'Enter' });
-
-    expect(changeYAxis).toHaveBeenCalledWith('timestamp');
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
       scale: 'time',
     });
   });

@@ -10,12 +10,17 @@ import {
   VictoryTooltip,
   VictoryGroup,
 } from 'victory';
-import { AxisSettings, PlotDataset, PlotType } from '../app.types';
+import {
+  XAxisSettings,
+  PlotDataset,
+  PlotType,
+  YAxisSettings,
+} from '../app.types';
 import { format } from 'date-fns';
 
 export const formatTooltipLabel = (
   label: number,
-  scale: AxisSettings['scale']
+  scale: XAxisSettings['scale']
 ): number | string => {
   if (scale === 'time') {
     return format(label, 'yyyy-MM-dd HH:mm:ss');
@@ -28,8 +33,8 @@ export interface PlotProps {
   // data?: { [channel: string]: number | Date }[];
   title: string;
   type: PlotType;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
+  XAxisSettings: XAxisSettings;
+  YAxesSettings: YAxisSettings;
   XAxis: string;
   // YAxis: string;
   svgRef: React.MutableRefObject<HTMLElement | null>;

@@ -19,7 +19,8 @@ import {
 } from '@mui/material';
 import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
 import {
-  AxisSettings,
+  XAxisSettings,
+  YAxisSettings,
   FullScalarChannelMetadata,
   PlotType,
 } from '../app.types';
@@ -77,15 +78,13 @@ export interface PlotSettingsProps {
   changePlotType: (plotType: PlotType) => void;
   XAxis: string;
   changeXAxis: (value: string) => void;
-  XAxisSettings: AxisSettings;
-  changeXAxisSettings: (XAxisSettings: AxisSettings) => void;
-  YAxesSettings: AxisSettings;
-  changeYAxesSettings: (YAxesSettings: AxisSettings) => void;
+  XAxisSettings: XAxisSettings;
+  changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
+  YAxesSettings: YAxisSettings;
+  changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
   selectedChannels: string[];
   changeSelectedChannels: (selectedChannels: string[]) => void;
 }
-
-type Scale = AxisSettings['scale'];
 
 const PlotSettings = (props: PlotSettingsProps) => {
   const {
@@ -129,7 +128,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
     (value: string) => {
       changeXAxisSettings({
         ...XAxisSettings,
-        scale: value as Scale,
+        scale: value as XAxisSettings['scale'],
       });
     },
     [XAxisSettings, changeXAxisSettings]
@@ -139,7 +138,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
     (value: string) => {
       changeYAxesSettings({
         ...YAxesSettings,
-        scale: value as Scale,
+        scale: value as YAxisSettings['scale'],
       });
     },
     [YAxesSettings, changeYAxesSettings]
@@ -429,10 +428,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
               </Grid>
             </Grid>
             <Grid item>
-              <FormControl
-                disabled={YAxesSettings.scale === 'time'}
-                sx={{ flexDirection: 'row', alignItems: 'center' }}
-              >
+              <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
                 <FormLabel id="y-scale-group-label" sx={{ mr: 1 }}>
                   Scale
                 </FormLabel>
@@ -462,7 +458,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select data channels"
-                options={axisSelectionOptions}
+                options={axisSelectionOptions.filter(
+                  (option) => option !== 'timestamp'
+                )}
                 fullWidth
                 role="autocomplete"
                 value={autocompleteValue}

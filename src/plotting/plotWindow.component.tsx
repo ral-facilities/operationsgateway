@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { AxisSettings, PlotType } from '../app.types';
+import { XAxisSettings, YAxisSettings, PlotType } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
@@ -28,10 +28,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, untitledTitle } = props;
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
-  const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
+  const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
     scale: 'linear',
   });
-  const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
+  const [YAxesSettings, setYAxesSettings] = React.useState<YAxisSettings>({
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
