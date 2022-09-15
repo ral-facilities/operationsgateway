@@ -9,6 +9,7 @@ import {
   Channel,
   FullChannelMetadata,
   ImageChannel,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
@@ -286,4 +287,22 @@ export const generateRecordRow = (num: number) => {
 
 export const testRecordRows = Array.from(Array(3), (_, i) =>
   generateRecordRow(i + 1)
+);
+
+export const generatePlotDataset = (num: number) => {
+  const datasetName = testChannels[num].systemName;
+  const plotDataset: PlotDataset = {
+    name: datasetName,
+    data: [
+      {
+        shotNum: num,
+        [datasetName]: num,
+      },
+    ],
+  };
+  return plotDataset;
+};
+
+export const testPlotDatasets = Array.from(Array(3), (_, i) =>
+  generatePlotDataset(i)
 );

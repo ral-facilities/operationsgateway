@@ -240,7 +240,7 @@ describe('records api functions', () => {
       });
 
       const { result } = renderHook(
-        () => usePlotRecords('activeArea', 'activeExperiment'),
+        () => usePlotRecords('activeArea', ['activeExperiment']),
         {
           wrapper: hooksWrapperWithProviders(),
         }
@@ -250,16 +250,21 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      const expectedData = mockData
-        .filter((record: Record) => {
-          return Boolean(record.metadata.activeExperiment);
-        })
-        .map((record: Record) => {
-          return {
-            activeArea: parseInt(record.metadata.activeArea),
-            activeExperiment: parseInt(record.metadata.activeExperiment),
-          };
-        });
+      const expectedData = [
+        {
+          name: 'activeExperiment',
+          data: mockData
+            .filter((record: Record) => {
+              return Boolean(record.metadata.activeExperiment);
+            })
+            .map((record: Record) => {
+              return {
+                activeArea: parseInt(record.metadata.activeArea),
+                activeExperiment: parseInt(record.metadata.activeExperiment),
+              };
+            }),
+        },
+      ];
 
       expect(result.current.data).toEqual(expectedData);
     });
@@ -275,8 +280,9 @@ describe('records api functions', () => {
     });
 
     it('formats timestamp correctly', () => {
+      const unixTimestamp = new Date(testRecord.metadata.timestamp).getTime();
       const result = getFormattedAxisData(testRecord, 'timestamp');
-      expect(result).toEqual(testRecord.metadata.timestamp);
+      expect(result).toEqual(unixTimestamp);
     });
 
     it('formats shot number correctly', () => {

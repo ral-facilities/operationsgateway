@@ -5,11 +5,10 @@ import userEvent from '@testing-library/user-event';
 import {
   renderComponentWithProviders,
   testChannels,
-  testRecords,
+  testPlotDatasets,
 } from '../setupTests';
 import { useScalarChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
-import { FullScalarChannelMetadata } from '../app.types';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -48,20 +47,21 @@ describe('Plot Window component', () => {
     jest.resetModules();
 
     (useScalarChannels as jest.Mock).mockReturnValue({
-      data: testChannels as FullScalarChannelMetadata[],
+      data: testChannels,
       isLoading: false,
     });
     (usePlotRecords as jest.Mock).mockReturnValue({
-      data: testRecords.map((r) => ({
-        timestamp: r.metadata.timestamp,
-        shotNum: r.metadata.shotnum,
-      })),
+      data: testPlotDatasets,
       isLoading: false,
     });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetModules();
   });
 
   const createView = () => {
