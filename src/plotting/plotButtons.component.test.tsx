@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotButtons from './plotButtons.component';
+import PlotButtons, { PlotButtonsProps } from './plotButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -7,21 +7,27 @@ describe('Plot Buttons component', () => {
   const container = document.createElement('div');
   const svg = document.createElement('svg');
   container.appendChild(svg);
-  const plotButtonsProps: React.ComponentProps<typeof PlotButtons> = {
+  const plotButtonsProps: PlotButtonsProps = {
     data: [
       {
-        timestamp: new Date('2022-08-09T09:30:00'),
-        shotNum: 1,
-      },
-      {
-        timestamp: new Date('2022-08-09T09:31:00'),
-        shotNum: 2,
-      },
-      {
-        timestamp: new Date('2022-08-09T09:32:00'),
-        shotNum: 3,
+        name: 'shotNum',
+        data: [
+          {
+            timestamp: new Date('2022-08-09T09:30:00').getTime(),
+            shotNum: 1,
+          },
+          {
+            timestamp: new Date('2022-08-09T09:31:00').getTime(),
+            shotNum: 2,
+          },
+          {
+            timestamp: new Date('2022-08-09T09:32:00').getTime(),
+            shotNum: 3,
+          },
+        ],
       },
     ],
+    XAxis: 'timestamp',
     svgRef: {
       current: container,
     },

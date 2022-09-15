@@ -127,7 +127,7 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
   }
 }
 
-interface PlotButtonsProps {
+export interface PlotButtonsProps {
   data?: PlotDataset[];
   svgRef: React.MutableRefObject<HTMLElement | null>;
   title: string;
