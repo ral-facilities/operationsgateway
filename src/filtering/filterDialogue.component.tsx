@@ -49,7 +49,13 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Enter filter</Heading>
             <Grid container item>
               <FilterInput
-                channels={['metadata.time', 'metadata.shotnum']}
+                channels={[
+                  'timestamp',
+                  'shotnum',
+                  'N_COMP_FF_XPOS',
+                  'N_COMP_FF_YPOS',
+                  'N_COMP_FF_INTEGRATION',
+                ]}
                 value={filters[0]}
                 setValue={(value) => setFilters([value])}
                 error={errors[0]}

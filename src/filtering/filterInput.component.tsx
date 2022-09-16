@@ -99,6 +99,14 @@ const convertOperator = (opToken: Token): string => {
   }
 };
 
+const convertChannel = (channel: string): string => {
+  if (channel in ['timestamp', 'shotnum', 'activeArea', 'activeExperiment']) {
+    return `metadata.${channel}`;
+  } else {
+    return `channels.${channel}.data`;
+  }
+};
+
 export class ParserError extends Error {
   constructor(message: string) {
     super(message);
@@ -160,7 +168,7 @@ class ComparisonPredicate {
     let token = input.peek(0);
     if (token !== null) {
       if (token.type === 'channel') {
-        this.param1 = token.value;
+        this.param1 = convertChannel(token.value);
         input.consume();
       } else if (token.type === 'string') {
         this.param1 = token.value;
@@ -181,7 +189,7 @@ class ComparisonPredicate {
         this.param2 = token.value;
         input.consume();
       } else if (token.type === 'string') {
-        this.param2 = token.value;
+        this.param2 = token.value.replaceAll('"', '').replaceAll("'", '');
         input.consume();
       } else if (token.type === 'number') {
         this.param2 = Number(token.value);
@@ -199,13 +207,9 @@ class ComparisonPredicate {
     if (this.param1 && this.compop && this.param2) {
       // remove quotes
       const param1 =
-        typeof this.param1 === 'string'
-          ? `"${this.param1.replaceAll('"', '').replaceAll("'", '')}"`
-          : this.param1;
+        typeof this.param1 === 'string' ? `"${this.param1}"` : this.param1;
       const param2 =
-        typeof this.param2 === 'string'
-          ? `"${this.param2.replaceAll('"', '').replaceAll("'", '')}"`
-          : this.param2;
+        typeof this.param2 === 'string' ? `"${this.param2}"` : this.param2;
       s = `{${param1}:{"$${convertOperator(this.compop)}":${param2}}}`;
     }
     return s;
