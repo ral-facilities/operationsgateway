@@ -349,15 +349,17 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 fullWidth
                 role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
-                  if (reason === 'reset') {
-                    setXAxisInputVal('');
-                  } else {
+                  if (reason === 'input') {
                     setXAxisInputVal(newInputValue);
                   }
                 }}
+                inputValue={XAxisInputVal}
                 value={XAxisInputVal}
                 onChange={(_, newValue) => {
-                  handleXAxisChange(newValue ?? '');
+                  if (newValue) {
+                    handleXAxisChange(newValue);
+                  }
+                  setXAxisInputVal('');
                 }}
                 renderInput={(params) => (
                   <TextField
@@ -459,10 +461,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 clearOnBlur
                 id="select data channels"
                 options={axisSelectionOptions.filter(
-                  (option) => option !== 'timestamp'
+                  (option) =>
+                    option !== 'timestamp' && !selectedChannels.includes(option)
                 )}
                 fullWidth
                 role="autocomplete"
+                inputValue={autocompleteValue}
                 value={autocompleteValue}
                 onInputChange={(_, newInputValue, reason) => {
                   if (reason === 'input') {
@@ -472,8 +476,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 onChange={(_, newValue) => {
                   if (newValue) {
                     addPlotChannel(newValue);
-                    setAutocompleteValue('');
                   }
+                  setAutocompleteValue('');
                 }}
                 renderInput={(params) => (
                   <TextField
