@@ -21,6 +21,7 @@ const fetchRecords = async (
   apiUrl: string,
   sort: SortType,
   dateRange: DateRange,
+  filters: string[],
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -55,6 +56,7 @@ const fetchRecords = async (
     };
     params.append('conditions', JSON.stringify(timestampObj));
   }
+  filters.forEach((f) => params.append('conditions', f));
 
   if (offsetParams) {
     params.append('skip', JSON.stringify(offsetParams.startIndex));
@@ -72,7 +74,8 @@ const fetchRecords = async (
 
 const fetchRecordCountQuery = (
   apiUrl: string,
-  dateRange: DateRange
+  dateRange: DateRange,
+  filters: string[]
 ): Promise<number> => {
   const params = new URLSearchParams();
   if (Object.keys(dateRange).length > 0) {
@@ -88,6 +91,7 @@ const fetchRecordCountQuery = (
     };
     params.append('conditions', JSON.stringify(timestampObj));
   }
+  filters.forEach((f) => params.append('conditions', f));
 
   return axios
     .get(`${apiUrl}/records/count`, { params })
@@ -107,22 +111,26 @@ export const useRecords = <T extends unknown = Record[]>(
         resultsPerPage: number;
         sort: SortType;
         dateRange: DateRange;
+        filters: string[];
       }
     ]
   >
 ): UseQueryResult<T, AxiosError> => {
-  const { page, resultsPerPage, sort, dateRange } =
+  const { page, resultsPerPage, sort, dateRange, filters } =
     useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(
-    ['records', { page, resultsPerPage, sort, dateRange }],
+    ['records', { page, resultsPerPage, sort, dateRange, filters }],
     (params) => {
-      const { page, sort, dateRange } = params.queryKey[1];
+      const { page, sort, dateRange, filters } = params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
-      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
+      return fetchRecords(apiUrl, sort, dateRange, filters, {
+        startIndex,
+        stopIndex,
+      });
     },
     {
       onError: (error) => {
@@ -261,18 +269,18 @@ export const usePlotRecords = (
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { dateRange } = useAppSelector(selectQueryParams);
+  const { dateRange, filters } = useAppSelector(selectQueryParams);
 
   return useQuery<
     number,
     AxiosError,
     number,
-    [string, { dateRange: DateRange }]
+    [string, { dateRange: DateRange; filters: string[] }]
   >(
-    ['recordCount', { dateRange }],
+    ['recordCount', { dateRange, filters }],
     (params) => {
-      const { dateRange } = params.queryKey[1];
-      return fetchRecordCountQuery(apiUrl, dateRange);
+      const { dateRange, filters } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, dateRange, filters);
     },
     {
       onError: (error) => {

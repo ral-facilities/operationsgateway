@@ -6,11 +6,12 @@ import {
   DialogTitle,
   Divider,
   Grid,
-  styled,
   Typography,
 } from '@mui/material';
 import React from 'react';
-import FilterInput from './filterInput.component';
+import FilterInput, { Token } from './filterInput.component';
+import { useAppDispatch } from '../state/hooks';
+import { changeAppliedFilters } from '../state/slices/filterSlice';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface FilterDialogueProps {
@@ -36,6 +37,9 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
 
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose } = props;
+  const dispatch = useAppDispatch();
+  const [filters, setFilters] = React.useState<Token[][]>([[]]);
+  const [errors, setErrors] = React.useState<string[]>(['']);
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -44,7 +48,13 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           <Grid item xs pr={1}>
             <Heading>Enter filter</Heading>
             <Grid container item>
-              <FilterInput channels={['time', 'shotNum']} />
+              <FilterInput
+                channels={['metadata.time', 'metadata.shotnum']}
+                value={filters[0]}
+                setValue={(value) => setFilters([value])}
+                error={errors[0]}
+                setError={(error) => setErrors([error])}
+              />
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
@@ -63,7 +73,15 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
-        <Button onClick={() => undefined}>Apply</Button>
+        <Button
+          disabled={errors.some((e) => e.length !== 0)}
+          onClick={() => {
+            dispatch(changeAppliedFilters(filters));
+            onClose();
+          }}
+        >
+          Apply
+        </Button>
       </DialogActions>
     </Dialog>
   );

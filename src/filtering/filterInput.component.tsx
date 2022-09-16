@@ -1,11 +1,6 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface FilterInputProps {
-  channels: string[];
-}
-
 type TokenType =
   | 'not'
   | 'and'
@@ -17,7 +12,7 @@ type TokenType =
   | 'closeparen'
   | 'channel'
   | 'unaryop';
-interface Token {
+export interface Token {
   type: TokenType;
   value: string;
 }
@@ -104,19 +99,14 @@ const convertOperator = (opToken: Token): string => {
   }
 };
 
-interface ExpressionError {
-  error: boolean;
-  message?: string;
-}
-
-class ParserError extends Error {
+export class ParserError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'ParserError';
   }
 }
 
-class Input {
+export class Input {
   tokens: Token[];
   pos: number;
 
@@ -210,13 +200,13 @@ class ComparisonPredicate {
       // remove quotes
       const param1 =
         typeof this.param1 === 'string'
-          ? `"${this.param1.replace('"', '').replace("'", '')}"`
+          ? `"${this.param1.replaceAll('"', '').replaceAll("'", '')}"`
           : this.param1;
       const param2 =
         typeof this.param2 === 'string'
-          ? `"${this.param2.replace('"', '').replace("'", '')}"`
+          ? `"${this.param2.replaceAll('"', '').replaceAll("'", '')}"`
           : this.param2;
-      s = `{"${param1}":{"$${convertOperator(this.compop)}":${param2}}}`;
+      s = `{${param1}:{"$${convertOperator(this.compop)}":${param2}}}`;
     }
     return s;
   }
@@ -300,7 +290,7 @@ class BooleanTerm {
 }
 
 // SearchCondition ::= BooleanTerm ( "OR" BooleanTerm ) *
-class SearchCondition {
+export class SearchCondition {
   booleanTerms: BooleanTerm[] = [];
   constructor(input: Input) {
     this.booleanTerms.push(new BooleanTerm(input));
@@ -331,8 +321,16 @@ class SearchCondition {
   }
 }
 
+interface FilterInputProps {
+  channels: string[];
+  value: Token[];
+  setValue: (value: Token[]) => void;
+  error: string;
+  setError: (error: string) => void;
+}
+
 const FilterInput = (props: FilterInputProps) => {
-  const { channels } = props;
+  const { channels, value, setValue, error, setError } = props;
   const options = React.useMemo(() => {
     const channelTokens: Token[] = channels.map((c) => ({
       type: 'channel',
@@ -340,13 +338,10 @@ const FilterInput = (props: FilterInputProps) => {
     }));
     return [...channelTokens, ...operators];
   }, [channels]);
-  const [value, setValue] = React.useState<Token[]>([]);
   const [inputValue, setInputValue] = React.useState<string>('');
 
   const input = React.useMemo(() => new Input(value), [value]);
   console.log('input', input);
-
-  const [error, setError] = React.useState<string>('');
 
   React.useEffect(() => {
     try {
