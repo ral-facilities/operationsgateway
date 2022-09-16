@@ -553,21 +553,32 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }}
                 >
                   <Typography noWrap>{plotChannel.name}</Typography>
-                  {plotChannel.options.visible ? (
-                    <StyledVisibility
-                      aria-label={`Toggle ${plotChannel.name} visibility off`}
-                      onClick={() => toggleChannelVisibility(plotChannel.name)}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    {plotChannel.options.visible ? (
+                      <StyledVisibility
+                        aria-label={`Toggle ${plotChannel.name} visibility off`}
+                        onClick={() =>
+                          toggleChannelVisibility(plotChannel.name)
+                        }
+                      />
+                    ) : (
+                      <StyledVisibilityOff
+                        aria-label={`Toggle ${plotChannel.name} visibility on`}
+                        onClick={() =>
+                          toggleChannelVisibility(plotChannel.name)
+                        }
+                      />
+                    )}
+                    <StyledClose
+                      aria-label={`Remove ${plotChannel.name} axis`}
+                      onClick={() => removePlotChannel(plotChannel.name)}
                     />
-                  ) : (
-                    <StyledVisibilityOff
-                      aria-label={`Toggle ${plotChannel.name} visibility on`}
-                      onClick={() => toggleChannelVisibility(plotChannel.name)}
-                    />
-                  )}
-                  <StyledClose
-                    aria-label={`Remove ${plotChannel.name} axis`}
-                    onClick={() => removePlotChannel(plotChannel.name)}
-                  />
+                  </Box>
                 </Box>
               </Grid>
             ))}
