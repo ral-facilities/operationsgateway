@@ -8,39 +8,39 @@ import {
   VictoryTheme,
   VictoryLegend,
   VictoryTooltip,
+  VictoryGroup,
 } from 'victory';
-import { AxisSettings, PlotType } from '../app.types';
+import {
+  XAxisSettings,
+  PlotDataset,
+  PlotType,
+  YAxisSettings,
+} from '../app.types';
 import { format } from 'date-fns';
 
-export const formatTooltipLabel = (label: number | Date): number | string => {
-  if (label instanceof Date) {
+export const formatTooltipLabel = (
+  label: number,
+  scale: XAxisSettings['scale']
+): number | string => {
+  if (scale === 'time') {
     return format(label, 'yyyy-MM-dd HH:mm:ss');
   }
   return label;
 };
 
 export interface PlotProps {
-  data?: { [channel: string]: number | Date }[];
+  datasets?: PlotDataset[];
   title: string;
   type: PlotType;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
+  XAxisSettings: XAxisSettings;
+  YAxesSettings: YAxisSettings;
   XAxis: string;
-  YAxis: string;
   svgRef: React.MutableRefObject<HTMLElement | null>;
 }
 
 const Plot = (props: PlotProps) => {
-  const {
-    data,
-    title,
-    type,
-    XAxisSettings,
-    YAxesSettings,
-    XAxis,
-    YAxis,
-    svgRef,
-  } = props;
+  const { datasets, title, type, XAxisSettings, YAxesSettings, XAxis, svgRef } =
+    props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -107,41 +107,52 @@ const Plot = (props: PlotProps) => {
           textAnchor="middle"
         />
         <VictoryLegend
-          x={
-            graphRef?.current?.offsetWidth
-              ? graphRef.current.offsetWidth / 2 - 50
-              : 170
-          }
+          x={50}
           y={20}
+          gutter={20}
+          symbolSpacer={5}
           orientation="horizontal"
-          data={[{ name: YAxis, symbol: { fill: '#e31a1c' } }]}
+          data={datasets?.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          })}
         />
-        {type === 'line' && (
-          <VictoryLine
-            style={{
-              data: { stroke: '#e31a1c' },
-            }}
-            data={data}
-            x={XAxis}
-            y={YAxis}
-          />
-        )}
-        {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
-        <VictoryScatter
-          style={{
-            data: { fill: '#e31a1c' },
-          }}
-          data={data}
-          x={XAxis}
-          y={YAxis}
-          size={type === 'line' ? 2 : 3}
-          labels={({ datum }) => {
-            const formattedXLabel = formatTooltipLabel(datum._x);
-            const formattedYLabel = formatTooltipLabel(datum._y);
-            return `(${formattedXLabel}, ${formattedYLabel})`;
-          }}
-          labelComponent={<VictoryTooltip />}
-        />
+        {datasets?.map((dataset) => (
+          <VictoryGroup key={dataset.name}>
+            {type === 'line' && (
+              <VictoryLine
+                style={{
+                  data: { stroke: '#e31a1c' },
+                }}
+                data={dataset.data}
+                x={XAxis}
+                y={dataset.name}
+              />
+            )}
+            {/* We render a scatter graph no matter what as otherwise line charts
+            wouldn't be able to have hover tooltips */}
+            <VictoryScatter
+              style={{
+                data: { fill: '#e31a1c' },
+              }}
+              data={dataset.data}
+              x={XAxis}
+              y={dataset.name}
+              size={type === 'line' ? 2 : 3}
+              labels={({ datum }) => {
+                const formattedXLabel = formatTooltipLabel(
+                  datum._x,
+                  XAxisSettings.scale
+                );
+                const formattedYLabel = formatTooltipLabel(
+                  datum._y,
+                  YAxesSettings.scale
+                );
+                return `(${formattedXLabel}, ${formattedYLabel})`;
+              }}
+              labelComponent={<VictoryTooltip />}
+            />
+          </VictoryGroup>
+        ))}
       </VictoryChart>
     </div>
   );

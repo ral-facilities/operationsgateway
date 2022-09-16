@@ -6,6 +6,7 @@ import {
   DateRange,
   ImageChannel,
   isChannelScalar,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
@@ -194,12 +195,12 @@ export const useRecordsPaginated = (): UseQueryResult<
 export const getFormattedAxisData = (
   record: Record,
   axisName: string
-): number | Date => {
-  let formattedData: number | Date = NaN;
+): number => {
+  let formattedData = NaN;
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = parseISO(record.metadata.timestamp);
+      formattedData = parseISO(record.metadata.timestamp).getTime();
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
@@ -229,31 +230,43 @@ export const getFormattedAxisData = (
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
-  YAxis: string
-): UseQueryResult<{ [channel: string]: number | Date }[], AxiosError> => {
+  selectedChannels: string[]
+): UseQueryResult<PlotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
-      select: (data: Record[]) =>
-        // use reduce instead of map so we can skip invalid values
-        data.reduce<{ [channel: string]: number | Date }[]>(
-          (result, record) => {
-            const formattedXAxis = getFormattedAxisData(record, XAxis);
-            const formattedYAxis = getFormattedAxisData(record, YAxis);
+      select: (records: Record[]) => {
+        const plotDatasets = selectedChannels.map((plotChannelName) => {
+          // Add the initial entry for dataset called plotChannelName
+          // data field is currently empty, the below loop populates it
+          const newDataset: PlotDataset = {
+            name: plotChannelName,
+            data: [],
+          };
 
-            // Only add to result array if we have valid x and y value
+          // Populate the above data field
+          records.forEach((record) => {
+            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedYAxis = getFormattedAxisData(
+              record,
+              plotChannelName
+            );
+
             if (formattedXAxis && formattedYAxis) {
-              result.push({
+              const currentData = newDataset.data;
+              currentData.push({
                 [XAxis]: formattedXAxis,
-                [YAxis]: formattedYAxis,
+                [plotChannelName]: formattedYAxis,
               });
             }
+          });
 
-            return result;
-          },
-          []
-        ),
+          return newDataset;
+        });
+
+        return plotDatasets;
+      },
     }),
-    [XAxis, YAxis]
+    [XAxis, selectedChannels]
   );
 
   return useRecords(usePlotRecordsOptions);

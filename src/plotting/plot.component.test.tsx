@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
+import { testPlotDatasets } from '../setupTests';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -10,17 +11,7 @@ describe('plotting', () => {
   const mockVictoryLine = jest.fn();
   const mockVictoryLabel = jest.fn();
   const mockVictoryLegend = jest.fn();
-
-  const testData: unknown[] = [
-    {
-      label: 'Test',
-      data: [
-        { x: 1, y: 1 },
-        { x: 2, y: 2 },
-        { x: 3, y: 3 },
-      ],
-    },
-  ];
+  const mockVictoryGroup = jest.fn();
 
   beforeEach(() => {
     jest.resetModules();
@@ -68,6 +59,11 @@ describe('plotting', () => {
           />
         );
       },
+      VictoryGroup: (props) => {
+        mockVictoryGroup(props);
+        // @ts-ignore
+        return <mock-VictoryGroup {...props} />;
+      },
       VictoryLabel: (props) => {
         mockVictoryLabel(props);
         // @ts-ignore
@@ -100,17 +96,19 @@ describe('plotting', () => {
   describe('Plot component', () => {
     let props: PlotProps;
 
-    it('renders a scatter plot with the correct elements passed the correct props', () => {
+    beforeEach(() => {
       props = {
-        data: testData,
+        datasets: testPlotDatasets,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },
         YAxesSettings: { scale: 'linear' },
         XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
+        svgRef: React.createRef<HTMLElement>(),
       };
+    });
 
+    it('renders a scatter plot with the correct elements passed the correct props', () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { default: Plot } = require('./plot.component');
 
@@ -126,26 +124,36 @@ describe('plotting', () => {
           text: 'scatter plot',
         })
       );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
+          data: testPlotDatasets.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          }),
         })
       );
+      expect(mockVictoryScatter.mock.calls.length).toEqual(
+        testPlotDatasets.length
+      );
       expect(mockVictoryLine).not.toHaveBeenCalled();
+
+      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
+        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testPlotDatasets[i].data,
+            x: 'test x-axis',
+            y: testPlotDatasets[i].name,
+          })
+        );
+      }
     });
 
     it('renders a line plot with the correct elements passed the correct props', () => {
       props = {
-        data: testData,
+        ...props,
         title: 'line plot',
         type: 'line',
         XAxisSettings: { scale: 'linear' },
         YAxesSettings: { scale: 'log' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
       };
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -163,34 +171,39 @@ describe('plotting', () => {
           text: 'line plot',
         })
       );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
+          data: testPlotDatasets.map((dataset) => {
+            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          }),
         })
       );
-      expect(mockVictoryLine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
-        })
+      expect(mockVictoryScatter.mock.calls.length).toEqual(
+        testPlotDatasets.length
       );
+      expect(mockVictoryLine.mock.calls.length).toEqual(
+        testPlotDatasets.length
+      );
+
+      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
+        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testPlotDatasets[i].data,
+            x: 'test x-axis',
+            y: testPlotDatasets[i].name,
+          })
+        );
+        expect(mockVictoryLine.mock.calls[i][0]).toEqual(
+          expect.objectContaining({
+            data: testPlotDatasets[i].data,
+            x: 'test x-axis',
+            y: testPlotDatasets[i].name,
+          })
+        );
+      }
     });
 
     it('redraws the plot in response to resize events', () => {
-      props = {
-        data: testData,
-        title: 'Test',
-        type: 'scatter',
-        XAxisSettings: { scale: 'time' },
-        YAxesSettings: { scale: 'linear' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
-      };
-
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { default: Plot } = require('./plot.component');
 
@@ -198,7 +211,10 @@ describe('plotting', () => {
 
       expect(mockVictoryChart).toHaveBeenCalledTimes(1);
 
-      fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
+      fireEvent(
+        window,
+        new Event(`resize OperationsGateway Plot - ${props.title}`)
+      );
 
       // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
       expect(mockVictoryChart).toHaveBeenCalledTimes(3);
@@ -208,14 +224,14 @@ describe('plotting', () => {
 
 describe('formatTooltipLabel function', () => {
   it('formats timestamp correctly', () => {
-    const label = new Date(1640995200000);
-    const result = formatTooltipLabel(label);
+    const label = 1640995200000;
+    const result = formatTooltipLabel(label, 'time');
     expect(result).toEqual('2022-01-01 00:00:00');
   });
 
   it('returns the original label if it is not a date', () => {
     const label = 123456;
-    const result = formatTooltipLabel(label);
+    const result = formatTooltipLabel(label, 'linear');
     expect(result).toEqual(label);
   });
 });

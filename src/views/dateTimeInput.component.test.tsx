@@ -67,7 +67,7 @@ describe('updateFilter function', () => {
 
   beforeEach(() => {
     props = {
-      date: new Date('2022-01-01T00:00:00Z'),
+      date: new Date('2022-01-01T00:00:00'),
       prevDate: null,
       otherDate: null,
       fromDateOrToDateChanged: 'fromDate',
@@ -88,7 +88,7 @@ describe('updateFilter function', () => {
   it('calls onChange if valid fromDate', () => {
     updateFilter({
       ...props,
-      otherDate: new Date('2022-01-02T00:00:00Z'),
+      otherDate: new Date('2022-01-02T00:00:00'),
     });
 
     expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
@@ -97,7 +97,7 @@ describe('updateFilter function', () => {
   it('calls onChange if valid toDate', () => {
     updateFilter({
       ...props,
-      otherDate: new Date('2021-01-01T00:00:00Z'),
+      otherDate: new Date('2021-01-01T00:00:00'),
       fromDateOrToDateChanged: 'toDate',
     });
 
@@ -107,7 +107,7 @@ describe('updateFilter function', () => {
   it("doesn't call onChange if dates are equal", () => {
     updateFilter({
       ...props,
-      otherDate: new Date('2022-01-01T00:00:00Z'),
+      otherDate: new Date('2022-01-01T00:00:00'),
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -116,7 +116,7 @@ describe('updateFilter function', () => {
   it("doesn't call onChange if fromDate is invalid", () => {
     updateFilter({
       ...props,
-      otherDate: new Date('2021-01-01T00:00:00Z'),
+      otherDate: new Date('2021-01-01T00:00:00'),
     });
 
     expect(onChange).not.toHaveBeenCalled();
@@ -125,7 +125,7 @@ describe('updateFilter function', () => {
   it("doesn't call onChange if toDate is invalid", () => {
     updateFilter({
       ...props,
-      otherDate: new Date('2022-01-02T00:00:00Z'),
+      otherDate: new Date('2022-01-02T00:00:00'),
       fromDateOrToDateChanged: 'toDate',
     });
 
