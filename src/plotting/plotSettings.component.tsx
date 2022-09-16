@@ -17,12 +17,20 @@ import {
   Autocomplete,
   Typography,
 } from '@mui/material';
-import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
+import {
+  ScatterPlot,
+  ShowChart,
+  Search,
+  Close,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 import {
   XAxisSettings,
   YAxisSettings,
   FullScalarChannelMetadata,
   PlotType,
+  SelectedPlotChannel,
 } from '../app.types';
 
 const StyledClose = styled(Close)(() => ({
@@ -30,6 +38,22 @@ const StyledClose = styled(Close)(() => ({
   color: 'black',
   '&:hover': {
     color: 'red',
+  },
+}));
+
+const StyledVisibility = styled(Visibility)(() => ({
+  cursor: 'pointer',
+  color: 'black',
+  '&:hover': {
+    color: 'red',
+  },
+}));
+
+const StyledVisibilityOff = styled(VisibilityOff)(() => ({
+  cursor: 'pointer',
+  color: 'black',
+  '&:hover': {
+    color: 'green',
   },
 }));
 
@@ -82,8 +106,8 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
   YAxesSettings: YAxisSettings;
   changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
-  selectedChannels: string[];
-  changeSelectedChannels: (selectedChannels: string[]) => void;
+  selectedChannels: SelectedPlotChannel[];
+  changeSelectedChannels: (selectedChannels: SelectedPlotChannel[]) => void;
 }
 
 const PlotSettings = (props: PlotSettingsProps) => {
@@ -170,28 +194,47 @@ const PlotSettings = (props: PlotSettingsProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      newselectedChannels.push(channel);
-      changeSelectedChannels(newselectedChannels);
+    (channelName: string) => {
+      const newSelectedChannel: SelectedPlotChannel = {
+        name: channelName,
+        options: {
+          visible: true,
+        },
+      };
+
+      const newselectedChannelsArray = Array.from(selectedChannels);
+      newselectedChannelsArray.push(newSelectedChannel);
+      changeSelectedChannels(newselectedChannelsArray);
     },
     [changeSelectedChannels, selectedChannels]
   );
 
   const removePlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      const index = newselectedChannels.indexOf(channel);
-      if (index > -1) {
-        newselectedChannels.splice(index, 1);
-        changeSelectedChannels(newselectedChannels);
-
-        if (newselectedChannels.length === 0) {
-          handleChangeYScale('linear');
-        }
+    (channelName: string) => {
+      const newSelectedChannelsArray = selectedChannels.filter(
+        (channel) => channel.name === channelName
+      );
+      changeSelectedChannels(newSelectedChannelsArray);
+      if (newSelectedChannelsArray.length === 0) {
+        handleChangeYScale('linear');
       }
     },
     [changeSelectedChannels, handleChangeYScale, selectedChannels]
+  );
+
+  const toggleChannelVisibility = React.useCallback(
+    (channelName: string) => {
+      const newSelectedChannelsArray = Array.from(selectedChannels);
+      newSelectedChannelsArray.some((channel) => {
+        if (channel.name === channelName) {
+          channel.options.visible = !channel.options.visible;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedChannels(newSelectedChannelsArray);
+    },
+    [changeSelectedChannels, selectedChannels]
   );
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
@@ -462,7 +505,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 id="select data channels"
                 options={axisSelectionOptions.filter(
                   (option) =>
-                    option !== 'timestamp' && !selectedChannels.includes(option)
+                    option !== 'timestamp' &&
+                    !selectedChannels
+                      .map((channel) => channel.name)
+                      .includes(option)
                 )}
                 fullWidth
                 role="autocomplete"
@@ -500,9 +546,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
               />
             </Grid>
             {selectedChannels.map((plotChannel) => (
-              <Grid container item key={plotChannel}>
+              <Grid container item key={plotChannel.name}>
                 <Box
-                  aria-label={`${plotChannel} label`}
+                  aria-label={`${plotChannel.name} label`}
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -512,10 +558,21 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{plotChannel}</Typography>
+                  <Typography noWrap>{plotChannel.name}</Typography>
+                  {plotChannel.options.visible ? (
+                    <StyledVisibility
+                      aria-label={`Toggle ${plotChannel.name} visibility off`}
+                      onClick={() => toggleChannelVisibility(plotChannel.name)}
+                    />
+                  ) : (
+                    <StyledVisibilityOff
+                      aria-label={`Toggle ${plotChannel.name} visibility on`}
+                      onClick={() => toggleChannelVisibility(plotChannel.name)}
+                    />
+                  )}
                   <StyledClose
-                    aria-label={`Remove ${plotChannel} axis`}
-                    onClick={() => removePlotChannel(plotChannel)}
+                    aria-label={`Remove ${plotChannel.name} axis`}
+                    onClick={() => removePlotChannel(plotChannel.name)}
                   />
                 </Box>
               </Grid>

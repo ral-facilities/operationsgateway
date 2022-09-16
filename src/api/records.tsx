@@ -12,6 +12,7 @@ import {
   ScalarChannel,
   SortType,
   WaveformChannel,
+  SelectedPlotChannel,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -230,12 +231,14 @@ export const getFormattedAxisData = (
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
-  selectedChannels: string[]
+  selectedChannels: SelectedPlotChannel[]
 ): UseQueryResult<PlotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
       select: (records: Record[]) => {
-        const plotDatasets = selectedChannels.map((plotChannelName) => {
+        const plotDatasets = selectedChannels.map((plotChannel) => {
+          const plotChannelName = plotChannel.name;
+
           // Add the initial entry for dataset called plotChannelName
           // data field is currently empty, the below loop populates it
           const newDataset: PlotDataset = {
