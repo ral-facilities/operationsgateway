@@ -15,6 +15,7 @@ import {
   PlotDataset,
   PlotType,
   YAxisSettings,
+  SelectedPlotChannel,
 } from '../app.types';
 import { format } from 'date-fns';
 
@@ -30,6 +31,7 @@ export const formatTooltipLabel = (
 
 export interface PlotProps {
   datasets?: PlotDataset[];
+  selectedChannels?: SelectedPlotChannel[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
@@ -39,8 +41,16 @@ export interface PlotProps {
 }
 
 const Plot = (props: PlotProps) => {
-  const { datasets, title, type, XAxisSettings, YAxesSettings, XAxis, svgRef } =
-    props;
+  const {
+    datasets,
+    selectedChannels,
+    title,
+    type,
+    XAxisSettings,
+    YAxesSettings,
+    XAxis,
+    svgRef,
+  } = props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
     setRedraw(true);
@@ -112,47 +122,64 @@ const Plot = (props: PlotProps) => {
           gutter={20}
           symbolSpacer={5}
           orientation="horizontal"
-          data={datasets?.map((dataset) => {
-            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
-          })}
+          data={selectedChannels
+            ?.filter((channel) => channel.options.visible)
+            .map((channel) => {
+              return { name: channel.name, symbol: { fill: '#e31a1c' } };
+            })}
         />
-        {datasets?.map((dataset) => (
-          <VictoryGroup key={dataset.name}>
-            {type === 'line' && (
-              <VictoryLine
-                style={{
-                  data: { stroke: '#e31a1c' },
-                }}
-                data={dataset.data}
-                x={XAxis}
-                y={dataset.name}
-              />
-            )}
-            {/* We render a scatter graph no matter what as otherwise line charts
-            wouldn't be able to have hover tooltips */}
-            <VictoryScatter
-              style={{
-                data: { fill: '#e31a1c' },
-              }}
-              data={dataset.data}
-              x={XAxis}
-              y={dataset.name}
-              size={type === 'line' ? 2 : 3}
-              labels={({ datum }) => {
-                const formattedXLabel = formatTooltipLabel(
-                  datum._x,
-                  XAxisSettings.scale
-                );
-                const formattedYLabel = formatTooltipLabel(
-                  datum._y,
-                  YAxesSettings.scale
-                );
-                return `(${formattedXLabel}, ${formattedYLabel})`;
-              }}
-              labelComponent={<VictoryTooltip />}
-            />
-          </VictoryGroup>
-        ))}
+        {selectedChannels?.map((channel) => {
+          const currentDataset = datasets?.find(
+            (dataset) => dataset.name === channel.name
+          );
+          if (currentDataset) {
+            return (
+              <VictoryGroup key={currentDataset.name}>
+                {type === 'line' && (
+                  <VictoryLine
+                    style={{
+                      data: {
+                        stroke: '#e31a1c',
+                        strokeOpacity: channel.options.visible ? 1 : 0,
+                      },
+                    }}
+                    data={currentDataset.data}
+                    x={XAxis}
+                    y={currentDataset.name}
+                  />
+                )}
+                {/* We render a scatter graph no matter what as otherwise line charts
+                wouldn't be able to have hover tooltips */}
+                <VictoryScatter
+                  style={{
+                    data: {
+                      fill: '#e31a1c',
+                      fillOpacity: channel.options.visible ? 1 : 0,
+                    },
+                  }}
+                  data={currentDataset.data}
+                  x={XAxis}
+                  y={currentDataset.name}
+                  size={type === 'line' ? 2 : 3}
+                  labels={({ datum }) => {
+                    const formattedXLabel = formatTooltipLabel(
+                      datum._x,
+                      XAxisSettings.scale
+                    );
+                    const formattedYLabel = formatTooltipLabel(
+                      datum._y,
+                      YAxesSettings.scale
+                    );
+                    return `(${formattedXLabel}, ${formattedYLabel})`;
+                  }}
+                  labelComponent={<VictoryTooltip />}
+                />
+              </VictoryGroup>
+            );
+          } else {
+            return <></>;
+          }
+        })}
       </VictoryChart>
     </div>
   );

@@ -179,6 +179,7 @@ const PlotWindow = (props: PlotWindowProps) => {
           </Grid>
           <Plot
             datasets={records}
+            selectedChannels={selectedChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}

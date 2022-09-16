@@ -44,17 +44,11 @@ const StyledClose = styled(Close)(() => ({
 const StyledVisibility = styled(Visibility)(() => ({
   cursor: 'pointer',
   color: 'black',
-  '&:hover': {
-    color: 'red',
-  },
 }));
 
 const StyledVisibilityOff = styled(VisibilityOff)(() => ({
   cursor: 'pointer',
   color: 'black',
-  '&:hover': {
-    color: 'green',
-  },
 }));
 
 type TabValue = 'X' | 'Y';
@@ -212,7 +206,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const removePlotChannel = React.useCallback(
     (channelName: string) => {
       const newSelectedChannelsArray = selectedChannels.filter(
-        (channel) => channel.name === channelName
+        (channel) => channel.name !== channelName
       );
       changeSelectedChannels(newSelectedChannelsArray);
       if (newSelectedChannelsArray.length === 0) {
