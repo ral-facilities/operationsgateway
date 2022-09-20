@@ -16,6 +16,7 @@ import {
   InputAdornment,
   Autocomplete,
   Typography,
+  IconButton,
 } from '@mui/material';
 import {
   ScatterPlot,
@@ -39,16 +40,6 @@ const StyledClose = styled(Close)(() => ({
   '&:hover': {
     color: 'red',
   },
-}));
-
-const StyledVisibility = styled(Visibility)(() => ({
-  cursor: 'pointer',
-  color: 'black',
-}));
-
-const StyledVisibilityOff = styled(VisibilityOff)(() => ({
-  cursor: 'pointer',
-  color: 'black',
 }));
 
 type TabValue = 'X' | 'Y';
@@ -560,19 +551,29 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     }}
                   >
                     {plotChannel.options.visible ? (
-                      <StyledVisibility
+                      <IconButton
+                        color="primary"
                         aria-label={`Toggle ${plotChannel.name} visibility off`}
+                        size="small"
+                        sx={{ paddingTop: '0', paddingBottom: '0' }}
                         onClick={() =>
                           toggleChannelVisibility(plotChannel.name)
                         }
-                      />
+                      >
+                        <Visibility sx={{ color: 'black' }} />
+                      </IconButton>
                     ) : (
-                      <StyledVisibilityOff
-                        aria-label={`Toggle ${plotChannel.name} visibility on`}
+                      <IconButton
+                        color="primary"
+                        aria-label={`Toggle ${plotChannel.name} visibility off`}
+                        size="small"
+                        sx={{ paddingTop: '0', paddingBottom: '0' }}
                         onClick={() =>
                           toggleChannelVisibility(plotChannel.name)
                         }
-                      />
+                      >
+                        <VisibilityOff sx={{ color: 'black' }} />
+                      </IconButton>
                     )}
                     <StyledClose
                       aria-label={`Remove ${plotChannel.name} axis`}
