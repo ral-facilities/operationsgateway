@@ -83,7 +83,7 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
-    "@babel/eslint-parser": "7.18.2",
+    "@babel/eslint-parser": "7.19.1",
     "@craco/craco": "6.4.3",
     "@testing-library/dom": "8.17.1",
     "@testing-library/jest-dom": "5.16.4",
