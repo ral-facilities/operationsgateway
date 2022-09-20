@@ -127,8 +127,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
   );
 
   const handleChangeChartType = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>, newChartType: PlotType | null) => {
-      changePlotType(newChartType ?? 'scatter');
+    (event: React.MouseEvent<HTMLElement>, newChartType: PlotType) => {
+      changePlotType(newChartType);
     },
     [changePlotType]
   );
@@ -424,7 +424,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 >
                   <Typography noWrap>{XAxis}</Typography>
                   <StyledClose
-                    aria-label={`Remove ${XAxis} axis`}
+                    aria-label={`Remove ${XAxis} from x-axis`}
                     onClick={() => handleXAxisChange('')}
                   />
                 </Box>
@@ -576,7 +576,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                       </IconButton>
                     )}
                     <StyledClose
-                      aria-label={`Remove ${plotChannel.name} axis`}
+                      aria-label={`Remove ${plotChannel.name} from y-axis`}
                       onClick={() => removePlotChannel(plotChannel.name)}
                     />
                   </Box>
