@@ -106,6 +106,9 @@ const PlotWindow = (props: PlotWindowProps) => {
                 <IconButton
                   onClick={handleDrawerClose}
                   aria-label="close settings"
+                  sx={{
+                    ...(!open && { visibility: 'hidden' }),
+                  }}
                 >
                   <ChevronLeftIcon />
                 </IconButton>
