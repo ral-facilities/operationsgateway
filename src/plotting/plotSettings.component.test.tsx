@@ -212,7 +212,14 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith(['CHANNEL_1']);
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('allows user to add channels on the y-axis (mouse and keyboard)', async () => {
@@ -226,7 +233,14 @@ describe('Plot Settings component', () => {
     await user.type(input, 'CHANNEL');
     await user.click(screen.getByText('CHANNEL_1'));
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith(['CHANNEL_1']);
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('changes scale to time automatically if time is selected as x-axis', async () => {
@@ -259,8 +273,49 @@ describe('Plot Settings component', () => {
     });
   });
 
+  it('allows user to toggle visibility of a selected channel', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility off'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: false,
+        },
+      },
+    ]);
+
+    await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility on'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
+  });
+
   it('removes channel from display when we click Close on its label', async () => {
-    props.selectedChannels = ['shotnum'];
+    props.selectedChannels = [
+      {
+        name: 'shotnum',
+        options: {
+          visible: true,
+        },
+      },
+    ];
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));

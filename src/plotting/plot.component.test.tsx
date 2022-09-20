@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
+import { SelectedPlotChannel } from '../app.types';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -96,9 +97,21 @@ describe('plotting', () => {
   describe('Plot component', () => {
     let props: PlotProps;
 
+    const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+      (dataset) => {
+        return {
+          name: dataset.name,
+          options: {
+            visible: true,
+          },
+        };
+      }
+    );
+
     beforeEach(() => {
       props = {
         datasets: testPlotDatasets,
+        selectedChannels,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },

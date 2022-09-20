@@ -241,7 +241,10 @@ describe('records api functions', () => {
       });
 
       const { result } = renderHook(
-        () => usePlotRecords('activeArea', ['activeExperiment']),
+        () =>
+          usePlotRecords('activeArea', [
+            { name: 'activeExperiment', options: { visible: true } },
+          ]),
         {
           wrapper: hooksWrapperWithProviders(),
         }
