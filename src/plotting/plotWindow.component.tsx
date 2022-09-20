@@ -178,7 +178,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             </Grid>
           </Grid>
           <Plot
-            datasets={records}
+            datasets={records ?? []}
             selectedChannels={selectedChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
