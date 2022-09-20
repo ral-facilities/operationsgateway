@@ -144,6 +144,7 @@ describe('plotting', () => {
           }),
         })
       );
+      expect(mockVictoryGroup).toHaveBeenCalled();
       expect(mockVictoryScatter.mock.calls.length).toEqual(
         testPlotDatasets.length
       );
@@ -191,6 +192,7 @@ describe('plotting', () => {
           }),
         })
       );
+      expect(mockVictoryGroup).toHaveBeenCalled();
       expect(mockVictoryScatter.mock.calls.length).toEqual(
         testPlotDatasets.length
       );
@@ -214,6 +216,34 @@ describe('plotting', () => {
           })
         );
       }
+    });
+
+    it('renders no plot if the user has not selected any channels to plot', () => {
+      props.selectedChannels = [];
+
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { default: Plot } = require('./plot.component');
+
+      render(<Plot {...props} />);
+
+      expect(mockVictoryChart).toHaveBeenCalledWith(
+        expect.objectContaining({
+          scale: { x: 'time', y: 'linear' },
+        })
+      );
+      expect(mockVictoryLabel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          text: 'scatter plot',
+        })
+      );
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: [],
+        })
+      );
+      expect(mockVictoryGroup).not.toHaveBeenCalled();
+      expect(mockVictoryScatter).not.toHaveBeenCalled();
+      expect(mockVictoryLine).not.toHaveBeenCalled();
     });
 
     it('redraws the plot in response to resize events', () => {

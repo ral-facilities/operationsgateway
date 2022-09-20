@@ -30,8 +30,8 @@ export const formatTooltipLabel = (
 };
 
 export interface PlotProps {
-  datasets?: PlotDataset[];
-  selectedChannels?: SelectedPlotChannel[];
+  datasets: PlotDataset[];
+  selectedChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
@@ -128,8 +128,8 @@ const Plot = (props: PlotProps) => {
               return { name: channel.name, symbol: { fill: '#e31a1c' } };
             })}
         />
-        {selectedChannels?.map((channel) => {
-          const currentDataset = datasets?.find(
+        {selectedChannels.map((channel) => {
+          const currentDataset = datasets.find(
             (dataset) => dataset.name === channel.name
           );
           if (currentDataset) {
