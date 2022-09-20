@@ -565,7 +565,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     ) : (
                       <IconButton
                         color="primary"
-                        aria-label={`Toggle ${plotChannel.name} visibility off`}
+                        aria-label={`Toggle ${plotChannel.name} visibility on`}
                         size="small"
                         sx={{ paddingTop: '0', paddingBottom: '0' }}
                         onClick={() =>

@@ -1,8 +1,7 @@
 import React from 'react';
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
 import { FullScalarChannelMetadata } from '../app.types';
 
 describe('Plot Settings component', () => {
@@ -16,7 +15,7 @@ describe('Plot Settings component', () => {
   const changeSelectedChannels = jest.fn();
 
   const createView = () => {
-    return renderComponentWithProviders(<PlotSettings {...props} />);
+    return render(<PlotSettings {...props} />);
   };
 
   const channels: FullScalarChannelMetadata[] = [
@@ -261,19 +260,7 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it('removes x-axis from display when we click Close on its label', async () => {
-    props.XAxis = 'timestamp';
-    createView();
-
-    await user.click(screen.getByLabelText('Remove timestamp axis'));
-    expect(changeXAxis).toHaveBeenLastCalledWith('');
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.XAxisSettings,
-      scale: 'linear',
-    });
-  });
-
-  it('allows user to toggle visibility of a selected channel', async () => {
+  it('allows user to toggle visibility of a selected channel off', async () => {
     props.selectedChannels = [
       {
         name: 'CHANNEL_1',
@@ -295,6 +282,20 @@ describe('Plot Settings component', () => {
         },
       },
     ]);
+  });
+
+  it('allows user to toggle visibility of a selected channel on', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: false,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility on'));
     expect(changeSelectedChannels).toHaveBeenLastCalledWith([
@@ -305,6 +306,18 @@ describe('Plot Settings component', () => {
         },
       },
     ]);
+  });
+
+  it('removes x-axis from display when we click Close on its label', async () => {
+    props.XAxis = 'timestamp';
+    createView();
+
+    await user.click(screen.getByLabelText('Remove timestamp axis'));
+    expect(changeXAxis).toHaveBeenLastCalledWith('');
+    expect(changeXAxisSettings).toHaveBeenCalledWith({
+      ...props.XAxisSettings,
+      scale: 'linear',
+    });
   });
 
   it('removes channel from display when we click Close on its label', async () => {
