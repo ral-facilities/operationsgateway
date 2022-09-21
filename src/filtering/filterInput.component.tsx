@@ -73,13 +73,13 @@ const operators: Token[] = [
 ];
 
 const convertOperator = (opToken: Token): string => {
-  if (opToken.type !== 'compop') {
+  if (opToken.type !== 'compop' && opToken.type !== 'unaryop') {
     throw new ParserError(`Error converting operator ${opToken.value}`);
   } else {
-    if (opToken.value === '=') {
+    if (opToken.value === '=' || opToken.value === 'is null') {
       return 'eq';
     }
-    if (opToken.value === '!=') {
+    if (opToken.value === '!=' || opToken.value === 'is not null') {
       return 'ne';
     }
     if (opToken.value === '<') {
@@ -100,7 +100,9 @@ const convertOperator = (opToken: Token): string => {
 };
 
 const convertChannel = (channel: string): string => {
-  if (channel in ['timestamp', 'shotnum', 'activeArea', 'activeExperiment']) {
+  if (
+    ['timestamp', 'shotnum', 'activeArea', 'activeExperiment'].includes(channel)
+  ) {
     return `metadata.${channel}`;
   } else {
     return `channels.${channel}.data`;
@@ -159,11 +161,11 @@ export class Input {
   }
 }
 
-// ComparisonPredicate ::= value COMPOP value
-class ComparisonPredicate {
+// Predicate ::= value COMPOP value | value UNARYOP
+class Predicate {
   param1: string | number | undefined;
   param2: string | number | undefined;
-  compop: Token | undefined;
+  op: Token | undefined;
   constructor(input: Input) {
     let token = input.peek(0);
     if (token !== null) {
@@ -184,35 +186,37 @@ class ComparisonPredicate {
     } else {
       throw new ParserError('Missing operand');
     }
-    this.compop = input.consume(['compop']) as Token;
-    token = input.peek(0);
-    if (token !== null) {
-      if (token.type === 'channel') {
-        this.param2 = token.value;
-        input.consume();
-      } else if (token.type === 'string') {
-        this.param2 = token.value.replaceAll('"', '').replaceAll("'", '');
-        input.consume();
-      } else if (token.type === 'number') {
-        this.param2 = Number(token.value);
-        input.consume();
+    this.op = input.consume(['compop', 'unaryop']) as Token;
+    if (this.op.type === 'compop') {
+      token = input.peek(0);
+      if (token !== null) {
+        if (token.type === 'channel') {
+          this.param2 = token.value;
+          input.consume();
+        } else if (token.type === 'string') {
+          // remove quotes
+          this.param2 = token.value.replaceAll('"', '').replaceAll("'", '');
+          input.consume();
+        } else if (token.type === 'number') {
+          this.param2 = Number(token.value);
+          input.consume();
+        } else {
+          throw new ParserError(`Unexpected: ${token.value}`);
+        }
       } else {
-        throw new ParserError(`Unexpected: ${token.value}`);
+        throw new ParserError('Missing operand');
       }
-    } else {
-      throw new ParserError('Missing operand');
     }
   }
 
   public toString(): string {
     let s = '';
-    if (this.param1 && this.compop && this.param2) {
-      // remove quotes
-      const param1 =
-        typeof this.param1 === 'string' ? `"${this.param1}"` : this.param1;
+    if (this.param1 && this.op && this.op.type === 'compop' && this.param2) {
       const param2 =
         typeof this.param2 === 'string' ? `"${this.param2}"` : this.param2;
-      s = `{${param1}:{"$${convertOperator(this.compop)}":${param2}}}`;
+      s = `{"${this.param1}":{"$${convertOperator(this.op)}":${param2}}}`;
+    } else if (this.param1 && this.op && this.op.type === 'unaryop') {
+      s = `{"${this.param1}":{"$${convertOperator(this.op)}":null}}`;
     }
     return s;
   }
@@ -221,7 +225,7 @@ class ComparisonPredicate {
 // BooleanFactor ::= ("NOT")? Predicate | ( "(" SearchCondition ")" )
 class BooleanFactor {
   not = false;
-  predicate: ComparisonPredicate | undefined;
+  predicate: Predicate | undefined;
   searchCondition: SearchCondition | undefined;
   constructor(input: Input) {
     let token = input.peek(0);
@@ -241,7 +245,7 @@ class BooleanFactor {
       this.searchCondition = new SearchCondition(input);
       input.consume(['closeparen']);
     } else {
-      this.predicate = new ComparisonPredicate(input);
+      this.predicate = new Predicate(input);
     }
   }
 
