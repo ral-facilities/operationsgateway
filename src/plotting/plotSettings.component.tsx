@@ -422,7 +422,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{XAxis}</Typography>
+                  <Typography maxWidth="240" noWrap>
+                    {XAxis}
+                  </Typography>
                   <StyledClose
                     aria-label={`Remove ${XAxis} from x-axis`}
                     onClick={() => handleXAxisChange('')}
@@ -543,7 +545,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{plotChannel.name}</Typography>
+                  <Typography maxWidth="205" noWrap>
+                    {plotChannel.name}
+                  </Typography>
                   <Box
                     sx={{
                       display: 'flex',
