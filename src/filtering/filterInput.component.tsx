@@ -171,11 +171,13 @@ class ComparisonPredicate {
         this.param1 = convertChannel(token.value);
         input.consume();
       } else if (token.type === 'string') {
-        this.param1 = token.value;
-        input.consume();
+        throw new ParserError(
+          `Unexpected string on left hand side of expression: ${token.value}`
+        );
       } else if (token.type === 'number') {
-        this.param1 = Number(token.value);
-        input.consume();
+        throw new ParserError(
+          `Unexpected string on left hand side of expression: ${token.value}`
+        );
       } else {
         throw new ParserError(`Unexpected: ${token.value}`);
       }
@@ -344,8 +346,11 @@ const FilterInput = (props: FilterInputProps) => {
   }, [channels]);
   const [inputValue, setInputValue] = React.useState<string>('');
 
-  const input = React.useMemo(() => new Input(value), [value]);
-  console.log('input', input);
+  const input = React.useMemo(() => {
+    const input = new Input(value);
+    console.log('input', input);
+    return input;
+  }, [value]);
 
   React.useEffect(() => {
     try {
@@ -355,7 +360,7 @@ const FilterInput = (props: FilterInputProps) => {
     } catch (e) {
       if (e instanceof ParserError) setError(e.message);
     }
-  }, [input]);
+  }, [input, setError]);
 
   return (
     <Autocomplete

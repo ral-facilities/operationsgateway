@@ -3,7 +3,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import {
   Input,
-  ParserError,
   SearchCondition,
   Token,
 } from '../../filtering/filterInput.component';

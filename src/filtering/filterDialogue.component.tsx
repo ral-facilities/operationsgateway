@@ -35,11 +35,29 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
   </Typography>
 );
 
+const testChannels = [
+  'timestamp',
+  'shotnum',
+  'N_COMP_FF_XPOS',
+  'N_COMP_FF_YPOS',
+  'N_COMP_FF_INTEGRATION',
+];
+
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose } = props;
   const dispatch = useAppDispatch();
   const [filters, setFilters] = React.useState<Token[][]>([[]]);
   const [errors, setErrors] = React.useState<string[]>(['']);
+
+  const handleChangeValue = React.useCallback(
+    (value: Token[]) => setFilters([value]),
+    []
+  );
+  const handleChangeError = React.useCallback(
+    (error: string) => setErrors([error]),
+    []
+  );
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -49,17 +67,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Enter filter</Heading>
             <Grid container item>
               <FilterInput
-                channels={[
-                  'timestamp',
-                  'shotnum',
-                  'N_COMP_FF_XPOS',
-                  'N_COMP_FF_YPOS',
-                  'N_COMP_FF_INTEGRATION',
-                ]}
+                channels={testChannels}
                 value={filters[0]}
-                setValue={(value) => setFilters([value])}
+                setValue={handleChangeValue}
                 error={errors[0]}
-                setError={(error) => setErrors([error])}
+                setError={handleChangeError}
               />
             </Grid>
           </Grid>
