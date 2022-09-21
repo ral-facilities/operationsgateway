@@ -1,8 +1,7 @@
 import React from 'react';
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
 import { FullScalarChannelMetadata } from '../app.types';
 
 describe('Plot Settings component', () => {
@@ -16,7 +15,7 @@ describe('Plot Settings component', () => {
   const changeSelectedChannels = jest.fn();
 
   const createView = () => {
-    return renderComponentWithProviders(<PlotSettings {...props} />);
+    return render(<PlotSettings {...props} />);
   };
 
   const channels: FullScalarChannelMetadata[] = [
@@ -212,7 +211,14 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith(['CHANNEL_1']);
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('allows user to add channels on the y-axis (mouse and keyboard)', async () => {
@@ -226,7 +232,14 @@ describe('Plot Settings component', () => {
     await user.type(input, 'CHANNEL');
     await user.click(screen.getByText('CHANNEL_1'));
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith(['CHANNEL_1']);
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('changes scale to time automatically if time is selected as x-axis', async () => {
@@ -247,11 +260,71 @@ describe('Plot Settings component', () => {
     });
   });
 
+  it('allows user to toggle visibility of a selected channel off', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility off'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: false,
+        },
+      },
+    ]);
+  });
+
+  it('allows user to toggle visibility of a selected channel on', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: false,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Toggle CHANNEL_2 visibility on'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
+  });
+
   it('removes x-axis from display when we click Close on its label', async () => {
     props.XAxis = 'timestamp';
     createView();
 
-    await user.click(screen.getByLabelText('Remove timestamp axis'));
+    await user.click(screen.getByLabelText('Remove timestamp from x-axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith('');
     expect(changeXAxisSettings).toHaveBeenCalledWith({
       ...props.XAxisSettings,
@@ -260,12 +333,50 @@ describe('Plot Settings component', () => {
   });
 
   it('removes channel from display when we click Close on its label', async () => {
-    props.selectedChannels = ['shotnum'];
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ];
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove shotnum axis'));
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
+    expect(changeYAxesSettings).not.toHaveBeenCalled();
+  });
+
+  it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
     expect(changeSelectedChannels).toHaveBeenLastCalledWith([]);
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,

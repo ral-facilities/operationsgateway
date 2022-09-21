@@ -164,6 +164,13 @@ export type PlotDataset = {
   }[];
 };
 
+export type SelectedPlotChannel = {
+  name: string;
+  options: {
+    visible: boolean;
+  };
+};
+
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
   .set('TIMESTAMP', <AccessTime />)

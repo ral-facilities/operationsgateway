@@ -16,13 +16,22 @@ import {
   InputAdornment,
   Autocomplete,
   Typography,
+  IconButton,
 } from '@mui/material';
-import { ScatterPlot, ShowChart, Search, Close } from '@mui/icons-material';
+import {
+  ScatterPlot,
+  ShowChart,
+  Search,
+  Close,
+  Visibility,
+  VisibilityOff,
+} from '@mui/icons-material';
 import {
   XAxisSettings,
   YAxisSettings,
   FullScalarChannelMetadata,
   PlotType,
+  SelectedPlotChannel,
 } from '../app.types';
 
 const StyledClose = styled(Close)(() => ({
@@ -82,8 +91,8 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
   YAxesSettings: YAxisSettings;
   changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
-  selectedChannels: string[];
-  changeSelectedChannels: (selectedChannels: string[]) => void;
+  selectedChannels: SelectedPlotChannel[];
+  changeSelectedChannels: (selectedChannels: SelectedPlotChannel[]) => void;
 }
 
 const PlotSettings = (props: PlotSettingsProps) => {
@@ -118,8 +127,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
   );
 
   const handleChangeChartType = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>, newChartType: PlotType | null) => {
-      changePlotType(newChartType ?? 'scatter');
+    (event: React.MouseEvent<HTMLElement>, newChartType: PlotType) => {
+      changePlotType(newChartType);
     },
     [changePlotType]
   );
@@ -170,28 +179,47 @@ const PlotSettings = (props: PlotSettingsProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      newselectedChannels.push(channel);
-      changeSelectedChannels(newselectedChannels);
+    (channelName: string) => {
+      const newSelectedChannel: SelectedPlotChannel = {
+        name: channelName,
+        options: {
+          visible: true,
+        },
+      };
+
+      const newselectedChannelsArray = Array.from(selectedChannels);
+      newselectedChannelsArray.push(newSelectedChannel);
+      changeSelectedChannels(newselectedChannelsArray);
     },
     [changeSelectedChannels, selectedChannels]
   );
 
   const removePlotChannel = React.useCallback(
-    (channel: string) => {
-      const newselectedChannels = Array.from(selectedChannels);
-      const index = newselectedChannels.indexOf(channel);
-      if (index > -1) {
-        newselectedChannels.splice(index, 1);
-        changeSelectedChannels(newselectedChannels);
-
-        if (newselectedChannels.length === 0) {
-          handleChangeYScale('linear');
-        }
+    (channelName: string) => {
+      const newSelectedChannelsArray = selectedChannels.filter(
+        (channel) => channel.name !== channelName
+      );
+      changeSelectedChannels(newSelectedChannelsArray);
+      if (newSelectedChannelsArray.length === 0) {
+        handleChangeYScale('linear');
       }
     },
     [changeSelectedChannels, handleChangeYScale, selectedChannels]
+  );
+
+  const toggleChannelVisibility = React.useCallback(
+    (channelName: string) => {
+      const newSelectedChannelsArray = Array.from(selectedChannels);
+      newSelectedChannelsArray.some((channel) => {
+        if (channel.name === channelName) {
+          channel.options.visible = !channel.options.visible;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedChannels(newSelectedChannelsArray);
+    },
+    [changeSelectedChannels, selectedChannels]
   );
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
@@ -394,9 +422,11 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{XAxis}</Typography>
+                  <Typography maxWidth="240" noWrap>
+                    {XAxis}
+                  </Typography>
                   <StyledClose
-                    aria-label={`Remove ${XAxis} axis`}
+                    aria-label={`Remove ${XAxis} from x-axis`}
                     onClick={() => handleXAxisChange('')}
                   />
                 </Box>
@@ -462,7 +492,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 id="select data channels"
                 options={axisSelectionOptions.filter(
                   (option) =>
-                    option !== 'timestamp' && !selectedChannels.includes(option)
+                    option !== 'timestamp' &&
+                    !selectedChannels
+                      .map((channel) => channel.name)
+                      .includes(option)
                 )}
                 fullWidth
                 role="autocomplete"
@@ -500,9 +533,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
               />
             </Grid>
             {selectedChannels.map((plotChannel) => (
-              <Grid container item key={plotChannel}>
+              <Grid container item key={plotChannel.name}>
                 <Box
-                  aria-label={`${plotChannel} label`}
+                  aria-label={`${plotChannel.name} label`}
                   sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -512,11 +545,45 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography noWrap>{plotChannel}</Typography>
-                  <StyledClose
-                    aria-label={`Remove ${plotChannel} axis`}
-                    onClick={() => removePlotChannel(plotChannel)}
-                  />
+                  <Typography maxWidth="205" noWrap>
+                    {plotChannel.name}
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    {plotChannel.options.visible ? (
+                      <IconButton
+                        color="primary"
+                        aria-label={`Toggle ${plotChannel.name} visibility off`}
+                        size="small"
+                        sx={{ paddingTop: '0', paddingBottom: '0' }}
+                        onClick={() =>
+                          toggleChannelVisibility(plotChannel.name)
+                        }
+                      >
+                        <Visibility sx={{ color: 'black' }} />
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        color="primary"
+                        aria-label={`Toggle ${plotChannel.name} visibility on`}
+                        size="small"
+                        sx={{ paddingTop: '0', paddingBottom: '0' }}
+                        onClick={() =>
+                          toggleChannelVisibility(plotChannel.name)
+                        }
+                      >
+                        <VisibilityOff sx={{ color: 'black' }} />
+                      </IconButton>
+                    )}
+                    <StyledClose
+                      aria-label={`Remove ${plotChannel.name} from y-axis`}
+                      onClick={() => removePlotChannel(plotChannel.name)}
+                    />
+                  </Box>
                 </Box>
               </Grid>
             ))}

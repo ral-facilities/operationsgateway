@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
+import { SelectedPlotChannel } from '../app.types';
 
 describe('plotting', () => {
   const mockVictoryChart = jest.fn();
@@ -96,9 +97,21 @@ describe('plotting', () => {
   describe('Plot component', () => {
     let props: PlotProps;
 
+    const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+      (dataset) => {
+        return {
+          name: dataset.name,
+          options: {
+            visible: true,
+          },
+        };
+      }
+    );
+
     beforeEach(() => {
       props = {
         datasets: testPlotDatasets,
+        selectedChannels,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },
@@ -131,6 +144,7 @@ describe('plotting', () => {
           }),
         })
       );
+      expect(mockVictoryGroup).toHaveBeenCalled();
       expect(mockVictoryScatter.mock.calls.length).toEqual(
         testPlotDatasets.length
       );
@@ -178,6 +192,7 @@ describe('plotting', () => {
           }),
         })
       );
+      expect(mockVictoryGroup).toHaveBeenCalled();
       expect(mockVictoryScatter.mock.calls.length).toEqual(
         testPlotDatasets.length
       );
@@ -201,6 +216,34 @@ describe('plotting', () => {
           })
         );
       }
+    });
+
+    it('renders no plot if the user has not selected any channels to plot', () => {
+      props.selectedChannels = [];
+
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { default: Plot } = require('./plot.component');
+
+      render(<Plot {...props} />);
+
+      expect(mockVictoryChart).toHaveBeenCalledWith(
+        expect.objectContaining({
+          scale: { x: 'time', y: 'linear' },
+        })
+      );
+      expect(mockVictoryLabel).toHaveBeenCalledWith(
+        expect.objectContaining({
+          text: 'scatter plot',
+        })
+      );
+      expect(mockVictoryLegend).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: [],
+        })
+      );
+      expect(mockVictoryGroup).not.toHaveBeenCalled();
+      expect(mockVictoryScatter).not.toHaveBeenCalled();
+      expect(mockVictoryLine).not.toHaveBeenCalled();
     });
 
     it('redraws the plot in response to resize events', () => {

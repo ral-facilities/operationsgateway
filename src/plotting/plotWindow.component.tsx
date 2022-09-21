@@ -13,7 +13,12 @@ import {
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { XAxisSettings, YAxisSettings, PlotType } from '../app.types';
+import {
+  XAxisSettings,
+  YAxisSettings,
+  PlotType,
+  SelectedPlotChannel,
+} from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
@@ -35,7 +40,9 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [selectedChannels, setSelectedChannels] = React.useState<string[]>([]);
+  const [selectedChannels, setSelectedChannels] = React.useState<
+    SelectedPlotChannel[]
+  >([]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -99,6 +106,9 @@ const PlotWindow = (props: PlotWindowProps) => {
                 <IconButton
                   onClick={handleDrawerClose}
                   aria-label="close settings"
+                  sx={{
+                    ...(!open && { visibility: 'hidden' }),
+                  }}
                 >
                   <ChevronLeftIcon />
                 </IconButton>
@@ -171,7 +181,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             </Grid>
           </Grid>
           <Plot
-            datasets={records}
+            datasets={records ?? []}
+            selectedChannels={selectedChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
