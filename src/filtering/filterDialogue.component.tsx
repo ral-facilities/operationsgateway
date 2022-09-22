@@ -9,11 +9,11 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import FilterInput, { Token } from './filterInput.component';
+import FilterInput from './filterInput.component';
 import { useAppDispatch } from '../state/hooks';
 import { changeAppliedFilters } from '../state/slices/filterSlice';
+import { Token } from './filterParser';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;

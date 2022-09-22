@@ -1,11 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import {
-  Input,
-  SearchCondition,
-  Token,
-} from '../../filtering/filterInput.component';
+import { parseFilter, Token } from '../../filtering/filterParser';
 
 // Define a type for the slice state
 interface FilterState {
@@ -39,10 +35,8 @@ export const selectQueryFilters = createSelector(
   selectAppliedFilters,
   (appliedFilters) => {
     return appliedFilters.map((filter) => {
-      const input = new Input(filter);
       try {
-        const searchCondition = new SearchCondition(input);
-        return searchCondition.toString();
+        return parseFilter(filter);
       } catch (e) {
         // this shouldn't happen, as we should block the application of invalid filters
         // in the filterInput
