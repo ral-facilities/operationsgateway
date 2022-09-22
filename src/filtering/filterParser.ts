@@ -131,7 +131,7 @@ export class ParserError extends Error {
 }
 
 /** Class representing a stream of tokens, which keeps track of where in the array we've processed up to */
-export class Input {
+class Input {
   tokens: Token[];
   pos: number;
 
@@ -213,7 +213,7 @@ class Predicate {
         );
       } else if (token.type === 'number') {
         throw new ParserError(
-          `Unexpected string on left hand side of expression: ${token.value}`
+          `Unexpected number on left hand side of expression: ${token.value}`
         );
       } else {
         throw new ParserError(`Unexpected: ${token.value}`);
@@ -226,7 +226,7 @@ class Predicate {
       token = input.peek(0);
       if (token !== null) {
         if (token.type === 'channel') {
-          this.param2 = token.value;
+          this.param2 = convertChannel(token.value);
           input.consume();
         } else if (token.type === 'string') {
           // remove quotes
@@ -357,7 +357,7 @@ class BooleanTerm {
  *
  * SearchCondition ::= BooleanTerm ( "OR" BooleanTerm ) *
  */
-export class SearchCondition {
+class SearchCondition {
   booleanTerms: BooleanTerm[] = [];
 
   /**
