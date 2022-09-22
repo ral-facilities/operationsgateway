@@ -45,10 +45,14 @@ export const useClickOutside = (
   }, [ref, handler, customDocument]);
 };
 
-type ColourPickerProps = { colour: string; onChange: (colour: string) => void };
+type ColourPickerProps = {
+  channelName: string;
+  colour: string;
+  changeColour: (channelName: string, colour: string) => void;
+};
 
 const ColourPicker = (props: ColourPickerProps) => {
-  const { colour, onChange } = props;
+  const { channelName, colour, changeColour } = props;
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -103,7 +107,13 @@ const ColourPicker = (props: ColourPickerProps) => {
           }}
           ref={popover}
         >
-          <HexColorPicker color={colour} onChange={onChange} />
+          <HexColorPicker
+            color={colour}
+            // TODO this fires repeatedly until mouseup event. Should we change this?
+            onChange={(newColour: string) => {
+              changeColour(channelName, newColour);
+            }}
+          />
         </Box>
       )}
     </Box>

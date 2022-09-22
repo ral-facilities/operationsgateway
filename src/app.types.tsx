@@ -168,6 +168,7 @@ export type SelectedPlotChannel = {
   name: string;
   options: {
     visible: boolean;
+    colour: string;
   };
 };
 

@@ -118,7 +118,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const deferredTitle = React.useDeferredValue(title);
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
-  const [colour, setColour] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
 
   const handleChangeTitle = React.useCallback(
@@ -186,6 +185,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
         name: channelName,
         options: {
           visible: true,
+          // TODO look at automatically choosing colour
+          colour: '#FFFFFF',
         },
       };
 
@@ -215,6 +216,21 @@ const PlotSettings = (props: PlotSettingsProps) => {
       newSelectedChannelsArray.some((channel) => {
         if (channel.name === channelName) {
           channel.options.visible = !channel.options.visible;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedChannels(newSelectedChannelsArray);
+    },
+    [changeSelectedChannels, selectedChannels]
+  );
+
+  const changeChannelColour = React.useCallback(
+    (channelName: string, selectedColour: string) => {
+      const newSelectedChannelsArray = Array.from(selectedChannels);
+      newSelectedChannelsArray.some((channel) => {
+        if (channel.name === channelName) {
+          channel.options.colour = selectedColour;
           return true;
         }
         return false;
@@ -582,7 +598,11 @@ const PlotSettings = (props: PlotSettingsProps) => {
                         <VisibilityOff sx={{ color: 'black' }} />
                       </IconButton>
                     )}
-                    <ColourPicker colour={colour} onChange={setColour} />
+                    <ColourPicker
+                      channelName={plotChannel.name}
+                      colour={plotChannel.options.colour}
+                      changeColour={changeChannelColour}
+                    />
                     <StyledClose
                       aria-label={`Remove ${plotChannel.name} from y-axis`}
                       onClick={() => removePlotChannel(plotChannel.name)}
