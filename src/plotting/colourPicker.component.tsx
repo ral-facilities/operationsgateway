@@ -31,7 +31,7 @@ export const useClickOutside = (
       );
     };
 
-    let eventDocument = customDocument ? customDocument : document;
+    const eventDocument = customDocument ? customDocument : document;
 
     eventDocument.addEventListener('mousedown', validateEventStart);
     eventDocument.addEventListener('touchstart', validateEventStart);
