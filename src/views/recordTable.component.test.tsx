@@ -145,7 +145,7 @@ describe('Record Table', () => {
 
     expect(screen.getByTestId('sort shotnum')).toHaveClass('Mui-active');
 
-    let menuIcon = screen.getByLabelText('shotnum menu');
+    const menuIcon = screen.getByLabelText('shotnum menu');
     fireEvent.click(menuIcon);
 
     const close = screen.getByText('Close');

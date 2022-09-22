@@ -30,7 +30,7 @@ export interface RecordRow {
   shotnum?: number;
   activeExperiment?: string;
 
-  [channel: string]: any;
+  [channel: string]: unknown;
 }
 
 export interface ScalarMetadata {
@@ -93,23 +93,32 @@ export type FullChannelMetadata =
 
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
-export interface Channel {
-  metadata: ChannelMetadata;
-}
-
-export interface ScalarChannel extends Channel {
+export interface ScalarChannel {
+  metadata: ScalarMetadata;
   data: number | string;
 }
 
-export interface ImageChannel extends Channel {
+export interface ImageChannel {
+  metadata: ImageMetadata;
   imagePath: string;
   thumbnail: string;
 }
 
-export interface WaveformChannel extends Channel {
+export interface WaveformChannel {
+  metadata: WaveformMetadata;
   waveformId: string;
   thumbnail: string;
 }
+
+export type Channel = ScalarChannel | ImageChannel | WaveformChannel;
+
+// Type guards because TS can't deal with nested discriminated unions
+export const isChannelScalar = (c: Channel): c is ScalarChannel =>
+  c?.metadata?.channel_dtype === 'scalar';
+export const isChannelImage = (c: Channel): c is ImageChannel =>
+  c?.metadata?.channel_dtype === 'image';
+export const isChannelWaveform = (c: Channel): c is WaveformChannel =>
+  c?.metadata?.channel_dtype === 'waveform';
 
 export type Order = 'asc' | 'desc';
 
@@ -135,11 +144,32 @@ export interface ColumnState {
 }
 
 export type PlotType = 'scatter' | 'line';
-export interface AxisSettings {
-  scale: 'linear' | 'log' | 'time';
+interface AxisSettings {
   min?: number;
   max?: number;
 }
+
+export interface XAxisSettings extends AxisSettings {
+  scale: 'linear' | 'log' | 'time';
+}
+
+export interface YAxisSettings extends AxisSettings {
+  scale: 'linear' | 'log';
+}
+
+export type PlotDataset = {
+  name: string;
+  data: {
+    [x: string]: number;
+  }[];
+};
+
+export type SelectedPlotChannel = {
+  name: string;
+  options: {
+    visible: boolean;
+  };
+};
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()

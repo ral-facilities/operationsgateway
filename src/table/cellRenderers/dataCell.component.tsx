@@ -1,10 +1,17 @@
 import React from 'react';
-import { Divider, TableCell, Typography, SxProps, Grid, Theme } from '@mui/material';
+import {
+  Divider,
+  TableCell,
+  Typography,
+  SxProps,
+  Grid,
+  Theme,
+} from '@mui/material';
 
 export interface DataCellProps {
   sx?: SxProps<Theme>;
   dataKey: string;
-  rowData: any;
+  rowData: React.ReactNode;
 }
 
 const DataCell = React.memo((props: DataCellProps): React.ReactElement => {

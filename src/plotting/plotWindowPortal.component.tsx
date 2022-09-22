@@ -42,13 +42,13 @@ class PlotWindowPortal extends React.PureComponent<
 
   componentDidMount() {
     // open a new browser window and store a reference to it
-    let externalWindow = window.open(
+    const externalWindow = window.open(
       '',
       '',
       'width=600,height=400,left=200,top=200'
     );
     // create a container div
-    let el = document.createElement('div');
+    const el = document.createElement('div');
     const cache = createCache({ key: 'external', container: el });
 
     if (externalWindow) {
@@ -56,6 +56,18 @@ class PlotWindowPortal extends React.PureComponent<
 
       // append the container <div> (that will have props.children appended to it via React Portal) to the body of the new window
       externalWindow.document.body.appendChild(el);
+
+      // reset body margin
+      const element = document.createElement('style');
+      externalWindow.document.head.appendChild(element);
+
+      const sheet = element.sheet;
+
+      let styles = 'body {';
+      styles += 'margin:0;';
+      styles += '}';
+
+      sheet?.insertRule(styles, 0);
 
       this.setState({
         window: externalWindow,

@@ -1,6 +1,7 @@
 import React from 'react';
 import PlotSettings from './plotSettings.component';
 import Plot from './plot.component';
+import PlotButtons from './plotButtons.component';
 import {
   Box,
   Grid,
@@ -12,8 +13,13 @@ import {
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { AxisSettings, PlotType } from '../app.types';
-import { useRecords } from '../api/records';
+import {
+  XAxisSettings,
+  YAxisSettings,
+  PlotType,
+  SelectedPlotChannel,
+} from '../app.types';
+import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 
@@ -27,14 +33,16 @@ const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, untitledTitle } = props;
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
-  const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
+  const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
     scale: 'linear',
   });
-  const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
+  const [YAxesSettings, setYAxesSettings] = React.useState<YAxisSettings>({
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [YAxis, setYAxis] = React.useState<string>('');
+  const [selectedChannels, setSelectedChannels] = React.useState<
+    SelectedPlotChannel[]
+  >([]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -50,7 +58,12 @@ const PlotWindow = (props: PlotWindowProps) => {
     );
   }, [plotTitle, untitledTitle]);
 
-  const { data: records, isLoading: recordsLoading } = useRecords();
+  const svgRef = React.useRef<HTMLElement | null>(null);
+
+  const { data: records, isLoading: recordsLoading } = usePlotRecords(
+    XAxis,
+    selectedChannels
+  );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
   return (
@@ -93,6 +106,9 @@ const PlotWindow = (props: PlotWindowProps) => {
                 <IconButton
                   onClick={handleDrawerClose}
                   aria-label="close settings"
+                  sx={{
+                    ...(!open && { visibility: 'hidden' }),
+                  }}
                 >
                   <ChevronLeftIcon />
                 </IconButton>
@@ -103,13 +119,13 @@ const PlotWindow = (props: PlotWindowProps) => {
                 plotType={plotType}
                 changePlotType={setPlotType}
                 XAxis={XAxis}
-                YAxis={YAxis}
                 changeXAxis={setXAxis}
-                changeYAxis={setYAxis}
                 XAxisSettings={XAxisSettings}
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
+                selectedChannels={selectedChannels}
+                changeSelectedChannels={setSelectedChannels}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -129,7 +145,10 @@ const PlotWindow = (props: PlotWindowProps) => {
         </Grid>
 
         <Grid
+          container
           item
+          direction="column"
+          wrap="nowrap"
           sx={
             open
               ? {
@@ -141,27 +160,35 @@ const PlotWindow = (props: PlotWindowProps) => {
               : { width: '100%', position: 'relative', height: '100%' }
           }
         >
-          <IconButton
-            color="inherit"
-            aria-label="open settings"
-            onClick={handleDrawerOpen}
-            sx={{
-              position: 'absolute',
-              zIndex: 1,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <SettingsIcon />
-          </IconButton>
+          <Grid container item justifyContent="space-between" wrap="nowrap">
+            <IconButton
+              color="inherit"
+              aria-label="open settings"
+              onClick={handleDrawerOpen}
+              sx={{
+                ...(open && { visibility: 'hidden' }),
+              }}
+            >
+              <SettingsIcon />
+            </IconButton>
+            <Grid item mr={1} mt={1}>
+              <PlotButtons
+                data={records}
+                svgRef={svgRef}
+                title={plotTitle || untitledTitle}
+                XAxis={XAxis}
+              />
+            </Grid>
+          </Grid>
           <Plot
-            records={records ?? []}
-            channels={channels ?? []}
+            datasets={records ?? []}
+            selectedChannels={selectedChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
-            YAxis={YAxis}
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
+            svgRef={svgRef}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

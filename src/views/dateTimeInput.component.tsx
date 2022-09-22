@@ -1,5 +1,5 @@
 import React from 'react';
-import { format, isValid, isEqual, isBefore } from 'date-fns';
+import { format, isValid, isEqual, isBefore, parseISO } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -63,10 +63,10 @@ export const DateTimeFilter = (
   const { onChange, receivedFromDate, receivedToDate } = props;
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    receivedFromDate ? new Date(receivedFromDate) : null
+    receivedFromDate ? parseISO(receivedFromDate) : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    receivedToDate ? new Date(receivedToDate) : null
+    receivedToDate ? parseISO(receivedToDate) : null
   );
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);

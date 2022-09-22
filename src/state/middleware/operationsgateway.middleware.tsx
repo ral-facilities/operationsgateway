@@ -50,7 +50,7 @@ export const listenToMessages = (dispatch: AppDispatch): void => {
   });
 };
 
-const OperationsGatewayMiddleware: Middleware<{}, RootState> =
+const OperationsGatewayMiddleware: Middleware<unknown, RootState> =
   () => (next) => (action: AnyAction) => {
     if (action.payload && action.payload.broadcast) {
       broadcastMessage(action);

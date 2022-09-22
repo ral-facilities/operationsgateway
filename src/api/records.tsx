@@ -1,14 +1,18 @@
+import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 import {
   Channel,
   DateRange,
   ImageChannel,
+  isChannelScalar,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
   SortType,
   WaveformChannel,
+  SelectedPlotChannel,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -92,18 +96,12 @@ const fetchRecordCountQuery = (
     .then((response) => response.data);
 };
 
-export const useRecordsPaginated = (): UseQueryResult<
-  RecordRow[],
-  AxiosError
-> => {
-  const { page, resultsPerPage, sort, dateRange } =
-    useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
-  return useQuery<
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const useRecords = <T extends unknown = Record[]>(
+  options?: UseQueryOptions<
     Record[],
     AxiosError,
-    RecordRow[],
+    T,
     [
       string,
       {
@@ -113,12 +111,18 @@ export const useRecordsPaginated = (): UseQueryResult<
         dateRange: DateRange;
       }
     ]
-  >(
+  >
+): UseQueryResult<T, AxiosError> => {
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
     ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      let { page, sort, dateRange } = params.queryKey[1];
-      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-      const startIndex = (page - 1) * resultsPerPage;
+      const { page, sort, dateRange } = params.queryKey[1];
+      // React Table pagination is zero-based
+      const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
       return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
     },
@@ -126,92 +130,149 @@ export const useRecordsPaginated = (): UseQueryResult<
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
-      select: (data) =>
-        data.map((record: Record) => {
-          const timestampString = record.metadata.timestamp;
-          const timestampDate = parseISO(timestampString);
-          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
-          let recordRow: RecordRow = {
-            timestamp: formattedDate,
-            shotnum: record.metadata.shotnum,
-            activeArea: record.metadata.activeArea,
-            activeExperiment: record.metadata.activeExperiment,
-          };
-
-          const keys = Object.keys(record.channels);
-          keys.forEach((key: string) => {
-            const channel: Channel = record.channels[key];
-            let channelData;
-            const channelDataType = channel.metadata.channel_dtype;
-
-            switch (channelDataType) {
-              case 'scalar':
-                channelData = (channel as ScalarChannel).data;
-                break;
-              case 'image':
-                channelData = (channel as ImageChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
-                );
-                break;
-              case 'waveform':
-                channelData = (channel as WaveformChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
-                );
-            }
-
-            recordRow[key] = channelData;
-          });
-
-          return recordRow;
-        }),
+      ...(options ?? {}),
     }
   );
 };
 
-// TODO: should we integrate this with useRecordsPaginated? and have options to
-// pass the recordRow select function and which of the query params to apply?
-export const useRecords = (): UseQueryResult<Record[], AxiosError> => {
-  const { page, resultsPerPage, sort, dateRange } =
-    useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-  return useQuery<
-    Record[],
-    AxiosError,
-    Record[],
-    [
-      string,
-      {
-        page: number;
-        resultsPerPage: number;
-        sort: SortType;
-        dateRange: DateRange;
+const useRecordsPaginatedOptions = {
+  select: (data: Record[]) =>
+    data.map((record: Record) => {
+      const timestampString = record.metadata.timestamp;
+      const timestampDate = parseISO(timestampString);
+      const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+      const recordRow: RecordRow = {
+        timestamp: formattedDate,
+        shotnum: record.metadata.shotnum,
+        activeArea: record.metadata.activeArea,
+        activeExperiment: record.metadata.activeExperiment,
+      };
+
+      const keys = Object.keys(record.channels);
+      keys.forEach((key: string) => {
+        const channel: Channel = record.channels[key];
+        let channelData;
+        const channelDataType = channel.metadata.channel_dtype;
+
+        switch (channelDataType) {
+          case 'scalar':
+            channelData = (channel as ScalarChannel).data;
+            break;
+          case 'image':
+            channelData = (channel as ImageChannel).thumbnail;
+            channelData = (
+              <img
+                src={`data:image/jpeg;base64,${channelData}`}
+                alt={key}
+                style={{ border: '1px solid #000000' }}
+              />
+            );
+            break;
+          case 'waveform':
+            channelData = (channel as WaveformChannel).thumbnail;
+            channelData = (
+              <img
+                src={`data:image/jpeg;base64,${channelData}`}
+                alt={key}
+                style={{ border: '1px solid #000000' }}
+              />
+            );
+        }
+
+        recordRow[key] = channelData;
+      });
+
+      return recordRow;
+    }),
+};
+
+export const useRecordsPaginated = (): UseQueryResult<
+  RecordRow[],
+  AxiosError
+> => {
+  return useRecords(useRecordsPaginatedOptions);
+};
+
+export const getFormattedAxisData = (
+  record: Record,
+  axisName: string
+): number => {
+  let formattedData = NaN;
+
+  switch (axisName) {
+    case 'timestamp':
+      formattedData = parseISO(record.metadata.timestamp).getTime();
+      break;
+    case 'shotnum':
+      formattedData = record.metadata.shotnum ?? NaN;
+      break;
+    case 'activeArea':
+      formattedData = parseInt(record.metadata.activeArea);
+      break;
+    case 'activeExperiment':
+      formattedData = record.metadata.activeExperiment
+        ? parseInt(record.metadata.activeExperiment)
+        : NaN;
+      break;
+    default:
+      const channel = record.channels[axisName];
+      if (isChannelScalar(channel)) {
+        formattedData =
+          typeof channel.data === 'number'
+            ? channel.data
+            : parseFloat(channel.data);
       }
-    ]
-  >(
-    ['records', { page, resultsPerPage, sort, dateRange }],
-    (params) => {
-      let { page, sort, dateRange } = params.queryKey[1];
-      page += 1; // React Table pagination is zero-based so adding 1 to page number to correctly calculate endIndex
-      const startIndex = (page - 1) * resultsPerPage;
-      const stopIndex = startIndex + resultsPerPage - 1;
-      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
-    },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
+  }
+
+  return formattedData;
+};
+
+// currently pass in the x and y axes just to sort out the select function but
+// eventually they'll be used to query for data
+export const usePlotRecords = (
+  XAxis: string,
+  selectedChannels: SelectedPlotChannel[]
+): UseQueryResult<PlotDataset[], AxiosError> => {
+  const usePlotRecordsOptions = React.useMemo(
+    () => ({
+      select: (records: Record[]) => {
+        const plotDatasets = selectedChannels.map((plotChannel) => {
+          const plotChannelName = plotChannel.name;
+
+          // Add the initial entry for dataset called plotChannelName
+          // data field is currently empty, the below loop populates it
+          const newDataset: PlotDataset = {
+            name: plotChannelName,
+            data: [],
+          };
+
+          // Populate the above data field
+          records.forEach((record) => {
+            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedYAxis = getFormattedAxisData(
+              record,
+              plotChannelName
+            );
+
+            if (formattedXAxis && formattedYAxis) {
+              const currentData = newDataset.data;
+              currentData.push({
+                [XAxis]: formattedXAxis,
+                [plotChannelName]: formattedYAxis,
+              });
+            }
+          });
+
+          return newDataset;
+        });
+
+        return plotDatasets;
       },
-    }
+    }),
+    [XAxis, selectedChannels]
   );
+
+  return useRecords(usePlotRecordsOptions);
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {

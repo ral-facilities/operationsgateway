@@ -5,18 +5,19 @@ import userEvent from '@testing-library/user-event';
 import {
   renderComponentWithProviders,
   testChannels,
-  testRecords,
+  testPlotDatasets,
 } from '../setupTests';
 import { useScalarChannels } from '../api/channels';
-import { useRecords } from '../api/records';
-import { FullScalarChannelMetadata } from '../app.types';
+import { usePlotRecords } from '../api/records';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
 ));
 
 jest.mock('./plot.component', () => () => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-Plot data-testid="mock-plot" />
 ));
@@ -37,7 +38,7 @@ jest.mock('../api/records', () => {
   return {
     __esModule: true,
     ...originalModule,
-    useRecords: jest.fn(),
+    usePlotRecords: jest.fn(),
   };
 });
 
@@ -46,17 +47,21 @@ describe('Plot Window component', () => {
     jest.resetModules();
 
     (useScalarChannels as jest.Mock).mockReturnValue({
-      data: testChannels as FullScalarChannelMetadata[],
+      data: testChannels,
       isLoading: false,
     });
-    (useRecords as jest.Mock).mockReturnValue({
-      data: testRecords,
+    (usePlotRecords as jest.Mock).mockReturnValue({
+      data: testPlotDatasets,
       isLoading: false,
     });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetModules();
   });
 
   const createView = () => {
@@ -85,6 +90,7 @@ describe('Plot Window component', () => {
       ).not.toBeInTheDocument();
     });
     expect(screen.getByTestId('mock-plot')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Export Plot' })).toBeVisible();
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
@@ -102,6 +108,7 @@ describe('Plot Window component', () => {
       ).not.toBeInTheDocument();
     });
     expect(screen.getByTestId('mock-plot')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Export Plot' })).toBeVisible();
     expect(
       screen.getByRole('button', { name: 'close settings' })
     ).toBeVisible();
@@ -112,7 +119,7 @@ describe('Plot Window component', () => {
       data: [],
       isLoading: true,
     });
-    (useRecords as jest.Mock).mockReturnValueOnce({
+    (usePlotRecords as jest.Mock).mockReturnValueOnce({
       data: [],
       isLoading: true,
     });
@@ -122,9 +129,9 @@ describe('Plot Window component', () => {
     screen.getByLabelText('plot-loading-indicator');
   });
 
-  it('calls useRecords and useScalarChannels hooks on load', () => {
+  it('calls usePlotRecords and useScalarChannels hooks on load', () => {
     createView();
-    expect(useRecords).toHaveBeenCalled();
+    expect(usePlotRecords).toHaveBeenCalled();
     expect(useScalarChannels).toHaveBeenCalled();
   });
 });

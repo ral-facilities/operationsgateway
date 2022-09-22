@@ -9,6 +9,7 @@ import {
   Channel,
   FullChannelMetadata,
   ImageChannel,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
@@ -19,15 +20,20 @@ import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialState as initialPlotState } from './state/slices/plotSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { format, parseISO } from 'date-fns';
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 let mockActualReact;
 jest.doMock('react', () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   if (!mockActualReact) {
     mockActualReact = jest.requireActual('react');
   }
@@ -35,13 +41,14 @@ jest.doMock('react', () => {
 });
 
 export let actions: Action[] = [];
-export let resetActions = (): void => {
+export const resetActions = (): void => {
   actions = [];
 };
 export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
   search: initialSearchState,
+  plots: initialPlotState,
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
@@ -70,7 +77,7 @@ export const createTestQueryClient = (): QueryClient =>
     },
   });
 
-export const hooksWrapperWithProviders = (state = {}): any => {
+export const hooksWrapperWithProviders = (state = {}) => {
   const testQueryClient = createTestQueryClient();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
@@ -93,7 +100,9 @@ export function renderComponentWithProviders(
   }: ExtendedRenderOptions = {}
 ) {
   const testQueryClient = createTestQueryClient();
-  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
     return (
       <Provider store={store}>
         <QueryClientProvider client={testQueryClient}>
@@ -114,7 +123,9 @@ export function renderComponentWithStore(
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  function Wrapper({ children }: React.PropsWithChildren<{}>): JSX.Element {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
@@ -137,11 +148,11 @@ export const applyDatePickerWorkaround = (): void => {
       media: query,
       // this is the media query that @material-ui/pickers uses to determine if a device is a desktop device
       matches: query === '(pointer: fine)',
-      onchange: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      addListener: () => {},
-      removeListener: () => {},
+      onchange: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      addListener: () => undefined,
+      removeListener: () => undefined,
       dispatchEvent: () => false,
     }),
   });
@@ -222,7 +233,7 @@ export const generateRecord = (num: number): Record => {
       dataVersion: numStr,
       shotnum: num,
       timestamp:
-        num < 10 ? `2022-01-0${num} 00:00:00` : `2022-01-${num} 00:00:00`,
+        num < 10 ? `2022-01-0${num}T00:00:00` : `2022-01-${num}T00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
@@ -239,8 +250,11 @@ export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
 export const generateRecordRow = (num: number) => {
   const record = generateRecord(num);
 
-  let recordRow: RecordRow = {
-    timestamp: record.metadata.timestamp,
+  const recordRow: RecordRow = {
+    timestamp: format(
+      parseISO(record.metadata.timestamp),
+      'yyyy-MM-dd HH:mm:ss'
+    ),
     shotnum: record.metadata.shotnum,
     activeArea: record.metadata.activeArea,
     activeExperiment: record.metadata.activeExperiment,
@@ -277,4 +291,22 @@ export const generateRecordRow = (num: number) => {
 
 export const testRecordRows = Array.from(Array(3), (_, i) =>
   generateRecordRow(i + 1)
+);
+
+export const generatePlotDataset = (num: number) => {
+  const datasetName = testChannels[num].systemName;
+  const plotDataset: PlotDataset = {
+    name: datasetName,
+    data: [
+      {
+        shotNum: num,
+        [datasetName]: num,
+      },
+    ],
+  };
+  return plotDataset;
+};
+
+export const testPlotDatasets = Array.from(Array(3), (_, i) =>
+  generatePlotDataset(i)
 );

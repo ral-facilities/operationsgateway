@@ -1,8 +1,7 @@
 import React from 'react';
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import PlotSettings, { PlotSettingsProps } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
 import { FullScalarChannelMetadata } from '../app.types';
 
 describe('Plot Settings component', () => {
@@ -11,12 +10,12 @@ describe('Plot Settings component', () => {
   const changePlotTitle = jest.fn();
   const changePlotType = jest.fn();
   const changeXAxis = jest.fn();
-  const changeYAxis = jest.fn();
   const changeXAxisSettings = jest.fn();
   const changeYAxesSettings = jest.fn();
+  const changeSelectedChannels = jest.fn();
 
   const createView = () => {
-    return renderComponentWithProviders(<PlotSettings {...props} />);
+    return render(<PlotSettings {...props} />);
   };
 
   const channels: FullScalarChannelMetadata[] = [
@@ -44,10 +43,10 @@ describe('Plot Settings component', () => {
       changeXAxis,
       XAxisSettings: { scale: 'linear' },
       changeXAxisSettings,
-      YAxis: '',
-      changeYAxis,
       YAxesSettings: { scale: 'linear' },
       changeYAxesSettings,
+      selectedChannels: [],
+      changeSelectedChannels,
     };
 
     user = userEvent.setup({ delay: null });
@@ -127,20 +126,6 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it('does not let the user change the Y axis scale if time is selected as the Y axis', async () => {
-    props.YAxis = 'timestamp';
-    props.YAxesSettings.scale = 'time';
-    createView();
-
-    await user.click(screen.getByRole('tab', { name: 'Y' }));
-
-    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
-    const radioButtons = within(radioGroup).getAllByRole('radio');
-    radioButtons.forEach((radioButton) => {
-      expect(radioButton).toBeDisabled();
-    });
-  });
-
   it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
     createView();
 
@@ -182,7 +167,7 @@ describe('Plot Settings component', () => {
   it('allows user to select an x-axis (keyboard only)', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -200,7 +185,7 @@ describe('Plot Settings component', () => {
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -213,12 +198,12 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it('allows user to select a y-axis (keyboard only)', async () => {
+  it('allows user to add channels on the y-axis (keyboard only)', async () => {
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
@@ -226,35 +211,41 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeYAxis).toHaveBeenCalledWith('CHANNEL_1');
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'linear',
-    });
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
-  it('allows user to select a y-axis (mouse and keyboard)', async () => {
+  it('allows user to add channels on the y-axis (mouse and keyboard)', async () => {
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'CHANNEL');
     await user.click(screen.getByText('CHANNEL_1'));
 
-    expect(changeYAxis).toHaveBeenCalledWith('CHANNEL_1');
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'linear',
-    });
+    expect(changeSelectedChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('changes scale to time automatically if time is selected as x-axis', async () => {
     createView();
 
-    let autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'time');
@@ -269,31 +260,71 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it('changes scale to time automatically if time is selected as y-axis', async () => {
+  it('allows user to toggle visibility of a selected channel off', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ];
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    let autocomplete = screen.getByRole('autocomplete');
-    const input = within(autocomplete).getByRole('combobox');
+    await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility off'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: false,
+        },
+      },
+    ]);
+  });
 
-    await user.type(input, 'time');
-    autocomplete.focus();
-    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
-    fireEvent.keyDown(autocomplete, { key: 'Enter' });
+  it('allows user to toggle visibility of a selected channel on', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: false,
+        },
+      },
+    ];
+    createView();
 
-    expect(changeYAxis).toHaveBeenCalledWith('timestamp');
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'time',
-    });
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Toggle CHANNEL_2 visibility on'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {
     props.XAxis = 'timestamp';
     createView();
 
-    await user.click(screen.getByLabelText('Remove timestamp axis'));
+    await user.click(screen.getByLabelText('Remove timestamp from x-axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith('');
     expect(changeXAxisSettings).toHaveBeenCalledWith({
       ...props.XAxisSettings,
@@ -301,14 +332,52 @@ describe('Plot Settings component', () => {
     });
   });
 
-  it('removes y-axis from display when we click Close on its label', async () => {
-    props.YAxis = 'shotnum';
+  it('removes channel from display when we click Close on its label', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ];
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove shotnum axis'));
-    expect(changeYAxis).toHaveBeenLastCalledWith('');
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
+    expect(changeYAxesSettings).not.toHaveBeenCalled();
+  });
+
+  it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
+    props.selectedChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
+    expect(changeSelectedChannels).toHaveBeenLastCalledWith([]);
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
       scale: 'linear',
