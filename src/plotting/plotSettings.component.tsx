@@ -261,29 +261,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
           InputLabelProps={{ style: { fontSize: 12 } }}
         />
       </Grid>
-      <Grid container item spacing={1}>
-        {/* TODO: what do these control? we need to hook them up */}
-        <Grid item xs={6}>
-          <TextField
-            label="Hours"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            label="Points"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
-          />
-        </Grid>
-      </Grid>
       <Grid item>
         <ToggleButtonGroup
           value={plotType}
