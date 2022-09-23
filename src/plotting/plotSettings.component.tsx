@@ -86,7 +86,7 @@ const StyledTab = styled(Tab)(() => ({
  * Determines which colours we have available based on which have already been selected
  * Uses a list of 10 pre-selected colours before generating a random colour beyond this
  */
-class ColourGenerator {
+export class ColourGenerator {
   selectedColours: string[];
   remainingColours: string[];
 
@@ -138,8 +138,11 @@ class ColourGenerator {
    * @param removedColour the colour to remove
    */
   removeColour(removedColour: string) {
+    const selectedIndex = this.selectedColours.indexOf(removedColour);
+    if (selectedIndex === -1) return;
+
     // Modify the selectedColours list to keep the other colours
-    this.selectedColours.splice(this.selectedColours.indexOf(removedColour), 1);
+    this.selectedColours.splice(selectedIndex, 1);
 
     // See if the removed colour is in the list of pre-determined colours
     const indexOfRemoved = this.colourOrder.indexOf(removedColour);
@@ -291,8 +294,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
       const channelToRemove = selectedChannels.find(
         (channel) => channel.name === channelName
       );
-      if (channelToRemove)
-        colourGenerator.removeColour(channelToRemove.options.colour);
+      if (!channelToRemove) return;
+
+      colourGenerator.removeColour(channelToRemove.options.colour);
 
       // Filter out the channel to remove
       const newSelectedChannelsArray = selectedChannels.filter(

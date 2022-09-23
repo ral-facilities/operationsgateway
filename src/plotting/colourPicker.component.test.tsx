@@ -5,8 +5,9 @@ import ColourPicker from './colourPicker.component';
 
 describe('ColourPicker component', () => {
   const props: React.ComponentProps<typeof ColourPicker> = {
+    channelName: 'CHANNEL_1',
     colour: '#ff0000',
-    onChange: jest.fn(),
+    changeColour: jest.fn(),
   };
 
   it('renders coloured square when popover is not open', () => {
@@ -18,20 +19,23 @@ describe('ColourPicker component', () => {
     const user = userEvent.setup();
     const view = render(<ColourPicker {...props} />);
 
-    await user.click(screen.getByLabelText('Pick colour'));
+    await user.click(screen.getByLabelText(`Pick ${props.channelName} colour`));
 
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('calls onChange when new colour is picked', async () => {
+  it('calls changeColour when new colour is picked', async () => {
     const user = userEvent.setup();
     render(<ColourPicker {...props} />);
 
-    await user.click(screen.getByLabelText('Pick colour'));
+    await user.click(screen.getByLabelText(`Pick ${props.channelName} colour`));
 
     await user.click(screen.getByLabelText('Color'));
 
-    expect(props.onChange).toHaveBeenCalled();
+    expect(props.changeColour).toHaveBeenCalledWith(
+      props.channelName,
+      expect.anything()
+    );
   });
 
   it('closes colour picker only when you click outside of it', async () => {
@@ -43,12 +47,14 @@ describe('ColourPicker component', () => {
       </div>
     );
 
-    await user.click(screen.getByLabelText('Pick colour'));
+    await user.click(screen.getByLabelText(`Pick ${props.channelName} colour`));
 
     screen.getByLabelText('Color');
 
     // don't think this could actually occur with a real mouse, but oh well
-    fireEvent.mouseDown(screen.getByLabelText('Pick colour'));
+    fireEvent.mouseDown(
+      screen.getByLabelText(`Pick ${props.channelName} colour`)
+    );
     fireEvent.click(screen.getByLabelText('Color'));
 
     screen.getByLabelText('Color');
@@ -62,11 +68,11 @@ describe('ColourPicker component', () => {
     const user = userEvent.setup();
     render(<ColourPicker {...props} />);
 
-    await user.click(screen.getByLabelText('Pick colour'));
+    await user.click(screen.getByLabelText(`Pick ${props.channelName} colour`));
 
     screen.getByLabelText('Color');
 
-    await user.click(screen.getByLabelText('Pick colour'));
+    await user.click(screen.getByLabelText(`Pick ${props.channelName} colour`));
 
     expect(screen.queryByLabelText('Color')).not.toBeInTheDocument();
   });
