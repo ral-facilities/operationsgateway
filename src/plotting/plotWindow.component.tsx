@@ -18,6 +18,8 @@ import {
   YAxisSettings,
   PlotType,
   SelectedPlotChannel,
+  FullScalarChannelMetadata,
+  PlotDataset,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
@@ -60,11 +62,15 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const svgRef = React.useRef<HTMLElement | null>(null);
 
-  const { data: records, isLoading: recordsLoading } = usePlotRecords(
-    XAxis,
-    selectedChannels
-  );
-  const { data: channels, isLoading: channelsLoading } = useScalarChannels();
+  // const { data: records, isLoading: recordsLoading } = usePlotRecords(
+  //   XAxis,
+  //   selectedChannels
+  // );
+  // const { data: channels, isLoading: channelsLoading } = useScalarChannels();
+  const records: PlotDataset[] = [];
+  const recordsLoading = false;
+  const channels: FullScalarChannelMetadata[] = [];
+  const channelsLoading = false;
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>

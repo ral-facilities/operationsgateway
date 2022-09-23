@@ -1,16 +1,5 @@
 import React from 'react';
 import {
-  VictoryChart,
-  VictoryScatter,
-  VictoryLine,
-  VictoryZoomContainer,
-  VictoryLabel,
-  VictoryTheme,
-  VictoryLegend,
-  VictoryTooltip,
-  VictoryGroup,
-} from 'victory';
-import {
   XAxisSettings,
   PlotDataset,
   PlotType,
@@ -29,6 +18,68 @@ export const formatTooltipLabel = (
   return label;
 };
 
+export const options = {
+  responsive: true,
+  interaction: {
+    mode: 'index' as const,
+    intersect: false,
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: 'Chart.js Line Chart - Multi Axis',
+    },
+    zoom: {
+      zoom: {
+        wheel: {
+          enabled: true,
+        },
+      },
+      pan: {
+        enabled: true,
+      },
+    },
+  },
+  scales: {
+    y: {
+      type: 'linear' as const,
+      display: true,
+      position: 'left' as const,
+    },
+    y1: {
+      type: 'linear' as const,
+      display: true,
+      position: 'right' as const,
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+  },
+};
+
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: [-655, -752, 696, 222, 789, -251, -643],
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      yAxisID: 'y',
+    },
+    {
+      label: 'Dataset 2',
+      data: [5506056, 6237210, 5421636, 7190345, 9040798, 5487210, 9631115],
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      yAxisID: 'y1',
+    },
+  ],
+};
+
 export interface PlotProps {
   datasets: PlotDataset[];
   selectedChannels: SelectedPlotChannel[];
@@ -42,14 +93,14 @@ export interface PlotProps {
 
 const Plot = (props: PlotProps) => {
   const {
-    datasets,
-    selectedChannels,
+    // datasets,
+    // selectedChannels,
     title,
-    type,
-    XAxisSettings,
-    YAxesSettings,
-    XAxis,
-    svgRef,
+    // type,
+    // XAxisSettings,
+    // YAxesSettings,
+    // XAxis,
+    // svgRef,
   } = props;
   const [redraw, setRedraw] = React.useState(false);
   const setRedrawTrue = React.useCallback(() => {
@@ -57,6 +108,58 @@ const Plot = (props: PlotProps) => {
   }, [setRedraw]);
 
   const graphRef = React.useRef<HTMLDivElement | null>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  React.useEffect(() => {
+    const externalWindow = canvasRef.current?.ownerDocument?.defaultView;
+    if (externalWindow) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      externalWindow.options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index' as const,
+          intersect: false,
+        },
+        stacked: false,
+        plugins: {
+          title: {
+            display: true,
+            text: title,
+          },
+          zoom: {
+            zoom: {
+              wheel: {
+                enabled: true,
+              },
+            },
+            pan: {
+              enabled: true,
+            },
+          },
+        },
+        scales: {
+          y: {
+            type: 'linear' as const,
+            display: true,
+            position: 'left' as const,
+          },
+          y1: {
+            type: 'linear' as const,
+            display: true,
+            position: 'right' as const,
+            grid: {
+              drawOnChartArea: false,
+            },
+          },
+        },
+      };
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      externalWindow.data = data;
+    }
+  }, [title]);
 
   React.useEffect(() => {
     window.addEventListener(
@@ -90,97 +193,7 @@ const Plot = (props: PlotProps) => {
         maxWidth: '100%',
       }}
     >
-      <VictoryChart
-        containerComponent={
-          <VictoryZoomContainer
-            containerRef={(ref) => {
-              svgRef.current = ref;
-            }}
-          />
-        }
-        scale={{ x: XAxisSettings.scale, y: YAxesSettings.scale }}
-        theme={VictoryTheme.material}
-        width={graphRef?.current?.offsetWidth ?? 0}
-        height={graphRef?.current?.offsetHeight ?? 0}
-        // might need something fancier than this to prevent label overflow...
-        // this can render 6 characters without overflow
-        padding={{ top: 50, left: 60, right: 50, bottom: 50 }}
-      >
-        <VictoryLabel
-          text={title}
-          x={
-            graphRef?.current?.offsetWidth
-              ? graphRef.current.offsetWidth / 2
-              : 200
-          }
-          y={10}
-          textAnchor="middle"
-        />
-        <VictoryLegend
-          x={50}
-          y={20}
-          gutter={20}
-          symbolSpacer={5}
-          orientation="horizontal"
-          data={selectedChannels
-            ?.filter((channel) => channel.options.visible)
-            .map((channel) => {
-              return { name: channel.name, symbol: { fill: '#e31a1c' } };
-            })}
-        />
-        {selectedChannels.map((channel) => {
-          const currentDataset = datasets.find(
-            (dataset) => dataset.name === channel.name
-          );
-          if (currentDataset) {
-            return (
-              <VictoryGroup key={currentDataset.name}>
-                {type === 'line' && (
-                  <VictoryLine
-                    style={{
-                      data: {
-                        stroke: '#e31a1c',
-                        strokeOpacity: channel.options.visible ? 1 : 0,
-                      },
-                    }}
-                    data={currentDataset.data}
-                    x={XAxis}
-                    y={currentDataset.name}
-                  />
-                )}
-                {/* We render a scatter graph no matter what as otherwise line charts
-                wouldn't be able to have hover tooltips */}
-                <VictoryScatter
-                  style={{
-                    data: {
-                      fill: '#e31a1c',
-                      fillOpacity: channel.options.visible ? 1 : 0,
-                    },
-                  }}
-                  data={currentDataset.data}
-                  x={XAxis}
-                  y={currentDataset.name}
-                  size={type === 'line' ? 2 : 3}
-                  labels={({ datum }) => {
-                    const formattedXLabel = formatTooltipLabel(
-                      datum._x,
-                      XAxisSettings.scale
-                    );
-                    const formattedYLabel = formatTooltipLabel(
-                      datum._y,
-                      YAxesSettings.scale
-                    );
-                    return `(${formattedXLabel}, ${formattedYLabel})`;
-                  }}
-                  labelComponent={<VictoryTooltip />}
-                />
-              </VictoryGroup>
-            );
-          } else {
-            return <></>;
-          }
-        })}
-      </VictoryChart>
+      <canvas id="my-chart" ref={canvasRef} width="400" height="400"></canvas>
     </div>
   );
 };
