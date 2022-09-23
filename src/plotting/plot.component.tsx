@@ -124,9 +124,10 @@ const Plot = (props: PlotProps) => {
           orientation="horizontal"
           data={selectedChannels
             ?.filter((channel) => channel.options.visible)
-            .map((channel) => {
-              return { name: channel.name, symbol: { fill: '#e31a1c' } };
-            })}
+            .map((channel) => ({
+              name: channel.name,
+              symbol: { fill: channel.options.colour },
+            }))}
         />
         {selectedChannels.map((channel) => {
           const currentDataset = datasets.find(
@@ -139,7 +140,7 @@ const Plot = (props: PlotProps) => {
                   <VictoryLine
                     style={{
                       data: {
-                        stroke: '#e31a1c',
+                        stroke: channel.options.colour,
                         strokeOpacity: channel.options.visible ? 1 : 0,
                       },
                     }}
@@ -153,7 +154,7 @@ const Plot = (props: PlotProps) => {
                 <VictoryScatter
                   style={{
                     data: {
-                      fill: '#e31a1c',
+                      fill: channel.options.colour,
                       fillOpacity: channel.options.visible ? 1 : 0,
                     },
                   }}

@@ -85,8 +85,9 @@ const ColourPicker = (props: ColourPickerProps) => {
           role="dialog"
           sx={{
             position: 'absolute',
-            top: 'calc(100% + 2px)',
-            right: 0,
+            top: -95,
+            right: 30,
+            zIndex: 1,
             borderRadius: 9,
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
             '& .react-colorful': {
