@@ -92,16 +92,16 @@ class ColourGenerator {
 
   // List of colours to generate in order (taken from eCat)
   colourOrder: string[] = [
-    '#008000',
-    '#0000ff',
-    '#ff00ff',
-    '#00ffff',
-    '#008080',
-    '#800000',
-    '#00ff00',
-    '#000080',
-    '#7f8000',
-    '#80007f',
+    '#008000', // dark green
+    '#0000ff', // dark blue
+    '#ff00ff', // pink
+    '#00ffff', // light blue
+    '#008080', // teal
+    '#800000', // deep red
+    '#00ff00', // light green
+    '#000080', // navy blue
+    '#7f8000', // brown-ish yellow?
+    '#80007f', // indigo
   ];
 
   constructor() {
