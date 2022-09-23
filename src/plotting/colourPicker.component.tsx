@@ -110,7 +110,6 @@ const ColourPicker = (props: ColourPickerProps) => {
         >
           <HexColorPicker
             color={colour}
-            // TODO this fires repeatedly until mouseup event. Should we change this?
             onChange={(newColour: string) => {
               changeColour(channelName, newColour);
             }}
