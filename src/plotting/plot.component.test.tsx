@@ -98,11 +98,12 @@ describe('plotting', () => {
     let props: PlotProps;
 
     const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
-      (dataset) => {
+      (dataset, i) => {
         return {
           name: dataset.name,
           options: {
             visible: true,
+            colour: i.toString(),
           },
         };
       }
@@ -139,8 +140,11 @@ describe('plotting', () => {
       );
       expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testPlotDatasets.map((dataset) => {
-            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          data: testPlotDatasets.map((dataset, i) => {
+            return {
+              name: dataset.name,
+              symbol: { fill: selectedChannels[i].options.colour },
+            };
           }),
         })
       );
@@ -187,8 +191,11 @@ describe('plotting', () => {
       );
       expect(mockVictoryLegend).toHaveBeenCalledWith(
         expect.objectContaining({
-          data: testPlotDatasets.map((dataset) => {
-            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
+          data: testPlotDatasets.map((dataset, i) => {
+            return {
+              name: dataset.name,
+              symbol: { fill: selectedChannels[i].options.colour },
+            };
           }),
         })
       );
