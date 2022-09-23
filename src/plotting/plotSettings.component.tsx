@@ -81,6 +81,91 @@ const StyledTab = styled(Tab)(() => ({
   width: 10,
 }));
 
+/**
+ * Handles the colours currently in use for plotting different channels
+ * Determines which colours we have available based on which have already been selected
+ * Uses a list of 10 pre-selected colours before generating a random colour beyond this
+ */
+class ColourGenerator {
+  selectedColours: string[];
+  remainingColours: string[];
+
+  // List of colours to generate in order (taken from eCat)
+  colourOrder: string[] = [
+    '#008000',
+    '#0000ff',
+    '#ff00ff',
+    '#00ffff',
+    '#008080',
+    '#800000',
+    '#00ff00',
+    '#000080',
+    '#7f8000',
+    '#80007f',
+  ];
+
+  constructor() {
+    this.selectedColours = [];
+    this.remainingColours = Array.from(this.colourOrder);
+  }
+
+  /**
+   * Generates a random hex colour
+   * Called when we have no remaining pre-selected colours to return
+   * @returns a random hex colour value
+   */
+  randomColour() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+  }
+
+  /**
+   * Provides the next colour in the list of remaining colours
+   * @returns the colour to display
+   */
+  nextColour() {
+    if (!this.remainingColours.length) return this.randomColour();
+
+    const returningColour =
+      this.remainingColours.shift() ?? this.randomColour(); // .shift() should always return a value but the compiler wasn't satisfied without a way out of returning undefined
+    this.selectedColours.push(returningColour); // Add the next colour to the list of selected colours
+    return returningColour;
+  }
+
+  /**
+   * Handles removing a colour from the list of selected colours
+   * The removed colour is inserted back into its original place in the remaining colours list
+   * This ensures the colour at position *n* is always the *n*th colour returned
+   * @param removedColour the colour to remove
+   */
+  removeColour(removedColour: string) {
+    // Modify the selectedColours list to keep the other colours
+    this.selectedColours.splice(this.selectedColours.indexOf(removedColour), 1);
+
+    // See if the removed colour is in the list of pre-determined colours
+    const indexOfRemoved = this.colourOrder.indexOf(removedColour);
+    if (indexOfRemoved !== -1) {
+      let inserted = false;
+
+      // Loop through the remaining colours
+      for (let i = 0; i < this.remainingColours.length; i++) {
+        const currentRemainingColour = this.remainingColours[i];
+        const indexOfCurrent = this.colourOrder.indexOf(currentRemainingColour);
+
+        // If the current remaining colour appears after the colour to be removed
+        if (indexOfCurrent > indexOfRemoved) {
+          // Insert the colour to be removed before the current remaining colour
+          this.remainingColours.splice(i, 0, removedColour);
+          inserted = true;
+          break;
+        }
+      }
+
+      // Removed colour was the last pre-determined colour so add it to the end of remaining colours list
+      if (!inserted) this.remainingColours.push(removedColour);
+    }
+  }
+}
+
 export interface PlotSettingsProps {
   channels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
@@ -126,6 +211,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
     },
     [setTitle]
   );
+
+  const colourGenerator = React.useMemo(() => {
+    return new ColourGenerator();
+  }, []);
 
   const handleChangeChartType = React.useCallback(
     (event: React.MouseEvent<HTMLElement>, newChartType: PlotType) => {
@@ -185,8 +274,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
         name: channelName,
         options: {
           visible: true,
-          // TODO look at automatically choosing colour
-          colour: '#FFFFFF',
+          colour: colourGenerator.nextColour(), // Generate a colour for the channel to appear in the plot
         },
       };
 
@@ -194,20 +282,37 @@ const PlotSettings = (props: PlotSettingsProps) => {
       newselectedChannelsArray.push(newSelectedChannel);
       changeSelectedChannels(newselectedChannelsArray);
     },
-    [changeSelectedChannels, selectedChannels]
+    [changeSelectedChannels, colourGenerator, selectedChannels]
   );
 
   const removePlotChannel = React.useCallback(
     (channelName: string) => {
+      // Extracting channel to remove its plot colour from the generator's list
+      const channelToRemove = selectedChannels.find(
+        (channel) => channel.name === channelName
+      );
+      if (channelToRemove)
+        colourGenerator.removeColour(channelToRemove.options.colour);
+
+      // Filter out the channel to remove
       const newSelectedChannelsArray = selectedChannels.filter(
         (channel) => channel.name !== channelName
       );
+
+      // Update the list of selected channels
       changeSelectedChannels(newSelectedChannelsArray);
+
+      // Reset to a linear scale if no channels are selected
       if (newSelectedChannelsArray.length === 0) {
         handleChangeYScale('linear');
       }
     },
-    [changeSelectedChannels, handleChangeYScale, selectedChannels]
+    [
+      changeSelectedChannels,
+      colourGenerator,
+      handleChangeYScale,
+      selectedChannels,
+    ]
   );
 
   const toggleChannelVisibility = React.useCallback(
