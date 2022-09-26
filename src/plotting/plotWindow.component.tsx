@@ -50,10 +50,6 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
-  const [
-    selectedScalarRecordTableChannels,
-    setSelectedScalarRecordTableChannels,
-  ] = React.useState<FullScalarChannelMetadata[]>([]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -82,10 +78,10 @@ const PlotWindow = (props: PlotWindowProps) => {
     selectSelectedChannels(state, allChannels ?? [])
   );
 
-  React.useEffect(() => {
-    const scalarChannels = getScalarChannels(selectedRecordTableChannels);
-    setSelectedScalarRecordTableChannels(scalarChannels);
-  }, [selectedRecordTableChannels]);
+  const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
+    React.useMemo(() => {
+      return getScalarChannels(selectedRecordTableChannels);
+    }, [selectedRecordTableChannels]);
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
