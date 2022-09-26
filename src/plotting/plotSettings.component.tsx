@@ -35,7 +35,6 @@ import {
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
-  FullChannelMetadata,
 } from '../app.types';
 
 const StyledClose = styled(Close)(() => ({
@@ -85,7 +84,7 @@ const StyledTab = styled(Tab)(() => ({
 }));
 
 export interface PlotSettingsProps {
-  selectedRecordTableChannels: FullChannelMetadata[];
+  selectedRecordTableChannels: FullScalarChannelMetadata[];
   allChannels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
@@ -229,50 +228,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
     [changeSelectedPlotChannels, selectedPlotChannels]
   );
 
-  const [recordTableOptions, setRecordTableOptions] = React.useState<string[]>(
-    []
-  );
-
-  const populateRecordTableOptions = (
-    selectedRecordTableChannels: FullChannelMetadata[]
-  ): void => {
-    const ops = selectedRecordTableChannels.map(
-      (channel) => channel.systemName
-    );
-
-    setRecordTableOptions(ops);
-  };
-
-  React.useEffect(() => {
-    if (selectedRecordTableChannels)
-      populateRecordTableOptions(selectedRecordTableChannels);
-  }, [selectedRecordTableChannels]);
-
-  const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
-    string[]
-  >(['timestamp', 'shotnum', 'activeArea', 'activeExperiment']);
-
-  const populateAxisSelectionOptions = (
-    metadata: FullScalarChannelMetadata[]
-  ): void => {
-    const ops: string[] = [
-      'timestamp',
-      'shotnum',
-      'activeArea',
-      'activeExperiment',
-    ];
-
-    metadata.forEach((meta: FullScalarChannelMetadata) => {
-      ops.push(meta.systemName);
-    });
-
-    setAxisSelectionOptions(ops);
-  };
-
-  React.useEffect(() => {
-    if (allChannels) populateAxisSelectionOptions(allChannels);
-  }, [allChannels]);
-
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
@@ -399,7 +354,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select x axis"
-                options={axisSelectionOptions}
+                options={['timestamp'].concat(
+                  allChannels.map((channel) => channel.systemName)
+                )}
                 fullWidth
                 role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
@@ -513,26 +470,36 @@ const PlotSettings = (props: PlotSettingsProps) => {
             <Grid container item>
               <FormControl fullWidth>
                 <InputLabel
-                  id="select data display channel"
+                  id="select displayed table channels"
                   sx={{ fontSize: 12 }}
                 >
-                  Data display channels
+                  Displayed table channels
                 </InputLabel>
                 <Select
-                  label="Data display channels"
+                  label="Displayed table channels"
                   value={selectValue}
-                  onChange={(event) =>
-                    setSelectValue((event.target.value as string) ?? '')
-                  }
+                  onChange={(event) => {
+                    const newValue = event.target.value as string;
+                    if (newValue) addPlotChannel(newValue);
+                    setSelectValue('');
+                  }}
                   sx={{ fontSize: 12 }}
                 >
-                  {recordTableOptions.map((option) => {
-                    return (
-                      <MenuItem key={option} value={option}>
-                        {option}
-                      </MenuItem>
-                    );
-                  })}
+                  {selectedRecordTableChannels
+                    .filter(
+                      (selected) =>
+                        !selectedPlotChannels
+                          .map((channel) => channel.name)
+                          .includes(selected.systemName)
+                    )
+                    .map((channel) => {
+                      const name = channel.systemName;
+                      return (
+                        <MenuItem key={name} value={name}>
+                          {name}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
               </FormControl>
             </Grid>
@@ -542,13 +509,14 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select data channels"
-                options={axisSelectionOptions.filter(
-                  (option) =>
-                    option !== 'timestamp' &&
-                    !selectedPlotChannels
-                      .map((channel) => channel.name)
-                      .includes(option)
-                )}
+                options={allChannels
+                  .map((channel) => channel.systemName)
+                  .filter(
+                    (name) =>
+                      !selectedPlotChannels
+                        .map((channel) => channel.name)
+                        .includes(name)
+                  )}
                 fullWidth
                 role="autocomplete"
                 inputValue={autocompleteValue}

@@ -18,9 +18,14 @@ import {
   YAxisSettings,
   PlotType,
   SelectedPlotChannel,
+  FullScalarChannelMetadata,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
-import { useChannels, useScalarChannels } from '../api/channels';
+import {
+  getScalarChannels,
+  useChannels,
+  useScalarChannels,
+} from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector } from '../state/hooks';
@@ -45,6 +50,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
+  const [
+    selectedScalarRecordTableChannels,
+    setSelectedScalarRecordTableChannels,
+  ] = React.useState<FullScalarChannelMetadata[]>([]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -72,6 +81,11 @@ const PlotWindow = (props: PlotWindowProps) => {
   const selectedRecordTableChannels = useAppSelector((state) =>
     selectSelectedChannels(state, allChannels ?? [])
   );
+
+  React.useEffect(() => {
+    const scalarChannels = getScalarChannels(selectedRecordTableChannels);
+    setSelectedScalarRecordTableChannels(scalarChannels);
+  }, [selectedRecordTableChannels]);
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
@@ -121,7 +135,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 </IconButton>
               </Box>
               <PlotSettings
-                selectedRecordTableChannels={selectedRecordTableChannels}
+                selectedRecordTableChannels={selectedScalarRecordTableChannels}
                 allChannels={channels ?? []}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
