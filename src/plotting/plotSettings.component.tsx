@@ -17,6 +17,9 @@ import {
   Autocomplete,
   Typography,
   IconButton,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   ScatterPlot,
@@ -32,6 +35,7 @@ import {
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
+  FullChannelMetadata,
 } from '../app.types';
 
 const StyledClose = styled(Close)(() => ({
@@ -81,7 +85,8 @@ const StyledTab = styled(Tab)(() => ({
 }));
 
 export interface PlotSettingsProps {
-  channels: FullScalarChannelMetadata[];
+  selectedRecordTableChannels: FullChannelMetadata[];
+  allChannels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
@@ -91,13 +96,14 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
   YAxesSettings: YAxisSettings;
   changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
-  selectedChannels: SelectedPlotChannel[];
-  changeSelectedChannels: (selectedChannels: SelectedPlotChannel[]) => void;
+  selectedPlotChannels: SelectedPlotChannel[];
+  changeSelectedPlotChannels: (selectedChannels: SelectedPlotChannel[]) => void;
 }
 
 const PlotSettings = (props: PlotSettingsProps) => {
   const {
-    channels,
+    selectedRecordTableChannels,
+    allChannels,
     changePlotTitle,
     plotType,
     changePlotType,
@@ -107,8 +113,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changeXAxisSettings,
     YAxesSettings,
     changeYAxesSettings,
-    selectedChannels,
-    changeSelectedChannels,
+    selectedPlotChannels,
+    changeSelectedPlotChannels,
   } = props;
   const { scale: XScale } = XAxisSettings;
   const { scale: YScale } = YAxesSettings;
@@ -118,6 +124,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
+  const [selectValue, setSelectValue] = React.useState<string>('');
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,47 +187,66 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const addPlotChannel = React.useCallback(
     (channelName: string) => {
-      const newSelectedChannel: SelectedPlotChannel = {
+      const newSelectedPlotChannel: SelectedPlotChannel = {
         name: channelName,
         options: {
           visible: true,
         },
       };
 
-      const newselectedChannelsArray = Array.from(selectedChannels);
-      newselectedChannelsArray.push(newSelectedChannel);
-      changeSelectedChannels(newselectedChannelsArray);
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.push(newSelectedPlotChannel);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedChannels, selectedChannels]
+    [changeSelectedPlotChannels, selectedPlotChannels]
   );
 
   const removePlotChannel = React.useCallback(
     (channelName: string) => {
-      const newSelectedChannelsArray = selectedChannels.filter(
-        (channel) => channel.name !== channelName
+      const newSelectedChannelsArray = selectedPlotChannels.filter(
+        (channel: SelectedPlotChannel) => channel.name !== channelName
       );
-      changeSelectedChannels(newSelectedChannelsArray);
+      changeSelectedPlotChannels(newSelectedChannelsArray);
       if (newSelectedChannelsArray.length === 0) {
         handleChangeYScale('linear');
       }
     },
-    [changeSelectedChannels, handleChangeYScale, selectedChannels]
+    [changeSelectedPlotChannels, handleChangeYScale, selectedPlotChannels]
   );
 
   const toggleChannelVisibility = React.useCallback(
     (channelName: string) => {
-      const newSelectedChannelsArray = Array.from(selectedChannels);
-      newSelectedChannelsArray.some((channel) => {
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.some((channel: SelectedPlotChannel) => {
         if (channel.name === channelName) {
           channel.options.visible = !channel.options.visible;
           return true;
         }
         return false;
       });
-      changeSelectedChannels(newSelectedChannelsArray);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedChannels, selectedChannels]
+    [changeSelectedPlotChannels, selectedPlotChannels]
   );
+
+  const [recordTableOptions, setRecordTableOptions] = React.useState<string[]>(
+    []
+  );
+
+  const populateRecordTableOptions = (
+    selectedRecordTableChannels: FullChannelMetadata[]
+  ): void => {
+    const ops = selectedRecordTableChannels.map(
+      (channel) => channel.systemName
+    );
+
+    setRecordTableOptions(ops);
+  };
+
+  React.useEffect(() => {
+    if (selectedRecordTableChannels)
+      populateRecordTableOptions(selectedRecordTableChannels);
+  }, [selectedRecordTableChannels]);
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
     string[]
@@ -244,8 +270,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
   };
 
   React.useEffect(() => {
-    if (channels) populateAxisSelectionOptions(channels);
-  }, [channels]);
+    if (allChannels) populateAxisSelectionOptions(allChannels);
+  }, [allChannels]);
 
   return (
     <Grid container direction="column" spacing={1}>
@@ -485,6 +511,32 @@ const PlotSettings = (props: PlotSettingsProps) => {
               </FormControl>
             </Grid>
             <Grid container item>
+              <FormControl fullWidth>
+                <InputLabel
+                  id="select data display channel"
+                  sx={{ fontSize: 12 }}
+                >
+                  Data display channels
+                </InputLabel>
+                <Select
+                  label="Data display channels"
+                  value={selectValue}
+                  onChange={(event) =>
+                    setSelectValue((event.target.value as string) ?? '')
+                  }
+                  sx={{ fontSize: 12 }}
+                >
+                  {recordTableOptions.map((option) => {
+                    return (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid container item>
               <Autocomplete
                 disablePortal
                 freeSolo
@@ -493,7 +545,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 options={axisSelectionOptions.filter(
                   (option) =>
                     option !== 'timestamp' &&
-                    !selectedChannels
+                    !selectedPlotChannels
                       .map((channel) => channel.name)
                       .includes(option)
                 )}
@@ -532,7 +584,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 )}
               />
             </Grid>
-            {selectedChannels.map((plotChannel) => (
+            {selectedPlotChannels.map((plotChannel) => (
               <Grid container item key={plotChannel.name}>
                 <Box
                   aria-label={`${plotChannel.name} label`}

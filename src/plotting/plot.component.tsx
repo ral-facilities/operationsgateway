@@ -31,7 +31,7 @@ export const formatTooltipLabel = (
 
 export interface PlotProps {
   datasets: PlotDataset[];
-  selectedChannels: SelectedPlotChannel[];
+  selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
@@ -43,7 +43,7 @@ export interface PlotProps {
 const Plot = (props: PlotProps) => {
   const {
     datasets,
-    selectedChannels,
+    selectedPlotChannels,
     title,
     type,
     XAxisSettings,
@@ -122,13 +122,13 @@ const Plot = (props: PlotProps) => {
           gutter={20}
           symbolSpacer={5}
           orientation="horizontal"
-          data={selectedChannels
+          data={selectedPlotChannels
             ?.filter((channel) => channel.options.visible)
             .map((channel) => {
               return { name: channel.name, symbol: { fill: '#e31a1c' } };
             })}
         />
-        {selectedChannels.map((channel) => {
+        {selectedPlotChannels.map((channel) => {
           const currentDataset = datasets.find(
             (dataset) => dataset.name === channel.name
           );

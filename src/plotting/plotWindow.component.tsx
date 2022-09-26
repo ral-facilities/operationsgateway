@@ -20,8 +20,10 @@ import {
   SelectedPlotChannel,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
-import { useScalarChannels } from '../api/channels';
+import { useChannels, useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
+import { selectSelectedChannels } from '../state/slices/tableSlice';
+import { useAppSelector } from '../state/hooks';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -40,7 +42,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [selectedChannels, setSelectedChannels] = React.useState<
+  const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
 
@@ -62,9 +64,14 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
-    selectedChannels
+    selectedPlotChannels
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
+
+  const { data: allChannels } = useChannels(); // just for use with selectedRecordTableChannels, not passed anywhere else
+  const selectedRecordTableChannels = useAppSelector((state) =>
+    selectSelectedChannels(state, allChannels ?? [])
+  );
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
@@ -114,7 +121,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 </IconButton>
               </Box>
               <PlotSettings
-                channels={channels ?? []}
+                selectedRecordTableChannels={selectedRecordTableChannels}
+                allChannels={channels ?? []}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
                 changePlotType={setPlotType}
@@ -124,8 +132,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
-                selectedChannels={selectedChannels}
-                changeSelectedChannels={setSelectedChannels}
+                selectedPlotChannels={selectedPlotChannels}
+                changeSelectedPlotChannels={setSelectedPlotChannels}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -182,7 +190,7 @@ const PlotWindow = (props: PlotWindowProps) => {
           </Grid>
           <Plot
             datasets={records ?? []}
-            selectedChannels={selectedChannels}
+            selectedPlotChannels={selectedPlotChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}

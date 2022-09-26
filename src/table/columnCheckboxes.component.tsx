@@ -1,29 +1,28 @@
 import React from 'react';
-import { Column } from 'react-table';
 import { Checkbox } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
-  selectSelectedColumns,
+  selectSelectedChannels,
   selectColumn,
   deselectColumn,
 } from '../state/slices/tableSlice';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { useAvailableColumns } from '../api/channels';
+import { useChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
 
 const ColumnCheckboxes = React.memo((): React.ReactElement => {
-  const { data: availableColumns } = useAvailableColumns();
+  const { data: channels } = useChannels();
 
   const selectableColumns = React.useMemo(
     () =>
-      availableColumns?.filter((col) => {
-        const accessor = col.accessor?.toString();
-        return accessor && accessor.toUpperCase() !== 'TIMESTAMP';
+      channels?.filter((channel) => {
+        return channel.systemName.toUpperCase() !== 'TIMESTAMP';
       }) ?? [],
-    [availableColumns]
+    [channels]
   );
 
-  const selectedColumns = useAppSelector((state) =>
-    selectSelectedColumns(state, availableColumns ?? [])
+  const selectedChannels = useAppSelector((state) =>
+    selectSelectedChannels(state, channels ?? [])
   );
   const dispatch = useAppDispatch();
 
@@ -50,13 +49,13 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
 
   const shouldBeChecked = React.useCallback(
     (columnAccessor: string): boolean => {
-      const match = selectedColumns.filter((col: Column) => {
-        return col.accessor === columnAccessor;
+      const match = selectedChannels.filter((channel) => {
+        return channel.systemName === columnAccessor;
       });
 
       return match && match.length > 0;
     },
-    [selectedColumns]
+    [selectedChannels]
   );
 
   const parentRef = React.useRef<HTMLDivElement>(null);
@@ -69,13 +68,13 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
   });
 
   const CheckboxRow = React.useCallback(
-    (props: { column: Column }) => {
-      const { column } = props;
-      const accessor = column.accessor?.toString();
-      const label = column.channelInfo?.userFriendlyName
-        ? column.channelInfo?.userFriendlyName
-        : column.channelInfo?.systemName
-        ? column.channelInfo?.systemName
+    (props: { channel: FullChannelMetadata }) => {
+      const { channel } = props;
+      const accessor = channel.systemName;
+      const label = channel.userFriendlyName
+        ? channel.userFriendlyName
+        : channel.systemName
+        ? channel.systemName
         : accessor;
       return (
         <>
@@ -116,7 +115,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
               transform: `translateY(${virtualRow.start}px)`,
             }}
           >
-            <CheckboxRow column={selectableColumns[virtualRow.index]} />
+            <CheckboxRow channel={selectableColumns[virtualRow.index]} />
           </div>
         ))}
       </div>
