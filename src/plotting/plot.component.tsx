@@ -18,47 +18,7 @@ export const formatTooltipLabel = (
   return label;
 };
 
-export const options = {
-  responsive: true,
-  interaction: {
-    mode: 'index' as const,
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart - Multi Axis',
-    },
-    zoom: {
-      zoom: {
-        wheel: {
-          enabled: true,
-        },
-      },
-      pan: {
-        enabled: true,
-      },
-    },
-  },
-  scales: {
-    y: {
-      type: 'linear' as const,
-      display: true,
-      position: 'left' as const,
-    },
-    y1: {
-      type: 'linear' as const,
-      display: true,
-      position: 'right' as const,
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-  },
-};
-
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = [1, 2, 3, 4, 5, 6, 7];
 
 export const data = {
   labels,
@@ -102,98 +62,85 @@ const Plot = (props: PlotProps) => {
     // XAxis,
     // svgRef,
   } = props;
-  const [redraw, setRedraw] = React.useState(false);
-  const setRedrawTrue = React.useCallback(() => {
-    setRedraw(true);
-  }, [setRedraw]);
 
-  const graphRef = React.useRef<HTMLDivElement | null>(null);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
+  const [optionsString, setOptionsString] = React.useState('');
+  const [dataString, setDataString] = React.useState('');
+
   React.useEffect(() => {
-    const externalWindow = canvasRef.current?.ownerDocument?.defaultView;
-    if (externalWindow) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      externalWindow.options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          mode: 'index' as const,
-          intersect: false,
+    const optionsString = JSON.stringify({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index' as const,
+        intersect: false,
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: title,
         },
-        stacked: false,
-        plugins: {
-          title: {
-            display: true,
-            text: title,
-          },
+        zoom: {
           zoom: {
-            zoom: {
-              wheel: {
-                enabled: true,
-              },
-            },
-            pan: {
+            wheel: {
               enabled: true,
             },
-          },
-        },
-        scales: {
-          y: {
-            type: 'linear' as const,
-            display: true,
-            position: 'left' as const,
-          },
-          y1: {
-            type: 'linear' as const,
-            display: true,
-            position: 'right' as const,
-            grid: {
-              drawOnChartArea: false,
+            pinch: {
+              enabled: true,
             },
+            drag: {
+              enabled: false,
+            },
+            mode: 'xy',
+          },
+          pan: {
+            enabled: true,
+            mode: 'xy',
           },
         },
-      };
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      externalWindow.data = data;
-    }
+      },
+      datasets: { scatter: { showLine: true } },
+      scales: {
+        y: {
+          type: 'linear' as const,
+          display: true,
+          position: 'left' as const,
+        },
+        y1: {
+          type: 'linear' as const,
+          display: true,
+          position: 'right' as const,
+          grid: {
+            drawOnChartArea: false,
+          },
+        },
+      },
+    });
+    setOptionsString(optionsString);
   }, [title]);
 
   React.useEffect(() => {
-    window.addEventListener(
-      `resize OperationsGateway Plot - ${title}`,
-      setRedrawTrue,
-      false
-    );
-    return () => {
-      window.removeEventListener(
-        `resize OperationsGateway Plot - ${title}`,
-        setRedrawTrue,
-        false
-      );
-    };
-  }, [setRedrawTrue, title]);
-
-  // reset redraw state
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
-    if (redraw) {
-      setRedraw(false);
-    }
-  });
+    setDataString(JSON.stringify(data));
+  }, []);
 
   return (
     <div
-      ref={graphRef}
       style={{
         flex: '1 0 0',
         maxHeight: 'calc(100% - 38px)',
         maxWidth: '100%',
       }}
     >
-      <canvas id="my-chart" ref={canvasRef} width="400" height="400"></canvas>
+      {/* This canvas is turned into a Chart.js plot via code in plotWindowPortal.component.tsx */}
+      <canvas
+        id="my-chart"
+        ref={canvasRef}
+        width="400"
+        height="400"
+        data-options={optionsString}
+        data-data={dataString}
+      ></canvas>
     </div>
   );
 };
