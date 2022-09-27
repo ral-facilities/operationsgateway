@@ -76,7 +76,7 @@ const Plot = (props: PlotProps) => {
       },
       scales: {
         x: {
-          type: 'time',
+          type: XAxisSettings.scale,
           time: {
             displayFormats: {
               millisecond: 'HH:mm:ss:SSSS',
@@ -93,12 +93,12 @@ const Plot = (props: PlotProps) => {
           },
         },
         y: {
-          type: 'linear',
+          type: YAxesSettings.scale,
           display: true,
           position: 'left',
         },
         y2: {
-          type: 'linear',
+          type: YAxesSettings.scale,
           display: false,
           position: 'right',
           grid: {

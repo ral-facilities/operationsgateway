@@ -1,267 +1,68 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { PlotProps, formatTooltipLabel } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
 import { SelectedPlotChannel } from '../app.types';
+import Plot from './plot.component';
 
-describe('plotting', () => {
-  const mockVictoryChart = jest.fn();
-  const mockVictoryZoomContainer = jest.fn();
-  const mockVictoryTheme = jest.fn();
-  const mockVictoryScatter = jest.fn();
-  const mockVictoryLine = jest.fn();
-  const mockVictoryLabel = jest.fn();
-  const mockVictoryLegend = jest.fn();
-  const mockVictoryGroup = jest.fn();
+describe('Plot component', () => {
+  let props: PlotProps;
+
+  const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+    (dataset) => {
+      return {
+        name: dataset.name,
+        options: {
+          visible: true,
+        },
+      };
+    }
+  );
 
   beforeEach(() => {
-    jest.resetModules();
-
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    jest.doMock('victory', () => ({
-      VictoryChart: (props) => {
-        mockVictoryChart(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryChart
-            {...props}
-            scale={JSON.stringify(props.scale, null, 2)}
-          />
-        );
-      },
-      VictoryZoomContainer: (props) => {
-        mockVictoryZoomContainer(props);
-        // @ts-ignore
-        return <mock-VictoryZoomContainer {...props} />;
-      },
-      VictoryTheme: (props) => {
-        mockVictoryTheme(props);
-        // @ts-ignore
-        return <mock-VictoryTheme {...props} />;
-      },
-      VictoryScatter: (props) => {
-        mockVictoryScatter(props);
-
-        return (
-          // @ts-ignore
-          <mock-VictoryScatter
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryLine: (props) => {
-        mockVictoryLine(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryLine
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryGroup: (props) => {
-        mockVictoryGroup(props);
-        // @ts-ignore
-        return <mock-VictoryGroup {...props} />;
-      },
-      VictoryLabel: (props) => {
-        mockVictoryLabel(props);
-        // @ts-ignore
-        return <mock-VictoryLabel {...props} />;
-      },
-      VictoryLegend: (props) => {
-        mockVictoryLegend(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryLegend
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryTooltip: (props) => {
-        return (
-          // @ts-ignore
-          <mock-VictoryTooltip {...props} />
-        );
-      },
-    }));
-  });
-  /* eslint-enable @typescript-eslint/ban-ts-comment */
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    props = {
+      datasets: testPlotDatasets,
+      selectedChannels,
+      title: 'scatter plot',
+      type: 'scatter',
+      XAxisSettings: { scale: 'time' },
+      YAxesSettings: { scale: 'linear' },
+      XAxis: 'test x-axis',
+      canvasRef: React.createRef<HTMLCanvasElement>(),
+    };
   });
 
-  describe('Plot component', () => {
-    let props: PlotProps;
+  it('renders a canvas element with the correct attributes passed the correct props for a scatter plot', () => {
+    const view = render(<Plot {...props} />);
 
-    const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
-      (dataset) => {
-        return {
-          name: dataset.name,
-          options: {
-            visible: true,
-          },
-        };
-      }
-    );
+    expect(view.asFragment()).toMatchSnapshot();
+  });
 
-    beforeEach(() => {
-      props = {
-        datasets: testPlotDatasets,
-        selectedChannels,
-        title: 'scatter plot',
-        type: 'scatter',
-        XAxisSettings: { scale: 'time' },
-        YAxesSettings: { scale: 'linear' },
-        XAxis: 'test x-axis',
-        svgRef: React.createRef<HTMLElement>(),
-      };
-    });
+  it('updates options object correctly', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
 
-    it('renders a scatter plot with the correct elements passed the correct props', () => {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
+    props = {
+      ...props,
+      title: 'line plot',
+      type: 'line',
+      XAxisSettings: { scale: 'linear' },
+      YAxesSettings: { scale: 'log' },
+    };
 
-      render(<Plot {...props} />);
+    rerender(<Plot {...props} />);
 
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'time', y: 'linear' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'scatter plot',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testPlotDatasets.map((dataset) => {
-            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
-          }),
-        })
-      );
-      expect(mockVictoryGroup).toHaveBeenCalled();
-      expect(mockVictoryScatter.mock.calls.length).toEqual(
-        testPlotDatasets.length
-      );
-      expect(mockVictoryLine).not.toHaveBeenCalled();
+    expect(asFragment()).toMatchSnapshot();
+  });
 
-      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
-        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
-          expect.objectContaining({
-            data: testPlotDatasets[i].data,
-            x: 'test x-axis',
-            y: testPlotDatasets[i].name,
-          })
-        );
-      }
-    });
+  it('updates data object correctly by settings opacity to 0 for lines that are hidden', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
 
-    it('renders a line plot with the correct elements passed the correct props', () => {
-      props = {
-        ...props,
-        title: 'line plot',
-        type: 'line',
-        XAxisSettings: { scale: 'linear' },
-        YAxesSettings: { scale: 'log' },
-      };
+    props.selectedChannels = [...selectedChannels];
+    props.selectedChannels[0].options.visible = false;
 
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
+    rerender(<Plot {...props} />);
 
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'linear', y: 'log' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'line plot',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testPlotDatasets.map((dataset) => {
-            return { name: dataset.name, symbol: { fill: '#e31a1c' } };
-          }),
-        })
-      );
-      expect(mockVictoryGroup).toHaveBeenCalled();
-      expect(mockVictoryScatter.mock.calls.length).toEqual(
-        testPlotDatasets.length
-      );
-      expect(mockVictoryLine.mock.calls.length).toEqual(
-        testPlotDatasets.length
-      );
-
-      for (let i = 0; i < mockVictoryScatter.mock.calls.length; i++) {
-        expect(mockVictoryScatter.mock.calls[i][0]).toEqual(
-          expect.objectContaining({
-            data: testPlotDatasets[i].data,
-            x: 'test x-axis',
-            y: testPlotDatasets[i].name,
-          })
-        );
-        expect(mockVictoryLine.mock.calls[i][0]).toEqual(
-          expect.objectContaining({
-            data: testPlotDatasets[i].data,
-            x: 'test x-axis',
-            y: testPlotDatasets[i].name,
-          })
-        );
-      }
-    });
-
-    it('renders no plot if the user has not selected any channels to plot', () => {
-      props.selectedChannels = [];
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
-
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'time', y: 'linear' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'scatter plot',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: [],
-        })
-      );
-      expect(mockVictoryGroup).not.toHaveBeenCalled();
-      expect(mockVictoryScatter).not.toHaveBeenCalled();
-      expect(mockVictoryLine).not.toHaveBeenCalled();
-    });
-
-    it('redraws the plot in response to resize events', () => {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
-
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledTimes(1);
-
-      fireEvent(
-        window,
-        new Event(`resize OperationsGateway Plot - ${props.title}`)
-      );
-
-      // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
-      expect(mockVictoryChart).toHaveBeenCalledTimes(3);
-    });
+    expect(asFragment()).toMatchSnapshot();
   });
 });
 

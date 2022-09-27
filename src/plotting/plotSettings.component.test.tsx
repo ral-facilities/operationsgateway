@@ -140,7 +140,7 @@ describe('Plot Settings component', () => {
 
     expect(changeXAxisSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
-      scale: 'log',
+      scale: 'logarithmic',
     });
   });
 
@@ -160,7 +160,7 @@ describe('Plot Settings component', () => {
 
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
-      scale: 'log',
+      scale: 'logarithmic',
     });
   });
 

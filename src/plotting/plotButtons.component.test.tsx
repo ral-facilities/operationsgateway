@@ -8,9 +8,8 @@ import userEvent from '@testing-library/user-event';
 import { PlotDataset } from '../app.types';
 
 describe('Plot Buttons component', () => {
-  const container = document.createElement('div');
-  const svg = document.createElement('svg');
-  container.appendChild(svg);
+  const canvas = document.createElement('canvas');
+  const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
   const plotButtonsProps: PlotButtonsProps = {
     data: [
       {
@@ -32,8 +31,8 @@ describe('Plot Buttons component', () => {
       },
     ],
     XAxis: 'timestamp',
-    svgRef: {
-      current: container,
+    canvasRef: {
+      current: canvas,
     },
     title: 'test',
   };
@@ -42,8 +41,6 @@ describe('Plot Buttons component', () => {
   const mockLinkRemove = jest.fn();
   const mockLinkSetAttribute = jest.fn();
   let mockLink: HTMLAnchorElement = {};
-  window.URL.createObjectURL = jest.fn().mockReturnValue('object url');
-  window.URL.revokeObjectURL = jest.fn();
 
   beforeEach(() => {
     mockLink = {
@@ -71,7 +68,7 @@ describe('Plot Buttons component', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('generates SVG file when export button is clicked', async () => {
+  it('generates PNG file when export button is clicked', async () => {
     const user = userEvent.setup();
     render(<PlotButtons {...plotButtonsProps} />);
 
@@ -89,35 +86,24 @@ describe('Plot Buttons component', () => {
 
     expect(document.createElement).toHaveBeenCalledWith('a');
 
-    expect(window.URL.createObjectURL).toHaveBeenCalled();
-    expect(mockLink.href).toEqual('object url');
-    expect(mockLink.download).toEqual('test.svg');
+    expect(canvasToDataURLSpy).toHaveBeenCalled();
+    expect(mockLink.href).toEqual('data:image/png;base64,00');
+    expect(mockLink.download).toEqual('test.png');
     expect(mockLink.target).toEqual('_blank');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
     expect(mockLinkRemove).toHaveBeenCalled();
-    expect(window.URL.revokeObjectURL).toHaveBeenCalled();
   });
 
-  it('does nothing when export button is clicked if svgRef is not correct', async () => {
+  it('does nothing when export button is clicked if canvasRef is null', async () => {
     const user = userEvent.setup();
-    plotButtonsProps.svgRef.current = null;
-    const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
-
-    await user.click(screen.getByRole('button', { name: 'Export Plot' }));
-
-    expect(window.URL.createObjectURL).not.toHaveBeenCalled();
-
-    unmount();
-
-    // not valid as it's not within the container
-    plotButtonsProps.svgRef.current = svg;
+    plotButtonsProps.canvasRef.current = null;
     render(<PlotButtons {...plotButtonsProps} />);
 
     await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-    expect(window.URL.createObjectURL).not.toHaveBeenCalled();
+    expect(canvasToDataURLSpy).not.toHaveBeenCalled();
   });
 
   it('generates csv file when export data button is clicked', async () => {
