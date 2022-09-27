@@ -18,8 +18,6 @@ import {
   YAxisSettings,
   PlotType,
   SelectedPlotChannel,
-  FullScalarChannelMetadata,
-  PlotDataset,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
@@ -49,28 +47,18 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
   const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
 
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
-  // const { data: records, isLoading: recordsLoading } = usePlotRecords(
-  //   XAxis,
-  //   selectedChannels
-  // );
-  // const { data: channels, isLoading: channelsLoading } = useScalarChannels();
-  const records: PlotDataset[] = [];
-  const recordsLoading = false;
-  const channels: FullScalarChannelMetadata[] = [];
-  const channelsLoading = false;
+  const { data: records, isLoading: recordsLoading } = usePlotRecords(
+    XAxis,
+    selectedChannels
+  );
+  const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>

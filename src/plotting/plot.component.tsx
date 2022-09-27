@@ -18,41 +18,6 @@ export const formatTooltipLabel = (
   return label;
 };
 
-export const data = {
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [
-        { x: 1, y: -655 },
-        { x: 2, y: -752 },
-        { x: 3, y: 696 },
-        { x: 4, y: 222 },
-        { x: 5, y: 789 },
-        { x: 6, y: -251 },
-        { x: 7, y: -643 },
-      ],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      yAxisID: 'y',
-    },
-    {
-      label: 'Dataset 2',
-      data: [
-        { x: 1, y: 5506056 },
-        { x: 2, y: 6237210 },
-        { x: 3, y: 5421636 },
-        { x: 4, y: 7190345 },
-        { x: 5, y: 9040798 },
-        { x: 6, y: 5487210 },
-        { x: 7, y: 9631115 },
-      ],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      yAxisID: 'y1',
-    },
-  ],
-};
-
 export interface PlotProps {
   datasets: PlotDataset[];
   selectedChannels: SelectedPlotChannel[];
@@ -66,13 +31,13 @@ export interface PlotProps {
 
 const Plot = (props: PlotProps) => {
   const {
-    // datasets,
-    // selectedChannels,
+    datasets,
+    selectedChannels,
     title,
     type,
-    // XAxisSettings,
-    // YAxesSettings,
-    // XAxis,
+    XAxisSettings,
+    YAxesSettings,
+    XAxis,
     canvasRef,
   } = props;
 
@@ -82,7 +47,7 @@ const Plot = (props: PlotProps) => {
       responsive: true,
       maintainAspectRatio: false,
       interaction: {
-        mode: 'index' as const,
+        mode: 'index',
         intersect: false,
       },
       plugins: {
@@ -111,17 +76,31 @@ const Plot = (props: PlotProps) => {
       },
       scales: {
         x: {
-          type: 'linear' as const,
+          type: 'time',
+          time: {
+            displayFormats: {
+              millisecond: 'HH:mm:ss:SSSS',
+              second: 'HH:mm:ss',
+              minute: 'HH:mm',
+              hour: 'd MMM ha',
+              day: 'd MMM',
+              week: 'd MMM',
+              month: 'MMM yyyy',
+              quarter: 'MMM yyyy',
+              year: 'yyyy',
+            },
+            tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
+          },
         },
         y: {
-          type: 'linear' as const,
+          type: 'linear',
           display: true,
-          position: 'left' as const,
+          position: 'left',
         },
-        y1: {
-          type: 'linear' as const,
-          display: true,
-          position: 'right' as const,
+        y2: {
+          type: 'linear',
+          display: false,
+          position: 'right',
           grid: {
             drawOnChartArea: false,
           },
@@ -129,20 +108,46 @@ const Plot = (props: PlotProps) => {
       },
     })
   );
-  const [dataString, setDataString] = React.useState(JSON.stringify(data));
+  const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
 
   React.useEffect(() => {
     setOptionsString((oldOptionsString) => {
       const options = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
       options.plugins.title.text = title;
+      options.scales.x.type = XAxisSettings.scale;
+      options.scales.y.type = YAxesSettings.scale;
       return JSON.stringify(options);
     });
-  }, [title]);
+  }, [title, XAxisSettings, YAxesSettings, selectedChannels]);
 
   React.useEffect(() => {
-    setDataString(JSON.stringify(data));
-  }, []);
+    setDataString(
+      JSON.stringify({
+        datasets: datasets.map((dataset) => {
+          const channelConfig = selectedChannels.find(
+            (channel) => channel.name === dataset.name
+          )?.options;
+          return {
+            label: dataset.name,
+            data: dataset.data,
+            parsing: {
+              yAxisKey: dataset.name,
+              xAxisKey: XAxis,
+            },
+            borderColor:
+              channelConfig && !channelConfig.visible
+                ? 'rgba(0,0,0,0)'
+                : '#e31a1c',
+            backgroundColor:
+              channelConfig && !channelConfig.visible
+                ? 'rgba(0,0,0,0)'
+                : '#e31a1c',
+          };
+        }),
+      })
+    );
+  }, [datasets, XAxis, selectedChannels]);
 
   return (
     <div

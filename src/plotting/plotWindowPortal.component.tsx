@@ -74,15 +74,15 @@ class PlotWindowPortal extends React.PureComponent<
       chartjsZoomScript.defer = false;
       externalWindow.document.head.appendChild(chartjsZoomScript);
 
-      // const chartjsDateFnsScript = document.createElement('script');
-      // // TODO: switch this to cdnjs once it's added - this is for consistency and so we can use renovate to update it
-      // chartjsDateFnsScript.src =
-      //   'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.min.js';
-      // chartjsDateFnsScript.crossOrigin = 'anonymous';
-      // chartjsDateFnsScript.referrerPolicy = 'no-referrer';
-      // chartjsZoomScript.async = false;
-      // chartjsZoomScript.defer = false;
-      // externalWindow.document.head.appendChild(chartjsDateFnsScript);
+      const chartjsDateFnsScript = document.createElement('script');
+      // TODO: switch this to cdnjs once it's added - this is for consistency and so we can use renovate to update it
+      chartjsDateFnsScript.src =
+        'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js';
+      chartjsDateFnsScript.crossOrigin = 'anonymous';
+      chartjsDateFnsScript.referrerPolicy = 'no-referrer';
+      chartjsDateFnsScript.async = false;
+      chartjsDateFnsScript.defer = false;
+      externalWindow.document.head.appendChild(chartjsDateFnsScript);
 
       const chartjsCode = document.createElement('script');
       chartjsCode.type = 'text/javascript';
@@ -97,10 +97,11 @@ class PlotWindowPortal extends React.PureComponent<
        * React in the main window to the Chart.js code. We do this by using data-* attributes on the canvas element,
        * which React can set (see plot.component.tsx). The MutationObserver thus watches for changes to the canvas object,
        * which then updates Chart.js if necessary
+       * In the mutation observer code, when options are updated we set the legend filter function to filter out datasets
+       * which have been set to transparent (which is done via the show/hide buttons)
        */
       const code = `
       function waitForElm(selector) {
-        console.log("running waitForElm");
         return new Promise(resolve => {
           if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
@@ -129,17 +130,35 @@ class PlotWindowPortal extends React.PureComponent<
                 data: JSON.parse(canvas.dataset.data),
                 options: JSON.parse(canvas.dataset.options),
               });
+              window.chart = chart;
 
               const observer = new MutationObserver(mutations => {
                 for(let mutation of mutations) {
                   if (mutation.type === 'attributes') {
                     if(mutation.attributeName === "data-options"){
-                      chart.options = JSON.parse(canvas.dataset.options);
-                      chart.update();
+                      const newOptions = JSON.parse(canvas.dataset.options);
+                      chart.options = {
+                        ...newOptions,
+                        plugins: {
+                          ...newOptions?.plugins,
+                          legend: {
+                            ...newOptions?.plugins?.legend,
+                            labels: {
+                              ...newOptions?.plugins?.legend?.labels,
+                              filter: function filterLabels(item) {
+                                if (item.fillStyle && item.fillStyle === "rgba(0,0,0,0)") return false;
+                                else if (item.strokeStyle && item.strokeStyle === "rgba(0,0,0,0)") return false;
+                                else return true;
+                              },
+                            },
+                          },
+                        },
+                      };
+                      chart.update("none");
                     }
                     else if(mutation.attributeName === "data-data"){
                       chart.data = JSON.parse(canvas.dataset.data);
-                      chart.update();
+                      chart.update("none");
                     }
                     else if(mutation.attributeName === "data-type"){
                       chart.config.type = canvas.dataset.type;
