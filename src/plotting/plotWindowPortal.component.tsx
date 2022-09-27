@@ -125,7 +125,7 @@ class PlotWindowPortal extends React.PureComponent<
           waitForElm("#my-chart").then((canvas) => {
             if (canvas && canvas.getContext('2d')) {
               const chart = new Chart(canvas.getContext('2d'), {
-                type: 'scatter',
+                type: canvas.dataset.type,
                 data: JSON.parse(canvas.dataset.data),
                 options: JSON.parse(canvas.dataset.options),
               });
@@ -139,6 +139,10 @@ class PlotWindowPortal extends React.PureComponent<
                     }
                     else if(mutation.attributeName === "data-data"){
                       chart.data = JSON.parse(canvas.dataset.data);
+                      chart.update();
+                    }
+                    else if(mutation.attributeName === "data-type"){
+                      chart.config.type = canvas.dataset.type;
                       chart.update();
                     }
                   }

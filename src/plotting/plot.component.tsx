@@ -18,21 +18,34 @@ export const formatTooltipLabel = (
   return label;
 };
 
-const labels = [1, 2, 3, 4, 5, 6, 7];
-
 export const data = {
-  labels,
   datasets: [
     {
       label: 'Dataset 1',
-      data: [-655, -752, 696, 222, 789, -251, -643],
+      data: [
+        { x: 1, y: -655 },
+        { x: 2, y: -752 },
+        { x: 3, y: 696 },
+        { x: 4, y: 222 },
+        { x: 5, y: 789 },
+        { x: 6, y: -251 },
+        { x: 7, y: -643 },
+      ],
       borderColor: 'rgb(255, 99, 132)',
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
       yAxisID: 'y',
     },
     {
       label: 'Dataset 2',
-      data: [5506056, 6237210, 5421636, 7190345, 9040798, 5487210, 9631115],
+      data: [
+        { x: 1, y: 5506056 },
+        { x: 2, y: 6237210 },
+        { x: 3, y: 5421636 },
+        { x: 4, y: 7190345 },
+        { x: 5, y: 9040798 },
+        { x: 6, y: 5487210 },
+        { x: 7, y: 9631115 },
+      ],
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
       yAxisID: 'y1',
@@ -56,7 +69,7 @@ const Plot = (props: PlotProps) => {
     // datasets,
     // selectedChannels,
     title,
-    // type,
+    type,
     // XAxisSettings,
     // YAxesSettings,
     // XAxis,
@@ -65,11 +78,9 @@ const Plot = (props: PlotProps) => {
 
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
-  const [optionsString, setOptionsString] = React.useState('');
-  const [dataString, setDataString] = React.useState('');
-
-  React.useEffect(() => {
-    const optionsString = JSON.stringify({
+  // set the initial options
+  const [optionsString, setOptionsString] = React.useState(
+    JSON.stringify({
       responsive: true,
       maintainAspectRatio: false,
       interaction: {
@@ -100,8 +111,10 @@ const Plot = (props: PlotProps) => {
           },
         },
       },
-      datasets: { scatter: { showLine: true } },
       scales: {
+        x: {
+          type: 'linear' as const,
+        },
         y: {
           type: 'linear' as const,
           display: true,
@@ -116,8 +129,17 @@ const Plot = (props: PlotProps) => {
           },
         },
       },
+    })
+  );
+  const [dataString, setDataString] = React.useState(JSON.stringify(data));
+
+  React.useEffect(() => {
+    setOptionsString((oldOptionsString) => {
+      const options = JSON.parse(oldOptionsString);
+      // change any options here to preserve any options chart.js adds
+      options.plugins.title.text = title;
+      return JSON.stringify(options);
     });
-    setOptionsString(optionsString);
   }, [title]);
 
   React.useEffect(() => {
@@ -140,6 +162,7 @@ const Plot = (props: PlotProps) => {
         height="400"
         data-options={optionsString}
         data-data={dataString}
+        data-type={type}
       ></canvas>
     </div>
   );
