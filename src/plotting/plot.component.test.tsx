@@ -97,7 +97,7 @@ describe('plotting', () => {
   describe('Plot component', () => {
     let props: PlotProps;
 
-    const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+    const selectedPlotChannels: SelectedPlotChannel[] = testPlotDatasets.map(
       (dataset) => {
         return {
           name: dataset.name,
@@ -111,7 +111,7 @@ describe('plotting', () => {
     beforeEach(() => {
       props = {
         datasets: testPlotDatasets,
-        selectedChannels,
+        selectedPlotChannels,
         title: 'scatter plot',
         type: 'scatter',
         XAxisSettings: { scale: 'time' },
@@ -219,7 +219,7 @@ describe('plotting', () => {
     });
 
     it('renders no plot if the user has not selected any channels to plot', () => {
-      props.selectedChannels = [];
+      props.selectedPlotChannels = [];
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { default: Plot } = require('./plot.component');

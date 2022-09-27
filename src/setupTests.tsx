@@ -164,6 +164,21 @@ export const cleanupDatePickerWorkaround = (): void => {
 
 export const testChannels: FullChannelMetadata[] = [
   {
+    systemName: 'shotnum',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Shot Number',
+  },
+  {
+    systemName: 'activeArea',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Active Area',
+  },
+  {
+    systemName: 'activeExperiment',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Active Experiment',
+  },
+  {
     systemName: 'test_1',
     channel_dtype: 'scalar',
     userFriendlyName: 'Test 1',
@@ -299,7 +314,7 @@ export const generatePlotDataset = (num: number) => {
     name: datasetName,
     data: [
       {
-        shotNum: num,
+        xValue: num,
         [datasetName]: num,
       },
     ],

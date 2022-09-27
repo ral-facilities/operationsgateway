@@ -24,6 +24,21 @@ describe('channels api functions', () => {
     it('generates a set of metadata for all channels parsed from records', () => {
       const expected: FullChannelMetadata[] = [
         {
+          channel_dtype: 'scalar',
+          systemName: 'shotnum',
+          userFriendlyName: 'Shot Number',
+        },
+        {
+          channel_dtype: 'scalar',
+          systemName: 'activeArea',
+          userFriendlyName: 'Active Area',
+        },
+        {
+          channel_dtype: 'scalar',
+          systemName: 'activeExperiment',
+          userFriendlyName: 'Active Experiment',
+        },
+        {
           channel_dtype: 'image',
           systemName: 'test_1',
         },
@@ -52,14 +67,29 @@ describe('channels api functions', () => {
         {
           accessor: 'shotnum',
           Header: 'Shot Number',
+          channelInfo: {
+            channel_dtype: 'scalar',
+            systemName: 'shotnum',
+            userFriendlyName: 'Shot Number',
+          },
         },
         {
           accessor: 'activeArea',
           Header: 'Active Area',
+          channelInfo: {
+            channel_dtype: 'scalar',
+            systemName: 'activeArea',
+            userFriendlyName: 'Active Area',
+          },
         },
         {
           accessor: 'activeExperiment',
           Header: 'Active Experiment',
+          channelInfo: {
+            channel_dtype: 'scalar',
+            systemName: 'activeExperiment',
+            userFriendlyName: 'Active Experiment',
+          },
         },
         {
           accessor: 'test_1',
@@ -90,11 +120,8 @@ describe('channels api functions', () => {
       const metadata = generateChannelMetadata(mockData);
       const response = constructColumns(metadata);
       expect(response[0]).toEqual(expected[0]);
-      expect(response[1]).toEqual(expected[1]);
-      expect(response[2]).toEqual(expected[2]);
-      expect(response[3]).toEqual(expected[3]);
 
-      for (let i = 4; i < response.length; i++) {
+      for (let i = 1; i < response.length; i++) {
         expect(response[i].accessor).toEqual(expected[i].accessor);
         expect(response[i]['channelInfo']).toEqual(expected[i].channelInfo);
       }
@@ -169,6 +196,21 @@ describe('channels api functions', () => {
       });
 
       const expected: FullChannelMetadata[] = [
+        {
+          channel_dtype: 'scalar',
+          systemName: 'shotnum',
+          userFriendlyName: 'Shot Number',
+        },
+        {
+          channel_dtype: 'scalar',
+          systemName: 'activeArea',
+          userFriendlyName: 'Active Area',
+        },
+        {
+          channel_dtype: 'scalar',
+          systemName: 'activeExperiment',
+          userFriendlyName: 'Active Experiment',
+        },
         {
           channel_dtype: 'image',
           systemName: 'test_1',

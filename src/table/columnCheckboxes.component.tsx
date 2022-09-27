@@ -13,14 +13,6 @@ import { FullChannelMetadata } from '../app.types';
 const ColumnCheckboxes = React.memo((): React.ReactElement => {
   const { data: channels } = useChannels();
 
-  const selectableColumns = React.useMemo(
-    () =>
-      channels?.filter((channel) => {
-        return channel.systemName.toUpperCase() !== 'TIMESTAMP';
-      }) ?? [],
-    [channels]
-  );
-
   const selectedChannels = useAppSelector((state) =>
     selectSelectedChannels(state, channels ?? [])
   );
@@ -61,7 +53,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
   const parentRef = React.useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
-    count: selectableColumns.length,
+    count: channels?.length ?? 0,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 42,
     overscan: 20,
@@ -103,21 +95,22 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
           position: 'relative',
         }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => (
-          <div
-            key={virtualRow.index}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: `${virtualRow.size}px`,
-              transform: `translateY(${virtualRow.start}px)`,
-            }}
-          >
-            <CheckboxRow channel={selectableColumns[virtualRow.index]} />
-          </div>
-        ))}
+        {channels &&
+          rowVirtualizer.getVirtualItems().map((virtualRow) => (
+            <div
+              key={virtualRow.index}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualRow.size}px`,
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              <CheckboxRow channel={channels[virtualRow.index]} />
+            </div>
+          ))}
       </div>
     </div>
   );

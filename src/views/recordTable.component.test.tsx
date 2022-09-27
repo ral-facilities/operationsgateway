@@ -21,7 +21,11 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import { useAvailableColumns, constructColumns } from '../api/channels';
+import {
+  useAvailableColumns,
+  constructColumns,
+  useChannels,
+} from '../api/channels';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 
 jest.mock('../api/records', () => {
@@ -48,7 +52,6 @@ jest.mock('../api/channels', () => {
 
 describe('Record Table', () => {
   let data;
-  let channelData;
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
@@ -61,7 +64,6 @@ describe('Record Table', () => {
     applyDatePickerWorkaround();
     userEvent.setup();
     data = testRecordRows;
-    channelData = testChannels;
 
     (useRecordsPaginated as jest.Mock).mockReturnValue({
       data: data,
@@ -71,8 +73,12 @@ describe('Record Table', () => {
       data: data.length,
       isLoading: false,
     });
+    (useChannels as jest.Mock).mockReturnValue({
+      data: testChannels,
+      isLoading: false,
+    });
     (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: constructColumns(channelData),
+      data: constructColumns(testChannels),
       isLoading: false,
     });
 

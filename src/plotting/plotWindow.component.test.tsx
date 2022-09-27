@@ -6,9 +6,12 @@ import {
   renderComponentWithProviders,
   testChannels,
   testPlotDatasets,
+  // getInitialState,
 } from '../setupTests';
-import { useScalarChannels } from '../api/channels';
+import { useScalarChannels, useChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
+// import { PreloadedState } from '@reduxjs/toolkit';
+// import { RootState } from '../state/store';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -29,6 +32,7 @@ jest.mock('../api/channels', () => {
     __esModule: true,
     ...originalModule,
     useScalarChannels: jest.fn(),
+    useChannels: jest.fn(),
   };
 });
 
@@ -43,10 +47,17 @@ jest.mock('../api/records', () => {
 });
 
 describe('Plot Window component', () => {
+  // let state: PreloadedState<RootState>;
+
   beforeEach(() => {
     jest.resetModules();
+    // state = getInitialState();
 
     (useScalarChannels as jest.Mock).mockReturnValue({
+      data: testChannels,
+      isLoading: false,
+    });
+    (useChannels as jest.Mock).mockReturnValue({
       data: testChannels,
       isLoading: false,
     });

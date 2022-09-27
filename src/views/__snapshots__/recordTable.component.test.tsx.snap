@@ -250,7 +250,7 @@ exports[`Record Table renders correctly 1`] = `
           />
           <p
             class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r1:"
+            id=":r2:"
           >
             Rows per page:
           </p>
@@ -260,9 +260,9 @@ exports[`Record Table renders correctly 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby=":r1: :r0:"
+              aria-labelledby=":r2: :r1:"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r0:"
+              id=":r1:"
               role="button"
               tabindex="0"
             >
@@ -524,7 +524,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
           />
           <p
             class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r6:"
+            id=":r8:"
           >
             Rows per page:
           </p>
@@ -534,9 +534,9 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby=":r6: :r5:"
+              aria-labelledby=":r8: :r7:"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r5:"
+              id=":r7:"
               role="button"
               tabindex="0"
             >
@@ -685,7 +685,7 @@ exports[`Record Table renders correctly while loading 1`] = `
           />
           <p
             class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r4:"
+            id=":r5:"
           >
             Rows per page:
           </p>
@@ -695,9 +695,9 @@ exports[`Record Table renders correctly while loading 1`] = `
             <div
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-labelledby=":r4: :r3:"
+              aria-labelledby=":r5: :r4:"
               class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r3:"
+              id=":r4:"
               role="button"
               tabindex="0"
             >

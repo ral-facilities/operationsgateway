@@ -1,5 +1,4 @@
 import React from 'react';
-import { Column } from 'react-table';
 import ColumnCheckboxes from './columnCheckboxes.component';
 import { screen, act } from '@testing-library/react';
 import {
@@ -9,7 +8,8 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import { useAvailableColumns } from '../api/channels';
+import { useChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
 
 jest.mock('../api/channels', () => {
   const originalModule = jest.requireActual('../api/channels');
@@ -18,32 +18,23 @@ jest.mock('../api/channels', () => {
     __esModule: true,
     ...originalModule,
     useChannels: jest.fn(),
-    useAvailableColumns: jest.fn(),
   };
 });
 
 describe('Column Checkboxes', () => {
-  const availableColumns: Column[] = [
+  const availableChannels: FullChannelMetadata[] = [
     {
-      Header: 'Name',
-      accessor: 'name',
+      systemName: 'name',
+      channel_dtype: 'scalar',
     },
     {
-      Header: 'Active Area',
-      accessor: 'activeArea',
-      channelInfo: {
-        systemName: 'activeArea',
-        channel_dtype: 'scalar',
-      },
+      systemName: 'activeArea',
+      channel_dtype: 'scalar',
     },
     {
-      Header: 'Active Experiment',
-      accessor: 'activeExperiment',
-      channelInfo: {
-        systemName: 'activeExperiment',
-        userFriendlyName: 'Active Experiment',
-        channel_dtype: 'scalar',
-      },
+      systemName: 'activeExperiment',
+      channel_dtype: 'scalar',
+      userFriendlyName: 'Active Experiment',
     },
   ];
 
@@ -57,8 +48,8 @@ describe('Column Checkboxes', () => {
 
   beforeEach(() => {
     state = { ...getInitialState(), table: { ...getInitialState().table } };
-    (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: availableColumns,
+    (useChannels as jest.Mock).mockReturnValue({
+      data: availableChannels,
       isLoading: false,
     });
   });
@@ -69,26 +60,11 @@ describe('Column Checkboxes', () => {
   });
 
   it('renders correctly when checked', () => {
-    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
+    state.table.selectedColumnIds = availableChannels.map(
+      (channel) => channel.systemName
+    );
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  it('does not render a timestamp checkbox if a timestamp column exists', () => {
-    const amendedColumns: Column[] = [
-      ...availableColumns,
-      {
-        Header: 'Timestamp',
-        accessor: 'timestamp',
-      },
-    ];
-    (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: amendedColumns,
-      isLoading: false,
-    });
-
-    createView();
-    expect(screen.queryByLabelText('timestamp checkbox')).toBeNull();
   });
 
   it('sends selectColumn when checkbox is checked', async () => {
@@ -102,30 +78,19 @@ describe('Column Checkboxes', () => {
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
-    state.table.selectedColumnIds = availableColumns.map((col) => col.accessor);
+    state.table.selectedColumnIds = availableChannels.map(
+      (channel) => channel.systemName
+    );
     const { store } = createView();
     await act(async () => {
       screen.getByLabelText('name checkbox').click();
       await flushPromises();
     });
     expect(store.getState().table.selectedColumnIds).toEqual(
-      availableColumns
-        .filter((col) => col.accessor !== 'name')
-        .map((col) => col.accessor)
+      availableChannels
+        .filter((channel) => channel.systemName !== 'name')
+        .map((channel) => channel.systemName)
     );
-  });
-
-  it('returns null if a column is not fully defined', () => {
-    availableColumns[0].accessor = undefined;
-    (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: availableColumns,
-      isLoading: false,
-    });
-
-    createView();
-    const checkboxes = screen.getAllByRole('checkbox');
-    expect(checkboxes.length).toEqual(2);
-    expect(screen.queryByText('name')).toBeNull();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');
