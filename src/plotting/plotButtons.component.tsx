@@ -4,26 +4,23 @@ import { PlotDataset } from '../app.types';
 import { formatTooltipLabel } from './plot.component';
 
 /**
- *  Exports the graph as SVG
- *  @param svg The SVG element to export
+ *  Exports the graph as PNG
+ *  @param canvas The canvas element to export
  *  @param title The title of the plot (for the file name)
  */
-function exportChart(svg: HTMLElement | null, title: string): void {
-  if (svg && svg.firstChild) {
-    const svgURL = new XMLSerializer().serializeToString(svg.firstChild);
-    const svgBlob = new Blob([svgURL], { type: 'image/svg+xml;charset=utf-8' });
-    const objectUrl = window.URL.createObjectURL(svgBlob);
+function exportChart(canvas: HTMLCanvasElement | null, title: string): void {
+  if (canvas) {
+    const dataUrl = canvas.toDataURL('image/png');
 
     const link = document.createElement('a');
-    link.href = objectUrl;
-    link.download = `${title}.svg`;
+    link.href = dataUrl;
+    link.download = `${title}.png`;
 
     link.style.display = 'none';
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
     link.remove();
-    window.URL.revokeObjectURL(objectUrl);
   }
 }
 
@@ -134,19 +131,19 @@ function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
 
 export interface PlotButtonsProps {
   data?: PlotDataset[];
-  svgRef: React.MutableRefObject<HTMLElement | null>;
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
   XAxis: string;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, svgRef, title, XAxis } = props;
+  const { data, canvasRef, title, XAxis } = props;
   return (
     <ButtonGroup size="small" aria-label="plot actions">
       {/* TODO: link these buttons up to save graph config to redux/session */}
       <Button>Save</Button>
       <Button>Save As</Button>
-      <Button onClick={() => exportChart(svgRef.current, title)}>
+      <Button onClick={() => exportChart(canvasRef.current, title)}>
         Export Plot
       </Button>
       <Button onClick={() => exportData(title, XAxis, data)}>

@@ -61,7 +61,7 @@ export interface PlotProps {
   XAxisSettings: XAxisSettings;
   YAxesSettings: YAxisSettings;
   XAxis: string;
-  svgRef: React.MutableRefObject<HTMLElement | null>;
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
 }
 
 const Plot = (props: PlotProps) => {
@@ -73,10 +73,8 @@ const Plot = (props: PlotProps) => {
     // XAxisSettings,
     // YAxesSettings,
     // XAxis,
-    // svgRef,
+    canvasRef,
   } = props;
-
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   // set the initial options
   const [optionsString, setOptionsString] = React.useState(
