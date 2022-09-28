@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Plot Window component renders child in separate document and initialises event listeners, and handles unmounting correctly 1`] = `
+exports[`Plot Window component renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly 1`] = `
 <body>
   <div>
     <div

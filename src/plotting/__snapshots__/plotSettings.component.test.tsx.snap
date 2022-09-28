@@ -341,7 +341,7 @@ exports[`Plot Settings component renders plot settings form correctly (x-axis ta
                         class="PrivateSwitchBase-input css-1m9pwf3"
                         name="x scale radio buttons group"
                         type="radio"
-                        value="log"
+                        value="logarithmic"
                       />
                       <span
                         class="css-hyxlzm"
@@ -850,7 +850,7 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
                         class="PrivateSwitchBase-input css-1m9pwf3"
                         name="y scale radio buttons group"
                         type="radio"
-                        value="log"
+                        value="logarithmic"
                       />
                       <span
                         class="css-hyxlzm"
