@@ -11,39 +11,43 @@ import { PlotDataset } from '../app.types';
 describe('Plot Buttons component', () => {
   const canvas = document.createElement('canvas');
   const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
-  const plotButtonsProps: PlotButtonsProps = {
-    data: [
-      {
-        name: 'shotNum',
-        data: [
-          {
-            timestamp: new Date('2022-08-09T09:30:00').getTime(),
-            shotNum: 1,
-          },
-          {
-            timestamp: new Date('2022-08-09T09:31:00').getTime(),
-            shotNum: 2,
-          },
-          {
-            timestamp: new Date('2022-08-09T09:32:00').getTime(),
-            shotNum: 3,
-          },
-        ],
-      },
-    ],
-    XAxis: 'timestamp',
-    canvasRef: {
-      current: canvas,
-    },
-    title: 'test',
-  };
+  let plotButtonsProps: PlotButtonsProps;
 
+  const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
   const mockLinkSetAttribute = jest.fn();
   let mockLink: HTMLAnchorElement = {};
 
   beforeEach(() => {
+    plotButtonsProps = {
+      data: [
+        {
+          name: 'shotNum',
+          data: [
+            {
+              timestamp: new Date('2022-08-09T09:30:00').getTime(),
+              shotNum: 1,
+            },
+            {
+              timestamp: new Date('2022-08-09T09:31:00').getTime(),
+              shotNum: 2,
+            },
+            {
+              timestamp: new Date('2022-08-09T09:32:00').getTime(),
+              shotNum: 3,
+            },
+          ],
+        },
+      ],
+      XAxis: 'timestamp',
+      canvasRef: {
+        current: canvas,
+      },
+      title: 'test',
+      resetView,
+    };
+
     mockLink = {
       href: '',
       download: '',
@@ -53,6 +57,7 @@ describe('Plot Buttons component', () => {
       style: {},
       setAttribute: mockLinkSetAttribute,
     };
+
     document.originalCreateElement = document.createElement;
     document.body.originalAppendChild = document.body.appendChild;
   });

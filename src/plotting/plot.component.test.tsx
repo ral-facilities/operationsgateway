@@ -29,6 +29,7 @@ describe('Plot component', () => {
       YAxesSettings: { scale: 'linear' },
       XAxis: 'test x-axis',
       canvasRef: React.createRef<HTMLCanvasElement>(),
+      viewReset: false,
     };
   });
 
@@ -48,6 +49,7 @@ describe('Plot component', () => {
       XAxisSettings: { scale: 'linear' },
       YAxesSettings: { scale: 'logarithmic' },
       XAxis: 'new test x-axis',
+      viewReset: true,
     };
 
     rerender(<Plot {...props} />);
