@@ -1072,7 +1072,6 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
                 <label
                   class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1pddimr-MuiFormLabel-root-MuiInputLabel-root"
                   data-shrink="false"
-                  id="select displayed table channels"
                 >
                   Displayed table channels
                 </label>
@@ -1095,6 +1094,7 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
                   <input
                     aria-hidden="true"
                     class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                    data-testid="select displayed table channels"
                     tabindex="-1"
                     value=""
                   />

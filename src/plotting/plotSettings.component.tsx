@@ -469,21 +469,21 @@ const PlotSettings = (props: PlotSettingsProps) => {
             </Grid>
             <Grid container item>
               <FormControl fullWidth>
-                <InputLabel
-                  id="select displayed table channels"
-                  sx={{ fontSize: 12 }}
-                >
+                <InputLabel sx={{ fontSize: 12 }}>
                   Displayed table channels
                 </InputLabel>
                 <Select
                   label="Displayed table channels"
                   value={selectValue}
                   onChange={(event) => {
-                    const newValue = event.target.value as string;
-                    if (newValue) addPlotChannel(newValue);
+                    const newValue = event.target.value;
+                    addPlotChannel(newValue);
                     setSelectValue('');
                   }}
                   sx={{ fontSize: 12 }}
+                  inputProps={{
+                    'data-testid': 'select displayed table channels',
+                  }}
                 >
                   {selectedRecordTableChannels
                     .filter(

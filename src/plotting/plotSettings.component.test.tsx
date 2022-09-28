@@ -243,6 +243,30 @@ describe('Plot Settings component', () => {
     ]);
   });
 
+  it('populates the displayed table channels dropdown and adds selection to the y-axis', async () => {
+    props.selectedRecordTableChannels = [
+      {
+        systemName: 'CHANNEL_1',
+        channel_dtype: 'scalar',
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    const select = screen.getByTestId('select displayed table channels');
+    fireEvent.change(select, { target: { value: 'CHANNEL_1' } });
+
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+        },
+      },
+    ]);
+  });
+
   it('changes scale to time automatically if time is selected as x-axis', async () => {
     createView();
 
