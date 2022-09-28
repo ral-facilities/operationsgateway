@@ -79,7 +79,7 @@ const Plot = (props: PlotProps) => {
           type: XAxisSettings.scale,
           time: {
             displayFormats: {
-              millisecond: 'HH:mm:ss:SSSS',
+              millisecond: 'HH:mm:ss:SSS',
               second: 'HH:mm:ss',
               minute: 'HH:mm',
               hour: 'd MMM ha',
