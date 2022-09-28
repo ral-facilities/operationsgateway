@@ -14,7 +14,7 @@ describe('Plot component', () => {
         name: dataset.name,
         options: {
           visible: true,
-          colour: i.toString(),
+          colour: `colour-${i.toString()}`,
         },
       };
     }
