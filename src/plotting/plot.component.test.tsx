@@ -46,7 +46,8 @@ describe('Plot component', () => {
       title: 'line plot',
       type: 'line',
       XAxisSettings: { scale: 'linear' },
-      YAxesSettings: { scale: 'log' },
+      YAxesSettings: { scale: 'logarithmic' },
+      XAxis: 'new test x-axis',
     };
 
     rerender(<Plot {...props} />);
@@ -63,19 +64,5 @@ describe('Plot component', () => {
     rerender(<Plot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();
-  });
-});
-
-describe('formatTooltipLabel function', () => {
-  it('formats timestamp correctly', () => {
-    const label = 1640995200000;
-    const result = formatTooltipLabel(label, 'time');
-    expect(result).toEqual('2022-01-01 00:00:00');
-  });
-
-  it('returns the original label if it is not a date', () => {
-    const label = 123456;
-    const result = formatTooltipLabel(label, 'linear');
-    expect(result).toEqual(label);
   });
 });
