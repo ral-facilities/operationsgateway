@@ -310,12 +310,21 @@ export const testRecordRows = Array.from(Array(3), (_, i) =>
 
 export const generatePlotDataset = (num: number) => {
   const datasetName = testChannels[num].systemName;
+  num++;
   const plotDataset: PlotDataset = {
     name: datasetName,
     data: [
       {
-        xValue: num,
-        [datasetName]: num,
+        timestamp: num,
+        [datasetName]: num + num,
+      },
+      {
+        timestamp: num + num,
+        [datasetName]: num + num + num,
+      },
+      {
+        timestamp: num + num + num,
+        [datasetName]: num + num + num + num,
       },
     ],
   };
