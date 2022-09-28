@@ -11,5 +11,8 @@
   "separateMinorPatch": true,
   "patch": {
     "enabled": false
+  },
+  "cdnurl": {
+    "fileMatch": ["^plotWindowPortal\\.component\\.tsx$"]
   }
 }
