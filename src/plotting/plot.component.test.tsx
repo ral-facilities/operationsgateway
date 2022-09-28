@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { PlotProps, formatTooltipLabel } from './plot.component';
+import { PlotProps } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
 import { SelectedPlotChannel } from '../app.types';
 import Plot from './plot.component';
