@@ -13,6 +13,7 @@ describe('Plot Buttons component', () => {
   const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
   let plotButtonsProps: PlotButtonsProps;
 
+  let user;
   const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
@@ -20,6 +21,7 @@ describe('Plot Buttons component', () => {
   let mockLink: HTMLAnchorElement = {};
 
   beforeEach(() => {
+    user = userEvent.setup();
     plotButtonsProps = {
       data: [
         {
@@ -75,7 +77,6 @@ describe('Plot Buttons component', () => {
   });
 
   it('generates PNG file when export button is clicked', async () => {
-    const user = userEvent.setup();
     render(<PlotButtons {...plotButtonsProps} />);
 
     // have to mock after render otherwise it fails to render our component
@@ -103,7 +104,6 @@ describe('Plot Buttons component', () => {
   });
 
   it('does nothing when export button is clicked if canvasRef is null', async () => {
-    const user = userEvent.setup();
     plotButtonsProps.canvasRef.current = null;
     render(<PlotButtons {...plotButtonsProps} />);
 
@@ -113,7 +113,6 @@ describe('Plot Buttons component', () => {
   });
 
   it('generates csv file when export data button is clicked', async () => {
-    const user = userEvent.setup();
     render(<PlotButtons {...plotButtonsProps} />);
 
     // have to mock after render otherwise it fails to render our component
@@ -142,7 +141,6 @@ describe('Plot Buttons component', () => {
   });
 
   it('does nothing when export data button is clicked if data is not correct', async () => {
-    const user = userEvent.setup();
     plotButtonsProps.data = undefined;
     const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
     const createElementSpy = jest.spyOn(document, 'createElement');
@@ -159,6 +157,13 @@ describe('Plot Buttons component', () => {
     await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
 
     expect(createElementSpy).not.toHaveBeenCalledWith('a');
+  });
+
+  it('calls resetView when Reset View button clicked', async () => {
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    await user.click(screen.getByRole('button', { name: 'Reset View' }));
+    expect(resetView).toHaveBeenCalled();
   });
 });
 
