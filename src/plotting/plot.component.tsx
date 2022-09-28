@@ -21,6 +21,7 @@ export interface PlotProps {
   YAxesSettings: YAxisSettings;
   XAxis: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  viewReset: boolean;
 }
 
 const Plot = (props: PlotProps) => {
@@ -33,6 +34,7 @@ const Plot = (props: PlotProps) => {
     YAxesSettings,
     XAxis,
     canvasRef,
+    viewReset,
   } = props;
 
   // set the initial options
@@ -160,6 +162,7 @@ const Plot = (props: PlotProps) => {
         data-options={optionsString}
         data-data={dataString}
         data-type={type}
+        data-view={viewReset}
       ></canvas>
     </div>
   );
