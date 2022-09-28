@@ -122,7 +122,7 @@ class PlotWindowPortal extends React.PureComponent<
       }
 
       var waitForChartJS = setInterval(function () {
-        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined') {
+        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {
           waitForElm("#my-chart").then((canvas) => {
             if (canvas && canvas.getContext('2d')) {
               const chart = new Chart(canvas.getContext('2d'), {
