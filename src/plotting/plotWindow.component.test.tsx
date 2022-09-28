@@ -72,16 +72,10 @@ describe('Plot Window component', () => {
 
   it('renders plot window correctly with settings pane both open and closed', async () => {
     const user = userEvent.setup();
-    const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
     createView();
 
     await user.click(screen.getByRole('button', { name: 'close settings' }));
 
-    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
-      'resize OperationsGateway Plot - untitled'
-    );
-    dispatchEventSpy.mockClear();
     // expect plot & settings button to be visible but not settings panel
     // use waitFor to account for drawer animations
     await waitFor(() => {
@@ -94,11 +88,6 @@ describe('Plot Window component', () => {
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
-
-    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
-      'resize OperationsGateway Plot - untitled'
-    );
 
     // expect plot & settings panel to be visible but not settings button
     // use waitFor to account for drawer animations

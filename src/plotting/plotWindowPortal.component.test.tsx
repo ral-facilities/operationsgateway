@@ -7,10 +7,6 @@ describe('Plot Window component', () => {
   const onClose = jest.fn();
   const mockAddEventListener = jest.fn();
   const mockRemoveEventListener = jest.fn();
-  const mockClearTimeout = jest.fn();
-  const mockSetTimeout = (func, timeout) => {
-    func();
-  };
   const mockWindowClose = jest.fn();
   const newDocument =
     global.window.document.implementation.createHTMLDocument();
@@ -22,8 +18,6 @@ describe('Plot Window component', () => {
         addEventListener: mockAddEventListener,
         removeEventListener: mockRemoveEventListener,
         close: mockWindowClose,
-        clearTimeout: mockClearTimeout,
-        setTimeout: mockSetTimeout,
       };
     },
   });
@@ -35,23 +29,27 @@ describe('Plot Window component', () => {
       </PlotWindowPortal>
     );
 
-  it('renders child in separate document and initialises event listeners, and handles unmounting correctly', () => {
+  it('renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly', () => {
     const { unmount } = createView();
 
     expect(newDocument.body).toMatchSnapshot();
-    expect(mockAddEventListener).toHaveBeenCalledTimes(2);
-    expect(mockAddEventListener).toHaveBeenCalledWith(
-      'resize',
-      expect.any(Function)
-    );
+    expect(mockAddEventListener).toHaveBeenCalledTimes(1);
     expect(mockAddEventListener).toHaveBeenCalledWith('beforeunload', onClose);
     expect(newDocument.title).toEqual('OperationsGateway Plot - test title');
 
+    /* eslint-disable testing-library/no-node-access */
+    const scriptTags = newDocument.querySelectorAll('script');
+    expect(scriptTags).toHaveLength(5);
+    expect(scriptTags[0].src).toContain('Chart.js');
+    expect(scriptTags[1].src).toContain('hammer.js');
+    expect(scriptTags[2].src).toContain('chartjs-plugin-zoom');
+    expect(scriptTags[3].src).toContain('chartjs-adapter-date-fns');
+
+    expect(scriptTags[4].type).toEqual('text/javascript');
+    expect(scriptTags[4].textContent).toBeTruthy();
+    /* eslint-enable testing-library/no-node-access */
+
     unmount();
-    expect(mockRemoveEventListener).toHaveBeenCalledWith(
-      'resize',
-      expect.any(Function)
-    );
     expect(mockWindowClose).toHaveBeenCalled();
   });
 
@@ -87,26 +85,6 @@ describe('Plot Window component', () => {
     expect(mockAddEventListener).toHaveBeenCalledWith(
       'beforeunload',
       newMockOnClose
-    );
-  });
-
-  it('sends a resize event to the main document on popup resize', () => {
-    let resizeHandler;
-    mockAddEventListener.mockImplementation((event, handler) => {
-      if (event === 'resize') {
-        resizeHandler = handler;
-      }
-    });
-
-    const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
-
-    createView();
-
-    resizeHandler();
-
-    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
-      'resize OperationsGateway Plot - test title'
     );
   });
 });
