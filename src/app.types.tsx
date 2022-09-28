@@ -1,4 +1,5 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
+import type { CartesianScaleTypeRegistry } from 'chart.js';
 
 export const MicroFrontendId = 'scigateway';
 
@@ -150,11 +151,14 @@ interface AxisSettings {
 }
 
 export interface XAxisSettings extends AxisSettings {
-  scale: 'linear' | 'log' | 'time';
+  scale: Extract<
+    keyof CartesianScaleTypeRegistry,
+    'linear' | 'logarithmic' | 'time'
+  >;
 }
 
 export interface YAxisSettings extends AxisSettings {
-  scale: 'linear' | 'log';
+  scale: Extract<keyof CartesianScaleTypeRegistry, 'linear' | 'logarithmic'>;
 }
 
 export type PlotDataset = {

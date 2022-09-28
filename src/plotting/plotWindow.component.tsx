@@ -47,18 +47,12 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
   const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
 
-  const svgRef = React.useRef<HTMLElement | null>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
@@ -174,7 +168,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             <Grid item mr={1} mt={1}>
               <PlotButtons
                 data={records}
-                svgRef={svgRef}
+                canvasRef={canvasRef}
                 title={plotTitle || untitledTitle}
                 XAxis={XAxis}
               />
@@ -188,7 +182,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             XAxis={XAxis}
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
-            svgRef={svgRef}
+            canvasRef={canvasRef}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

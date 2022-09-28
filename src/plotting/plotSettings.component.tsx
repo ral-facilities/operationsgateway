@@ -487,7 +487,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     label="Linear"
                   />
                   <FormControlLabel
-                    value="log"
+                    value="logarithmic"
                     control={<Radio />}
                     label="Log"
                   />
@@ -604,7 +604,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     label="Linear"
                   />
                   <FormControlLabel
-                    value="log"
+                    value="logarithmic"
                     control={<Radio />}
                     label="Log"
                   />
