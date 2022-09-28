@@ -180,8 +180,10 @@ export interface PlotSettingsProps {
   changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
   YAxesSettings: YAxisSettings;
   changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
-  selectedChannels: SelectedPlotChannel[];
-  changeSelectedChannels: (selectedChannels: SelectedPlotChannel[]) => void;
+  selectedPlotChannels: SelectedPlotChannel[];
+  changeSelectedPlotChannels: (
+    selectedPlotChannels: SelectedPlotChannel[]
+  ) => void;
 }
 
 const PlotSettings = (props: PlotSettingsProps) => {
@@ -196,8 +198,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changeXAxisSettings,
     YAxesSettings,
     changeYAxesSettings,
-    selectedChannels,
-    changeSelectedChannels,
+    selectedPlotChannels,
+    changeSelectedPlotChannels,
   } = props;
   const { scale: XScale } = XAxisSettings;
   const { scale: YScale } = YAxesSettings;
@@ -273,7 +275,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const addPlotChannel = React.useCallback(
     (channelName: string) => {
-      const newSelectedChannel: SelectedPlotChannel = {
+      const newSelectedPlotChannel: SelectedPlotChannel = {
         name: channelName,
         options: {
           visible: true,
@@ -281,17 +283,17 @@ const PlotSettings = (props: PlotSettingsProps) => {
         },
       };
 
-      const newselectedChannelsArray = Array.from(selectedChannels);
-      newselectedChannelsArray.push(newSelectedChannel);
-      changeSelectedChannels(newselectedChannelsArray);
+      const newselectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newselectedPlotChannelsArray.push(newSelectedPlotChannel);
+      changeSelectedPlotChannels(newselectedPlotChannelsArray);
     },
-    [changeSelectedChannels, colourGenerator, selectedChannels]
+    [changeSelectedPlotChannels, colourGenerator, selectedPlotChannels]
   );
 
   const removePlotChannel = React.useCallback(
     (channelName: string) => {
       // Extracting channel to remove its plot colour from the generator's list
-      const channelToRemove = selectedChannels.find(
+      const channelToRemove = selectedPlotChannels.find(
         (channel) => channel.name === channelName
       );
       if (!channelToRemove) return;
@@ -299,54 +301,54 @@ const PlotSettings = (props: PlotSettingsProps) => {
       colourGenerator.removeColour(channelToRemove.options.colour);
 
       // Filter out the channel to remove
-      const newSelectedChannelsArray = selectedChannels.filter(
+      const newSelectedPlotChannelsArray = selectedPlotChannels.filter(
         (channel) => channel.name !== channelName
       );
 
       // Update the list of selected channels
-      changeSelectedChannels(newSelectedChannelsArray);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
 
       // Reset to a linear scale if no channels are selected
-      if (newSelectedChannelsArray.length === 0) {
+      if (newSelectedPlotChannelsArray.length === 0) {
         handleChangeYScale('linear');
       }
     },
     [
-      changeSelectedChannels,
+      changeSelectedPlotChannels,
       colourGenerator,
       handleChangeYScale,
-      selectedChannels,
+      selectedPlotChannels,
     ]
   );
 
   const toggleChannelVisibility = React.useCallback(
     (channelName: string) => {
-      const newSelectedChannelsArray = Array.from(selectedChannels);
-      newSelectedChannelsArray.some((channel) => {
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.some((channel) => {
         if (channel.name === channelName) {
           channel.options.visible = !channel.options.visible;
           return true;
         }
         return false;
       });
-      changeSelectedChannels(newSelectedChannelsArray);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedChannels, selectedChannels]
+    [changeSelectedPlotChannels, selectedPlotChannels]
   );
 
   const changeChannelColour = React.useCallback(
     (channelName: string, selectedColour: string) => {
-      const newSelectedChannelsArray = Array.from(selectedChannels);
-      newSelectedChannelsArray.some((channel) => {
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.some((channel) => {
         if (channel.name === channelName) {
           channel.options.colour = selectedColour;
           return true;
         }
         return false;
       });
-      changeSelectedChannels(newSelectedChannelsArray);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedChannels, selectedChannels]
+    [changeSelectedPlotChannels, selectedPlotChannels]
   );
 
   const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
@@ -620,7 +622,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 options={axisSelectionOptions.filter(
                   (option) =>
                     option !== 'timestamp' &&
-                    !selectedChannels
+                    !selectedPlotChannels
                       .map((channel) => channel.name)
                       .includes(option)
                 )}
@@ -659,7 +661,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 )}
               />
             </Grid>
-            {selectedChannels.map((plotChannel) => (
+            {selectedPlotChannels.map((plotChannel) => (
               <Grid container item key={plotChannel.name}>
                 <Box
                   aria-label={`${plotChannel.name} label`}

@@ -15,7 +15,7 @@ describe('Plot Settings component', () => {
   const changeXAxis = jest.fn();
   const changeXAxisSettings = jest.fn();
   const changeYAxesSettings = jest.fn();
-  const changeSelectedChannels = jest.fn();
+  const changeSelectedPlotChannels = jest.fn();
 
   const createView = () => {
     return render(<PlotSettings {...props} />);
@@ -48,8 +48,8 @@ describe('Plot Settings component', () => {
       changeXAxisSettings,
       YAxesSettings: { scale: 'linear' },
       changeYAxesSettings,
-      selectedChannels: [],
-      changeSelectedChannels,
+      selectedPlotChannels: [],
+      changeSelectedPlotChannels,
     };
 
     user = userEvent.setup({ delay: null });
@@ -214,7 +214,7 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
         name: 'CHANNEL_1',
         options: {
@@ -236,7 +236,7 @@ describe('Plot Settings component', () => {
     await user.type(input, 'CHANNEL');
     await user.click(screen.getByText('CHANNEL_1'));
 
-    expect(changeSelectedChannels).toHaveBeenCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
         name: 'CHANNEL_1',
         options: {
@@ -266,7 +266,7 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to toggle visibility of a selected channel off', async () => {
-    props.selectedChannels = [
+    props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
         options: {
@@ -280,7 +280,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     await user.click(screen.getByLabelText('Toggle CHANNEL_1 visibility off'));
-    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_1',
         options: {
@@ -292,7 +292,7 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to toggle visibility of a selected channel on', async () => {
-    props.selectedChannels = [
+    props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
         options: {
@@ -313,7 +313,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     await user.click(screen.getByLabelText('Toggle CHANNEL_2 visibility on'));
-    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_1',
         options: {
@@ -332,7 +332,7 @@ describe('Plot Settings component', () => {
   });
 
   it('allows user to change plot colour of a channel', async () => {
-    props.selectedChannels = [
+    props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
         options: {
@@ -355,7 +355,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByLabelText('Pick CHANNEL_2 colour'));
     await user.click(screen.getByLabelText('Color'));
 
-    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_1',
         options: {
@@ -386,7 +386,7 @@ describe('Plot Settings component', () => {
   });
 
   it('removes channel from display when we click Close on its label', async () => {
-    props.selectedChannels = [
+    props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
         options: {
@@ -407,7 +407,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
-    expect(changeSelectedChannels).toHaveBeenLastCalledWith([
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_2',
         options: {
@@ -420,7 +420,7 @@ describe('Plot Settings component', () => {
   });
 
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
-    props.selectedChannels = [
+    props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
         options: {
@@ -434,7 +434,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
     await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
-    expect(changeSelectedChannels).toHaveBeenLastCalledWith([]);
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
       scale: 'linear',
