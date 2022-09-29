@@ -122,6 +122,8 @@ const Plot = (props: PlotProps) => {
           const channelConfig = selectedChannels.find(
             (channel) => channel.name === dataset.name
           )?.options;
+          const lineStyle = channelConfig?.lineStyle ?? 'solid';
+
           return {
             label: dataset.name,
             data: dataset.data,
@@ -137,6 +139,15 @@ const Plot = (props: PlotProps) => {
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
                 : '#e31a1c',
+            borderDash:
+              lineStyle === 'dashed'
+                ? [5, 5]
+                : lineStyle === 'dotted'
+                ? [0, 5]
+                : undefined,
+            borderWidth: lineStyle === 'dotted' ? 3 : undefined,
+            pointRadius: lineStyle === 'dotted' ? 2 : undefined,
+            borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
           } as ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })

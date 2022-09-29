@@ -172,8 +172,11 @@ export type SelectedPlotChannel = {
   name: string;
   options: {
     visible: boolean;
+    lineStyle: LineStyle;
   };
 };
+
+export type LineStyle = 'solid' | 'dashed' | 'dotted';
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()

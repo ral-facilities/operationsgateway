@@ -25,6 +25,7 @@ import {
   Close,
   Visibility,
   VisibilityOff,
+  LineStyle,
 } from '@mui/icons-material';
 import {
   XAxisSettings,
@@ -184,6 +185,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
         name: channelName,
         options: {
           visible: true,
+          lineStyle: 'solid',
         },
       };
 
@@ -213,6 +215,25 @@ const PlotSettings = (props: PlotSettingsProps) => {
       newSelectedChannelsArray.some((channel) => {
         if (channel.name === channelName) {
           channel.options.visible = !channel.options.visible;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedChannels(newSelectedChannelsArray);
+    },
+    [changeSelectedChannels, selectedChannels]
+  );
+
+  const toggleChannelLineStyle = React.useCallback(
+    (channelName: string) => {
+      const newSelectedChannelsArray = Array.from(selectedChannels);
+      newSelectedChannelsArray.some((channel) => {
+        if (channel.name === channelName) {
+          if (channel.options.lineStyle === 'solid')
+            channel.options.lineStyle = 'dashed';
+          else if (channel.options.lineStyle === 'dashed')
+            channel.options.lineStyle = 'dotted';
+          else channel.options.lineStyle = 'solid';
           return true;
         }
         return false;
@@ -579,6 +600,15 @@ const PlotSettings = (props: PlotSettingsProps) => {
                         <VisibilityOff sx={{ color: 'black' }} />
                       </IconButton>
                     )}
+                    <IconButton
+                      color="primary"
+                      aria-label={`Change ${plotChannel.name} line style`}
+                      size="small"
+                      sx={{ paddingTop: '0', paddingBottom: '0' }}
+                      onClick={() => toggleChannelLineStyle(plotChannel.name)}
+                    >
+                      <LineStyle sx={{ color: 'black' }} />
+                    </IconButton>
                     <StyledClose
                       aria-label={`Remove ${plotChannel.name} from y-axis`}
                       onClick={() => removePlotChannel(plotChannel.name)}
