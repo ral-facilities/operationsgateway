@@ -43,6 +43,11 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [selectedChannels, setSelectedChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
+  const [gridVisible, setGridVisible] = React.useState<boolean>(true);
+
+  const toggleGridVisibility = React.useCallback(() => {
+    setGridVisible(!gridVisible);
+  }, [gridVisible]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -171,6 +176,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 canvasRef={canvasRef}
                 title={plotTitle || untitledTitle}
                 XAxis={XAxis}
+                gridVisible={gridVisible}
+                toggleGridVisibility={toggleGridVisibility}
               />
             </Grid>
           </Grid>
@@ -183,6 +190,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
             canvasRef={canvasRef}
+            gridVisible={gridVisible}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

@@ -21,6 +21,7 @@ export interface PlotProps {
   YAxesSettings: YAxisSettings;
   XAxis: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  gridVisible: boolean;
 }
 
 const Plot = (props: PlotProps) => {
@@ -33,6 +34,7 @@ const Plot = (props: PlotProps) => {
     YAxesSettings,
     XAxis,
     canvasRef,
+    gridVisible,
   } = props;
 
   // set the initial options
@@ -85,11 +87,17 @@ const Plot = (props: PlotProps) => {
             },
             tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
           },
+          grid: {
+            display: gridVisible,
+          },
         },
         y: {
           type: YAxesSettings.scale,
           display: true,
           position: 'left',
+          grid: {
+            display: gridVisible,
+          },
         },
         y2: {
           type: YAxesSettings.scale,
@@ -111,9 +119,11 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
       options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
+      options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       return JSON.stringify(options);
     });
-  }, [title, XAxisSettings, YAxesSettings, selectedChannels]);
+  }, [title, XAxisSettings, YAxesSettings, selectedChannels, gridVisible]);
 
   React.useEffect(() => {
     setDataString(

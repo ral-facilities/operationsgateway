@@ -144,12 +144,18 @@ export interface PlotButtonsProps {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
   XAxis: string;
+  gridVisible: boolean;
+  toggleGridVisibility: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, canvasRef, title, XAxis } = props;
+  const { data, canvasRef, title, XAxis, gridVisible, toggleGridVisibility } =
+    props;
   return (
     <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => toggleGridVisibility()}>
+        {gridVisible ? 'Hide Grid' : 'Show Grid'}
+      </Button>
       {/* TODO: link these buttons up to save graph config to redux/session */}
       <Button>Save</Button>
       <Button>Save As</Button>
