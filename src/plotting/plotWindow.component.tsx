@@ -33,6 +33,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, untitledTitle } = props;
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
+  const [xMinimum, setXMinimum] = React.useState<number | undefined>(undefined);
+  const [xMaximum, setXMaximum] = React.useState<number | undefined>(undefined);
+  const [yMinimum, setYMinimum] = React.useState<number | undefined>(undefined);
+  const [yMaximum, setYMaximum] = React.useState<number | undefined>(undefined);
   const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
     scale: 'linear',
   });
@@ -131,6 +135,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeYAxesSettings={setYAxesSettings}
                 selectedChannels={selectedChannels}
                 changeSelectedChannels={setSelectedChannels}
+                changeXMinimum={setXMinimum}
+                changeXMaximum={setXMaximum}
+                changeYMinimum={setYMinimum}
+                changeYMaximum={setYMaximum}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -200,6 +208,10 @@ const PlotWindow = (props: PlotWindowProps) => {
             canvasRef={canvasRef}
             gridVisible={gridVisible}
             axesLabelsVisible={axesLabelsVisible}
+            xMinimum={xMinimum}
+            xMaximum={xMaximum}
+            yMinimum={yMinimum}
+            yMaximum={yMaximum}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

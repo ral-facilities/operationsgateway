@@ -23,6 +23,10 @@ export interface PlotProps {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
+  xMinimum?: number;
+  xMaximum?: number;
+  yMinimum?: number;
+  yMaximum?: number;
 }
 
 const Plot = (props: PlotProps) => {
@@ -37,6 +41,10 @@ const Plot = (props: PlotProps) => {
     canvasRef,
     gridVisible,
     axesLabelsVisible,
+    xMinimum,
+    xMaximum,
+    yMinimum,
+    yMaximum,
   } = props;
 
   // set the initial options
@@ -96,6 +104,8 @@ const Plot = (props: PlotProps) => {
           grid: {
             display: gridVisible,
           },
+          min: xMinimum,
+          max: xMaximum,
         },
         y: {
           type: YAxesSettings.scale,
@@ -104,6 +114,8 @@ const Plot = (props: PlotProps) => {
           grid: {
             display: gridVisible,
           },
+          min: yMinimum,
+          max: yMaximum,
         },
         y2: {
           type: YAxesSettings.scale,
@@ -125,6 +137,8 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       if (options?.scales?.x) {
         options.scales.x.type = XAxisSettings.scale;
+        options.scales.x.min = xMinimum;
+        options.scales.x.max = xMaximum;
 
         options?.scales?.x?.grid &&
           (options.scales.x.grid.display = gridVisible);
@@ -134,8 +148,14 @@ const Plot = (props: PlotProps) => {
           options.scales.x.title.text = XAxis;
         }
       }
-      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
-      options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
+      if (options?.scales?.y) {
+        options.scales.y.type = YAxesSettings.scale;
+        options.scales.y.min = yMinimum;
+        options.scales.y.max = yMaximum;
+
+        options?.scales?.y?.grid &&
+          (options.scales.y.grid.display = gridVisible);
+      }
       return JSON.stringify(options);
     });
   }, [
@@ -146,6 +166,10 @@ const Plot = (props: PlotProps) => {
     gridVisible,
     axesLabelsVisible,
     XAxis,
+    xMinimum,
+    xMaximum,
+    yMinimum,
+    yMaximum,
   ]);
 
   React.useEffect(() => {

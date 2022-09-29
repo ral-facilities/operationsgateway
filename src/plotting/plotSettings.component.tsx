@@ -94,6 +94,10 @@ export interface PlotSettingsProps {
   changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
   selectedChannels: SelectedPlotChannel[];
   changeSelectedChannels: (selectedChannels: SelectedPlotChannel[]) => void;
+  changeXMinimum: (value: number | undefined) => void;
+  changeXMaximum: (value: number | undefined) => void;
+  changeYMinimum: (value: number | undefined) => void;
+  changeYMaximum: (value: number | undefined) => void;
 }
 
 const PlotSettings = (props: PlotSettingsProps) => {
@@ -110,12 +114,24 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changeYAxesSettings,
     selectedChannels,
     changeSelectedChannels,
+    changeXMinimum,
+    changeXMaximum,
+    changeYMinimum,
+    changeYMaximum,
   } = props;
   const { scale: XScale } = XAxisSettings;
   const { scale: YScale } = YAxesSettings;
 
   const [title, setTitle] = React.useState('');
   const deferredTitle = React.useDeferredValue(title);
+
+  const [xMinimum, setXMinimum] = React.useState<string>('');
+  const [xMaximum, setXMaximum] = React.useState<string>('');
+  const [yMinimum, setYMinimum] = React.useState<string>('');
+  const [yMaximum, setYMaximum] = React.useState<string>('');
+
+  const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
+  const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
@@ -178,6 +194,38 @@ const PlotSettings = (props: PlotSettingsProps) => {
     },
     [setXYTabValue]
   );
+
+  React.useEffect(() => {
+    if (xMinimum) {
+      if (parseFloat(xMinimum)) changeXMinimum(parseFloat(xMinimum));
+    } else {
+      changeXMinimum(undefined);
+    }
+  }, [changeXMinimum, xMinimum]);
+
+  React.useEffect(() => {
+    if (xMaximum) {
+      if (parseFloat(xMaximum)) changeXMaximum(parseFloat(xMaximum));
+    } else {
+      changeXMaximum(undefined);
+    }
+  }, [changeXMaximum, xMaximum]);
+
+  React.useEffect(() => {
+    if (yMinimum) {
+      if (parseFloat(yMinimum)) changeYMinimum(parseFloat(yMinimum));
+    } else {
+      changeYMinimum(undefined);
+    }
+  }, [changeYMinimum, yMinimum]);
+
+  React.useEffect(() => {
+    if (yMaximum) {
+      if (parseFloat(yMaximum)) changeYMaximum(parseFloat(yMaximum));
+    } else {
+      changeYMaximum(undefined);
+    }
+  }, [changeYMaximum, yMaximum]);
 
   const addPlotChannel = React.useCallback(
     (channelName: string) => {
@@ -344,6 +392,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   fullWidth
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
+                  error={invalidXRange}
+                  {...(invalidXRange && { helperText: 'Invalid range' })}
+                  value={xMinimum}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setXMinimum(event.target.value)
+                  }
                 />
               </Grid>
               <Grid item xs={6}>
@@ -354,6 +408,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   fullWidth
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
+                  error={invalidXRange}
+                  {...(invalidXRange && { helperText: 'Invalid range' })}
+                  value={xMaximum}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setXMaximum(event.target.value)
+                  }
                 />
               </Grid>
             </Grid>
@@ -467,6 +527,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   fullWidth
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
+                  error={invalidYRange}
+                  {...(invalidYRange && { helperText: 'Invalid range' })}
+                  value={yMinimum}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setYMinimum(event.target.value)
+                  }
                 />
               </Grid>
               <Grid item xs={6}>
@@ -477,6 +543,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   fullWidth
                   InputProps={{ style: { fontSize: 12 } }}
                   InputLabelProps={{ style: { fontSize: 12 } }}
+                  error={invalidYRange}
+                  {...(invalidYRange && { helperText: 'Invalid range' })}
+                  value={yMaximum}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    setYMaximum(event.target.value)
+                  }
                 />
               </Grid>
             </Grid>
