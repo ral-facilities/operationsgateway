@@ -2,6 +2,7 @@ import React from 'react';
 import PlotButtons, {
   PlotButtonsProps,
   constructDataRows,
+  formatTooltipLabel,
 } from './plotButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -319,5 +320,19 @@ describe('constructDataRows', () => {
     ];
     const result = constructDataRows(XAxis, testPlots);
     expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('formatTooltipLabel function', () => {
+  it('formats timestamp correctly', () => {
+    const label = 1640995200000;
+    const result = formatTooltipLabel(label, 'time');
+    expect(result).toEqual('2022-01-01 00:00:00');
+  });
+
+  it('returns the original label if it is not a date', () => {
+    const label = 123456;
+    const result = formatTooltipLabel(label, 'linear');
+    expect(result).toEqual(label);
   });
 });

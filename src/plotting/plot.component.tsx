@@ -6,17 +6,11 @@ import {
   YAxisSettings,
   SelectedPlotChannel,
 } from '../app.types';
-import { format } from 'date-fns';
-
-export const formatTooltipLabel = (
-  label: number,
-  scale: XAxisSettings['scale']
-): number | string => {
-  if (scale === 'time') {
-    return format(label, 'yyyy-MM-dd HH:mm:ss');
-  }
-  return label;
-};
+// only import types as we don't actually run any chart.js code in React
+import type { ChartOptions, ChartDataset } from 'chart.js';
+// we import this even though we don't use it so we can get typescript info added to ChartOptions
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type Zoom from 'chartjs-plugin-zoom';
 
 export interface PlotProps {
   datasets: PlotDataset[];
@@ -106,17 +100,17 @@ const Plot = (props: PlotProps) => {
           },
         },
       },
-    })
+    } as ChartOptions<PlotType>)
   );
   const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
 
   React.useEffect(() => {
     setOptionsString((oldOptionsString) => {
-      const options = JSON.parse(oldOptionsString);
+      const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
-      options.plugins.title.text = title;
-      options.scales.x.type = XAxisSettings.scale;
-      options.scales.y.type = YAxesSettings.scale;
+      options?.plugins?.title && (options.plugins.title.text = title);
+      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
+      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
       return JSON.stringify(options);
     });
   }, [title, XAxisSettings, YAxesSettings, selectedChannels]);
@@ -143,7 +137,7 @@ const Plot = (props: PlotProps) => {
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
                 : '#e31a1c',
-          };
+          } as ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })
     );

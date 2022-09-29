@@ -1,7 +1,17 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
-import { PlotDataset } from '../app.types';
-import { formatTooltipLabel } from './plot.component';
+import { PlotDataset, XAxisSettings } from '../app.types';
+import { format } from 'date-fns';
+
+export const formatTooltipLabel = (
+  label: number,
+  scale: XAxisSettings['scale']
+): number | string => {
+  if (scale === 'time') {
+    return format(label, 'yyyy-MM-dd HH:mm:ss');
+  }
+  return label;
+};
 
 /**
  *  Exports the graph as PNG
