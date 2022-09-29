@@ -135,13 +135,13 @@ const Plot = (props: PlotProps) => {
       const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
       options?.plugins?.title && (options.plugins.title.text = title);
+
       if (options?.scales?.x) {
         options.scales.x.type = XAxisSettings.scale;
         options.scales.x.min = xMinimum;
         options.scales.x.max = xMaximum;
 
-        options?.scales?.x?.grid &&
-          (options.scales.x.grid.display = gridVisible);
+        options.scales.x.grid && (options.scales.x.grid.display = gridVisible);
 
         if (options.scales.x.title) {
           options.scales.x.title.display = axesLabelsVisible;
@@ -153,9 +153,9 @@ const Plot = (props: PlotProps) => {
         options.scales.y.min = yMinimum;
         options.scales.y.max = yMaximum;
 
-        options?.scales?.y?.grid &&
-          (options.scales.y.grid.display = gridVisible);
+        options.scales.y.grid && (options.scales.y.grid.display = gridVisible);
       }
+
       return JSON.stringify(options);
     });
   }, [

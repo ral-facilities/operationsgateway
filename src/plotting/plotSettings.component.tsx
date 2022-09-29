@@ -383,7 +383,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
         <TabPanel value={XYTabValue} label={'X'}>
           <Grid container spacing={1} mt={1}>
             <Grid container item spacing={1}>
-              {/* TODO: hook these up */}
               <Grid item xs={6}>
                 <TextField
                   label="Min"
@@ -421,9 +420,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
               <FormControl
                 disabled={XAxisSettings.scale === 'time'}
                 sx={{ flexDirection: 'row', alignItems: 'center' }}
-                // TODO: this needs to be enabled for all non-time X axes
-                // and we need to make sure we set XAxisSettings.scale to time
-                // when a user selects Time, and to linear (default) when they don't
               >
                 <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
                   Scale
@@ -518,7 +514,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
         <TabPanel value={XYTabValue} label={'Y'}>
           <Grid container spacing={1} mt={1}>
             <Grid container item spacing={1}>
-              {/* TODO: hook these up */}
               <Grid item xs={6}>
                 <TextField
                   label="Min"
