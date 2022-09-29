@@ -566,7 +566,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography maxWidth="205" noWrap>
+                  <Typography maxWidth="174" noWrap>
                     {plotChannel.name}
                   </Typography>
                   <Box

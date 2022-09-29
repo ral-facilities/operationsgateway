@@ -22,6 +22,7 @@ export interface PlotProps {
   XAxis: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
+  axesLabelsVisible: boolean;
 }
 
 const Plot = (props: PlotProps) => {
@@ -35,6 +36,7 @@ const Plot = (props: PlotProps) => {
     XAxis,
     canvasRef,
     gridVisible,
+    axesLabelsVisible,
   } = props;
 
   // set the initial options
@@ -87,6 +89,10 @@ const Plot = (props: PlotProps) => {
             },
             tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
           },
+          title: {
+            display: axesLabelsVisible,
+            text: XAxis,
+          },
           grid: {
             display: gridVisible,
           },
@@ -104,7 +110,7 @@ const Plot = (props: PlotProps) => {
           display: false,
           position: 'right',
           grid: {
-            drawOnChartArea: false,
+            display: gridVisible,
           },
         },
       },
@@ -117,13 +123,30 @@ const Plot = (props: PlotProps) => {
       const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
       options?.plugins?.title && (options.plugins.title.text = title);
-      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
+      if (options?.scales?.x) {
+        options.scales.x.type = XAxisSettings.scale;
+
+        options?.scales?.x?.grid &&
+          (options.scales.x.grid.display = gridVisible);
+
+        if (options.scales.x.title) {
+          options.scales.x.title.display = axesLabelsVisible;
+          options.scales.x.title.text = XAxis;
+        }
+      }
       options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
-      options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       return JSON.stringify(options);
     });
-  }, [title, XAxisSettings, YAxesSettings, selectedChannels, gridVisible]);
+  }, [
+    title,
+    XAxisSettings,
+    YAxesSettings,
+    selectedChannels,
+    gridVisible,
+    axesLabelsVisible,
+    XAxis,
+  ]);
 
   React.useEffect(() => {
     setDataString(

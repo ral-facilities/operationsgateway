@@ -145,16 +145,29 @@ export interface PlotButtonsProps {
   title: string;
   XAxis: string;
   gridVisible: boolean;
+  axesLabelsVisible: boolean;
   toggleGridVisibility: () => void;
+  toggleAxesLabelsVisibility: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, canvasRef, title, XAxis, gridVisible, toggleGridVisibility } =
-    props;
+  const {
+    data,
+    canvasRef,
+    title,
+    XAxis,
+    gridVisible,
+    axesLabelsVisible,
+    toggleGridVisibility,
+    toggleAxesLabelsVisibility,
+  } = props;
   return (
     <ButtonGroup size="small" aria-label="plot actions">
       <Button onClick={() => toggleGridVisibility()}>
         {gridVisible ? 'Hide Grid' : 'Show Grid'}
+      </Button>
+      <Button onClick={() => toggleAxesLabelsVisibility()}>
+        {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
       </Button>
       {/* TODO: link these buttons up to save graph config to redux/session */}
       <Button>Save</Button>
