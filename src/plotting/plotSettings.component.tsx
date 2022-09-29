@@ -34,6 +34,9 @@ import {
   PlotType,
   SelectedPlotChannel,
 } from '../app.types';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { isBefore } from 'date-fns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -130,8 +133,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const [yMinimum, setYMinimum] = React.useState<string>('');
   const [yMaximum, setYMaximum] = React.useState<string>('');
 
+  const [fromDate, setFromDate] = React.useState<Date | null>(null);
+  const [toDate, setToDate] = React.useState<Date | null>(null);
+
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
   const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
+  const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
@@ -156,6 +163,12 @@ const PlotSettings = (props: PlotSettingsProps) => {
         ...XAxisSettings,
         scale: value as XAxisSettings['scale'],
       });
+      setFromDate(null);
+      setToDate(null);
+      setXMinimum('');
+      setXMaximum('');
+      setYMinimum('');
+      setYMaximum('');
     },
     [XAxisSettings, changeXAxisSettings]
   );
@@ -210,6 +223,24 @@ const PlotSettings = (props: PlotSettingsProps) => {
       changeXMaximum(undefined);
     }
   }, [changeXMaximum, xMaximum]);
+
+  React.useEffect(() => {
+    if (fromDate) {
+      const unixTimestamp = fromDate.getTime();
+      if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
+    } else {
+      changeXMinimum(undefined);
+    }
+  }, [fromDate, changeXMinimum]);
+
+  React.useEffect(() => {
+    if (toDate) {
+      const unixTimestamp = toDate.getTime();
+      if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
+    } else {
+      changeXMaximum(undefined);
+    }
+  }, [toDate, changeXMaximum]);
 
   React.useEffect(() => {
     if (yMinimum) {
@@ -384,36 +415,148 @@ const PlotSettings = (props: PlotSettingsProps) => {
           <Grid container spacing={1} mt={1}>
             <Grid container item spacing={1}>
               <Grid item xs={6}>
-                <TextField
-                  label="Min"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  error={invalidXRange}
-                  {...(invalidXRange && { helperText: 'Invalid range' })}
-                  value={xMinimum}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setXMinimum(event.target.value)
-                  }
-                />
+                {XAxisSettings.scale === 'time' ? (
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                      inputFormat="yyyy-MM-dd HH:mm:ss"
+                      mask="____-__-__ __:__:__"
+                      value={fromDate}
+                      maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
+                      componentsProps={{
+                        actionBar: { actions: ['clear'] },
+                      }}
+                      onChange={(date) => {
+                        setFromDate(date as Date);
+                      }}
+                      views={[
+                        'year',
+                        'month',
+                        'day',
+                        'hours',
+                        'minutes',
+                        'seconds',
+                      ]}
+                      OpenPickerButtonProps={{
+                        size: 'small',
+                        'aria-label': 'from, date-time picker',
+                      }}
+                      renderInput={(renderProps) => {
+                        const error =
+                          // eslint-disable-next-line react/prop-types
+                          (renderProps.error || invalidDateRange) ?? undefined;
+                        let helperText =
+                          'Date-time format: yyyy-MM-dd HH:mm:ss';
+                        if (invalidDateRange)
+                          helperText = 'Invalid date-time range';
+
+                        return (
+                          <TextField
+                            {...renderProps}
+                            id="from date-time"
+                            inputProps={{
+                              ...renderProps.inputProps,
+                              style: {
+                                fontSize: 10,
+                              },
+                              placeholder: 'From...',
+                              'aria-label': 'from, date-time input',
+                            }}
+                            variant="standard"
+                            error={error}
+                            {...(error && { helperText: helperText })}
+                          />
+                        );
+                      }}
+                    />
+                  </LocalizationProvider>
+                ) : (
+                  <TextField
+                    label="Min"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    InputProps={{ style: { fontSize: 12 } }}
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    error={invalidXRange}
+                    {...(invalidXRange && { helperText: 'Invalid range' })}
+                    value={xMinimum}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setXMinimum(event.target.value)
+                    }
+                  />
+                )}
               </Grid>
               <Grid item xs={6}>
-                <TextField
-                  label="Max"
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                  InputProps={{ style: { fontSize: 12 } }}
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  error={invalidXRange}
-                  {...(invalidXRange && { helperText: 'Invalid range' })}
-                  value={xMaximum}
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                    setXMaximum(event.target.value)
-                  }
-                />
+                {XAxisSettings.scale === 'time' ? (
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker
+                      inputFormat="yyyy-MM-dd HH:mm:ss"
+                      mask="____-__-__ __:__:__"
+                      value={toDate}
+                      minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
+                      componentsProps={{
+                        actionBar: { actions: ['clear'] },
+                      }}
+                      onChange={(date) => {
+                        setToDate(date as Date);
+                      }}
+                      views={[
+                        'year',
+                        'month',
+                        'day',
+                        'hours',
+                        'minutes',
+                        'seconds',
+                      ]}
+                      OpenPickerButtonProps={{
+                        size: 'small',
+                        'aria-label': 'to, date-time picker',
+                      }}
+                      renderInput={(renderProps) => {
+                        const error =
+                          // eslint-disable-next-line react/prop-types
+                          (renderProps.error || invalidDateRange) ?? undefined;
+                        let helperText =
+                          'Date-time format: yyyy-MM-dd HH:mm:ss';
+                        if (invalidDateRange)
+                          helperText = 'Invalid date-time range';
+
+                        return (
+                          <TextField
+                            {...renderProps}
+                            id="to date-time"
+                            inputProps={{
+                              ...renderProps.inputProps,
+                              style: {
+                                fontSize: 10,
+                              },
+                              placeholder: 'To...',
+                              'aria-label': 'to, date-time input',
+                            }}
+                            variant="standard"
+                            error={error}
+                            {...(error && { helperText: helperText })}
+                          />
+                        );
+                      }}
+                    />
+                  </LocalizationProvider>
+                ) : (
+                  <TextField
+                    label="Max"
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    InputProps={{ style: { fontSize: 12 } }}
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    error={invalidXRange}
+                    {...(invalidXRange && { helperText: 'Invalid range' })}
+                    value={xMaximum}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setXMaximum(event.target.value)
+                    }
+                  />
+                )}
               </Grid>
             </Grid>
             <Grid item>
