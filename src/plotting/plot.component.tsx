@@ -14,7 +14,7 @@ import type Zoom from 'chartjs-plugin-zoom';
 
 export interface PlotProps {
   datasets: PlotDataset[];
-  selectedChannels: SelectedPlotChannel[];
+  selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
@@ -26,7 +26,7 @@ export interface PlotProps {
 const Plot = (props: PlotProps) => {
   const {
     datasets,
-    selectedChannels,
+    selectedPlotChannels,
     title,
     type,
     XAxisSettings,
@@ -113,13 +113,13 @@ const Plot = (props: PlotProps) => {
       options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
       return JSON.stringify(options);
     });
-  }, [title, XAxisSettings, YAxesSettings, selectedChannels]);
+  }, [title, XAxisSettings, YAxesSettings, selectedPlotChannels]);
 
   React.useEffect(() => {
     setDataString(
       JSON.stringify({
         datasets: datasets.map((dataset) => {
-          const channelConfig = selectedChannels.find(
+          const channelConfig = selectedPlotChannels.find(
             (channel) => channel.name === dataset.name
           )?.options;
           return {
@@ -132,16 +132,16 @@ const Plot = (props: PlotProps) => {
             borderColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
-                : '#e31a1c',
+                : channelConfig?.colour,
             backgroundColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
-                : '#e31a1c',
+                : channelConfig?.colour,
           } as ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })
     );
-  }, [datasets, XAxis, selectedChannels]);
+  }, [datasets, XAxis, selectedPlotChannels]);
 
   return (
     <div

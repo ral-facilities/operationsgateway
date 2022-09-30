@@ -8,12 +8,13 @@ import Plot from './plot.component';
 describe('Plot component', () => {
   let props: PlotProps;
 
-  const selectedChannels: SelectedPlotChannel[] = testPlotDatasets.map(
-    (dataset) => {
+  const selectedPlotChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+    (dataset, i) => {
       return {
         name: dataset.name,
         options: {
           visible: true,
+          colour: `colour-${i.toString()}`,
         },
       };
     }
@@ -22,7 +23,7 @@ describe('Plot component', () => {
   beforeEach(() => {
     props = {
       datasets: testPlotDatasets,
-      selectedChannels,
+      selectedPlotChannels,
       title: 'scatter plot',
       type: 'scatter',
       XAxisSettings: { scale: 'time' },
@@ -58,8 +59,8 @@ describe('Plot component', () => {
   it('updates data object correctly by settings opacity to 0 for lines that are hidden', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
-    props.selectedChannels = [...selectedChannels];
-    props.selectedChannels[0].options.visible = false;
+    props.selectedPlotChannels = [...selectedPlotChannels];
+    props.selectedPlotChannels[0].options.visible = false;
 
     rerender(<Plot {...props} />);
 

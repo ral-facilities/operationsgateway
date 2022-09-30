@@ -40,7 +40,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [selectedChannels, setSelectedChannels] = React.useState<
+  const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
 
@@ -56,7 +56,7 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
-    selectedChannels
+    selectedPlotChannels
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
@@ -118,8 +118,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
-                selectedChannels={selectedChannels}
-                changeSelectedChannels={setSelectedChannels}
+                selectedPlotChannels={selectedPlotChannels}
+                changeSelectedPlotChannels={setSelectedPlotChannels}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -176,7 +176,7 @@ const PlotWindow = (props: PlotWindowProps) => {
           </Grid>
           <Plot
             datasets={records ?? []}
-            selectedChannels={selectedChannels}
+            selectedPlotChannels={selectedPlotChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
