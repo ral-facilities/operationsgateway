@@ -144,12 +144,14 @@ export interface PlotButtonsProps {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
   XAxis: string;
+  resetView: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, canvasRef, title, XAxis } = props;
+  const { data, canvasRef, title, XAxis, resetView } = props;
   return (
     <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => resetView()}>Reset View</Button>
       {/* TODO: link these buttons up to save graph config to redux/session */}
       <Button>Save</Button>
       <Button>Save As</Button>
