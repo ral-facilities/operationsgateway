@@ -17,4 +17,7 @@ app.get('/*', function (req, res) {
   res.sendFile(path.resolve('./build/index.html'));
 });
 
-app.listen(3000);
+var server = app.listen(3000, function () {
+  var port = server.address().port;
+  console.log('E2E test server listening at http://localhost:%s', port);
+});
