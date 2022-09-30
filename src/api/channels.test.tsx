@@ -25,6 +25,11 @@ describe('channels api functions', () => {
       const expected: FullChannelMetadata[] = [
         {
           channel_dtype: 'scalar',
+          systemName: 'timestamp',
+          userFriendlyName: 'Time',
+        },
+        {
+          channel_dtype: 'scalar',
           systemName: 'shotnum',
           userFriendlyName: 'Shot Number',
         },
@@ -62,7 +67,12 @@ describe('channels api functions', () => {
       const expected = [
         {
           accessor: 'timestamp',
-          Header: 'Timestamp',
+          Header: 'Time',
+          channelInfo: {
+            channel_dtype: 'scalar',
+            systemName: 'timestamp',
+            userFriendlyName: 'Time',
+          },
         },
         {
           accessor: 'shotnum',
@@ -119,9 +129,8 @@ describe('channels api functions', () => {
 
       const metadata = generateChannelMetadata(mockData);
       const response = constructColumns(metadata);
-      expect(response[0]).toEqual(expected[0]);
 
-      for (let i = 1; i < response.length; i++) {
+      for (let i = 0; i < response.length; i++) {
         expect(response[i].accessor).toEqual(expected[i].accessor);
         expect(response[i]['channelInfo']).toEqual(expected[i].channelInfo);
       }
@@ -196,6 +205,11 @@ describe('channels api functions', () => {
       });
 
       const expected: FullChannelMetadata[] = [
+        {
+          channel_dtype: 'scalar',
+          systemName: 'timestamp',
+          userFriendlyName: 'Time',
+        },
         {
           channel_dtype: 'scalar',
           systemName: 'shotnum',

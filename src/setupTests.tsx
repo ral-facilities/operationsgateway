@@ -315,7 +315,6 @@ export const testRecordRows = Array.from(Array(3), (_, i) =>
 
 export const generatePlotDataset = (num: number) => {
   const datasetName = testChannels[num].systemName;
-  num++;
   const plotDataset: PlotDataset = {
     name: datasetName,
     data: [
@@ -337,5 +336,5 @@ export const generatePlotDataset = (num: number) => {
 };
 
 export const testPlotDatasets = Array.from(Array(3), (_, i) =>
-  generatePlotDataset(i)
+  generatePlotDataset(i + 1)
 );

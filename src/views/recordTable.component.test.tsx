@@ -211,7 +211,7 @@ describe('Record Table', () => {
 
     let columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Area');
     expect(columns[3]).toHaveTextContent('Active Experiment');
@@ -223,7 +223,7 @@ describe('Record Table', () => {
 
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(3);
-    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Experiment');
 
@@ -234,7 +234,7 @@ describe('Record Table', () => {
     // Should expect the column previously in the middle to now be on the end
     columns = screen.getAllByRole('columnheader');
     expect(columns.length).toEqual(4);
-    expect(columns[0]).toHaveTextContent('Timestamp');
+    expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Experiment');
     expect(columns[3]).toHaveTextContent('Active Area');

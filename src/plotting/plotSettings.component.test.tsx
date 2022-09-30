@@ -23,6 +23,10 @@ describe('Plot Settings component', () => {
 
   const allChannels: FullScalarChannelMetadata[] = [
     {
+      systemName: 'timestamp',
+      channel_dtype: 'scalar',
+    },
+    {
       systemName: 'CHANNEL_1',
       channel_dtype: 'scalar',
     },
@@ -38,7 +42,12 @@ describe('Plot Settings component', () => {
 
   beforeEach(() => {
     props = {
-      selectedRecordTableChannels: [],
+      selectedRecordTableChannels: [
+        {
+          systemName: 'timestamp',
+          channel_dtype: 'scalar',
+        },
+      ],
       allChannels,
       changePlotTitle,
       plotType: 'scatter',
@@ -267,6 +276,7 @@ describe('Plot Settings component', () => {
         name: 'CHANNEL_1',
         options: {
           visible: true,
+          colour: expect.anything(),
         },
       },
     ]);
@@ -284,6 +294,7 @@ describe('Plot Settings component', () => {
         name: 'CHANNEL_1',
         options: {
           visible: true,
+          colour: '#ffffff',
         },
       },
     ];

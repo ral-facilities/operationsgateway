@@ -1,11 +1,10 @@
-import { FullChannelMetadata } from '../../app.types';
 import ColumnsReducer, {
   changeSort,
   deselectColumn,
   initialState,
   reorderColumn,
   selectColumn,
-  selectHiddenChannels,
+  selectHiddenColumns,
 } from './tableSlice';
 
 describe('tableSlice', () => {
@@ -113,27 +112,12 @@ describe('tableSlice', () => {
      * saves on rerenders)
      */
     it('hidden columns selector ignores order of selectedColumnIds', () => {
-      const availableChannels: FullChannelMetadata[] = [
-        {
-          systemName: '1',
-          channel_dtype: 'scalar',
-        },
-        {
-          systemName: '2',
-          channel_dtype: 'scalar',
-        },
-        {
-          systemName: '3',
-          channel_dtype: 'scalar',
-        },
-        {
-          systemName: '4',
-          channel_dtype: 'scalar',
-        },
-        {
-          systemName: '5',
-          channel_dtype: 'scalar',
-        },
+      const availableColumns = [
+        { accessor: '1' },
+        { accessor: '2' },
+        { accessor: '3' },
+        { accessor: '4' },
+        { accessor: '5' },
       ];
       state = {
         table: {
@@ -141,7 +125,7 @@ describe('tableSlice', () => {
           selectedColumnIds: ['1', '2', '3'],
         },
       };
-      expect(selectHiddenChannels(state, availableChannels)).toStrictEqual([
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
         '4',
         '5',
       ]);
@@ -159,12 +143,12 @@ describe('tableSlice', () => {
         table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenChannels(state, availableChannels)).toStrictEqual([
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
         '4',
         '5',
       ]);
 
-      expect(selectHiddenChannels.recomputations()).toBe(1);
+      expect(selectHiddenColumns.recomputations()).toBe(1);
 
       // Swap
       draggedColumn = {
@@ -179,12 +163,12 @@ describe('tableSlice', () => {
         table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenChannels(state, availableChannels)).toStrictEqual([
+      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
         '4',
         '5',
       ]);
 
-      expect(selectHiddenChannels.recomputations()).toBe(1);
+      expect(selectHiddenColumns.recomputations()).toBe(1);
     });
   });
 });
