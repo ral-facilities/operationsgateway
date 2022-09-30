@@ -237,12 +237,12 @@ export const getFormattedAxisData = (
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
-  selectedChannels: SelectedPlotChannel[]
+  selectedPlotChannels: SelectedPlotChannel[]
 ): UseQueryResult<PlotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
       select: (records: Record[]) => {
-        const plotDatasets = selectedChannels.map((plotChannel) => {
+        const plotDatasets = selectedPlotChannels.map((plotChannel) => {
           const plotChannelName = plotChannel.name;
 
           // Add the initial entry for dataset called plotChannelName
@@ -275,7 +275,7 @@ export const usePlotRecords = (
         return plotDatasets;
       },
     }),
-    [XAxis, selectedChannels]
+    [XAxis, selectedPlotChannels]
   );
 
   return useRecords(usePlotRecordsOptions, true);

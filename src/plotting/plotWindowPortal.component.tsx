@@ -164,6 +164,10 @@ class PlotWindowPortal extends React.PureComponent<
                       chart.config.type = canvas.dataset.type;
                       chart.update();
                     }
+                    else if(mutation.attributeName === "data-view"){
+                      chart.resetZoom("none");
+                      chart.update("none");
+                    }
                   }
                 }
               });
