@@ -460,9 +460,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select x axis"
-                options={['timestamp'].concat(
-                  allChannels.map((channel) => channel.systemName)
-                )}
+                options={allChannels.map((channel) => channel.systemName)}
                 fullWidth
                 role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
@@ -592,6 +590,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   }}
                 >
                   {selectedRecordTableChannels
+                    .filter((channel) => channel.systemName !== 'timestamp')
                     .filter(
                       (selected) =>
                         !selectedPlotChannels
@@ -619,6 +618,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   .map((channel) => channel.systemName)
                   .filter(
                     (name) =>
+                      name !== 'timestamp' &&
                       !selectedPlotChannels
                         .map((channel) => channel.name)
                         .includes(name)

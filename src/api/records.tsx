@@ -98,10 +98,38 @@ const fetchRecordCountQuery = (
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useRecords = <T extends unknown = Record[]>(
-  options?: UseQueryOptions<
+  options?: UseQueryOptions<Record[], AxiosError, T, [string]>
+): UseQueryResult<T, AxiosError> => {
+  useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
+    ['records'],
+    () => {
+      return fetchRecords(apiUrl, {}, {});
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      ...(options ?? {}),
+    }
+  );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const useRecordsPaginated = (): UseQueryResult<
+  RecordRow[],
+  AxiosError
+> => {
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
     Record[],
     AxiosError,
-    T,
+    RecordRow[],
     [
       string,
       {
@@ -109,24 +137,12 @@ export const useRecords = <T extends unknown = Record[]>(
         resultsPerPage: number;
         sort: SortType;
         dateRange: DateRange;
-        paginate: boolean;
       }
     ]
-  >,
-  paginate = true
-): UseQueryResult<T, AxiosError> => {
-  const { page, resultsPerPage, sort, dateRange } =
-    useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
-  return useQuery(
-    ['records', { page, resultsPerPage, sort, dateRange, paginate }],
+  >(
+    ['records', { page, resultsPerPage, sort, dateRange }],
     (params) => {
-      const { page, resultsPerPage, sort, dateRange, paginate } =
-        params.queryKey[1];
-      if (!paginate) {
-        return fetchRecords(apiUrl, {}, {});
-      }
+      const { page, resultsPerPage, sort, dateRange } = params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
@@ -136,7 +152,54 @@ export const useRecords = <T extends unknown = Record[]>(
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
-      ...(options ?? {}),
+      select: (data: Record[]) =>
+        data.map((record: Record) => {
+          const timestampString = record.metadata.timestamp;
+          const timestampDate = parseISO(timestampString);
+          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+          const recordRow: RecordRow = {
+            timestamp: formattedDate,
+            shotnum: record.metadata.shotnum,
+            activeArea: record.metadata.activeArea,
+            activeExperiment: record.metadata.activeExperiment,
+          };
+
+          const keys = Object.keys(record.channels);
+          keys.forEach((key: string) => {
+            const channel: Channel = record.channels[key];
+            let channelData;
+            const channelDataType = channel.metadata.channel_dtype;
+
+            switch (channelDataType) {
+              case 'scalar':
+                channelData = (channel as ScalarChannel).data;
+                break;
+              case 'image':
+                channelData = (channel as ImageChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+                break;
+              case 'waveform':
+                channelData = (channel as WaveformChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+            }
+
+            recordRow[key] = channelData;
+          });
+
+          return recordRow;
+        }),
     }
   );
 };
@@ -192,7 +255,7 @@ const useRecordsPaginatedOptions = {
     }),
 };
 
-export const useRecordsPaginated = (): UseQueryResult<
+export const useRecordsPaginatedOld = (): UseQueryResult<
   RecordRow[],
   AxiosError
 > => {
@@ -278,7 +341,7 @@ export const usePlotRecords = (
     [XAxis, selectedPlotChannels]
   );
 
-  return useRecords(usePlotRecordsOptions, false);
+  return useRecords(usePlotRecordsOptions);
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {

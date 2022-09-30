@@ -16,6 +16,11 @@ export const generateChannelMetadata = (
   records: Record[]
 ): FullChannelMetadata[] => {
   const metadata: FullChannelMetadata[] = [];
+  const timestampMetadata: FullScalarChannelMetadata = {
+    systemName: 'timestamp',
+    userFriendlyName: 'Time',
+    channel_dtype: 'scalar',
+  };
   const shotnumMetadata: FullScalarChannelMetadata = {
     systemName: 'shotnum',
     userFriendlyName: 'Shot Number',
@@ -31,7 +36,12 @@ export const generateChannelMetadata = (
     userFriendlyName: 'Active Experiment',
     channel_dtype: 'scalar',
   };
-  metadata.push(shotnumMetadata, activeAreaMetadata, activeExperimentMetadata);
+  metadata.push(
+    timestampMetadata,
+    shotnumMetadata,
+    activeAreaMetadata,
+    activeExperimentMetadata
+  );
 
   records.forEach((record: Record) => {
     const keys = Object.keys(record.channels);
@@ -82,12 +92,7 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
 };
 
 export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
-  const myColumns: Column[] = [
-    {
-      accessor: 'timestamp',
-      Header: 'Timestamp',
-    },
-  ];
+  const myColumns: Column[] = [];
 
   channels.forEach((channel: FullChannelMetadata) => {
     const newColumn: Column = {

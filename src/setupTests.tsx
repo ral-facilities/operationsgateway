@@ -164,6 +164,11 @@ export const cleanupDatePickerWorkaround = (): void => {
 
 export const testChannels: FullChannelMetadata[] = [
   {
+    systemName: 'timestamp',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Time',
+  },
+  {
     systemName: 'shotnum',
     channel_dtype: 'scalar',
     userFriendlyName: 'Shot Number',
