@@ -43,6 +43,11 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
+  const [viewFlag, setViewFlag] = React.useState<boolean>(false);
+
+  const resetView = React.useCallback(() => {
+    setViewFlag(!viewFlag);
+  }, [viewFlag]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -171,6 +176,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 canvasRef={canvasRef}
                 title={plotTitle || untitledTitle}
                 XAxis={XAxis}
+                resetView={resetView}
               />
             </Grid>
           </Grid>
@@ -183,6 +189,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
             canvasRef={canvasRef}
+            viewReset={viewFlag}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
