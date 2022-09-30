@@ -206,6 +206,24 @@ test('user can zoom and pan the graph', async ({
       clip: dimensions as { x; y; width; height },
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
+
+  // test the reset view button resets the zoom & pan
+  // can't test reset zoom on chrome with the "have to close main window" workaround
+  if (browserName !== 'chromium') {
+    await popup.locator('text=Reset View').click({
+      // delay helps remove tooltips from the plot
+      delay: 1000,
+    });
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+
+    expect(
+      await popup.screenshot({
+        type: 'png',
+        clip: dimensions as { x; y; width; height },
+      })
+    ).toMatchSnapshot({ maxDiffPixels: 100 });
+  }
 });
 
 test('plots multiple channels on the y axis and displays correct tooltips', async ({
