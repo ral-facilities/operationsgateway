@@ -21,11 +21,7 @@ import {
   FullScalarChannelMetadata,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
-import {
-  getScalarChannels,
-  useChannels,
-  useScalarChannels,
-} from '../api/channels';
+import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector } from '../state/hooks';
@@ -72,15 +68,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
-  const { data: allChannels } = useChannels(); // just for use with selectedRecordTableChannels, not passed anywhere else
-  const selectedRecordTableChannels = useAppSelector((state) =>
-    selectSelectedChannels(state, allChannels ?? [])
-  );
-
   const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
-    React.useMemo(() => {
-      return getScalarChannels(selectedRecordTableChannels);
-    }, [selectedRecordTableChannels]);
+    useAppSelector((state) =>
+      selectSelectedChannels(state, channels ?? [])
+    ) as FullScalarChannelMetadata[];
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>

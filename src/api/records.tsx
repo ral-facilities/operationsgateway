@@ -109,22 +109,22 @@ export const useRecords = <T extends unknown = Record[]>(
         resultsPerPage: number;
         sort: SortType;
         dateRange: DateRange;
-        plotRecords: boolean;
+        paginate: boolean;
       }
     ]
   >,
-  plotRecords = false
+  paginate = true
 ): UseQueryResult<T, AxiosError> => {
   const { page, resultsPerPage, sort, dateRange } =
     useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(
-    ['records', { page, resultsPerPage, sort, dateRange, plotRecords }],
+    ['records', { page, resultsPerPage, sort, dateRange, paginate }],
     (params) => {
-      const { page, resultsPerPage, sort, dateRange, plotRecords } =
+      const { page, resultsPerPage, sort, dateRange, paginate } =
         params.queryKey[1];
-      if (plotRecords) {
+      if (!paginate) {
         return fetchRecords(apiUrl, {}, {});
       }
       // React Table pagination is zero-based
@@ -278,7 +278,7 @@ export const usePlotRecords = (
     [XAxis, selectedPlotChannels]
   );
 
-  return useRecords(usePlotRecordsOptions, true);
+  return useRecords(usePlotRecordsOptions, false);
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {

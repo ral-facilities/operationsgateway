@@ -1,5 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { Column } from 'react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
 import { ColumnState, Order, FullChannelMetadata } from '../../app.types';
@@ -107,6 +108,10 @@ export const {
 // Other code such as selectors can use the imported `RootState` type
 export const selectColumnStates = (state: RootState) =>
   state.table.columnStates;
+export const selectAvailableColumns = (
+  state: RootState,
+  availableColumns: Column[]
+) => availableColumns;
 export const selectAvailableChannels = (
   state: RootState,
   availableChannels: FullChannelMetadata[]
@@ -169,15 +174,15 @@ export const selectSelectedChannels = createSelector(
  * @params state - the current redux state
  * @params availableColumns - array of all the columns the user can select
  */
-export const selectHiddenChannels = createSelector(
-  selectAvailableChannels,
+export const selectHiddenColumns = createSelector(
+  selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
-  (availableChannels, selectedIds) => {
-    return availableChannels
-      .filter((channel) => {
-        return !selectedIds.includes(channel.systemName);
+  (availableColumns, selectedIds) => {
+    return availableColumns
+      .filter((col) => {
+        return !selectedIds.includes(col.accessor?.toString() ?? '');
       })
-      .map((channel) => channel.systemName);
+      .map((col) => col.accessor?.toString() ?? '');
   }
 );
 

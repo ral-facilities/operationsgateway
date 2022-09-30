@@ -7,7 +7,7 @@ import {
   changePage,
   changeResultsPerPage,
   selectColumnStates,
-  selectHiddenChannels,
+  selectHiddenColumns,
   selectSelectedIds,
   deselectColumn,
   reorderColumn,
@@ -15,7 +15,7 @@ import {
   toggleWordWrap,
 } from '../state/slices/tableSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
-import { useAvailableColumns, useChannels } from '../api/channels';
+import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
 
@@ -31,10 +31,8 @@ const RecordTable = React.memo((): React.ReactElement => {
     useAvailableColumns();
 
   const columnStates = useAppSelector(selectColumnStates);
-
-  const { data: allChannels } = useChannels(); // just for use with hiddenColumns, not passed anywhere else
   const hiddenColumns = useAppSelector((state) =>
-    selectHiddenChannels(state, allChannels ?? [])
+    selectHiddenColumns(state, availableColumns ?? [])
   );
 
   const columnOrder = useAppSelector(selectSelectedIds);

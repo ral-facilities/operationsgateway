@@ -6,12 +6,9 @@ import {
   renderComponentWithProviders,
   testChannels,
   testPlotDatasets,
-  // getInitialState,
 } from '../setupTests';
 import { useScalarChannels, useChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
-// import { PreloadedState } from '@reduxjs/toolkit';
-// import { RootState } from '../state/store';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
