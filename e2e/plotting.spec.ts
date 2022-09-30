@@ -15,7 +15,7 @@ export const recordCountRoute = (context) =>
     });
   });
 
-test('plots a time vs shotnum graph', async ({
+test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
   context,
   browserName,
@@ -47,9 +47,14 @@ test('plots a time vs shotnum graph', async ({
 
   await popup.locator('text=shotnum').click();
 
+  await popup.locator('[aria-label="Pick shotnum colour"]').click();
+
+  await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Color"]').click();
+
   await popup.locator('[aria-label="close settings"]').click();
 
-  // wait for open settings button to be visisble i.e. menu is fully closed
+  // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
   if (browserName === 'chromium') {
@@ -105,7 +110,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  // wait for open settings button to be visisble i.e. menu is fully closed
+  // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
   if (browserName === 'chromium') {
@@ -227,10 +232,6 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   await popup.locator('text=Y').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
-
-  await popup.locator('text=shotnum').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
   await popup.locator('text=CHANNEL_ABCDE').click();
@@ -238,6 +239,10 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
   await popup.locator('text=CHANNEL_DEFGH').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+
+  await popup.locator('text=shotnum').click();
 
   // for some reason, on linux headless webkit pressing this button doesn't work
   // it works in headed mode and in the other two browsers, so I'm happy that this is a
