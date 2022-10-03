@@ -16,6 +16,10 @@ describe('Plot Settings component', () => {
   const changeXAxisSettings = jest.fn();
   const changeYAxesSettings = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
+  const changeXMinimum = jest.fn();
+  const changeXMaximum = jest.fn();
+  const changeYMinimum = jest.fn();
+  const changeYMaximum = jest.fn();
 
   const createView = () => {
     return render(<PlotSettings {...props} />);
@@ -50,6 +54,10 @@ describe('Plot Settings component', () => {
       changeYAxesSettings,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
+      changeXMinimum,
+      changeXMaximum,
+      changeYMinimum,
+      changeYMaximum,
     };
 
     user = userEvent.setup({ delay: null });
@@ -220,6 +228,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: expect.anything(),
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -242,6 +251,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: expect.anything(),
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -272,6 +282,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];
@@ -286,6 +297,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: false,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -298,6 +310,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
       {
@@ -305,6 +318,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: false,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];
@@ -319,6 +333,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
       {
@@ -326,6 +341,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -338,6 +354,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
       {
@@ -345,6 +362,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];
@@ -361,6 +379,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
       {
@@ -368,6 +387,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: expect.anything(),
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -392,6 +412,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
       {
@@ -399,6 +420,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];
@@ -413,6 +435,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -426,6 +449,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];

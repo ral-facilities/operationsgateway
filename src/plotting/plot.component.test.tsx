@@ -15,6 +15,7 @@ describe('Plot component', () => {
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,
+          lineStyle: 'solid',
         },
       };
     }
@@ -31,6 +32,8 @@ describe('Plot component', () => {
       XAxis: 'test x-axis',
       canvasRef: React.createRef<HTMLCanvasElement>(),
       viewReset: false,
+      gridVisible: true,
+      axesLabelsVisible: true,
     };
   });
 
@@ -51,6 +54,8 @@ describe('Plot component', () => {
       YAxesSettings: { scale: 'logarithmic' },
       XAxis: 'new test x-axis',
       viewReset: true,
+      gridVisible: false,
+      axesLabelsVisible: false,
     };
 
     rerender(<Plot {...props} />);

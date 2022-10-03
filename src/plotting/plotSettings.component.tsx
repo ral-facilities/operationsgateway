@@ -221,6 +221,8 @@ const PlotSettings = (props: PlotSettingsProps) => {
   const [title, setTitle] = React.useState('');
   const deferredTitle = React.useDeferredValue(title);
 
+  // We define these as strings so the user can type decimal points
+  // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>('');
   const [xMaximum, setXMaximum] = React.useState<string>('');
   const [yMinimum, setYMinimum] = React.useState<string>('');
