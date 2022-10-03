@@ -951,19 +951,11 @@ const PlotSettings = (props: PlotSettingsProps) => {
                         <LineStyle sx={{ color: 'black' }} />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip
-                      title="Pick colour"
-                      arrow
-                      placement="top"
-                      enterDelay={0}
-                      leaveDelay={0}
-                    >
-                      <ColourPicker
-                        channelName={plotChannel.name}
-                        colour={plotChannel.options.colour}
-                        changeColour={changeChannelColour}
-                      />
-                    </Tooltip>
+                    <ColourPicker
+                      channelName={plotChannel.name}
+                      colour={plotChannel.options.colour}
+                      changeColour={changeChannelColour}
+                    />
                     <Tooltip
                       title="Remove from plot"
                       arrow
