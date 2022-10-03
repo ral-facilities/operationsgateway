@@ -173,6 +173,7 @@ export type SelectedPlotChannel = {
   options: {
     visible: boolean;
     lineStyle: LineStyle;
+    colour: string;
   };
 };
 

@@ -148,6 +148,7 @@ export interface PlotButtonsProps {
   axesLabelsVisible: boolean;
   toggleGridVisibility: () => void;
   toggleAxesLabelsVisibility: () => void;
+  resetView: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
@@ -160,9 +161,12 @@ const PlotButtons = (props: PlotButtonsProps) => {
     axesLabelsVisible,
     toggleGridVisibility,
     toggleAxesLabelsVisibility,
+    resetView,
   } = props;
+
   return (
     <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => resetView()}>Reset View</Button>
       <Button onClick={() => toggleGridVisibility()}>
         {gridVisible ? 'Hide Grid' : 'Show Grid'}
       </Button>

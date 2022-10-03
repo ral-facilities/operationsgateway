@@ -44,12 +44,13 @@ const PlotWindow = (props: PlotWindowProps) => {
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [selectedChannels, setSelectedChannels] = React.useState<
+  const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
   const [gridVisible, setGridVisible] = React.useState<boolean>(true);
   const [axesLabelsVisible, setAxesLabelsVisible] =
     React.useState<boolean>(true);
+  const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
     setGridVisible(!gridVisible);
@@ -58,6 +59,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const toggleAxesLabelsVisibility = React.useCallback(() => {
     setAxesLabelsVisible(!axesLabelsVisible);
   }, [axesLabelsVisible]);
+
+  const resetView = React.useCallback(() => {
+    setViewFlag(!viewFlag);
+  }, [viewFlag]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -71,7 +76,7 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
-    selectedChannels
+    selectedPlotChannels
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
@@ -133,8 +138,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
-                selectedChannels={selectedChannels}
-                changeSelectedChannels={setSelectedChannels}
+                selectedPlotChannels={selectedPlotChannels}
+                changeSelectedPlotChannels={setSelectedPlotChannels}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
                 changeYMinimum={setYMinimum}
@@ -194,12 +199,13 @@ const PlotWindow = (props: PlotWindowProps) => {
                 axesLabelsVisible={axesLabelsVisible}
                 toggleGridVisibility={toggleGridVisibility}
                 toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
+                resetView={resetView}
               />
             </Grid>
           </Grid>
           <Plot
             datasets={records ?? []}
-            selectedChannels={selectedChannels}
+            selectedPlotChannels={selectedPlotChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
@@ -212,6 +218,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             xMaximum={xMaximum}
             yMinimum={yMinimum}
             yMaximum={yMaximum}
+            viewReset={viewFlag}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

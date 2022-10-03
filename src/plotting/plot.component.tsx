@@ -14,7 +14,7 @@ import type Zoom from 'chartjs-plugin-zoom';
 
 export interface PlotProps {
   datasets: PlotDataset[];
-  selectedChannels: SelectedPlotChannel[];
+  selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
   XAxisSettings: XAxisSettings;
@@ -27,12 +27,13 @@ export interface PlotProps {
   xMaximum?: number;
   yMinimum?: number;
   yMaximum?: number;
+  viewReset: boolean;
 }
 
 const Plot = (props: PlotProps) => {
   const {
     datasets,
-    selectedChannels,
+    selectedPlotChannels,
     title,
     type,
     XAxisSettings,
@@ -45,6 +46,7 @@ const Plot = (props: PlotProps) => {
     xMaximum,
     yMinimum,
     yMaximum,
+    viewReset,
   } = props;
 
   // set the initial options
@@ -162,7 +164,7 @@ const Plot = (props: PlotProps) => {
     title,
     XAxisSettings,
     YAxesSettings,
-    selectedChannels,
+    selectedPlotChannels,
     gridVisible,
     axesLabelsVisible,
     XAxis,
@@ -176,7 +178,7 @@ const Plot = (props: PlotProps) => {
     setDataString(
       JSON.stringify({
         datasets: datasets.map((dataset) => {
-          const channelConfig = selectedChannels.find(
+          const channelConfig = selectedPlotChannels.find(
             (channel) => channel.name === dataset.name
           )?.options;
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
@@ -191,11 +193,11 @@ const Plot = (props: PlotProps) => {
             borderColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
-                : '#e31a1c',
+                : channelConfig?.colour,
             backgroundColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
-                : '#e31a1c',
+                : channelConfig?.colour,
             borderDash:
               lineStyle === 'dashed'
                 ? [5, 5]
@@ -208,7 +210,7 @@ const Plot = (props: PlotProps) => {
         }),
       })
     );
-  }, [datasets, XAxis, selectedChannels]);
+  }, [datasets, XAxis, selectedPlotChannels]);
 
   return (
     <div
@@ -227,6 +229,7 @@ const Plot = (props: PlotProps) => {
         data-options={optionsString}
         data-data={dataString}
         data-type={type}
+        data-view={viewReset}
       ></canvas>
     </div>
   );

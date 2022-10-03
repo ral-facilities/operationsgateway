@@ -97,8 +97,8 @@ class PlotWindowPortal extends React.PureComponent<
        * React in the main window to the Chart.js code. We do this by using data-* attributes on the canvas element,
        * which React can set (see plot.component.tsx). The MutationObserver thus watches for changes to the canvas object,
        * which then updates Chart.js if necessary
-       * In the mutation observer code, when options are updated we set the legend filter function to filter out datasets
-       * which have been set to transparent (which is done via the show/hide buttons)
+       * `addLegendAndTooltipFilters` - given a Chart.js options object, this returns the object with the legend and tooltip filter functions filled
+       * which filter out datasets that have been set to transparent (which is done via the show/hide buttons)
        */
       const code = `
       function waitForElm(selector) {
@@ -121,6 +121,34 @@ class PlotWindowPortal extends React.PureComponent<
         });
       }
 
+      function addLegendAndTooltipFilters(options) {
+        return {
+          ...options,
+          plugins: {
+            ...options?.plugins,
+            legend: {
+              ...options?.plugins?.legend,
+              labels: {
+                ...options?.plugins?.legend?.labels,
+                filter: function filterLabels(item) {
+                  if (item.fillStyle && item.fillStyle === "rgba(0,0,0,0)") return false;
+                  else if (item.strokeStyle && item.strokeStyle === "rgba(0,0,0,0)") return false;
+                  else return true;
+                },
+              },
+            },
+            tooltip: {
+              ...options?.plugins?.tooltip,
+              filter: function filterTooltips(item) {
+                if (item.dataset.borderColor && item.dataset.borderColor === "rgba(0,0,0,0)") return false;
+                else if (item.dataset.backgroundColor && item.dataset.backgroundColor === "rgba(0,0,0,0)") return false;
+                else return true;
+              },
+            },
+          },
+        };
+      }
+
       var waitForChartJS = setInterval(function () {
         if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {
           waitForElm("#my-chart").then((canvas) => {
@@ -128,7 +156,7 @@ class PlotWindowPortal extends React.PureComponent<
               const chart = new Chart(canvas.getContext('2d'), {
                 type: canvas.dataset.type,
                 data: JSON.parse(canvas.dataset.data),
-                options: JSON.parse(canvas.dataset.options),
+                options: addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options)),
               });
               window.chart = chart;
 
@@ -136,24 +164,7 @@ class PlotWindowPortal extends React.PureComponent<
                 for(let mutation of mutations) {
                   if (mutation.type === 'attributes') {
                     if(mutation.attributeName === "data-options"){
-                      const newOptions = JSON.parse(canvas.dataset.options);
-                      chart.options = {
-                        ...newOptions,
-                        plugins: {
-                          ...newOptions?.plugins,
-                          legend: {
-                            ...newOptions?.plugins?.legend,
-                            labels: {
-                              ...newOptions?.plugins?.legend?.labels,
-                              filter: function filterLabels(item) {
-                                if (item.fillStyle && item.fillStyle === "rgba(0,0,0,0)") return false;
-                                else if (item.strokeStyle && item.strokeStyle === "rgba(0,0,0,0)") return false;
-                                else return true;
-                              },
-                            },
-                          },
-                        },
-                      };
+                      chart.options = addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options));
                       chart.update("none");
                     }
                     else if(mutation.attributeName === "data-data"){
@@ -163,6 +174,10 @@ class PlotWindowPortal extends React.PureComponent<
                     else if(mutation.attributeName === "data-type"){
                       chart.config.type = canvas.dataset.type;
                       chart.update();
+                    }
+                    else if(mutation.attributeName === "data-view"){
+                      chart.resetZoom("none");
+                      chart.update("none");
                     }
                   }
                 }
