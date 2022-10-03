@@ -351,7 +351,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from plot'));
     expect(changeSelectedChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_2',
@@ -376,7 +376,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Remove CHANNEL_1 from y-axis'));
+    await user.click(screen.getByLabelText('Remove CHANNEL_1 from plot'));
     expect(changeSelectedChannels).toHaveBeenLastCalledWith([]);
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,

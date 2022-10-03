@@ -17,6 +17,7 @@ import {
   Autocomplete,
   Typography,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import {
   ScatterPlot,
@@ -785,44 +786,68 @@ const PlotSettings = (props: PlotSettingsProps) => {
                       flexDirection: 'row',
                     }}
                   >
-                    {plotChannel.options.visible ? (
-                      <IconButton
-                        color="primary"
-                        aria-label={`Toggle ${plotChannel.name} visibility off`}
-                        size="small"
-                        sx={{ paddingTop: '0', paddingBottom: '0' }}
-                        onClick={() =>
-                          toggleChannelVisibility(plotChannel.name)
-                        }
-                      >
-                        <Visibility sx={{ color: 'black' }} />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        color="primary"
-                        aria-label={`Toggle ${plotChannel.name} visibility on`}
-                        size="small"
-                        sx={{ paddingTop: '0', paddingBottom: '0' }}
-                        onClick={() =>
-                          toggleChannelVisibility(plotChannel.name)
-                        }
-                      >
-                        <VisibilityOff sx={{ color: 'black' }} />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      color="primary"
-                      aria-label={`Change ${plotChannel.name} line style`}
-                      size="small"
-                      sx={{ paddingTop: '0', paddingBottom: '0' }}
-                      onClick={() => toggleChannelLineStyle(plotChannel.name)}
+                    <Tooltip
+                      title="Toggle visibility"
+                      arrow
+                      placement="top"
+                      enterDelay={0}
+                      leaveDelay={0}
                     >
-                      <LineStyle sx={{ color: 'black' }} />
-                    </IconButton>
-                    <StyledClose
-                      aria-label={`Remove ${plotChannel.name} from y-axis`}
-                      onClick={() => removePlotChannel(plotChannel.name)}
-                    />
+                      {plotChannel.options.visible ? (
+                        <IconButton
+                          color="primary"
+                          aria-label={`Toggle ${plotChannel.name} visibility off`}
+                          size="small"
+                          sx={{ paddingTop: '0', paddingBottom: '0' }}
+                          onClick={() =>
+                            toggleChannelVisibility(plotChannel.name)
+                          }
+                        >
+                          <Visibility sx={{ color: 'black' }} />
+                        </IconButton>
+                      ) : (
+                        <IconButton
+                          color="primary"
+                          aria-label={`Toggle ${plotChannel.name} visibility on`}
+                          size="small"
+                          sx={{ paddingTop: '0', paddingBottom: '0' }}
+                          onClick={() =>
+                            toggleChannelVisibility(plotChannel.name)
+                          }
+                        >
+                          <VisibilityOff sx={{ color: 'black' }} />
+                        </IconButton>
+                      )}
+                    </Tooltip>
+                    <Tooltip
+                      title="Change line style"
+                      arrow
+                      placement="top"
+                      enterDelay={0}
+                      leaveDelay={0}
+                    >
+                      <IconButton
+                        color="primary"
+                        aria-label={`Change ${plotChannel.name} line style`}
+                        size="small"
+                        sx={{ paddingTop: '0', paddingBottom: '0' }}
+                        onClick={() => toggleChannelLineStyle(plotChannel.name)}
+                      >
+                        <LineStyle sx={{ color: 'black' }} />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
+                      title="Remove from plot"
+                      arrow
+                      placement="top"
+                      enterDelay={0}
+                      leaveDelay={0}
+                    >
+                      <StyledClose
+                        aria-label={`Remove ${plotChannel.name} from plot`}
+                        onClick={() => removePlotChannel(plotChannel.name)}
+                      />
+                    </Tooltip>
                   </Box>
                 </Box>
               </Grid>
