@@ -884,9 +884,16 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     padding: 1,
                   }}
                 >
-                  <Typography maxWidth="174" noWrap>
-                    {plotChannel.name}
-                  </Typography>
+                  <Tooltip
+                    title={plotChannel.name}
+                    arrow
+                    placement="top"
+                    leaveDelay={0}
+                  >
+                    <Typography maxWidth="150" noWrap>
+                      {plotChannel.name}
+                    </Typography>
+                  </Tooltip>
                   <Box
                     sx={{
                       display: 'flex',
