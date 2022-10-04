@@ -305,7 +305,7 @@ test('user can hide gridlines and axes labels', async ({
   context,
   browserName,
 }) => {
-  // can't test this on chrome
+  // can't test this on chrome with the "have to close main window" workaround
   if (browserName !== 'chromium') {
     await plotRecordsRoute(context);
     await recordCountRoute(context);
