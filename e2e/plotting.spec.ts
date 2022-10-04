@@ -68,7 +68,7 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   const chart = await popup.locator('#my-chart');
   const dimensions = await chart.boundingBox();
   expect(
-    await popup.screenshot({
+    await chart.screenshot({
       type: 'png',
       clip: dimensions as { x; y; width; height },
     })
@@ -124,7 +124,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   const chart = await popup.locator('#my-chart');
   const dimensions = await chart.boundingBox();
   expect(
-    await popup.screenshot({
+    await chart.screenshot({
       type: 'png',
       clip: dimensions as { x; y; width; height },
     })
@@ -201,7 +201,7 @@ test('user can zoom and pan the graph', async ({
 
   const dimensions = await chart.boundingBox();
   expect(
-    await popup.screenshot({
+    await chart.screenshot({
       type: 'png',
       clip: dimensions as { x; y; width; height },
     })
@@ -218,7 +218,7 @@ test('user can zoom and pan the graph', async ({
     await popup.waitForTimeout(1000);
 
     expect(
-      await popup.screenshot({
+      await chart.screenshot({
         type: 'png',
         clip: dimensions as { x; y; width; height },
       })
@@ -293,7 +293,7 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   const dimensions = await chart.boundingBox();
   expect(
-    await popup.screenshot({
+    await chart.screenshot({
       type: 'png',
       clip: dimensions as { x; y; width; height },
     })
