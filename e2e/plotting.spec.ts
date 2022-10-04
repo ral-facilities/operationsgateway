@@ -360,7 +360,7 @@ test('user can hide gridlines and axes labels', async ({
   }
 });
 
-test.only('user can add from and to dates to timestamp on x-axis', async ({
+test('user can add from and to dates to timestamp on x-axis', async ({
   page,
   context,
   browserName,
@@ -419,7 +419,7 @@ test.only('user can add from and to dates to timestamp on x-axis', async ({
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
 
-test.only('user can add min and max limits to x- and y-axis', async ({
+test('user can add min and max limits to x- and y-axis', async ({
   page,
   context,
   browserName,
