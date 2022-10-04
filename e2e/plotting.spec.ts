@@ -49,7 +49,7 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('[aria-label="Pick shotnum colour"]').click();
 
-  // await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Hue"]').click();
   await popup.locator('[aria-label="Color"]').click();
 
   await popup.locator('[aria-label="close settings"]').click();
@@ -262,12 +262,7 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   await popup.locator('text=shotnum').click();
 
-  // for some reason, on linux headless webkit pressing this button doesn't work
-  // it works in headed mode and in the other two browsers, so I'm happy that this is a
-  // webkit / playwright bug and not something we should care about too much
-  if (browserName !== 'webkit') {
-    await popup.locator('[aria-label="Toggle shotnum visibility off"]').click();
-  }
+  await popup.locator('[aria-label="Toggle shotnum visibility off"]').click();
 
   await popup.locator('[aria-label="close settings"]').click();
 

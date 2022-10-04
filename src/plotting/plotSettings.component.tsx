@@ -675,11 +675,18 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     {plotChannel.name}
                   </Typography>
                   <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
+                    sx={
+                      // for some reason, styling these buttons in a row causes webkit
+                      // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
+                      /* istanbul ignore next */
+                      process.env.REACT_APP_E2E_TESTING
+                        ? {}
+                        : {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }
+                    }
                   >
                     {plotChannel.options.visible ? (
                       <IconButton
