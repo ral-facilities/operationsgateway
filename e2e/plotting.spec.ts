@@ -437,7 +437,7 @@ test('user can add min and max limits to x- and y-axis', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Title")').fill('Test time plot');
+  await popup.locator('label:has-text("Title")').fill('Test shotnum plot');
 
   await popup.locator('[aria-label="line chart"]').click();
 
@@ -479,4 +479,79 @@ test('user can add min and max limits to x- and y-axis', async ({
     })
     // 100 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 100 });
+});
+
+test.only('user can change line style of plotted channels', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  if (browserName !== 'webkit') {
+    await plotRecordsRoute(context);
+    await recordCountRoute(context);
+
+    await page.goto('/');
+
+    await page.locator('text=Plots').click();
+
+    // open up popup
+    const [popup] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.locator('text=Create a plot').click(),
+    ]);
+
+    await popup.locator('[aria-label="line chart"]').click();
+
+    await popup.locator('label:has-text("Search")').fill('time');
+
+    await popup.locator('text=timestamp').click();
+
+    await popup.locator('text=Y').click();
+
+    await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
+
+    await popup.locator('text=CHANNEL_ABCDE').click();
+
+    await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
+
+    await popup.locator('text=CHANNEL_DEFGH').click();
+
+    await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+
+    await popup.locator('text=shotnum').click();
+
+    await popup.locator('[aria-label="Change CHANNEL_DEFGH line style"]').click();
+    await popup.locator('[aria-label="Change shotnum line style"]').click();
+    await popup.locator('[aria-label="Change shotnum line style"]').click();
+
+    await popup.locator('[aria-label="close settings"]').click();
+
+    if (browserName === 'chromium') {
+      // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+      await page.close();
+      await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
+      // need this to wait for canvas animations to execute
+      await popup.waitForTimeout(1000);
+    }
+
+    const chart = await popup.locator('#my-chart');
+
+    // test that tooltips show up & have filtered out the channel which isn't visible
+    await chart.hover({
+      position: {
+        x: 100,
+        y: 100,
+      },
+    });
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+
+    const dimensions = await chart.boundingBox();
+    expect(
+      await chart.screenshot({
+        type: 'png',
+        clip: dimensions as { x; y; width; height },
+      })
+    ).toMatchSnapshot({ maxDiffPixels: 100 });
+  }
 });
