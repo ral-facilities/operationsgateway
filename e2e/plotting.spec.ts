@@ -359,3 +359,124 @@ test('user can hide gridlines and axes labels', async ({
     ).toMatchSnapshot({ maxDiffPixels: 100 });
   }
 });
+
+test.only('user can add from and to dates to timestamp on x-axis', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await plotRecordsRoute(context);
+  await recordCountRoute(context);
+
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search")').fill('time');
+
+  await popup.locator('text=timestamp').click();
+
+  await popup.locator('[aria-label="from, date-time input"]').fill('2022-01-03 00:00:00');
+  await popup.locator('[aria-label="to, date-time input"]').fill('2022-01-10 00:00:00');
+
+  await popup.locator('text=Y').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+
+  await popup.locator('text=shotnum').click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  if (browserName === 'chromium') {
+    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+    await page.close();
+    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+  }
+
+  const chart = await popup.locator('#my-chart');
+  const dimensions = await chart.boundingBox();
+  expect(
+    await chart.screenshot({
+      type: 'png',
+      clip: dimensions as { x; y; width; height },
+    })
+    // 100 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 100 });
+});
+
+test.only('user can add min and max limits to x- and y-axis', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await plotRecordsRoute(context);
+  await recordCountRoute(context);
+
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search")').fill('shotnu');
+
+  await popup.locator('text=shotnum').click();
+
+  await popup.locator('label:has-text("Min")').fill('1');
+  await popup.locator('label:has-text("Max")').fill('2');
+
+  await popup.locator('text=Y').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
+
+  await popup.locator('text=CHANNEL_ABCDE').click();
+
+  await popup.locator('label:has-text("Min")').fill('-1');
+  await popup.locator('label:has-text("Max")').fill('5');
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  if (browserName === 'chromium') {
+    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+    await page.close();
+    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+  }
+
+  const chart = await popup.locator('#my-chart');
+  const dimensions = await chart.boundingBox();
+  expect(
+    await chart.screenshot({
+      type: 'png',
+      clip: dimensions as { x; y; width; height },
+    })
+    // 100 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 100 });
+});
