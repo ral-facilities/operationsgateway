@@ -123,4 +123,24 @@ describe('Plot Window component', () => {
     expect(usePlotRecords).toHaveBeenCalled();
     expect(useScalarChannels).toHaveBeenCalled();
   });
+
+  it('changes grid visibility button text on click', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Hide Grid' }));
+    expect(
+      screen.getByRole('button', { name: 'Show Grid' })
+    ).toBeInTheDocument();
+  });
+
+  it('changes axes labels visibility button text on click', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Hide Axes Labels' }));
+    expect(
+      screen.getByRole('button', { name: 'Show Axes Labels' })
+    ).toBeInTheDocument();
+  });
 });

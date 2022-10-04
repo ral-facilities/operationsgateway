@@ -2,29 +2,22 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { PlotProps } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
-import { SelectedPlotChannel } from '../app.types';
 import Plot from './plot.component';
 
 describe('Plot component', () => {
   let props: PlotProps;
 
-  const selectedPlotChannels: SelectedPlotChannel[] = testPlotDatasets.map(
-    (dataset, i) => {
-      return {
+  beforeEach(() => {
+    props = {
+      datasets: testPlotDatasets,
+      selectedPlotChannels: testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,
           lineStyle: 'solid',
         },
-      };
-    }
-  );
-
-  beforeEach(() => {
-    props = {
-      datasets: testPlotDatasets,
-      selectedPlotChannels,
+      })),
       title: 'scatter plot',
       type: 'scatter',
       XAxisSettings: { scale: 'time' },
@@ -56,6 +49,10 @@ describe('Plot component', () => {
       viewReset: true,
       gridVisible: false,
       axesLabelsVisible: false,
+      xMinimum: 10,
+      xMaximum: 20,
+      yMinimum: 30,
+      yMaximum: 40,
     };
 
     rerender(<Plot {...props} />);
@@ -63,12 +60,34 @@ describe('Plot component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('updates data object correctly by settings opacity to 0 for lines that are hidden', () => {
+  it('updates data object correctly by setting opacity to 0 for lines that are hidden', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
-    props.selectedPlotChannels = [...selectedPlotChannels];
-    props.selectedPlotChannels[0].options.visible = false;
+    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    newSelectedPlotChannels[0].options.visible = false;
+    props.selectedPlotChannels = newSelectedPlotChannels;
+    rerender(<Plot {...props} />);
 
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates data object correctly by setting borderDash property on dashed lines', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    newSelectedPlotChannels[0].options.lineStyle = 'dashed';
+    props.selectedPlotChannels = newSelectedPlotChannels;
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates data object correctly by setting borderDash, pointRadius and borderCapStyle properties on dotted lines', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    newSelectedPlotChannels[0].options.lineStyle = 'dotted';
+    props.selectedPlotChannels = newSelectedPlotChannels;
     rerender(<Plot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();

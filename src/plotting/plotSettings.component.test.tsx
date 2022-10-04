@@ -137,6 +137,15 @@ describe('Plot Settings component', () => {
     });
   });
 
+  it('switches the min and max number fields for date range fields if time is selected as the X axis', () => {
+    props.XAxis = 'timestamp';
+    props.XAxisSettings.scale = 'time';
+    createView();
+
+    expect(screen.getByLabelText('from, date-time picker')).toBeInTheDocument();
+    expect(screen.getByLabelText('to, date-time picker')).toBeInTheDocument();
+  });
+
   it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
     createView();
 
@@ -393,6 +402,50 @@ describe('Plot Settings component', () => {
     ]);
   });
 
+  it.only('allows user to change line style of a channel', async () => {
+    props.selectedPlotChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
+      name: 'CHANNEL_1',
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'dashed',
+      },
+    });
+    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
+      name: 'CHANNEL_1',
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'dotted',
+      },
+    });
+    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
+      name: 'CHANNEL_1',
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'solid',
+      },
+    });
+  });
+
   it('removes x-axis from display when we click Close on its label', async () => {
     props.XAxis = 'timestamp';
     createView();
@@ -462,6 +515,26 @@ describe('Plot Settings component', () => {
     expect(changeYAxesSettings).toHaveBeenCalledWith({
       ...props.YAxesSettings,
       scale: 'linear',
+    });
+  });
+
+  describe('min and max fields', () => {
+    describe('numeric values', () => {
+      it.only('lets user change the min and max fields and calls relevant change method', async () => {
+        createView();
+
+        const minField = screen.getByLabelText('Min');
+        await user.type(minField, '1');
+        expect(changeXMinimum).toHaveBeenCalledWith(1);
+      });
+
+      it.todo('displays helper text');
+    });
+
+    describe('date-time values', () => {
+      it.todo('works');
+
+      it.todo('displays helper text');
     });
   });
 });

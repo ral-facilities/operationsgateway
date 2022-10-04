@@ -137,41 +137,31 @@ const Plot = (props: PlotProps) => {
       const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
       options?.plugins?.title && (options.plugins.title.text = title);
-
-      if (options?.scales?.x) {
-        options.scales.x.type = XAxisSettings.scale;
-        options.scales.x.min = xMinimum;
-        options.scales.x.max = xMaximum;
-
-        options.scales.x.grid && (options.scales.x.grid.display = gridVisible);
-
-        if (options.scales.x.title) {
-          options.scales.x.title.display = axesLabelsVisible;
-          options.scales.x.title.text = XAxis;
-        }
-      }
-      if (options?.scales?.y) {
-        options.scales.y.type = YAxesSettings.scale;
-        options.scales.y.min = yMinimum;
-        options.scales.y.max = yMaximum;
-
-        options.scales.y.grid && (options.scales.y.grid.display = gridVisible);
-      }
+      options?.scales?.x && (options.scales.x.min = xMinimum);
+      options?.scales?.x && (options.scales.x.max = xMaximum);
+      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
+      options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
+      options?.scales?.x?.title &&
+        (options.scales.x.title.display = axesLabelsVisible);
+      options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
+      options?.scales?.y && (options.scales.y.min = yMinimum);
+      options?.scales?.y && (options.scales.y.max = yMaximum);
+      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
 
       return JSON.stringify(options);
     });
   }, [
-    title,
-    XAxisSettings,
-    YAxesSettings,
-    selectedPlotChannels,
-    gridVisible,
-    axesLabelsVisible,
     XAxis,
-    xMinimum,
+    XAxisSettings.scale,
+    YAxesSettings.scale,
+    axesLabelsVisible,
+    gridVisible,
+    title,
     xMaximum,
-    yMinimum,
+    xMinimum,
     yMaximum,
+    yMinimum,
   ]);
 
   React.useEffect(() => {
