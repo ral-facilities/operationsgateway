@@ -6,6 +6,11 @@ import PlotSettings, {
 } from './plotSettings.component';
 import userEvent from '@testing-library/user-event';
 import { FullScalarChannelMetadata } from '../app.types';
+import {
+  applyDatePickerWorkaround,
+  cleanupDatePickerWorkaround,
+} from '../setupTests';
+import { format } from 'date-fns';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsProps;
@@ -142,8 +147,8 @@ describe('Plot Settings component', () => {
     props.XAxisSettings.scale = 'time';
     createView();
 
-    expect(screen.getByLabelText('from, date-time picker')).toBeInTheDocument();
-    expect(screen.getByLabelText('to, date-time picker')).toBeInTheDocument();
+    expect(screen.getByLabelText('from, date-time input')).toBeInTheDocument();
+    expect(screen.getByLabelText('to, date-time input')).toBeInTheDocument();
   });
 
   it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
@@ -402,10 +407,18 @@ describe('Plot Settings component', () => {
     ]);
   });
 
-  it.only('allows user to change line style of a channel', async () => {
+  it('allows user to change line style of a channel', async () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
+      },
+      {
+        name: 'CHANNEL_2',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -417,33 +430,63 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
 
-    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
-    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
-      name: 'CHANNEL_1',
-      options: {
-        visible: true,
-        colour: '#ffffff',
-        lineStyle: 'dashed',
+    await user.click(screen.getByLabelText('Change CHANNEL_2 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
       },
-    });
-    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
-    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
-      name: 'CHANNEL_1',
-      options: {
-        visible: true,
-        colour: '#ffffff',
-        lineStyle: 'dotted',
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'dashed',
+        },
       },
-    });
-    await user.click(screen.getByLabelText('Change CHANNEL_1 line style'));
-    expect(changeSelectedPlotChannels).toHaveBeenCalledWith({
-      name: 'CHANNEL_1',
-      options: {
-        visible: true,
-        colour: '#ffffff',
-        lineStyle: 'solid',
+    ]);
+    await user.click(screen.getByLabelText('Change CHANNEL_2 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
       },
-    });
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'dotted',
+        },
+      },
+    ]);
+    await user.click(screen.getByLabelText('Change CHANNEL_2 line style'));
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
+      },
+      {
+        name: 'CHANNEL_2',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+          lineStyle: 'solid',
+        },
+      },
+    ]);
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {
@@ -520,21 +563,140 @@ describe('Plot Settings component', () => {
 
   describe('min and max fields', () => {
     describe('numeric values', () => {
-      it.only('lets user change the min and max fields and calls relevant change method', async () => {
-        createView();
+      describe('x-axis', () => {
+        it('lets user change the min field and calls relevant onchange method', async () => {
+          createView();
 
-        const minField = screen.getByLabelText('Min');
-        await user.type(minField, '1');
-        expect(changeXMinimum).toHaveBeenCalledWith(1);
+          const minField = screen.getByLabelText('Min');
+          await user.type(minField, '1');
+          expect(changeXMinimum).toHaveBeenCalledWith(1);
+        });
+
+        it('lets user change the max field and calls relevant onchange method', async () => {
+          createView();
+
+          const maxField = screen.getByLabelText('Max');
+          await user.type(maxField, '1');
+          expect(changeXMaximum).toHaveBeenCalledWith(1);
+        });
+
+        it('displays helper text when min and max fields contain an invalid range', async () => {
+          createView();
+
+          const minField = screen.getByLabelText('Min');
+          const maxField = screen.getByLabelText('Max');
+          await user.type(minField, '2');
+          await user.type(maxField, '1');
+
+          // Check the helper text displays
+          screen.getAllByText('Invalid range');
+
+          // One for each input box
+          expect(screen.getAllByText('Invalid range').length).toEqual(2);
+        });
       });
 
-      it.todo('displays helper text');
+      describe('y-axis', () => {
+        it('lets user change the min field and calls relevant onchange method', async () => {
+          createView();
+          await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+          const minField = screen.getByLabelText('Min');
+          await user.type(minField, '1');
+          expect(changeYMinimum).toHaveBeenCalledWith(1);
+        });
+
+        it('lets user change the max field and calls relevant onchange method', async () => {
+          createView();
+          await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+          const maxField = screen.getByLabelText('Max');
+          await user.type(maxField, '1');
+          expect(changeYMaximum).toHaveBeenCalledWith(1);
+        });
+
+        it('displays helper text when min and max fields contain an invalid range', async () => {
+          createView();
+          await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+          const minField = screen.getByLabelText('Min');
+          const maxField = screen.getByLabelText('Max');
+          await user.type(minField, '2');
+          await user.type(maxField, '1');
+
+          // Check the helper text displays
+          screen.getAllByText('Invalid range');
+
+          // One for each input box
+          expect(screen.getAllByText('Invalid range').length).toEqual(2);
+        });
+      });
     });
 
     describe('date-time values', () => {
-      it.todo('works');
+      beforeEach(() => {
+        applyDatePickerWorkaround();
+        props.XAxis = 'timestamp';
+        props.XAxisSettings.scale = 'time';
+      });
 
-      it.todo('displays helper text');
+      afterEach(() => {
+        cleanupDatePickerWorkaround();
+      });
+
+      it('lets user change the fromDate field and calls relevant onchange method', async () => {
+        createView();
+
+        const selectedDate = new Date('2022-01-01 00:00:00');
+        const dateFilterFromDate = screen.getByLabelText(
+          'from, date-time input'
+        );
+        await userEvent.type(
+          dateFilterFromDate,
+          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+        );
+        expect(changeXMinimum).toHaveBeenCalledWith(selectedDate.getTime());
+      });
+
+      it('lets user change the toDate field and calls relevant onchange method', async () => {
+        createView();
+
+        const selectedDate = new Date('2022-01-01 00:00:00');
+        const dateFilterToDate = screen.getByLabelText('to, date-time input');
+        await userEvent.type(
+          dateFilterToDate,
+          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+        );
+        expect(changeXMaximum).toHaveBeenCalledWith(selectedDate.getTime());
+      });
+
+      it('displays helper text when fromDate and toDate fields contain an invalid range', async () => {
+        createView();
+
+        const selectedFromDate = new Date('2022-01-02 00:00:00');
+        const selectedToDate = new Date('2022-01-01 00:00:00');
+
+        const dateFilterFromDate = screen.getByLabelText(
+          'from, date-time input'
+        );
+        const dateFilterToDate = screen.getByLabelText('to, date-time input');
+        await userEvent.type(
+          dateFilterFromDate,
+          format(selectedFromDate, 'yyyy-MM-dd HH:mm:ss')
+        );
+        await userEvent.type(
+          dateFilterToDate,
+          format(selectedToDate, 'yyyy-MM-dd HH:mm:ss')
+        );
+
+        // Check the helper text displays
+        screen.getAllByText('Invalid date-time range');
+
+        // One for each input box
+        expect(screen.getAllByText('Invalid date-time range').length).toEqual(
+          2
+        );
+      });
     });
   });
 });
