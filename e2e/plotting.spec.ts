@@ -262,12 +262,7 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   await popup.locator('text=shotnum').click();
 
-  // for some reason, on linux headless webkit pressing this button doesn't work
-  // it works in headed mode and in the other two browsers, so I'm happy that this is a
-  // webkit / playwright bug and not something we should care about too much
-  if (browserName !== 'webkit') {
-    await popup.locator('[aria-label="Toggle shotnum visibility off"]').click();
-  }
+  await popup.locator('[aria-label="Toggle shotnum visibility off"]').click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -388,8 +383,12 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
     await popup.locator('text=timestamp').click();
 
-    await popup.locator('[aria-label="from, date-time input"]').fill('2022-01-03 00:00:00');
-    await popup.locator('[aria-label="to, date-time input"]').fill('2022-01-10 00:00:00');
+    await popup
+      .locator('[aria-label="from, date-time input"]')
+      .fill('2022-01-03 00:00:00');
+    await popup
+      .locator('[aria-label="to, date-time input"]')
+      .fill('2022-01-10 00:00:00');
 
     await popup.locator('text=Y').click();
 
@@ -522,9 +521,15 @@ test('user can change line style of plotted channels', async ({
 
   await popup.locator('text=shotnum').click();
 
-  await popup.locator('[aria-label="Change CHANNEL_ABCDE line style"]').click({ force: true });
-  await popup.locator('[aria-label="Change shotnum line style"]').click({ force: true });
-  await popup.locator('[aria-label="Change shotnum line style"]').click({ force: true });
+  await popup
+    .locator('[aria-label="Change CHANNEL_ABCDE line style"]')
+    .click({ force: true });
+  await popup
+    .locator('[aria-label="Change shotnum line style"]')
+    .click({ force: true });
+  await popup
+    .locator('[aria-label="Change shotnum line style"]')
+    .click({ force: true });
 
   await popup.locator('[aria-label="close settings"]').click();
 
