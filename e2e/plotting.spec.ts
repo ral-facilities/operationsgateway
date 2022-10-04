@@ -481,7 +481,7 @@ test('user can add min and max limits to x- and y-axis', async ({
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
 
-test.only('user can change line style of plotted channels', async ({
+test('user can change line style of plotted channels', async ({
   page,
   context,
   browserName,
