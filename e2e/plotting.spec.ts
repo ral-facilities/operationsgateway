@@ -299,3 +299,63 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
+
+test('user can hide gridlines and axes labels', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  // can't test this on chrome
+  if (browserName !== 'chromium') {
+    await plotRecordsRoute(context);
+    await recordCountRoute(context);
+
+    await page.goto('/');
+
+    await page.locator('text=Plots').click();
+
+    // open up popup
+    const [popup] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.locator('text=Create a plot').click(),
+    ]);
+
+    await popup.locator('label:has-text("Search")').fill('time');
+
+    await popup.locator('text=timestamp').click();
+
+    await popup.locator('text=Y').click();
+
+    await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+
+    await popup.locator('text=shotnum').click();
+
+    await popup.locator('[aria-label="close settings"]').click();
+
+    const chart = await popup.locator('#my-chart');
+
+    // test the hide gridlines and hide axes labels button
+    await popup.locator('text=Hide Grid').click({
+      // delay helps remove tooltips from the plot
+      delay: 1000,
+    });
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+
+    await popup.locator('text=Hide Axes Labels').click({
+      // delay helps remove tooltips from the plot
+      delay: 1000,
+    });
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+
+    const dimensions = await chart.boundingBox();
+
+    expect(
+      await chart.screenshot({
+        type: 'png',
+        clip: dimensions as { x; y; width; height },
+      })
+    ).toMatchSnapshot({ maxDiffPixels: 100 });
+  }
+});
