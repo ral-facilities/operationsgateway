@@ -66,11 +66,9 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   }
 
   const chart = await popup.locator('#my-chart');
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
     // 100 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 100 });
@@ -122,11 +120,9 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   }
 
   const chart = await popup.locator('#my-chart');
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
@@ -199,11 +195,9 @@ test('user can zoom and pan the graph', async ({
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 
@@ -217,10 +211,10 @@ test('user can zoom and pan the graph', async ({
     // need this to wait for canvas animations to execute
     await popup.waitForTimeout(1000);
 
+    // eslint-disable-next-line jest/no-conditional-expect
     expect(
       await chart.screenshot({
         type: 'png',
-        clip: dimensions as { x; y; width; height },
       })
     ).toMatchSnapshot({ maxDiffPixels: 100 });
   }
@@ -286,11 +280,9 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
@@ -344,12 +336,10 @@ test('user can hide gridlines and axes labels', async ({
     // need this to wait for canvas animations to execute
     await popup.waitForTimeout(1000);
 
-    const dimensions = await chart.boundingBox();
-
+    // eslint-disable-next-line jest/no-conditional-expect
     expect(
       await chart.screenshot({
         type: 'png',
-        clip: dimensions as { x; y; width; height },
       })
     ).toMatchSnapshot({ maxDiffPixels: 100 });
   }
@@ -408,11 +398,11 @@ test('user can add from and to dates to timestamp on x-axis', async ({
   }
 
   const chart = await popup.locator('#my-chart');
-  const dimensions = await chart.boundingBox();
+
+  // eslint-disable-next-line jest/no-conditional-expect
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
     // 100 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 100 });
@@ -470,11 +460,9 @@ test('user can add min and max limits to x- and y-axis', async ({
   }
 
   const chart = await popup.locator('#my-chart');
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
     // 100 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 100 });
@@ -550,11 +538,9 @@ test('user can change line style of plotted channels', async ({
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  const dimensions = await chart.boundingBox();
   expect(
     await chart.screenshot({
       type: 'png',
-      clip: dimensions as { x; y; width; height },
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
