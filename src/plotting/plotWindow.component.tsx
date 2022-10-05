@@ -14,8 +14,8 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {
-  XAxisSettings,
-  YAxisSettings,
+  XAxisScale,
+  YAxesScale,
   PlotType,
   SelectedPlotChannel,
 } from '../app.types';
@@ -37,12 +37,9 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [xMaximum, setXMaximum] = React.useState<number | undefined>(undefined);
   const [yMinimum, setYMinimum] = React.useState<number | undefined>(undefined);
   const [yMaximum, setYMaximum] = React.useState<number | undefined>(undefined);
-  const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
-    scale: 'linear',
-  });
-  const [YAxesSettings, setYAxesSettings] = React.useState<YAxisSettings>({
-    scale: 'linear',
-  });
+  const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>('linear');
+  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>('linear');
+
   const [XAxis, setXAxis] = React.useState<string>('');
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
@@ -134,10 +131,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changePlotType={setPlotType}
                 XAxis={XAxis}
                 changeXAxis={setXAxis}
-                XAxisSettings={XAxisSettings}
-                changeXAxisSettings={setXAxisSettings}
-                YAxesSettings={YAxesSettings}
-                changeYAxesSettings={setYAxesSettings}
+                XAxisScale={XAxisScale}
+                changeXAxisScale={setXAxisScale}
+                YAxesScale={YAxesScale}
+                changeYAxesScale={setYAxesScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
                 changeXMinimum={setXMinimum}
@@ -209,8 +206,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
-            XAxisSettings={XAxisSettings}
-            YAxesSettings={YAxesSettings}
+            XAxisScale={XAxisScale}
+            YAxesScale={YAxesScale}
             canvasRef={canvasRef}
             gridVisible={gridVisible}
             axesLabelsVisible={axesLabelsVisible}

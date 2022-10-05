@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  XAxisSettings,
+  XAxisScale,
   PlotDataset,
   PlotType,
-  YAxisSettings,
+  YAxesScale,
   SelectedPlotChannel,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
@@ -17,8 +17,8 @@ export interface PlotProps {
   selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
-  XAxisSettings: XAxisSettings;
-  YAxesSettings: YAxisSettings;
+  XAxisScale: XAxisScale;
+  YAxesScale: YAxesScale;
   XAxis: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
@@ -36,8 +36,8 @@ const Plot = (props: PlotProps) => {
     selectedPlotChannels,
     title,
     type,
-    XAxisSettings,
-    YAxesSettings,
+    XAxisScale,
+    YAxesScale,
     XAxis,
     canvasRef,
     gridVisible,
@@ -84,7 +84,7 @@ const Plot = (props: PlotProps) => {
       },
       scales: {
         x: {
-          type: XAxisSettings.scale,
+          type: XAxisScale,
           time: {
             displayFormats: {
               millisecond: 'HH:mm:ss:SSS',
@@ -110,7 +110,7 @@ const Plot = (props: PlotProps) => {
           max: xMaximum,
         },
         y: {
-          type: YAxesSettings.scale,
+          type: YAxesScale,
           display: true,
           position: 'left',
           grid: {
@@ -120,7 +120,7 @@ const Plot = (props: PlotProps) => {
           max: yMaximum,
         },
         y2: {
-          type: YAxesSettings.scale,
+          type: YAxesScale,
           display: false,
           position: 'right',
           grid: {
@@ -139,22 +139,22 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       options?.scales?.x && (options.scales.x.min = xMinimum);
       options?.scales?.x && (options.scales.x.max = xMaximum);
-      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
+      options?.scales?.x && (options.scales.x.type = XAxisScale);
       options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
       options?.scales?.x?.title &&
         (options.scales.x.title.display = axesLabelsVisible);
       options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
       options?.scales?.y && (options.scales.y.min = yMinimum);
       options?.scales?.y && (options.scales.y.max = yMaximum);
-      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      options?.scales?.y && (options.scales.y.type = YAxesScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
 
       return JSON.stringify(options);
     });
   }, [
     XAxis,
-    XAxisSettings.scale,
-    YAxesSettings.scale,
+    XAxisScale,
+    YAxesScale,
     axesLabelsVisible,
     gridVisible,
     title,

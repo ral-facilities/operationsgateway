@@ -145,21 +145,16 @@ export interface ColumnState {
 }
 
 export type PlotType = 'scatter' | 'line';
-interface AxisSettings {
-  min?: number;
-  max?: number;
-}
 
-export interface XAxisSettings extends AxisSettings {
-  scale: Extract<
-    keyof CartesianScaleTypeRegistry,
-    'linear' | 'logarithmic' | 'time'
-  >;
-}
+export type XAxisScale = Extract<
+  keyof CartesianScaleTypeRegistry,
+  'linear' | 'logarithmic' | 'time'
+>;
 
-export interface YAxisSettings extends AxisSettings {
-  scale: Extract<keyof CartesianScaleTypeRegistry, 'linear' | 'logarithmic'>;
-}
+export type YAxesScale = Extract<
+  keyof CartesianScaleTypeRegistry,
+  'linear' | 'logarithmic'
+>;
 
 export type PlotDataset = {
   name: string;

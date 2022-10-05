@@ -18,8 +18,8 @@ describe('Plot Settings component', () => {
   const changePlotTitle = jest.fn();
   const changePlotType = jest.fn();
   const changeXAxis = jest.fn();
-  const changeXAxisSettings = jest.fn();
-  const changeYAxesSettings = jest.fn();
+  const changeXAxisScale = jest.fn();
+  const changeYAxesScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
   const changeXMinimum = jest.fn();
   const changeXMaximum = jest.fn();
@@ -53,10 +53,10 @@ describe('Plot Settings component', () => {
       changePlotType,
       XAxis: '',
       changeXAxis,
-      XAxisSettings: { scale: 'linear' },
-      changeXAxisSettings,
-      YAxesSettings: { scale: 'linear' },
-      changeYAxesSettings,
+      XAxisScale: 'linear',
+      changeXAxisScale,
+      YAxesScale: 'linear',
+      changeYAxesScale,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeXMinimum,
@@ -132,7 +132,7 @@ describe('Plot Settings component', () => {
 
   it('does not let the user change the X axis scale if time is selected as the X axis', async () => {
     props.XAxis = 'timestamp';
-    props.XAxisSettings.scale = 'time';
+    props.XAxisScale = 'time';
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
@@ -144,14 +144,14 @@ describe('Plot Settings component', () => {
 
   it('switches the min and max number fields for date range fields if time is selected as the X axis', () => {
     props.XAxis = 'timestamp';
-    props.XAxisSettings.scale = 'time';
+    props.XAxisScale = 'time';
     createView();
 
     expect(screen.getByLabelText('from, date-time input')).toBeInTheDocument();
     expect(screen.getByLabelText('to, date-time input')).toBeInTheDocument();
   });
 
-  it('renders X scale radio buttons and calls changeXAxisSettings on click', async () => {
+  it('renders X scale radio buttons and calls changeXAxisScale on click', async () => {
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
@@ -163,13 +163,10 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'logarithmic',
-    });
+    expect(changeXAxisScale).toHaveBeenCalledWith('logarithmic');
   });
 
-  it('renders Y scale radio buttons and calls changeYAxesSettings on click', async () => {
+  it('renders Y scale radio buttons and calls changeYAxesScale on click', async () => {
     createView();
 
     await user.click(screen.getByRole('tab', { name: 'Y' }));
@@ -183,10 +180,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'logarithmic',
-    });
+    expect(changeYAxesScale).toHaveBeenCalledWith('logarithmic');
   });
 
   it('allows user to select an x-axis (keyboard only)', async () => {
@@ -201,10 +195,7 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.XAxisSettings,
-      scale: 'linear',
-    });
+    expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
@@ -217,10 +208,7 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByText('CHANNEL_1'));
 
     expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_1');
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.XAxisSettings,
-      scale: 'linear',
-    });
+    expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('allows user to add channels on the y-axis (keyboard only)', async () => {
@@ -283,10 +271,7 @@ describe('Plot Settings component', () => {
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
     expect(changeXAxis).toHaveBeenCalledWith('timestamp');
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.XAxisSettings,
-      scale: 'time',
-    });
+    expect(changeXAxisScale).toHaveBeenCalledWith('time');
   });
 
   it('allows user to toggle visibility of a selected channel off', async () => {
@@ -495,10 +480,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByLabelText('Remove timestamp from x-axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith('');
-    expect(changeXAxisSettings).toHaveBeenCalledWith({
-      ...props.XAxisSettings,
-      scale: 'linear',
-    });
+    expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('removes channel from display when we click Close on its label', async () => {
@@ -535,7 +517,7 @@ describe('Plot Settings component', () => {
         },
       },
     ]);
-    expect(changeYAxesSettings).not.toHaveBeenCalled();
+    expect(changeYAxesScale).not.toHaveBeenCalled();
   });
 
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
@@ -555,10 +537,7 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByLabelText('Remove CHANNEL_1 from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
-    expect(changeYAxesSettings).toHaveBeenCalledWith({
-      ...props.YAxesSettings,
-      scale: 'linear',
-    });
+    expect(changeYAxesScale).toHaveBeenCalledWith('linear');
   });
 
   describe('min and max fields', () => {
@@ -637,7 +616,7 @@ describe('Plot Settings component', () => {
       beforeEach(() => {
         applyDatePickerWorkaround();
         props.XAxis = 'timestamp';
-        props.XAxisSettings.scale = 'time';
+        props.XAxisScale = 'time';
       });
 
       afterEach(() => {

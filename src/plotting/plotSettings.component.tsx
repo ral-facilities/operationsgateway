@@ -29,8 +29,8 @@ import {
   LineStyle,
 } from '@mui/icons-material';
 import {
-  XAxisSettings,
-  YAxisSettings,
+  XAxisScale,
+  YAxesScale,
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
@@ -181,10 +181,10 @@ export interface PlotSettingsProps {
   changePlotType: (plotType: PlotType) => void;
   XAxis: string;
   changeXAxis: (value: string) => void;
-  XAxisSettings: XAxisSettings;
-  changeXAxisSettings: (XAxisSettings: XAxisSettings) => void;
-  YAxesSettings: YAxisSettings;
-  changeYAxesSettings: (YAxesSettings: YAxisSettings) => void;
+  XAxisScale: XAxisScale;
+  changeXAxisScale: (XAxisScale: XAxisScale) => void;
+  YAxesScale: YAxesScale;
+  changeYAxesScale: (YAxesScale: YAxesScale) => void;
   selectedPlotChannels: SelectedPlotChannel[];
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
@@ -203,10 +203,10 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changePlotType,
     XAxis,
     changeXAxis,
-    XAxisSettings,
-    changeXAxisSettings,
-    YAxesSettings,
-    changeYAxesSettings,
+    XAxisScale,
+    changeXAxisScale,
+    YAxesScale,
+    changeYAxesScale,
     selectedPlotChannels,
     changeSelectedPlotChannels,
     changeXMinimum,
@@ -214,9 +214,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
     changeYMinimum,
     changeYMaximum,
   } = props;
-
-  const { scale: XScale } = XAxisSettings;
-  const { scale: YScale } = YAxesSettings;
 
   const [title, setTitle] = React.useState('');
   const deferredTitle = React.useDeferredValue(title);
@@ -258,10 +255,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const handleChangeXScale = React.useCallback(
     (value: string) => {
-      changeXAxisSettings({
-        ...XAxisSettings,
-        scale: value as XAxisSettings['scale'],
-      });
+      changeXAxisScale(value as XAxisScale);
       setFromDate(null);
       setToDate(null);
       setXMinimum('');
@@ -269,17 +263,14 @@ const PlotSettings = (props: PlotSettingsProps) => {
       setYMinimum('');
       setYMaximum('');
     },
-    [XAxisSettings, changeXAxisSettings]
+    [changeXAxisScale]
   );
 
   const handleChangeYScale = React.useCallback(
     (value: string) => {
-      changeYAxesSettings({
-        ...YAxesSettings,
-        scale: value as YAxisSettings['scale'],
-      });
+      changeYAxesScale(value as YAxesScale);
     },
-    [YAxesSettings, changeYAxesSettings]
+    [changeYAxesScale]
   );
 
   const handleXAxisChange = React.useCallback(
@@ -525,7 +516,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
           <Grid container spacing={1} mt={1}>
             <Grid container item spacing={1}>
               <Grid item xs={6}>
-                {XAxisSettings.scale === 'time' ? (
+                {XAxisScale === 'time' ? (
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                       inputFormat="yyyy-MM-dd HH:mm:ss"
@@ -597,7 +588,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                {XAxisSettings.scale === 'time' ? (
+                {XAxisScale === 'time' ? (
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                       inputFormat="yyyy-MM-dd HH:mm:ss"
@@ -671,7 +662,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
             </Grid>
             <Grid item>
               <FormControl
-                disabled={XAxisSettings.scale === 'time'}
+                disabled={XAxisScale === 'time'}
                 sx={{ flexDirection: 'row', alignItems: 'center' }}
               >
                 <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
@@ -681,7 +672,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   row
                   aria-labelledby="x-scale-group-label"
                   name="x scale radio buttons group"
-                  value={XScale}
+                  value={XAxisScale}
                   onChange={(_, value) => handleChangeXScale(value)}
                 >
                   <FormControlLabel
@@ -809,7 +800,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                   row
                   aria-labelledby="y-scale-group-label"
                   name="y scale radio buttons group"
-                  value={YScale}
+                  value={YAxesScale}
                   onChange={(_, value) => handleChangeYScale(value)}
                 >
                   <FormControlLabel
