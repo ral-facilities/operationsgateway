@@ -28,6 +28,7 @@ import {
   Close,
   Visibility,
   VisibilityOff,
+  MultipleStop,
 } from '@mui/icons-material';
 import {
   XAxisSettings,
@@ -286,6 +287,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
         options: {
           visible: true,
           colour: colourGenerator.nextColour(), // Generate a colour for the channel to appear in the plot
+          yAxis: 'left',
         },
       };
 
@@ -348,6 +350,22 @@ const PlotSettings = (props: PlotSettingsProps) => {
       newSelectedPlotChannelsArray.some((channel) => {
         if (channel.name === channelName) {
           channel.options.colour = selectedColour;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
+    },
+    [changeSelectedPlotChannels, selectedPlotChannels]
+  );
+
+  const toggleChannelAxis = React.useCallback(
+    (channelName: string) => {
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.some((channel) => {
+        if (channel.name === channelName) {
+          channel.options.yAxis =
+            channel.options.yAxis === 'left' ? 'right' : 'left';
           return true;
         }
         return false;
@@ -713,6 +731,15 @@ const PlotSettings = (props: PlotSettingsProps) => {
                         <VisibilityOff sx={{ color: 'black' }} />
                       </IconButton>
                     )}
+                    <IconButton
+                      color="primary"
+                      aria-label={`Switch ${plotChannel.name} axis`}
+                      size="small"
+                      sx={{ paddingTop: '0', paddingBottom: '0' }}
+                      onClick={() => toggleChannelAxis(plotChannel.name)}
+                    >
+                      <MultipleStop sx={{ color: 'black' }} />
+                    </IconButton>
                     <ColourPicker
                       channelName={plotChannel.name}
                       colour={plotChannel.options.colour}

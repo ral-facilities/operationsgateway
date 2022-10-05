@@ -95,7 +95,9 @@ const Plot = (props: PlotProps) => {
         },
         y2: {
           type: YAxesSettings.scale,
-          display: false,
+          display: selectedPlotChannels.some(
+            (channel) => channel.options.yAxis === 'right'
+          ),
           position: 'right',
           grid: {
             drawOnChartArea: false,
@@ -113,6 +115,11 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
       options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      options?.scales?.y2 && (options.scales.y2.type = YAxesSettings.scale);
+      options?.scales?.y2 &&
+        (options.scales.y2.display = selectedPlotChannels.some(
+          (channel) => channel.options.yAxis === 'right'
+        ));
       return JSON.stringify(options);
     });
   }, [title, XAxisSettings, YAxesSettings, selectedPlotChannels]);
@@ -131,6 +138,8 @@ const Plot = (props: PlotProps) => {
               yAxisKey: dataset.name,
               xAxisKey: XAxis,
             },
+            yAxisID:
+              channelConfig && channelConfig.yAxis === 'right' ? 'y2' : 'y',
             borderColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'

@@ -173,6 +173,7 @@ export type SelectedPlotChannel = {
   options: {
     visible: boolean;
     colour: string;
+    yAxis: 'left' | 'right';
   };
 };
 
