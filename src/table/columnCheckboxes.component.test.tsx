@@ -24,7 +24,12 @@ jest.mock('../api/channels', () => {
 describe('Column Checkboxes', () => {
   const availableChannels: FullChannelMetadata[] = [
     {
-      systemName: 'name',
+      systemName: 'timestamp',
+      channel_dtype: 'scalar',
+      userFriendlyName: 'Time',
+    },
+    {
+      systemName: 'shotnum',
       channel_dtype: 'scalar',
     },
     {
@@ -70,11 +75,11 @@ describe('Column Checkboxes', () => {
   it('sends selectColumn when checkbox is checked', async () => {
     const { store } = createView();
     await act(async () => {
-      screen.getByLabelText('name checkbox').click();
+      screen.getByLabelText('shotnum checkbox').click();
       await flushPromises();
     });
 
-    expect(store.getState().table.selectedColumnIds).toEqual(['name']);
+    expect(store.getState().table.selectedColumnIds).toEqual(['shotnum']);
   });
 
   it('calls onColumnClose when checkbox is unchecked', async () => {
@@ -83,14 +88,20 @@ describe('Column Checkboxes', () => {
     );
     const { store } = createView();
     await act(async () => {
-      screen.getByLabelText('name checkbox').click();
+      screen.getByLabelText('shotnum checkbox').click();
       await flushPromises();
     });
     expect(store.getState().table.selectedColumnIds).toEqual(
       availableChannels
-        .filter((channel) => channel.systemName !== 'name')
+        .filter((channel) => channel.systemName !== 'shotnum')
         .map((channel) => channel.systemName)
     );
+  });
+
+  it('does not render a timestamp checkbox if a timestamp column exists', () => {
+    createView();
+    expect(screen.queryByLabelText('Time')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('timestamp')).not.toBeInTheDocument();
   });
 
   it.todo('calls onChecked when checkbox is clicked via shift-click');

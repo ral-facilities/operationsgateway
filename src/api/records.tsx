@@ -204,64 +204,6 @@ export const useRecordsPaginated = (): UseQueryResult<
   );
 };
 
-const useRecordsPaginatedOptions = {
-  select: (data: Record[]) =>
-    data.map((record: Record) => {
-      const timestampString = record.metadata.timestamp;
-      const timestampDate = parseISO(timestampString);
-      const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
-      const recordRow: RecordRow = {
-        timestamp: formattedDate,
-        shotnum: record.metadata.shotnum,
-        activeArea: record.metadata.activeArea,
-        activeExperiment: record.metadata.activeExperiment,
-      };
-
-      const keys = Object.keys(record.channels);
-      keys.forEach((key: string) => {
-        const channel: Channel = record.channels[key];
-        let channelData;
-        const channelDataType = channel.metadata.channel_dtype;
-
-        switch (channelDataType) {
-          case 'scalar':
-            channelData = (channel as ScalarChannel).data;
-            break;
-          case 'image':
-            channelData = (channel as ImageChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-            break;
-          case 'waveform':
-            channelData = (channel as WaveformChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-        }
-
-        recordRow[key] = channelData;
-      });
-
-      return recordRow;
-    }),
-};
-
-export const useRecordsPaginatedOld = (): UseQueryResult<
-  RecordRow[],
-  AxiosError
-> => {
-  return useRecords(useRecordsPaginatedOptions);
-};
-
 export const getFormattedAxisData = (
   record: Record,
   axisName: string

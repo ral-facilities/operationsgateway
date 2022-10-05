@@ -13,8 +13,22 @@ import { FullChannelMetadata } from '../app.types';
 const ColumnCheckboxes = React.memo((): React.ReactElement => {
   const { data: channels } = useChannels();
 
+  const [filteredChannels, setFilteredChannels] = React.useState<
+    FullChannelMetadata[]
+  >([]);
+
+  React.useEffect(() => {
+    if (channels) {
+      setFilteredChannels(
+        channels.filter((channel) => channel.systemName !== 'timestamp')
+      );
+    } else {
+      setFilteredChannels([]);
+    }
+  }, [channels]);
+
   const selectedChannels = useAppSelector((state) =>
-    selectSelectedChannels(state, channels ?? [])
+    selectSelectedChannels(state, filteredChannels)
   );
   const dispatch = useAppDispatch();
 
@@ -53,7 +67,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
   const parentRef = React.useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
-    count: channels?.length ?? 0,
+    count: filteredChannels.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 42,
     overscan: 20,
@@ -95,7 +109,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
           position: 'relative',
         }}
       >
-        {channels &&
+        {filteredChannels &&
           rowVirtualizer.getVirtualItems().map((virtualRow) => (
             <div
               key={virtualRow.index}
@@ -108,7 +122,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <CheckboxRow channel={channels[virtualRow.index]} />
+              <CheckboxRow channel={filteredChannels[virtualRow.index]} />
             </div>
           ))}
       </div>
