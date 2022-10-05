@@ -289,6 +289,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: expect.anything(),
+          lineStyle: 'solid',
         },
       },
     ]);
@@ -307,6 +308,7 @@ describe('Plot Settings component', () => {
         options: {
           visible: true,
           colour: '#ffffff',
+          lineStyle: 'solid',
         },
       },
     ];
