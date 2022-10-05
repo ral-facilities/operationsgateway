@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Column } from 'react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
-import { ColumnState, Order } from '../../app.types';
+import { ColumnState, Order, FullChannelMetadata } from '../../app.types';
 import { resultsPerPage } from '../../recordGeneration';
 
 // Define a type for the slice state
@@ -112,6 +112,10 @@ export const selectAvailableColumns = (
   state: RootState,
   availableColumns: Column[]
 ) => availableColumns;
+export const selectAvailableChannels = (
+  state: RootState,
+  availableChannels: FullChannelMetadata[]
+) => availableChannels;
 export const selectSelectedIds = (state: RootState) =>
   state.table.selectedColumnIds;
 export const selectSort = (state: RootState) => state.table.sort;
@@ -134,7 +138,7 @@ function arrayEquals(a: string[], b: string[]) {
  * @returns A selector for an array of column ids which are currently selected,
  * which only changes when a column is selected/deselected and not when columns are reordered
  *
- * For selectSelectedColumns and selectHiddenColumns, these don't are about the
+ * For selectSelectedColumns and selectHiddenChannels, these don't are about the
  * order of selectedIds, and if they changed when the order of columns changed
  * then there would be unnecessary rerendering where selectedColumns/hiddenColumns
  * are used. We use memoizeOptions to pass the arrayEquals function to check
@@ -154,16 +158,12 @@ const selectSelectedIdsIgnoreOrder = createSelector(
  * @params state - the current redux state
  * @params availableColumns - array of all the columns the user can select
  */
-export const selectSelectedColumns = createSelector(
-  selectAvailableColumns,
+export const selectSelectedChannels = createSelector(
+  selectAvailableChannels,
   selectSelectedIdsIgnoreOrder,
-  (availableColumns, selectedIds) => {
-    return availableColumns.filter((col) => {
-      if (col.accessor?.toString()) {
-        return selectedIds.includes(col.accessor.toString());
-      } else {
-        return false;
-      }
+  (availableChannels, selectedIds) => {
+    return availableChannels.filter((channel: FullChannelMetadata) => {
+      return selectedIds.includes(channel.systemName);
     });
   }
 );

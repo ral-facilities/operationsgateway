@@ -30,7 +30,11 @@ describe('Plot Settings component', () => {
     return render(<PlotSettings {...props} />);
   };
 
-  const channels: FullScalarChannelMetadata[] = [
+  const allChannels: FullScalarChannelMetadata[] = [
+    {
+      systemName: 'timestamp',
+      channel_dtype: 'scalar',
+    },
     {
       systemName: 'CHANNEL_1',
       channel_dtype: 'scalar',
@@ -47,7 +51,13 @@ describe('Plot Settings component', () => {
 
   beforeEach(() => {
     props = {
-      channels,
+      selectedRecordTableChannels: [
+        {
+          systemName: 'timestamp',
+          channel_dtype: 'scalar',
+        },
+      ],
+      allChannels,
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,
@@ -257,6 +267,57 @@ describe('Plot Settings component', () => {
         },
       },
     ]);
+  });
+
+  it('populates the displayed table channels dropdown and adds selection to the y-axis', async () => {
+    props.selectedRecordTableChannels = [
+      {
+        systemName: 'CHANNEL_1',
+        channel_dtype: 'scalar',
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    const select = screen.getByTestId('select displayed table channels');
+    fireEvent.change(select, { target: { value: 'CHANNEL_1' } });
+
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: expect.anything(),
+        },
+      },
+    ]);
+  });
+
+  it('only populates the displayed table channels dropdown with options not already selected', async () => {
+    props.selectedRecordTableChannels = [
+      {
+        systemName: 'CHANNEL_1',
+        channel_dtype: 'scalar',
+      },
+    ];
+    props.selectedPlotChannels = [
+      {
+        name: 'CHANNEL_1',
+        options: {
+          visible: true,
+          colour: '#ffffff',
+        },
+      },
+    ];
+    createView();
+
+    await user.click(screen.getByRole('tab', { name: 'Y' }));
+
+    const select = screen.getByTestId('select displayed table channels');
+    fireEvent.change(select, { target: { value: 'CHANNEL_1' } });
+
+    expect(changeSelectedPlotChannels).not.toHaveBeenCalled();
   });
 
   it('changes scale to time automatically if time is selected as x-axis', async () => {

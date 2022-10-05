@@ -98,33 +98,15 @@ const fetchRecordCountQuery = (
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useRecords = <T extends unknown = Record[]>(
-  options?: UseQueryOptions<
-    Record[],
-    AxiosError,
-    T,
-    [
-      string,
-      {
-        page: number;
-        resultsPerPage: number;
-        sort: SortType;
-        dateRange: DateRange;
-      }
-    ]
-  >
+  options?: UseQueryOptions<Record[], AxiosError, T, [string]>
 ): UseQueryResult<T, AxiosError> => {
-  const { page, resultsPerPage, sort, dateRange } =
-    useAppSelector(selectQueryParams);
+  useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(
-    ['records', { page, resultsPerPage, sort, dateRange }],
-    (params) => {
-      const { page, sort, dateRange } = params.queryKey[1];
-      // React Table pagination is zero-based
-      const startIndex = page * resultsPerPage;
-      const stopIndex = startIndex + resultsPerPage - 1;
-      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
+    ['records'],
+    () => {
+      return fetchRecords(apiUrl, {}, {});
     },
     {
       onError: (error) => {
@@ -135,62 +117,91 @@ export const useRecords = <T extends unknown = Record[]>(
   );
 };
 
-const useRecordsPaginatedOptions = {
-  select: (data: Record[]) =>
-    data.map((record: Record) => {
-      const timestampString = record.metadata.timestamp;
-      const timestampDate = parseISO(timestampString);
-      const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
-      const recordRow: RecordRow = {
-        timestamp: formattedDate,
-        shotnum: record.metadata.shotnum,
-        activeArea: record.metadata.activeArea,
-        activeExperiment: record.metadata.activeExperiment,
-      };
-
-      const keys = Object.keys(record.channels);
-      keys.forEach((key: string) => {
-        const channel: Channel = record.channels[key];
-        let channelData;
-        const channelDataType = channel.metadata.channel_dtype;
-
-        switch (channelDataType) {
-          case 'scalar':
-            channelData = (channel as ScalarChannel).data;
-            break;
-          case 'image':
-            channelData = (channel as ImageChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-            break;
-          case 'waveform':
-            channelData = (channel as WaveformChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-        }
-
-        recordRow[key] = channelData;
-      });
-
-      return recordRow;
-    }),
-};
-
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
 > => {
-  return useRecords(useRecordsPaginatedOptions);
+  const { page, resultsPerPage, sort, dateRange } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
+    Record[],
+    AxiosError,
+    RecordRow[],
+    [
+      string,
+      {
+        page: number;
+        resultsPerPage: number;
+        sort: SortType;
+        dateRange: DateRange;
+      }
+    ]
+  >(
+    ['records', { page, resultsPerPage, sort, dateRange }],
+    (params) => {
+      const { page, resultsPerPage, sort, dateRange } = params.queryKey[1];
+      // React Table pagination is zero-based
+      const startIndex = page * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage - 1;
+      return fetchRecords(apiUrl, sort, dateRange, { startIndex, stopIndex });
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      select: (data: Record[]) =>
+        data.map((record: Record) => {
+          const timestampString = record.metadata.timestamp;
+          const timestampDate = parseISO(timestampString);
+          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+          const recordRow: RecordRow = {
+            timestamp: formattedDate,
+            shotnum: record.metadata.shotnum,
+            activeArea: record.metadata.activeArea,
+            activeExperiment: record.metadata.activeExperiment,
+          };
+
+          const keys = Object.keys(record.channels);
+          keys.forEach((key: string) => {
+            const channel: Channel = record.channels[key];
+            let channelData;
+            const channelDataType = channel.metadata.channel_dtype;
+
+            switch (channelDataType) {
+              case 'scalar':
+                channelData = (channel as ScalarChannel).data;
+                break;
+              case 'image':
+                channelData = (channel as ImageChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+                break;
+              case 'waveform':
+                channelData = (channel as WaveformChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+            }
+
+            recordRow[key] = channelData;
+          });
+
+          return recordRow;
+        }),
+    }
+  );
 };
 
 export const getFormattedAxisData = (

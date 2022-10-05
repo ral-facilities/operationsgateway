@@ -18,10 +18,13 @@ import {
   YAxesScale,
   PlotType,
   SelectedPlotChannel,
+  FullScalarChannelMetadata,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
+import { selectSelectedChannels } from '../state/slices/tableSlice';
+import { useAppSelector } from '../state/hooks';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -77,6 +80,11 @@ const PlotWindow = (props: PlotWindowProps) => {
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
+  const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
+    useAppSelector((state) =>
+      selectSelectedChannels(state, channels ?? [])
+    ) as FullScalarChannelMetadata[];
+
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
       <Grid
@@ -125,7 +133,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 </IconButton>
               </Box>
               <PlotSettings
-                channels={channels ?? []}
+                selectedRecordTableChannels={selectedScalarRecordTableChannels}
+                allChannels={channels ?? []}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
                 changePlotType={setPlotType}
