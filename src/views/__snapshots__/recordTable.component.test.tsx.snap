@@ -64,7 +64,7 @@ exports[`Record Table renders correctly 1`] = `
                         <p
                           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          Timestamp
+                          Time
                         </p>
                         <svg
                           aria-hidden="true"
@@ -416,7 +416,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                         <p
                           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                         >
-                          Timestamp
+                          Time
                         </p>
                         <svg
                           aria-hidden="true"

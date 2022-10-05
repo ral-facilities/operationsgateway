@@ -17,6 +17,9 @@ import {
   Autocomplete,
   Typography,
   IconButton,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   ScatterPlot,
@@ -170,7 +173,8 @@ export class ColourGenerator {
 }
 
 export interface PlotSettingsProps {
-  channels: FullScalarChannelMetadata[];
+  selectedRecordTableChannels: FullScalarChannelMetadata[];
+  allChannels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
@@ -188,7 +192,8 @@ export interface PlotSettingsProps {
 
 const PlotSettings = (props: PlotSettingsProps) => {
   const {
-    channels,
+    selectedRecordTableChannels,
+    allChannels,
     changePlotTitle,
     plotType,
     changePlotType,
@@ -209,6 +214,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
 
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
+  const [selectValue, setSelectValue] = React.useState<string>('');
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -283,9 +289,9 @@ const PlotSettings = (props: PlotSettingsProps) => {
         },
       };
 
-      const newselectedPlotChannelsArray = Array.from(selectedPlotChannels);
-      newselectedPlotChannelsArray.push(newSelectedPlotChannel);
-      changeSelectedPlotChannels(newselectedPlotChannelsArray);
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.push(newSelectedPlotChannel);
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
     [changeSelectedPlotChannels, colourGenerator, selectedPlotChannels]
   );
@@ -350,31 +356,6 @@ const PlotSettings = (props: PlotSettingsProps) => {
     },
     [changeSelectedPlotChannels, selectedPlotChannels]
   );
-
-  const [axisSelectionOptions, setAxisSelectionOptions] = React.useState<
-    string[]
-  >(['timestamp', 'shotnum', 'activeArea', 'activeExperiment']);
-
-  const populateAxisSelectionOptions = (
-    metadata: FullScalarChannelMetadata[]
-  ): void => {
-    const ops: string[] = [
-      'timestamp',
-      'shotnum',
-      'activeArea',
-      'activeExperiment',
-    ];
-
-    metadata.forEach((meta: FullScalarChannelMetadata) => {
-      ops.push(meta.systemName);
-    });
-
-    setAxisSelectionOptions(ops);
-  };
-
-  React.useEffect(() => {
-    if (channels) populateAxisSelectionOptions(channels);
-  }, [channels]);
 
   return (
     <Grid container direction="column" spacing={1}>
@@ -479,7 +460,7 @@ const PlotSettings = (props: PlotSettingsProps) => {
                 freeSolo
                 clearOnBlur
                 id="select x axis"
-                options={axisSelectionOptions}
+                options={allChannels.map((channel) => channel.systemName)}
                 fullWidth
                 role="autocomplete"
                 onInputChange={(_, newInputValue, reason) => {
@@ -591,18 +572,57 @@ const PlotSettings = (props: PlotSettingsProps) => {
               </FormControl>
             </Grid>
             <Grid container item>
+              <FormControl fullWidth>
+                <InputLabel sx={{ fontSize: 12 }}>
+                  Displayed table channels
+                </InputLabel>
+                <Select
+                  label="Displayed table channels"
+                  value={selectValue}
+                  onChange={(event) => {
+                    const newValue = event.target.value;
+                    addPlotChannel(newValue);
+                    setSelectValue('');
+                  }}
+                  sx={{ fontSize: 12 }}
+                  inputProps={{
+                    'data-testid': 'select displayed table channels',
+                  }}
+                >
+                  {selectedRecordTableChannels
+                    .filter((channel) => channel.systemName !== 'timestamp')
+                    .filter(
+                      (selected) =>
+                        !selectedPlotChannels
+                          .map((channel) => channel.name)
+                          .includes(selected.systemName)
+                    )
+                    .map((channel) => {
+                      const name = channel.systemName;
+                      return (
+                        <MenuItem key={name} value={name}>
+                          {name}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid container item>
               <Autocomplete
                 disablePortal
                 freeSolo
                 clearOnBlur
                 id="select data channels"
-                options={axisSelectionOptions.filter(
-                  (option) =>
-                    option !== 'timestamp' &&
-                    !selectedPlotChannels
-                      .map((channel) => channel.name)
-                      .includes(option)
-                )}
+                options={allChannels
+                  .map((channel) => channel.systemName)
+                  .filter(
+                    (name) =>
+                      name !== 'timestamp' &&
+                      !selectedPlotChannels
+                        .map((channel) => channel.name)
+                        .includes(name)
+                  )}
                 fullWidth
                 role="autocomplete"
                 inputValue={autocompleteValue}
@@ -655,11 +675,18 @@ const PlotSettings = (props: PlotSettingsProps) => {
                     {plotChannel.name}
                   </Typography>
                   <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
+                    sx={
+                      // for some reason, styling these buttons in a row causes webkit
+                      // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
+                      /* istanbul ignore next */
+                      process.env.REACT_APP_E2E_TESTING
+                        ? {}
+                        : {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }
+                    }
                   >
                     {plotChannel.options.visible ? (
                       <IconButton

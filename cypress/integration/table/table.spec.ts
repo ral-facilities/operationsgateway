@@ -22,14 +22,14 @@ describe('Table Component', () => {
     cy.visit('/').wait(['@getRecords', '@getRecordCount']);
   });
 
-  it('initialises with a timestamp column', () => {
+  it('initialises with a time column', () => {
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
 
-    verifyColumnOrder(['Timestamp']);
+    verifyColumnOrder(['Time']);
   });
 
   it('adds columns in the order they are selected', () => {
@@ -41,9 +41,9 @@ describe('Table Component', () => {
 
     cy.get('#shotnum').check();
 
-    verifyColumnOrder(['Timestamp', 'Shot Number']);
+    verifyColumnOrder(['Time', 'Shot Number']);
     cy.get('#activeArea').check();
-    verifyColumnOrder(['Timestamp', 'Shot Number', 'Active Area']);
+    verifyColumnOrder(['Time', 'Shot Number', 'Active Area']);
   });
 
   it('moves a column left', () => {
@@ -70,7 +70,7 @@ describe('Table Component', () => {
     // Wait for draggable elements to settle before testing the DOM again
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
-    verifyColumnOrder(['Timestamp', 'Active Area', 'Shot Number']);
+    verifyColumnOrder(['Time', 'Active Area', 'Shot Number']);
   });
 
   it('moves a column right', () => {
@@ -97,7 +97,7 @@ describe('Table Component', () => {
     // Wait for draggable elements to settle before testing the DOM again
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
-    verifyColumnOrder(['Timestamp', 'Active Area', 'Shot Number']);
+    verifyColumnOrder(['Time', 'Active Area', 'Shot Number']);
   });
 
   it('can resize columns', () => {
@@ -143,7 +143,7 @@ describe('Table Component', () => {
     cy.get('[role="columnheader"]').should('be.visible');
   });
 
-  it('has a sticky timestamp column when scrolling right', () => {
+  it('has a sticky time column when scrolling right', () => {
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
