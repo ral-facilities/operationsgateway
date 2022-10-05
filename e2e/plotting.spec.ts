@@ -292,57 +292,61 @@ test('user can hide gridlines and axes labels', async ({
   context,
   browserName,
 }) => {
-  // can't test this on chrome with the "have to close main window" workaround
-  if (browserName !== 'chromium') {
-    await plotRecordsRoute(context);
-    await recordCountRoute(context);
+  await plotRecordsRoute(context);
+  await recordCountRoute(context);
 
-    await page.goto('/');
+  await page.goto('/');
 
-    await page.locator('text=Plots').click();
+  await page.locator('text=Plots').click();
 
-    // open up popup
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.locator('text=Create a plot').click(),
-    ]);
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
 
-    await popup.locator('label:has-text("Search")').fill('time');
+  await popup.locator('label:has-text("Search")').fill('time');
 
-    await popup.locator('text=timestamp').click();
+  await popup.locator('text=timestamp').click();
 
-    await popup.locator('text=Y').click();
+  await popup.locator('text=Y').click();
 
-    await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
 
-    await popup.locator('text=shotnum').click();
+  await popup.locator('text=shotnum').click();
 
-    await popup.locator('[aria-label="close settings"]').click();
+  await popup.locator('[aria-label="close settings"]').click();
 
-    const chart = await popup.locator('#my-chart');
+  // test the hide gridlines and hide axes labels button
+  await popup.locator('text=Hide Grid').click({
+    // delay helps remove tooltips from the plot
+    delay: 1000,
+  });
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
 
-    // test the hide gridlines and hide axes labels button
-    await popup.locator('text=Hide Grid').click({
-      // delay helps remove tooltips from the plot
-      delay: 1000,
-    });
+  await popup.locator('text=Hide Axes Labels').click({
+    // delay helps remove tooltips from the plot
+    delay: 1000,
+  });
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  if (browserName === 'chromium') {
+    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+    await page.close();
+    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
     // need this to wait for canvas animations to execute
     await popup.waitForTimeout(1000);
-
-    await popup.locator('text=Hide Axes Labels').click({
-      // delay helps remove tooltips from the plot
-      delay: 1000,
-    });
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await chart.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot({ maxDiffPixels: 100 });
   }
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
 
 test('user can add from and to dates to timestamp on x-axis', async ({
