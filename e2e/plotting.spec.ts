@@ -511,7 +511,7 @@ test('user can change line style of plotted channels', async ({
   await popup.locator('text=shotnum').click();
 
   await popup
-    .locator('[aria-label="Change CHANNEL_ABCDE line style"]')
+    .locator('[aria-label="Change CHANNEL_DEFGH line style"]')
     .click({ force: true });
   await popup
     .locator('[aria-label="Change shotnum line style"]')
@@ -532,13 +532,6 @@ test('user can change line style of plotted channels', async ({
 
   const chart = await popup.locator('#my-chart');
 
-  // test that tooltips show up & have filtered out the channel which isn't visible
-  await chart.hover({
-    position: {
-      x: 100,
-      y: 100,
-    },
-  });
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
