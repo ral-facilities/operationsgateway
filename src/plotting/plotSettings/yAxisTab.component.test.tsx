@@ -25,6 +25,7 @@ describe('y-axis tab', () => {
         {
           systemName: 'timestamp',
           channel_dtype: 'scalar',
+          userFriendlyName: 'Time',
         },
       ],
       allChannels: testChannels as FullScalarChannelMetadata[],

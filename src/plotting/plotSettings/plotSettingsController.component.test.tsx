@@ -6,28 +6,56 @@ import userEvent from '@testing-library/user-event';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { testChannels } from '../../setupTests';
 
-jest.mock('./plotTitleField.component', () => () => (
+jest.mock('./plotTitleField.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-plotTitleField data-testid="mock-plotTitleField" />
+  <mock-plotTitleField data-testid="mock-plotTitleField">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-plotTitleField>
 ));
 
-jest.mock('./chartTypeButtons.component', () => () => (
+jest.mock('./chartTypeButtons.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-chartTypeButtons data-testid="mock-chartTypeButtons" />
+  <mock-chartTypeButtons data-testid="mock-chartTypeButtons">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-chartTypeButtons>
 ));
 
-jest.mock('./xAxisTab.component', () => () => (
+jest.mock('./xAxisTab.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-xAxisTab data-testid="mock-xAxisTab" />
+  <mock-xAxisTab data-testid="mock-xAxisTab">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-xAxisTab>
 ));
 
-jest.mock('./yAxisTab.component', () => () => (
+jest.mock('./yAxisTab.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-yAxisTab data-testid="mock-yAxisTab" />
+  <mock-yAxisTab data-testid="mock-yAxisTab">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-yAxisTab>
 ));
 
 describe('Plot Settings component', () => {
@@ -54,17 +82,18 @@ describe('Plot Settings component', () => {
         {
           systemName: 'timestamp',
           channel_dtype: 'scalar',
+          userFriendlyName: 'Time',
         },
       ],
       allChannels: testChannels as FullScalarChannelMetadata[],
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,
-      XAxis: '',
+      XAxis: 'test x-axis',
       changeXAxis,
       XAxisScale: 'linear',
       changeXAxisScale,
-      YAxesScale: 'linear',
+      YAxesScale: 'log',
       changeYAxesScale,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,

@@ -10,14 +10,21 @@ exports[`Plot Settings component renders plot settings form correctly (x-axis ta
     >
       <mock-plottitlefield
         data-testid="mock-plotTitleField"
-      />
+      >
+        changePlotTitle=undefined
+
+      </mock-plottitlefield>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
       <mock-charttypebuttons
         data-testid="mock-chartTypeButtons"
-      />
+      >
+        plotType="scatter"
+changePlotType=undefined
+
+      </mock-charttypebuttons>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -83,7 +90,55 @@ exports[`Plot Settings component renders plot settings form correctly (x-axis ta
         >
           <mock-xaxistab
             data-testid="mock-xAxisTab"
-          />
+          >
+            allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+XAxisScale="linear"
+XAxis="test x-axis"
+changeXAxis=undefined
+changeXAxisScale=undefined
+changeXMinimum=undefined
+changeXMaximum=undefined
+
+          </mock-xaxistab>
         </div>
       </div>
       <div
@@ -107,14 +162,21 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
     >
       <mock-plottitlefield
         data-testid="mock-plotTitleField"
-      />
+      >
+        changePlotTitle=undefined
+
+      </mock-plottitlefield>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
       <mock-charttypebuttons
         data-testid="mock-chartTypeButtons"
-      />
+      >
+        plotType="scatter"
+changePlotType=undefined
+
+      </mock-charttypebuttons>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -195,7 +257,62 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
         >
           <mock-yaxistab
             data-testid="mock-yAxisTab"
-          />
+          >
+            selectedRecordTableChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  }
+]
+allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+selectedPlotChannels=[]
+changeSelectedPlotChannels=undefined
+changeYMinimum=undefined
+changeYMaximum=undefined
+YAxesScale="log"
+changeYAxesScale=undefined
+
+          </mock-yaxistab>
         </div>
       </div>
     </div>
