@@ -1,6 +1,6 @@
 import React from 'react';
-import { IconButton, Tooltip } from '@mui/material';
-import { LineStyle, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, FormControlLabel, Grid, IconButton, Switch } from '@mui/material';
+import { LineStyle } from '@mui/icons-material';
 import ColourPicker from './colourPicker.component';
 import { SelectedPlotChannel } from '../../app.types';
 
@@ -13,110 +13,139 @@ export interface MoreOptionsProps {
 }
 
 const MoreOptions = (props: MoreOptionsProps) => {
-  const { channel, selectedPlotChannels, changeSelectedPlotChannels } = props;
+  const {
+    channel: thisChannel,
+    selectedPlotChannels,
+    changeSelectedPlotChannels,
+  } = props;
 
-  const toggleChannelVisibility = React.useCallback(
-    (channelName: string) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          channel.options.visible = !channel.options.visible;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels]
-  );
+  const toggleChannelVisibility = React.useCallback(() => {
+    const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+    newSelectedPlotChannelsArray.some((currentChannel) => {
+      if (currentChannel.name === thisChannel.name) {
+        currentChannel.options.visible = !currentChannel.options.visible;
+        return true;
+      }
+      return false;
+    });
+    changeSelectedPlotChannels(newSelectedPlotChannelsArray);
+  }, [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]);
 
   const changeChannelColour = React.useCallback(
-    (channelName: string, selectedColour: string) => {
+    (selectedColour: string) => {
       const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          channel.options.colour = selectedColour;
+      newSelectedPlotChannelsArray.some((currentChannel) => {
+        if (currentChannel.name === thisChannel.name) {
+          currentChannel.options.colour = selectedColour;
           return true;
         }
         return false;
       });
       changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedPlotChannels, selectedPlotChannels]
+    [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]
   );
 
-  const toggleChannelLineStyle = React.useCallback(
-    (channelName: string) => {
-      const newSelectedChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          if (channel.options.lineStyle === 'solid')
-            channel.options.lineStyle = 'dashed';
-          else if (channel.options.lineStyle === 'dashed')
-            channel.options.lineStyle = 'dotted';
-          else channel.options.lineStyle = 'solid';
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels]
-  );
+  const toggleChannelLineStyle = React.useCallback(() => {
+    const newSelectedChannelsArray = Array.from(selectedPlotChannels);
+    newSelectedChannelsArray.some((currentChannel) => {
+      if (currentChannel.name === thisChannel.name) {
+        if (thisChannel.options.lineStyle === 'solid')
+          currentChannel.options.lineStyle = 'dashed';
+        else if (currentChannel.options.lineStyle === 'dashed')
+          currentChannel.options.lineStyle = 'dotted';
+        else currentChannel.options.lineStyle = 'solid';
+        return true;
+      }
+      return false;
+    });
+    changeSelectedPlotChannels(newSelectedChannelsArray);
+  }, [
+    changeSelectedPlotChannels,
+    thisChannel.name,
+    thisChannel.options.lineStyle,
+    selectedPlotChannels,
+  ]);
 
   return (
     <div>
-      <Tooltip
-        title="Toggle visibility"
-        arrow
-        placement="top"
-        enterDelay={0}
-        leaveDelay={0}
-      >
-        {channel.options.visible ? (
-          <IconButton
-            color="primary"
-            aria-label={`Toggle ${channel.name} visibility off`}
-            size="small"
-            sx={{ paddingTop: '0', paddingBottom: '0' }}
-            onClick={() => toggleChannelVisibility(channel.name)}
-          >
-            <Visibility sx={{ color: 'black' }} />
-          </IconButton>
-        ) : (
-          <IconButton
-            color="primary"
-            aria-label={`Toggle ${channel.name} visibility on`}
-            size="small"
-            sx={{ paddingTop: '0', paddingBottom: '0' }}
-            onClick={() => toggleChannelVisibility(channel.name)}
-          >
-            <VisibilityOff sx={{ color: 'black' }} />
-          </IconButton>
-        )}
-      </Tooltip>
-      <Tooltip
-        title="Change line style"
-        arrow
-        placement="top"
-        enterDelay={0}
-        leaveDelay={0}
-      >
-        <IconButton
-          color="primary"
-          aria-label={`Change ${channel.name} line style`}
-          size="small"
-          sx={{ paddingTop: '0', paddingBottom: '0' }}
-          onClick={() => toggleChannelLineStyle(channel.name)}
+      <Grid container item key={thisChannel.name}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: 'inherit',
+            justifyContent: 'space-between',
+            border: 1,
+            padding: 1,
+          }}
         >
-          <LineStyle sx={{ color: 'black' }} />
-        </IconButton>
-      </Tooltip>
-      <ColourPicker
-        channelName={channel.name}
-        colour={channel.options.colour}
-        changeColour={changeChannelColour}
-      />
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                checked={thisChannel.options.visible}
+                sx={{ m: 1 }}
+              />
+            }
+            label="Visible"
+            labelPlacement="start"
+            onChange={() => toggleChannelVisibility()}
+          />
+        </Box>
+      </Grid>
+      <Grid container item key={thisChannel.name}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: 'inherit',
+            justifyContent: 'space-between',
+            border: 1,
+            padding: 1,
+          }}
+        >
+          <FormControlLabel
+            control={
+              <IconButton
+                color="primary"
+                aria-label={`Change ${thisChannel.name} line style`}
+                size="small"
+                sx={{ paddingTop: '0', paddingBottom: '0' }}
+                onClick={() => toggleChannelLineStyle()}
+              >
+                <LineStyle sx={{ color: 'black' }} />
+              </IconButton>
+            }
+            label="Line style"
+            labelPlacement="start"
+          />
+        </Box>
+      </Grid>
+      <Grid container item key={thisChannel.name}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: 'inherit',
+            justifyContent: 'space-between',
+            border: 1,
+            padding: 1,
+          }}
+        >
+          <FormControlLabel
+            control={
+              <ColourPicker
+                channelName={thisChannel.name}
+                colour={thisChannel.options.colour}
+                changeColour={changeChannelColour}
+              />
+            }
+            label="Colour"
+            labelPlacement="start"
+          />
+        </Box>
+      </Grid>
     </div>
   );
 };

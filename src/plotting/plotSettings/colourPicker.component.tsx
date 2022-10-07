@@ -48,7 +48,7 @@ const useClickOutside = (
 type ColourPickerProps = {
   channelName: string;
   colour: string;
-  changeColour: (channelName: string, colour: string) => void;
+  changeColour: (colour: string) => void;
 };
 
 const ColourPicker = (props: ColourPickerProps) => {
@@ -111,7 +111,7 @@ const ColourPicker = (props: ColourPickerProps) => {
           <HexColorPicker
             color={colour}
             onChange={(newColour: string) => {
-              changeColour(channelName, newColour);
+              changeColour(newColour);
             }}
           />
         </Box>

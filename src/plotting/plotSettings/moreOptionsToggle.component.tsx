@@ -79,23 +79,7 @@ const MoreOptionsToggle = (props: MoreOptionsProps) => {
             top: -95,
             right: 30,
             zIndex: 1,
-            borderRadius: 9,
-            boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
-            '& .react-colorful': {
-              height: 125,
-              width: 125,
-            },
-            '& .react-colorful__saturation': {
-              borderBottom: '5px solid #000',
-            },
-            '& .react-colorful__hue': {
-              height: 16,
-            },
-            '& .react-colorful__saturation-pointer, .react-colorful__hue-pointer':
-              {
-                height: 16,
-                width: 16,
-              },
+            backgroundColor: '#ffffff',
           }}
           ref={popover}
         >
