@@ -93,7 +93,7 @@ describe('Plot Settings component', () => {
       changeXAxis,
       XAxisScale: 'linear',
       changeXAxisScale,
-      YAxesScale: 'log',
+      YAxesScale: 'logarithmic',
       changeYAxesScale,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,

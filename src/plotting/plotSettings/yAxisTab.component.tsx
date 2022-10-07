@@ -25,7 +25,7 @@ import {
   VisibilityOff,
   LineStyle,
 } from '@mui/icons-material';
-import ColourPicker from '../colourPicker.component';
+import ColourPicker from './colourPicker.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
