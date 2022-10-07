@@ -50,7 +50,7 @@ const StyledTab = styled(Tab)(() => ({
   width: 10,
 }));
 
-export interface PlotSettingsProps {
+export interface PlotSettingsControllerProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
   allChannels: FullScalarChannelMetadata[];
   changePlotTitle: (title: string) => void;
@@ -72,7 +72,7 @@ export interface PlotSettingsProps {
   changeYMaximum: (value: number | undefined) => void;
 }
 
-const PlotSettingsController = (props: PlotSettingsProps) => {
+const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   const {
     selectedRecordTableChannels,
     allChannels,
