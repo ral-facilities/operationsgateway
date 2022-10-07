@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotSettings from './plotSettings.component';
+import PlotSettings from './plotSettings/plotSettingsController.component';
 import Plot from './plot.component';
 import PlotButtons from './plotButtons.component';
 import {
