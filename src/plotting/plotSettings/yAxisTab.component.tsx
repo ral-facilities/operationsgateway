@@ -6,7 +6,6 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
-  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -18,14 +17,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Search,
-  Close,
-  Visibility,
-  VisibilityOff,
-  LineStyle,
-} from '@mui/icons-material';
-import ColourPicker from './colourPicker.component';
+import { Search, Close } from '@mui/icons-material';
+import MoreOptionsToggle from './moreOptionsToggle.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
@@ -239,55 +232,6 @@ const YAxisTab = (props: YAxisTabProps) => {
     ]
   );
 
-  const toggleChannelVisibility = React.useCallback(
-    (channelName: string) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          channel.options.visible = !channel.options.visible;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels]
-  );
-
-  const changeChannelColour = React.useCallback(
-    (channelName: string, selectedColour: string) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          channel.options.colour = selectedColour;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels]
-  );
-
-  const toggleChannelLineStyle = React.useCallback(
-    (channelName: string) => {
-      const newSelectedChannelsArray = Array.from(selectedPlotChannels);
-      newSelectedChannelsArray.some((channel) => {
-        if (channel.name === channelName) {
-          if (channel.options.lineStyle === 'solid')
-            channel.options.lineStyle = 'dashed';
-          else if (channel.options.lineStyle === 'dashed')
-            channel.options.lineStyle = 'dotted';
-          else channel.options.lineStyle = 'solid';
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels]
-  );
-
   return (
     <Grid container spacing={1} mt={1}>
       <Grid container item spacing={1}>
@@ -455,7 +399,7 @@ const YAxisTab = (props: YAxisTabProps) => {
               placement="top"
               leaveDelay={0}
             >
-              <Typography maxWidth="150" noWrap>
+              <Typography maxWidth="208" noWrap>
                 {plotChannel.name}
               </Typography>
             </Tooltip>
@@ -473,56 +417,10 @@ const YAxisTab = (props: YAxisTabProps) => {
                     }
               }
             >
-              <Tooltip
-                title="Toggle visibility"
-                arrow
-                placement="top"
-                enterDelay={0}
-                leaveDelay={0}
-              >
-                {plotChannel.options.visible ? (
-                  <IconButton
-                    color="primary"
-                    aria-label={`Toggle ${plotChannel.name} visibility off`}
-                    size="small"
-                    sx={{ paddingTop: '0', paddingBottom: '0' }}
-                    onClick={() => toggleChannelVisibility(plotChannel.name)}
-                  >
-                    <Visibility sx={{ color: 'black' }} />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    color="primary"
-                    aria-label={`Toggle ${plotChannel.name} visibility on`}
-                    size="small"
-                    sx={{ paddingTop: '0', paddingBottom: '0' }}
-                    onClick={() => toggleChannelVisibility(plotChannel.name)}
-                  >
-                    <VisibilityOff sx={{ color: 'black' }} />
-                  </IconButton>
-                )}
-              </Tooltip>
-              <Tooltip
-                title="Change line style"
-                arrow
-                placement="top"
-                enterDelay={0}
-                leaveDelay={0}
-              >
-                <IconButton
-                  color="primary"
-                  aria-label={`Change ${plotChannel.name} line style`}
-                  size="small"
-                  sx={{ paddingTop: '0', paddingBottom: '0' }}
-                  onClick={() => toggleChannelLineStyle(plotChannel.name)}
-                >
-                  <LineStyle sx={{ color: 'black' }} />
-                </IconButton>
-              </Tooltip>
-              <ColourPicker
-                channelName={plotChannel.name}
-                colour={plotChannel.options.colour}
-                changeColour={changeChannelColour}
+              <MoreOptionsToggle
+                channel={plotChannel}
+                selectedPlotChannels={selectedPlotChannels}
+                changeSelectedPlotChannels={changeSelectedPlotChannels}
               />
               <Tooltip
                 title="Remove from plot"

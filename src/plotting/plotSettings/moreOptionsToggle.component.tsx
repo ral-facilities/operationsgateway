@@ -1,6 +1,9 @@
 import React from 'react';
-import { HexColorPicker } from 'react-colorful';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
+import { MoreVert } from '@mui/icons-material';
+import MoreOptions from './moreOptions.component';
+
+import type { MoreOptionsProps } from './moreOptions.component';
 
 // from react-colorful PopoverPicker demo :https://codesandbox.io/s/opmco?file=/src/PopoverPicker.js
 
@@ -45,14 +48,9 @@ const useClickOutside = (
   }, [ref, handler, customDocument]);
 };
 
-type ColourPickerProps = {
-  channelName: string;
-  colour: string;
-  changeColour: (channelName: string, colour: string) => void;
-};
+const MoreOptionsToggle = (props: MoreOptionsProps) => {
+  const { name: channelName } = props.channel;
 
-const ColourPicker = (props: ColourPickerProps) => {
-  const { channelName, colour, changeColour } = props;
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -63,22 +61,15 @@ const ColourPicker = (props: ColourPickerProps) => {
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
-      <Box
-        sx={{
-          width: 24,
-          height: 24,
-          borderRadius: '8px',
-          border: '3px solid #fff',
-          boxShadow:
-            '0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1)',
-          cursor: 'pointer',
-          backgroundColor: colour,
-        }}
-        component="button"
+      <IconButton
+        color="primary"
+        aria-label={`More options for ${channelName}`}
+        size="small"
+        sx={{ paddingTop: '0', paddingBottom: '0' }}
         onClick={() => toggle(!isOpen)}
-        aria-label={`Pick ${channelName} colour`}
-        aria-haspopup="dialog"
-      />
+      >
+        <MoreVert sx={{ color: 'black' }} />
+      </IconButton>
 
       {isOpen && (
         <Box
@@ -108,16 +99,11 @@ const ColourPicker = (props: ColourPickerProps) => {
           }}
           ref={popover}
         >
-          <HexColorPicker
-            color={colour}
-            onChange={(newColour: string) => {
-              changeColour(channelName, newColour);
-            }}
-          />
+          <MoreOptions {...props} />
         </Box>
       )}
     </Box>
   );
 };
 
-export default ColourPicker;
+export default MoreOptionsToggle;
