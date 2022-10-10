@@ -21,7 +21,7 @@ const FilterInput = (props: FilterInputProps) => {
   }, [channels]);
   const [inputValue, setInputValue] = React.useState<string>('');
 
-  React.useEffect(() => {
+  const checkErrors = React.useCallback(() => {
     try {
       parseFilter(value);
       setError('');
@@ -33,13 +33,13 @@ const FilterInput = (props: FilterInputProps) => {
   return (
     <Autocomplete
       multiple
-      id="tags-outlined"
       options={options}
       freeSolo
       autoHighlight
       size="small"
       fullWidth
       inputValue={inputValue}
+      onBlur={checkErrors}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
@@ -63,6 +63,7 @@ const FilterInput = (props: FilterInputProps) => {
             if (!Number.isNaN(Number(newTerm))) {
               newValue[newTermIndex] = { type: 'number', value: newTerm };
               setValue(newValue as Token[]);
+              setError('');
             } // new term is a string specified by either single or double quotes so allow it
             else if (
               (newTerm[0] === '"' && newTerm[newTerm.length - 1] === '"') ||
@@ -70,6 +71,7 @@ const FilterInput = (props: FilterInputProps) => {
             ) {
               newValue[newTermIndex] = { type: 'string', value: newTerm };
               setValue(newValue as Token[]);
+              setError('');
             } else {
               // otherwise don't add the new term & leave it in textbox
               setInputValue(newTerm);
@@ -77,6 +79,7 @@ const FilterInput = (props: FilterInputProps) => {
           }
         } else {
           setValue(newValue as Token[]);
+          setError('');
         }
       }}
       // this is need to allow user to repeatedly select the same tag
