@@ -86,7 +86,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
     "@craco/craco": "6.4.3",
-    "@playwright/test": "1.26.1",
+    "@playwright/test": "1.27.0",
     "@testing-library/dom": "8.18.1",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.4.0",
