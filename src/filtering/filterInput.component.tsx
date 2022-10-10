@@ -55,27 +55,25 @@ const FilterInput = (props: FilterInputProps) => {
         // createOption implies a value which is not in options so either
         // a number, a string (surrounded by quotes) or we should reject
         if (reason === 'createOption') {
-          // newTerm is a string not a Token so use that fact to find it
-          const newTerm = newValue.find((v) => typeof v === 'string');
-          if (newTerm && typeof newTerm === 'string') {
-            const newTermIndex = newValue.indexOf(newTerm);
-            // new term is a valid number so allow it to be added
-            if (!Number.isNaN(Number(newTerm))) {
-              newValue[newTermIndex] = { type: 'number', value: newTerm };
-              setValue(newValue as Token[]);
-              setError('');
-            } // new term is a string specified by either single or double quotes so allow it
-            else if (
-              (newTerm[0] === '"' && newTerm[newTerm.length - 1] === '"') ||
-              (newTerm[0] === "'" && newTerm[newTerm.length - 1] === "'")
-            ) {
-              newValue[newTermIndex] = { type: 'string', value: newTerm };
-              setValue(newValue as Token[]);
-              setError('');
-            } else {
-              // otherwise don't add the new term & leave it in textbox
-              setInputValue(newTerm);
-            }
+          // newTerm is a string not a Token so use that fact to find it (and it means we can safely cast here)
+          const newTerm = newValue.find((v) => typeof v === 'string') as string;
+          const newTermIndex = newValue.indexOf(newTerm);
+          // new term is a valid number so allow it to be added
+          if (!Number.isNaN(Number(newTerm))) {
+            newValue[newTermIndex] = { type: 'number', value: newTerm };
+            setValue(newValue as Token[]);
+            setError('');
+          } // new term is a string specified by either single or double quotes so allow it
+          else if (
+            (newTerm[0] === '"' && newTerm[newTerm.length - 1] === '"') ||
+            (newTerm[0] === "'" && newTerm[newTerm.length - 1] === "'")
+          ) {
+            newValue[newTermIndex] = { type: 'string', value: newTerm };
+            setValue(newValue as Token[]);
+            setError('');
+          } else {
+            // otherwise don't add the new term & leave it in textbox
+            setInputValue(newTerm);
           }
         } else {
           setValue(newValue as Token[]);
