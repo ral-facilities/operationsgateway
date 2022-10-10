@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, FormControlLabel, Grid, IconButton, Switch } from '@mui/material';
-import { LineStyle } from '@mui/icons-material';
+import { Box, Grid, NativeSelect, Switch, Typography } from '@mui/material';
 import ColourPicker from './colourPicker.component';
-import { SelectedPlotChannel } from '../../app.types';
+import { LineStyle, SelectedPlotChannel } from '../../app.types';
 
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
@@ -18,6 +17,8 @@ const MoreOptions = (props: MoreOptionsProps) => {
     selectedPlotChannels,
     changeSelectedPlotChannels,
   } = props;
+
+  const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dashed', 'dotted'];
 
   const toggleChannelVisibility = React.useCallback(() => {
     const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
@@ -46,26 +47,25 @@ const MoreOptions = (props: MoreOptionsProps) => {
     [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]
   );
 
-  const toggleChannelLineStyle = React.useCallback(() => {
-    const newSelectedChannelsArray = Array.from(selectedPlotChannels);
-    newSelectedChannelsArray.some((currentChannel) => {
-      if (currentChannel.name === thisChannel.name) {
-        if (thisChannel.options.lineStyle === 'solid')
-          currentChannel.options.lineStyle = 'dashed';
-        else if (currentChannel.options.lineStyle === 'dashed')
-          currentChannel.options.lineStyle = 'dotted';
-        else currentChannel.options.lineStyle = 'solid';
-        return true;
-      }
-      return false;
-    });
-    changeSelectedPlotChannels(newSelectedChannelsArray);
-  }, [
-    changeSelectedPlotChannels,
-    thisChannel.name,
-    thisChannel.options.lineStyle,
-    selectedPlotChannels,
-  ]);
+  const changeChannelLineStyle = React.useCallback(
+    (chosenStyle: LineStyle) => {
+      const newSelectedChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedChannelsArray.some((currentChannel) => {
+        if (currentChannel.name === thisChannel.name) {
+          thisChannel.options.lineStyle = chosenStyle;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedPlotChannels(newSelectedChannelsArray);
+    },
+    [
+      selectedPlotChannels,
+      changeSelectedPlotChannels,
+      thisChannel.name,
+      thisChannel.options,
+    ]
+  );
 
   return (
     <div>
@@ -77,19 +77,15 @@ const MoreOptions = (props: MoreOptionsProps) => {
             width: 'inherit',
             justifyContent: 'space-between',
             border: 1,
-            padding: 1,
+            padding: '0px 0px 0px 8px',
+            alignItems: 'center',
           }}
         >
-          <FormControlLabel
-            control={
-              <Switch
-                size="small"
-                checked={thisChannel.options.visible}
-                sx={{ m: 1 }}
-              />
-            }
-            label="Visible"
-            labelPlacement="start"
+          <Typography sx={{ fontSize: 12 }}>Visible</Typography>
+          <Switch
+            size="small"
+            checked={thisChannel.options.visible}
+            sx={{ m: 1 }}
             onChange={() => toggleChannelVisibility()}
           />
         </Box>
@@ -103,23 +99,27 @@ const MoreOptions = (props: MoreOptionsProps) => {
             justifyContent: 'space-between',
             border: 1,
             padding: 1,
+            alignItems: 'center',
           }}
         >
-          <FormControlLabel
-            control={
-              <IconButton
-                color="primary"
-                aria-label={`Change ${thisChannel.name} line style`}
-                size="small"
-                sx={{ paddingTop: '0', paddingBottom: '0' }}
-                onClick={() => toggleChannelLineStyle()}
-              >
-                <LineStyle sx={{ color: 'black' }} />
-              </IconButton>
-            }
-            label="Line style"
-            labelPlacement="start"
-          />
+          <Typography sx={{ fontSize: 12 }}>Line style</Typography>
+          <NativeSelect
+            value={thisChannel.options.lineStyle}
+            onChange={(event) => {
+              const newValue = event.target.value;
+              changeChannelLineStyle(newValue as LineStyle);
+            }}
+            sx={{ fontSize: 12, width: 70 }}
+            inputProps={{
+              id: `${thisChannel.name} line style`,
+            }}
+          >
+            {LINE_STYLE_VALUES.map((style) => (
+              <option key={style} value={style}>
+                {style}
+              </option>
+            ))}
+          </NativeSelect>
         </Box>
       </Grid>
       <Grid container item key={thisChannel.name}>
@@ -131,18 +131,14 @@ const MoreOptions = (props: MoreOptionsProps) => {
             justifyContent: 'space-between',
             border: 1,
             padding: 1,
+            alignItems: 'center',
           }}
         >
-          <FormControlLabel
-            control={
-              <ColourPicker
-                channelName={thisChannel.name}
-                colour={thisChannel.options.colour}
-                changeColour={changeChannelColour}
-              />
-            }
-            label="Colour"
-            labelPlacement="start"
+          <Typography sx={{ fontSize: 12 }}>Colour</Typography>
+          <ColourPicker
+            channelName={thisChannel.name}
+            colour={thisChannel.options.colour}
+            changeColour={changeChannelColour}
           />
         </Box>
       </Grid>

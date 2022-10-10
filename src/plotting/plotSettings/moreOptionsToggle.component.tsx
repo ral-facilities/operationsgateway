@@ -80,6 +80,7 @@ const MoreOptionsToggle = (props: MoreOptionsProps) => {
             right: 30,
             zIndex: 1,
             backgroundColor: '#ffffff',
+            width: 150,
           }}
           ref={popover}
         >
