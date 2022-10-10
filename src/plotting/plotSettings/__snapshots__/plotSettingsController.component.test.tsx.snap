@@ -309,7 +309,7 @@ selectedPlotChannels=[]
 changeSelectedPlotChannels=undefined
 changeYMinimum=undefined
 changeYMaximum=undefined
-YAxesScale="log"
+YAxesScale="logarithmic"
 changeYAxesScale=undefined
 
           </mock-yaxistab>

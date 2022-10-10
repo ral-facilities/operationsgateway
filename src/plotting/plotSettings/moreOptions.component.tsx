@@ -52,24 +52,19 @@ const MoreOptions = (props: MoreOptionsProps) => {
       const newSelectedChannelsArray = Array.from(selectedPlotChannels);
       newSelectedChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
-          thisChannel.options.lineStyle = chosenStyle;
+          currentChannel.options.lineStyle = chosenStyle;
           return true;
         }
         return false;
       });
       changeSelectedPlotChannels(newSelectedChannelsArray);
     },
-    [
-      selectedPlotChannels,
-      changeSelectedPlotChannels,
-      thisChannel.name,
-      thisChannel.options,
-    ]
+    [selectedPlotChannels, changeSelectedPlotChannels, thisChannel.name]
   );
 
   return (
     <div>
-      <Grid container item key={thisChannel.name}>
+      <Grid container item>
         <Box
           sx={{
             display: 'flex',
@@ -85,12 +80,15 @@ const MoreOptions = (props: MoreOptionsProps) => {
           <Switch
             size="small"
             checked={thisChannel.options.visible}
+            aria-label={`toggle ${thisChannel.name} visibility ${
+              thisChannel.options.visible ? 'off' : 'on'
+            }`}
             sx={{ m: 1 }}
             onChange={() => toggleChannelVisibility()}
           />
         </Box>
       </Grid>
-      <Grid container item key={thisChannel.name}>
+      <Grid container item>
         <Box
           sx={{
             display: 'flex',
@@ -111,18 +109,22 @@ const MoreOptions = (props: MoreOptionsProps) => {
             }}
             sx={{ fontSize: 12, width: 70 }}
             inputProps={{
-              id: `${thisChannel.name} line style`,
+              'aria-label': `change ${thisChannel.name} line style`,
             }}
           >
-            {LINE_STYLE_VALUES.map((style) => (
-              <option key={style} value={style}>
-                {style}
-              </option>
-            ))}
+            {LINE_STYLE_VALUES.map((style) => {
+              const capitalised =
+                style.charAt(0).toUpperCase() + style.slice(1);
+              return (
+                <option key={style} value={style}>
+                  {capitalised}
+                </option>
+              );
+            })}
           </NativeSelect>
         </Box>
       </Grid>
-      <Grid container item key={thisChannel.name}>
+      <Grid container item>
         <Box
           sx={{
             display: 'flex',

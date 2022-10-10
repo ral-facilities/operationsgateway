@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MoreOptions renders correctly 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-95xm42"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+        >
+          Visible
+        </p>
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeSmall css-1yui6zx-MuiSwitch-root"
+        >
+          <span
+            aria-label="toggle activeArea visibility off"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+            />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          />
+        </span>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-1fz0abn"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+        >
+          Line style
+        </p>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-vb6qyb-MuiInputBase-root-MuiInput-root"
+        >
+          <select
+            aria-label="change activeArea line style"
+            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+          >
+            <option
+              value="solid"
+            >
+              Solid
+            </option>
+            <option
+              value="dashed"
+            >
+              Dashed
+            </option>
+            <option
+              value="dotted"
+            >
+              Dotted
+            </option>
+          </select>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-1fz0abn"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+        >
+          Colour
+        </p>
+        <div
+          class="MuiBox-root css-79elbk"
+        >
+          <button
+            aria-haspopup="dialog"
+            aria-label="Pick activeArea colour"
+            class="MuiBox-root css-129yjn7"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

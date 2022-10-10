@@ -32,10 +32,7 @@ describe('ColourPicker component', () => {
 
     await user.click(screen.getByLabelText('Color'));
 
-    expect(props.changeColour).toHaveBeenCalledWith(
-      props.channelName,
-      expect.anything()
-    );
+    expect(props.changeColour).toHaveBeenCalledWith(expect.anything());
   });
 
   it('closes colour picker only when you click outside of it', async () => {

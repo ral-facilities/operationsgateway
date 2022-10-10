@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, IconButton } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import MoreOptions from './moreOptions.component';
-
 import type { MoreOptionsProps } from './moreOptions.component';
 
 // from react-colorful PopoverPicker demo :https://codesandbox.io/s/opmco?file=/src/PopoverPicker.js
