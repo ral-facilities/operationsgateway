@@ -61,16 +61,16 @@ const XAxisTab = (props: XAxisTabProps) => {
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   React.useEffect(() => {
-    if (xMinimum) {
-      if (parseFloat(xMinimum)) changeXMinimum(parseFloat(xMinimum));
+    if (xMinimum && parseFloat(xMinimum)) {
+      changeXMinimum(parseFloat(xMinimum));
     } else {
       changeXMinimum(undefined);
     }
   }, [changeXMinimum, xMinimum]);
 
   React.useEffect(() => {
-    if (xMaximum) {
-      if (parseFloat(xMaximum)) changeXMaximum(parseFloat(xMaximum));
+    if (xMaximum && parseFloat(xMaximum)) {
+      changeXMaximum(parseFloat(xMaximum));
     } else {
       changeXMaximum(undefined);
     }

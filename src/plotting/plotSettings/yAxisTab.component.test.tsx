@@ -50,6 +50,30 @@ describe('y-axis tab', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
+  it('renders correctly with selected channels', () => {
+    props.selectedPlotChannels = testChannels.map((channel) => ({
+      name: channel.systemName,
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'solid',
+      },
+    }));
+
+    createView();
+
+    props.selectedPlotChannels.forEach((channel) => {
+      const channelLabel = screen.getByLabelText(`${channel.name} label`);
+      expect(within(channelLabel).getByText(channel.name)).toBeInTheDocument();
+      expect(
+        within(channelLabel).getByLabelText(`More options for ${channel.name}`)
+      ).toBeInTheDocument();
+      expect(
+        within(channelLabel).getByLabelText(`Remove ${channel.name} from plot`)
+      ).toBeInTheDocument();
+    });
+  });
+
   it('renders Y scale radio buttons and calls changeYAxesScale on click', async () => {
     createView();
 
@@ -158,8 +182,6 @@ describe('y-axis tab', () => {
     expect(changeSelectedPlotChannels).not.toHaveBeenCalled();
   });
 
-  it.todo('user can click on more options');
-
   it('removes channel from display when we click Close on its label', async () => {
     props.selectedPlotChannels = [
       {
@@ -228,6 +250,28 @@ describe('y-axis tab', () => {
       const maxField = screen.getByLabelText('Max');
       await user.type(maxField, '1');
       expect(changeYMaximum).toHaveBeenCalledWith(1);
+    });
+
+    it('sets minimum value to undefined if no float value is present', async () => {
+      createView();
+
+      const minField = screen.getByLabelText('Min');
+      await user.type(minField, '1');
+      expect(changeYMinimum).toHaveBeenLastCalledWith(1);
+
+      await user.clear(minField);
+      expect(changeYMinimum).toHaveBeenLastCalledWith(undefined);
+    });
+
+    it('sets maximum value to undefined if no float value is present', async () => {
+      createView();
+
+      const maxField = screen.getByLabelText('Max');
+      await user.type(maxField, '1');
+      expect(changeYMaximum).toHaveBeenLastCalledWith(1);
+
+      await user.clear(maxField);
+      expect(changeYMaximum).toHaveBeenLastCalledWith(undefined);
     });
 
     it('displays helper text when min and max fields contain an invalid range', async () => {

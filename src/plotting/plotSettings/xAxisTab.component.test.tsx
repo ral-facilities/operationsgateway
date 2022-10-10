@@ -162,6 +162,28 @@ describe('x-axis tab', () => {
         expect(changeXMaximum).toHaveBeenCalledWith(1);
       });
 
+      it('sets minimum value to undefined if no float value is present', async () => {
+        createView();
+
+        const minField = screen.getByLabelText('Min');
+        await user.type(minField, '1');
+        expect(changeXMinimum).toHaveBeenLastCalledWith(1);
+
+        await user.clear(minField);
+        expect(changeXMinimum).toHaveBeenLastCalledWith(undefined);
+      });
+
+      it('sets maximum value to undefined if no float value is present', async () => {
+        createView();
+
+        const maxField = screen.getByLabelText('Max');
+        await user.type(maxField, '1');
+        expect(changeXMaximum).toHaveBeenLastCalledWith(1);
+
+        await user.clear(maxField);
+        expect(changeXMaximum).toHaveBeenLastCalledWith(undefined);
+      });
+
       it('displays helper text when min and max fields contain an invalid range', async () => {
         createView();
 

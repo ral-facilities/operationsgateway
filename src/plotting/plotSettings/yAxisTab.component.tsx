@@ -161,16 +161,16 @@ const YAxisTab = (props: YAxisTabProps) => {
   const [selectValue, setSelectValue] = React.useState<string>('');
 
   React.useEffect(() => {
-    if (yMinimum) {
-      if (parseFloat(yMinimum)) changeYMinimum(parseFloat(yMinimum));
+    if (yMinimum && parseFloat(yMinimum)) {
+      changeYMinimum(parseFloat(yMinimum));
     } else {
       changeYMinimum(undefined);
     }
   }, [changeYMinimum, yMinimum]);
 
   React.useEffect(() => {
-    if (yMaximum) {
-      if (parseFloat(yMaximum)) changeYMaximum(parseFloat(yMaximum));
+    if (yMaximum && parseFloat(yMaximum)) {
+      changeYMaximum(parseFloat(yMaximum));
     } else {
       changeYMaximum(undefined);
     }
