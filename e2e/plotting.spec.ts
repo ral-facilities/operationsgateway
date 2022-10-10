@@ -47,8 +47,8 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('text=shotnum').click();
 
+  await popup.locator('[aria-label="More options for shotnum"]').click();
   await popup.locator('[aria-label="Pick shotnum colour"]').click();
-
   await popup.locator('[aria-label="Hue"]').click();
   await popup.locator('[aria-label="Color"]').click();
 
@@ -256,7 +256,8 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   await popup.locator('text=shotnum').click();
 
-  await popup.locator('[aria-label="Toggle shotnum visibility off"]').click();
+  await popup.locator('[aria-label="More options for shotnum"]').click();
+  await popup.locator('[aria-label="toggle shotnum visibility off"]').click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -510,15 +511,15 @@ test('user can change line style of plotted channels', async ({
 
   await popup.locator('text=shotnum').click();
 
+  await popup.locator('[aria-label="More options for CHANNEL_DEFGH"]').click();
   await popup
-    .locator('[aria-label="Change CHANNEL_DEFGH line style"]')
-    .click({ force: true });
+    .locator('[aria-label="change CHANNEL_DEFGH line style"]')
+    .selectOption('dashed');
+
+  await popup.locator('[aria-label="More options for shotnum"]').click();
   await popup
-    .locator('[aria-label="Change shotnum line style"]')
-    .click({ force: true });
-  await popup
-    .locator('[aria-label="Change shotnum line style"]')
-    .click({ force: true });
+    .locator('[aria-label="change shotnum line style"]')
+    .selectOption('dotted');
 
   await popup.locator('[aria-label="close settings"]').click();
 
