@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Plot Settings component renders plot settings form correctly (x-axis tab selected) 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-plottitlefield
+        data-testid="mock-plotTitleField"
+      >
+        changePlotTitle=undefined
+
+      </mock-plottitlefield>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-charttypebuttons
+        data-testid="mock-chartTypeButtons"
+      >
+        plotType="scatter"
+changePlotType=undefined
+
+      </mock-charttypebuttons>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-1gsv261"
+      >
+        <div
+          class="MuiTabs-root css-1yb2e4d-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              aria-label="tabs"
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-controls="X-tabpanel"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="X-tab"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                X
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="Y-tabpanel"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="Y-tab"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                Y
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="X-tab"
+        id="X-tabpanel"
+        role="tabpanel"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <mock-xaxistab
+            data-testid="mock-xAxisTab"
+          >
+            allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+XAxisScale="linear"
+XAxis="test x-axis"
+changeXAxis=undefined
+changeXAxisScale=undefined
+changeXMinimum=undefined
+changeXMaximum=undefined
+
+          </mock-xaxistab>
+        </div>
+      </div>
+      <div
+        aria-labelledby="Y-tab"
+        hidden=""
+        id="Y-tabpanel"
+        role="tabpanel"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Plot Settings component renders plot settings form correctly (y-axis tab selected) 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-plottitlefield
+        data-testid="mock-plotTitleField"
+      >
+        changePlotTitle=undefined
+
+      </mock-plottitlefield>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-charttypebuttons
+        data-testid="mock-chartTypeButtons"
+      >
+        plotType="scatter"
+changePlotType=undefined
+
+      </mock-charttypebuttons>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiBox-root css-1gsv261"
+      >
+        <div
+          class="MuiTabs-root css-1yb2e4d-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              aria-label="tabs"
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-controls="X-tabpanel"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="X-tab"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                X
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="Y-tabpanel"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-ejfd77-MuiButtonBase-root-MuiTab-root"
+                id="Y-tab"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                Y
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                >
+                  <span
+                    class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible"
+                    style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
+                  >
+                    <span
+                      class="MuiTouchRipple-child MuiTouchRipple-childLeaving"
+                    />
+                  </span>
+                </span>
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        aria-labelledby="X-tab"
+        hidden=""
+        id="X-tabpanel"
+        role="tabpanel"
+      />
+      <div
+        aria-labelledby="Y-tab"
+        id="Y-tabpanel"
+        role="tabpanel"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <mock-yaxistab
+            data-testid="mock-yAxisTab"
+          >
+            selectedRecordTableChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  }
+]
+allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+selectedPlotChannels=[]
+changeSelectedPlotChannels=undefined
+changeYMinimum=undefined
+changeYMaximum=undefined
+YAxesScale="logarithmic"
+changeYAxesScale=undefined
+
+          </mock-yaxistab>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

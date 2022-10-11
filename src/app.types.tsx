@@ -145,21 +145,16 @@ export interface ColumnState {
 }
 
 export type PlotType = 'scatter' | 'line';
-interface AxisSettings {
-  min?: number;
-  max?: number;
-}
 
-export interface XAxisSettings extends AxisSettings {
-  scale: Extract<
-    keyof CartesianScaleTypeRegistry,
-    'linear' | 'logarithmic' | 'time'
-  >;
-}
+export type XAxisScale = Extract<
+  keyof CartesianScaleTypeRegistry,
+  'linear' | 'logarithmic' | 'time'
+>;
 
-export interface YAxisSettings extends AxisSettings {
-  scale: Extract<keyof CartesianScaleTypeRegistry, 'linear' | 'logarithmic'>;
-}
+export type YAxesScale = Extract<
+  keyof CartesianScaleTypeRegistry,
+  'linear' | 'logarithmic'
+>;
 
 export type PlotDataset = {
   name: string;
@@ -172,10 +167,13 @@ export type SelectedPlotChannel = {
   name: string;
   options: {
     visible: boolean;
+    lineStyle: LineStyle;
     colour: string;
     yAxis: 'left' | 'right';
   };
 };
+
+export type LineStyle = 'solid' | 'dashed' | 'dotted';
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
