@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MoreOptionsToggle renders correctly when options box not open 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-79elbk"
+  >
+    <button
+      aria-label="More options for shotnum"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-3p3qgx-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-wg28wd-MuiSvgIcon-root"
+        data-testid="MoreVertIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MoreOptionsToggle renders correctly when options box open and passes all props to the child component 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-79elbk"
+  >
+    <button
+      aria-label="More options for shotnum"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-3p3qgx-MuiButtonBase-root-MuiIconButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-wg28wd-MuiSvgIcon-root"
+        data-testid="MoreVertIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+        />
+      </svg>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      >
+        <span
+          class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible"
+          style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+        >
+          <span
+            class="MuiTouchRipple-child MuiTouchRipple-childLeaving"
+          />
+        </span>
+      </span>
+    </button>
+    <div
+      class="MuiBox-root css-jqdgkj"
+      role="dialog"
+    >
+      <mock-moreoptionsbox
+        data-testid="mock-moreOptionsBox"
+      >
+        channel={
+  "name": "shotnum",
+  "options": {
+    "visible": true,
+    "colour": "colour-0",
+    "lineStyle": "solid"
+  }
+}
+selectedPlotChannels=[
+  {
+    "name": "shotnum",
+    "options": {
+      "visible": true,
+      "colour": "colour-0",
+      "lineStyle": "solid"
+    }
+  },
+  {
+    "name": "activeArea",
+    "options": {
+      "visible": true,
+      "colour": "colour-1",
+      "lineStyle": "solid"
+    }
+  },
+  {
+    "name": "activeExperiment",
+    "options": {
+      "visible": true,
+      "colour": "colour-2",
+      "lineStyle": "solid"
+    }
+  }
+]
+changeSelectedPlotChannels=undefined
+
+      </mock-moreoptionsbox>
+    </div>
+  </div>
+</DocumentFragment>
+`;

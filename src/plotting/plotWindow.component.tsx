@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotSettings from './plotSettings.component';
+import PlotSettings from './plotSettings/plotSettingsController.component';
 import Plot from './plot.component';
 import PlotButtons from './plotButtons.component';
 import {
@@ -14,8 +14,8 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {
-  XAxisSettings,
-  YAxisSettings,
+  XAxisScale,
+  YAxesScale,
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
@@ -36,17 +36,29 @@ const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, untitledTitle } = props;
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
-  const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
-    scale: 'linear',
-  });
-  const [YAxesSettings, setYAxesSettings] = React.useState<YAxisSettings>({
-    scale: 'linear',
-  });
+  const [xMinimum, setXMinimum] = React.useState<number | undefined>(undefined);
+  const [xMaximum, setXMaximum] = React.useState<number | undefined>(undefined);
+  const [yMinimum, setYMinimum] = React.useState<number | undefined>(undefined);
+  const [yMaximum, setYMaximum] = React.useState<number | undefined>(undefined);
+  const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>('linear');
+  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>('linear');
+
   const [XAxis, setXAxis] = React.useState<string>('');
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
   >([]);
+  const [gridVisible, setGridVisible] = React.useState<boolean>(true);
+  const [axesLabelsVisible, setAxesLabelsVisible] =
+    React.useState<boolean>(true);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
+
+  const toggleGridVisibility = React.useCallback(() => {
+    setGridVisible(!gridVisible);
+  }, [gridVisible]);
+
+  const toggleAxesLabelsVisibility = React.useCallback(() => {
+    setAxesLabelsVisible(!axesLabelsVisible);
+  }, [axesLabelsVisible]);
 
   const resetView = React.useCallback(() => {
     setViewFlag(!viewFlag);
@@ -128,12 +140,16 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changePlotType={setPlotType}
                 XAxis={XAxis}
                 changeXAxis={setXAxis}
-                XAxisSettings={XAxisSettings}
-                changeXAxisSettings={setXAxisSettings}
-                YAxesSettings={YAxesSettings}
-                changeYAxesSettings={setYAxesSettings}
+                XAxisScale={XAxisScale}
+                changeXAxisScale={setXAxisScale}
+                YAxesScale={YAxesScale}
+                changeYAxesScale={setYAxesScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
+                changeXMinimum={setXMinimum}
+                changeXMaximum={setXMaximum}
+                changeYMinimum={setYMinimum}
+                changeYMaximum={setYMaximum}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -185,6 +201,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 canvasRef={canvasRef}
                 title={plotTitle || untitledTitle}
                 XAxis={XAxis}
+                gridVisible={gridVisible}
+                axesLabelsVisible={axesLabelsVisible}
+                toggleGridVisibility={toggleGridVisibility}
+                toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
                 resetView={resetView}
               />
             </Grid>
@@ -195,9 +215,15 @@ const PlotWindow = (props: PlotWindowProps) => {
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
-            XAxisSettings={XAxisSettings}
-            YAxesSettings={YAxesSettings}
+            XAxisScale={XAxisScale}
+            YAxesScale={YAxesScale}
             canvasRef={canvasRef}
+            gridVisible={gridVisible}
+            axesLabelsVisible={axesLabelsVisible}
+            xMinimum={xMinimum}
+            xMaximum={xMaximum}
+            yMinimum={yMinimum}
+            yMaximum={yMaximum}
             viewReset={viewFlag}
           />
         </Grid>

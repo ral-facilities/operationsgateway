@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  XAxisSettings,
+  XAxisScale,
   PlotDataset,
   PlotType,
-  YAxisSettings,
+  YAxesScale,
   SelectedPlotChannel,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
@@ -17,10 +17,16 @@ export interface PlotProps {
   selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
-  XAxisSettings: XAxisSettings;
-  YAxesSettings: YAxisSettings;
+  XAxisScale: XAxisScale;
+  YAxesScale: YAxesScale;
   XAxis: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  gridVisible: boolean;
+  axesLabelsVisible: boolean;
+  xMinimum?: number;
+  xMaximum?: number;
+  yMinimum?: number;
+  yMaximum?: number;
   viewReset: boolean;
 }
 
@@ -30,10 +36,16 @@ const Plot = (props: PlotProps) => {
     selectedPlotChannels,
     title,
     type,
-    XAxisSettings,
-    YAxesSettings,
+    XAxisScale,
+    YAxesScale,
     XAxis,
     canvasRef,
+    gridVisible,
+    axesLabelsVisible,
+    xMinimum,
+    xMaximum,
+    yMinimum,
+    yMaximum,
     viewReset,
   } = props;
 
@@ -72,7 +84,7 @@ const Plot = (props: PlotProps) => {
       },
       scales: {
         x: {
-          type: XAxisSettings.scale,
+          type: XAxisScale,
           time: {
             displayFormats: {
               millisecond: 'HH:mm:ss:SSS',
@@ -87,18 +99,32 @@ const Plot = (props: PlotProps) => {
             },
             tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
           },
+          title: {
+            display: axesLabelsVisible,
+            text: XAxis,
+          },
+          grid: {
+            display: gridVisible,
+          },
+          min: xMinimum,
+          max: xMaximum,
         },
         y: {
-          type: YAxesSettings.scale,
+          type: YAxesScale,
           display: true,
           position: 'left',
+          grid: {
+            display: gridVisible,
+          },
+          min: yMinimum,
+          max: yMaximum,
         },
         y2: {
-          type: YAxesSettings.scale,
+          type: YAxesScale,
           display: false,
           position: 'right',
           grid: {
-            drawOnChartArea: false,
+            display: gridVisible,
           },
         },
       },
@@ -111,11 +137,32 @@ const Plot = (props: PlotProps) => {
       const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
       options?.plugins?.title && (options.plugins.title.text = title);
-      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
-      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      options?.scales?.x && (options.scales.x.min = xMinimum);
+      options?.scales?.x && (options.scales.x.max = xMaximum);
+      options?.scales?.x && (options.scales.x.type = XAxisScale);
+      options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
+      options?.scales?.x?.title &&
+        (options.scales.x.title.display = axesLabelsVisible);
+      options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
+      options?.scales?.y && (options.scales.y.min = yMinimum);
+      options?.scales?.y && (options.scales.y.max = yMaximum);
+      options?.scales?.y && (options.scales.y.type = YAxesScale);
+      options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
+
       return JSON.stringify(options);
     });
-  }, [title, XAxisSettings, YAxesSettings, selectedPlotChannels]);
+  }, [
+    XAxis,
+    XAxisScale,
+    YAxesScale,
+    axesLabelsVisible,
+    gridVisible,
+    title,
+    xMaximum,
+    xMinimum,
+    yMaximum,
+    yMinimum,
+  ]);
 
   React.useEffect(() => {
     setDataString(
@@ -124,6 +171,8 @@ const Plot = (props: PlotProps) => {
           const channelConfig = selectedPlotChannels.find(
             (channel) => channel.name === dataset.name
           )?.options;
+          const lineStyle = channelConfig?.lineStyle ?? 'solid';
+
           return {
             label: dataset.name,
             data: dataset.data,
@@ -139,6 +188,14 @@ const Plot = (props: PlotProps) => {
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'
                 : channelConfig?.colour,
+            borderDash:
+              lineStyle === 'dashed'
+                ? [5, 5]
+                : lineStyle === 'dotted'
+                ? [0, 5]
+                : undefined,
+            pointRadius: lineStyle === 'dotted' ? 3 : undefined,
+            borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
           } as ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })

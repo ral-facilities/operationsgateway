@@ -55,6 +55,14 @@ const config: PlaywrightTestConfig = {
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
+        launchOptions: {
+          // need these to ensure Date picker media queries pass
+          // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+          firefoxUserPrefs: {
+            'ui.primaryPointerCapabilities': 0x02 | 0x04,
+            'ui.allPointerCapabilities': 0x02 | 0x04,
+          },
+        },
       },
     },
 

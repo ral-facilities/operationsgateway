@@ -1,11 +1,11 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
-import { PlotDataset, XAxisSettings } from '../app.types';
+import { PlotDataset, XAxisScale } from '../app.types';
 import { format } from 'date-fns';
 
 export const formatTooltipLabel = (
   label: number,
-  scale: XAxisSettings['scale']
+  scale: XAxisScale
 ): number | string => {
   if (scale === 'time') {
     return format(label, 'yyyy-MM-dd HH:mm:ss');
@@ -144,14 +144,35 @@ export interface PlotButtonsProps {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
   XAxis: string;
+  gridVisible: boolean;
+  axesLabelsVisible: boolean;
+  toggleGridVisibility: () => void;
+  toggleAxesLabelsVisibility: () => void;
   resetView: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
-  const { data, canvasRef, title, XAxis, resetView } = props;
+  const {
+    data,
+    canvasRef,
+    title,
+    XAxis,
+    gridVisible,
+    axesLabelsVisible,
+    toggleGridVisibility,
+    toggleAxesLabelsVisibility,
+    resetView,
+  } = props;
+
   return (
     <ButtonGroup size="small" aria-label="plot actions">
       <Button onClick={() => resetView()}>Reset View</Button>
+      <Button onClick={() => toggleGridVisibility()}>
+        {gridVisible ? 'Hide Grid' : 'Show Grid'}
+      </Button>
+      <Button onClick={() => toggleAxesLabelsVisibility()}>
+        {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
+      </Button>
       {/* TODO: link these buttons up to save graph config to redux/session */}
       <Button>Save</Button>
       <Button>Save As</Button>

@@ -14,6 +14,8 @@ describe('Plot Buttons component', () => {
   let plotButtonsProps: PlotButtonsProps;
 
   let user;
+  const toggleGridVisibility = jest.fn();
+  const toggleAxesLabelsVisibility = jest.fn();
   const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
@@ -47,6 +49,10 @@ describe('Plot Buttons component', () => {
         current: canvas,
       },
       title: 'test',
+      gridVisible: true,
+      axesLabelsVisible: true,
+      toggleGridVisibility,
+      toggleAxesLabelsVisibility,
       resetView,
     };
 
@@ -74,6 +80,18 @@ describe('Plot Buttons component', () => {
     const view = render(<PlotButtons {...plotButtonsProps} />);
 
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('renders alternate button text when axes labels and grid are hidden', () => {
+    plotButtonsProps = {
+      ...plotButtonsProps,
+      gridVisible: false,
+      axesLabelsVisible: false,
+    };
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    expect(screen.getByText('Show Grid')).toBeInTheDocument();
+    expect(screen.getByText('Show Axes Labels')).toBeInTheDocument();
   });
 
   it('generates PNG file when export button is clicked', async () => {
@@ -157,6 +175,20 @@ describe('Plot Buttons component', () => {
     await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
 
     expect(createElementSpy).not.toHaveBeenCalledWith('a');
+  });
+
+  it('calls toggleGridVisibility when grid visibility button clicked', async () => {
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    await user.click(screen.getByRole('button', { name: 'Hide Grid' }));
+    expect(toggleGridVisibility).toHaveBeenCalled();
+  });
+
+  it('calls toggleAxesLabelsVisibility when axes labels visibility button clicked', async () => {
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    await user.click(screen.getByRole('button', { name: 'Hide Axes Labels' }));
+    expect(toggleAxesLabelsVisibility).toHaveBeenCalled();
   });
 
   it('calls resetView when Reset View button clicked', async () => {
