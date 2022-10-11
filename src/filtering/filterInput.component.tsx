@@ -3,7 +3,7 @@ import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
 
 interface FilterInputProps {
-  channels: string[];
+  channels: Token[];
   value: Token[];
   setValue: (value: Token[]) => void;
   error: string;
@@ -13,11 +13,7 @@ interface FilterInputProps {
 const FilterInput = (props: FilterInputProps) => {
   const { channels, value, setValue, error, setError } = props;
   const options = React.useMemo(() => {
-    const channelTokens: Token[] = channels.map((c) => ({
-      type: 'channel',
-      value: c,
-    }));
-    return [...channelTokens, ...operators];
+    return [...operators, ...channels];
   }, [channels]);
   const [inputValue, setInputValue] = React.useState<string>('');
 
@@ -44,7 +40,9 @@ const FilterInput = (props: FilterInputProps) => {
       }}
       value={value}
       getOptionLabel={(option: Token | string) =>
-        typeof option !== 'string' ? option.value : option
+        typeof option !== 'string'
+          ? option?.displayValue ?? option.value
+          : option
       }
       onChange={(
         event: unknown,

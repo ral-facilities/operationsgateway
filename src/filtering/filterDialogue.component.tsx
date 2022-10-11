@@ -48,7 +48,14 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           // TODO: I think it makes sense that we can only apply filters to scalar channels, but should check
           // should also check we want friendly names here instead of system names
           .filter((channel) => channel.channel_dtype === 'scalar')
-          .map((channel) => channel?.userFriendlyName ?? channel.systemName)
+          .map(
+            (channel) =>
+              ({
+                type: 'channel',
+                value: channel.systemName,
+                displayValue: channel?.userFriendlyName,
+              } as Token)
+          )
       );
     },
   });

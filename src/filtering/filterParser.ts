@@ -13,6 +13,7 @@ type TokenType =
 export interface Token {
   type: TokenType;
   value: string;
+  displayValue?: string;
 }
 
 export const operators: Token[] = [
