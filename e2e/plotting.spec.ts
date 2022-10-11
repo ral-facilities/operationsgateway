@@ -47,6 +47,9 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('text=shotnum').click();
 
+  // scroll down to get options button in full view
+  await popup.mouse.wheel(0, 200);
+
   await popup.locator('[aria-label="More options for shotnum"]').click();
   await popup.locator('[aria-label="Pick shotnum colour"]').click();
   await popup.locator('[aria-label="Hue"]').click();
