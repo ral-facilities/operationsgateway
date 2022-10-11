@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, Close } from '@mui/icons-material';
-import MoreOptionsToggle from './moreOptionsToggle.component';
+import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,

@@ -69,8 +69,8 @@ exports[`MoreOptionsToggle renders correctly when options box open and passes al
       class="MuiBox-root css-jqdgkj"
       role="dialog"
     >
-      <mock-moreoptions
-        data-testid="mock-moreOptions"
+      <mock-moreoptionsbox
+        data-testid="mock-moreOptionsBox"
       >
         channel={
   "name": "shotnum",
@@ -108,7 +108,7 @@ selectedPlotChannels=[
 ]
 changeSelectedPlotChannels=undefined
 
-      </mock-moreoptions>
+      </mock-moreoptionsbox>
     </div>
   </div>
 </DocumentFragment>

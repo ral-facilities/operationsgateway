@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid, NativeSelect, Switch, Typography } from '@mui/material';
 import ColourPicker from './colourPicker.component';
-import { LineStyle, SelectedPlotChannel } from '../../app.types';
+import { LineStyle, SelectedPlotChannel } from '../../../app.types';
 
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
@@ -11,7 +11,7 @@ export interface MoreOptionsProps {
   ) => void;
 }
 
-const MoreOptions = (props: MoreOptionsProps) => {
+const MoreOptionsBox = (props: MoreOptionsProps) => {
   const {
     channel: thisChannel,
     selectedPlotChannels,
@@ -148,4 +148,4 @@ const MoreOptions = (props: MoreOptionsProps) => {
   );
 };
 
-export default MoreOptions;
+export default MoreOptionsBox;

@@ -1,18 +1,18 @@
 import React from 'react';
-import MoreOptions from './moreOptions.component';
-import type { MoreOptionsProps } from './moreOptions.component';
+import MoreOptionsBox from './moreOptionsBox.component';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testPlotDatasets } from '../../setupTests';
+import { testPlotDatasets } from '../../../setupTests';
 
-describe('MoreOptions', () => {
+describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;
   const changeSelectedPlotChannels = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
-    return render(<MoreOptions {...props} />);
+    return render(<MoreOptionsBox {...props} />);
   };
 
   beforeEach(() => {

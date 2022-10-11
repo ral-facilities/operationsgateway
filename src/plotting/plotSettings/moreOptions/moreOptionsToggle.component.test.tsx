@@ -1,23 +1,23 @@
 import React from 'react';
 import MoreOptionsToggle from './moreOptionsToggle.component';
-import type { MoreOptionsProps } from './moreOptions.component';
-import { testPlotDatasets } from '../../setupTests';
-import { SelectedPlotChannel } from '../../app.types';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
+import { testPlotDatasets } from '../../../setupTests';
+import { SelectedPlotChannel } from '../../../app.types';
 import { render, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('./moreOptions.component', () => (props) => (
+jest.mock('./moreOptionsBox.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-moreOptions data-testid="mock-moreOptions">
+  <mock-moreOptionsBox data-testid="mock-moreOptionsBox">
     {Object.entries(props).map(
       ([propName, propValue]) =>
         `${propName}=${JSON.stringify(propValue, null, 2)}\n`
     )}
     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
     {/* @ts-ignore */}
-  </mock-moreOptions>
+  </mock-moreOptionsBox>
 ));
 
 describe('MoreOptionsToggle', () => {
@@ -83,6 +83,6 @@ describe('MoreOptionsToggle', () => {
 
     await user.click(screen.getByText('Outside'));
 
-    expect(screen.queryByTestId('mock-moreOptions')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('mock-moreOptionsBox')).not.toBeInTheDocument();
   });
 });
