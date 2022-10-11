@@ -13,6 +13,7 @@ import FilterInput from './filterInput.component';
 import { useAppDispatch } from '../state/hooks';
 import { changeAppliedFilters } from '../state/slices/filterSlice';
 import { Token } from './filterParser';
+import { useChannels } from '../api/channels';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -35,19 +36,22 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
   </Typography>
 );
 
-const testChannels = [
-  'timestamp',
-  'shotnum',
-  'N_COMP_FF_XPOS',
-  'N_COMP_FF_YPOS',
-  'N_COMP_FF_INTEGRATION',
-];
-
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose } = props;
   const dispatch = useAppDispatch();
   const [filters, setFilters] = React.useState<Token[][]>([[]]);
   const [errors, setErrors] = React.useState<string[]>(['']);
+  const { data: channels } = useChannels({
+    select: (channels) => {
+      return (
+        channels
+          // TODO: I think it makes sense that we can only apply filters to scalar channels, but should check
+          // should also check we want friendly names here instead of system names
+          .filter((channel) => channel.channel_dtype === 'scalar')
+          .map((channel) => channel?.userFriendlyName ?? channel.systemName)
+      );
+    },
+  });
 
   const handleChangeValue = React.useCallback(
     (value: Token[]) => setFilters([value]),
@@ -67,7 +71,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Enter filter</Heading>
             <Grid container item>
               <FilterInput
-                channels={testChannels}
+                channels={channels ?? []}
                 value={filters[0]}
                 setValue={handleChangeValue}
                 error={errors[0]}

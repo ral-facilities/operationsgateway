@@ -35,7 +35,6 @@ const FilterInput = (props: FilterInputProps) => {
       multiple
       options={options}
       freeSolo
-      autoHighlight
       size="small"
       fullWidth
       inputValue={inputValue}
