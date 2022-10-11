@@ -150,6 +150,10 @@ const Plot = (props: PlotProps) => {
       options?.scales?.y && (options.scales.y.max = yMaximum);
       options?.scales?.y && (options.scales.y.type = YAxesScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
+      options?.scales?.y &&
+        (options.scales.y.display = selectedPlotChannels.some(
+          (channel) => channel.options.yAxis === 'left'
+        ));
       options?.scales?.y2 && (options.scales.y2.type = YAxesScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
