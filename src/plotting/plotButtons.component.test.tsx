@@ -1,41 +1,55 @@
 import React from 'react';
-import PlotButtons from './plotButtons.component';
+import PlotButtons, {
+  PlotButtonsProps,
+  constructDataRows,
+  formatTooltipLabel,
+} from './plotButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { PlotDataset } from '../app.types';
 
 describe('Plot Buttons component', () => {
-  const container = document.createElement('div');
-  const svg = document.createElement('svg');
-  container.appendChild(svg);
-  const plotButtonsProps: React.ComponentProps<typeof PlotButtons> = {
-    data: [
-      {
-        timestamp: new Date('2022-08-09T09:30:00'),
-        shotNum: 1,
-      },
-      {
-        timestamp: new Date('2022-08-09T09:31:00'),
-        shotNum: 2,
-      },
-      {
-        timestamp: new Date('2022-08-09T09:32:00'),
-        shotNum: 3,
-      },
-    ],
-    svgRef: {
-      current: container,
-    },
-    title: 'test',
-  };
+  const canvas = document.createElement('canvas');
+  const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+  let plotButtonsProps: PlotButtonsProps;
 
+  let user;
+  const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
   const mockLinkSetAttribute = jest.fn();
   let mockLink: HTMLAnchorElement = {};
-  window.URL.createObjectURL = jest.fn().mockReturnValue('object url');
-  window.URL.revokeObjectURL = jest.fn();
 
   beforeEach(() => {
+    user = userEvent.setup();
+    plotButtonsProps = {
+      data: [
+        {
+          name: 'shotNum',
+          data: [
+            {
+              timestamp: new Date('2022-08-09T09:30:00').getTime(),
+              shotNum: 1,
+            },
+            {
+              timestamp: new Date('2022-08-09T09:31:00').getTime(),
+              shotNum: 2,
+            },
+            {
+              timestamp: new Date('2022-08-09T09:32:00').getTime(),
+              shotNum: 3,
+            },
+          ],
+        },
+      ],
+      XAxis: 'timestamp',
+      canvasRef: {
+        current: canvas,
+      },
+      title: 'test',
+      resetView,
+    };
+
     mockLink = {
       href: '',
       download: '',
@@ -45,6 +59,7 @@ describe('Plot Buttons component', () => {
       style: {},
       setAttribute: mockLinkSetAttribute,
     };
+
     document.originalCreateElement = document.createElement;
     document.body.originalAppendChild = document.body.appendChild;
   });
@@ -61,8 +76,7 @@ describe('Plot Buttons component', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('generates SVG file when export button is clicked', async () => {
-    const user = userEvent.setup();
+  it('generates PNG file when export button is clicked', async () => {
     render(<PlotButtons {...plotButtonsProps} />);
 
     // have to mock after render otherwise it fails to render our component
@@ -79,39 +93,26 @@ describe('Plot Buttons component', () => {
 
     expect(document.createElement).toHaveBeenCalledWith('a');
 
-    expect(window.URL.createObjectURL).toHaveBeenCalled();
-    expect(mockLink.href).toEqual('object url');
-    expect(mockLink.download).toEqual('test.svg');
+    expect(canvasToDataURLSpy).toHaveBeenCalled();
+    expect(mockLink.href).toEqual('data:image/png;base64,00');
+    expect(mockLink.download).toEqual('test.png');
     expect(mockLink.target).toEqual('_blank');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
     expect(mockLinkRemove).toHaveBeenCalled();
-    expect(window.URL.revokeObjectURL).toHaveBeenCalled();
   });
 
-  it('does nothing when export button is clicked if svgRef is not correct', async () => {
-    const user = userEvent.setup();
-    plotButtonsProps.svgRef.current = null;
-    const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
-
-    await user.click(screen.getByRole('button', { name: 'Export Plot' }));
-
-    expect(window.URL.createObjectURL).not.toHaveBeenCalled();
-
-    unmount();
-
-    // not valid as it's not within the container
-    plotButtonsProps.svgRef.current = svg;
+  it('does nothing when export button is clicked if canvasRef is null', async () => {
+    plotButtonsProps.canvasRef.current = null;
     render(<PlotButtons {...plotButtonsProps} />);
 
     await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-    expect(window.URL.createObjectURL).not.toHaveBeenCalled();
+    expect(canvasToDataURLSpy).not.toHaveBeenCalled();
   });
 
   it('generates csv file when export data button is clicked', async () => {
-    const user = userEvent.setup();
     render(<PlotButtons {...plotButtonsProps} />);
 
     // have to mock after render otherwise it fails to render our component
@@ -140,7 +141,6 @@ describe('Plot Buttons component', () => {
   });
 
   it('does nothing when export data button is clicked if data is not correct', async () => {
-    const user = userEvent.setup();
     plotButtonsProps.data = undefined;
     const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
     const createElementSpy = jest.spyOn(document, 'createElement');
@@ -157,5 +157,192 @@ describe('Plot Buttons component', () => {
     await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
 
     expect(createElementSpy).not.toHaveBeenCalledWith('a');
+  });
+
+  it('calls resetView when Reset View button clicked', async () => {
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    await user.click(screen.getByRole('button', { name: 'Reset View' }));
+    expect(resetView).toHaveBeenCalled();
+  });
+});
+
+describe('constructDataRows', () => {
+  let XAxis = 'x_axis';
+  let testPlots: PlotDataset[] = [
+    {
+      name: 'channel_1',
+      data: [
+        {
+          x_axis: 1,
+          channel_1: 1,
+        },
+        {
+          x_axis: 2,
+          channel_1: 2,
+        },
+        {
+          x_axis: 3,
+          channel_1: 3,
+        },
+      ],
+    },
+  ];
+
+  it('constructs a 2D array of CSV rows with an x-axis and one data channel', () => {
+    const expectedResult = [
+      ['x_axis', 'channel_1'],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+    ];
+    const result = constructDataRows(XAxis, testPlots);
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('constructs a 2D array of CSV rows with an x-axis and multiple data channels with the same x-axis values', () => {
+    const XAxis = 'x_axis';
+    testPlots = [
+      {
+        name: 'channel_1',
+        data: [
+          {
+            x_axis: 1,
+            channel_1: 1001,
+          },
+          {
+            x_axis: 2,
+            channel_1: 1002,
+          },
+          {
+            x_axis: 3,
+            channel_1: 1003,
+          },
+        ],
+      },
+      {
+        name: 'channel_2',
+        data: [
+          {
+            x_axis: 1,
+            channel_2: 2001,
+          },
+          {
+            x_axis: 2,
+            channel_2: 2002,
+          },
+          {
+            x_axis: 3,
+            channel_2: 2003,
+          },
+        ],
+      },
+      {
+        name: 'channel_3',
+        data: [
+          {
+            x_axis: 4,
+            channel_3: 3004,
+          },
+          {
+            x_axis: 5,
+            channel_3: 3005,
+          },
+          {
+            x_axis: 6,
+            channel_3: 3006,
+          },
+        ],
+      },
+    ];
+
+    const expectedResult = [
+      ['x_axis', 'channel_1', 'channel_2', 'channel_3'],
+      [1, 1001, 2001, ''],
+      [2, 1002, 2002, ''],
+      [3, 1003, 2003, ''],
+      [4, '', '', 3004],
+      [5, '', '', 3005],
+      [6, '', '', 3006],
+    ];
+    const result = constructDataRows(XAxis, testPlots);
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('sorts data by x-axis value ascending', () => {
+    testPlots = [
+      {
+        name: 'channel_1',
+        data: [
+          {
+            x_axis: 3,
+            channel_1: 3,
+          },
+          {
+            x_axis: 2,
+            channel_1: 2,
+          },
+          {
+            x_axis: 1,
+            channel_1: 1,
+          },
+        ],
+      },
+    ];
+
+    const expectedResult = [
+      ['x_axis', 'channel_1'],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+    ];
+    const result = constructDataRows(XAxis, testPlots);
+    expect(result).toEqual(expectedResult);
+  });
+
+  it('formats timestamp correctly while constructing rows', () => {
+    XAxis = 'timestamp';
+    testPlots = [
+      {
+        name: 'shotnum',
+        data: [
+          {
+            timestamp: 1640995200000,
+            shotnum: 1,
+          },
+          {
+            timestamp: 1640995260000,
+            shotnum: 2,
+          },
+          {
+            timestamp: 1640995320000,
+            shotnum: 3,
+          },
+        ],
+      },
+    ];
+
+    const expectedResult = [
+      ['timestamp', 'shotnum'],
+      ['2022-01-01 00:00:00', 1],
+      ['2022-01-01 00:01:00', 2],
+      ['2022-01-01 00:02:00', 3],
+    ];
+    const result = constructDataRows(XAxis, testPlots);
+    expect(result).toEqual(expectedResult);
+  });
+});
+
+describe('formatTooltipLabel function', () => {
+  it('formats timestamp correctly', () => {
+    const label = 1640995200000;
+    const result = formatTooltipLabel(label, 'time');
+    expect(result).toEqual('2022-01-01 00:00:00');
+  });
+
+  it('returns the original label if it is not a date', () => {
+    const label = 123456;
+    const result = formatTooltipLabel(label, 'linear');
+    expect(result).toEqual(label);
   });
 });

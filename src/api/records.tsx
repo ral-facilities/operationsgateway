@@ -6,11 +6,13 @@ import {
   DateRange,
   ImageChannel,
   isChannelScalar,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
   SortType,
   WaveformChannel,
+  SelectedPlotChannel,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -107,6 +109,44 @@ export const useRecords = <T extends unknown = Record[]>(
     [
       string,
       {
+        filters: string[];
+      }
+    ]
+  >
+): UseQueryResult<T, AxiosError> => {
+  const { filters } = useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
+    ['records', { filters }],
+    () => {
+      return fetchRecords(apiUrl, {}, {}, filters);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      ...(options ?? {}),
+    }
+  );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const useRecordsPaginated = (): UseQueryResult<
+  RecordRow[],
+  AxiosError
+> => {
+  const { page, resultsPerPage, sort, dateRange, filters } =
+    useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
+    Record[],
+    AxiosError,
+    RecordRow[],
+    [
+      string,
+      {
         page: number;
         resultsPerPage: number;
         sort: SortType;
@@ -114,16 +154,11 @@ export const useRecords = <T extends unknown = Record[]>(
         filters: string[];
       }
     ]
-  >
-): UseQueryResult<T, AxiosError> => {
-  const { page, resultsPerPage, sort, dateRange, filters } =
-    useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
-  return useQuery(
+  >(
     ['records', { page, resultsPerPage, sort, dateRange, filters }],
     (params) => {
-      const { page, sort, dateRange, filters } = params.queryKey[1];
+      const { page, resultsPerPage, sort, dateRange, filters } =
+        params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage - 1;
@@ -136,78 +171,67 @@ export const useRecords = <T extends unknown = Record[]>(
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
-      ...(options ?? {}),
+      select: (data: Record[]) =>
+        data.map((record: Record) => {
+          const timestampString = record.metadata.timestamp;
+          const timestampDate = parseISO(timestampString);
+          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+          const recordRow: RecordRow = {
+            timestamp: formattedDate,
+            shotnum: record.metadata.shotnum,
+            activeArea: record.metadata.activeArea,
+            activeExperiment: record.metadata.activeExperiment,
+          };
+
+          const keys = Object.keys(record.channels);
+          keys.forEach((key: string) => {
+            const channel: Channel = record.channels[key];
+            let channelData;
+            const channelDataType = channel.metadata.channel_dtype;
+
+            switch (channelDataType) {
+              case 'scalar':
+                channelData = (channel as ScalarChannel).data;
+                break;
+              case 'image':
+                channelData = (channel as ImageChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+                break;
+              case 'waveform':
+                channelData = (channel as WaveformChannel).thumbnail;
+                channelData = (
+                  <img
+                    src={`data:image/jpeg;base64,${channelData}`}
+                    alt={key}
+                    style={{ border: '1px solid #000000' }}
+                  />
+                );
+            }
+
+            recordRow[key] = channelData;
+          });
+
+          return recordRow;
+        }),
     }
   );
-};
-
-const useRecordsPaginatedOptions = {
-  select: (data: Record[]) =>
-    data.map((record: Record) => {
-      const timestampString = record.metadata.timestamp;
-      const timestampDate = parseISO(timestampString);
-      const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
-      const recordRow: RecordRow = {
-        timestamp: formattedDate,
-        shotnum: record.metadata.shotnum,
-        activeArea: record.metadata.activeArea,
-        activeExperiment: record.metadata.activeExperiment,
-      };
-
-      const keys = Object.keys(record.channels);
-      keys.forEach((key: string) => {
-        const channel: Channel = record.channels[key];
-        let channelData;
-        const channelDataType = channel.metadata.channel_dtype;
-
-        switch (channelDataType) {
-          case 'scalar':
-            channelData = (channel as ScalarChannel).data;
-            break;
-          case 'image':
-            channelData = (channel as ImageChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-            break;
-          case 'waveform':
-            channelData = (channel as WaveformChannel).thumbnail;
-            channelData = (
-              <img
-                src={`data:image/jpeg;base64,${channelData}`}
-                alt={key}
-                style={{ border: '1px solid #000000' }}
-              />
-            );
-        }
-
-        recordRow[key] = channelData;
-      });
-
-      return recordRow;
-    }),
-};
-
-export const useRecordsPaginated = (): UseQueryResult<
-  RecordRow[],
-  AxiosError
-> => {
-  return useRecords(useRecordsPaginatedOptions);
 };
 
 export const getFormattedAxisData = (
   record: Record,
   axisName: string
-): number | Date => {
-  let formattedData: number | Date = NaN;
+): number => {
+  let formattedData = NaN;
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = parseISO(record.metadata.timestamp);
+      formattedData = parseISO(record.metadata.timestamp).getTime();
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
@@ -237,31 +261,45 @@ export const getFormattedAxisData = (
 // eventually they'll be used to query for data
 export const usePlotRecords = (
   XAxis: string,
-  YAxis: string
-): UseQueryResult<{ [channel: string]: number | Date }[], AxiosError> => {
+  selectedPlotChannels: SelectedPlotChannel[]
+): UseQueryResult<PlotDataset[], AxiosError> => {
   const usePlotRecordsOptions = React.useMemo(
     () => ({
-      select: (data: Record[]) =>
-        // use reduce instead of map so we can skip invalid values
-        data.reduce<{ [channel: string]: number | Date }[]>(
-          (result, record) => {
-            const formattedXAxis = getFormattedAxisData(record, XAxis);
-            const formattedYAxis = getFormattedAxisData(record, YAxis);
+      select: (records: Record[]) => {
+        const plotDatasets = selectedPlotChannels.map((plotChannel) => {
+          const plotChannelName = plotChannel.name;
 
-            // Only add to result array if we have valid x and y value
+          // Add the initial entry for dataset called plotChannelName
+          // data field is currently empty, the below loop populates it
+          const newDataset: PlotDataset = {
+            name: plotChannelName,
+            data: [],
+          };
+
+          // Populate the above data field
+          records.forEach((record) => {
+            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedYAxis = getFormattedAxisData(
+              record,
+              plotChannelName
+            );
+
             if (formattedXAxis && formattedYAxis) {
-              result.push({
+              const currentData = newDataset.data;
+              currentData.push({
                 [XAxis]: formattedXAxis,
-                [YAxis]: formattedYAxis,
+                [plotChannelName]: formattedYAxis,
               });
             }
+          });
 
-            return result;
-          },
-          []
-        ),
+          return newDataset;
+        });
+
+        return plotDatasets;
+      },
     }),
-    [XAxis, YAxis]
+    [XAxis, selectedPlotChannels]
   );
 
   return useRecords(usePlotRecordsOptions);

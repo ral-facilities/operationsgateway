@@ -1,148 +1,169 @@
 import React from 'react';
 import {
-  VictoryChart,
-  VictoryScatter,
-  VictoryLine,
-  VictoryZoomContainer,
-  VictoryLabel,
-  VictoryTheme,
-  VictoryLegend,
-  VictoryTooltip,
-} from 'victory';
-import { AxisSettings, PlotType } from '../app.types';
-import { format } from 'date-fns';
-
-export const formatTooltipLabel = (label: number | Date): number | string => {
-  if (label instanceof Date) {
-    return format(label, 'yyyy-MM-dd HH:mm:ss');
-  }
-  return label;
-};
+  XAxisSettings,
+  PlotDataset,
+  PlotType,
+  YAxisSettings,
+  SelectedPlotChannel,
+} from '../app.types';
+// only import types as we don't actually run any chart.js code in React
+import type { ChartOptions, ChartDataset } from 'chart.js';
+// we import this even though we don't use it so we can get typescript info added to ChartOptions
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type Zoom from 'chartjs-plugin-zoom';
 
 export interface PlotProps {
-  data?: { [channel: string]: number | Date }[];
+  datasets: PlotDataset[];
+  selectedPlotChannels: SelectedPlotChannel[];
   title: string;
   type: PlotType;
-  XAxisSettings: AxisSettings;
-  YAxesSettings: AxisSettings;
+  XAxisSettings: XAxisSettings;
+  YAxesSettings: YAxisSettings;
   XAxis: string;
-  YAxis: string;
-  svgRef: React.MutableRefObject<HTMLElement | null>;
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  viewReset: boolean;
 }
 
 const Plot = (props: PlotProps) => {
   const {
-    data,
+    datasets,
+    selectedPlotChannels,
     title,
     type,
     XAxisSettings,
     YAxesSettings,
     XAxis,
-    YAxis,
-    svgRef,
+    canvasRef,
+    viewReset,
   } = props;
-  const [redraw, setRedraw] = React.useState(false);
-  const setRedrawTrue = React.useCallback(() => {
-    setRedraw(true);
-  }, [setRedraw]);
 
-  const graphRef = React.useRef<HTMLDivElement | null>(null);
+  // set the initial options
+  const [optionsString, setOptionsString] = React.useState(
+    JSON.stringify({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: title,
+        },
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            drag: {
+              enabled: false,
+            },
+            mode: 'xy',
+          },
+          pan: {
+            enabled: true,
+            mode: 'xy',
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: XAxisSettings.scale,
+          time: {
+            displayFormats: {
+              millisecond: 'HH:mm:ss:SSS',
+              second: 'HH:mm:ss',
+              minute: 'HH:mm',
+              hour: 'd MMM ha',
+              day: 'd MMM',
+              week: 'd MMM',
+              month: 'MMM yyyy',
+              quarter: 'MMM yyyy',
+              year: 'yyyy',
+            },
+            tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
+          },
+        },
+        y: {
+          type: YAxesSettings.scale,
+          display: true,
+          position: 'left',
+        },
+        y2: {
+          type: YAxesSettings.scale,
+          display: false,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false,
+          },
+        },
+      },
+    } as ChartOptions<PlotType>)
+  );
+  const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
 
   React.useEffect(() => {
-    window.addEventListener(
-      `resize OperationsGateway Plot - ${title}`,
-      setRedrawTrue,
-      false
+    setOptionsString((oldOptionsString) => {
+      const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
+      // change any options here to preserve any options chart.js adds
+      options?.plugins?.title && (options.plugins.title.text = title);
+      options?.scales?.x && (options.scales.x.type = XAxisSettings.scale);
+      options?.scales?.y && (options.scales.y.type = YAxesSettings.scale);
+      return JSON.stringify(options);
+    });
+  }, [title, XAxisSettings, YAxesSettings, selectedPlotChannels]);
+
+  React.useEffect(() => {
+    setDataString(
+      JSON.stringify({
+        datasets: datasets.map((dataset) => {
+          const channelConfig = selectedPlotChannels.find(
+            (channel) => channel.name === dataset.name
+          )?.options;
+          return {
+            label: dataset.name,
+            data: dataset.data,
+            parsing: {
+              yAxisKey: dataset.name,
+              xAxisKey: XAxis,
+            },
+            borderColor:
+              channelConfig && !channelConfig.visible
+                ? 'rgba(0,0,0,0)'
+                : channelConfig?.colour,
+            backgroundColor:
+              channelConfig && !channelConfig.visible
+                ? 'rgba(0,0,0,0)'
+                : channelConfig?.colour,
+          } as ChartDataset<PlotType, PlotDataset['data']>;
+        }),
+      })
     );
-    return () => {
-      window.removeEventListener(
-        `resize OperationsGateway Plot - ${title}`,
-        setRedrawTrue,
-        false
-      );
-    };
-  }, [setRedrawTrue, title]);
-
-  // reset redraw state
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => {
-    if (redraw) {
-      setRedraw(false);
-    }
-  });
+  }, [datasets, XAxis, selectedPlotChannels]);
 
   return (
     <div
-      ref={graphRef}
       style={{
         flex: '1 0 0',
         maxHeight: 'calc(100% - 38px)',
         maxWidth: '100%',
       }}
     >
-      <VictoryChart
-        containerComponent={
-          <VictoryZoomContainer
-            containerRef={(ref) => {
-              svgRef.current = ref;
-            }}
-          />
-        }
-        scale={{ x: XAxisSettings.scale, y: YAxesSettings.scale }}
-        theme={VictoryTheme.material}
-        width={graphRef?.current?.offsetWidth ?? 0}
-        height={graphRef?.current?.offsetHeight ?? 0}
-        // might need something fancier than this to prevent label overflow...
-        // this can render 6 characters without overflow
-        padding={{ top: 50, left: 60, right: 50, bottom: 50 }}
-      >
-        <VictoryLabel
-          text={title}
-          x={
-            graphRef?.current?.offsetWidth
-              ? graphRef.current.offsetWidth / 2
-              : 200
-          }
-          y={10}
-          textAnchor="middle"
-        />
-        <VictoryLegend
-          x={
-            graphRef?.current?.offsetWidth
-              ? graphRef.current.offsetWidth / 2 - 50
-              : 170
-          }
-          y={20}
-          orientation="horizontal"
-          data={[{ name: YAxis, symbol: { fill: '#e31a1c' } }]}
-        />
-        {type === 'line' && (
-          <VictoryLine
-            style={{
-              data: { stroke: '#e31a1c' },
-            }}
-            data={data}
-            x={XAxis}
-            y={YAxis}
-          />
-        )}
-        {/* We render a scatter graph no matter what as otherwise line charts wouldn't be able to have hover tooltips */}
-        <VictoryScatter
-          style={{
-            data: { fill: '#e31a1c' },
-          }}
-          data={data}
-          x={XAxis}
-          y={YAxis}
-          size={type === 'line' ? 2 : 3}
-          labels={({ datum }) => {
-            const formattedXLabel = formatTooltipLabel(datum._x);
-            const formattedYLabel = formatTooltipLabel(datum._y);
-            return `(${formattedXLabel}, ${formattedYLabel})`;
-          }}
-          labelComponent={<VictoryTooltip />}
-        />
-      </VictoryChart>
+      {/* This canvas is turned into a Chart.js plot via code in plotWindowPortal.component.tsx */}
+      <canvas
+        id="my-chart"
+        ref={canvasRef}
+        width="400"
+        height="400"
+        data-options={optionsString}
+        data-data={dataString}
+        data-type={type}
+        data-view={viewReset}
+      ></canvas>
     </div>
   );
 };

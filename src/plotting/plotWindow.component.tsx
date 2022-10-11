@@ -13,10 +13,18 @@ import {
 } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { AxisSettings, PlotType } from '../app.types';
+import {
+  XAxisSettings,
+  YAxisSettings,
+  PlotType,
+  SelectedPlotChannel,
+  FullScalarChannelMetadata,
+} from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
+import { selectSelectedChannels } from '../state/slices/tableSlice';
+import { useAppSelector } from '../state/hooks';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -28,36 +36,42 @@ const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, untitledTitle } = props;
   const [plotTitle, setPlotTitle] = React.useState('');
   const [plotType, setPlotType] = React.useState<PlotType>('scatter');
-  const [XAxisSettings, setXAxisSettings] = React.useState<AxisSettings>({
+  const [XAxisSettings, setXAxisSettings] = React.useState<XAxisSettings>({
     scale: 'linear',
   });
-  const [YAxesSettings, setYAxesSettings] = React.useState<AxisSettings>({
+  const [YAxesSettings, setYAxesSettings] = React.useState<YAxisSettings>({
     scale: 'linear',
   });
   const [XAxis, setXAxis] = React.useState<string>('');
-  const [YAxis, setYAxis] = React.useState<string>('');
+  const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
+    SelectedPlotChannel[]
+  >([]);
+  const [viewFlag, setViewFlag] = React.useState<boolean>(false);
+
+  const resetView = React.useCallback(() => {
+    setViewFlag(!viewFlag);
+  }, [viewFlag]);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
     setOpen(true);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
   const handleDrawerClose = React.useCallback(() => {
     setOpen(false);
-    window.dispatchEvent(
-      new Event(`resize OperationsGateway Plot - ${plotTitle || untitledTitle}`)
-    );
-  }, [plotTitle, untitledTitle]);
+  }, []);
 
-  const svgRef = React.useRef<HTMLElement | null>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     XAxis,
-    YAxis
+    selectedPlotChannels
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
+
+  const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
+    useAppSelector((state) =>
+      selectSelectedChannels(state, channels ?? [])
+    ) as FullScalarChannelMetadata[];
 
   return (
     <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
@@ -99,23 +113,27 @@ const PlotWindow = (props: PlotWindowProps) => {
                 <IconButton
                   onClick={handleDrawerClose}
                   aria-label="close settings"
+                  sx={{
+                    ...(!open && { visibility: 'hidden' }),
+                  }}
                 >
                   <ChevronLeftIcon />
                 </IconButton>
               </Box>
               <PlotSettings
-                channels={channels ?? []}
+                selectedRecordTableChannels={selectedScalarRecordTableChannels}
+                allChannels={channels ?? []}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
                 changePlotType={setPlotType}
                 XAxis={XAxis}
-                YAxis={YAxis}
                 changeXAxis={setXAxis}
-                changeYAxis={setYAxis}
                 XAxisSettings={XAxisSettings}
                 changeXAxisSettings={setXAxisSettings}
                 YAxesSettings={YAxesSettings}
                 changeYAxesSettings={setYAxesSettings}
+                selectedPlotChannels={selectedPlotChannels}
+                changeSelectedPlotChannels={setSelectedPlotChannels}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -164,20 +182,23 @@ const PlotWindow = (props: PlotWindowProps) => {
             <Grid item mr={1} mt={1}>
               <PlotButtons
                 data={records}
-                svgRef={svgRef}
+                canvasRef={canvasRef}
                 title={plotTitle || untitledTitle}
+                XAxis={XAxis}
+                resetView={resetView}
               />
             </Grid>
           </Grid>
           <Plot
-            data={records}
+            datasets={records ?? []}
+            selectedPlotChannels={selectedPlotChannels}
             title={plotTitle || untitledTitle}
             type={plotType}
             XAxis={XAxis}
-            YAxis={YAxis}
             XAxisSettings={XAxisSettings}
             YAxesSettings={YAxesSettings}
-            svgRef={svgRef}
+            canvasRef={canvasRef}
+            viewReset={viewFlag}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

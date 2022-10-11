@@ -9,6 +9,7 @@ import {
   Channel,
   FullChannelMetadata,
   ImageChannel,
+  PlotDataset,
   Record,
   RecordRow,
   ScalarChannel,
@@ -24,6 +25,7 @@ import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { format, parseISO } from 'date-fns';
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -162,6 +164,26 @@ export const cleanupDatePickerWorkaround = (): void => {
 
 export const testChannels: FullChannelMetadata[] = [
   {
+    systemName: 'timestamp',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Time',
+  },
+  {
+    systemName: 'shotnum',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Shot Number',
+  },
+  {
+    systemName: 'activeArea',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Active Area',
+  },
+  {
+    systemName: 'activeExperiment',
+    channel_dtype: 'scalar',
+    userFriendlyName: 'Active Experiment',
+  },
+  {
     systemName: 'test_1',
     channel_dtype: 'scalar',
     userFriendlyName: 'Test 1',
@@ -231,7 +253,7 @@ export const generateRecord = (num: number): Record => {
       dataVersion: numStr,
       shotnum: num,
       timestamp:
-        num < 10 ? `2022-01-0${num} 00:00:00` : `2022-01-${num} 00:00:00`,
+        num < 10 ? `2022-01-0${num}T00:00:00` : `2022-01-${num}T00:00:00`,
       activeArea: numStr,
       activeExperiment: numStr,
     },
@@ -249,7 +271,10 @@ export const generateRecordRow = (num: number) => {
   const record = generateRecord(num);
 
   const recordRow: RecordRow = {
-    timestamp: record.metadata.timestamp,
+    timestamp: format(
+      parseISO(record.metadata.timestamp),
+      'yyyy-MM-dd HH:mm:ss'
+    ),
     shotnum: record.metadata.shotnum,
     activeArea: record.metadata.activeArea,
     activeExperiment: record.metadata.activeExperiment,
@@ -286,4 +311,30 @@ export const generateRecordRow = (num: number) => {
 
 export const testRecordRows = Array.from(Array(3), (_, i) =>
   generateRecordRow(i + 1)
+);
+
+export const generatePlotDataset = (num: number) => {
+  const datasetName = testChannels[num].systemName;
+  const plotDataset: PlotDataset = {
+    name: datasetName,
+    data: [
+      {
+        timestamp: num,
+        [datasetName]: num + num,
+      },
+      {
+        timestamp: num + num,
+        [datasetName]: num + num + num,
+      },
+      {
+        timestamp: num + num + num,
+        [datasetName]: num + num + num + num,
+      },
+    ],
+  };
+  return plotDataset;
+};
+
+export const testPlotDatasets = Array.from(Array(3), (_, i) =>
+  generatePlotDataset(i + 1)
 );

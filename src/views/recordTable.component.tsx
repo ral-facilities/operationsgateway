@@ -34,6 +34,7 @@ const RecordTable = React.memo((): React.ReactElement => {
   const hiddenColumns = useAppSelector((state) =>
     selectHiddenColumns(state, availableColumns ?? [])
   );
+
   const columnOrder = useAppSelector(selectSelectedIds);
 
   const onPageChange = React.useCallback(

@@ -5,11 +5,10 @@ import userEvent from '@testing-library/user-event';
 import {
   renderComponentWithProviders,
   testChannels,
-  testRecords,
+  testPlotDatasets,
 } from '../setupTests';
-import { useScalarChannels } from '../api/channels';
+import { useScalarChannels, useChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
-import { FullScalarChannelMetadata } from '../app.types';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,6 +29,7 @@ jest.mock('../api/channels', () => {
     __esModule: true,
     ...originalModule,
     useScalarChannels: jest.fn(),
+    useChannels: jest.fn(),
   };
 });
 
@@ -44,24 +44,32 @@ jest.mock('../api/records', () => {
 });
 
 describe('Plot Window component', () => {
+  // let state: PreloadedState<RootState>;
+
   beforeEach(() => {
     jest.resetModules();
+    // state = getInitialState();
 
     (useScalarChannels as jest.Mock).mockReturnValue({
-      data: testChannels as FullScalarChannelMetadata[],
+      data: testChannels,
+      isLoading: false,
+    });
+    (useChannels as jest.Mock).mockReturnValue({
+      data: testChannels,
       isLoading: false,
     });
     (usePlotRecords as jest.Mock).mockReturnValue({
-      data: testRecords.map((r) => ({
-        timestamp: r.metadata.timestamp,
-        shotNum: r.metadata.shotnum,
-      })),
+      data: testPlotDatasets,
       isLoading: false,
     });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.resetModules();
   });
 
   const createView = () => {
@@ -72,16 +80,10 @@ describe('Plot Window component', () => {
 
   it('renders plot window correctly with settings pane both open and closed', async () => {
     const user = userEvent.setup();
-    const dispatchEventSpy = jest.spyOn(window, 'dispatchEvent');
     createView();
 
     await user.click(screen.getByRole('button', { name: 'close settings' }));
 
-    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
-      'resize OperationsGateway Plot - untitled'
-    );
-    dispatchEventSpy.mockClear();
     // expect plot & settings button to be visible but not settings panel
     // use waitFor to account for drawer animations
     await waitFor(() => {
@@ -94,11 +96,6 @@ describe('Plot Window component', () => {
     expect(screen.getByRole('button', { name: 'open settings' })).toBeVisible();
 
     await user.click(screen.getByRole('button', { name: 'open settings' }));
-
-    expect(dispatchEventSpy).toHaveBeenCalledWith(expect.any(Event));
-    expect(dispatchEventSpy.mock.calls[0][0].type).toBe(
-      'resize OperationsGateway Plot - untitled'
-    );
 
     // expect plot & settings panel to be visible but not settings button
     // use waitFor to account for drawer animations

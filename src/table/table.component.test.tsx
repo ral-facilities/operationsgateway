@@ -7,7 +7,7 @@ import { Column } from 'react-table';
 describe('Table', () => {
   let props: TableProps;
   const generateRow = (num: number): RecordRow => ({
-    timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00Z`)
+    timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00`)
       .getTime()
       .toString(),
     activeArea: `${num}`,

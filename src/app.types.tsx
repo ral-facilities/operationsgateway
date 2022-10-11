@@ -1,4 +1,5 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
+import type { CartesianScaleTypeRegistry } from 'chart.js';
 
 export const MicroFrontendId = 'scigateway';
 
@@ -144,11 +145,36 @@ export interface ColumnState {
 }
 
 export type PlotType = 'scatter' | 'line';
-export interface AxisSettings {
-  scale: 'linear' | 'log' | 'time';
+interface AxisSettings {
   min?: number;
   max?: number;
 }
+
+export interface XAxisSettings extends AxisSettings {
+  scale: Extract<
+    keyof CartesianScaleTypeRegistry,
+    'linear' | 'logarithmic' | 'time'
+  >;
+}
+
+export interface YAxisSettings extends AxisSettings {
+  scale: Extract<keyof CartesianScaleTypeRegistry, 'linear' | 'logarithmic'>;
+}
+
+export type PlotDataset = {
+  name: string;
+  data: {
+    [x: string]: number;
+  }[];
+};
+
+export type SelectedPlotChannel = {
+  name: string;
+  options: {
+    visible: boolean;
+    colour: string;
+  };
+};
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()

@@ -1,221 +1,71 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { PlotProps, formatTooltipLabel } from './plot.component';
+import { render } from '@testing-library/react';
+import { PlotProps } from './plot.component';
+import { testPlotDatasets } from '../setupTests';
+import { SelectedPlotChannel } from '../app.types';
+import Plot from './plot.component';
 
-describe('plotting', () => {
-  const mockVictoryChart = jest.fn();
-  const mockVictoryZoomContainer = jest.fn();
-  const mockVictoryTheme = jest.fn();
-  const mockVictoryScatter = jest.fn();
-  const mockVictoryLine = jest.fn();
-  const mockVictoryLabel = jest.fn();
-  const mockVictoryLegend = jest.fn();
+describe('Plot component', () => {
+  let props: PlotProps;
 
-  const testData: unknown[] = [
-    {
-      label: 'Test',
-      data: [
-        { x: 1, y: 1 },
-        { x: 2, y: 2 },
-        { x: 3, y: 3 },
-      ],
-    },
-  ];
+  const selectedPlotChannels: SelectedPlotChannel[] = testPlotDatasets.map(
+    (dataset, i) => {
+      return {
+        name: dataset.name,
+        options: {
+          visible: true,
+          colour: `colour-${i.toString()}`,
+        },
+      };
+    }
+  );
 
   beforeEach(() => {
-    jest.resetModules();
-
-    /* eslint-disable @typescript-eslint/ban-ts-comment */
-    jest.doMock('victory', () => ({
-      VictoryChart: (props) => {
-        mockVictoryChart(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryChart
-            {...props}
-            scale={JSON.stringify(props.scale, null, 2)}
-          />
-        );
-      },
-      VictoryZoomContainer: (props) => {
-        mockVictoryZoomContainer(props);
-        // @ts-ignore
-        return <mock-VictoryZoomContainer {...props} />;
-      },
-      VictoryTheme: (props) => {
-        mockVictoryTheme(props);
-        // @ts-ignore
-        return <mock-VictoryTheme {...props} />;
-      },
-      VictoryScatter: (props) => {
-        mockVictoryScatter(props);
-
-        return (
-          // @ts-ignore
-          <mock-VictoryScatter
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryLine: (props) => {
-        mockVictoryLine(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryLine
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryLabel: (props) => {
-        mockVictoryLabel(props);
-        // @ts-ignore
-        return <mock-VictoryLabel {...props} />;
-      },
-      VictoryLegend: (props) => {
-        mockVictoryLegend(props);
-        return (
-          // @ts-ignore
-          <mock-VictoryLegend
-            {...props}
-            data={JSON.stringify(props.data, null, 2)}
-          />
-        );
-      },
-      VictoryTooltip: (props) => {
-        return (
-          // @ts-ignore
-          <mock-VictoryTooltip {...props} />
-        );
-      },
-    }));
-  });
-  /* eslint-enable @typescript-eslint/ban-ts-comment */
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    props = {
+      datasets: testPlotDatasets,
+      selectedPlotChannels,
+      title: 'scatter plot',
+      type: 'scatter',
+      XAxisSettings: { scale: 'time' },
+      YAxesSettings: { scale: 'linear' },
+      XAxis: 'test x-axis',
+      canvasRef: React.createRef<HTMLCanvasElement>(),
+      viewReset: false,
+    };
   });
 
-  describe('Plot component', () => {
-    let props: PlotProps;
+  it('renders a canvas element with the correct attributes passed the correct props for a scatter plot', () => {
+    const view = render(<Plot {...props} />);
 
-    it('renders a scatter plot with the correct elements passed the correct props', () => {
-      props = {
-        data: testData,
-        title: 'scatter plot',
-        type: 'scatter',
-        XAxisSettings: { scale: 'time' },
-        YAxesSettings: { scale: 'linear' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
-
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'time', y: 'linear' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'scatter plot',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
-        })
-      );
-      expect(mockVictoryLine).not.toHaveBeenCalled();
-    });
-
-    it('renders a line plot with the correct elements passed the correct props', () => {
-      props = {
-        data: testData,
-        title: 'line plot',
-        type: 'line',
-        XAxisSettings: { scale: 'linear' },
-        YAxesSettings: { scale: 'log' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
-
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledWith(
-        expect.objectContaining({
-          scale: { x: 'linear', y: 'log' },
-        })
-      );
-      expect(mockVictoryLabel).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: 'line plot',
-        })
-      );
-      expect(mockVictoryLegend).toHaveBeenCalled();
-      expect(mockVictoryScatter).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
-        })
-      );
-      expect(mockVictoryLine).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: testData,
-          x: 'test x-axis',
-          y: 'test y-axis',
-        })
-      );
-    });
-
-    it('redraws the plot in response to resize events', () => {
-      props = {
-        data: testData,
-        title: 'Test',
-        type: 'scatter',
-        XAxisSettings: { scale: 'time' },
-        YAxesSettings: { scale: 'linear' },
-        XAxis: 'test x-axis',
-        YAxis: 'test y-axis',
-      };
-
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { default: Plot } = require('./plot.component');
-
-      render(<Plot {...props} />);
-
-      expect(mockVictoryChart).toHaveBeenCalledTimes(1);
-
-      fireEvent(window, new Event('resize OperationsGateway Plot - Test'));
-
-      // aka it rerenders (it does it twice as redraw is set to true and then reset to false again)
-      expect(mockVictoryChart).toHaveBeenCalledTimes(3);
-    });
-  });
-});
-
-describe('formatTooltipLabel function', () => {
-  it('formats timestamp correctly', () => {
-    const label = new Date(1640995200000);
-    const result = formatTooltipLabel(label);
-    expect(result).toEqual('2022-01-01 00:00:00');
+    expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('returns the original label if it is not a date', () => {
-    const label = 123456;
-    const result = formatTooltipLabel(label);
-    expect(result).toEqual(label);
+  it('updates options object correctly', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    props = {
+      ...props,
+      title: 'line plot',
+      type: 'line',
+      XAxisSettings: { scale: 'linear' },
+      YAxesSettings: { scale: 'logarithmic' },
+      XAxis: 'new test x-axis',
+      viewReset: true,
+    };
+
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates data object correctly by settings opacity to 0 for lines that are hidden', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    props.selectedPlotChannels = [...selectedPlotChannels];
+    props.selectedPlotChannels[0].options.visible = false;
+
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });
