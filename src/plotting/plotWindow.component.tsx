@@ -24,8 +24,8 @@ import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
-import { useAppSelector } from '../state/hooks';
-import { PlotConfig } from '../state/slices/plotSlice';
+import { useAppSelector, useAppDispatch } from '../state/hooks';
+import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -36,19 +36,21 @@ const drawerWidth = 300;
 const PlotWindow = (props: PlotWindowProps) => {
   const { onClose, plotConfig } = props;
 
+  const dispatch = useAppDispatch();
+
   const [plotTitle, setPlotTitle] = React.useState(plotConfig.title);
   const [plotType, setPlotType] = React.useState<PlotType>(plotConfig.plotType);
   const [xMinimum, setXMinimum] = React.useState<number | undefined>(
-    plotConfig.XMinimum
+    plotConfig.xMinimum
   );
   const [xMaximum, setXMaximum] = React.useState<number | undefined>(
-    plotConfig.XMaximum
+    plotConfig.xMaximum
   );
   const [yMinimum, setYMinimum] = React.useState<number | undefined>(
-    plotConfig.YMinimum
+    plotConfig.yMinimum
   );
   const [yMaximum, setYMaximum] = React.useState<number | undefined>(
-    plotConfig.YMaximum
+    plotConfig.yMaximum
   );
   const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>(
     plotConfig.XAxisScale
@@ -103,6 +105,39 @@ const PlotWindow = (props: PlotWindowProps) => {
     useAppSelector((state) =>
       selectSelectedChannels(state, channels ?? [])
     ) as FullScalarChannelMetadata[];
+
+  const handleSavePlot = React.useCallback(() => {
+    const configToSave: PlotConfig = {
+      open: true, // TODO change this? Depends on save method
+      title: plotTitle,
+      plotType,
+      XAxis,
+      XAxisScale,
+      xMinimum,
+      xMaximum,
+      selectedPlotChannels,
+      YAxesScale,
+      yMinimum,
+      yMaximum,
+      gridVisible,
+      axesLabelsVisible,
+    } as PlotConfig;
+    dispatch(savePlot(configToSave));
+  }, [
+    XAxis,
+    XAxisScale,
+    YAxesScale,
+    axesLabelsVisible,
+    dispatch,
+    gridVisible,
+    plotTitle,
+    plotType,
+    selectedPlotChannels,
+    xMaximum,
+    xMinimum,
+    yMaximum,
+    yMinimum,
+  ]);
 
   return (
     <PlotWindowPortal title={plotTitle} onClose={onClose}>
@@ -226,6 +261,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 toggleGridVisibility={toggleGridVisibility}
                 toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
                 resetView={resetView}
+                savePlot={handleSavePlot}
               />
             </Grid>
           </Grid>

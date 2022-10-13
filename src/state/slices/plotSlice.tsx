@@ -13,12 +13,12 @@ export interface PlotConfig {
   plotType: PlotType;
   XAxis?: string;
   XAxisScale: XAxisScale;
-  XMinimum?: number;
-  XMaximum?: number;
+  xMinimum?: number;
+  xMaximum?: number;
   selectedPlotChannels: SelectedPlotChannel[];
   YAxesScale: YAxesScale;
-  YMinimum?: number;
-  YMaximum?: number;
+  yMinimum?: number;
+  yMaximum?: number;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
 }
@@ -64,6 +64,10 @@ export const plotSlice = createSlice({
     openPlot: (state, action: PayloadAction<string>) => {
       state[action.payload].open = true;
     },
+    savePlot: (state, action: PayloadAction<PlotConfig>) => {
+      const plotConfig = action.payload;
+      state[plotConfig.title] = plotConfig;
+    },
     deletePlot: (state, action: PayloadAction<string>) => {
       // TODO check here if the plot is open first. Otherwise, an error is printed in console
       delete state[action.payload];
@@ -71,7 +75,7 @@ export const plotSlice = createSlice({
   },
 });
 
-export const { createPlot, closePlot, openPlot, deletePlot } =
+export const { createPlot, closePlot, openPlot, savePlot, deletePlot } =
   plotSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

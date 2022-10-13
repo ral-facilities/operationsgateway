@@ -153,6 +153,7 @@ export interface PlotButtonsProps {
   toggleGridVisibility: () => void;
   toggleAxesLabelsVisibility: () => void;
   resetView: () => void;
+  savePlot: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
@@ -166,6 +167,7 @@ const PlotButtons = (props: PlotButtonsProps) => {
     toggleGridVisibility,
     toggleAxesLabelsVisibility,
     resetView,
+    savePlot,
   } = props;
 
   return (
@@ -177,9 +179,7 @@ const PlotButtons = (props: PlotButtonsProps) => {
       <Button onClick={() => toggleAxesLabelsVisibility()}>
         {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
       </Button>
-      {/* TODO: link these buttons up to save graph config to redux/session */}
-      <Button>Save</Button>
-      <Button>Save As</Button>
+      <Button onClick={() => savePlot()}>Save</Button>
       <Button onClick={() => exportChart(canvasRef.current, title)}>
         Export Plot
       </Button>
