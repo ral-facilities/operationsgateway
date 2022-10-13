@@ -1,11 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  PlotType,
+  SelectedPlotChannel,
+  XAxisScale,
+  YAxesScale,
+} from '../../app.types';
 import { RootState } from '../store';
 
-// TODO: fill this out or move somewhere once it gets hooked up?
 export interface PlotConfig {
   open: boolean;
-  xAxis?: string;
-  yAxes?: string[];
+  title: string;
+  plotType: PlotType;
+  XAxis?: string;
+  XAxisScale: XAxisScale;
+  XMinimum?: number;
+  XMaximum?: number;
+  selectedPlotChannels: SelectedPlotChannel[];
+  YAxesScale: YAxesScale;
+  YMinimum?: number;
+  YMaximum?: number;
+  gridVisible: boolean;
+  axesLabelsVisible: boolean;
 }
 
 // Define a type for the slice state
@@ -31,7 +46,16 @@ export const plotSlice = createSlice({
         i++;
       }
       // TODO: properly initiate the plot here
-      state[newPlotTitle] = { open: true };
+      state[newPlotTitle] = {
+        open: true,
+        title: newPlotTitle,
+        plotType: 'scatter',
+        XAxisScale: 'linear',
+        selectedPlotChannels: [],
+        YAxesScale: 'linear',
+        gridVisible: true,
+        axesLabelsVisible: true,
+      };
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     closePlot: (state, action: PayloadAction<string>) => {
@@ -41,6 +65,7 @@ export const plotSlice = createSlice({
       state[action.payload].open = true;
     },
     deletePlot: (state, action: PayloadAction<string>) => {
+      // TODO check here if the plot is open first. Otherwise, an error is printed in console
       delete state[action.payload];
     },
   },

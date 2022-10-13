@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import {
   Channel,
   DateRange,
@@ -96,28 +96,6 @@ const fetchRecordCountQuery = (
     .then((response) => response.data);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const useRecords = <T extends unknown = Record[]>(
-  options?: UseQueryOptions<Record[], AxiosError, T, [string]>
-): UseQueryResult<T, AxiosError> => {
-  useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
-  return useQuery(
-    ['records'],
-    () => {
-      return fetchRecords(apiUrl, {}, {});
-    },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      ...(options ?? {}),
-    }
-  );
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
@@ -241,11 +219,28 @@ export const getFormattedAxisData = (
 // currently pass in the x and y axes just to sort out the select function but
 // eventually they'll be used to query for data
 export const usePlotRecords = (
-  XAxis: string,
-  selectedPlotChannels: SelectedPlotChannel[]
+  selectedPlotChannels: SelectedPlotChannel[],
+  XAxis?: string
 ): UseQueryResult<PlotDataset[], AxiosError> => {
-  const usePlotRecordsOptions = React.useMemo(
-    () => ({
+  useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+  const parsedXAxis = XAxis ?? 'timestamp';
+
+  return useQuery<
+    Record[],
+    AxiosError,
+    PlotDataset[],
+    [string, { sort: SortType }]
+  >(
+    ['records', { sort: { [parsedXAxis]: 'asc' } }],
+    (params) => {
+      const { sort } = params.queryKey[1];
+      return fetchRecords(apiUrl, sort, {});
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
       select: (records: Record[]) => {
         const plotDatasets = selectedPlotChannels.map((plotChannel) => {
           const plotChannelName = plotChannel.name;
@@ -259,16 +254,25 @@ export const usePlotRecords = (
 
           // Populate the above data field
           records.forEach((record) => {
-            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedXAxis = getFormattedAxisData(record, parsedXAxis);
             const formattedYAxis = getFormattedAxisData(
               record,
               plotChannelName
             );
 
-            if (formattedXAxis && formattedYAxis) {
+            if (formattedXAxis && parsedXAxis === 'timestamp') {
+              const parsedDate = new Date(formattedXAxis);
+              if (parsedDate.getHours() >= 9 && parsedDate.getHours() <= 18) {
+                const currentData = newDataset.data;
+                currentData.push({
+                  [parsedXAxis]: formattedXAxis,
+                  [plotChannelName]: formattedYAxis,
+                });
+              }
+            } else {
               const currentData = newDataset.data;
               currentData.push({
-                [XAxis]: formattedXAxis,
+                [parsedXAxis]: formattedXAxis,
                 [plotChannelName]: formattedYAxis,
               });
             }
@@ -279,11 +283,8 @@ export const usePlotRecords = (
 
         return plotDatasets;
       },
-    }),
-    [XAxis, selectedPlotChannels]
+    }
   );
-
-  return useRecords(usePlotRecordsOptions);
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {

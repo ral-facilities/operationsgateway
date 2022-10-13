@@ -19,7 +19,7 @@ export interface PlotProps {
   type: PlotType;
   XAxisScale: XAxisScale;
   YAxesScale: YAxesScale;
-  XAxis: string;
+  XAxis?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;

@@ -53,10 +53,11 @@ const StyledTab = styled(Tab)(() => ({
 export interface PlotSettingsControllerProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
   allChannels: FullScalarChannelMetadata[];
+  plotTitle: string;
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
-  XAxis: string;
+  XAxis?: string;
   changeXAxis: (value: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
@@ -76,6 +77,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   const {
     selectedRecordTableChannels,
     allChannels,
+    plotTitle,
     changePlotTitle,
     plotType,
     changePlotType,
@@ -105,7 +107,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <PlotTitleField changePlotTitle={changePlotTitle} />
+        <PlotTitleField
+          plotTitle={plotTitle}
+          changePlotTitle={changePlotTitle}
+        />
       </Grid>
       <Grid item>
         <ChartTypeButtons plotType={plotType} changePlotType={changePlotType} />

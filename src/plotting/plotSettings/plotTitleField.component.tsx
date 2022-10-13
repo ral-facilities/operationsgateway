@@ -2,30 +2,24 @@ import React from 'react';
 import { TextField } from '@mui/material';
 
 const PlotTitleField = (props: {
+  plotTitle: string;
   changePlotTitle: (title: string) => void;
 }) => {
-  const { changePlotTitle } = props;
-
-  const [title, setTitle] = React.useState('');
-  const deferredTitle = React.useDeferredValue(title);
+  const { plotTitle, changePlotTitle } = props;
 
   const handleChangeTitle = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setTitle(event.target.value);
+      changePlotTitle(event.target.value);
     },
-    [setTitle]
+    [changePlotTitle]
   );
-
-  React.useEffect(() => {
-    changePlotTitle(deferredTitle);
-  }, [changePlotTitle, deferredTitle]);
 
   return (
     <TextField
       label="Title"
       variant="outlined"
       size="small"
-      value={title}
+      value={plotTitle}
       onChange={handleChangeTitle}
       fullWidth
       InputProps={{ style: { fontSize: 12 } }}

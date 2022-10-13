@@ -118,8 +118,12 @@ export const constructDataRows = (
  *  @param data The data to export
  *  @param title The title of the plot (for the file name)
  */
-function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
-  if (plots && plots.length > 0) {
+function exportData(
+  title: string,
+  XAxis?: string,
+  plots?: PlotDataset[]
+): void {
+  if (XAxis && plots && plots.length > 0) {
     const csvArray = constructDataRows(XAxis, plots);
 
     const csvContent =
@@ -143,7 +147,7 @@ export interface PlotButtonsProps {
   data?: PlotDataset[];
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
-  XAxis: string;
+  XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   toggleGridVisibility: () => void;

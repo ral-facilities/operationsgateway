@@ -30,7 +30,7 @@ const StyledClose = styled(Close)(() => ({
 export interface XAxisTabProps {
   allChannels: FullScalarChannelMetadata[];
   XAxisScale: XAxisScale;
-  XAxis: string;
+  XAxis?: string;
   changeXAxis: (value: string) => void;
   changeXAxisScale: (value: XAxisScale) => void;
   changeXMinimum: (value: number | undefined) => void;
