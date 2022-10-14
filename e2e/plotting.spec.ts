@@ -547,7 +547,7 @@ test('user can change line style of plotted channels', async ({
 });
 
 const modifiedRecordsJson = recordsJson.map((record) => {
-  const newRecord = { ...record };
+  const newRecord = JSON.parse(JSON.stringify(record));
   if (newRecord.channels.CHANNEL_DEFGH) {
     newRecord.channels.CHANNEL_DEFGH.data =
       newRecord.channels.CHANNEL_DEFGH.data * 100000;
