@@ -3,6 +3,19 @@ import { Box, Grid, NativeSelect, Switch, Typography } from '@mui/material';
 import ColourPicker from './colourPicker.component';
 import { LineStyle, SelectedPlotChannel } from '../../../app.types';
 
+const deepCopySelectedPlotChannels = (
+  original: SelectedPlotChannel[]
+): SelectedPlotChannel[] => {
+  return original.map((currentChannel: SelectedPlotChannel) => ({
+    name: currentChannel.name,
+    options: {
+      visible: currentChannel.options.visible,
+      lineStyle: currentChannel.options.lineStyle,
+      colour: currentChannel.options.colour,
+    },
+  }));
+};
+
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
   selectedPlotChannels: SelectedPlotChannel[];
@@ -20,10 +33,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dashed', 'dotted'];
 
-  // TODO found bug where channel options can't be changed after being set from state
-
   const toggleChannelVisibility = React.useCallback(() => {
-    const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+    const newSelectedPlotChannelsArray =
+      deepCopySelectedPlotChannels(selectedPlotChannels);
     newSelectedPlotChannelsArray.some((currentChannel) => {
       if (currentChannel.name === thisChannel.name) {
         currentChannel.options.visible = !currentChannel.options.visible;
@@ -36,7 +48,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelColour = React.useCallback(
     (selectedColour: string) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedPlotChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedPlotChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
           currentChannel.options.colour = selectedColour;
@@ -51,7 +64,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelLineStyle = React.useCallback(
     (chosenStyle: LineStyle) => {
-      const newSelectedChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
           currentChannel.options.lineStyle = chosenStyle;
