@@ -143,9 +143,6 @@ describe('MoreOptionsBox', () => {
     createView();
 
     await user.click(
-      screen.getByLabelText(`Pick ${props.channel.name} colour`)
-    );
-    await user.click(
       within(screen.getByLabelText('Y Axis')).getByLabelText('Right')
     );
 
