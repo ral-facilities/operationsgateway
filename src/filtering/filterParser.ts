@@ -396,7 +396,7 @@ class SearchCondition {
 
 /**
  * Parses a list of tokens into a MongoDB style filter we can pass to the backend
- * @param tokens array of tokens repesenting the filter
+ * @param tokens array of tokens representing the filter
  * @returns a MongoDB style filter which can be passed as a `condition` to the backend
  * @throws {ParserError} Will throw an error with a descriptive message if the filter cannot be parsed
  */

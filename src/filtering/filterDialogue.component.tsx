@@ -10,8 +10,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import FilterInput from './filterInput.component';
-import { useAppDispatch } from '../state/hooks';
-import { changeAppliedFilters } from '../state/slices/filterSlice';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import {
+  changeAppliedFilters,
+  selectAppliedFilters,
+} from '../state/slices/filterSlice';
 import { Token } from './filterParser';
 import { useChannels } from '../api/channels';
 
@@ -39,7 +42,8 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose } = props;
   const dispatch = useAppDispatch();
-  const [filters, setFilters] = React.useState<Token[][]>([[]]);
+  const appliedFilters = useAppSelector(selectAppliedFilters);
+  const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
   const [errors, setErrors] = React.useState<string[]>(['']);
   const { data: channels } = useChannels({
     select: (channels) => {
@@ -59,6 +63,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       );
     },
   });
+
+  React.useEffect(() => {
+    setFilters(appliedFilters);
+    setErrors(['']);
+  }, [appliedFilters]);
 
   const handleChangeValue = React.useCallback(
     (value: Token[]) => setFilters([value]),
