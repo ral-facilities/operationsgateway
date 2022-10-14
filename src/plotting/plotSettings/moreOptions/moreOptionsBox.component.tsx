@@ -79,7 +79,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelAxis = React.useCallback(
     (yAxis: SelectedPlotChannel['options']['yAxis']) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedPlotChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedPlotChannelsArray.some((channel) => {
         if (channel.name === thisChannel.name) {
           channel.options.yAxis = yAxis;
