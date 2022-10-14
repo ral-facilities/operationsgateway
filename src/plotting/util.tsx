@@ -1,5 +1,6 @@
 import { SelectedPlotChannel } from '../app.types';
 
+// TODO test this
 export const deepCopySelectedPlotChannels = (
   original: SelectedPlotChannel[]
 ): SelectedPlotChannel[] => {
@@ -9,6 +10,7 @@ export const deepCopySelectedPlotChannels = (
       visible: currentChannel.options.visible,
       lineStyle: currentChannel.options.lineStyle,
       colour: currentChannel.options.colour,
+      yAxis: currentChannel.options.yAxis,
     },
   }));
 };
