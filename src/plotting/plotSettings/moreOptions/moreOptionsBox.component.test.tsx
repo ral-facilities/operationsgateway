@@ -1,7 +1,7 @@
 import React from 'react';
 import MoreOptionsBox from './moreOptionsBox.component';
 import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { testPlotDatasets } from '../../../setupTests';
@@ -23,6 +23,7 @@ describe('MoreOptionsBox', () => {
           visible: true,
           colour: 'colour-1',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
       selectedPlotChannels: testPlotDatasets.map((dataset, i) => ({
@@ -31,6 +32,7 @@ describe('MoreOptionsBox', () => {
           visible: true,
           colour: `colour-${i.toString()}`,
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       })),
       changeSelectedPlotChannels,
@@ -55,6 +57,7 @@ describe('MoreOptionsBox', () => {
         visible: true,
         colour: `colour-${i.toString()}`,
         lineStyle: i === 1 ? 'dashed' : 'solid',
+        yAxis: 'left',
       },
     }));
 
@@ -74,6 +77,7 @@ describe('MoreOptionsBox', () => {
         visible: i === 1 ? false : true,
         colour: `colour-${i.toString()}`,
         lineStyle: 'solid',
+        yAxis: 'left',
       },
     }));
 
@@ -91,6 +95,7 @@ describe('MoreOptionsBox', () => {
         visible: true,
         colour: `colour-${i.toString()}`,
         lineStyle: 'solid',
+        yAxis: 'left',
       },
     }));
 
@@ -110,6 +115,7 @@ describe('MoreOptionsBox', () => {
         visible: true,
         colour: i === 1 ? expect.anything() : `colour-${i.toString()}`,
         lineStyle: 'solid',
+        yAxis: 'left',
       },
     }));
 
@@ -119,6 +125,26 @@ describe('MoreOptionsBox', () => {
       screen.getByLabelText(`Pick ${props.channel.name} colour`)
     );
     await user.click(screen.getByLabelText('Color'));
+
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+  });
+
+  it('allows user to switch channel axis', async () => {
+    const expected = testPlotDatasets.map((dataset, i) => ({
+      name: dataset.name,
+      options: {
+        visible: true,
+        colour: `colour-${i.toString()}`,
+        lineStyle: 'solid',
+        yAxis: i === 1 ? 'right' : 'left',
+      },
+    }));
+
+    createView();
+
+    await user.click(
+      within(screen.getByLabelText('Y Axis')).getByLabelText('Right')
+    );
 
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });

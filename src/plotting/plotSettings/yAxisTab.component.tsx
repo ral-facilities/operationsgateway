@@ -191,6 +191,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           visible: true,
           lineStyle: 'solid',
           colour: colourGenerator.nextColour(), // Generate a colour for the channel to appear in the plot
+          yAxis: 'left',
         },
       };
 
