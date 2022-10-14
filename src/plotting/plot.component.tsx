@@ -121,7 +121,9 @@ const Plot = (props: PlotProps) => {
         },
         y2: {
           type: YAxesScale,
-          display: false,
+          display: selectedPlotChannels.some(
+            (channel) => channel.options.yAxis === 'right'
+          ),
           position: 'right',
           grid: {
             display: gridVisible,
@@ -148,7 +150,15 @@ const Plot = (props: PlotProps) => {
       options?.scales?.y && (options.scales.y.max = yMaximum);
       options?.scales?.y && (options.scales.y.type = YAxesScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
-
+      options?.scales?.y &&
+        (options.scales.y.display = selectedPlotChannels.some(
+          (channel) => channel.options.yAxis === 'left'
+        ));
+      options?.scales?.y2 && (options.scales.y2.type = YAxesScale);
+      options?.scales?.y2 &&
+        (options.scales.y2.display = selectedPlotChannels.some(
+          (channel) => channel.options.yAxis === 'right'
+        ));
       return JSON.stringify(options);
     });
   }, [
@@ -162,6 +172,7 @@ const Plot = (props: PlotProps) => {
     xMinimum,
     yMaximum,
     yMinimum,
+    selectedPlotChannels,
   ]);
 
   React.useEffect(() => {
@@ -180,6 +191,8 @@ const Plot = (props: PlotProps) => {
               yAxisKey: dataset.name,
               xAxisKey: XAxis,
             },
+            yAxisID:
+              channelConfig && channelConfig.yAxis === 'right' ? 'y2' : 'y',
             borderColor:
               channelConfig && !channelConfig.visible
                 ? 'rgba(0,0,0,0)'

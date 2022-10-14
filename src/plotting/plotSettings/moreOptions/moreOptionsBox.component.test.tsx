@@ -1,11 +1,12 @@
 import React from 'react';
 import MoreOptionsBox from './moreOptionsBox.component';
 import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { testPlotDatasets } from '../../../setupTests';
 import { deepCopySelectedPlotChannels } from '../../util';
+import { SelectedPlotChannel } from '../../../app.types';
 
 describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;
@@ -17,23 +18,20 @@ describe('MoreOptionsBox', () => {
   };
 
   beforeEach(() => {
-    props = {
-      channel: {
-        name: testPlotDatasets[1].name,
-        options: {
-          visible: true,
-          colour: 'colour-1',
-          lineStyle: 'solid',
-        },
-      },
-      selectedPlotChannels: testPlotDatasets.map((dataset, i) => ({
+    const testSelectedPlotChannels: SelectedPlotChannel[] =
+      testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,
           lineStyle: 'solid',
+          yAxis: 'left',
         },
-      })),
+      }));
+
+    props = {
+      channel: testSelectedPlotChannels[1],
+      selectedPlotChannels: testSelectedPlotChannels,
       changeSelectedPlotChannels,
     };
 
@@ -95,6 +93,19 @@ describe('MoreOptionsBox', () => {
       screen.getByLabelText(`Pick ${props.channel.name} colour`)
     );
     await user.click(screen.getByLabelText('Color'));
+
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+  });
+
+  it('allows user to switch channel axis', async () => {
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.yAxis = 'right';
+
+    createView();
+
+    await user.click(
+      within(screen.getByLabelText('Y Axis')).getByLabelText('Right')
+    );
 
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });

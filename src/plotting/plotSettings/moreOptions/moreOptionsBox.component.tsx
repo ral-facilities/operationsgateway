@@ -1,5 +1,16 @@
 import React from 'react';
-import { Box, Grid, NativeSelect, Switch, Typography } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  NativeSelect,
+  Radio,
+  RadioGroup,
+  Switch,
+  Typography,
+} from '@mui/material';
 import ColourPicker from './colourPicker.component';
 import { LineStyle, SelectedPlotChannel } from '../../../app.types';
 import { deepCopySelectedPlotChannels } from '../../util';
@@ -64,6 +75,21 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
       changeSelectedPlotChannels(newSelectedChannelsArray);
     },
     [selectedPlotChannels, changeSelectedPlotChannels, thisChannel.name]
+  );
+
+  const changeChannelAxis = React.useCallback(
+    (yAxis: SelectedPlotChannel['options']['yAxis']) => {
+      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      newSelectedPlotChannelsArray.some((channel) => {
+        if (channel.name === thisChannel.name) {
+          channel.options.yAxis = yAxis;
+          return true;
+        }
+        return false;
+      });
+      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
+    },
+    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
   );
 
   return (
@@ -147,6 +173,53 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             changeColour={changeChannelColour}
           />
         </Box>
+        <Grid container item>
+          <FormControl
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: 'inherit',
+              justifyContent: 'space-between',
+              border: 1,
+              padding: 1,
+              alignItems: 'center',
+            }}
+          >
+            <FormLabel
+              sx={{ fontSize: 12, color: 'inherit' }}
+              id="y-axis-label"
+            >
+              Y Axis
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="y-axis-label"
+              name="y-axis-label-radio-buttons"
+              value={thisChannel.options.yAxis}
+              onChange={(event) => {
+                const newValue = event.target.value;
+                changeChannelAxis(
+                  newValue as SelectedPlotChannel['options']['yAxis']
+                );
+              }}
+            >
+              <FormControlLabel
+                value="left"
+                control={<Radio size="small" sx={{ padding: '2px' }} />}
+                label="Left"
+                componentsProps={{ typography: { sx: { fontSize: 12 } } }}
+                sx={{ margin: 0 }}
+              />
+              <FormControlLabel
+                value="right"
+                control={<Radio size="small" sx={{ padding: '2px' }} />}
+                label="Right"
+                componentsProps={{ typography: { sx: { fontSize: 12 } } }}
+                sx={{ margin: 0 }}
+              />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
       </Grid>
     </div>
   );

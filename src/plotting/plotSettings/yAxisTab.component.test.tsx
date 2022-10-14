@@ -57,6 +57,7 @@ describe('y-axis tab', () => {
         visible: true,
         colour: '#ffffff',
         lineStyle: 'solid',
+        yAxis: 'left',
       },
     }));
 
@@ -107,6 +108,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: expect.anything(),
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ]);
@@ -128,6 +130,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: expect.anything(),
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ]);
@@ -152,6 +155,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: expect.anything(),
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ]);
@@ -171,6 +175,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: '#ffffff',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ];
@@ -190,6 +195,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: '#ffffff',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
       {
@@ -198,6 +204,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: '#ffffff',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ];
@@ -211,6 +218,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: '#ffffff',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ]);
@@ -225,6 +233,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: '#ffffff',
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       },
     ];

@@ -17,6 +17,7 @@ describe('Plot component', () => {
           visible: true,
           colour: `colour-${i.toString()}`,
           lineStyle: 'solid',
+          yAxis: 'left',
         },
       })),
       title: 'scatter plot',
@@ -40,6 +41,11 @@ describe('Plot component', () => {
   it('updates options object correctly', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
+    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    newSelectedPlotChannels.forEach(
+      (dataset, i) => (dataset.options.yAxis = 'right')
+    );
+
     props = {
       ...props,
       title: 'line plot',
@@ -54,6 +60,7 @@ describe('Plot component', () => {
       xMaximum: 20,
       yMinimum: 30,
       yMaximum: 40,
+      selectedPlotChannels: newSelectedPlotChannels,
     };
 
     rerender(<Plot {...props} />);
@@ -94,6 +101,17 @@ describe('Plot component', () => {
       props.selectedPlotChannels
     );
     newSelectedPlotChannels[0].options.lineStyle = 'dotted';
+    props.selectedPlotChannels = newSelectedPlotChannels;
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates data object correctly by setting the y axis correctly for right Y axis selected channels', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    newSelectedPlotChannels[0].options.yAxis = 'right';
     props.selectedPlotChannels = newSelectedPlotChannels;
     rerender(<Plot {...props} />);
 
