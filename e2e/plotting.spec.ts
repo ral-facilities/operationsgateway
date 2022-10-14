@@ -545,3 +545,91 @@ test('user can change line style of plotted channels', async ({
     })
   ).toMatchSnapshot({ maxDiffPixels: 100 });
 });
+
+const modifiedRecordsJson = recordsJson.map((record) => {
+  const newRecord = { ...record };
+  if (newRecord.channels.CHANNEL_DEFGH) {
+    newRecord.channels.CHANNEL_DEFGH.data =
+      newRecord.channels.CHANNEL_DEFGH.data * 100000;
+  }
+  return newRecord;
+});
+
+export const plotRecordsRouteDifferentScales = (context) =>
+  context.route('**/records**', (route) => {
+    return route.fulfill({
+      body: JSON.stringify(modifiedRecordsJson),
+    });
+  });
+
+test('user can plot channels on the right y axis', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await plotRecordsRouteDifferentScales(context);
+  await recordCountRoute(context);
+
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search")').fill('time');
+
+  await popup.locator('text=timestamp').click();
+
+  await popup.locator('text=Y').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
+
+  await popup.locator('text=CHANNEL_ABCDE').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
+
+  await popup.locator('text=CHANNEL_DEFGH').click();
+
+  await popup.locator('[aria-label="More options for CHANNEL_DEFGH"]').click();
+
+  if (browserName === 'webkit') {
+    // for some reason webkit can't use check or click on the radio button as it doesn't change
+    // so use arrow key instead
+    await popup
+      .getByRole('radiogroup', { name: 'Y Axis' })
+      .getByLabel('Left')
+      .press('ArrowRight');
+  } else {
+    await popup
+      .getByRole('radiogroup', { name: 'Y Axis' })
+      .getByRole('radio', { name: 'Right' })
+      .check();
+  }
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  if (browserName === 'chromium') {
+    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+    await page.close();
+    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+  }
+
+  const chart = await popup.locator('#my-chart');
+
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 100 });
+});
