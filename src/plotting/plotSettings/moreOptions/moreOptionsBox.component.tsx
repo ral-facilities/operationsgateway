@@ -85,7 +85,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
       });
       changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
-    [changeSelectedPlotChannels, selectedPlotChannels]
+    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
   );
 
   return (
