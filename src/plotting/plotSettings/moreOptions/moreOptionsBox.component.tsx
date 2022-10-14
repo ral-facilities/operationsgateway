@@ -20,6 +20,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dashed', 'dotted'];
 
+  // TODO found bug where channel options can't be changed after being set from state
+
   const toggleChannelVisibility = React.useCallback(() => {
     const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
     newSelectedPlotChannelsArray.some((currentChannel) => {

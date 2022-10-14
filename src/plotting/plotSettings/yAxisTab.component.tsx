@@ -128,6 +128,8 @@ export interface YAxisTabProps {
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
   ) => void;
+  initialYMinimum?: number;
+  initialYMaximum?: number;
   changeYMinimum: (value: number | undefined) => void;
   changeYMaximum: (value: number | undefined) => void;
   YAxesScale: YAxesScale;
@@ -140,6 +142,8 @@ const YAxisTab = (props: YAxisTabProps) => {
     allChannels,
     selectedPlotChannels,
     changeSelectedPlotChannels,
+    initialYMinimum,
+    initialYMaximum,
     changeYMinimum,
     changeYMaximum,
     YAxesScale,
@@ -152,8 +156,12 @@ const YAxisTab = (props: YAxisTabProps) => {
 
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
-  const [yMinimum, setYMinimum] = React.useState<string>('');
-  const [yMaximum, setYMaximum] = React.useState<string>('');
+  const [yMinimum, setYMinimum] = React.useState<string>(
+    initialYMinimum ? '' + initialYMinimum : ''
+  );
+  const [yMaximum, setYMaximum] = React.useState<string>(
+    initialYMaximum ? '' + initialYMaximum : ''
+  );
 
   const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
 

@@ -201,6 +201,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeYAxesScale={setYAxesScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
+                xMinimum={xMinimum}
+                xMaximum={xMaximum}
+                yMinimum={yMinimum}
+                yMaximum={yMaximum}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
                 changeYMinimum={setYMinimum}

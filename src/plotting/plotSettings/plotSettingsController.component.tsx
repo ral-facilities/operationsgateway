@@ -67,6 +67,10 @@ export interface PlotSettingsControllerProps {
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
   ) => void;
+  xMinimum?: number;
+  xMaximum?: number;
+  yMinimum?: number;
+  yMaximum?: number;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
   changeYMinimum: (value: number | undefined) => void;
@@ -89,6 +93,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeYAxesScale,
     selectedPlotChannels,
     changeSelectedPlotChannels,
+    xMinimum,
+    xMaximum,
+    yMinimum,
+    yMaximum,
     changeXMinimum,
     changeXMaximum,
     changeYMinimum,
@@ -134,6 +142,8 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             XAxis={XAxis}
             changeXAxis={changeXAxis}
             changeXAxisScale={changeXAxisScale}
+            initialXMinimum={xMinimum}
+            initialXMaximum={xMaximum}
             changeXMinimum={changeXMinimum}
             changeXMaximum={changeXMaximum}
           />
@@ -144,6 +154,8 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             allChannels={allChannels}
             selectedPlotChannels={selectedPlotChannels}
             changeSelectedPlotChannels={changeSelectedPlotChannels}
+            initialYMinimum={yMinimum}
+            initialYMaximum={yMaximum}
             changeYMinimum={changeYMinimum}
             changeYMaximum={changeYMaximum}
             YAxesScale={YAxesScale}

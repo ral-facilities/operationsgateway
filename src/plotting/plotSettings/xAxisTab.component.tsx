@@ -33,6 +33,8 @@ export interface XAxisTabProps {
   XAxis?: string;
   changeXAxis: (value: string) => void;
   changeXAxisScale: (value: XAxisScale) => void;
+  initialXMinimum?: number;
+  initialXMaximum?: number;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
 }
@@ -44,55 +46,73 @@ const XAxisTab = (props: XAxisTabProps) => {
     XAxis,
     changeXAxis,
     changeXAxisScale,
+    initialXMinimum,
+    initialXMaximum,
     changeXMinimum,
     changeXMaximum,
   } = props;
 
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
-  const [xMinimum, setXMinimum] = React.useState<string>('');
-  const [xMaximum, setXMaximum] = React.useState<string>('');
+  const [xMinimum, setXMinimum] = React.useState<string>(
+    initialXMinimum && XAxisScale !== 'time' ? '' + initialXMinimum : ''
+  );
+  const [xMaximum, setXMaximum] = React.useState<string>(
+    initialXMaximum && XAxisScale !== 'time' ? '' + initialXMaximum : ''
+  );
 
-  const [fromDate, setFromDate] = React.useState<Date | null>(null);
-  const [toDate, setToDate] = React.useState<Date | null>(null);
+  const [fromDate, setFromDate] = React.useState<Date | null>(
+    initialXMinimum && XAxisScale === 'time' ? new Date(initialXMinimum) : null
+  );
+  const [toDate, setToDate] = React.useState<Date | null>(
+    initialXMaximum && XAxisScale === 'time' ? new Date(initialXMaximum) : null
+  );
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
 
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   React.useEffect(() => {
-    if (xMinimum && parseFloat(xMinimum)) {
-      changeXMinimum(parseFloat(xMinimum));
-    } else {
-      changeXMinimum(undefined);
+    if (XAxisScale !== 'time') {
+      if (xMinimum && parseFloat(xMinimum)) {
+        changeXMinimum(parseFloat(xMinimum));
+      } else {
+        changeXMinimum(undefined);
+      }
     }
-  }, [changeXMinimum, xMinimum]);
+  }, [XAxisScale, changeXMinimum, xMinimum]);
 
   React.useEffect(() => {
-    if (xMaximum && parseFloat(xMaximum)) {
-      changeXMaximum(parseFloat(xMaximum));
-    } else {
-      changeXMaximum(undefined);
+    if (XAxisScale !== 'time') {
+      if (xMaximum && parseFloat(xMaximum)) {
+        changeXMaximum(parseFloat(xMaximum));
+      } else {
+        changeXMaximum(undefined);
+      }
     }
-  }, [changeXMaximum, xMaximum]);
+  }, [XAxisScale, changeXMaximum, xMaximum]);
 
   React.useEffect(() => {
-    if (fromDate) {
-      const unixTimestamp = fromDate.getTime();
-      if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
-    } else {
-      changeXMinimum(undefined);
+    if (XAxisScale === 'time') {
+      if (fromDate) {
+        const unixTimestamp = fromDate.getTime();
+        if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
+      } else {
+        changeXMinimum(undefined);
+      }
     }
-  }, [fromDate, changeXMinimum]);
+  }, [fromDate, changeXMinimum, XAxisScale]);
 
   React.useEffect(() => {
-    if (toDate) {
-      const unixTimestamp = toDate.getTime();
-      if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
-    } else {
-      changeXMaximum(undefined);
+    if (XAxisScale === 'time') {
+      if (toDate) {
+        const unixTimestamp = toDate.getTime();
+        if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
+      } else {
+        changeXMaximum(undefined);
+      }
     }
-  }, [toDate, changeXMaximum]);
+  }, [toDate, changeXMaximum, XAxisScale]);
 
   const handleChangeXScale = React.useCallback(
     (value: string) => {
