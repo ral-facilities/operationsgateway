@@ -202,6 +202,7 @@ const YAxisTab = (props: YAxisTabProps) => {
         },
       };
 
+      // Only need to shallow copy here
       const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
       newSelectedPlotChannelsArray.push(newSelectedPlotChannel);
       changeSelectedPlotChannels(newSelectedPlotChannelsArray);

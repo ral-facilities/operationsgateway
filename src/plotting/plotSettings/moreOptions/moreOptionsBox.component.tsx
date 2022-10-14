@@ -2,19 +2,7 @@ import React from 'react';
 import { Box, Grid, NativeSelect, Switch, Typography } from '@mui/material';
 import ColourPicker from './colourPicker.component';
 import { LineStyle, SelectedPlotChannel } from '../../../app.types';
-
-const deepCopySelectedPlotChannels = (
-  original: SelectedPlotChannel[]
-): SelectedPlotChannel[] => {
-  return original.map((currentChannel: SelectedPlotChannel) => ({
-    name: currentChannel.name,
-    options: {
-      visible: currentChannel.options.visible,
-      lineStyle: currentChannel.options.lineStyle,
-      colour: currentChannel.options.colour,
-    },
-  }));
-};
+import { deepCopySelectedPlotChannels } from '../../util';
 
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
