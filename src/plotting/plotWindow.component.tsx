@@ -114,7 +114,10 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
-      open: true, // TODO change this? Depends on save method
+      // ensures that whenever we save the plot, it won't open up a new window
+      // if we always set this to true, a "new" plot config will be saved, with open = true
+      // this would open up a new window, which we don't want
+      open: plotTitle === plotConfig.title,
       title: plotTitle,
       plotType,
       XAxis,
@@ -138,6 +141,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     axesLabelsVisible,
     dispatch,
     gridVisible,
+    plotConfig.title,
     plotTitle,
     plotType,
     remainingColours,
