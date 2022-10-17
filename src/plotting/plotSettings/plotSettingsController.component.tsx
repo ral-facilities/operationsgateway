@@ -75,6 +75,10 @@ export interface PlotSettingsControllerProps {
   changeXMaximum: (value: number | undefined) => void;
   changeYMinimum: (value: number | undefined) => void;
   changeYMaximum: (value: number | undefined) => void;
+  selectedColours: string[];
+  remainingColours: string[];
+  changeSelectedColours: (selected: string[]) => void;
+  changeRemainingColours: (remaining: string[]) => void;
 }
 
 const PlotSettingsController = (props: PlotSettingsControllerProps) => {
@@ -101,6 +105,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeXMaximum,
     changeYMinimum,
     changeYMaximum,
+    selectedColours,
+    remainingColours,
+    changeSelectedColours,
+    changeRemainingColours,
   } = props;
 
   const [XYTabValue, setXYTabValue] = React.useState<TabValue>('X');
@@ -160,6 +168,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             changeYMaximum={changeYMaximum}
             YAxesScale={YAxesScale}
             changeYAxesScale={changeYAxesScale}
+            initialSelectedColours={selectedColours}
+            initialRemainingColours={remainingColours}
+            changeSelectedColours={changeSelectedColours}
+            changeRemainingColours={changeRemainingColours}
           />
         </TabPanel>
       </Grid>

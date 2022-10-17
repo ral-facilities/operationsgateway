@@ -6,6 +6,7 @@ import {
   YAxesScale,
 } from '../../app.types';
 import { RootState } from '../store';
+import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
 
 export interface PlotConfig {
   open: boolean;
@@ -21,6 +22,8 @@ export interface PlotConfig {
   yMaximum?: number;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
+  selectedColours: string[];
+  remainingColours: string[];
 }
 
 // Define a type for the slice state
@@ -55,6 +58,8 @@ export const plotSlice = createSlice({
         YAxesScale: 'linear',
         gridVisible: true,
         axesLabelsVisible: true,
+        selectedColours: [],
+        remainingColours: COLOUR_ORDER.map((colour) => colour),
       };
     },
     // Use the PayloadAction type to declare the contents of `action.payload`

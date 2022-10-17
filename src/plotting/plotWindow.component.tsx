@@ -71,6 +71,12 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [axesLabelsVisible, setAxesLabelsVisible] = React.useState<boolean>(
     plotConfig.axesLabelsVisible
   );
+  const [selectedColours, setSelectedColours] = React.useState<string[]>(
+    plotConfig.selectedColours
+  );
+  const [remainingColours, setRemainingColours] = React.useState<string[]>(
+    plotConfig.remainingColours
+  );
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -121,6 +127,8 @@ const PlotWindow = (props: PlotWindowProps) => {
       yMaximum,
       gridVisible,
       axesLabelsVisible,
+      selectedColours,
+      remainingColours,
     } as PlotConfig;
     dispatch(savePlot(configToSave));
   }, [
@@ -132,6 +140,8 @@ const PlotWindow = (props: PlotWindowProps) => {
     gridVisible,
     plotTitle,
     plotType,
+    remainingColours,
+    selectedColours,
     selectedPlotChannels,
     xMaximum,
     xMinimum,
@@ -209,6 +219,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXMaximum={setXMaximum}
                 changeYMinimum={setYMinimum}
                 changeYMaximum={setYMaximum}
+                selectedColours={selectedColours}
+                remainingColours={remainingColours}
+                changeSelectedColours={setSelectedColours}
+                changeRemainingColours={setRemainingColours}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
