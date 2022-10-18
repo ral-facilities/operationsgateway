@@ -1,24 +1,19 @@
 import React from 'react';
 import FilterDialogue from './filterDialogue.component';
-import { act, render, screen, waitFor, within } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
-  flushPromises,
   getInitialState,
   renderComponentWithProviders,
-  testChannels,
   testRecords,
 } from '../setupTests';
-import { fetchChannels } from '../api/channels';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { Token } from './filterParser';
 import axios from 'axios';
-import { QueryCache } from 'react-query';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
-  let promise;
 
   const createView = (initialState?: PreloadedState<RootState>) => {
     return renderComponentWithProviders(<FilterDialogue {...props} />, {
@@ -27,15 +22,12 @@ describe('Filter dialogue component', () => {
   };
 
   beforeEach(() => {
-    jest.setTimeout(60000);
     props = {
       open: true,
       onClose: jest.fn(),
     };
 
-    promise = Promise.resolve({ data: testRecords });
-
-    (axios.get as jest.Mock).mockReturnValue(promise);
+    (axios.get as jest.Mock).mockResolvedValue({ data: testRecords });
   });
 
   it('renders filter dialogue when dialogue is open', async () => {

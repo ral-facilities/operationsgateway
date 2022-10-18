@@ -2,10 +2,7 @@ import { Button, ButtonGroup } from '@mui/material';
 import React from 'react';
 import FilterDialogue from '../filtering/filterDialogue.component';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TableButtonsProps {}
-
-const TableButtons = (props: TableButtonsProps) => {
+const TableButtons = () => {
   const [filtersOpen, setFiltersOpen] = React.useState(false);
   const handleFiltersOpen = React.useCallback(() => {
     setFiltersOpen(true);
