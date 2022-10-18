@@ -57,7 +57,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               ({
                 type: 'channel',
                 value: channel.systemName,
-                displayValue: channel?.userFriendlyName,
+                label: channel?.userFriendlyName ?? channel.systemName,
               } as Token)
           )
       );

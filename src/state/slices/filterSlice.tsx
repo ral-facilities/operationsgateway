@@ -10,7 +10,7 @@ interface FilterState {
 
 // Define the initial state using that type
 export const initialState = {
-  appliedFilters: [],
+  appliedFilters: [[]],
 } as FilterState;
 
 export const filterSlice = createSlice({

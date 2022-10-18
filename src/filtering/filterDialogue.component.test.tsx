@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import FilterDialogue from './filterDialogue.component';
 import { act, screen } from '@testing-library/react';
@@ -9,7 +10,7 @@ import {
 } from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
-import { Token } from './filterParser';
+import { operators, Token } from './filterParser';
 import axios from 'axios';
 
 describe('Filter dialogue component', () => {
@@ -64,11 +65,11 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp' },
-            { type: 'unaryop', value: 'is not null' },
-            { type: 'and', value: 'and' },
-            { type: 'channel', value: 'shotnum' },
-            { type: 'unaryop', value: 'is null' },
+            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            operators.find((t) => t.value === 'is not null')!,
+            operators.find((t) => t.value === 'and')!,
+            { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+            operators.find((t) => t.value === 'is null')!,
           ],
         ] as Token[][],
       },
@@ -87,8 +88,8 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp' },
-        { type: 'unaryop', value: 'is not null' },
+        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
     expect(props.onClose).toHaveBeenCalled();
@@ -101,8 +102,8 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp' },
-            { type: 'unaryop', value: 'is not null' },
+            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            operators.find((t) => t.value === 'is not null')!,
           ],
         ] as Token[][],
       },

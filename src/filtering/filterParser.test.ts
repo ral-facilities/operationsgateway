@@ -1,23 +1,39 @@
-import { parseFilter, Token } from './filterParser';
+import { operators, parseFilter, Token } from './filterParser';
 
 describe('Filter parser', () => {
-  const timestampToken: Token = { type: 'channel', value: 'timestamp' };
-  const channelToken: Token = { type: 'channel', value: 'CHANNEL_1' };
-  const ltToken: Token = { type: 'compop', value: '<' };
-  const eqToken: Token = { type: 'compop', value: '=' };
-  const neqToken: Token = { type: 'compop', value: '!=' };
-  const gtToken: Token = { type: 'compop', value: '>' };
-  const lteToken: Token = { type: 'compop', value: '<=' };
-  const gteToken: Token = { type: 'compop', value: '>=' };
-  const numberToken: Token = { type: 'number', value: '1' };
-  const stringToken: Token = { type: 'string', value: '"test"' };
-  const isNullToken: Token = { type: 'unaryop', value: 'is null' };
-  const isNotNullToken: Token = { type: 'unaryop', value: 'is not null' };
-  const notToken: Token = { type: 'not', value: 'not' };
-  const openParenToken: Token = { type: 'openparen', value: '(' };
-  const closeParenToken: Token = { type: 'closeparen', value: ')' };
-  const andToken: Token = { type: 'and', value: 'and' };
-  const orToken: Token = { type: 'or', value: 'or' };
+  const timestampToken: Token = {
+    type: 'channel',
+    value: 'timestamp',
+    label: 'Time',
+  };
+  const channelToken: Token = {
+    type: 'channel',
+    value: 'CHANNEL_1',
+    label: 'Channel 1',
+  };
+  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+  const ltToken: Token = operators.find((t) => t.value === '<')!;
+  const eqToken: Token = operators.find((t) => t.value === '=')!;
+  const neqToken: Token = operators.find((t) => t.value === '!=')!;
+  const gtToken: Token = operators.find((t) => t.value === '>')!;
+  const lteToken: Token = operators.find((t) => t.value === '<=')!;
+  const gteToken: Token = operators.find((t) => t.value === '>=')!;
+  const numberToken: Token = { type: 'number', value: '1', label: '1' };
+  const stringToken: Token = {
+    type: 'string',
+    value: '"test"',
+    label: '"test"',
+  };
+  const isNullToken: Token = operators.find((t) => t.value === 'is null')!;
+  const isNotNullToken: Token = operators.find(
+    (t) => t.value === 'is not null'
+  )!;
+  const notToken: Token = operators.find((t) => t.value === 'not')!;
+  const openParenToken: Token = operators.find((t) => t.value === '(')!;
+  const closeParenToken: Token = operators.find((t) => t.value === ')')!;
+  const andToken: Token = operators.find((t) => t.value === 'and')!;
+  const orToken: Token = operators.find((t) => t.value === 'or')!;
+  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   it('can parse a comparison operation', () => {
     expect(parseFilter([timestampToken, ltToken, numberToken])).toEqual(
@@ -67,7 +83,7 @@ describe('Filter parser', () => {
     expect(() => {
       parseFilter([
         timestampToken,
-        { type: 'compop', value: 'INVALID' },
+        { type: 'compop', value: 'INVALID', label: 'INVALID' },
         numberToken,
       ]);
     }).toThrowError('Error converting operator INVALID');
@@ -161,10 +177,6 @@ describe('Filter parser', () => {
 
   it('throws an error if the expression is incomplete', () => {
     expect(() => {
-      parseFilter([]);
-    }).toThrowError('Expression incomplete');
-
-    expect(() => {
       parseFilter([notToken]);
     }).toThrowError('Expression incomplete');
   });
@@ -173,5 +185,9 @@ describe('Filter parser', () => {
     expect(() => {
       parseFilter([openParenToken, timestampToken, isNotNullToken]);
     }).toThrowError('Missing token at end. Expected: closeparen');
+  });
+
+  it('returns empty string when given empty array', () => {
+    expect(parseFilter([])).toEqual('');
   });
 });

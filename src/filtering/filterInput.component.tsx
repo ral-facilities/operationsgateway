@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
 import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
 
@@ -9,6 +9,14 @@ interface FilterInputProps {
   error: string;
   setError: (error: string) => void;
 }
+
+// use matchFrom start here as otherwise it's hard to input e.g. the number 1 as there
+// are channels with that in their name. It also matches eCat behaviour - but we should
+// check if this is desired.
+const filterOptions = createFilterOptions<Token>({
+  matchFrom: 'start',
+  limit: 100,
+});
 
 const FilterInput = (props: FilterInputProps) => {
   const { channels, value, setValue, error, setError } = props;
@@ -28,6 +36,8 @@ const FilterInput = (props: FilterInputProps) => {
 
   return (
     <Autocomplete
+      autoHighlight
+      filterOptions={filterOptions}
       multiple
       options={options}
       freeSolo
@@ -39,11 +49,6 @@ const FilterInput = (props: FilterInputProps) => {
         setInputValue(newInputValue);
       }}
       value={value}
-      getOptionLabel={(option: Token | string) =>
-        typeof option !== 'string'
-          ? option?.displayValue ?? option.value
-          : option
-      }
       onChange={(
         event: unknown,
         newValue: (string | Token)[],
@@ -57,7 +62,11 @@ const FilterInput = (props: FilterInputProps) => {
           const newTermIndex = newValue.indexOf(newTerm);
           // new term is a valid number so allow it to be added
           if (!Number.isNaN(Number(newTerm))) {
-            newValue[newTermIndex] = { type: 'number', value: newTerm };
+            newValue[newTermIndex] = {
+              type: 'number',
+              value: newTerm,
+              label: newTerm,
+            };
             setValue(newValue as Token[]);
             setError('');
           } // new term is a string specified by either single or double quotes so allow it
@@ -65,7 +74,11 @@ const FilterInput = (props: FilterInputProps) => {
             (newTerm[0] === '"' && newTerm[newTerm.length - 1] === '"') ||
             (newTerm[0] === "'" && newTerm[newTerm.length - 1] === "'")
           ) {
-            newValue[newTermIndex] = { type: 'string', value: newTerm };
+            newValue[newTermIndex] = {
+              type: 'string',
+              value: newTerm,
+              label: newTerm,
+            };
             setValue(newValue as Token[]);
             setError('');
           } else {

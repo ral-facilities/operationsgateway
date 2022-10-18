@@ -3,11 +3,14 @@ import ViewTabs from './viewTabs.component';
 import { renderComponentWithProviders } from '../setupTests';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 
 describe('View Tabs', () => {
   const createView = () => {
     return renderComponentWithProviders(<ViewTabs />);
   };
+
+  (axios.get as jest.Mock).mockResolvedValue({ data: [] });
 
   it('lets users switch between tabs', async () => {
     const user = userEvent.setup();

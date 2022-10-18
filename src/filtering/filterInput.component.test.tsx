@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import FilterInput from './filterInput.component';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { operators } from './filterParser';
 
 describe('Filter input component', () => {
   let props: React.ComponentProps<typeof FilterInput>;
@@ -12,14 +14,17 @@ describe('Filter input component', () => {
       value: [],
       setValue: jest.fn(),
       setError: jest.fn(),
-      channels: ['timestamp', 'shotnum'],
+      channels: [
+        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+      ],
     };
   });
 
   it('renders a autocomplete with chips for any values the user has selected', () => {
     props.value = [
-      { type: 'channel', value: 'timestamp' },
-      { type: 'unaryop', value: 'is not null' },
+      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      operators.find((t) => t.value === 'is not null')!,
     ];
     const view = render(<FilterInput {...props} />);
 
@@ -39,11 +44,11 @@ describe('Filter input component', () => {
 
     const filter = screen.getByLabelText('Filter');
 
-    await user.type(filter, 'timestamp');
+    await user.type(filter, 'Shot num');
     await user.type(filter, '{enter}');
 
     expect(props.setValue).toHaveBeenCalledWith([
-      { type: 'channel', value: 'timestamp' },
+      { type: 'channel', value: 'shotnum', label: 'Shot Number' },
     ]);
     expect(props.setError).toHaveBeenCalledWith('');
   });
@@ -58,7 +63,7 @@ describe('Filter input component', () => {
     await user.type(filter, '{enter}');
 
     expect(props.setValue).toHaveBeenCalledWith([
-      { type: 'number', value: '1' },
+      { type: 'number', value: '1', label: '1' },
     ]);
     expect(props.setError).toHaveBeenCalledWith('');
   });
@@ -73,7 +78,7 @@ describe('Filter input component', () => {
     await user.type(filter, '{enter}');
 
     expect(props.setValue).toHaveBeenCalledWith([
-      { type: 'string', value: '"test"' },
+      { type: 'string', value: '"test"', label: '"test"' },
     ]);
     expect(props.setError).toHaveBeenCalledWith('');
   });
@@ -88,7 +93,7 @@ describe('Filter input component', () => {
     await user.type(filter, '{enter}');
 
     expect(props.setValue).toHaveBeenCalledWith([
-      { type: 'string', value: "'test'" },
+      { type: 'string', value: "'test'", label: "'test'" },
     ]);
     expect(props.setError).toHaveBeenCalledWith('');
   });
@@ -108,9 +113,9 @@ describe('Filter input component', () => {
   it('validates the value when the user stops focusing on the input and sets an error if invalid', async () => {
     const user = userEvent.setup();
     props.value = [
-      { type: 'channel', value: 'timestamp' },
-      { type: 'unaryop', value: 'is not null' },
-      { type: 'and', value: 'and' },
+      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      operators.find((t) => t.value === 'is not null')!,
+      operators.find((t) => t.value === 'and')!,
     ];
     render(<FilterInput {...props} />);
 
@@ -130,8 +135,8 @@ describe('Filter input component', () => {
   it('validates the value when the user stops focusing on the input and clears an error if valid', async () => {
     const user = userEvent.setup();
     props.value = [
-      { type: 'channel', value: 'timestamp' },
-      { type: 'unaryop', value: 'is not null' },
+      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      operators.find((t) => t.value === 'is not null')!,
     ];
     render(<FilterInput {...props} />);
 

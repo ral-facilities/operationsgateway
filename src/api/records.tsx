@@ -58,7 +58,7 @@ const fetchRecords = async (
     };
     params.append('conditions', JSON.stringify(timestampObj));
   }
-  filters.forEach((f) => params.append('conditions', f));
+  filters.forEach((f) => f.length !== 0 && params.append('conditions', f));
 
   if (offsetParams) {
     params.append('skip', JSON.stringify(offsetParams.startIndex));
@@ -93,7 +93,7 @@ const fetchRecordCountQuery = (
     };
     params.append('conditions', JSON.stringify(timestampObj));
   }
-  filters.forEach((f) => params.append('conditions', f));
+  filters.forEach((f) => f.length !== 0 && params.append('conditions', f));
 
   return axios
     .get(`${apiUrl}/records/count`, { params })

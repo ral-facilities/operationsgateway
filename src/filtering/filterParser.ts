@@ -13,61 +13,74 @@ type TokenType =
 export interface Token {
   type: TokenType;
   value: string;
-  displayValue?: string;
+  label: string;
 }
 
 export const operators: Token[] = [
   {
     type: 'not',
     value: 'not',
+    label: 'not',
   },
   {
     type: 'and',
     value: 'and',
+    label: 'and',
   },
   {
     type: 'or',
     value: 'or',
+    label: 'or',
   },
   {
     type: 'openparen',
     value: '(',
+    label: '(',
   },
   {
     type: 'closeparen',
     value: ')',
+    label: ')',
   },
   {
     type: 'compop',
     value: '=',
+    label: '=',
   },
   {
     type: 'compop',
     value: '!=',
+    label: '"=',
   },
   {
     type: 'compop',
     value: '<=',
+    label: '<=',
   },
   {
     type: 'compop',
     value: '>=',
+    label: '>=',
   },
   {
     type: 'compop',
     value: '<',
+    label: '<',
   },
   {
     type: 'compop',
     value: '>',
+    label: '>',
   },
   {
     type: 'unaryop',
     value: 'is not null',
+    label: 'is not null',
   },
   {
     type: 'unaryop',
     value: 'is null',
+    label: 'is null',
   },
 ];
 
@@ -401,6 +414,7 @@ class SearchCondition {
  * @throws {ParserError} Will throw an error with a descriptive message if the filter cannot be parsed
  */
 export const parseFilter = (tokens: Token[]): string | never => {
+  if (tokens.length === 0) return '';
   const input = new Input(tokens);
   const searchCondition = new SearchCondition(input);
   return searchCondition.toString();
