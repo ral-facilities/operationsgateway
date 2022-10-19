@@ -50,17 +50,7 @@ export const operators: Token[] = [
   {
     type: 'compop',
     value: '!=',
-    label: '"=',
-  },
-  {
-    type: 'compop',
-    value: '<=',
-    label: '<=',
-  },
-  {
-    type: 'compop',
-    value: '>=',
-    label: '>=',
+    label: '!=',
   },
   {
     type: 'compop',
@@ -71,6 +61,16 @@ export const operators: Token[] = [
     type: 'compop',
     value: '>',
     label: '>',
+  },
+  {
+    type: 'compop',
+    value: '<=',
+    label: '<=',
+  },
+  {
+    type: 'compop',
+    value: '>=',
+    label: '>=',
   },
   {
     type: 'unaryop',
