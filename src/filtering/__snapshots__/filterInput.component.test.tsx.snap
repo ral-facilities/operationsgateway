@@ -3,7 +3,7 @@
 exports[`Filter input component renders a autocomplete with chips for any values the user has selected 1`] = `
 <DocumentFragment>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasClearIcon css-12szb0g-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasClearIcon css-a3i8ws-MuiAutocomplete-root"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -125,7 +125,7 @@ exports[`Filter input component renders a autocomplete with chips for any values
 exports[`Filter input component renders an error if there is one 1`] = `
 <DocumentFragment>
   <div
-    class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-12szb0g-MuiAutocomplete-root"
+    class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-a3i8ws-MuiAutocomplete-root"
   >
     <div
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"

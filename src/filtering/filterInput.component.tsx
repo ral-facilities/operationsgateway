@@ -1,4 +1,11 @@
-import { Autocomplete, TextField, createFilterOptions } from '@mui/material';
+import {
+  Autocomplete,
+  TextField,
+  createFilterOptions,
+  autocompleteClasses,
+  Theme,
+  SxProps,
+} from '@mui/material';
 import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
 
@@ -100,6 +107,22 @@ const FilterInput = (props: FilterInputProps) => {
           helperText={error}
         />
       )}
+      // for some reason, it's not accepting the sx prop here even though it should
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ListboxProps={
+        {
+          sx: (theme: Theme) => ({
+            [`& .${autocompleteClasses.option}`]: {
+              [`&.Mui-focused,&.Mui-focusVisible`]: {
+                backgroundColor: theme.palette.action.focus,
+              },
+            },
+          }),
+        } as {
+          sx: SxProps<Theme>;
+        }
+      }
     />
   );
 };
