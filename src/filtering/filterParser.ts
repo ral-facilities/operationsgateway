@@ -362,18 +362,14 @@ class BooleanTerm {
     } else {
       if (this.not) {
         // since we're NOT-ing the underlying assertions in Predicate
-        // switch the AND to an OR using De Morgan's laws
+        // switch the AND to an OR using De Morgan's laws (NOT (A AND B) == (NOT A) OR (NOT B))
         s += '{"$or":[';
       } else {
         s += '{"$and":[';
       }
       this.factors.forEach((f) => (s += f + ','));
       s = s.slice(0, -1);
-      if (this.not) {
-        s += ']}';
-      } else {
-        s += ']}';
-      }
+      s += ']}';
     }
     return s;
   }
@@ -415,7 +411,7 @@ class SearchCondition {
     } else {
       if (this.not) {
         // since we're NOT-ing the underlying assertions in Predicate
-        // switch the OR to an AND using De Morgan's laws
+        // switch the OR to an AND using De Morgan's laws  (NOT (A OR B) == (NOT A) AND (NOT B))
         s += '{"$and":[';
       } else {
         s += '{"$or":[';
