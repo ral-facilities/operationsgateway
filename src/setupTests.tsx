@@ -21,6 +21,7 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import { initialState as initialPlotState } from './state/slices/plotSlice';
+import { initialState as initialFilterState } from './state/slices/filterSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -49,6 +50,7 @@ export const getInitialState = (): RootState => ({
   table: initialTableState,
   search: initialSearchState,
   plots: initialPlotState,
+  filter: initialFilterState,
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
@@ -111,7 +113,11 @@ export function renderComponentWithProviders(
       </Provider>
     );
   }
-  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+  return {
+    store,
+    queryClient: testQueryClient,
+    ...render(ui, { wrapper: Wrapper, ...renderOptions }),
+  };
 }
 
 export function renderComponentWithStore(

@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import { DateRange } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
+import { selectQueryFilters } from './filterSlice';
 
 // Define a type for the slice state
 interface SearchState {
@@ -40,9 +41,11 @@ export const selectQueryParams = createSelector(
   selectSort,
   selectPage,
   selectResultsPerPage,
-  (dateRange, sort, page, resultsPerPage) => ({
+  selectQueryFilters,
+  (dateRange, sort, page, resultsPerPage, filters) => ({
     dateRange,
     sort,
+    filters,
     page,
     resultsPerPage,
   })

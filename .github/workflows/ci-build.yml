@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: '16.x'
       # Cache yarn dependencies / restore the cached dependencies during future workflows
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
