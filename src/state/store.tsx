@@ -10,12 +10,14 @@ import configReducer from './slices/configSlice';
 import tableReducer from './slices/tableSlice';
 import searchReducer from './slices/searchSlice';
 import plotReducer from './slices/plotSlice';
+import filterReducer from './slices/filterSlice';
 
 const rootReducer = combineReducers({
   config: configReducer,
   table: tableReducer,
   search: searchReducer,
   plots: plotReducer,
+  filter: filterReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
