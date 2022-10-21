@@ -210,12 +210,14 @@ class Predicate {
   param1: string | number | undefined;
   param2: string | number | undefined;
   op: Token | undefined;
+  not = false;
 
   /**
    * @param input `Input` stream to use
    * @throws {ParserError} if the predicate has invalid syntax e.g. number on LHS, no operator etc.
    */
-  constructor(input: Input) {
+  constructor(input: Input, not: boolean) {
+    this.not = not;
     let token = input.peek(0);
     if (token !== null) {
       if (token.type === 'channel') {
@@ -263,9 +265,13 @@ class Predicate {
     if (this.param1 && this.op && this.op.type === 'compop' && this.param2) {
       const param2 =
         typeof this.param2 === 'string' ? `"${this.param2}"` : this.param2;
-      s = `{"${this.param1}":{"$${convertOperator(this.op)}":${param2}}}`;
+      s = `{"${this.param1}":${this.not ? '{"$not":' : ''}{"$${convertOperator(
+        this.op
+      )}":${param2}}${this.not ? '}' : ''}}`;
     } else if (this.param1 && this.op && this.op.type === 'unaryop') {
-      s = `{"${this.param1}":{"$${convertOperator(this.op)}":null}}`;
+      s = `{"${this.param1}":${this.not ? '{"$not":' : ''}{"$${convertOperator(
+        this.op
+      )}":null}${this.not ? '}' : ''}}`;
     }
     return s;
   }
@@ -285,14 +291,15 @@ class BooleanFactor {
    * @param input `Input` stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input) {
+  constructor(input: Input, not: boolean) {
+    this.not = not;
     let token = input.peek(0);
     if (token == null) {
       throw new ParserError('Expression incomplete');
     }
     if (token.type === 'not') {
       input.consume();
-      this.not = true;
+      this.not = !this.not;
     }
     token = input.peek(0);
     if (token == null) {
@@ -300,26 +307,20 @@ class BooleanFactor {
     }
     if (token.type === 'openparen') {
       input.consume();
-      this.searchCondition = new SearchCondition(input);
+      this.searchCondition = new SearchCondition(input, this.not);
       input.consume(['closeparen']);
     } else {
-      this.predicate = new Predicate(input);
+      this.predicate = new Predicate(input, this.not);
     }
   }
 
   public toString(): string {
     let s = '';
-    if (this.not) {
-      s += '{"$not":';
-    }
     if (this.predicate) {
       s += this.predicate;
     }
     if (this.searchCondition) {
       s += this.searchCondition;
-    }
-    if (this.not) {
-      s += '}';
     }
     return s;
   }
@@ -332,18 +333,20 @@ class BooleanFactor {
  */
 class BooleanTerm {
   factors: BooleanFactor[] = [];
+  not = false;
 
   /**
    * @param input `Input` stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input) {
-    this.factors.push(new BooleanFactor(input));
+  constructor(input: Input, not: boolean) {
+    this.not = not;
+    this.factors.push(new BooleanFactor(input, this.not));
     let token = null;
     while ((token = input.peek(0)) !== null) {
       if (token.type === 'and') {
         input.consume();
-        this.factors.push(new BooleanFactor(input));
+        this.factors.push(new BooleanFactor(input, this.not));
       } else {
         return;
       }
@@ -357,10 +360,20 @@ class BooleanTerm {
     } else if (this.factors.length === 1) {
       s += this.factors[0];
     } else {
-      s += '{"$and":[';
+      if (this.not) {
+        // since we're NOT-ing the underlying assertions in Predicate
+        // switch the AND to an OR using De Morgan's laws
+        s += '{"$or":[';
+      } else {
+        s += '{"$and":[';
+      }
       this.factors.forEach((f) => (s += f + ','));
       s = s.slice(0, -1);
-      s += ']}';
+      if (this.not) {
+        s += ']}';
+      } else {
+        s += ']}';
+      }
     }
     return s;
   }
@@ -373,18 +386,20 @@ class BooleanTerm {
  */
 class SearchCondition {
   booleanTerms: BooleanTerm[] = [];
+  not = false;
 
   /**
    * @param input `Input` stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input) {
-    this.booleanTerms.push(new BooleanTerm(input));
+  constructor(input: Input, not: boolean) {
+    this.not = not;
+    this.booleanTerms.push(new BooleanTerm(input, this.not));
     let token = null;
     while ((token = input.peek(0)) !== null) {
       if (token.type === 'or') {
         input.consume();
-        this.booleanTerms.push(new BooleanTerm(input));
+        this.booleanTerms.push(new BooleanTerm(input, this.not));
       } else {
         return;
       }
@@ -398,7 +413,13 @@ class SearchCondition {
     } else if (this.booleanTerms.length === 1) {
       s += this.booleanTerms[0];
     } else {
-      s += '{"$or":[';
+      if (this.not) {
+        // since we're NOT-ing the underlying assertions in Predicate
+        // switch the OR to an AND using De Morgan's laws
+        s += '{"$and":[';
+      } else {
+        s += '{"$or":[';
+      }
       this.booleanTerms.forEach((t) => (s += t + ','));
       s = s.slice(0, -1);
       s += ']}';
@@ -416,6 +437,6 @@ class SearchCondition {
 export const parseFilter = (tokens: Token[]): string | never => {
   if (tokens.length === 0) return '';
   const input = new Input(tokens);
-  const searchCondition = new SearchCondition(input);
+  const searchCondition = new SearchCondition(input, false);
   return searchCondition.toString();
 };
