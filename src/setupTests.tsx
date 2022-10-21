@@ -20,12 +20,16 @@ import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
-import { initialState as initialPlotState } from './state/slices/plotSlice';
+import {
+  initialState as initialPlotState,
+  PlotConfig,
+} from './state/slices/plotSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { format, parseISO } from 'date-fns';
+import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -337,4 +341,28 @@ export const generatePlotDataset = (num: number) => {
 
 export const testPlotDatasets = Array.from(Array(3), (_, i) =>
   generatePlotDataset(i + 1)
+);
+
+export const generatePlotConfig = (num: number) => {
+  const plotTitle = `Plot ${num}`;
+
+  const plotConfig: PlotConfig = {
+    open: num % 2 === 0,
+    title: plotTitle,
+    plotType: num % 2 === 0 ? 'scatter' : 'line',
+    XAxisScale:
+      num % 3 === 0 ? 'time' : num % 3 === 1 ? 'linear' : 'logarithmic',
+    selectedPlotChannels: [],
+    YAxesScale: num % 2 === 0 ? 'linear' : 'logarithmic',
+    gridVisible: num % 2 === 0,
+    axesLabelsVisible: num % 2 !== 0,
+    selectedColours: [],
+    remainingColours: COLOUR_ORDER.map((colour) => colour),
+  };
+
+  return plotConfig;
+};
+
+export const testPlotConfigs = Array.from(Array(3), (_, i) =>
+  generatePlotConfig(i)
 );

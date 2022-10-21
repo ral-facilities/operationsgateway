@@ -6,6 +6,7 @@ import YAxisTab from './yAxisTab.component';
 import type { YAxisTabProps } from './yAxisTab.component';
 import { testChannels } from '../../setupTests';
 import { FullScalarChannelMetadata } from '../../app.types';
+import { COLOUR_ORDER } from './colourGenerator';
 
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
@@ -14,6 +15,8 @@ describe('y-axis tab', () => {
   const changeSelectedPlotChannels = jest.fn();
   const changeYMinimum = jest.fn();
   const changeYMaximum = jest.fn();
+  const changeSelectedColours = jest.fn();
+  const changeRemainingColours = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<YAxisTab {...props} />);
@@ -35,6 +38,10 @@ describe('y-axis tab', () => {
       changeYMaximum,
       YAxesScale: 'linear',
       changeYAxesScale,
+      initialSelectedColours: [],
+      initialRemainingColours: COLOUR_ORDER.map((colour) => colour),
+      changeSelectedColours,
+      changeRemainingColours,
     };
 
     user = userEvent.setup({ delay: null });

@@ -3,10 +3,62 @@
 exports[`Open Plots component renders windows for each open plot 1`] = `
 <DocumentFragment>
   <mock-plotwindow
-    untitledtitle="Plot 1"
-  />
+    data-testid="mock-plotWindow"
+  >
+    plotConfig={
+  "open": true,
+  "title": "Plot 0",
+  "plotType": "scatter",
+  "XAxisScale": "time",
+  "selectedPlotChannels": [],
+  "YAxesScale": "linear",
+  "gridVisible": true,
+  "axesLabelsVisible": false,
+  "selectedColours": [],
+  "remainingColours": [
+    "#008000",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#008080",
+    "#800000",
+    "#00ff00",
+    "#000080",
+    "#7f8000",
+    "#80007f"
+  ]
+}
+onClose=undefined
+
+  </mock-plotwindow>
   <mock-plotwindow
-    untitledtitle="Plot 3"
-  />
+    data-testid="mock-plotWindow"
+  >
+    plotConfig={
+  "open": true,
+  "title": "Plot 2",
+  "plotType": "scatter",
+  "XAxisScale": "logarithmic",
+  "selectedPlotChannels": [],
+  "YAxesScale": "linear",
+  "gridVisible": true,
+  "axesLabelsVisible": false,
+  "selectedColours": [],
+  "remainingColours": [
+    "#008000",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#008080",
+    "#800000",
+    "#00ff00",
+    "#000080",
+    "#7f8000",
+    "#80007f"
+  ]
+}
+onClose=undefined
+
+  </mock-plotwindow>
 </DocumentFragment>
 `;

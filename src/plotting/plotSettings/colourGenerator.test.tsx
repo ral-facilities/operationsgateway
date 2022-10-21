@@ -1,19 +1,7 @@
-import ColourGenerator from './colourGenerator';
+import ColourGenerator, { COLOUR_ORDER } from './colourGenerator';
 
 describe('ColourGenerator', () => {
   let colourGenerator;
-  const colourOrder = [
-    '#008000', // dark green
-    '#0000ff', // dark blue
-    '#ff00ff', // pink
-    '#00ffff', // light blue
-    '#008080', // teal
-    '#800000', // deep red
-    '#00ff00', // light green
-    '#000080', // navy blue
-    '#7f8000', // brown-ish yellow?
-    '#80007f', // indigo
-  ];
 
   beforeEach(() => {
     colourGenerator = new ColourGenerator();
@@ -22,15 +10,15 @@ describe('ColourGenerator', () => {
   describe('getting next colour', () => {
     it('returns the next colour in the remaining colours list', () => {
       const colour = colourGenerator.nextColour();
-      expect(colour).toEqual(colourOrder[0]);
+      expect(colour).toEqual(COLOUR_ORDER[0]);
     });
 
     it('returns a random colour if the list of remaining colours is empty', () => {
-      colourOrder.forEach(() => {
+      COLOUR_ORDER.forEach(() => {
         colourGenerator.nextColour();
       });
       const colour = colourGenerator.nextColour();
-      expect(colourOrder.includes(colour)).toBeFalsy();
+      expect(COLOUR_ORDER.includes(colour)).toBeFalsy();
     });
   });
 

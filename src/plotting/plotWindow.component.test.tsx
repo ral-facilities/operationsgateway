@@ -6,9 +6,11 @@ import {
   renderComponentWithProviders,
   testChannels,
   testPlotDatasets,
+  testPlotConfigs,
 } from '../setupTests';
 import { useScalarChannels, useChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
+import { PlotConfig } from '../state/slices/plotSlice';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -44,7 +46,7 @@ jest.mock('../api/records', () => {
 });
 
 describe('Plot Window component', () => {
-  // let state: PreloadedState<RootState>;
+  let testPlotConfig: PlotConfig;
 
   beforeEach(() => {
     jest.resetModules();
@@ -62,6 +64,8 @@ describe('Plot Window component', () => {
       data: testPlotDatasets,
       isLoading: false,
     });
+
+    testPlotConfig = testPlotConfigs[0];
   });
 
   afterEach(() => {
@@ -74,7 +78,7 @@ describe('Plot Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <PlotWindow onClose={jest.fn()} untitledTitle="untitled" />
+      <PlotWindow onClose={jest.fn()} plotConfig={testPlotConfig} />
     );
   };
 
@@ -133,6 +137,8 @@ describe('Plot Window component', () => {
   });
 
   it('changes grid visibility button text on click', async () => {
+    // testPlotConfig.gridVisible is already true
+
     const user = userEvent.setup();
     createView();
 
@@ -143,6 +149,7 @@ describe('Plot Window component', () => {
   });
 
   it('changes axes labels visibility button text on click', async () => {
+    testPlotConfig.axesLabelsVisible = true;
     const user = userEvent.setup();
     createView();
 
