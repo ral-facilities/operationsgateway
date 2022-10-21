@@ -99,8 +99,20 @@ describe('Filter parser', () => {
     expect(
       parseFilter([notToken, timestampToken, eqToken, channelToken])
     ).toEqual(
-      '{"$not":{"metadata.timestamp":{"$eq":"channels.CHANNEL_1.data"}}}'
+      '{"metadata.timestamp":{"$not":{"$eq":"channels.CHANNEL_1.data"}}}'
     );
+
+    expect(
+      parseFilter([
+        notToken,
+        openParenToken,
+        notToken,
+        timestampToken,
+        eqToken,
+        channelToken,
+        closeParenToken,
+      ])
+    ).toEqual('{"metadata.timestamp":{"$eq":"channels.CHANNEL_1.data"}}');
   });
 
   it('can parse an AND expression', () => {
@@ -189,5 +201,43 @@ describe('Filter parser', () => {
 
   it('returns empty string when given empty array', () => {
     expect(parseFilter([])).toEqual('');
+  });
+
+  it('can parse a not expression negating ORs and ANDs', () => {
+    expect(
+      parseFilter([
+        notToken,
+        openParenToken,
+        timestampToken,
+        gtToken,
+        numberToken,
+        andToken,
+        notToken,
+        channelToken,
+        lteToken,
+        numberToken,
+        closeParenToken,
+      ])
+    ).toEqual(
+      '{"$or":[{"metadata.timestamp":{"$not":{"$gt":1}}},{"channels.CHANNEL_1.data":{"$lte":1}}]}'
+    );
+
+    expect(
+      parseFilter([
+        notToken,
+        openParenToken,
+        notToken,
+        timestampToken,
+        gtToken,
+        numberToken,
+        orToken,
+        channelToken,
+        lteToken,
+        numberToken,
+        closeParenToken,
+      ])
+    ).toEqual(
+      '{"$and":[{"metadata.timestamp":{"$gt":1}},{"channels.CHANNEL_1.data":{"$not":{"$lte":1}}}]}'
+    );
   });
 });
