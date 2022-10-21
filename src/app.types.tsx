@@ -111,14 +111,6 @@ export interface SortType {
   [column: string]: Order;
 }
 
-export interface QueryParams {
-  sort: SortType;
-  filters: string[];
-  page: number;
-  dateRange: DateRange;
-  resultsPerPage: number;
-}
-
 export interface DateRange {
   fromDate?: string;
   toDate?: string;
