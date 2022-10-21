@@ -113,7 +113,7 @@ export interface SortType {
 
 export interface QueryParams {
   sort: SortType;
-  filters?: FiltersType;
+  filters: string[];
   page: number;
   dateRange: DateRange;
   resultsPerPage: number;
