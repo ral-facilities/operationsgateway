@@ -3,22 +3,6 @@ import type { CartesianScaleTypeRegistry } from 'chart.js';
 
 export const MicroFrontendId = 'scigateway';
 
-export interface TextFilter {
-  value?: string | number;
-  type: string;
-}
-
-export type Filter = string[] | TextFilter;
-
-export interface FiltersType {
-  [column: string]: Filter;
-}
-
-export type AdditionalFilters = {
-  filterType: string;
-  filterValue: string;
-}[];
-
 export interface Record {
   id: string;
   metadata: RecordMetadata;
