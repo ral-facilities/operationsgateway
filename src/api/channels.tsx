@@ -63,9 +63,7 @@ export const generateChannelMetadata = (
 
 // TODO change this when we have a proper channel info endpoint to query
 // This just fetches metadata from the records endpoint at the moment
-export const fetchChannels = (
-  apiUrl: string
-): Promise<FullChannelMetadata[]> => {
+const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios.get(`${apiUrl}/records`).then((response) => {
     const records: Record[] = response.data;
     const metadata = generateChannelMetadata(records);

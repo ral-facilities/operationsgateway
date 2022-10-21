@@ -41,10 +41,11 @@ describe('Filtering Component', () => {
     cy.contains('Apply').click();
 
     cy.wait('@getRecords').should(({ request }) => {
-      console.log('req', request);
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
-        'conditions=%7B%22metadata.timestamp%22%3A%7B%22%24ne%22%3Anull%7D%7D'
+        `conditions=${encodeURIComponent(
+          '{"metadata.timestamp":{"$ne":null}}'
+        )}`
       );
     });
   });

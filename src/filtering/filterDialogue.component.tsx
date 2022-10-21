@@ -100,12 +100,14 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Filter help</Heading>
             <Body>
               In the box, start typing data channel names, numbers, mathematical
-              symbols such as {'>'} and {'<='} and keywords such as AND and OR.
-              The Wizard will suggest suitable options and indicate using a grey
-              box when each item has been recognised.
+              symbols such as {'>'} and {'<='} and keywords such as AND, OR and
+              NOT. The Wizard will suggest suitable options and indicate using a
+              grey box when each item has been recognised.
             </Body>
             <Heading>Operators included</Heading>
-            <Body>{'>, <, =, !=, and, or, not'}</Body>
+            <Body>
+              {'=, !=, >, <, >=, <=, is null, is not null, and, or, not, (, )'}
+            </Body>
           </Grid>
         </Grid>
       </DialogContent>

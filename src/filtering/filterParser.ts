@@ -145,7 +145,7 @@ export class ParserError extends Error {
 }
 
 /** Class representing a stream of tokens, which keeps track of where in the array we've processed up to */
-class Input {
+class TokenInput {
   tokens: Token[];
   pos: number;
 
@@ -170,7 +170,7 @@ class Input {
 
   /**
    * Returns the next token in the stream and moves the position forward.
-   * @param types an array of `TokenTypes` check the current token against
+   * @param types an array of {@link TokenType} check the current token against
    * @returns The next token in the stream or null if it's the end of the stream
    * @throws {ParserError} if the token does not match the `types` param or if we attempt to read beyond the end of the stream
    */
@@ -213,10 +213,10 @@ class Predicate {
   not = false;
 
   /**
-   * @param input `Input` stream to use
+   * @param input {@link TokenInput} stream to use
    * @throws {ParserError} if the predicate has invalid syntax e.g. number on LHS, no operator etc.
    */
-  constructor(input: Input, not: boolean) {
+  constructor(input: TokenInput, not: boolean) {
     this.not = not;
     let token = input.peek(0);
     if (token !== null) {
@@ -288,10 +288,10 @@ class BooleanFactor {
   searchCondition: SearchCondition | undefined;
 
   /**
-   * @param input `Input` stream to use
+   * @param input {@link TokenInput} stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input, not: boolean) {
+  constructor(input: TokenInput, not: boolean) {
     this.not = not;
     let token = input.peek(0);
     if (token == null) {
@@ -336,10 +336,10 @@ class BooleanTerm {
   not = false;
 
   /**
-   * @param input `Input` stream to use
+   * @param input {@link TokenInput} stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input, not: boolean) {
+  constructor(input: TokenInput, not: boolean) {
     this.not = not;
     this.factors.push(new BooleanFactor(input, this.not));
     let token = null;
@@ -385,10 +385,10 @@ class SearchCondition {
   not = false;
 
   /**
-   * @param input `Input` stream to use
+   * @param input {@link TokenInput} stream to use
    * @throws {ParserError} if the expression has invalid syntax
    */
-  constructor(input: Input, not: boolean) {
+  constructor(input: TokenInput, not: boolean) {
     this.not = not;
     this.booleanTerms.push(new BooleanTerm(input, this.not));
     let token = null;
@@ -426,13 +426,13 @@ class SearchCondition {
 
 /**
  * Parses a list of tokens into a MongoDB style filter we can pass to the backend
- * @param tokens array of tokens representing the filter
+ * @param tokens array of {@link Token}s representing the filter
  * @returns a MongoDB style filter which can be passed as a `condition` to the backend
  * @throws {ParserError} Will throw an error with a descriptive message if the filter cannot be parsed
  */
 export const parseFilter = (tokens: Token[]): string | never => {
   if (tokens.length === 0) return '';
-  const input = new Input(tokens);
+  const input = new TokenInput(tokens);
   const searchCondition = new SearchCondition(input, false);
   return searchCondition.toString();
 };
