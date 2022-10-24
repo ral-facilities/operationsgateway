@@ -267,7 +267,7 @@ export const usePlotRecords = (
               plotChannelName
             );
 
-            if (formattedXAxis) {
+            if (formattedXAxis && formattedYAxis) {
               const currentData = newDataset.data;
               currentData.push({
                 [parsedXAxis]: formattedXAxis,

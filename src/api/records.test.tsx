@@ -294,13 +294,13 @@ describe('records api functions', () => {
       const expectedData: PlotDataset[] = [
         {
           name: 'test_3',
-          data: mockData.map((record: Record) => {
-            const channelNames = Object.keys(record.channels);
-            return {
-              timestamp: parseISO(record.metadata.timestamp).getTime(),
-              test_3: channelNames.includes('test_3') ? 333.3 : NaN,
-            };
-          }),
+          data: [
+            {
+              // mockData[2] is the test record with a scalar channel
+              timestamp: parseISO(mockData[2].metadata.timestamp).getTime(),
+              test_3: 333.3,
+            },
+          ],
         },
       ];
 
@@ -347,13 +347,13 @@ describe('records api functions', () => {
       const expectedData: PlotDataset[] = [
         {
           name: 'test_3',
-          data: mockData.map((record: Record) => {
-            const channelNames = Object.keys(record.channels);
-            return {
-              shotnum: record.metadata.shotnum ?? NaN,
-              test_3: channelNames.includes('test_3') ? 333.3 : NaN,
-            };
-          }),
+          data: [
+            {
+              // mockData[2] is the test record with a scalar channel
+              shotnum: 3,
+              test_3: 333.3,
+            },
+          ],
         },
       ];
 
