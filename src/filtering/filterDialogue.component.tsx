@@ -6,6 +6,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from '@mui/material';
 import React from 'react';
@@ -17,7 +18,7 @@ import {
 } from '../state/slices/filterSlice';
 import { Token } from './filterParser';
 import { useChannels } from '../api/channels';
-import { AddCircle } from '@mui/icons-material';
+import { AddCircle, Delete } from '@mui/icons-material';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -97,14 +98,32 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           <Grid container item xs pr={1} flexDirection="column" rowSpacing={1}>
             <Heading mt={1}>Enter filter</Heading>
             {filters.map((filter, index) => (
-              <Grid item key={index}>
-                <FilterInput
-                  channels={channels ?? []}
-                  value={filter}
-                  setValue={handleChangeValue(index)}
-                  error={errors[index]}
-                  setError={handleChangeError(index)}
-                />
+              <Grid container item key={index}>
+                <Grid item xs>
+                  <FilterInput
+                    channels={channels ?? []}
+                    value={filter}
+                    setValue={handleChangeValue(index)}
+                    error={errors[index]}
+                    setError={handleChangeError(index)}
+                  />
+                </Grid>
+                <Grid item xs={0.6} mt={0.5}>
+                  <IconButton
+                    onClick={() => {
+                      setFilters((filters) =>
+                        filters.filter((_, i) => i !== index)
+                      );
+                      setErrors((errors) =>
+                        errors.filter((_, i) => i !== index)
+                      );
+                    }}
+                    size="small"
+                    aria-label={`Delete filter ${index}`}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Grid>
               </Grid>
             ))}
 
