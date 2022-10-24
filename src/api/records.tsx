@@ -64,7 +64,7 @@ const fetchRecords = async (
     params.append('skip', JSON.stringify(offsetParams.startIndex));
     params.append(
       'limit',
-      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex + 1)
+      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
 
@@ -129,7 +129,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
-      const stopIndex = startIndex + resultsPerPage - 1;
+      const stopIndex = startIndex + resultsPerPage;
       return fetchRecords(apiUrl, sort, dateRange, filters, {
         startIndex,
         stopIndex,
@@ -225,8 +225,6 @@ export const getFormattedAxisData = (
   return formattedData;
 };
 
-// currently pass in the x and y axes just to sort out the select function but
-// eventually they'll be used to query for data
 export const usePlotRecords = (
   selectedPlotChannels: SelectedPlotChannel[],
   XAxis?: string
@@ -243,7 +241,7 @@ export const usePlotRecords = (
   >(
     ['records', { sort: { [parsedXAxis]: 'asc' }, filters }],
     (params) => {
-      const { sort } = params.queryKey[1];
+      const { sort, filters } = params.queryKey[1];
       return fetchRecords(apiUrl, sort, {}, filters);
     },
     {
@@ -269,16 +267,7 @@ export const usePlotRecords = (
               plotChannelName
             );
 
-            if (formattedXAxis && parsedXAxis === 'timestamp') {
-              const parsedDate = new Date(formattedXAxis);
-              if (parsedDate.getHours() >= 9 && parsedDate.getHours() <= 18) {
-                const currentData = newDataset.data;
-                currentData.push({
-                  [parsedXAxis]: formattedXAxis,
-                  [plotChannelName]: formattedYAxis,
-                });
-              }
-            } else {
+            if (formattedXAxis) {
               const currentData = newDataset.data;
               currentData.push({
                 [parsedXAxis]: formattedXAxis,
