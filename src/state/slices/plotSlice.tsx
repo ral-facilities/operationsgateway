@@ -48,7 +48,6 @@ export const plotSlice = createSlice({
         if (!plotTitles.includes(newPlotTitle)) break;
         i++;
       }
-      // TODO: properly initiate the plot here
       state[newPlotTitle] = {
         open: true,
         title: newPlotTitle,

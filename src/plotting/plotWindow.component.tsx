@@ -115,7 +115,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
       // ensures that whenever we save the plot, it won't open up a new window
-      // if we always set this to true, a "new" plot config will be saved, with open = true
+      // if we always set open to true, a "new" plot config will be saved, with open = true
       // this would open up a new window, which we don't want
       open: plotTitle === plotConfig.title,
       title: plotTitle,
