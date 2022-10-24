@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   PlotDataset,
   Record,
@@ -23,6 +24,7 @@ import {
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { parseISO } from 'date-fns';
+import { operators } from '../filtering/filterParser';
 
 const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
   if (!x || !y) return false;
@@ -106,7 +108,7 @@ describe('records api functions', () => {
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-              { type: 'compop', value: '>', label: '>' },
+              operators.find((t) => t.value === '>')!,
               { type: 'number', value: '300', label: '300' },
             ],
           ],
@@ -201,7 +203,7 @@ describe('records api functions', () => {
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-              { type: 'compop', value: '>', label: '>' },
+              operators.find((t) => t.value === '>')!,
               { type: 'number', value: '300', label: '300' },
             ],
           ],
@@ -313,7 +315,7 @@ describe('records api functions', () => {
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-              { type: 'compop', value: '>', label: '>' },
+              operators.find((t) => t.value === '>')!,
               { type: 'number', value: '300', label: '300' },
             ],
           ],
