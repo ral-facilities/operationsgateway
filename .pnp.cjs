@@ -75,7 +75,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:21.10.0"],\
+            ["i18next", "npm:22.0.2"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.0.3"],\
@@ -11803,10 +11803,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next", [\
-        ["npm:21.10.0", {\
-          "packageLocation": "./.yarn/cache/i18next-npm-21.10.0-59fe054c36-f997985e2d.zip/node_modules/i18next/",\
+        ["npm:22.0.2", {\
+          "packageLocation": "./.yarn/cache/i18next-npm-22.0.2-787299566d-d779ea7f8e.zip/node_modules/i18next/",\
           "packageDependencies": [\
-            ["i18next", "npm:21.10.0"],\
+            ["i18next", "npm:22.0.2"],\
             ["@babel/runtime", "npm:7.18.9"]\
           ],\
           "linkType": "HARD"\
@@ -14733,7 +14733,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:21.10.0"],\
+            ["i18next", "npm:22.0.2"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.0.3"],\
@@ -17418,7 +17418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.0.4"],\
             ["@types/react-native", null],\
             ["html-parse-stringify", "npm:3.0.1"],\
-            ["i18next", "npm:21.10.0"],\
+            ["i18next", "npm:22.0.2"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-native", null]\
