@@ -74,6 +74,7 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleOptionsButtonClick}
         size="small"
+        sx={{ paddingLeft: 0 }}
       >
         <MoreVert fontSize="inherit" />
       </IconButton>
@@ -241,8 +242,9 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            // 33 - enough space for both menu icon + divider
-            width: isFiltered ? 62 : 33,
+            // 33 - enough space for menu icon + divider
+            // 57 including the filter icon
+            width: isFiltered ? 57 : 33,
             justifyContent: 'space-between',
             zIndex: 0,
             backgroundColor: (theme) => theme.palette.background.default,
@@ -254,6 +256,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
               id={`${dataKey}-filter-icon`}
               onClick={openFilters}
               size="small"
+              sx={{ paddingTop: 0 }}
             >
               <FilterAlt fontSize="inherit" />
             </IconButton>
