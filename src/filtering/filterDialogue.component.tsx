@@ -50,7 +50,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
-  const [errors, setErrors] = React.useState<string[]>(['']);
+  const [errors, setErrors] = React.useState<string[]>(
+    appliedFilters.map(() => '')
+  );
   const { data: channels } = useChannels({
     select: (channels) => {
       return (

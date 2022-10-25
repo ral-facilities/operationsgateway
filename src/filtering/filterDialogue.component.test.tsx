@@ -118,4 +118,94 @@ describe('Filter dialogue component', () => {
 
     expect(screen.getByText('Apply')).toBeDisabled();
   });
+
+  it('adds new filter when Add new filter button is clicked and renders multiple filters', async () => {
+    const user = userEvent.setup();
+
+    createView();
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+  });
+
+  it('deletes a filter when delete button is clicked', async () => {
+    const state = {
+      ...getInitialState(),
+      filter: {
+        ...getInitialState().filter,
+        appliedFilters: [
+          [
+            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            operators.find((t) => t.value === 'is not null')!,
+          ],
+          [
+            { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+            operators.find((t) => t.value === 'is not null')!,
+          ],
+        ] as Token[][],
+      },
+    };
+    const user = userEvent.setup();
+
+    const { store } = createView(state);
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    await user.click(screen.getByLabelText('Delete filter 0'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(1);
+
+    await user.click(screen.getByText('Apply'));
+
+    // ensure correct filter was deleted
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+    ]);
+  });
+
+  it('filters out empty arrays but leaves at least one if all filters are empty', async () => {
+    const state = {
+      ...getInitialState(),
+      filter: {
+        ...getInitialState().filter,
+        appliedFilters: [
+          [
+            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            operators.find((t) => t.value === 'is not null')!,
+          ],
+        ] as Token[][],
+      },
+    };
+
+    const user = userEvent.setup();
+
+    const { store } = createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+    await user.click(screen.getByText('Add new filter'));
+    await user.click(screen.getByText('Add new filter'));
+
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+    ]);
+
+    await user.click(screen.getByLabelText('Delete filter 0'));
+
+    await user.click(screen.getByText('Add new filter'));
+    await user.click(screen.getByText('Add new filter'));
+    await user.click(screen.getByText('Add new filter'));
+
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().filter.appliedFilters).toStrictEqual([[]]);
+  });
 });
