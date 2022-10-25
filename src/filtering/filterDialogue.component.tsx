@@ -21,6 +21,7 @@ import { useChannels } from '../api/channels';
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;
+  flashingFilterValue?: string;
 }
 
 const Heading = (props: React.ComponentProps<typeof Typography>) => (
@@ -40,7 +41,7 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
 );
 
 const FilterDialogue = (props: FilterDialogueProps) => {
-  const { open, onClose } = props;
+  const { open, onClose, flashingFilterValue } = props;
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
@@ -92,6 +93,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 setValue={handleChangeValue}
                 error={errors[0]}
                 setError={handleChangeError}
+                flashingFilterValue={flashingFilterValue}
               />
             </Grid>
           </Grid>

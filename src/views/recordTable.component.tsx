@@ -21,7 +21,9 @@ import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
 
 const RecordTable = React.memo(
-  (props: { openFilters: () => void }): React.ReactElement => {
+  (props: {
+    openFilters: (headerName: string) => void;
+  }): React.ReactElement => {
     const { openFilters } = props;
 
     const dispatch = useAppDispatch();

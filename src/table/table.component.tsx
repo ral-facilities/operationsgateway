@@ -61,7 +61,7 @@ export interface TableProps {
   onColumnWordWrapToggle: (column: string) => void;
   onDragEnd: (result: DropResult) => void;
   onColumnClose: (column: string) => void;
-  openFilters: () => void;
+  openFilters: (headerName: string) => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {

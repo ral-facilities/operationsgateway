@@ -41,7 +41,7 @@ export interface DataHeaderProps {
   channelInfo?: FullChannelMetadata;
   wordWrap: boolean;
   isFiltered: boolean;
-  openFilters: () => void;
+  openFilters: (headerName: string) => void;
 }
 
 export interface ColumnMenuProps {
@@ -254,7 +254,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             <IconButton
               aria-label="open filters"
               id={`${dataKey}-filter-icon`}
-              onClick={openFilters}
+              onClick={() => openFilters(dataKey)}
               size="small"
               sx={{ paddingTop: 0 }}
             >

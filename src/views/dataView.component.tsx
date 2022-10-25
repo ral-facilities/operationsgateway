@@ -8,6 +8,14 @@ import TableButtons from './tableButtons.component';
 
 const DataView = React.memo((): React.ReactElement => {
   const [filtersOpen, setFiltersOpen] = React.useState<boolean>(false);
+  const [flashingFilterValue, setFlashingFilterValue] = React.useState<
+    string | undefined
+  >(undefined);
+
+  const openFiltersFromDataHeader = React.useCallback((headerName: string) => {
+    setFiltersOpen(true);
+    setFlashingFilterValue(headerName);
+  }, []);
 
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>
@@ -16,8 +24,9 @@ const DataView = React.memo((): React.ReactElement => {
       <FilterDialogue
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
+        flashingFilterValue={flashingFilterValue}
       />
-      <RecordTable openFilters={() => setFiltersOpen(true)} />
+      <RecordTable openFilters={openFiltersFromDataHeader} />
       <ColumnCheckboxes />
     </Stack>
   );
