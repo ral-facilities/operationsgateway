@@ -112,4 +112,45 @@ describe('Filtering Component', () => {
 
     cy.get('input[role="combobox"]').should('have.value', 'INVALID');
   });
+
+  it('lets a user create multiple filters and delete them', () => {
+    cy.contains('Filter').click();
+
+    cy.get('input[role="combobox"]').type('Time{enter}is not null{enter}');
+
+    cy.contains('button', 'Add new filter').click();
+
+    cy.get('input[role="combobox"]')
+      .eq(1)
+      .type('Channel{enter}is not null{enter}');
+
+    cy.contains('Apply').should('not.be.disabled');
+    cy.contains('Apply').click();
+
+    cy.wait('@getRecords').should(({ request }) => {
+      expect(request.url).to.contain('conditions=');
+      expect(request.url).to.contain(
+        `conditions=${encodeURIComponent(
+          '{"metadata.timestamp":{"$ne":null}}'
+        )}&conditions=${encodeURIComponent(
+          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+        )}`
+      );
+    });
+
+    cy.contains('Filter').click();
+
+    cy.get('button[aria-label="Delete filter 0"]').click();
+
+    cy.contains('Apply').click();
+
+    cy.wait('@getRecords').should(({ request }) => {
+      expect(request.url).to.contain('conditions=');
+      expect(request.url).to.contain(
+        `conditions=${encodeURIComponent(
+          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+        )}`
+      );
+    });
+  });
 });
