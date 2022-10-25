@@ -48,6 +48,7 @@ export interface TableProps {
   columnStates: { [id: string]: ColumnState };
   hiddenColumns: string[];
   columnOrder: string[];
+  filteredColumns: string[];
   totalDataCount: number;
   page: number;
   loadedData: boolean;
@@ -60,6 +61,7 @@ export interface TableProps {
   onColumnWordWrapToggle: (column: string) => void;
   onDragEnd: (result: DropResult) => void;
   onColumnClose: (column: string) => void;
+  openFilters: () => void;
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -69,6 +71,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     columnStates,
     hiddenColumns,
     columnOrder,
+    filteredColumns,
     totalDataCount,
     loadedData,
     page,
@@ -80,6 +83,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onColumnWordWrapToggle,
     onDragEnd,
     onColumnClose,
+    openFilters,
   } = props;
 
   /*
@@ -203,6 +207,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                 const { channelInfo } =
                                   column as ColumnInstance;
 
+                                const isFiltered =
+                                  filteredColumns.includes(dataKey);
+
                                 return (
                                   <DataHeader
                                     key={key}
@@ -223,6 +230,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       columnStates[dataKey]?.wordWrap ?? false
                                     }
                                     onToggleWordWrap={onColumnWordWrapToggle}
+                                    isFiltered={isFiltered}
+                                    openFilters={openFilters}
                                   />
                                 );
                               })}

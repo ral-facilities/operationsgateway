@@ -15,99 +15,120 @@ import {
   toggleWordWrap,
 } from '../state/slices/tableSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
+import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
 
-const RecordTable = React.memo((): React.ReactElement => {
-  const dispatch = useAppDispatch();
+const RecordTable = React.memo(
+  (props: { openFilters: () => void }): React.ReactElement => {
+    const { openFilters } = props;
 
-  const queryParams = useAppSelector(selectQueryParams);
-  const { sort, page, resultsPerPage } = queryParams;
+    const dispatch = useAppDispatch();
 
-  const { data, isLoading: dataLoading } = useRecordsPaginated();
-  const { data: count, isLoading: countLoading } = useRecordCount();
-  const { data: availableColumns, isLoading: columnsLoading } =
-    useAvailableColumns();
+    const [filteredColumns, setFilteredColumns] = React.useState<string[]>([]);
 
-  const columnStates = useAppSelector(selectColumnStates);
-  const hiddenColumns = useAppSelector((state) =>
-    selectHiddenColumns(state, availableColumns ?? [])
-  );
+    const queryParams = useAppSelector(selectQueryParams);
+    const { sort, page, resultsPerPage } = queryParams;
 
-  const columnOrder = useAppSelector(selectSelectedIds);
+    const { data, isLoading: dataLoading } = useRecordsPaginated();
+    const { data: count, isLoading: countLoading } = useRecordCount();
+    const { data: availableColumns, isLoading: columnsLoading } =
+      useAvailableColumns();
 
-  const onPageChange = React.useCallback(
-    (page: number) => {
-      dispatch(changePage(page));
-    },
-    [dispatch]
-  );
+    const columnStates = useAppSelector(selectColumnStates);
+    const hiddenColumns = useAppSelector((state) =>
+      selectHiddenColumns(state, availableColumns ?? [])
+    );
 
-  const onResultsPerPageChange = React.useCallback(
-    (resultsPerPage: number) => {
-      dispatch(changeResultsPerPage(resultsPerPage));
-    },
-    [dispatch]
-  );
+    const columnOrder = useAppSelector(selectSelectedIds);
+    const appliedFilters = useAppSelector(selectAppliedFilters);
 
-  const handleSort = React.useCallback(
-    (column: string, order: Order | null) => {
-      dispatch(changeSort({ column, order }));
-    },
-    [dispatch]
-  );
+    React.useEffect(() => {
+      let newFilteredColumns = appliedFilters[0]
+        .filter((f) => f.type === 'channel')
+        .map((f) => f.value);
+      newFilteredColumns = newFilteredColumns.filter(
+        (f, i) => newFilteredColumns.indexOf(f) === i
+      );
 
-  const handleColumnWordWrapToggle = React.useCallback(
-    (column: string): void => {
-      dispatch(toggleWordWrap(column));
-    },
-    [dispatch]
-  );
+      setFilteredColumns(newFilteredColumns);
+    }, [appliedFilters]);
 
-  const handleOnDragEnd = React.useCallback(
-    (result: DropResult): void => {
-      dispatch(reorderColumn(result));
-    },
-    [dispatch]
-  );
+    const onPageChange = React.useCallback(
+      (page: number) => {
+        dispatch(changePage(page));
+      },
+      [dispatch]
+    );
 
-  const handleColumnClose = React.useCallback(
-    (column: string): void => {
-      dispatch(deselectColumn(column));
-    },
-    [dispatch]
-  );
+    const onResultsPerPageChange = React.useCallback(
+      (resultsPerPage: number) => {
+        dispatch(changeResultsPerPage(resultsPerPage));
+      },
+      [dispatch]
+    );
 
-  // Ensure the timestamp column is opened automatically on table load
-  React.useEffect(() => {
-    if (!dataLoading && !columnOrder.includes('timestamp')) {
-      dispatch(selectColumn('timestamp'));
-    }
-  }, [dataLoading, columnOrder, dispatch]);
+    const handleSort = React.useCallback(
+      (column: string, order: Order | null) => {
+        dispatch(changeSort({ column, order }));
+      },
+      [dispatch]
+    );
 
-  return (
-    <Table
-      data={data ?? []}
-      availableColumns={availableColumns ?? []}
-      columnStates={columnStates}
-      hiddenColumns={hiddenColumns}
-      columnOrder={columnOrder}
-      totalDataCount={count ?? 0}
-      page={page}
-      loadedData={!dataLoading && !columnsLoading}
-      loadedCount={!countLoading}
-      resultsPerPage={resultsPerPage}
-      onResultsPerPageChange={onResultsPerPageChange}
-      onPageChange={onPageChange}
-      sort={sort}
-      onSort={handleSort}
-      onColumnWordWrapToggle={handleColumnWordWrapToggle}
-      onDragEnd={handleOnDragEnd}
-      onColumnClose={handleColumnClose}
-    />
-  );
-});
+    const handleColumnWordWrapToggle = React.useCallback(
+      (column: string): void => {
+        dispatch(toggleWordWrap(column));
+      },
+      [dispatch]
+    );
+
+    const handleOnDragEnd = React.useCallback(
+      (result: DropResult): void => {
+        dispatch(reorderColumn(result));
+      },
+      [dispatch]
+    );
+
+    const handleColumnClose = React.useCallback(
+      (column: string): void => {
+        dispatch(deselectColumn(column));
+      },
+      [dispatch]
+    );
+
+    // Ensure the timestamp column is opened automatically on table load
+    React.useEffect(() => {
+      if (!dataLoading && !columnOrder.includes('timestamp')) {
+        dispatch(selectColumn('timestamp'));
+      }
+    }, [dataLoading, columnOrder, dispatch]);
+
+    return (
+      <Table
+        data={data ?? []}
+        availableColumns={availableColumns ?? []}
+        columnStates={columnStates}
+        hiddenColumns={hiddenColumns}
+        columnOrder={columnOrder}
+        filteredColumns={filteredColumns}
+        totalDataCount={count ?? 0}
+        page={page}
+        loadedData={!dataLoading && !columnsLoading}
+        loadedCount={!countLoading}
+        resultsPerPage={resultsPerPage}
+        onResultsPerPageChange={onResultsPerPageChange}
+        onPageChange={onPageChange}
+        sort={sort}
+        onSort={handleSort}
+        onColumnWordWrapToggle={handleColumnWordWrapToggle}
+        onDragEnd={handleOnDragEnd}
+        onColumnClose={handleColumnClose}
+        openFilters={openFilters}
+      />
+    );
+  }
+);
 
 RecordTable.displayName = 'RecordTable';
 
