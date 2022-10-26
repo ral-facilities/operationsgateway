@@ -46,10 +46,19 @@ const RecordTable = React.memo(
     const columnOrder = useAppSelector(selectSelectedIds);
     const appliedFilters = useAppSelector(selectAppliedFilters);
 
+    // Update the list of filtered channels
     React.useEffect(() => {
-      let newFilteredColumns = appliedFilters[0]
-        .filter((f) => f.type === 'channel')
-        .map((f) => f.value);
+      let newFilteredColumns: string[] = [];
+
+      appliedFilters.forEach((f) => {
+        // Extract the channel names from the token array
+        const channelNames = f
+          .filter((f) => f.type === 'channel')
+          .map((f) => f.value);
+        newFilteredColumns = [...newFilteredColumns, ...channelNames];
+      });
+
+      // Remove duplicates
       newFilteredColumns = newFilteredColumns.filter(
         (f, i) => newFilteredColumns.indexOf(f) === i
       );
