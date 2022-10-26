@@ -77,14 +77,6 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [remainingColours, setRemainingColours] = React.useState<string[]>(
     plotConfig.remainingColours
   );
-  const [screenWidth, setScreenWidth] = React.useState<number>(
-    plotConfig.screenWidth
-  );
-  const [screenHeight, setScreenHeight] = React.useState<number>(
-    plotConfig.screenHeight
-  );
-  const [screenX, setScreenX] = React.useState<number>(plotConfig.screenX);
-  const [screenY, setScreenY] = React.useState<number>(plotConfig.screenY);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -120,80 +112,81 @@ const PlotWindow = (props: PlotWindowProps) => {
       selectSelectedChannels(state, channels ?? [])
     ) as FullScalarChannelMetadata[];
 
-  const handleSavePlot = React.useCallback(() => {
-    console.log('saving ' + screenX);
-    const configToSave: PlotConfig = {
-      // ensures that whenever we save the plot, it won't open up a new window
-      // if we always set open to true, a "new" plot config will be saved, with open = true
-      // this would open up a new window, which we don't want
-      open: plotTitle === plotConfig.title,
-      title: plotTitle,
-      plotType,
+  const savePlotConfig = React.useCallback(
+    (
+      windowWidth: number,
+      windowHeight: number,
+      windowScreenX: number,
+      windowScreenY: number
+    ) => {
+      const configToSave: PlotConfig = {
+        // ensures that whenever we save the plot, it won't open up a new window
+        // if we always set open to true, a "new" plot config will be saved, with open = true
+        // this would open up a new window, which we don't want
+        open: plotTitle === plotConfig.title,
+        title: plotTitle,
+        plotType,
+        XAxis,
+        XAxisScale,
+        xMinimum,
+        xMaximum,
+        selectedPlotChannels,
+        YAxesScale,
+        yMinimum,
+        yMaximum,
+        gridVisible,
+        axesLabelsVisible,
+        selectedColours,
+        remainingColours,
+        // Default window size and position in case of a failure to extract these
+        screenWidth: windowWidth,
+        screenHeight: windowHeight,
+        screenX: windowScreenX,
+        screenY: windowScreenY,
+      } as PlotConfig;
+      dispatch(savePlot(configToSave));
+    },
+    [
       XAxis,
       XAxisScale,
-      xMinimum,
-      xMaximum,
-      selectedPlotChannels,
       YAxesScale,
-      yMinimum,
-      yMaximum,
-      gridVisible,
       axesLabelsVisible,
-      selectedColours,
+      dispatch,
+      gridVisible,
+      plotConfig.title,
+      plotTitle,
+      plotType,
       remainingColours,
-      screenWidth,
-      screenHeight,
-      screenX,
-      screenY,
-    } as PlotConfig;
-    dispatch(savePlot(configToSave));
-  }, [
-    XAxis,
-    XAxisScale,
-    YAxesScale,
-    axesLabelsVisible,
-    dispatch,
-    gridVisible,
-    plotConfig.title,
-    plotTitle,
-    plotType,
-    remainingColours,
-    screenWidth,
-    screenHeight,
-    screenX,
-    screenY,
-    selectedColours,
-    selectedPlotChannels,
-    xMaximum,
-    xMinimum,
-    yMaximum,
-    yMinimum,
-  ]);
-
-  const changeWindowSizeAndPosition = React.useCallback(
-    (
-      screenWidth: number,
-      screenHeight: number,
-      screenX: number,
-      screenY: number
-    ) => {
-      setScreenWidth(screenWidth);
-      setScreenHeight(screenHeight);
-      setScreenX(screenX);
-      setScreenY(screenY);
-    },
-    []
+      selectedColours,
+      selectedPlotChannels,
+      xMaximum,
+      xMinimum,
+      yMaximum,
+      yMinimum,
+    ]
   );
+
+  const plotWindowRef = React.createRef<PlotWindowPortal>();
+
+  const handleSavePlot = React.useCallback(() => {
+    // Capture window size and position
+    const width = plotWindowRef.current?.state.window?.outerWidth ?? 600;
+    const height = plotWindowRef.current?.state.window?.outerHeight ?? 400;
+    const x = plotWindowRef.current?.state.window?.screenX ?? 200;
+    const y = plotWindowRef.current?.state.window?.screenY ?? 200;
+
+    savePlotConfig(width, height, x, y);
+  }, [savePlotConfig, plotWindowRef]);
 
   return (
     <PlotWindowPortal
+      ref={plotWindowRef}
       title={plotTitle}
       onClose={onClose}
-      changeWindowSizeAndPosition={changeWindowSizeAndPosition}
-      screenWidth={screenWidth}
-      screenHeight={screenHeight}
-      screenX={screenX}
-      screenY={screenY}
+      screenWidth={plotConfig.screenWidth}
+      screenHeight={plotConfig.screenHeight}
+      screenX={plotConfig.screenX}
+      screenY={plotConfig.screenY}
     >
       <Grid
         container

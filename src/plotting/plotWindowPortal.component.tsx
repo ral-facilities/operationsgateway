@@ -16,12 +16,6 @@ interface PlotWindowPortalProps {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
-  changeWindowSizeAndPosition: (
-    screenWidth: number,
-    screenHeight: number,
-    screenX: number,
-    screenY: number
-  ) => void;
   screenWidth: number;
   screenHeight: number;
   screenX: number;
@@ -243,14 +237,6 @@ class PlotWindowPortal extends React.PureComponent<
     if (prevProps.onClose !== this.props.onClose) {
       this.state.window?.removeEventListener('beforeunload', prevProps.onClose);
       this.state.window?.addEventListener('beforeunload', this.props.onClose);
-    }
-    if (this.state.window) {
-      this.props.changeWindowSizeAndPosition(
-        this.state.window.outerWidth,
-        this.state.window.outerHeight,
-        this.state.window.screenX,
-        this.state.window.screenY
-      );
     }
   }
 
