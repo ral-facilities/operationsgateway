@@ -4,6 +4,7 @@ import PlotReducer, {
   closePlot,
   savePlot,
   PlotConfig,
+  DEFAULT_WINDOW_VARS,
 } from './plotSlice';
 import { testPlotConfigs } from '../../setupTests';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
@@ -44,6 +45,7 @@ describe('plotSlice', () => {
           axesLabelsVisible: true,
           selectedColours: [],
           remainingColours: COLOUR_ORDER.map((colour) => colour),
+          ...DEFAULT_WINDOW_VARS,
         } as PlotConfig,
       });
     });

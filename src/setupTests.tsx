@@ -21,6 +21,7 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import {
+  DEFAULT_WINDOW_VARS,
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
@@ -364,6 +365,7 @@ export const generatePlotConfig = (num: number) => {
     axesLabelsVisible: num % 2 !== 0,
     selectedColours: [],
     remainingColours: COLOUR_ORDER.map((colour) => colour),
+    ...DEFAULT_WINDOW_VARS,
   };
 
   return plotConfig;

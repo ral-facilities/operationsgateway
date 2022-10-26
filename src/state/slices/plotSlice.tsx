@@ -8,6 +8,13 @@ import {
 import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
 
+export const DEFAULT_WINDOW_VARS = {
+  outerWidth: 600,
+  outerHeight: 400,
+  screenX: 200,
+  screenY: 200,
+};
+
 export interface PlotConfig {
   open: boolean;
   title: string;
@@ -24,8 +31,8 @@ export interface PlotConfig {
   axesLabelsVisible: boolean;
   selectedColours: string[];
   remainingColours: string[];
-  screenWidth: number;
-  screenHeight: number;
+  outerWidth: number;
+  outerHeight: number;
   screenX: number;
   screenY: number;
 }
@@ -63,10 +70,7 @@ export const plotSlice = createSlice({
         axesLabelsVisible: true,
         selectedColours: [],
         remainingColours: COLOUR_ORDER.map((colour) => colour),
-        screenWidth: 600,
-        screenHeight: 400,
-        screenX: 200,
-        screenY: 200,
+        ...DEFAULT_WINDOW_VARS,
       };
     },
     // Use the PayloadAction type to declare the contents of `action.payload`

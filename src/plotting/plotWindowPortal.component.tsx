@@ -12,12 +12,12 @@ interface PlotWindowPortalState {
   styleCache: EmotionCache | null;
 }
 
-interface PlotWindowPortalProps {
+export interface PlotWindowPortalProps {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
-  screenWidth: number;
-  screenHeight: number;
+  outerWidth: number;
+  outerHeight: number;
   screenX: number;
   screenY: number;
 }
@@ -36,7 +36,7 @@ class PlotWindowPortal extends React.PureComponent<
     const externalWindow = window.open(
       '',
       '',
-      `width=${this.props.screenWidth},height=${this.props.screenHeight},left=${this.props.screenX},top=${this.props.screenY}`
+      `width=${this.props.outerWidth},height=${this.props.outerHeight},left=${this.props.screenX},top=${this.props.screenY}`
     );
     // create a container div
     const el = document.createElement('div');

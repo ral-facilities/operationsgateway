@@ -25,7 +25,11 @@ import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import {
+  DEFAULT_WINDOW_VARS,
+  PlotConfig,
+  savePlot,
+} from '../state/slices/plotSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -113,12 +117,12 @@ const PlotWindow = (props: PlotWindowProps) => {
     ) as FullScalarChannelMetadata[];
 
   const savePlotConfig = React.useCallback(
-    (
-      windowWidth: number,
-      windowHeight: number,
-      windowScreenX: number,
-      windowScreenY: number
-    ) => {
+    (windowVars: {
+      outerWidth: number;
+      outerHeight: number;
+      screenX: number;
+      screenY: number;
+    }) => {
       const configToSave: PlotConfig = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
@@ -138,11 +142,7 @@ const PlotWindow = (props: PlotWindowProps) => {
         axesLabelsVisible,
         selectedColours,
         remainingColours,
-        // Default window size and position in case of a failure to extract these
-        screenWidth: windowWidth,
-        screenHeight: windowHeight,
-        screenX: windowScreenX,
-        screenY: windowScreenY,
+        ...windowVars,
       } as PlotConfig;
       dispatch(savePlot(configToSave));
     },
@@ -170,12 +170,20 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const handleSavePlot = React.useCallback(() => {
     // Capture window size and position
-    const width = plotWindowRef.current?.state.window?.outerWidth ?? 600;
-    const height = plotWindowRef.current?.state.window?.outerHeight ?? 400;
-    const x = plotWindowRef.current?.state.window?.screenX ?? 200;
-    const y = plotWindowRef.current?.state.window?.screenY ?? 200;
+    const outerWidth =
+      plotWindowRef.current?.state.window?.outerWidth ??
+      DEFAULT_WINDOW_VARS.outerWidth;
+    const outerHeight =
+      plotWindowRef.current?.state.window?.outerHeight ??
+      DEFAULT_WINDOW_VARS.outerHeight;
+    const screenX =
+      plotWindowRef.current?.state.window?.screenX ??
+      DEFAULT_WINDOW_VARS.screenX;
+    const screenY =
+      plotWindowRef.current?.state.window?.screenY ??
+      DEFAULT_WINDOW_VARS.screenY;
 
-    savePlotConfig(width, height, x, y);
+    savePlotConfig({ outerWidth, outerHeight, screenX, screenY });
   }, [savePlotConfig, plotWindowRef]);
 
   return (
@@ -183,8 +191,8 @@ const PlotWindow = (props: PlotWindowProps) => {
       ref={plotWindowRef}
       title={plotTitle}
       onClose={onClose}
-      screenWidth={plotConfig.screenWidth}
-      screenHeight={plotConfig.screenHeight}
+      outerWidth={plotConfig.outerWidth}
+      outerHeight={plotConfig.outerHeight}
       screenX={plotConfig.screenX}
       screenY={plotConfig.screenY}
     >
