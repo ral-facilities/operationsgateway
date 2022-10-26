@@ -24,6 +24,10 @@ export interface PlotConfig {
   axesLabelsVisible: boolean;
   selectedColours: string[];
   remainingColours: string[];
+  screenWidth: number;
+  screenHeight: number;
+  screenX: number;
+  screenY: number;
 }
 
 // Define a type for the slice state
@@ -59,6 +63,10 @@ export const plotSlice = createSlice({
         axesLabelsVisible: true,
         selectedColours: [],
         remainingColours: COLOUR_ORDER.map((colour) => colour),
+        screenWidth: 600,
+        screenHeight: 400,
+        screenX: 200,
+        screenY: 200,
       };
     },
     // Use the PayloadAction type to declare the contents of `action.payload`

@@ -77,6 +77,14 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [remainingColours, setRemainingColours] = React.useState<string[]>(
     plotConfig.remainingColours
   );
+  const [screenWidth, setScreenWidth] = React.useState<number>(
+    plotConfig.screenWidth
+  );
+  const [screenHeight, setScreenHeight] = React.useState<number>(
+    plotConfig.screenHeight
+  );
+  const [screenX, setScreenX] = React.useState<number>(plotConfig.screenX);
+  const [screenY, setScreenY] = React.useState<number>(plotConfig.screenY);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -113,6 +121,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     ) as FullScalarChannelMetadata[];
 
   const handleSavePlot = React.useCallback(() => {
+    console.log('saving ' + screenX);
     const configToSave: PlotConfig = {
       // ensures that whenever we save the plot, it won't open up a new window
       // if we always set open to true, a "new" plot config will be saved, with open = true
@@ -132,6 +141,10 @@ const PlotWindow = (props: PlotWindowProps) => {
       axesLabelsVisible,
       selectedColours,
       remainingColours,
+      screenWidth,
+      screenHeight,
+      screenX,
+      screenY,
     } as PlotConfig;
     dispatch(savePlot(configToSave));
   }, [
@@ -145,6 +158,10 @@ const PlotWindow = (props: PlotWindowProps) => {
     plotTitle,
     plotType,
     remainingColours,
+    screenWidth,
+    screenHeight,
+    screenX,
+    screenY,
     selectedColours,
     selectedPlotChannels,
     xMaximum,
@@ -153,8 +170,31 @@ const PlotWindow = (props: PlotWindowProps) => {
     yMinimum,
   ]);
 
+  const changeWindowSizeAndPosition = React.useCallback(
+    (
+      screenWidth: number,
+      screenHeight: number,
+      screenX: number,
+      screenY: number
+    ) => {
+      setScreenWidth(screenWidth);
+      setScreenHeight(screenHeight);
+      setScreenX(screenX);
+      setScreenY(screenY);
+    },
+    []
+  );
+
   return (
-    <PlotWindowPortal title={plotTitle} onClose={onClose}>
+    <PlotWindowPortal
+      title={plotTitle}
+      onClose={onClose}
+      changeWindowSizeAndPosition={changeWindowSizeAndPosition}
+      screenWidth={screenWidth}
+      screenHeight={screenHeight}
+      screenX={screenX}
+      screenY={screenY}
+    >
       <Grid
         container
         direction="row"

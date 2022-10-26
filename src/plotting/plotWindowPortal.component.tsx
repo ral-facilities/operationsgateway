@@ -16,6 +16,16 @@ interface PlotWindowPortalProps {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
+  changeWindowSizeAndPosition: (
+    screenWidth: number,
+    screenHeight: number,
+    screenX: number,
+    screenY: number
+  ) => void;
+  screenWidth: number;
+  screenHeight: number;
+  screenX: number;
+  screenY: number;
 }
 
 class PlotWindowPortal extends React.PureComponent<
@@ -24,7 +34,6 @@ class PlotWindowPortal extends React.PureComponent<
 > {
   constructor(props: PlotWindowPortalProps) {
     super(props);
-
     this.state = { window: null, styleCache: null, containerEl: null };
   }
 
@@ -33,7 +42,7 @@ class PlotWindowPortal extends React.PureComponent<
     const externalWindow = window.open(
       '',
       '',
-      'width=600,height=400,left=200,top=200'
+      `width=${this.props.screenWidth},height=${this.props.screenHeight},left=${this.props.screenX},top=${this.props.screenY}`
     );
     // create a container div
     const el = document.createElement('div');
@@ -234,6 +243,14 @@ class PlotWindowPortal extends React.PureComponent<
     if (prevProps.onClose !== this.props.onClose) {
       this.state.window?.removeEventListener('beforeunload', prevProps.onClose);
       this.state.window?.addEventListener('beforeunload', this.props.onClose);
+    }
+    if (this.state.window) {
+      this.props.changeWindowSizeAndPosition(
+        this.state.window.outerWidth,
+        this.state.window.outerHeight,
+        this.state.window.screenX,
+        this.state.window.screenY
+      );
     }
   }
 
