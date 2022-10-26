@@ -28,15 +28,14 @@ const RecordTable = React.memo(
 
     const dispatch = useAppDispatch();
 
-    const [filteredColumns, setFilteredColumns] = React.useState<string[]>([]);
-
+    const appliedFilters = useAppSelector(selectAppliedFilters);
     const queryParams = useAppSelector(selectQueryParams);
     const { sort, page, resultsPerPage } = queryParams;
 
     const { data, isLoading: dataLoading } = useRecordsPaginated();
     const { data: count, isLoading: countLoading } = useRecordCount();
     const { data: availableColumns, isLoading: columnsLoading } =
-      useAvailableColumns();
+      useAvailableColumns(appliedFilters);
 
     const columnStates = useAppSelector(selectColumnStates);
     const hiddenColumns = useAppSelector((state) =>
@@ -44,27 +43,6 @@ const RecordTable = React.memo(
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
-    const appliedFilters = useAppSelector(selectAppliedFilters);
-
-    // Update the list of filtered channels
-    React.useEffect(() => {
-      let newFilteredColumns: string[] = [];
-
-      appliedFilters.forEach((f) => {
-        // Extract the channel names from the token array
-        const channelNames = f
-          .filter((f) => f.type === 'channel')
-          .map((f) => f.value);
-        newFilteredColumns = [...newFilteredColumns, ...channelNames];
-      });
-
-      // Remove duplicates
-      newFilteredColumns = newFilteredColumns.filter(
-        (f, i) => newFilteredColumns.indexOf(f) === i
-      );
-
-      setFilteredColumns(newFilteredColumns);
-    }, [appliedFilters]);
 
     const onPageChange = React.useCallback(
       (page: number) => {
@@ -122,7 +100,6 @@ const RecordTable = React.memo(
         columnStates={columnStates}
         hiddenColumns={hiddenColumns}
         columnOrder={columnOrder}
-        filteredColumns={filteredColumns}
         totalDataCount={count ?? 0}
         page={page}
         loadedData={!dataLoading && !columnsLoading}

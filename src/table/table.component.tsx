@@ -48,7 +48,6 @@ export interface TableProps {
   columnStates: { [id: string]: ColumnState };
   hiddenColumns: string[];
   columnOrder: string[];
-  filteredColumns: string[];
   totalDataCount: number;
   page: number;
   loadedData: boolean;
@@ -71,7 +70,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     columnStates,
     hiddenColumns,
     columnOrder,
-    filteredColumns,
     totalDataCount,
     loadedData,
     page,
@@ -204,11 +202,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       ...stickyColumnStyles,
                                     }
                                   : columnStyles;
-                                const { channelInfo } =
+                                const { channelInfo, filtered } =
                                   column as ColumnInstance;
-
-                                const isFiltered =
-                                  filteredColumns.includes(dataKey);
 
                                 return (
                                   <DataHeader
@@ -230,7 +225,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       columnStates[dataKey]?.wordWrap ?? false
                                     }
                                     onToggleWordWrap={onColumnWordWrapToggle}
-                                    isFiltered={isFiltered}
+                                    isFiltered={filtered}
                                     openFilters={openFilters}
                                   />
                                 );

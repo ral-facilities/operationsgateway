@@ -11,6 +11,7 @@ import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
+import { Token } from '../filtering/filterParser';
 
 export const generateChannelMetadata = (
   records: Record[]
@@ -91,7 +92,31 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   );
 };
 
-export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
+export const extractFilteredChannelNames = (
+  appliedFilters: Token[][]
+): string[] => {
+  let allChannelNames: string[] = [];
+
+  appliedFilters.forEach((f) => {
+    // Extract the channel names from the token array
+    const channelNames = f
+      .filter((f) => f.type === 'channel')
+      .map((f) => f.value);
+    allChannelNames = [...allChannelNames, ...channelNames];
+  });
+
+  // Remove duplicates
+  allChannelNames = allChannelNames.filter(
+    (f, i) => allChannelNames.indexOf(f) === i
+  );
+  return allChannelNames;
+};
+
+export const constructColumns = (
+  channels: FullChannelMetadata[],
+  appliedFilters: Token[][]
+): Column[] => {
+  const filteredChannelNames = extractFilteredChannelNames(appliedFilters);
   const myColumns: Column[] = [];
 
   channels.forEach((channel: FullChannelMetadata) => {
@@ -114,6 +139,7 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       accessor: channel.systemName,
       // TODO: get these from data channel info
       channelInfo: channel,
+      filtered: filteredChannelNames.includes(channel.systemName),
     };
     if (channel.channel_dtype === 'scalar') {
       newColumn.Cell = ({ value }) =>
@@ -143,16 +169,28 @@ export const getScalarChannels = (
   ) as FullScalarChannelMetadata[];
 };
 
-const useAvailableColumnsOptions = {
-  select: (data: FullChannelMetadata[]) => constructColumns(data),
-};
-
 const useScalarChannelsOptions = {
   select: (data: FullChannelMetadata[]) => getScalarChannels(data),
 };
 
-export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
-  return useChannels(useAvailableColumnsOptions);
+export const useAvailableColumns = (
+  appliedFilters: Token[][]
+): UseQueryResult<Column[], AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
+    ['channels'],
+    (params) => {
+      return fetchChannels(apiUrl);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      select: (data: FullChannelMetadata[]) =>
+        constructColumns(data, appliedFilters),
+    }
+  );
 };
 
 export const useScalarChannels = (): UseQueryResult<
