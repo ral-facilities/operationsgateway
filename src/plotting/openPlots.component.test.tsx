@@ -1,6 +1,10 @@
 import React from 'react';
 import OpenPlots from './openPlots.component';
-import { getInitialState, renderComponentWithStore } from '../setupTests';
+import {
+  getInitialState,
+  renderComponentWithStore,
+  testPlotConfigs,
+} from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
@@ -8,7 +12,14 @@ import { RootState } from '../state/store';
 jest.mock('./plotWindow.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-PlotWindow {...props} />
+  <mock-plotWindow data-testid="mock-plotWindow">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-plotWindow>
 ));
 
 describe('Open Plots component', () => {
@@ -26,11 +37,13 @@ describe('Open Plots component', () => {
 
   it('renders windows for each open plot', async () => {
     state.plots = {
-      'Plot 1': { open: true },
-      'Plot 2': { open: false },
-      'Plot 3': { open: true },
+      [testPlotConfigs[0].title]: testPlotConfigs[0],
+      [testPlotConfigs[1].title]: testPlotConfigs[1],
+      [testPlotConfigs[2].title]: testPlotConfigs[2],
     };
     const view = createView();
+
+    // We expect Plot 0 and Plot 2 to be in the screenshot. Plot 1 has open: false
     expect(view.asFragment()).toMatchSnapshot();
   });
 });

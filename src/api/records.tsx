@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import {
   Channel,
   DateRange,
@@ -64,7 +64,7 @@ const fetchRecords = async (
     params.append('skip', JSON.stringify(offsetParams.startIndex));
     params.append(
       'limit',
-      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex + 1)
+      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
 
@@ -100,38 +100,6 @@ const fetchRecordCountQuery = (
     .then((response) => response.data);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-export const useRecords = <T extends unknown = Record[]>(
-  options?: UseQueryOptions<
-    Record[],
-    AxiosError,
-    T,
-    [
-      string,
-      {
-        filters: string[];
-      }
-    ]
-  >
-): UseQueryResult<T, AxiosError> => {
-  const { filters } = useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
-  return useQuery(
-    ['records', { filters }],
-    () => {
-      return fetchRecords(apiUrl, {}, {}, filters);
-    },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      ...(options ?? {}),
-    }
-  );
-};
-
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
@@ -161,7 +129,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
-      const stopIndex = startIndex + resultsPerPage - 1;
+      const stopIndex = startIndex + resultsPerPage;
       return fetchRecords(apiUrl, sort, dateRange, filters, {
         startIndex,
         stopIndex,
@@ -257,14 +225,29 @@ export const getFormattedAxisData = (
   return formattedData;
 };
 
-// currently pass in the x and y axes just to sort out the select function but
-// eventually they'll be used to query for data
 export const usePlotRecords = (
-  XAxis: string,
-  selectedPlotChannels: SelectedPlotChannel[]
+  selectedPlotChannels: SelectedPlotChannel[],
+  XAxis?: string
 ): UseQueryResult<PlotDataset[], AxiosError> => {
-  const usePlotRecordsOptions = React.useMemo(
-    () => ({
+  const { apiUrl } = useAppSelector(selectUrls);
+  const { filters } = useAppSelector(selectQueryParams);
+  const parsedXAxis = XAxis ?? 'timestamp';
+
+  return useQuery<
+    Record[],
+    AxiosError,
+    PlotDataset[],
+    [string, { sort: SortType; filters: string[] }]
+  >(
+    ['records', { sort: { [parsedXAxis]: 'asc' }, filters }],
+    (params) => {
+      const { sort, filters } = params.queryKey[1];
+      return fetchRecords(apiUrl, sort, {}, filters);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
       select: (records: Record[]) => {
         const plotDatasets = selectedPlotChannels.map((plotChannel) => {
           const plotChannelName = plotChannel.name;
@@ -278,7 +261,7 @@ export const usePlotRecords = (
 
           // Populate the above data field
           records.forEach((record) => {
-            const formattedXAxis = getFormattedAxisData(record, XAxis);
+            const formattedXAxis = getFormattedAxisData(record, parsedXAxis);
             const formattedYAxis = getFormattedAxisData(
               record,
               plotChannelName
@@ -287,7 +270,7 @@ export const usePlotRecords = (
             if (formattedXAxis && formattedYAxis) {
               const currentData = newDataset.data;
               currentData.push({
-                [XAxis]: formattedXAxis,
+                [parsedXAxis]: formattedXAxis,
                 [plotChannelName]: formattedYAxis,
               });
             }
@@ -298,11 +281,8 @@ export const usePlotRecords = (
 
         return plotDatasets;
       },
-    }),
-    [XAxis, selectedPlotChannels]
+    }
   );
-
-  return useRecords(usePlotRecordsOptions);
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {

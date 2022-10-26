@@ -5,6 +5,8 @@ import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { testPlotDatasets } from '../../../setupTests';
+import { deepCopySelectedPlotChannels } from '../../util';
+import { SelectedPlotChannel } from '../../../app.types';
 
 describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;
@@ -16,17 +18,8 @@ describe('MoreOptionsBox', () => {
   };
 
   beforeEach(() => {
-    props = {
-      channel: {
-        name: testPlotDatasets[1].name,
-        options: {
-          visible: true,
-          colour: 'colour-1',
-          lineStyle: 'solid',
-          yAxis: 'left',
-        },
-      },
-      selectedPlotChannels: testPlotDatasets.map((dataset, i) => ({
+    const testSelectedPlotChannels: SelectedPlotChannel[] =
+      testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
         options: {
           visible: true,
@@ -34,7 +27,11 @@ describe('MoreOptionsBox', () => {
           lineStyle: 'solid',
           yAxis: 'left',
         },
-      })),
+      }));
+
+    props = {
+      channel: testSelectedPlotChannels[1],
+      selectedPlotChannels: testSelectedPlotChannels,
       changeSelectedPlotChannels,
     };
 
@@ -51,15 +48,8 @@ describe('MoreOptionsBox', () => {
   });
 
   it('allows user to change line style of a channel', async () => {
-    const expected = testPlotDatasets.map((dataset, i) => ({
-      name: dataset.name,
-      options: {
-        visible: true,
-        colour: `colour-${i.toString()}`,
-        lineStyle: i === 1 ? 'dashed' : 'solid',
-        yAxis: 'left',
-      },
-    }));
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.lineStyle = 'dashed';
 
     createView();
 
@@ -71,15 +61,8 @@ describe('MoreOptionsBox', () => {
   });
 
   it('allows user to toggle channel visibility off', async () => {
-    const expected = testPlotDatasets.map((dataset, i) => ({
-      name: dataset.name,
-      options: {
-        visible: i === 1 ? false : true,
-        colour: `colour-${i.toString()}`,
-        lineStyle: 'solid',
-        yAxis: 'left',
-      },
-    }));
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.visible = false;
 
     createView();
 
@@ -89,15 +72,7 @@ describe('MoreOptionsBox', () => {
   });
 
   it('allows user to toggle channel visibility on', async () => {
-    const expected = testPlotDatasets.map((dataset, i) => ({
-      name: dataset.name,
-      options: {
-        visible: true,
-        colour: `colour-${i.toString()}`,
-        lineStyle: 'solid',
-        yAxis: 'left',
-      },
-    }));
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
 
     props.channel.options.visible = false;
     props.selectedPlotChannels[1].options.visible = false;
@@ -109,15 +84,8 @@ describe('MoreOptionsBox', () => {
   });
 
   it('allows user to change plot colour', async () => {
-    const expected = testPlotDatasets.map((dataset, i) => ({
-      name: dataset.name,
-      options: {
-        visible: true,
-        colour: i === 1 ? expect.anything() : `colour-${i.toString()}`,
-        lineStyle: 'solid',
-        yAxis: 'left',
-      },
-    }));
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.colour = expect.anything();
 
     createView();
 
@@ -130,15 +98,8 @@ describe('MoreOptionsBox', () => {
   });
 
   it('allows user to switch channel axis', async () => {
-    const expected = testPlotDatasets.map((dataset, i) => ({
-      name: dataset.name,
-      options: {
-        visible: true,
-        colour: `colour-${i.toString()}`,
-        lineStyle: 'solid',
-        yAxis: i === 1 ? 'right' : 'left',
-      },
-    }));
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.yAxis = 'right';
 
     createView();
 

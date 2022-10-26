@@ -6,9 +6,14 @@ import {
   renderComponentWithProviders,
   testChannels,
   testPlotDatasets,
+  testPlotConfigs,
+  getInitialState,
 } from '../setupTests';
 import { useScalarChannels, useChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
+import { PlotConfig } from '../state/slices/plotSlice';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
 
 jest.mock('./plotWindowPortal.component', () => ({ children }) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -44,11 +49,18 @@ jest.mock('../api/records', () => {
 });
 
 describe('Plot Window component', () => {
-  // let state: PreloadedState<RootState>;
+  let testPlotConfig: PlotConfig;
+  let state: PreloadedState<RootState>;
 
   beforeEach(() => {
-    jest.resetModules();
-    // state = getInitialState();
+    testPlotConfig = testPlotConfigs[0];
+    state = {
+      ...getInitialState(),
+      plots: {
+        ...getInitialState().plots,
+        [testPlotConfig.title]: testPlotConfig,
+      },
+    };
 
     (useScalarChannels as jest.Mock).mockReturnValue({
       data: testChannels,
@@ -68,13 +80,12 @@ describe('Plot Window component', () => {
     jest.clearAllMocks();
   });
 
-  afterAll(() => {
-    jest.resetModules();
-  });
-
   const createView = () => {
     return renderComponentWithProviders(
-      <PlotWindow onClose={jest.fn()} untitledTitle="untitled" />
+      <PlotWindow onClose={jest.fn()} plotConfig={testPlotConfig} />,
+      {
+        preloadedState: state,
+      }
     );
   };
 
@@ -133,6 +144,8 @@ describe('Plot Window component', () => {
   });
 
   it('changes grid visibility button text on click', async () => {
+    // testPlotConfig.gridVisible is already true
+
     const user = userEvent.setup();
     createView();
 
@@ -146,9 +159,31 @@ describe('Plot Window component', () => {
     const user = userEvent.setup();
     createView();
 
-    await user.click(screen.getByRole('button', { name: 'Hide Axes Labels' }));
+    await user.click(screen.getByRole('button', { name: 'Show Axes Labels' }));
     expect(
-      screen.getByRole('button', { name: 'Show Axes Labels' })
+      screen.getByRole('button', { name: 'Hide Axes Labels' })
     ).toBeInTheDocument();
+  });
+
+  it('dispatches save plot function on save button click', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    // Testing that the saved plot actually updates with new state
+    await user.click(screen.getByRole('button', { name: 'Show Axes Labels' }));
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    expect(store.getState().plots).toStrictEqual({
+      [testPlotConfig.title]: expect.objectContaining({
+        ...testPlotConfig,
+        axesLabelsVisible: true,
+      }),
+    });
+  });
+
+  it('reset view button is visible and interactable', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Reset View' }));
   });
 });

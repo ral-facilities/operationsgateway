@@ -1,9 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import PlotWindowPortal from './plotWindowPortal.component';
+import type { PlotWindowPortalProps } from './plotWindowPortal.component';
+import { DEFAULT_WINDOW_VARS } from '../state/slices/plotSlice';
 
 describe('Plot Window component', () => {
   const TestComponent = () => <div id="test">Test</div>;
+  let props: PlotWindowPortalProps;
   const onClose = jest.fn();
   const mockAddEventListener = jest.fn();
   const mockRemoveEventListener = jest.fn();
@@ -24,10 +27,18 @@ describe('Plot Window component', () => {
 
   const createView = () =>
     render(
-      <PlotWindowPortal onClose={onClose} title="test title">
+      <PlotWindowPortal {...props}>
         <TestComponent />
       </PlotWindowPortal>
     );
+
+  beforeEach(() => {
+    props = {
+      title: 'test title',
+      onClose,
+      ...DEFAULT_WINDOW_VARS,
+    };
+  });
 
   it('renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly', () => {
     const { unmount } = createView();
@@ -57,7 +68,7 @@ describe('Plot Window component', () => {
     const { rerender } = createView();
 
     rerender(
-      <PlotWindowPortal onClose={onClose} title="new test title">
+      <PlotWindowPortal {...props} title="new test title">
         <TestComponent />
       </PlotWindowPortal>
     );
@@ -73,7 +84,7 @@ describe('Plot Window component', () => {
     const newMockOnClose = jest.fn();
 
     rerender(
-      <PlotWindowPortal onClose={newMockOnClose} title="test title">
+      <PlotWindowPortal {...props} onClose={newMockOnClose}>
         <TestComponent />
       </PlotWindowPortal>
     );

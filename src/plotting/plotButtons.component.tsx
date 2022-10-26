@@ -118,8 +118,12 @@ export const constructDataRows = (
  *  @param data The data to export
  *  @param title The title of the plot (for the file name)
  */
-function exportData(title: string, XAxis: string, plots?: PlotDataset[]): void {
-  if (plots && plots.length > 0) {
+function exportData(
+  title: string,
+  XAxis?: string,
+  plots?: PlotDataset[]
+): void {
+  if (XAxis && plots && plots.length > 0) {
     const csvArray = constructDataRows(XAxis, plots);
 
     const csvContent =
@@ -143,12 +147,13 @@ export interface PlotButtonsProps {
   data?: PlotDataset[];
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
-  XAxis: string;
+  XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   toggleGridVisibility: () => void;
   toggleAxesLabelsVisibility: () => void;
   resetView: () => void;
+  savePlot: () => void;
 }
 
 const PlotButtons = (props: PlotButtonsProps) => {
@@ -162,6 +167,7 @@ const PlotButtons = (props: PlotButtonsProps) => {
     toggleGridVisibility,
     toggleAxesLabelsVisibility,
     resetView,
+    savePlot,
   } = props;
 
   return (
@@ -173,9 +179,7 @@ const PlotButtons = (props: PlotButtonsProps) => {
       <Button onClick={() => toggleAxesLabelsVisibility()}>
         {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
       </Button>
-      {/* TODO: link these buttons up to save graph config to redux/session */}
-      <Button>Save</Button>
-      <Button>Save As</Button>
+      <Button onClick={() => savePlot()}>Save</Button>
       <Button onClick={() => exportChart(canvasRef.current, title)}>
         Export Plot
       </Button>
