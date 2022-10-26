@@ -26,7 +26,11 @@ exports[`Open Plots component renders windows for each open plot 1`] = `
     "#000080",
     "#7f8000",
     "#80007f"
-  ]
+  ],
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
 }
 onClose=undefined
 
@@ -55,7 +59,11 @@ onClose=undefined
     "#000080",
     "#7f8000",
     "#80007f"
-  ]
+  ],
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
 }
 onClose=undefined
 
