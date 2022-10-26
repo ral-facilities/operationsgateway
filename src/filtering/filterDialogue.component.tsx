@@ -6,6 +6,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
+  IconButton,
   Typography,
 } from '@mui/material';
 import React from 'react';
@@ -17,6 +18,7 @@ import {
 } from '../state/slices/filterSlice';
 import { Token } from './filterParser';
 import { useChannels } from '../api/channels';
+import { AddCircle, Delete } from '@mui/icons-material';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -24,16 +26,20 @@ interface FilterDialogueProps {
   flashingFilterValue?: string;
 }
 
-const Heading = (props: React.ComponentProps<typeof Typography>) => (
-  <Typography
-    variant="body1"
-    component="h3"
-    gutterBottom
-    sx={{ fontWeight: 'bold' }}
-  >
-    {props.children}
-  </Typography>
-);
+const Heading = (props: React.ComponentProps<typeof Typography>) => {
+  const { children, ref, ...restProps } = props;
+  return (
+    <Typography
+      variant="body1"
+      component="h3"
+      gutterBottom
+      sx={{ fontWeight: 'bold' }}
+      {...restProps}
+    >
+      {children}
+    </Typography>
+  );
+};
 const Body = (props: React.ComponentProps<typeof Typography>) => (
   <Typography variant="body2" gutterBottom>
     {props.children}
@@ -45,7 +51,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
-  const [errors, setErrors] = React.useState<string[]>(['']);
+  const [errors, setErrors] = React.useState<string[]>(
+    appliedFilters.map(() => '')
+  );
   const { data: channels } = useChannels({
     select: (channels) => {
       return (
@@ -67,15 +75,21 @@ const FilterDialogue = (props: FilterDialogueProps) => {
 
   React.useEffect(() => {
     setFilters(appliedFilters);
-    setErrors(['']);
+    setErrors(appliedFilters.map(() => ''));
   }, [appliedFilters]);
 
   const handleChangeValue = React.useCallback(
-    (value: Token[]) => setFilters([value]),
+    (index: number) => (value: Token[]) =>
+      setFilters((filters) => {
+        return [...filters.slice(0, index), value, ...filters.slice(index + 1)];
+      }),
     []
   );
   const handleChangeError = React.useCallback(
-    (error: string) => setErrors([error]),
+    (index: number) => (value: string) =>
+      setErrors((errors) => {
+        return [...errors.slice(0, index), value, ...errors.slice(index + 1)];
+      }),
     []
   );
 
@@ -84,17 +98,51 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       <DialogTitle>Filters</DialogTitle>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid item xs pr={1}>
-            <Heading>Enter filter</Heading>
-            <Grid container item>
-              <FilterInput
-                channels={channels ?? []}
-                value={filters[0]}
-                setValue={handleChangeValue}
-                error={errors[0]}
-                setError={handleChangeError}
-                flashingFilterValue={flashingFilterValue}
-              />
+          <Grid container item xs pr={1} flexDirection="column" rowSpacing={1}>
+            <Heading mt={1}>Enter filter</Heading>
+            {filters.map((filter, index) => (
+              <Grid container item key={index}>
+                <Grid item xs>
+                  <FilterInput
+                    channels={channels ?? []}
+                    value={filter}
+                    setValue={handleChangeValue(index)}
+                    error={errors[index]}
+                    setError={handleChangeError(index)}
+                    flashingFilterValue={flashingFilterValue}
+                  />
+                </Grid>
+                <Grid item xs={0.6} mt={0.5}>
+                  <IconButton
+                    onClick={() => {
+                      setFilters((filters) =>
+                        filters.filter((_, i) => i !== index)
+                      );
+                      setErrors((errors) =>
+                        errors.filter((_, i) => i !== index)
+                      );
+                    }}
+                    size="small"
+                    aria-label={`Delete filter ${index}`}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ))}
+
+            <Grid item>
+              <Button
+                onClick={() => {
+                  setFilters((filters) => [...filters, []]);
+                  setErrors((errors) => [...errors, '']);
+                }}
+                variant="outlined"
+                size="small"
+                startIcon={<AddCircle />}
+              >
+                Add new filter
+              </Button>
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
@@ -118,7 +166,12 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         <Button
           disabled={errors.some((e) => e.length !== 0)}
           onClick={() => {
-            dispatch(changeAppliedFilters(filters));
+            // remove any "empty" filters as they're not necessary
+            // just need to make sure there's at least one empty array in the
+            // case of no filters applied
+            let newFilters = filters.filter((f) => f.length > 0);
+            if (newFilters.length === 0) newFilters = [[]];
+            dispatch(changeAppliedFilters(newFilters));
             onClose();
           }}
         >
