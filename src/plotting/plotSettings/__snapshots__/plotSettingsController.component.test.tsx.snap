@@ -11,7 +11,8 @@ exports[`Plot Settings component renders plot settings form correctly (x-axis ta
       <mock-plottitlefield
         data-testid="mock-plotTitleField"
       >
-        changePlotTitle=undefined
+        plotTitle=undefined
+changePlotTitle=undefined
 
       </mock-plottitlefield>
     </div>
@@ -135,6 +136,8 @@ XAxisScale="linear"
 XAxis="test x-axis"
 changeXAxis=undefined
 changeXAxisScale=undefined
+initialXMinimum=undefined
+initialXMaximum=undefined
 changeXMinimum=undefined
 changeXMaximum=undefined
 
@@ -163,7 +166,8 @@ exports[`Plot Settings component renders plot settings form correctly (y-axis ta
       <mock-plottitlefield
         data-testid="mock-plotTitleField"
       >
-        changePlotTitle=undefined
+        plotTitle=undefined
+changePlotTitle=undefined
 
       </mock-plottitlefield>
     </div>
@@ -307,10 +311,16 @@ allChannels=[
 ]
 selectedPlotChannels=[]
 changeSelectedPlotChannels=undefined
+initialYMinimum=undefined
+initialYMaximum=undefined
 changeYMinimum=undefined
 changeYMaximum=undefined
 YAxesScale="logarithmic"
 changeYAxesScale=undefined
+initialSelectedColours=undefined
+initialRemainingColours=undefined
+changeSelectedColours=undefined
+changeRemainingColours=undefined
 
           </mock-yaxistab>
         </div>

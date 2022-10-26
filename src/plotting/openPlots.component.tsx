@@ -1,20 +1,24 @@
 import React from 'react';
 import PlotWindow from './plotWindow.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { closePlot, selectOpenPlots } from '../state/slices/plotSlice';
+import {
+  closePlot,
+  PlotConfig,
+  selectOpenPlots,
+} from '../state/slices/plotSlice';
 
 const OpenPlots = () => {
-  const openPlots = Object.keys(useAppSelector(selectOpenPlots));
+  const openPlots = Object.values(useAppSelector(selectOpenPlots));
   const dispatch = useAppDispatch();
   return (
     <>
-      {openPlots.map((item) => {
+      {openPlots.map((plot: PlotConfig) => {
         return (
           <PlotWindow
-            key={item}
-            untitledTitle={item}
+            key={plot.title}
+            plotConfig={plot}
             onClose={() => {
-              dispatch(closePlot(item));
+              dispatch(closePlot(plot.title));
             }}
           />
         );

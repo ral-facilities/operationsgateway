@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import { PlotProps } from './plot.component';
 import { testPlotDatasets } from '../setupTests';
 import Plot from './plot.component';
+import { deepCopySelectedPlotChannels } from './util';
 
 describe('Plot component', () => {
   let props: PlotProps;
@@ -70,7 +71,9 @@ describe('Plot component', () => {
   it('updates data object correctly by setting opacity to 0 for lines that are hidden', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
-    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    const newSelectedPlotChannels = deepCopySelectedPlotChannels(
+      props.selectedPlotChannels
+    );
     newSelectedPlotChannels[0].options.visible = false;
     props.selectedPlotChannels = newSelectedPlotChannels;
     rerender(<Plot {...props} />);
@@ -81,7 +84,9 @@ describe('Plot component', () => {
   it('updates data object correctly by setting borderDash property on dashed lines', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
-    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    const newSelectedPlotChannels = deepCopySelectedPlotChannels(
+      props.selectedPlotChannels
+    );
     newSelectedPlotChannels[0].options.lineStyle = 'dashed';
     props.selectedPlotChannels = newSelectedPlotChannels;
     rerender(<Plot {...props} />);
@@ -92,7 +97,9 @@ describe('Plot component', () => {
   it('updates data object correctly by setting borderDash, pointRadius and borderCapStyle properties on dotted lines', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
-    const newSelectedPlotChannels = [...props.selectedPlotChannels];
+    const newSelectedPlotChannels = deepCopySelectedPlotChannels(
+      props.selectedPlotChannels
+    );
     newSelectedPlotChannels[0].options.lineStyle = 'dotted';
     props.selectedPlotChannels = newSelectedPlotChannels;
     rerender(<Plot {...props} />);

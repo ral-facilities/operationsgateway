@@ -16,6 +16,7 @@ describe('Plot Buttons component', () => {
   let user;
   const toggleGridVisibility = jest.fn();
   const toggleAxesLabelsVisibility = jest.fn();
+  const savePlot = jest.fn();
   const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
@@ -54,6 +55,7 @@ describe('Plot Buttons component', () => {
       toggleGridVisibility,
       toggleAxesLabelsVisibility,
       resetView,
+      savePlot,
     };
 
     mockLink = {
@@ -196,6 +198,13 @@ describe('Plot Buttons component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Reset View' }));
     expect(resetView).toHaveBeenCalled();
+  });
+
+  it('calls savePlot when Save button clicked', async () => {
+    render(<PlotButtons {...plotButtonsProps} />);
+
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+    expect(savePlot).toHaveBeenCalled();
   });
 });
 

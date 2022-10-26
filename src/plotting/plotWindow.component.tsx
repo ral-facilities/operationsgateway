@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotSettings from './plotSettings/plotSettingsController.component';
+import PlotSettingsController from './plotSettings/plotSettingsController.component';
 import Plot from './plot.component';
 import PlotButtons from './plotButtons.component';
 import {
@@ -24,32 +24,63 @@ import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
-import { useAppSelector } from '../state/hooks';
+import { useAppSelector, useAppDispatch } from '../state/hooks';
+import {
+  DEFAULT_WINDOW_VARS,
+  PlotConfig,
+  savePlot,
+} from '../state/slices/plotSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
-  untitledTitle: string;
+  plotConfig: PlotConfig;
 }
 const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
-  const { onClose, untitledTitle } = props;
-  const [plotTitle, setPlotTitle] = React.useState('');
-  const [plotType, setPlotType] = React.useState<PlotType>('scatter');
-  const [xMinimum, setXMinimum] = React.useState<number | undefined>(undefined);
-  const [xMaximum, setXMaximum] = React.useState<number | undefined>(undefined);
-  const [yMinimum, setYMinimum] = React.useState<number | undefined>(undefined);
-  const [yMaximum, setYMaximum] = React.useState<number | undefined>(undefined);
-  const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>('linear');
-  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>('linear');
+  const { onClose, plotConfig } = props;
 
-  const [XAxis, setXAxis] = React.useState<string>('');
+  const dispatch = useAppDispatch();
+
+  const [plotTitle, setPlotTitle] = React.useState(plotConfig.title);
+  const [plotType, setPlotType] = React.useState<PlotType>(plotConfig.plotType);
+  const [xMinimum, setXMinimum] = React.useState<number | undefined>(
+    plotConfig.xMinimum
+  );
+  const [xMaximum, setXMaximum] = React.useState<number | undefined>(
+    plotConfig.xMaximum
+  );
+  const [yMinimum, setYMinimum] = React.useState<number | undefined>(
+    plotConfig.yMinimum
+  );
+  const [yMaximum, setYMaximum] = React.useState<number | undefined>(
+    plotConfig.yMaximum
+  );
+  const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>(
+    plotConfig.XAxisScale
+  );
+  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>(
+    plotConfig.YAxesScale
+  );
+
+  const [XAxis, setXAxis] = React.useState<string | undefined>(
+    plotConfig.XAxis
+  );
   const [selectedPlotChannels, setSelectedPlotChannels] = React.useState<
     SelectedPlotChannel[]
-  >([]);
-  const [gridVisible, setGridVisible] = React.useState<boolean>(true);
-  const [axesLabelsVisible, setAxesLabelsVisible] =
-    React.useState<boolean>(true);
+  >(plotConfig.selectedPlotChannels);
+  const [gridVisible, setGridVisible] = React.useState<boolean>(
+    plotConfig.gridVisible
+  );
+  const [axesLabelsVisible, setAxesLabelsVisible] = React.useState<boolean>(
+    plotConfig.axesLabelsVisible
+  );
+  const [selectedColours, setSelectedColours] = React.useState<string[]>(
+    plotConfig.selectedColours
+  );
+  const [remainingColours, setRemainingColours] = React.useState<string[]>(
+    plotConfig.remainingColours
+  );
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -75,8 +106,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
-    XAxis,
-    selectedPlotChannels
+    selectedPlotChannels,
+    XAxis
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
@@ -85,8 +116,86 @@ const PlotWindow = (props: PlotWindowProps) => {
       selectSelectedChannels(state, channels ?? [])
     ) as FullScalarChannelMetadata[];
 
+  const savePlotConfig = React.useCallback(
+    (windowVars: {
+      outerWidth: number;
+      outerHeight: number;
+      screenX: number;
+      screenY: number;
+    }) => {
+      const configToSave: PlotConfig = {
+        // ensures that whenever we save the plot, it won't open up a new window
+        // if we always set open to true, a "new" plot config will be saved, with open = true
+        // this would open up a new window, which we don't want
+        open: plotTitle === plotConfig.title,
+        title: plotTitle,
+        plotType,
+        XAxis,
+        XAxisScale,
+        xMinimum,
+        xMaximum,
+        selectedPlotChannels,
+        YAxesScale,
+        yMinimum,
+        yMaximum,
+        gridVisible,
+        axesLabelsVisible,
+        selectedColours,
+        remainingColours,
+        ...windowVars,
+      } as PlotConfig;
+      dispatch(savePlot(configToSave));
+    },
+    [
+      XAxis,
+      XAxisScale,
+      YAxesScale,
+      axesLabelsVisible,
+      dispatch,
+      gridVisible,
+      plotConfig.title,
+      plotTitle,
+      plotType,
+      remainingColours,
+      selectedColours,
+      selectedPlotChannels,
+      xMaximum,
+      xMinimum,
+      yMaximum,
+      yMinimum,
+    ]
+  );
+
+  const plotWindowRef = React.createRef<PlotWindowPortal>();
+
+  const handleSavePlot = React.useCallback(() => {
+    // Capture window size and position
+    const outerWidth =
+      plotWindowRef.current?.state.window?.outerWidth ??
+      DEFAULT_WINDOW_VARS.outerWidth;
+    const outerHeight =
+      plotWindowRef.current?.state.window?.outerHeight ??
+      DEFAULT_WINDOW_VARS.outerHeight;
+    const screenX =
+      plotWindowRef.current?.state.window?.screenX ??
+      DEFAULT_WINDOW_VARS.screenX;
+    const screenY =
+      plotWindowRef.current?.state.window?.screenY ??
+      DEFAULT_WINDOW_VARS.screenY;
+
+    savePlotConfig({ outerWidth, outerHeight, screenX, screenY });
+  }, [savePlotConfig, plotWindowRef]);
+
   return (
-    <PlotWindowPortal title={plotTitle || untitledTitle} onClose={onClose}>
+    <PlotWindowPortal
+      ref={plotWindowRef}
+      title={plotTitle}
+      onClose={onClose}
+      outerWidth={plotConfig.outerWidth}
+      outerHeight={plotConfig.outerHeight}
+      screenX={plotConfig.screenX}
+      screenY={plotConfig.screenY}
+    >
       <Grid
         container
         direction="row"
@@ -132,9 +241,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                   <ChevronLeftIcon />
                 </IconButton>
               </Box>
-              <PlotSettings
+              <PlotSettingsController
                 selectedRecordTableChannels={selectedScalarRecordTableChannels}
                 allChannels={channels ?? []}
+                plotTitle={plotTitle}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
                 changePlotType={setPlotType}
@@ -146,10 +256,18 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeYAxesScale={setYAxesScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
+                xMinimum={xMinimum}
+                xMaximum={xMaximum}
+                yMinimum={yMinimum}
+                yMaximum={yMaximum}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
                 changeYMinimum={setYMinimum}
                 changeYMaximum={setYMaximum}
+                selectedColours={selectedColours}
+                remainingColours={remainingColours}
+                changeSelectedColours={setSelectedColours}
+                changeRemainingColours={setRemainingColours}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -199,20 +317,21 @@ const PlotWindow = (props: PlotWindowProps) => {
               <PlotButtons
                 data={records}
                 canvasRef={canvasRef}
-                title={plotTitle || untitledTitle}
+                title={plotTitle}
                 XAxis={XAxis}
                 gridVisible={gridVisible}
                 axesLabelsVisible={axesLabelsVisible}
                 toggleGridVisibility={toggleGridVisibility}
                 toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
                 resetView={resetView}
+                savePlot={handleSavePlot}
               />
             </Grid>
           </Grid>
           <Plot
             datasets={records ?? []}
             selectedPlotChannels={selectedPlotChannels}
-            title={plotTitle || untitledTitle}
+            title={plotTitle}
             type={plotType}
             XAxis={XAxis}
             XAxisScale={XAxisScale}

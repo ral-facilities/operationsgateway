@@ -53,10 +53,11 @@ const StyledTab = styled(Tab)(() => ({
 export interface PlotSettingsControllerProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
   allChannels: FullScalarChannelMetadata[];
+  plotTitle: string;
   changePlotTitle: (title: string) => void;
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
-  XAxis: string;
+  XAxis?: string;
   changeXAxis: (value: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
@@ -66,16 +67,25 @@ export interface PlotSettingsControllerProps {
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
   ) => void;
+  xMinimum?: number;
+  xMaximum?: number;
+  yMinimum?: number;
+  yMaximum?: number;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
   changeYMinimum: (value: number | undefined) => void;
   changeYMaximum: (value: number | undefined) => void;
+  selectedColours: string[];
+  remainingColours: string[];
+  changeSelectedColours: (selected: string[]) => void;
+  changeRemainingColours: (remaining: string[]) => void;
 }
 
 const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   const {
     selectedRecordTableChannels,
     allChannels,
+    plotTitle,
     changePlotTitle,
     plotType,
     changePlotType,
@@ -87,10 +97,18 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeYAxesScale,
     selectedPlotChannels,
     changeSelectedPlotChannels,
+    xMinimum,
+    xMaximum,
+    yMinimum,
+    yMaximum,
     changeXMinimum,
     changeXMaximum,
     changeYMinimum,
     changeYMaximum,
+    selectedColours,
+    remainingColours,
+    changeSelectedColours,
+    changeRemainingColours,
   } = props;
 
   const [XYTabValue, setXYTabValue] = React.useState<TabValue>('X');
@@ -105,7 +123,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <PlotTitleField changePlotTitle={changePlotTitle} />
+        <PlotTitleField
+          plotTitle={plotTitle}
+          changePlotTitle={changePlotTitle}
+        />
       </Grid>
       <Grid item>
         <ChartTypeButtons plotType={plotType} changePlotType={changePlotType} />
@@ -129,6 +150,8 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             XAxis={XAxis}
             changeXAxis={changeXAxis}
             changeXAxisScale={changeXAxisScale}
+            initialXMinimum={xMinimum}
+            initialXMaximum={xMaximum}
             changeXMinimum={changeXMinimum}
             changeXMaximum={changeXMaximum}
           />
@@ -139,10 +162,16 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             allChannels={allChannels}
             selectedPlotChannels={selectedPlotChannels}
             changeSelectedPlotChannels={changeSelectedPlotChannels}
+            initialYMinimum={yMinimum}
+            initialYMaximum={yMaximum}
             changeYMinimum={changeYMinimum}
             changeYMaximum={changeYMaximum}
             YAxesScale={YAxesScale}
             changeYAxesScale={changeYAxesScale}
+            initialSelectedColours={selectedColours}
+            initialRemainingColours={remainingColours}
+            changeSelectedColours={changeSelectedColours}
+            changeRemainingColours={changeRemainingColours}
           />
         </TabPanel>
       </Grid>

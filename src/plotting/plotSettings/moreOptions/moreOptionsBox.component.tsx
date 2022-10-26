@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import ColourPicker from './colourPicker.component';
 import { LineStyle, SelectedPlotChannel } from '../../../app.types';
+import { deepCopySelectedPlotChannels } from '../../util';
 
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
@@ -32,7 +33,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
   const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dashed', 'dotted'];
 
   const toggleChannelVisibility = React.useCallback(() => {
-    const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+    const newSelectedPlotChannelsArray =
+      deepCopySelectedPlotChannels(selectedPlotChannels);
     newSelectedPlotChannelsArray.some((currentChannel) => {
       if (currentChannel.name === thisChannel.name) {
         currentChannel.options.visible = !currentChannel.options.visible;
@@ -45,7 +47,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelColour = React.useCallback(
     (selectedColour: string) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedPlotChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedPlotChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
           currentChannel.options.colour = selectedColour;
@@ -60,7 +63,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelLineStyle = React.useCallback(
     (chosenStyle: LineStyle) => {
-      const newSelectedChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
           currentChannel.options.lineStyle = chosenStyle;
@@ -75,7 +79,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
 
   const changeChannelAxis = React.useCallback(
     (yAxis: SelectedPlotChannel['options']['yAxis']) => {
-      const newSelectedPlotChannelsArray = Array.from(selectedPlotChannels);
+      const newSelectedPlotChannelsArray =
+        deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedPlotChannelsArray.some((channel) => {
         if (channel.name === thisChannel.name) {
           channel.options.yAxis = yAxis;
