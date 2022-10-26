@@ -65,7 +65,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            { type: 'channel', value: 'timestamp', label: 'Time' },
             operators.find((t) => t.value === 'is not null')!,
             operators.find((t) => t.value === 'and')!,
             { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -88,7 +88,7 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        { type: 'channel', value: 'timestamp', label: 'Time' },
         operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
@@ -102,7 +102,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            { type: 'channel', value: 'timestamp', label: 'Time' },
             operators.find((t) => t.value === 'is not null')!,
           ],
         ] as Token[][],
@@ -119,15 +119,36 @@ describe('Filter dialogue component', () => {
     expect(screen.getByText('Apply')).toBeDisabled();
   });
 
-  it('adds new filter when Add new filter button is clicked and renders multiple filters', async () => {
+  it('adds new filter when Add new filter button is clicked and renders multiple filters, and updates store with multiple filters when applied', async () => {
     const user = userEvent.setup();
 
-    createView();
+    const { store } = createView();
 
     await user.click(screen.getByText('Add new filter'));
 
     expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
-  });
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    const filter2 = screen.getAllByRole('combobox', { name: 'Filter' })[1];
+
+    await user.type(filter1, 'time{enter}is not null{enter}');
+    await user.type(filter2, 'shot{enter}is null{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        { type: 'channel', value: 'timestamp', label: 'Time' },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+      [
+        { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+        operators.find((t) => t.value === 'is null')!,
+      ],
+    ]);
+  }, 10000);
 
   it('deletes a filter when delete button is clicked', async () => {
     const state = {
@@ -136,7 +157,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            { type: 'channel', value: 'timestamp', label: 'Time' },
             operators.find((t) => t.value === 'is not null')!,
           ],
           [
@@ -174,7 +195,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'timestamp' },
+            { type: 'channel', value: 'timestamp', label: 'Time' },
             operators.find((t) => t.value === 'is not null')!,
           ],
         ] as Token[][],
@@ -193,7 +214,7 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        { type: 'channel', value: 'timestamp', label: 'Time' },
         operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
