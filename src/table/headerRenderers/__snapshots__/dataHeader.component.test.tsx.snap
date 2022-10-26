@@ -143,7 +143,7 @@ exports[`Data Header renders a column icon if provided 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="test menu"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
                 id="test-menu-button"
                 tabindex="0"
                 type="button"
@@ -251,7 +251,7 @@ exports[`Data Header renders correctly with sort but no filter 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="test menu"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
                 id="test-menu-button"
                 tabindex="0"
                 type="button"
@@ -343,7 +343,7 @@ exports[`Data Header renders correctly without sort or filter 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="test menu"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
                 id="test-menu-button"
                 tabindex="0"
                 type="button"

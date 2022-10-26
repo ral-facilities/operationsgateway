@@ -53,9 +53,10 @@ jest.mock('../api/channels', () => {
 describe('Record Table', () => {
   let data;
   let state: PreloadedState<RootState>;
+  const openFilters = jest.fn();
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(<RecordTable />, {
+    return renderComponentWithStore(<RecordTable openFilters={openFilters} />, {
       preloadedState: initialState,
     });
   };
@@ -78,7 +79,7 @@ describe('Record Table', () => {
       isLoading: false,
     });
     (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: constructColumns(testChannels),
+      data: constructColumns(testChannels, [[]]),
       isLoading: false,
     });
 

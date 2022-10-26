@@ -128,7 +128,7 @@ describe('channels api functions', () => {
       ];
 
       const metadata = generateChannelMetadata(mockData);
-      const response = constructColumns(metadata);
+      const response = constructColumns(metadata, [[]]);
 
       for (let i = 0; i < response.length; i++) {
         expect(response[i].accessor).toEqual(expected[i].accessor);
