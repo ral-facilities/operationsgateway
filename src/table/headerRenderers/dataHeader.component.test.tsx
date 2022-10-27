@@ -16,6 +16,7 @@ describe('Data Header', () => {
   const onClose = jest.fn();
   const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
+  const openFilters = jest.fn();
 
   const createView = (): RenderResult => {
     return render(
@@ -39,8 +40,8 @@ describe('Data Header', () => {
     props = {
       dataKey: 'test',
       sort: {},
-      onSort: onSort,
-      onClose: onClose,
+      onSort,
+      onClose,
       label: 'Test',
       resizerProps: {},
       index: 0,
@@ -51,7 +52,9 @@ describe('Data Header', () => {
         description: 'test description',
       },
       wordWrap: false,
-      onToggleWordWrap: onToggleWordWrap,
+      onToggleWordWrap,
+      isFiltered: false,
+      openFilters,
     };
   });
 
@@ -59,21 +62,27 @@ describe('Data Header', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly without sort or filter', () => {
+  it('renders correctly', () => {
     props.disableSort = true;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with sort but no filter', () => {
-    const view = createView();
-    expect(view.asFragment()).toMatchSnapshot();
+  it('renders correctly with sort applied', () => {
+    createView();
+    expect(screen.getByTestId('sort test')).toBeInTheDocument();
+  });
+
+  it('renders correctly with filter applied', () => {
+    props.isFiltered = true;
+    createView();
+    expect(screen.getByLabelText('open filters')).toBeInTheDocument();
   });
 
   it('renders a column icon if provided', () => {
-    props.icon = <div>Icon</div>;
-    const view = createView();
-    expect(view.asFragment()).toMatchSnapshot();
+    props.icon = <div data-testid="test icon">Icon</div>;
+    createView();
+    expect(screen.getByTestId('test icon')).toBeInTheDocument();
   });
 
   it('opens menu when menu icon is clicked', () => {
@@ -115,10 +124,6 @@ describe('Data Header', () => {
     fireEvent.mouseDown(header, { button: 1 });
     expect(onClose).toHaveBeenCalledWith('test');
   });
-
-  it.todo('renders correctly with filter but no sort');
-
-  it.todo('renders correctly with sort and filter');
 
   describe('calls the onSort method when label is clicked', () => {
     it('sets asc order', async () => {
@@ -199,7 +204,8 @@ describe('Data Header', () => {
 
   it('displays tooltip with system name when user hovers over friendly column name', async () => {
     props.label = 'Test Friendly Name';
-    props.channelInfo.userFriendlyName = props.label as string;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    props.channelInfo!.userFriendlyName = props.label as string;
     createView();
     const header = screen.getByText('Test Friendly Name');
 
