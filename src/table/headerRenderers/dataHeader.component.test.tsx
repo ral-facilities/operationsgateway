@@ -85,6 +85,17 @@ describe('Data Header', () => {
     expect(screen.getByTestId('test icon')).toBeInTheDocument();
   });
 
+  it('calls the openFilters method when the filter button is clicked', async () => {
+    props.isFiltered = true;
+    createView();
+    await act(async () => {
+      screen.getByLabelText('open filters').click();
+      await flushPromises();
+    });
+
+    expect(openFilters).toHaveBeenCalledWith(props.dataKey);
+  });
+
   it('opens menu when menu icon is clicked', () => {
     createView();
     const menuIcon = screen.getByLabelText('test menu');
