@@ -42,6 +42,7 @@ const InputWrapper = styled('div')(
   padding: 1px;
   display: flex;
   flex-wrap: wrap;
+  cursor: text;
 
   &:hover {
     border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
@@ -138,24 +139,76 @@ function CustomizedHook(props: FilterInputProps) {
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const downHandler = React.useCallback<(e: React.KeyboardEvent) => void>(
+  const keydownHandler = React.useCallback<(e: React.KeyboardEvent) => void>(
     (e) => {
-      if (e.key === 'ArrowLeft') {
-        // TODO: move input to left
+      const cursorPos = (e.target as HTMLInputElement).selectionStart;
+      // only move left when cursor is at start
+      if (cursorPos === 0 && e.key === 'ArrowLeft') {
         e.stopPropagation();
         setInputIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
       }
-      if (e.key === 'ArrowRight') {
-        // TODO: move input to right
+      // only move right when cursor is at end
+      if (cursorPos === inputValue.length && e.key === 'ArrowRight') {
         e.stopPropagation();
         setInputIndex((prevIndex) =>
           prevIndex < value.length ? prevIndex + 1 : prevIndex
         );
       }
+      // only remove item on backspace if the input is empty
+      if (inputValue.length === 0 && e.key === 'Backspace') {
+        e.stopPropagation();
+        setValue(value.filter((_, i) => i !== inputIndex - 1));
+        setError('');
+        setInputIndex((prevIndex) => prevIndex + -1);
+      }
     },
-    [value]
+    [inputIndex, value, inputValue, setError, setValue]
+  );
+
+  const clickHandler = React.useCallback<(e: React.MouseEvent) => void>(
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (target.dataset.id === 'inputWrapper') {
+        const children = Array.from(target.children);
+        let newInputPosition = 0;
+        for (let i = 0; i < children.length; i++) {
+          if (i !== inputIndex) {
+            const { x, y, width, height } = children[i].getBoundingClientRect();
+            // add 4 to y to account for vertical padding between lines of tags
+            if (e.clientX < x + width / 2 && e.clientY < y + 4 + height / 2) {
+              newInputPosition = i;
+              break;
+            } else {
+              // previous calcs miss the case when we overflow to a new line
+              if (i > 0) {
+                const { x: prevX, y: prevY } =
+                  children[i - 1].getBoundingClientRect();
+                if (
+                  x < prevX &&
+                  y > prevY &&
+                  e.clientY < prevY + 4 + height / 2
+                ) {
+                  newInputPosition = i;
+                  break;
+                } else {
+                  newInputPosition = i + 1;
+                }
+              } else {
+                newInputPosition = i + 1;
+              }
+            }
+          }
+        }
+        // need to take the input itself into account when we move forwards so minus 1 off
+        if (newInputPosition > inputIndex) {
+          newInputPosition--;
+        }
+        setInputIndex(newInputPosition);
+      }
+    },
+    [inputIndex]
   );
 
   const {
@@ -188,6 +241,9 @@ function CustomizedHook(props: FilterInputProps) {
       // need to move last item in newValue (the newly added token)
       // to the position matching the input
       if (reason === 'createOption' || reason === 'selectOption') {
+        // below will always be non-null, as createOption/selectOption implies that
+        // newValue is at least of length 1
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const newToken = newValue.pop()!;
         newValue.splice(inputIndex, 0, newToken);
       }
@@ -250,7 +306,7 @@ function CustomizedHook(props: FilterInputProps) {
     <Chip
       label={option.label}
       size="small"
-      sx={{ alignSelf: 'center' }}
+      sx={{ alignSelf: 'center', margin: '0 2px' }}
       {...getTagProps({ index })}
     />
   ));
@@ -259,9 +315,18 @@ function CustomizedHook(props: FilterInputProps) {
     <Root onBlur={checkErrors}>
       <div {...getRootProps()}>
         <Label {...getInputLabelProps()}>Customized hook</Label>
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper
+          onClick={clickHandler}
+          ref={setAnchorEl}
+          className={focused ? 'focused' : ''}
+          data-id="inputWrapper"
+        >
           {tags.slice(0, inputIndex)}
-          <input ref={inputRef} onKeyDown={downHandler} {...getInputProps()} />
+          <input
+            ref={inputRef}
+            onKeyDown={keydownHandler}
+            {...getInputProps()}
+          />
           {tags.slice(inputIndex)}
         </InputWrapper>
         {error && <FormHelperText error>{error}</FormHelperText>}
