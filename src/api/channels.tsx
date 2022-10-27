@@ -16,7 +16,11 @@ import { Token } from '../filtering/filterParser';
 export const generateChannelMetadata = (
   records: Record[]
 ): FullChannelMetadata[] => {
+  if (!records || records.length === 0) return [];
+
   const metadata: FullChannelMetadata[] = [];
+
+  // This metadata is always present in every record
   const timestampMetadata: FullScalarChannelMetadata = {
     systemName: 'timestamp',
     userFriendlyName: 'Time',
@@ -92,7 +96,7 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   );
 };
 
-export const extractFilteredChannelNames = (
+export const extractChannelsFromTokens = (
   appliedFilters: Token[][]
 ): string[] => {
   let allChannelNames: string[] = [];
@@ -116,7 +120,7 @@ export const constructColumns = (
   channels: FullChannelMetadata[],
   appliedFilters: Token[][]
 ): Column[] => {
-  const filteredChannelNames = extractFilteredChannelNames(appliedFilters);
+  const filteredChannelNames = extractChannelsFromTokens(appliedFilters);
   const myColumns: Column[] = [];
 
   channels.forEach((channel: FullChannelMetadata) => {
