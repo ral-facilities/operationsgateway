@@ -8,7 +8,7 @@ exports[`Data Header opens menu when menu icon is clicked 1`] = `
   tabindex="-1"
 >
   <li
-    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters Mui-focusVisible css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
     role="menuitem"
     tabindex="0"
   >

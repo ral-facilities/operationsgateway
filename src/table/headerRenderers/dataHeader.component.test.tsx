@@ -4,11 +4,12 @@ import {
   render,
   RenderResult,
   screen,
-  fireEvent,
   act,
+  within,
 } from '@testing-library/react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { flushPromises } from '../../setupTests';
+import userEvent from '@testing-library/user-event';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
@@ -17,6 +18,7 @@ describe('Data Header', () => {
   const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
   const openFilters = jest.fn();
+  let user;
 
   const createView = (): RenderResult => {
     return render(
@@ -37,6 +39,7 @@ describe('Data Header', () => {
   };
 
   beforeEach(() => {
+    user = userEvent.setup();
     props = {
       dataKey: 'test',
       sort: {},
@@ -89,50 +92,58 @@ describe('Data Header', () => {
     props.isFiltered = true;
     createView();
     await act(async () => {
-      screen.getByLabelText('open filters').click();
+      await user.click(screen.getByLabelText('open filters'));
       await flushPromises();
     });
 
     expect(openFilters).toHaveBeenCalledWith(props.dataKey);
   });
 
-  it('opens menu when menu icon is clicked', () => {
+  it('opens menu when menu icon is clicked', async () => {
     createView();
     const menuIcon = screen.getByLabelText('test menu');
-
-    fireEvent.click(menuIcon);
+    await user.click(menuIcon);
 
     const menu = screen.getByRole('menu');
 
     expect(menu).toMatchSnapshot();
   });
 
-  it('calls onToggleWordWrap when toggle word wrap option is clicked', () => {
+  it('calls onToggleWordWrap when toggle word wrap option is clicked', async () => {
     createView();
     const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
-    fireEvent.click(menuIcon);
-
-    const closeOption = screen.getByText('Turn word wrap', { exact: false });
-    fireEvent.click(closeOption);
+    const menu = screen.getByRole('menu');
+    const closeOption = within(menu).getByText('Turn word wrap on');
+    await user.click(closeOption);
     expect(onToggleWordWrap).toHaveBeenCalledWith('test');
   });
 
-  it('calls onClose when close option is clicked', () => {
+  it('shows opposite word wrap toggle text if word wrap is already on', async () => {
+    props.wordWrap = true;
     createView();
     const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
-    fireEvent.click(menuIcon);
+    const menu = screen.getByRole('menu');
+    expect(within(menu).getByText('Turn word wrap off')).toBeInTheDocument();
+  });
+
+  it('calls onClose when close option is clicked', async () => {
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
     const closeOption = screen.getByText('Close');
-    fireEvent.click(closeOption);
+    await user.click(closeOption);
     expect(onClose).toHaveBeenCalledWith('test');
   });
 
-  it('removes column from display when header is middle clicked', () => {
+  it('removes column from display when header is middle clicked', async () => {
     createView();
     const header = screen.getByLabelText('test header');
-    fireEvent.mouseDown(header, { button: 1 });
+    await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
     expect(onClose).toHaveBeenCalledWith('test');
   });
 
@@ -140,7 +151,7 @@ describe('Data Header', () => {
     it('sets asc order', async () => {
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
 
@@ -154,7 +165,7 @@ describe('Data Header', () => {
 
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
@@ -167,7 +178,7 @@ describe('Data Header', () => {
 
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
       expect(onSort).toHaveBeenCalledWith('test', null);
@@ -194,12 +205,7 @@ describe('Data Header', () => {
     createView();
     const header = screen.getByText('Test');
 
-    fireEvent(
-      header,
-      new MouseEvent('mouseover', {
-        bubbles: true,
-      })
-    );
+    await user.hover(header);
 
     expect(
       await screen.findByText('Units: m', {
@@ -220,12 +226,7 @@ describe('Data Header', () => {
     createView();
     const header = screen.getByText('Test Friendly Name');
 
-    fireEvent(
-      header,
-      new MouseEvent('mouseover', {
-        bubbles: true,
-      })
-    );
+    await user.hover(header);
 
     expect(
       await screen.findByText('System Name: Test', {
