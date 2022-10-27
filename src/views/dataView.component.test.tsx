@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import {
+  act,
   screen,
   waitForElementToBeRemoved,
   within,
@@ -7,50 +9,66 @@ import {
 import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import DataView from './dataView.component';
-import { renderComponentWithProviders, testRecords } from '../setupTests';
+import {
+  flushPromises,
+  renderComponentWithProviders,
+  testRecords,
+  getInitialState,
+} from '../setupTests';
 import axios from 'axios';
-
-jest.mock('./dateTimeInput.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-dateTimeInput data-testid="mock-dateTimeInput" />
-));
-
-jest.mock('./recordTable.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-recordTable data-testid="mock-recordTable">
-    {Object.entries(props).map(
-      ([propName, propValue]) =>
-        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-    )}
-    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-    {/* @ts-ignore */}
-  </mock-recordTable>
-));
-
-jest.mock('../table/columnCheckboxes.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-columnCheckboxes data-testid="mock-columnCheckboxes" />
-));
+import { operators, Token } from '../filtering/filterParser';
+import { PreloadedState } from '@reduxjs/toolkit';
+import { RootState } from '../state/store';
 
 describe('Data View', () => {
-  const createView = (): RenderResult => {
-    return renderComponentWithProviders(<DataView />);
+  const createView = (
+    initialState?: PreloadedState<RootState>
+  ): RenderResult => {
+    return renderComponentWithProviders(<DataView />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
-    (axios.get as jest.Mock).mockResolvedValue({ data: testRecords });
+    (axios.get as jest.Mock).mockImplementation((url: string) => {
+      switch (url) {
+        case '/records':
+          return Promise.resolve({ data: testRecords });
+        case '/records/count':
+          return Promise.resolve({ data: testRecords.length });
+        default:
+          return Promise.reject(new Error('Invalid URL'));
+      }
+    });
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
+  it('renders correctly', async () => {
+    await act(async () => {
+      createView();
+      await flushPromises();
+    });
+
+    expect(
+      screen.getByRole('textbox', { name: 'from, date-time input' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('table-container')).toBeInTheDocument();
+    expect(screen.getByLabelText('table checkboxes')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('dialog', { name: 'Filters' })
+    ).not.toBeInTheDocument();
+  });
+
   it('opens the filter dialogue when the filters button is clicked and closes when the close button is clicked', async () => {
     const user = userEvent.setup();
-    createView();
+    await act(async () => {
+      createView();
+      await flushPromises();
+    });
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
 
@@ -64,7 +82,35 @@ describe('Data View', () => {
     );
   });
 
-  it.todo(
-    'opens the filter dialogue when the filter button in a data header is clicked'
-  );
+  it('opens the filter dialogue when the filter button in a data header is clicked', async () => {
+    const user = userEvent.setup();
+    const state = {
+      ...getInitialState(),
+      filter: {
+        ...getInitialState().filter,
+        appliedFilters: [
+          [
+            { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+            operators.find((t) => t.value === 'is null')!,
+          ],
+        ] as Token[][],
+      },
+    };
+    await act(async () => {
+      createView(state);
+      await flushPromises();
+    });
+
+    await act(async () => {
+      screen.getByLabelText('shotnum checkbox').click();
+      await flushPromises();
+    });
+
+    const shotnumHeader = screen.getByRole('columnheader', {
+      name: 'shotnum header',
+    });
+    await user.click(within(shotnumHeader).getByLabelText('open filters'));
+    const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+    expect(dialogue).toBeVisible();
+  });
 });

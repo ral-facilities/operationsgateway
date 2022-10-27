@@ -101,7 +101,11 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
   );
 
   return (
-    <div style={{ overflow: 'auto', height: '150px' }} ref={parentRef}>
+    <div
+      aria-label="table checkboxes"
+      style={{ overflow: 'auto', height: '150px' }}
+      ref={parentRef}
+    >
       <div
         style={{
           height: `${rowVirtualizer.getTotalSize()}px`,
