@@ -3,6 +3,7 @@
 exports[`Column Checkboxes renders correctly when checked 1`] = `
 <DocumentFragment>
   <div
+    aria-label="table checkboxes"
     style="overflow: auto; height: 150px;"
   >
     <div
@@ -124,6 +125,7 @@ exports[`Column Checkboxes renders correctly when checked 1`] = `
 exports[`Column Checkboxes renders correctly when unchecked 1`] = `
 <DocumentFragment>
   <div
+    aria-label="table checkboxes"
     style="overflow: auto; height: 150px;"
   >
     <div
