@@ -77,7 +77,8 @@ exports[`MoreOptionsToggle renders correctly when options box open and passes al
   "options": {
     "visible": true,
     "colour": "colour-0",
-    "lineStyle": "solid"
+    "lineStyle": "solid",
+    "yAxis": "left"
   }
 }
 selectedPlotChannels=[
@@ -86,7 +87,8 @@ selectedPlotChannels=[
     "options": {
       "visible": true,
       "colour": "colour-0",
-      "lineStyle": "solid"
+      "lineStyle": "solid",
+      "yAxis": "left"
     }
   },
   {
@@ -94,7 +96,8 @@ selectedPlotChannels=[
     "options": {
       "visible": true,
       "colour": "colour-1",
-      "lineStyle": "solid"
+      "lineStyle": "solid",
+      "yAxis": "left"
     }
   },
   {
@@ -102,7 +105,8 @@ selectedPlotChannels=[
     "options": {
       "visible": true,
       "colour": "colour-2",
-      "lineStyle": "solid"
+      "lineStyle": "solid",
+      "yAxis": "left"
     }
   }
 ]
