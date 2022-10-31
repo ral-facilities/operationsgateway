@@ -11,6 +11,7 @@ import OpenPlots from './plotting/openPlots.component';
 import { RootState } from './state/store';
 import { connect } from 'react-redux';
 import Preloader from './preloader/preloader.component';
+import './App.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
