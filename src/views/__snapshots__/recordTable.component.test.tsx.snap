@@ -87,7 +87,7 @@ exports[`Record Table renders correctly 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="timestamp-menu-button"
                         tabindex="0"
                         type="button"
@@ -439,7 +439,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="timestamp-menu-button"
                         tabindex="0"
                         type="button"

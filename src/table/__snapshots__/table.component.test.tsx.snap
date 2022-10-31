@@ -87,7 +87,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="timestamp-menu-button"
                         tabindex="0"
                         type="button"
@@ -185,7 +185,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="shotnum menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="shotnum-menu-button"
                         tabindex="0"
                         type="button"
@@ -283,7 +283,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="activeArea menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="activeArea-menu-button"
                         tabindex="0"
                         type="button"
@@ -381,7 +381,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="activeExperiment menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="activeExperiment-menu-button"
                         tabindex="0"
                         type="button"
@@ -903,7 +903,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                       <button
                         aria-haspopup="true"
                         aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                         id="timestamp-menu-button"
                         tabindex="0"
                         type="button"

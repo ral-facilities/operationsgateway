@@ -135,7 +135,7 @@ exports[`Data Header renders correctly 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="test menu"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-fx4owe-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                 id="test-menu-button"
                 tabindex="0"
                 type="button"
