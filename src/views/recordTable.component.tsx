@@ -19,6 +19,27 @@ import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
+import type { Token } from '../filtering/filterParser';
+
+export const extractChannelsFromTokens = (
+  appliedFilters: Token[][]
+): string[] => {
+  let allChannelNames: string[] = [];
+
+  appliedFilters.forEach((f) => {
+    // Extract the channel names from the token array
+    const channelNames = f
+      .filter((f) => f.type === 'channel')
+      .map((f) => f.value);
+    allChannelNames = [...allChannelNames, ...channelNames];
+  });
+
+  // Remove duplicates
+  allChannelNames = allChannelNames.filter(
+    (f, i) => allChannelNames.indexOf(f) === i
+  );
+  return allChannelNames;
+};
 
 const RecordTable = React.memo(
   (props: {
@@ -35,7 +56,7 @@ const RecordTable = React.memo(
     const { data, isLoading: dataLoading } = useRecordsPaginated();
     const { data: count, isLoading: countLoading } = useRecordCount();
     const { data: availableColumns, isLoading: columnsLoading } =
-      useAvailableColumns(appliedFilters);
+      useAvailableColumns();
 
     const columnStates = useAppSelector(selectColumnStates);
     const hiddenColumns = useAppSelector((state) =>
@@ -86,6 +107,10 @@ const RecordTable = React.memo(
       [dispatch]
     );
 
+    const filteredChannelNames = React.useMemo(() => {
+      return extractChannelsFromTokens(appliedFilters);
+    }, [appliedFilters]);
+
     // Ensure the timestamp column is opened automatically on table load
     React.useEffect(() => {
       if (!dataLoading && !columnOrder.includes('timestamp')) {
@@ -113,6 +138,7 @@ const RecordTable = React.memo(
         onDragEnd={handleOnDragEnd}
         onColumnClose={handleColumnClose}
         openFilters={openFilters}
+        filteredChannelNames={filteredChannelNames}
       />
     );
   }

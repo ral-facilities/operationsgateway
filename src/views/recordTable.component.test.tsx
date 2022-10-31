@@ -1,5 +1,7 @@
 import React from 'react';
-import RecordTable from './recordTable.component';
+import RecordTable, {
+  extractChannelsFromTokens,
+} from './recordTable.component';
 import {
   screen,
   act,
@@ -27,6 +29,7 @@ import {
   useChannels,
 } from '../api/channels';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
+import { operators, type Token } from '../filtering/filterParser';
 
 jest.mock('../api/records', () => {
   const originalModule = jest.requireActual('../api/records');
@@ -271,4 +274,33 @@ describe('Record Table', () => {
   });
 
   it.todo('updates available columns when data from backend changes');
+});
+
+describe('extractChannelsFromTokens', () => {
+  it('returns an array of unique channel values', () => {
+    const timestampToken: Token = {
+      type: 'channel',
+      value: 'timestamp',
+      label: 'Time',
+    };
+    const channelToken: Token = {
+      type: 'channel',
+      value: 'CHANNEL_1',
+      label: 'Channel 1',
+    };
+    const expected = [timestampToken.value, channelToken.value];
+
+    const firstFilter = [operators[0], timestampToken, operators[1]];
+    const secondFilter = [operators[2], channelToken, operators[3]];
+    const thirdFilter = [operators[4], channelToken, operators[5]];
+    const testInput = [firstFilter, secondFilter, thirdFilter];
+
+    const result = extractChannelsFromTokens(testInput);
+    expect(result).toEqual(expected);
+  });
+
+  it('returns an empty array if no channels are present in the filters', () => {
+    const result = extractChannelsFromTokens([[...operators]]);
+    expect(result).toEqual([]);
+  });
 });

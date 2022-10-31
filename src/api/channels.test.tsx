@@ -6,7 +6,6 @@ import {
   generateChannelMetadata,
   useAvailableColumns,
   getScalarChannels,
-  extractChannelsFromTokens,
 } from './channels';
 import { FullChannelMetadata, Record } from '../app.types';
 import {
@@ -14,7 +13,6 @@ import {
   hooksWrapperWithProviders,
   getInitialState,
 } from '../setupTests';
-import { operators, Token } from '../filtering/filterParser';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
@@ -87,29 +85,16 @@ describe('channels api functions', () => {
       jest.clearAllMocks();
     });
 
-    it('uses a select function to construct an array of columns from given channel metadata and filtered channel info', async () => {
+    it('uses a select function to construct an array of columns from given channel metadata', async () => {
       (axios.get as jest.Mock).mockResolvedValueOnce({
         data: mockData,
       });
 
-      const appliedFilters: Token[][] = [
-        [
-          { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-          operators.find((t) => t.value === '>')!,
-          { type: 'number', value: '300', label: '300' },
-        ],
-        [
-          { type: 'channel', value: 'test_2', label: 'TEST_2' },
-          operators.find((t) => t.value === '<')!,
-          { type: 'number', value: '5', label: '5' },
-        ],
-      ];
       const expected = [
         {
           accessor: 'timestamp',
           Header: () => 'Time',
           Cell: expect.anything(),
-          filtered: false,
           channelInfo: {
             channel_dtype: 'scalar',
             systemName: 'timestamp',
@@ -120,7 +105,6 @@ describe('channels api functions', () => {
           accessor: 'shotnum',
           Header: () => 'Shot Number',
           Cell: expect.anything(),
-          filtered: true,
           channelInfo: {
             channel_dtype: 'scalar',
             systemName: 'shotnum',
@@ -131,7 +115,6 @@ describe('channels api functions', () => {
           accessor: 'activeArea',
           Header: () => 'Active Area',
           Cell: expect.anything(),
-          filtered: false,
           channelInfo: {
             channel_dtype: 'scalar',
             systemName: 'activeArea',
@@ -142,7 +125,6 @@ describe('channels api functions', () => {
           accessor: 'activeExperiment',
           Header: () => 'Active Experiment',
           Cell: expect.anything(),
-          filtered: false,
           channelInfo: {
             channel_dtype: 'scalar',
             systemName: 'activeExperiment',
@@ -152,7 +134,6 @@ describe('channels api functions', () => {
         {
           accessor: 'test_1',
           Header: () => 'test_1',
-          filtered: false,
           channelInfo: {
             channel_dtype: 'image',
             systemName: 'test_1',
@@ -161,7 +142,6 @@ describe('channels api functions', () => {
         {
           accessor: 'test_2',
           Header: () => 'test_2',
-          filtered: true,
           channelInfo: {
             channel_dtype: 'waveform',
             systemName: 'test_2',
@@ -171,7 +151,6 @@ describe('channels api functions', () => {
           accessor: 'test_3',
           Header: () => 'test_3',
           Cell: expect.anything(),
-          filtered: false,
           channelInfo: {
             channel_dtype: 'scalar',
             systemName: 'test_3',
@@ -179,7 +158,7 @@ describe('channels api functions', () => {
         },
       ];
 
-      const { result } = renderHook(() => useAvailableColumns(appliedFilters), {
+      const { result } = renderHook(() => useAvailableColumns(), {
         wrapper: hooksWrapperWithProviders(state),
       });
 
@@ -194,7 +173,6 @@ describe('channels api functions', () => {
 
       for (let i = 0; i < data!.length; i++) {
         expect(data![i].accessor).toEqual(expected[i].accessor);
-        expect(data![i]['filtered']).toEqual(expected[i].filtered);
         expect(data![i]['channelInfo']).toEqual(expected[i].channelInfo);
       }
     });
@@ -204,7 +182,7 @@ describe('channels api functions', () => {
         data: [],
       });
 
-      const { result } = renderHook(() => useAvailableColumns([[]]), {
+      const { result } = renderHook(() => useAvailableColumns(), {
         wrapper: hooksWrapperWithProviders(state),
       });
 
@@ -330,34 +308,5 @@ describe('channels api functions', () => {
     it.todo(
       'sends axios request to fetch records and throws an appropriate error on failure'
     );
-  });
-
-  describe('extractChannelsFromTokens', () => {
-    it('returns an array of unique channel values', () => {
-      const timestampToken: Token = {
-        type: 'channel',
-        value: 'timestamp',
-        label: 'Time',
-      };
-      const channelToken: Token = {
-        type: 'channel',
-        value: 'CHANNEL_1',
-        label: 'Channel 1',
-      };
-      const expected = [timestampToken.value, channelToken.value];
-
-      const firstFilter = [operators[0], timestampToken, operators[1]];
-      const secondFilter = [operators[2], channelToken, operators[3]];
-      const thirdFilter = [operators[4], channelToken, operators[5]];
-      const testInput = [firstFilter, secondFilter, thirdFilter];
-
-      const result = extractChannelsFromTokens(testInput);
-      expect(result).toEqual(expected);
-    });
-
-    it('returns an empty array if no channels are present in the filters', () => {
-      const result = extractChannelsFromTokens([[...operators]]);
-      expect(result).toEqual([]);
-    });
   });
 });

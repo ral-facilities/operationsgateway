@@ -71,6 +71,7 @@ describe('Table', () => {
       onDragEnd,
       onColumnWordWrapToggle,
       openFilters,
+      filteredChannelNames: [],
     };
   });
 
