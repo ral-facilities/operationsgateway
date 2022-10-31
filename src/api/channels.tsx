@@ -141,9 +141,9 @@ export const constructColumns = (
         return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
       },
       accessor: channel.systemName,
+      filtered: filteredChannelNames.includes(channel.systemName),
       // TODO: get these from data channel info
       channelInfo: channel,
-      filtered: filteredChannelNames.includes(channel.systemName),
     };
     if (channel.channel_dtype === 'scalar') {
       newColumn.Cell = ({ value }) =>
