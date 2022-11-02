@@ -1,7 +1,7 @@
 import React from 'react';
-import { format, isValid, isEqual, isBefore, parseISO } from 'date-fns';
+import { format, isValid, isEqual, isBefore } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { TextField, Divider, Typography, Box } from '@mui/material';
+import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { changeDateRange } from '../state/slices/searchSlice';
@@ -20,7 +20,7 @@ export interface UpdateFilterParams {
   prevDate: Date | null;
   otherDate: Date | null;
   fromDateOrToDateChanged: 'fromDate' | 'toDate';
-  onChange: (range: 'fromDate' | 'toDate', date?: string) => void;
+  onChange: (value: { fromDate?: string; toDate?: string } | null) => void;
 }
 
 export function updateFilter({
@@ -30,43 +30,40 @@ export function updateFilter({
   fromDateOrToDateChanged,
   onChange,
 }: UpdateFilterParams): void {
-  if (
-    date &&
-    isValid(date) &&
-    !datesEqual(date, otherDate) &&
-    (!prevDate || !datesEqual(date, prevDate))
-  ) {
-    const validFromDate =
-      fromDateOrToDateChanged === 'fromDate' &&
-      (!otherDate || isBefore(date, otherDate));
-    const validToDate =
-      fromDateOrToDateChanged === 'toDate' &&
-      (!otherDate || !isBefore(date, otherDate));
-
-    if (validFromDate || validToDate) {
-      onChange(fromDateOrToDateChanged, format(date, 'yyyy-MM-dd HH:mm:ss'));
+  if (!datesEqual(date, prevDate)) {
+    if (
+      (date === null || !isValid(date)) &&
+      (otherDate === null || !isValid(otherDate))
+    ) {
+      onChange(null);
+    } else {
+      onChange({
+        [fromDateOrToDateChanged]:
+          date && isValid(date)
+            ? format(date, 'yyyy-MM-dd HH:mm:ss')
+            : undefined,
+        [fromDateOrToDateChanged === 'fromDate' ? 'toDate' : 'fromDate']:
+          otherDate && isValid(otherDate)
+            ? format(otherDate, 'yyyy-MM-dd HH:mm:ss')
+            : undefined,
+      });
     }
-  } else if (!date) {
-    onChange(fromDateOrToDateChanged);
   }
 }
 
 export interface DateTimeFilterProps {
-  onChange: (range: 'fromDate' | 'toDate', date?: string) => void;
-  receivedFromDate?: string;
-  receivedToDate?: string;
+  onChange: (value: { fromDate?: string; toDate?: string } | null) => void;
+  value: { fromDate?: string; toDate?: string } | undefined;
 }
 
 export const DateTimeFilter = (
   props: DateTimeFilterProps
 ): React.ReactElement => {
-  const { onChange, receivedFromDate, receivedToDate } = props;
-
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    receivedFromDate ? parseISO(receivedFromDate) : null
+    props.value?.fromDate ? new Date(props.value.fromDate) : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    receivedToDate ? parseISO(receivedToDate) : null
+    props.value?.toDate ? new Date(props.value.toDate) : null
   );
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
@@ -83,7 +80,7 @@ export const DateTimeFilter = (
       }}
     >
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <form style={{ display: 'inline-grid', padding: 3 }}>
+        <Grid container>
           <Typography>From date/time</Typography>
           <DateTimePicker
             inputFormat="yyyy-MM-dd HH:mm:ss"
@@ -91,7 +88,7 @@ export const DateTimeFilter = (
             value={fromDate}
             maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
             componentsProps={{
-              actionBar: { actions: ['clear'] },
+              actionBar: { actions: ['clear', 'accept', 'cancel'] },
             }}
             onChange={(date) => {
               setFromDate(date as Date);
@@ -101,21 +98,31 @@ export const DateTimeFilter = (
                   prevDate: fromDate,
                   otherDate: toDate,
                   fromDateOrToDateChanged: 'fromDate',
-                  onChange: onChange,
+                  onChange: props.onChange,
                 });
               }
             }}
             onAccept={(date) => {
+              setPopupOpen(false);
               updateFilter({
                 date: date as Date,
                 prevDate: fromDate,
                 otherDate: toDate,
                 fromDateOrToDateChanged: 'fromDate',
-                onChange: onChange,
+                onChange: props.onChange,
               });
             }}
             onOpen={() => setPopupOpen(true)}
-            onClose={() => setPopupOpen(false)}
+            onClose={() => {
+              setPopupOpen(false);
+              updateFilter({
+                date: fromDate,
+                prevDate: fromDate,
+                otherDate: toDate,
+                fromDateOrToDateChanged: 'fromDate',
+                onChange: props.onChange,
+              });
+            }}
             views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
             OpenPickerButtonProps={{
               size: 'small',
@@ -144,13 +151,13 @@ export const DateTimeFilter = (
               );
             }}
           />
-        </form>
+        </Grid>
         <Divider
           orientation="vertical"
           flexItem
           sx={{ margin: 2, borderBottomWidth: 5 }}
         />
-        <form style={{ display: 'inline-grid', padding: 3 }}>
+        <Grid container>
           <Typography>To date/time</Typography>
           <DateTimePicker
             inputFormat="yyyy-MM-dd HH:mm:ss"
@@ -158,7 +165,7 @@ export const DateTimeFilter = (
             value={toDate}
             minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
             componentsProps={{
-              actionBar: { actions: ['clear'] },
+              actionBar: { actions: ['clear', 'accept', 'cancel'] },
             }}
             onChange={(date) => {
               setToDate(date as Date);
@@ -168,21 +175,31 @@ export const DateTimeFilter = (
                   prevDate: toDate,
                   otherDate: fromDate,
                   fromDateOrToDateChanged: 'toDate',
-                  onChange: onChange,
+                  onChange: props.onChange,
                 });
               }
             }}
             onAccept={(date) => {
+              setPopupOpen(false);
               updateFilter({
                 date: date as Date,
                 prevDate: toDate,
                 otherDate: fromDate,
                 fromDateOrToDateChanged: 'toDate',
-                onChange: onChange,
+                onChange: props.onChange,
               });
             }}
             onOpen={() => setPopupOpen(true)}
-            onClose={() => setPopupOpen(false)}
+            onClose={() => {
+              setPopupOpen(false);
+              updateFilter({
+                date: toDate,
+                prevDate: toDate,
+                otherDate: fromDate,
+                fromDateOrToDateChanged: 'toDate',
+                onChange: props.onChange,
+              });
+            }}
             views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
             OpenPickerButtonProps={{
               size: 'small',
@@ -211,7 +228,7 @@ export const DateTimeFilter = (
               );
             }}
           />
-        </form>
+        </Grid>
       </LocalizationProvider>
     </Box>
   );
@@ -224,8 +241,8 @@ const DateTimeInputBox = (): React.ReactElement => {
 
   const dispatch = useAppDispatch();
   const handleDateTimeChange = React.useCallback(
-    (range: 'fromDate' | 'toDate', date?: string) => {
-      dispatch(changeDateRange({ range, date }));
+    (value: { fromDate?: string; toDate?: string } | null) => {
+      dispatch(changeDateRange(value ?? null));
     },
     [dispatch]
   );
@@ -239,8 +256,7 @@ const DateTimeInputBox = (): React.ReactElement => {
       }}
     >
       <DateTimeFilter
-        receivedFromDate={dateRange?.fromDate}
-        receivedToDate={dateRange?.toDate}
+        value={{ fromDate: dateRange?.fromDate, toDate: dateRange?.toDate }}
         onChange={handleDateTimeChange}
       />
       <div style={{ marginLeft: 15, marginRight: 15 }} />
