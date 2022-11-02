@@ -23,9 +23,9 @@ export const searchSlice = createSlice({
     // Use the PayloadAction type to declare the contents of `action.payload`
     changeDateRange: (
       state,
-      action: PayloadAction<{ fromDate?: string; toDate?: string } | null>
+      action: PayloadAction<{ fromDate?: string; toDate?: string }>
     ) => {
-      state.dateRange = action.payload ?? {};
+      state.dateRange = action.payload;
     },
   },
 });
