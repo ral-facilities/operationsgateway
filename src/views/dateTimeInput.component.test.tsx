@@ -257,7 +257,7 @@ describe('DateTimeFilter tests', () => {
     screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss');
   });
 
-  it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {
+  it('handles invalid date-time ranges correctly by not calling onChange and displaying helper text', async () => {
     createView();
 
     const dateFilterFromDate = screen.getByRole('textbox', {
@@ -284,6 +284,36 @@ describe('DateTimeFilter tests', () => {
       fromDate: '2022-01-01 00:00:00',
     });
     expect(onChange.mock.calls.length).toEqual(1);
+  });
+
+  it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {
+    createView();
+
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
+    await userEvent.type(dateFilterFromDate, '2022-01-00 00:00:00');
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    let helperTexts = screen.getAllByText(
+      'Date-time format: yyyy-MM-dd HH:mm:ss'
+    );
+
+    // One helper text below the fromDate picker
+    expect(helperTexts.length).toEqual(1);
+
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
+    await userEvent.type(dateFilterToDate, '2023-01-00 00:00:00');
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    helperTexts = screen.getAllByText('Date-time format: yyyy-MM-dd HH:mm:ss');
+
+    // One helper text below the fromDate picker
+    expect(helperTexts.length).toEqual(2);
   });
 });
 
