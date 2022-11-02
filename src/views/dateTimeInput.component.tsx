@@ -88,7 +88,7 @@ export const DateTimeFilter = (
             value={fromDate}
             maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
             componentsProps={{
-              actionBar: { actions: ['clear', 'accept', 'cancel'] },
+              actionBar: { actions: ['clear', 'cancel', 'accept'] },
             }}
             onChange={(date) => {
               setFromDate(date as Date);
@@ -165,7 +165,7 @@ export const DateTimeFilter = (
             value={toDate}
             minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
             componentsProps={{
-              actionBar: { actions: ['clear', 'accept', 'cancel'] },
+              actionBar: { actions: ['clear', 'cancel', 'accept'] },
             }}
             onChange={(date) => {
               setToDate(date as Date);
