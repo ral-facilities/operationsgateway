@@ -82,7 +82,9 @@ describe('updateFilter function', () => {
   it('calls onChange if otherDate is null', () => {
     updateFilter(props);
 
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
   });
 
   it('calls onChange if valid fromDate', () => {
@@ -91,7 +93,10 @@ describe('updateFilter function', () => {
       otherDate: new Date('2022-01-02T00:00:00'),
     });
 
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+      toDate: '2022-01-02 00:00:00',
+    });
   });
 
   it('calls onChange if valid toDate', () => {
@@ -101,7 +106,10 @@ describe('updateFilter function', () => {
       fromDateOrToDateChanged: 'toDate',
     });
 
-    expect(onChange).toHaveBeenCalledWith('toDate', '2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2021-01-01 00:00:00',
+      toDate: '2022-01-01 00:00:00',
+    });
   });
 
   it("doesn't call onChange if dates are equal", () => {
@@ -155,6 +163,7 @@ describe('DateTimeFilter tests', () => {
     userEvent.setup();
     props = {
       onChange: onChange,
+      value: {},
     };
   });
 
@@ -172,31 +181,60 @@ describe('DateTimeFilter tests', () => {
   it('pre-fills dates if specified', () => {
     props = {
       ...props,
-      receivedFromDate: '2022-01-01 00:00:00',
-      receivedToDate: '2022-01-02 00:00:00',
+      value: {
+        fromDate: '2022-01-01 00:00:00',
+        toDate: '2022-01-02 00:00:00',
+      },
     };
-    const view = createView();
+    createView();
 
-    expect(view.asFragment()).toMatchSnapshot();
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
+    expect(dateFilterFromDate).toHaveValue('2022-01-01 00:00:00');
+    expect(dateFilterToDate).toHaveValue('2022-01-02 00:00:00');
   });
 
   it('calls onChange when filling out date-time inputs', async () => {
     createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
 
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+      toDate: '2022-01-02 00:00:00',
+    });
   });
 
   it('calls onChange if a previous value is cleared', async () => {
     createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
+
     await userEvent.clear(dateFilterFromDate);
 
-    expect(onChange).toHaveBeenLastCalledWith('fromDate');
+    expect(onChange).toHaveBeenLastCalledWith({});
   });
 
   it.todo('calls onChange when opening calendar and selecting elements');
@@ -204,7 +242,9 @@ describe('DateTimeFilter tests', () => {
   it('displays helper text while typing date-time', async () => {
     createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-');
 
     screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss');
@@ -213,16 +253,19 @@ describe('DateTimeFilter tests', () => {
   it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {
     createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
 
-    expect(onChange).toHaveBeenLastCalledWith(
-      'fromDate',
-      '2022-01-01 00:00:00'
-    );
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
     expect(onChange.mock.calls.length).toEqual(1);
 
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
     await userEvent.type(dateFilterToDate, '2021-01-01 00:00:00');
 
     const helperTexts = screen.getAllByText('Invalid date-time range');
@@ -230,10 +273,9 @@ describe('DateTimeFilter tests', () => {
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
 
-    expect(onChange).toHaveBeenLastCalledWith(
-      'fromDate',
-      '2022-01-01 00:00:00'
-    );
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
     expect(onChange.mock.calls.length).toEqual(1);
   });
 });
@@ -275,14 +317,18 @@ describe('DateTimeInputBox tests', () => {
   it('updates start/end date fields on date-time change', async () => {
     const { store } = createView();
 
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
 
     expect(store.getState().search.dateRange.fromDate).toEqual(
       '2022-01-01 00:00:00'
     );
 
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
     await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
 
     expect(store.getState().search.dateRange.toDate).toEqual(
