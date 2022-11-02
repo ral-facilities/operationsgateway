@@ -81,9 +81,16 @@ describe('updateFilter function', () => {
 
   it('calls onChange if otherDate is null', () => {
     updateFilter(props);
-
     expect(onChange).toHaveBeenLastCalledWith({
       fromDate: '2022-01-01 00:00:00',
+    });
+
+    updateFilter({
+      ...props,
+      fromDateOrToDateChanged: 'toDate',
+    });
+    expect(onChange).toHaveBeenLastCalledWith({
+      toDate: '2022-01-01 00:00:00',
     });
   });
 
