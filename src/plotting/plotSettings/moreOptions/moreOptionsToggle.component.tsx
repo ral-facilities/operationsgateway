@@ -3,7 +3,7 @@ import { Box, IconButton } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
 import MoreOptionsBox from './moreOptionsBox.component';
 import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { useClickOutside } from './hooks';
+import { useClickOutside } from '../../../hooks';
 
 const MoreOptionsToggle = (props: MoreOptionsProps) => {
   const { name: channelName } = props.channel;

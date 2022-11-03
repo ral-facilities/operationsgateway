@@ -1,12 +1,19 @@
 import React from 'react';
-import { Box } from '@mui/material';
 import DateTimeSearch from './components/dateTimeSearch.component';
+import Timeframe from './components/timeframe.component';
 
 const SearchBar = (): React.ReactElement => {
   return (
-    <Box>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+      }}
+    >
       <DateTimeSearch />
-    </Box>
+      <Timeframe />
+    </div>
   );
 };
 

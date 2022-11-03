@@ -77,7 +77,7 @@ export const DateTimeFilter = (
   return (
     <Box
       sx={{
-        border: 'solid',
+        border: '1.5px solid',
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'row',
@@ -243,7 +243,6 @@ const DateTimeSearch = (): React.ReactElement => {
       style={{
         display: 'flex',
         flexDirection: 'row',
-        width: '500px',
       }}
     >
       <DateTimeFilter

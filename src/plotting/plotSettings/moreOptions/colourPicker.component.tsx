@@ -1,7 +1,7 @@
 import React from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { Box } from '@mui/material';
-import { useClickOutside } from './hooks';
+import { useClickOutside } from '../../../hooks';
 
 type ColourPickerProps = {
   channelName: string;
