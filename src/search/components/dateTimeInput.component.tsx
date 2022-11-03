@@ -3,8 +3,9 @@ import { format, isValid, isEqual, isBefore, parseISO } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { changeDateRange } from '../state/slices/searchSlice';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { changeDateRange } from '../../state/slices/searchSlice';
+import { CalendarMonth } from '@mui/icons-material';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -82,9 +83,10 @@ export const DateTimeFilter = (
         flexDirection: 'row',
       }}
     >
+      <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <form style={{ display: 'inline-grid', padding: 3 }}>
-          <Typography>From date/time</Typography>
+          <Typography>From date</Typography>
           <DateTimePicker
             inputFormat="yyyy-MM-dd HH:mm:ss"
             mask="____-__-__ __:__:__"
@@ -151,7 +153,7 @@ export const DateTimeFilter = (
           sx={{ margin: 2, borderBottomWidth: 5 }}
         />
         <form style={{ display: 'inline-grid', padding: 3 }}>
-          <Typography>To date/time</Typography>
+          <Typography>To date</Typography>
           <DateTimePicker
             inputFormat="yyyy-MM-dd HH:mm:ss"
             mask="____-__-__ __:__:__"

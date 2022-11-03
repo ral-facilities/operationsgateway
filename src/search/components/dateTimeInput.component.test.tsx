@@ -13,9 +13,9 @@ import {
   cleanupDatePickerWorkaround,
   getInitialState,
   renderComponentWithStore,
-} from '../setupTests';
+} from '../../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
-import { RootState } from '../state/store';
+import { RootState } from '../../state/store';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
