@@ -221,7 +221,7 @@ export const DateTimeFilter = (
 
 DateTimeFilter.displayName = 'DateTimeFilter';
 
-const DateTimeInputBox = (): React.ReactElement => {
+const DateTimeSearch = (): React.ReactElement => {
   const dateRange = useAppSelector((state) => state.search.dateRange);
 
   const dispatch = useAppDispatch();
@@ -250,6 +250,6 @@ const DateTimeInputBox = (): React.ReactElement => {
   );
 };
 
-DateTimeInputBox.displayName = 'DateTimeInputBox';
+DateTimeSearch.displayName = 'DateTimeSearch';
 
-export default DateTimeInputBox;
+export default DateTimeSearch;

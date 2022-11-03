@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import DateTimeInputBox from './components/dateTimeInput.component';
+import DateTimeSearch from './components/dateTimeSearch.component';
 
 const SearchBar = (): React.ReactElement => {
   return (
     <Box>
-      <DateTimeInputBox />
+      <DateTimeSearch />
     </Box>
   );
 };
+
+SearchBar.displayName = 'SearchBar';
 
 export default SearchBar;
