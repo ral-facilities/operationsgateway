@@ -138,6 +138,9 @@ export const DateTimeFilter = (
                     ...renderProps.inputProps,
                     placeholder: 'From...',
                     'aria-label': 'from, date-time input',
+                    sx: {
+                      fontSize: 12,
+                    },
                   }}
                   variant="standard"
                   error={error}
@@ -150,7 +153,7 @@ export const DateTimeFilter = (
         <Divider
           orientation="vertical"
           flexItem
-          sx={{ margin: 2, borderBottomWidth: 5 }}
+          sx={{ margin: 1, borderBottomWidth: 5 }}
         />
         <form style={{ display: 'inline-grid', padding: 3 }}>
           <Typography>To date</Typography>
@@ -205,6 +208,9 @@ export const DateTimeFilter = (
                     ...renderProps.inputProps,
                     placeholder: 'To...',
                     'aria-label': 'to, date-time input',
+                    sx: {
+                      fontSize: 12,
+                    },
                   }}
                   variant="standard"
                   error={error}
