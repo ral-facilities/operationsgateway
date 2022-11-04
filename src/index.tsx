@@ -11,6 +11,7 @@ import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { store } from './state/store';
 import { Provider } from 'react-redux';
+import './index.css';
 
 export const pluginName = 'operationsgateway';
 
