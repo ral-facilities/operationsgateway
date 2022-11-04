@@ -250,15 +250,17 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
         >
           {isFiltered && (
-            <IconButton
-              aria-label="open filters"
-              id={`${dataKey}-filter-icon`}
-              onClick={() => openFilters(dataKey)}
-              size="small"
-              sx={{ left: 5, bottom: 2 }}
-            >
-              <FilterAlt fontSize="inherit" />
-            </IconButton>
+            <div>
+              <IconButton
+                aria-label="open filters"
+                id={`${dataKey}-filter-icon`}
+                onClick={() => openFilters(dataKey)}
+                size="small"
+                sx={{ left: 5 }}
+              >
+                <FilterAlt fontSize="inherit" />
+              </IconButton>
+            </div>
           )}
           <ColumnMenu
             dataKey={dataKey}
