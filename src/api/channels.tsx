@@ -15,7 +15,11 @@ import { useAppSelector } from '../state/hooks';
 export const generateChannelMetadata = (
   records: Record[]
 ): FullChannelMetadata[] => {
+  if (!records || records.length === 0) return [];
+
   const metadata: FullChannelMetadata[] = [];
+
+  // This metadata is always present in every record
   const timestampMetadata: FullScalarChannelMetadata = {
     systemName: 'timestamp',
     userFriendlyName: 'Time',
@@ -143,16 +147,12 @@ export const getScalarChannels = (
   ) as FullScalarChannelMetadata[];
 };
 
-const useAvailableColumnsOptions = {
-  select: (data: FullChannelMetadata[]) => constructColumns(data),
-};
-
 const useScalarChannelsOptions = {
   select: (data: FullChannelMetadata[]) => getScalarChannels(data),
 };
 
-export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
-  return useChannels(useAvailableColumnsOptions);
+const useAvailableColumnsOptions = {
+  select: (data: FullChannelMetadata[]) => constructColumns(data),
 };
 
 export const useScalarChannels = (): UseQueryResult<
@@ -160,4 +160,8 @@ export const useScalarChannels = (): UseQueryResult<
   AxiosError
 > => {
   return useChannels(useScalarChannelsOptions);
+};
+
+export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
+  return useChannels(useAvailableColumnsOptions);
 };

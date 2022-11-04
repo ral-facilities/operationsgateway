@@ -60,6 +60,8 @@ export interface TableProps {
   onColumnWordWrapToggle: (column: string) => void;
   onDragEnd: (result: DropResult) => void;
   onColumnClose: (column: string) => void;
+  openFilters: (headerName: string) => void;
+  filteredChannelNames: string[];
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -80,6 +82,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onColumnWordWrapToggle,
     onDragEnd,
     onColumnClose,
+    openFilters,
+    filteredChannelNames,
   } = props;
 
   /*
@@ -223,6 +227,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                       columnStates[dataKey]?.wordWrap ?? false
                                     }
                                     onToggleWordWrap={onColumnWordWrapToggle}
+                                    isFiltered={filteredChannelNames.includes(
+                                      dataKey
+                                    )}
+                                    openFilters={openFilters}
                                   />
                                 );
                               })}

@@ -9,6 +9,20 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
+import { keyframes } from '@emotion/react';
+
+// Flash animation
+// Highlights chips in the autocomplete
+// Used when the filter icon in a table data header is clicked to emphasise it when the dialog appears
+const flash = keyframes`
+  0% {
+    background-color: #67becc;
+  }
+  100% {
+    background-color: #ebebeb;
+  }
+`;
+const flashAnimationLength = 1500; // milliseconds
 
 interface FilterInputProps {
   channels: Token[];
@@ -16,6 +30,7 @@ interface FilterInputProps {
   setValue: (value: Token[]) => void;
   error: string;
   setError: (error: string) => void;
+  flashingFilterValue?: string;
 }
 
 // use matchFrom start here as otherwise it's hard to input e.g. the number 1 as there
@@ -27,7 +42,8 @@ const filterOptions = createFilterOptions<Token>({
 });
 
 const FilterInput = (props: FilterInputProps) => {
-  const { channels, value, setValue, error, setError } = props;
+  const { channels, value, setValue, error, setError, flashingFilterValue } =
+    props;
   const options = React.useMemo(() => {
     return [...operators, ...channels];
   }, [channels]);
@@ -118,6 +134,15 @@ const FilterInput = (props: FilterInputProps) => {
     }
   }, [value, setError]);
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(!!flashingFilterValue);
+
+  // Stop the flash animation from playing after 1500ms
+  // This ensures the chip doesn't flash every time it is selected from the autocomplete
+  setTimeout(() => {
+    setFlashAnimationPlaying(false);
+  }, flashAnimationLength);
+
   return (
     <Autocomplete
       autoHighlight
@@ -203,7 +228,17 @@ const FilterInput = (props: FilterInputProps) => {
       isOptionEqualToValue={(option, value) => false}
       renderTags={(value, getTagProps) => {
         tags = value.map((option: Token, index: number) => (
-          <Chip label={option.label} size="small" {...getTagProps({ index })} />
+          <Chip
+            label={option.label}
+            size="small"
+            sx={{
+              ...(flashAnimationPlaying &&
+                flashingFilterValue === option.value && {
+                  animation: `${flash} ${flashAnimationLength}ms`,
+                }),
+            }}
+            {...getTagProps({ index })}
+          />
         ));
         return null;
       }}
