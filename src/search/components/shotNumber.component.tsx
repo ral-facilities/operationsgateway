@@ -1,12 +1,58 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
 const ShotNumberPopup = (): React.ReactElement => {
+  const [min, setMin] = React.useState<number>(0);
+  const [max, setMax] = React.useState<number>(99999999);
+
+  const invalidRange = min > max;
+
   return (
-    <div>
-      <Typography>Select your shot number</Typography>
+    <div style={{ paddingTop: 5, paddingLeft: 5 }}>
+      <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
+        Select your shot number
+      </Typography>
+      <Divider
+        sx={{
+          marginBottom: 2,
+          borderBottomWidth: 2,
+          backgroundColor: 'black',
+          width: '90%',
+        }}
+      />
+      <Grid container spacing={1}>
+        <Grid item xs={5}>
+          <TextField
+            name="shotnumber min"
+            label="Min"
+            value={min}
+            type="number"
+            size="small"
+            inputProps={{ min: 0, max: 99999999 }}
+            onChange={(event) => setMin(Number(event.target.value))}
+            error={invalidRange}
+            {...(invalidRange && { helperText: 'Invalid range' })}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <p>to</p>
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            name="shotnumber max"
+            label="Max"
+            value={max}
+            type="number"
+            size="small"
+            inputProps={{ min: 0, max: 99999999 }}
+            onChange={(event) => setMax(Number(event.target.value))}
+            error={invalidRange}
+            {...(invalidRange && { helperText: 'Invalid range' })}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
