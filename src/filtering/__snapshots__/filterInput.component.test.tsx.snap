@@ -18,6 +18,7 @@ exports[`Filter input component renders a autocomplete with chips for any values
       </label>
       <div
         class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+        data-id="Input"
       >
         <div
           class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-fa7jbv-MuiButtonBase-root-MuiChip-root"
@@ -29,29 +30,6 @@ exports[`Filter input component renders a autocomplete with chips for any values
             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
           >
             timestamp
-          </span>
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconSmall MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
-            data-testid="CancelIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
-            />
-          </svg>
-        </div>
-        <div
-          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-fa7jbv-MuiButtonBase-root-MuiChip-root"
-          data-tag-index="1"
-          role="button"
-          tabindex="-1"
-        >
-          <span
-            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-          >
-            is not null
           </span>
           <svg
             aria-hidden="true"
@@ -79,30 +57,27 @@ exports[`Filter input component renders a autocomplete with chips for any values
           value=""
         />
         <div
-          class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+          class="MuiButtonBase-root MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-deletable MuiChip-deletableColorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-fa7jbv-MuiButtonBase-root-MuiChip-root"
+          data-tag-index="1"
+          role="button"
+          tabindex="-1"
         >
-          <button
-            aria-label="Clear"
-            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-            tabindex="-1"
-            title="Clear"
-            type="button"
+          <span
+            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
           >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-              data-testid="CloseIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-              />
-            </svg>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            is not null
+          </span>
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiChip-deleteIcon MuiChip-deleteIconSmall MuiChip-deleteIconColorDefault MuiChip-deleteIconFilledColorDefault css-i4bv87-MuiSvgIcon-root"
+            data-testid="CancelIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
             />
-          </button>
+          </svg>
         </div>
         <fieldset
           aria-hidden="true"
@@ -131,15 +106,16 @@ exports[`Filter input component renders an error if there is one 1`] = `
       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
-        data-shrink="false"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-error css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="true"
         for=":r2:"
         id=":r2:-label"
       >
         Filter
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiAutocomplete-inputRoot css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+        data-id="Input"
       >
         <input
           aria-autocomplete="list"
@@ -148,7 +124,7 @@ exports[`Filter input component renders an error if there is one 1`] = `
           aria-invalid="true"
           autocapitalize="none"
           autocomplete="off"
-          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiAutocomplete-input MuiAutocomplete-inputFocused css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+          class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
           id=":r2:"
           role="combobox"
           spellcheck="false"
@@ -160,7 +136,7 @@ exports[`Filter input component renders an error if there is one 1`] = `
           class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-1ftyaf0"
+            class="css-1in441m"
           >
             <span>
               Filter
