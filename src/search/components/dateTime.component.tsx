@@ -227,7 +227,7 @@ export const DateTimeFilter = (
 
 DateTimeFilter.displayName = 'DateTimeFilter';
 
-const DateTimeSearch = (): React.ReactElement => {
+const DateTime = (): React.ReactElement => {
   const dateRange = useAppSelector((state) => state.search.dateRange);
 
   const dispatch = useAppDispatch();
@@ -239,22 +239,16 @@ const DateTimeSearch = (): React.ReactElement => {
   );
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-      }}
-    >
+    <div>
       <DateTimeFilter
         receivedFromDate={dateRange?.fromDate}
         receivedToDate={dateRange?.toDate}
         onChange={handleDateTimeChange}
       />
-      <div style={{ marginLeft: 15, marginRight: 15 }} />
     </div>
   );
 };
 
-DateTimeSearch.displayName = 'DateTimeSearch';
+DateTime.displayName = 'DateTime';
 
-export default DateTimeSearch;
+export default DateTime;

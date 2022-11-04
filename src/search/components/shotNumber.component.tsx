@@ -1,17 +1,17 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { Schedule } from '@mui/icons-material';
+import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-const TimeframePopup = (): React.ReactElement => {
+const ShotNumberPopup = (): React.ReactElement => {
   return (
     <div>
-      <Typography>Select your timeframe</Typography>
+      <Typography>Select your shot number</Typography>
     </div>
   );
 };
 
-const Timeframe = (): React.ReactElement => {
+const ShotNumber = (): React.ReactElement => {
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -33,11 +33,11 @@ const Timeframe = (): React.ReactElement => {
         }}
         onClick={() => toggle(!isOpen)}
       >
-        <Schedule sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+        <Adjust sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
         <div>
-          <Typography>Timeframe</Typography>
+          <Typography>Shot Number</Typography>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            0
+            Select
           </Typography>
         </div>
       </Box>
@@ -54,13 +54,13 @@ const Timeframe = (): React.ReactElement => {
           }}
           ref={popover}
         >
-          <TimeframePopup />
+          <ShotNumberPopup />
         </Box>
       )}
     </Box>
   );
 };
 
-Timeframe.displayName = 'Timeframe';
+ShotNumber.displayName = 'ShotNumber';
 
-export default Timeframe;
+export default ShotNumber;

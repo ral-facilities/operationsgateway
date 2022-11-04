@@ -1,11 +1,11 @@
 import React from 'react';
-import DateTimeInputBox, {
+import DateTime, {
   DateTimeFilter,
   DateTimeFilterProps,
   datesEqual,
   updateFilter,
   UpdateFilterParams,
-} from './dateTimeInput.component';
+} from './dateTime.component';
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
@@ -238,11 +238,11 @@ describe('DateTimeFilter tests', () => {
   });
 });
 
-describe('DateTimeInputBox tests', () => {
+describe('DateTime tests', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(<DateTimeInputBox />, {
+    return renderComponentWithStore(<DateTime />, {
       preloadedState: initialState,
     });
   };
