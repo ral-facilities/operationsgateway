@@ -335,6 +335,48 @@ describe('DateTimeFilter tests', () => {
     // One helper text below the fromDate picker
     expect(helperTexts.length).toEqual(2);
   });
+
+  it('does not call onChange twice when the same date is parsed from two different values', async () => {
+    // 2022-01-01 00:00:0 and 2022-01-01 00:00:00 parse to the same valid date value but we don't want to call onChange twice
+    // This test verifies that doesn't happen
+
+    createView();
+
+    const dateFilterFromDate = screen.getByRole('textbox', {
+      name: 'from, date-time input',
+    });
+    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:0');
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
+    expect(onChange.mock.calls.length).toEqual(1);
+    await userEvent.type(dateFilterFromDate, '0');
+    expect(dateFilterFromDate).toHaveValue('2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      fromDate: '2022-01-01 00:00:00',
+    });
+    expect(onChange.mock.calls.length).toEqual(1);
+
+    await userEvent.clear(dateFilterFromDate);
+    onChange.mockClear();
+
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
+    await userEvent.type(dateFilterToDate, '2022-01-01 00:00:0');
+
+    expect(onChange).toHaveBeenLastCalledWith({
+      toDate: '2022-01-01 00:00:00',
+    });
+    expect(onChange.mock.calls.length).toEqual(1);
+    await userEvent.type(dateFilterToDate, '0');
+    expect(dateFilterToDate).toHaveValue('2022-01-01 00:00:00');
+    expect(onChange).toHaveBeenLastCalledWith({
+      toDate: '2022-01-01 00:00:00',
+    });
+    expect(onChange.mock.calls.length).toEqual(1);
+  });
 });
 
 describe('DateTimeInputBox tests', () => {
