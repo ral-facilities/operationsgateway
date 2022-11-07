@@ -228,19 +228,38 @@ describe('DateTimeFilter tests', () => {
   });
 
   it('calls onChange if a previous value is cleared', async () => {
-    createView();
+    const { rerender } = createView();
 
     const dateFilterFromDate = screen.getByRole('textbox', {
       name: 'from, date-time input',
     });
+    const dateFilterToDate = screen.getByRole('textbox', {
+      name: 'to, date-time input',
+    });
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
 
     expect(onChange).toHaveBeenLastCalledWith({
       fromDate: '2022-01-01 00:00:00',
+      toDate: '2022-01-02 00:00:00',
     });
 
-    await userEvent.clear(dateFilterFromDate);
+    // Date fields' previous values have now changed, update props to reflect this
+    props = {
+      ...props,
+      value: {
+        fromDate: '2022-01-01 00:00:00',
+        toDate: '2022-01-02 00:00:00',
+      },
+    };
+    rerender(<DateTimeFilter {...props} />);
 
+    await userEvent.clear(dateFilterFromDate);
+    expect(onChange).toHaveBeenLastCalledWith({
+      toDate: '2022-01-02 00:00:00',
+    });
+
+    await userEvent.clear(dateFilterToDate);
     expect(onChange).toHaveBeenLastCalledWith({});
   });
 
@@ -268,7 +287,7 @@ describe('DateTimeFilter tests', () => {
     expect(onChange).toHaveBeenLastCalledWith({
       fromDate: '2022-01-01 00:00:00',
     });
-    expect(onChange.mock.calls.length).toEqual(1);
+    const expectedCallCount = onChange.mock.calls.length;
 
     const dateFilterToDate = screen.getByRole('textbox', {
       name: 'to, date-time input',
@@ -283,7 +302,8 @@ describe('DateTimeFilter tests', () => {
     expect(onChange).toHaveBeenLastCalledWith({
       fromDate: '2022-01-01 00:00:00',
     });
-    expect(onChange.mock.calls.length).toEqual(1);
+    // onChange should not have been called again
+    expect(onChange.mock.calls.length).toEqual(expectedCallCount);
   });
 
   it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {

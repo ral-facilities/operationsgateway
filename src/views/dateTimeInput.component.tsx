@@ -68,6 +68,13 @@ export const DateTimeFilter = (
 
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
+  const initialFromDate = props.value?.fromDate
+    ? new Date(props.value.fromDate)
+    : null;
+  const initialToDate = props.value?.toDate
+    ? new Date(props.value.toDate)
+    : null;
+
   return (
     <Box
       sx={{
@@ -94,7 +101,7 @@ export const DateTimeFilter = (
               if ((date == null || isValid(date as Date)) && !popupOpen) {
                 updateFilter({
                   date: date as Date,
-                  prevDate: fromDate,
+                  prevDate: initialFromDate,
                   otherDate: toDate,
                   fromDateOrToDateChanged: 'fromDate',
                   onChange: props.onChange,
@@ -106,23 +113,14 @@ export const DateTimeFilter = (
               setPopupOpen(false);
               updateFilter({
                 date: date as Date,
-                prevDate: fromDate,
+                prevDate: initialFromDate,
                 otherDate: toDate,
                 fromDateOrToDateChanged: 'fromDate',
                 onChange: props.onChange,
               });
             }}
             onOpen={() => setPopupOpen(true)}
-            onClose={() => {
-              setPopupOpen(false);
-              updateFilter({
-                date: fromDate,
-                prevDate: fromDate,
-                otherDate: toDate,
-                fromDateOrToDateChanged: 'fromDate',
-                onChange: props.onChange,
-              });
-            }}
+            onClose={() => setPopupOpen(false)}
             views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
             OpenPickerButtonProps={{
               size: 'small',
@@ -176,7 +174,7 @@ export const DateTimeFilter = (
               if ((date == null || isValid(date as Date)) && !popupOpen) {
                 updateFilter({
                   date: date as Date,
-                  prevDate: toDate,
+                  prevDate: initialToDate,
                   otherDate: fromDate,
                   fromDateOrToDateChanged: 'toDate',
                   onChange: props.onChange,
@@ -188,23 +186,14 @@ export const DateTimeFilter = (
               setPopupOpen(false);
               updateFilter({
                 date: date as Date,
-                prevDate: toDate,
+                prevDate: initialToDate,
                 otherDate: fromDate,
                 fromDateOrToDateChanged: 'toDate',
                 onChange: props.onChange,
               });
             }}
             onOpen={() => setPopupOpen(true)}
-            onClose={() => {
-              setPopupOpen(false);
-              updateFilter({
-                date: toDate,
-                prevDate: toDate,
-                otherDate: fromDate,
-                fromDateOrToDateChanged: 'toDate',
-                onChange: props.onChange,
-              });
-            }}
+            onClose={() => setPopupOpen(false)}
             views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
             OpenPickerButtonProps={{
               size: 'small',
