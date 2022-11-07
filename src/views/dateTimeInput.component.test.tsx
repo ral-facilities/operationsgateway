@@ -287,7 +287,7 @@ describe('DateTimeFilter tests', () => {
     expect(onChange).toHaveBeenLastCalledWith({
       fromDate: '2022-01-01 00:00:00',
     });
-    const expectedCallCount = onChange.mock.calls.length;
+    expect(onChange.mock.calls.length).toEqual(1);
 
     const dateFilterToDate = screen.getByRole('textbox', {
       name: 'to, date-time input',
@@ -303,7 +303,7 @@ describe('DateTimeFilter tests', () => {
       fromDate: '2022-01-01 00:00:00',
     });
     // onChange should not have been called again
-    expect(onChange.mock.calls.length).toEqual(expectedCallCount);
+    expect(onChange.mock.calls.length).toEqual(1);
   });
 
   it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {

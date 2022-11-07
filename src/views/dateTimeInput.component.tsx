@@ -98,6 +98,7 @@ export const DateTimeFilter = (
             // onChange handles user-input date-time changes
             onChange={(date) => {
               setFromDate(date as Date);
+              if (datesEqual(date, fromDate)) return;
               if ((date == null || isValid(date as Date)) && !popupOpen) {
                 updateFilter({
                   date: date as Date,
@@ -171,6 +172,7 @@ export const DateTimeFilter = (
             // onChange handles user-input date-time changes
             onChange={(date) => {
               setToDate(date as Date);
+              if (datesEqual(date, toDate)) return;
               if ((date == null || isValid(date as Date)) && !popupOpen) {
                 updateFilter({
                   date: date as Date,
