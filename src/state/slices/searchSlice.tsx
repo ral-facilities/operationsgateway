@@ -1,14 +1,9 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import { DateRange, ShotnumRange } from '../../app.types';
+import { SearchParams } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
-
-type SearchParams = {
-  dateRange: DateRange;
-  shotnumRange: ShotnumRange;
-};
 
 // Define a type for the slice state
 interface SearchState {

@@ -3,7 +3,6 @@ import axios, { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from 'react-query';
 import {
   Channel,
-  DateRange,
   ImageChannel,
   isChannelScalar,
   PlotDataset,
@@ -13,6 +12,7 @@ import {
   SortType,
   WaveformChannel,
   SelectedPlotChannel,
+  SearchParams,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -22,14 +22,14 @@ import { selectUrls } from '../state/slices/configSlice';
 const fetchRecords = async (
   apiUrl: string,
   sort: SortType,
-  dateRange: DateRange,
+  searchParams: SearchParams,
   filters: string[],
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
   }
 ): Promise<Record[]> => {
-  const params = new URLSearchParams();
+  const queryParams = new URLSearchParams();
 
   for (const [key, value] of Object.entries(sort)) {
     // API recognises sort values as metadata.key or channel.key
@@ -42,61 +42,90 @@ const fetchRecords = async (
     ].includes(key)
       ? `metadata.${key}`
       : `channels.${key}`;
-    params.append('order', `${sortKey} ${value}`);
+    queryParams.append('order', `${sortKey} ${value}`);
   }
 
+  const { dateRange, shotnumRange } = searchParams;
+
+  let timestampObj = {};
   if (Object.keys(dateRange).length > 0) {
-    const timestampObj = {
-      $and: [
-        {
-          'metadata.timestamp': {
-            $gt: dateRange.fromDate,
-            $lt: dateRange.toDate,
-          },
-        },
-      ],
+    timestampObj = {
+      'metadata.timestamp': {
+        $gt: dateRange.fromDate,
+        $lt: dateRange.toDate,
+      },
     };
-    params.append('conditions', JSON.stringify(timestampObj));
   }
-  filters.forEach((f) => f.length !== 0 && params.append('conditions', f));
+
+  const shotnumObj = {
+    'metadata.shotnum': {
+      $gte: shotnumRange.min,
+      $lte: shotnumRange.max,
+    },
+  };
+
+  const filtersObj = filters
+    .filter((f) => f.length !== 0)
+    .map((f) => JSON.parse(f));
+
+  const searchObj = {
+    $and: [timestampObj, shotnumObj, ...filtersObj],
+  };
+  queryParams.append('conditions', JSON.stringify(searchObj));
 
   if (offsetParams) {
-    params.append('skip', JSON.stringify(offsetParams.startIndex));
-    params.append(
+    queryParams.append('skip', JSON.stringify(offsetParams.startIndex));
+    queryParams.append(
       'limit',
       JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
 
-  return axios.get(`${apiUrl}/records`, { params }).then((response) => {
-    const records: Record[] = response.data;
-    return records;
-  });
+  return axios
+    .get(`${apiUrl}/records`, { params: queryParams })
+    .then((response) => {
+      const records: Record[] = response.data;
+      return records;
+    });
 };
 
 const fetchRecordCountQuery = (
   apiUrl: string,
-  dateRange: DateRange,
+  searchParams: SearchParams,
   filters: string[]
 ): Promise<number> => {
-  const params = new URLSearchParams();
+  const queryParams = new URLSearchParams();
+
+  const { dateRange, shotnumRange } = searchParams;
+
+  let timestampObj = {};
   if (Object.keys(dateRange).length > 0) {
-    const timestampObj = {
-      $and: [
-        {
-          'metadata.timestamp': {
-            $gt: dateRange.fromDate,
-            $lt: dateRange.toDate,
-          },
-        },
-      ],
+    timestampObj = {
+      'metadata.timestamp': {
+        $gt: dateRange.fromDate,
+        $lt: dateRange.toDate,
+      },
     };
-    params.append('conditions', JSON.stringify(timestampObj));
   }
-  filters.forEach((f) => f.length !== 0 && params.append('conditions', f));
+
+  const shotnumObj = {
+    'metadata.shotnum': {
+      $gte: shotnumRange.min,
+      $lte: shotnumRange.max,
+    },
+  };
+
+  const filtersObj = filters
+    .filter((f) => f.length !== 0)
+    .map((f) => JSON.parse(f));
+
+  const searchObj = {
+    $and: [timestampObj, shotnumObj, ...filtersObj],
+  };
+  queryParams.append('conditions', JSON.stringify(searchObj));
 
   return axios
-    .get(`${apiUrl}/records/count`, { params })
+    .get(`${apiUrl}/records/count`, { params: queryParams })
     .then((response) => response.data);
 };
 
@@ -106,7 +135,6 @@ export const useRecordsPaginated = (): UseQueryResult<
 > => {
   const { searchParams, page, resultsPerPage, sort, filters } =
     useAppSelector(selectQueryParams);
-  const { dateRange } = searchParams;
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery<
@@ -119,19 +147,19 @@ export const useRecordsPaginated = (): UseQueryResult<
         page: number;
         resultsPerPage: number;
         sort: SortType;
-        dateRange: DateRange;
+        searchParams: SearchParams;
         filters: string[];
       }
     ]
   >(
-    ['records', { page, resultsPerPage, sort, dateRange, filters }],
+    ['records', { page, resultsPerPage, sort, searchParams, filters }],
     (params) => {
-      const { page, resultsPerPage, sort, dateRange, filters } =
+      const { page, resultsPerPage, sort, searchParams, filters } =
         params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage;
-      return fetchRecords(apiUrl, sort, dateRange, filters, {
+      return fetchRecords(apiUrl, sort, searchParams, filters, {
         startIndex,
         stopIndex,
       });
@@ -231,19 +259,19 @@ export const usePlotRecords = (
   XAxis?: string
 ): UseQueryResult<PlotDataset[], AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { filters } = useAppSelector(selectQueryParams);
+  const { searchParams, filters } = useAppSelector(selectQueryParams);
   const parsedXAxis = XAxis ?? 'timestamp';
 
   return useQuery<
     Record[],
     AxiosError,
     PlotDataset[],
-    [string, { sort: SortType; filters: string[] }]
+    [string, { sort: SortType; searchParams: SearchParams; filters: string[] }]
   >(
-    ['records', { sort: { [parsedXAxis]: 'asc' }, filters }],
+    ['records', { sort: { [parsedXAxis]: 'asc' }, searchParams, filters }],
     (params) => {
       const { sort, filters } = params.queryKey[1];
-      return fetchRecords(apiUrl, sort, {}, filters);
+      return fetchRecords(apiUrl, sort, searchParams, filters);
     },
     {
       onError: (error) => {
@@ -289,18 +317,17 @@ export const usePlotRecords = (
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters } = useAppSelector(selectQueryParams);
-  const { dateRange } = searchParams;
 
   return useQuery<
     number,
     AxiosError,
     number,
-    [string, { dateRange: DateRange; filters: string[] }]
+    [string, { searchParams: SearchParams; filters: string[] }]
   >(
-    ['recordCount', { dateRange, filters }],
+    ['recordCount', { searchParams, filters }],
     (params) => {
-      const { dateRange, filters } = params.queryKey[1];
-      return fetchRecordCountQuery(apiUrl, dateRange, filters);
+      const { searchParams, filters } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, searchParams, filters);
     },
     {
       onError: (error) => {

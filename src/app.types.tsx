@@ -121,6 +121,11 @@ export interface ShotnumRange {
   max: number;
 }
 
+export interface SearchParams {
+  dateRange: DateRange;
+  shotnumRange: ShotnumRange;
+}
+
 export interface ColumnState {
   wordWrap?: boolean;
 }
