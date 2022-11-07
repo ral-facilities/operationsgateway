@@ -3,10 +3,15 @@ import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-const ShotNumberPopup = (): React.ReactElement => {
-  const [min, setMin] = React.useState<number>(0);
-  const [max, setMax] = React.useState<number>(99999999);
+export interface ShotNumberProps {
+  min: number;
+  max: number;
+  changeMin: (min: number) => void;
+  changeMax: (max: number) => void;
+}
 
+const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
+  const { min, max, changeMin, changeMax } = props;
   const invalidRange = min > max;
 
   return (
@@ -31,7 +36,7 @@ const ShotNumberPopup = (): React.ReactElement => {
             type="number"
             size="small"
             inputProps={{ min: 0, max: 99999999 }}
-            onChange={(event) => setMin(Number(event.target.value))}
+            onChange={(event) => changeMin(Number(event.target.value))}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -47,7 +52,7 @@ const ShotNumberPopup = (): React.ReactElement => {
             type="number"
             size="small"
             inputProps={{ min: 0, max: 99999999 }}
-            onChange={(event) => setMax(Number(event.target.value))}
+            onChange={(event) => changeMax(Number(event.target.value))}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -57,7 +62,7 @@ const ShotNumberPopup = (): React.ReactElement => {
   );
 };
 
-const ShotNumber = (): React.ReactElement => {
+const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -100,7 +105,7 @@ const ShotNumber = (): React.ReactElement => {
           }}
           ref={popover}
         >
-          <ShotNumberPopup />
+          <ShotNumberPopup {...props} />
         </Box>
       )}
     </Box>

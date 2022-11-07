@@ -1,10 +1,8 @@
 import React from 'react';
-import { format, isValid, isEqual, isBefore, parseISO } from 'date-fns';
+import { isValid, isEqual, isBefore } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { changeDateRange } from '../../state/slices/searchSlice';
 import { CalendarMonth } from '@mui/icons-material';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
@@ -21,7 +19,7 @@ export interface UpdateFilterParams {
   prevDate: Date | null;
   otherDate: Date | null;
   fromDateOrToDateChanged: 'fromDate' | 'toDate';
-  onChange: (range: 'fromDate' | 'toDate', date?: string) => void;
+  changeDate: (date: Date | null) => void;
 }
 
 export function updateFilter({
@@ -29,7 +27,7 @@ export function updateFilter({
   prevDate,
   otherDate,
   fromDateOrToDateChanged,
-  onChange,
+  changeDate,
 }: UpdateFilterParams): void {
   if (
     date &&
@@ -44,31 +42,25 @@ export function updateFilter({
       fromDateOrToDateChanged === 'toDate' &&
       (!otherDate || !isBefore(date, otherDate));
 
-    if (validFromDate || validToDate) {
-      onChange(fromDateOrToDateChanged, format(date, 'yyyy-MM-dd HH:mm:ss'));
-    }
+    if (validFromDate || validToDate) changeDate(date);
   } else if (!date) {
-    onChange(fromDateOrToDateChanged);
+    changeDate(null);
   }
 }
 
-export interface DateTimeFilterProps {
-  onChange: (range: 'fromDate' | 'toDate', date?: string) => void;
-  receivedFromDate?: string;
-  receivedToDate?: string;
+export interface DateTimeSearchProps {
+  receivedFromDate: Date | null;
+  receivedToDate: Date | null;
+  changeFromDate: (fromDate: Date | null) => void;
+  changeToDate: (toDate: Date | null) => void;
 }
 
-export const DateTimeFilter = (
-  props: DateTimeFilterProps
-): React.ReactElement => {
-  const { onChange, receivedFromDate, receivedToDate } = props;
+const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
+  const { receivedFromDate, receivedToDate, changeFromDate, changeToDate } =
+    props;
 
-  const [fromDate, setFromDate] = React.useState<Date | null>(
-    receivedFromDate ? parseISO(receivedFromDate) : null
-  );
-  const [toDate, setToDate] = React.useState<Date | null>(
-    receivedToDate ? parseISO(receivedToDate) : null
-  );
+  const [fromDate, setFromDate] = React.useState<Date | null>(receivedFromDate);
+  const [toDate, setToDate] = React.useState<Date | null>(receivedToDate);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
@@ -103,7 +95,7 @@ export const DateTimeFilter = (
                   prevDate: fromDate,
                   otherDate: toDate,
                   fromDateOrToDateChanged: 'fromDate',
-                  onChange: onChange,
+                  changeDate: changeFromDate,
                 });
               }
             }}
@@ -113,7 +105,7 @@ export const DateTimeFilter = (
                 prevDate: fromDate,
                 otherDate: toDate,
                 fromDateOrToDateChanged: 'fromDate',
-                onChange: onChange,
+                changeDate: changeFromDate,
               });
             }}
             onOpen={() => setPopupOpen(true)}
@@ -173,7 +165,7 @@ export const DateTimeFilter = (
                   prevDate: toDate,
                   otherDate: fromDate,
                   fromDateOrToDateChanged: 'toDate',
-                  onChange: onChange,
+                  changeDate: changeToDate,
                 });
               }
             }}
@@ -183,7 +175,7 @@ export const DateTimeFilter = (
                 prevDate: toDate,
                 otherDate: fromDate,
                 fromDateOrToDateChanged: 'toDate',
-                onChange: onChange,
+                changeDate: changeToDate,
               });
             }}
             onOpen={() => setPopupOpen(true)}
@@ -225,30 +217,6 @@ export const DateTimeFilter = (
   );
 };
 
-DateTimeFilter.displayName = 'DateTimeFilter';
+DateTimeSearch.displayName = 'DateTimeSearch';
 
-const DateTime = (): React.ReactElement => {
-  const dateRange = useAppSelector((state) => state.search.dateRange);
-
-  const dispatch = useAppDispatch();
-  const handleDateTimeChange = React.useCallback(
-    (range: 'fromDate' | 'toDate', date?: string) => {
-      dispatch(changeDateRange({ range, date }));
-    },
-    [dispatch]
-  );
-
-  return (
-    <div>
-      <DateTimeFilter
-        receivedFromDate={dateRange?.fromDate}
-        receivedToDate={dateRange?.toDate}
-        onChange={handleDateTimeChange}
-      />
-    </div>
-  );
-};
-
-DateTime.displayName = 'DateTime';
-
-export default DateTime;
+export default DateTimeSearch;

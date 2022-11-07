@@ -104,8 +104,9 @@ export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
 > => {
-  const { page, resultsPerPage, sort, dateRange, filters } =
+  const { searchParams, page, resultsPerPage, sort, filters } =
     useAppSelector(selectQueryParams);
+  const { dateRange } = searchParams;
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery<
@@ -287,7 +288,8 @@ export const usePlotRecords = (
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { dateRange, filters } = useAppSelector(selectQueryParams);
+  const { searchParams, filters } = useAppSelector(selectQueryParams);
+  const { dateRange } = searchParams;
 
   return useQuery<
     number,
