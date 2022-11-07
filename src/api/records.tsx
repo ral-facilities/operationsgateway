@@ -48,11 +48,11 @@ const fetchRecords = async (
   const { dateRange, shotnumRange } = searchParams;
 
   let timestampObj = {};
-  if (Object.keys(dateRange).length > 0) {
+  if (dateRange.fromDate || dateRange.toDate) {
     timestampObj = {
       'metadata.timestamp': {
-        $gt: dateRange.fromDate,
-        $lt: dateRange.toDate,
+        $gte: dateRange.fromDate,
+        $lte: dateRange.toDate,
       },
     };
   }
@@ -99,11 +99,11 @@ const fetchRecordCountQuery = (
   const { dateRange, shotnumRange } = searchParams;
 
   let timestampObj = {};
-  if (Object.keys(dateRange).length > 0) {
+  if (dateRange.fromDate || dateRange.toDate) {
     timestampObj = {
       'metadata.timestamp': {
-        $gt: dateRange.fromDate,
-        $lt: dateRange.toDate,
+        $gte: dateRange.fromDate,
+        $lte: dateRange.toDate,
       },
     };
   }
