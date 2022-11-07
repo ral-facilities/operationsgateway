@@ -98,9 +98,12 @@ describe('records api functions', () => {
         ...getInitialState(),
         search: {
           ...getInitialState().search,
-          dateRange: {
-            fromDate: '2022-01-01 00:00:00',
-            toDate: '2022-01-02 00:00:00',
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
           },
         },
         filter: {
@@ -125,9 +128,8 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gt":"2022-01-01 00:00:00","$lt":"2022-01-02 00:00:00"}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
-      params.append('conditions', '{"metadata.shotnum":{"$gt":300}}');
 
       expect(axios.get).toHaveBeenCalledWith(
         '/records/count',
@@ -193,9 +195,12 @@ describe('records api functions', () => {
         },
         search: {
           ...getInitialState().search,
-          dateRange: {
-            fromDate: '2022-01-01 00:00:00',
-            toDate: '2022-01-02 00:00:00',
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
           },
         },
         filter: {
@@ -222,9 +227,8 @@ describe('records api functions', () => {
       params.append('order', 'channels.CHANNEL_1 desc');
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gt":"2022-01-01 00:00:00","$lt":"2022-01-02 00:00:00"}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
-      params.append('conditions', '{"metadata.shotnum":{"$gt":300}}');
       params.append('skip', '0');
       params.append('limit', '25');
 
@@ -334,7 +338,10 @@ describe('records api functions', () => {
       });
 
       params.append('order', 'metadata.shotnum asc');
-      params.append('conditions', '{"metadata.shotnum":{"$gt":300}}');
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.shotnum":{"$gt":300}}]}'
+      );
 
       expect(axios.get).toHaveBeenCalledWith(
         '/records',

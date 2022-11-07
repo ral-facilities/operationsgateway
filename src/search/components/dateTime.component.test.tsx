@@ -1,7 +1,6 @@
 import React from 'react';
 import DateTime, {
-  DateTimeFilter,
-  DateTimeFilterProps,
+  DateTimeSearchProps,
   datesEqual,
   updateFilter,
   UpdateFilterParams,
@@ -11,11 +10,7 @@ import userEvent from '@testing-library/user-event';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
-  getInitialState,
-  renderComponentWithStore,
 } from '../../setupTests';
-import { PreloadedState } from '@reduxjs/toolkit';
-import { RootState } from '../../state/store';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
@@ -63,7 +58,7 @@ describe('datesEqual function', () => {
 
 describe('updateFilter function', () => {
   let props: UpdateFilterParams;
-  const onChange = jest.fn();
+  const changeDate = jest.fn();
 
   beforeEach(() => {
     props = {
@@ -71,7 +66,7 @@ describe('updateFilter function', () => {
       prevDate: null,
       otherDate: null,
       fromDateOrToDateChanged: 'fromDate',
-      onChange: onChange,
+      changeDate: changeDate,
     };
   });
 
@@ -79,179 +74,91 @@ describe('updateFilter function', () => {
     jest.clearAllMocks();
   });
 
-  it('calls onChange if otherDate is null', () => {
+  it('calls changeDate if otherDate is null', () => {
     updateFilter(props);
 
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
+    expect(changeDate).toHaveBeenCalledWith(new Date('2022-01-01 00:00:00'));
   });
 
-  it('calls onChange if valid fromDate', () => {
+  it('calls changeDate if valid fromDate', () => {
     updateFilter({
       ...props,
       otherDate: new Date('2022-01-02T00:00:00'),
     });
 
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
+    expect(changeDate).toHaveBeenCalledWith(new Date('2022-01-01 00:00:00'));
   });
 
-  it('calls onChange if valid toDate', () => {
+  it('calls changeDate if valid toDate', () => {
     updateFilter({
       ...props,
       otherDate: new Date('2021-01-01T00:00:00'),
       fromDateOrToDateChanged: 'toDate',
     });
 
-    expect(onChange).toHaveBeenCalledWith('toDate', '2022-01-01 00:00:00');
+    expect(changeDate).toHaveBeenCalledWith(new Date('2022-01-01 00:00:00'));
   });
 
-  it("doesn't call onChange if dates are equal", () => {
+  it("doesn't call changeDate if dates are equal", () => {
     updateFilter({
       ...props,
       otherDate: new Date('2022-01-01T00:00:00'),
     });
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(changeDate).not.toHaveBeenCalled();
   });
 
-  it("doesn't call onChange if fromDate is invalid", () => {
+  it("doesn't call changeDate if fromDate is invalid", () => {
     updateFilter({
       ...props,
       otherDate: new Date('2021-01-01T00:00:00'),
     });
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(changeDate).not.toHaveBeenCalled();
   });
 
-  it("doesn't call onChange if toDate is invalid", () => {
+  it("doesn't call changeDate if toDate is invalid", () => {
     updateFilter({
       ...props,
       otherDate: new Date('2022-01-02T00:00:00'),
       fromDateOrToDateChanged: 'toDate',
     });
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(changeDate).not.toHaveBeenCalled();
   });
 
-  it("doesn't call onChange if date hasn't changed based on prevDate", () => {
+  it("doesn't call changeDate if date hasn't changed based on prevDate", () => {
     updateFilter({
       ...props,
       prevDate: props.date,
     });
 
-    expect(onChange).not.toHaveBeenCalled();
+    expect(changeDate).not.toHaveBeenCalled();
   });
 });
 
-describe('DateTimeFilter tests', () => {
-  let props: DateTimeFilterProps;
-  const onChange = jest.fn();
+describe('DateTime tests', () => {
+  let props: DateTimeSearchProps;
+  const changeFromDate = jest.fn();
+  const changeToDate = jest.fn();
 
   const createView = (): RenderResult => {
-    return render(<DateTimeFilter {...props} />);
+    return render(<DateTime {...props} />);
   };
 
   beforeEach(() => {
     applyDatePickerWorkaround();
     userEvent.setup();
     props = {
-      onChange: onChange,
+      receivedFromDate: null,
+      receivedToDate: null,
+      changeFromDate,
+      changeToDate,
     };
   });
 
   afterEach(() => {
     cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
-  });
-
-  it('renders date filter correctly', () => {
-    const view = createView();
-
-    expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  it('pre-fills dates if specified', () => {
-    props = {
-      ...props,
-      receivedFromDate: '2022-01-01 00:00:00',
-      receivedToDate: '2022-01-02 00:00:00',
-    };
-    const view = createView();
-
-    expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  it('calls onChange when filling out date-time inputs', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    expect(onChange).toHaveBeenCalledWith('fromDate', '2022-01-01 00:00:00');
-  });
-
-  it('calls onChange if a previous value is cleared', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-    await userEvent.clear(dateFilterFromDate);
-
-    expect(onChange).toHaveBeenLastCalledWith('fromDate');
-  });
-
-  it.todo('calls onChange when opening calendar and selecting elements');
-
-  it('displays helper text while typing date-time', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-');
-
-    screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss');
-  });
-
-  it('handles invalid date-time values correctly by not calling onChange and displaying helper text', async () => {
-    createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    expect(onChange).toHaveBeenLastCalledWith(
-      'fromDate',
-      '2022-01-01 00:00:00'
-    );
-    expect(onChange.mock.calls.length).toEqual(1);
-
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2021-01-01 00:00:00');
-
-    const helperTexts = screen.getAllByText('Invalid date-time range');
-
-    // One helper text below each input
-    expect(helperTexts.length).toEqual(2);
-
-    expect(onChange).toHaveBeenLastCalledWith(
-      'fromDate',
-      '2022-01-01 00:00:00'
-    );
-    expect(onChange.mock.calls.length).toEqual(1);
-  });
-});
-
-describe('DateTime tests', () => {
-  let state: PreloadedState<RootState>;
-
-  const createView = (initialState = state) => {
-    return renderComponentWithStore(<DateTime />, {
-      preloadedState: initialState,
-    });
-  };
-
-  beforeEach(() => {
-    state = { ...getInitialState(), search: { ...getInitialState().search } };
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -262,31 +169,68 @@ describe('DateTime tests', () => {
   });
 
   it('renders correctly with input date-time ranges', () => {
-    state.search.dateRange = {
-      fromDate: '2021-01-01 00:00:00',
-      toDate: '2021-01-02 00:00:00',
-    };
+    props.receivedFromDate = new Date('2021-01-01 00:00:00');
+    props.receivedToDate = new Date('2021-01-02 00:00:00');
 
     const view = createView();
 
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('updates start/end date fields on date-time change', async () => {
-    const { store } = createView();
+  it('calls changeDate when filling out and clearing date-time inputs', async () => {
+    createView();
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    expect(changeFromDate).toHaveBeenCalledWith(
+      new Date('2022-01-01 00:00:00')
+    );
+    await userEvent.clear(dateFilterFromDate);
+    expect(changeFromDate).toHaveBeenCalledWith(null);
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+    expect(changeToDate).toHaveBeenCalledWith(new Date('2022-01-02 00:00:00'));
+    await userEvent.clear(dateFilterToDate);
+    expect(changeToDate).toHaveBeenCalledWith(null);
+  });
+
+  it.todo('calls changeDate when opening calendar and selecting elements');
+
+  it('displays helper text while typing date-time', async () => {
+    createView();
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2022-01-');
+    expect(
+      screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss')
+    ).toBeInTheDocument();
+
+    const dateFilterToDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-');
+    expect(
+      screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss')
+    ).toBeInTheDocument();
+  });
+
+  it('handles invalid date-time values correctly by not calling changeDate and displaying helper text', async () => {
+    createView();
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
 
-    expect(store.getState().search.dateRange.fromDate).toEqual(
-      '2022-01-01 00:00:00'
+    expect(changeFromDate).toHaveBeenLastCalledWith(
+      new Date('2022-01-01 00:00:00')
     );
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+    await userEvent.type(dateFilterToDate, '2021-01-01 00:00:00');
 
-    expect(store.getState().search.dateRange.toDate).toEqual(
-      '2022-01-02 00:00:00'
-    );
+    const helperTexts = screen.getAllByText('Invalid date-time range');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    expect(changeToDate).not.toHaveBeenCalled();
   });
 });

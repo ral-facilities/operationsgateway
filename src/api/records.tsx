@@ -57,21 +57,28 @@ const fetchRecords = async (
     };
   }
 
-  const shotnumObj = {
-    'metadata.shotnum': {
-      $gte: shotnumRange.min,
-      $lte: shotnumRange.max,
-    },
-  };
+  let shotnumObj = {};
+  if (shotnumRange.min || shotnumRange.max) {
+    shotnumObj = {
+      'metadata.shotnum': {
+        $gte: shotnumRange.min,
+        $lte: shotnumRange.max,
+      },
+    };
+  }
 
   const filtersObj = filters
     .filter((f) => f.length !== 0)
     .map((f) => JSON.parse(f));
 
-  const searchObj = {
-    $and: [timestampObj, shotnumObj, ...filtersObj],
-  };
-  queryParams.append('conditions', JSON.stringify(searchObj));
+  const searchObj = [];
+  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (shotnumRange.min || shotnumRange.max) searchObj.push(shotnumObj);
+  searchObj.push(...filtersObj);
+
+  if (searchObj.length > 0) {
+    queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
+  }
 
   if (offsetParams) {
     queryParams.append('skip', JSON.stringify(offsetParams.startIndex));
@@ -108,21 +115,28 @@ const fetchRecordCountQuery = (
     };
   }
 
-  const shotnumObj = {
-    'metadata.shotnum': {
-      $gte: shotnumRange.min,
-      $lte: shotnumRange.max,
-    },
-  };
+  let shotnumObj = {};
+  if (shotnumRange.min || shotnumRange.max) {
+    shotnumObj = {
+      'metadata.shotnum': {
+        $gte: shotnumRange.min,
+        $lte: shotnumRange.max,
+      },
+    };
+  }
 
   const filtersObj = filters
     .filter((f) => f.length !== 0)
     .map((f) => JSON.parse(f));
 
-  const searchObj = {
-    $and: [timestampObj, shotnumObj, ...filtersObj],
-  };
-  queryParams.append('conditions', JSON.stringify(searchObj));
+  const searchObj = [];
+  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (shotnumRange.min || shotnumRange.max) searchObj.push(shotnumObj);
+  searchObj.push(...filtersObj);
+
+  if (searchObj.length > 0) {
+    queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
+  }
 
   return axios
     .get(`${apiUrl}/records/count`, { params: queryParams })

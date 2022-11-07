@@ -14,7 +14,7 @@ interface SearchState {
 export const initialState = {
   searchParams: {
     dateRange: {},
-    shotnumRange: { min: 0, max: 99999999 },
+    shotnumRange: {},
   },
 } as SearchState;
 

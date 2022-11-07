@@ -4,15 +4,17 @@ import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
 export interface ShotNumberProps {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   changeMin: (min: number) => void;
   changeMax: (max: number) => void;
 }
 
 const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
   const { min, max, changeMin, changeMax } = props;
-  const invalidRange = min > max;
+  const ABSOLUTE_MINIMUM = 0;
+  const ABSOLUTE_MAXIMUM = 99999999;
+  const invalidRange = min !== undefined && max !== undefined && min > max;
 
   return (
     <div style={{ paddingTop: 5, paddingLeft: 5 }}>
@@ -35,7 +37,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             value={min}
             type="number"
             size="small"
-            inputProps={{ min: 0, max: 99999999 }}
+            inputProps={{ min: ABSOLUTE_MINIMUM, max: ABSOLUTE_MAXIMUM }}
             onChange={(event) => changeMin(Number(event.target.value))}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
@@ -51,7 +53,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             value={max}
             type="number"
             size="small"
-            inputProps={{ min: 0, max: 99999999 }}
+            inputProps={{ min: ABSOLUTE_MINIMUM, max: ABSOLUTE_MAXIMUM }}
             onChange={(event) => changeMax(Number(event.target.value))}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
