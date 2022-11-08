@@ -17,7 +17,7 @@ import { Search, Close } from '@mui/icons-material';
 import { XAxisScale, FullScalarChannelMetadata } from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { isBefore } from 'date-fns';
+import { isBefore, isValid } from 'date-fns';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -149,7 +149,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 componentsProps={{
-                  actionBar: { actions: ['clear'] },
+                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
                   setFromDate(date as Date);
@@ -162,7 +162,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 renderInput={(renderProps) => {
                   const error =
                     // eslint-disable-next-line react/prop-types
-                    (renderProps.error || invalidDateRange) ?? undefined;
+                    (renderProps.error ||
+                      invalidDateRange ||
+                      (fromDate && !isValid(fromDate))) ??
+                    undefined;
                   let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
@@ -212,7 +215,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 componentsProps={{
-                  actionBar: { actions: ['clear'] },
+                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
                   setToDate(date as Date);
@@ -225,7 +228,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 renderInput={(renderProps) => {
                   const error =
                     // eslint-disable-next-line react/prop-types
-                    (renderProps.error || invalidDateRange) ?? undefined;
+                    (renderProps.error ||
+                      invalidDateRange ||
+                      (toDate && !isValid(toDate))) ??
+                    undefined;
                   let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
