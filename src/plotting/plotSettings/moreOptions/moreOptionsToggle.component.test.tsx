@@ -36,6 +36,7 @@ describe('MoreOptionsToggle', () => {
         visible: true,
         colour: `colour-${i.toString()}`,
         lineStyle: 'solid',
+        yAxis: 'left',
       },
     })
   );

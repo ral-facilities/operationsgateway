@@ -25,12 +25,8 @@ const SearchBar = (): React.ReactElement => {
     dateRange.toDate ? new Date(dateRange.toDate) : null
   );
 
-  const [shotnumMin, setShotnumMin] = React.useState<number | undefined>(
-    shotnumRange.min ?? undefined
-  );
-  const [shotnumMax, setShotnumMax] = React.useState<number | undefined>(
-    shotnumRange.max ?? undefined
-  );
+  const [shotnumMin, setShotnumMin] = React.useState<number>(shotnumRange.min);
+  const [shotnumMax, setShotnumMax] = React.useState<number>(shotnumRange.max);
 
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {

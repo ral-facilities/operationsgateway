@@ -4,6 +4,10 @@ import { RootState } from '../store';
 import { SearchParams } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
+import {
+  ABSOLUTE_MINIMUM,
+  ABSOLUTE_MAXIMUM,
+} from '../../search/components/shotNumber.component';
 
 // Define a type for the slice state
 interface SearchState {
@@ -14,7 +18,10 @@ interface SearchState {
 export const initialState = {
   searchParams: {
     dateRange: {},
-    shotnumRange: {},
+    shotnumRange: {
+      min: ABSOLUTE_MINIMUM,
+      max: ABSOLUTE_MAXIMUM,
+    },
   },
 } as SearchState;
 

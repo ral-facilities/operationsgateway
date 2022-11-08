@@ -117,8 +117,8 @@ export interface DateRange {
 }
 
 export interface ShotnumRange {
-  min?: number;
-  max?: number;
+  min: number;
+  max: number;
 }
 
 export interface SearchParams {

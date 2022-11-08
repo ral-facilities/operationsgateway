@@ -3,18 +3,19 @@ import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
+export const ABSOLUTE_MINIMUM = 0;
+export const ABSOLUTE_MAXIMUM = 99999999;
+
 export interface ShotNumberProps {
-  min?: number;
-  max?: number;
+  min: number;
+  max: number;
   changeMin: (min: number) => void;
   changeMax: (max: number) => void;
 }
 
 const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
   const { min, max, changeMin, changeMax } = props;
-  const ABSOLUTE_MINIMUM = 0;
-  const ABSOLUTE_MAXIMUM = 99999999;
-  const invalidRange = min !== undefined && max !== undefined && min > max;
+  const invalidRange = min > max;
 
   return (
     <div style={{ paddingTop: 5, paddingLeft: 5 }}>
@@ -32,7 +33,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
       <Grid container spacing={1}>
         <Grid item xs={5}>
           <TextField
-            name="shotnumber min"
+            name="shot number min"
             label="Min"
             value={min}
             type="number"
@@ -76,6 +77,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
+        aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
           borderRadius: '10px',
