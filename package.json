@@ -2,6 +2,9 @@
   "name": "operationsgateway",
   "version": "0.1.0",
   "private": true,
+  "resolutions": {
+    "loader-utils": "3.2.0"
+  },
   "dependencies": {
     "@date-io/date-fns": "2.16.0",
     "@emotion/cache": "11.10.3",
@@ -26,6 +29,7 @@
     "i18next-browser-languagedetector": "7.0.0",
     "i18next-http-backend": "2.0.0",
     "immutability-helper": "3.1.1",
+    "loader-utils": "3.2.0",
     "loglevel": "1.8.0",
     "prop-types": "15.8.1",
     "react": "18.2.0",

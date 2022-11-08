@@ -82,6 +82,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["prop-types", "npm:15.8.1"],\
@@ -4666,7 +4667,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["error-stack-parser", "npm:2.1.4"],\
             ["find-up", "npm:5.0.0"],\
             ["html-entities", "npm:2.3.3"],\
-            ["loader-utils", "npm:2.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["react-refresh", "npm:0.11.0"],\
             ["schema-utils", "npm:3.1.1"],\
             ["sockjs-client", null],\
@@ -5085,7 +5086,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@svgr/core", "npm:5.5.0"],\
             ["@svgr/plugin-jsx", "npm:5.5.0"],\
             ["@svgr/plugin-svgo", "npm:5.5.0"],\
-            ["loader-utils", "npm:2.0.3"]\
+            ["loader-utils", "npm:3.2.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -6558,7 +6559,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/adjust-sourcemap-loader-npm-4.0.0-c8b560af8c-d524ae2358.zip/node_modules/adjust-sourcemap-loader/",\
           "packageDependencies": [\
             ["adjust-sourcemap-loader", "npm:4.0.0"],\
-            ["loader-utils", "npm:2.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["regex-parser", "npm:2.2.11"]\
           ],\
           "linkType": "HARD"\
@@ -7159,7 +7160,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/babel__core", null],\
             ["@types/webpack", null],\
             ["find-cache-dir", "npm:3.3.2"],\
-            ["loader-utils", "npm:2.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["make-dir", "npm:3.1.0"],\
             ["schema-utils", "npm:2.7.1"],\
             ["webpack", "virtual:aaa21e83934e72e4cdff14e26b8e3435d5ff073138cc2e06a83426d146d2d9c972c81c0be4305bb0fd7c05e5c3ecf9243bb5b0af5808802220de9d2a4a634981#npm:5.74.0"]\
@@ -7489,15 +7490,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/big-integer-npm-1.6.51-1a244d8e1f-3d444173d1.zip/node_modules/big-integer/",\
           "packageDependencies": [\
             ["big-integer", "npm:1.6.51"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["big.js", [\
-        ["npm:5.2.2", {\
-          "packageLocation": "./.yarn/cache/big.js-npm-5.2.2-e147c30820-b89b6e8419.zip/node_modules/big.js/",\
-          "packageDependencies": [\
-            ["big.js", "npm:5.2.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9722,15 +9714,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["emojis-list", [\
-        ["npm:3.0.0", {\
-          "packageLocation": "./.yarn/cache/emojis-list-npm-3.0.0-7faa48e6fd-ddaaa02542.zip/node_modules/emojis-list/",\
-          "packageDependencies": [\
-            ["emojis-list", "npm:3.0.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["encodeurl", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/encodeurl-npm-1.0.2-f8c8454c41-e50e3d508c.zip/node_modules/encodeurl/",\
@@ -10904,7 +10887,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["file-loader", "virtual:aaa21e83934e72e4cdff14e26b8e3435d5ff073138cc2e06a83426d146d2d9c972c81c0be4305bb0fd7c05e5c3ecf9243bb5b0af5808802220de9d2a4a634981#npm:6.2.0"],\
             ["@types/webpack", null],\
-            ["loader-utils", "npm:2.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["schema-utils", "npm:3.1.1"],\
             ["webpack", "virtual:aaa21e83934e72e4cdff14e26b8e3435d5ff073138cc2e06a83426d146d2d9c972c81c0be4305bb0fd7c05e5c3ecf9243bb5b0af5808802220de9d2a4a634981#npm:5.74.0"]\
           ],\
@@ -13815,16 +13798,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["loader-utils", [\
-        ["npm:2.0.3", {\
-          "packageLocation": "./.yarn/cache/loader-utils-npm-2.0.3-4d761d6a51-d055c61ce5.zip/node_modules/loader-utils/",\
-          "packageDependencies": [\
-            ["loader-utils", "npm:2.0.3"],\
-            ["big.js", "npm:5.2.2"],\
-            ["emojis-list", "npm:3.0.0"],\
-            ["json5", "npm:2.2.1"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:3.2.0", {\
           "packageLocation": "./.yarn/cache/loader-utils-npm-3.2.0-02250d00d7-c7b9a8dc4b.zip/node_modules/loader-utils/",\
           "packageDependencies": [\
@@ -14945,6 +14918,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.7.1"],\
             ["prop-types", "npm:15.8.1"],\
@@ -18326,7 +18300,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/rework-visit", null],\
             ["adjust-sourcemap-loader", "npm:4.0.0"],\
             ["convert-source-map", "npm:1.8.0"],\
-            ["loader-utils", "npm:2.0.3"],\
+            ["loader-utils", "npm:3.2.0"],\
             ["postcss", "npm:7.0.39"],\
             ["rework", null],\
             ["rework-visit", null],\
