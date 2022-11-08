@@ -57,23 +57,19 @@ export interface DateTimeFilterProps {
 export const DateTimeFilter = (
   props: DateTimeFilterProps
 ): React.ReactElement => {
-  const [fromDate, setFromDate] = React.useState<Date | null>(
-    props.value?.fromDate ? new Date(props.value.fromDate) : null
-  );
-  const [toDate, setToDate] = React.useState<Date | null>(
-    props.value?.toDate ? new Date(props.value.toDate) : null
-  );
-
-  const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
-
-  const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
-
   const initialFromDate = props.value?.fromDate
     ? new Date(props.value.fromDate)
     : null;
   const initialToDate = props.value?.toDate
     ? new Date(props.value.toDate)
     : null;
+
+  const [fromDate, setFromDate] = React.useState<Date | null>(initialFromDate);
+  const [toDate, setToDate] = React.useState<Date | null>(initialToDate);
+
+  const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
+
+  const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   return (
     <Box
