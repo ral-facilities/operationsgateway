@@ -20,7 +20,7 @@ describe('Filter input component', () => {
       }),
       setError: jest.fn(),
       channels: [
-        { type: 'channel', value: 'timestamp', label: 'timestamp' },
+        { type: 'channel', value: 'type', label: 'type' },
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
       ],
     };
@@ -31,7 +31,7 @@ describe('Filter input component', () => {
   it('renders a autocomplete with chips for any values the user has selected', async () => {
     const user = userEvent.setup();
     props.value = [
-      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      { type: 'channel', value: 'type', label: 'type' },
       operators.find((t) => t.value === 'is not null')!,
     ];
     const view = render(<FilterInput {...props} />);
@@ -126,7 +126,7 @@ describe('Filter input component', () => {
   it('validates the value when the user stops focusing on the input and sets an error if invalid', async () => {
     const user = userEvent.setup();
     props.value = [
-      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      { type: 'channel', value: 'type', label: 'type' },
       operators.find((t) => t.value === 'is not null')!,
       operators.find((t) => t.value === 'and')!,
     ];
@@ -134,7 +134,7 @@ describe('Filter input component', () => {
 
     const filter = screen.getByLabelText('Filter');
 
-    await user.type(filter, 'timestamp');
+    await user.type(filter, 'type');
     await user.type(filter, '{enter}');
     (props.setError as jest.Mock).mockClear();
     await user.tab();
@@ -148,7 +148,7 @@ describe('Filter input component', () => {
   it('validates the value when the user stops focusing on the input and clears an error if valid', async () => {
     const user = userEvent.setup();
     props.value = [
-      { type: 'channel', value: 'timestamp', label: 'timestamp' },
+      { type: 'channel', value: 'type', label: 'type' },
       operators.find((t) => t.value === 'is not null')!,
     ];
     render(<FilterInput {...props} />);

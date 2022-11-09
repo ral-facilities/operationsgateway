@@ -56,20 +56,20 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   );
   const { data: channels } = useChannels({
     select: (channels) => {
-      return (
-        channels
-          // TODO: I think it makes sense that we can only apply filters to scalar channels, but should check
-          // should also check we want friendly names here instead of system names
-          .filter((channel) => channel.channel_dtype === 'scalar')
-          .map(
-            (channel) =>
-              ({
-                type: 'channel',
-                value: channel.systemName,
-                label: channel?.userFriendlyName ?? channel.systemName,
-              } as Token)
-          )
-      );
+      return channels
+        .filter(
+          (channel) =>
+            channel.channel_dtype === 'scalar' &&
+            channel.systemName !== 'timestamp'
+        )
+        .map(
+          (channel) =>
+            ({
+              type: 'channel',
+              value: channel.systemName,
+              label: channel?.userFriendlyName ?? channel.systemName,
+            } as Token)
+        );
     },
   });
 

@@ -29,7 +29,7 @@ exports[`Filter input component renders a autocomplete with chips for any values
           <span
             class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
           >
-            timestamp
+            type
           </span>
           <svg
             aria-hidden="true"
