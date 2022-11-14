@@ -13,9 +13,10 @@ export interface ShotNumberProps {
   changeMax: (max: number) => void;
 }
 
-const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
-  const { min, max, changeMin, changeMax } = props;
-  const invalidRange = min > max;
+const ShotNumberPopup = (
+  props: ShotNumberProps & { invalidRange: boolean }
+): React.ReactElement => {
+  const { min, max, changeMin, changeMax, invalidRange } = props;
 
   return (
     <div style={{ paddingTop: 5, paddingLeft: 5 }}>
@@ -74,12 +75,15 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
+  const invalidRange = props.min > props.max;
+
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
         aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
+          borderColor: invalidRange ? '#d64141' : undefined,
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
@@ -109,7 +113,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           }}
           ref={popover}
         >
-          <ShotNumberPopup {...props} />
+          <ShotNumberPopup {...props} invalidRange={invalidRange} />
         </Box>
       )}
     </Box>
