@@ -20,7 +20,20 @@ describe('searchBar component', () => {
   });
 
   it('dispatches changeSearchParams on search button click', async () => {
-    const state = getInitialState();
+    const state = {
+      ...getInitialState(),
+      search: {
+        ...getInitialState().search,
+        searchParams: {
+          ...getInitialState().search.searchParams,
+          shotnumRange: {
+            // zero for min and max to allow for proper userEvent typing to occur
+            min: 0,
+            max: 0,
+          },
+        },
+      },
+    };
     const { store } = createView(state);
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -31,8 +44,7 @@ describe('searchBar component', () => {
     const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
       name: 'Max',
     });
-    await user.clear(shotnumMin);
-    await user.clear(shotnumMax);
+
     await user.type(shotnumMin, '1');
     await user.type(shotnumMax, '2');
     await user.click(screen.getByLabelText('close shot number search box'));
