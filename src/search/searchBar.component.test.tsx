@@ -10,6 +10,10 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import {
+  ABSOLUTE_MAXIMUM,
+  ABSOLUTE_MINIMUM,
+} from './components/shotNumber.component';
 
 describe('searchBar component', () => {
   let user;
@@ -77,6 +81,24 @@ describe('searchBar component', () => {
       shotnumRange: {
         min: 1,
         max: 2,
+      },
+    });
+  });
+
+  it('sends default search parameters when none are amended by the user', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: undefined,
+        toDate: undefined,
+      },
+      shotnumRange: {
+        min: ABSOLUTE_MINIMUM,
+        max: ABSOLUTE_MAXIMUM,
       },
     });
   });
