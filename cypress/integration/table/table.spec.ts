@@ -15,7 +15,7 @@ describe('Table Component', () => {
       });
     }).as('getRecords');
 
-    cy.intercept('**/records/count', (req) => {
+    cy.intercept('**/records/count**', (req) => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 

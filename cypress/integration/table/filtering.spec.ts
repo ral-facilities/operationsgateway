@@ -7,7 +7,7 @@ describe('Filtering Component', () => {
       });
     }).as('getRecords');
 
-    cy.intercept('**/records/count', (req) => {
+    cy.intercept('**/records/count**', (req) => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
@@ -44,7 +44,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"metadata.timestamp":{"$ne":null}}'
+          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.timestamp":{"$ne":null}}]}'
         )}`
       );
     });
@@ -129,7 +129,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}'
+          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
         )}`
       );
     });
@@ -213,7 +213,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}'
+          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
         )}`
       );
     });
@@ -247,9 +247,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"metadata.timestamp":{"$ne":null}}'
-        )}&conditions=${encodeURIComponent(
-          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.timestamp":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });
@@ -264,7 +262,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });

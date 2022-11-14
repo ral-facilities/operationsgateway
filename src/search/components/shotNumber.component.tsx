@@ -50,7 +50,7 @@ const ShotNumberPopup = (
         </Grid>
         <Grid item xs={5}>
           <TextField
-            name="shotnumber max"
+            name="shot number max"
             label="Max"
             value={max}
             type="number"
