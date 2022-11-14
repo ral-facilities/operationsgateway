@@ -2,7 +2,12 @@ import React from 'react';
 import SearchBar from './searchBar.component';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders, getInitialState } from '../setupTests';
+import {
+  renderComponentWithProviders,
+  getInitialState,
+  cleanupDatePickerWorkaround,
+  applyDatePickerWorkaround,
+} from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
@@ -16,7 +21,12 @@ describe('searchBar component', () => {
   };
 
   beforeEach(() => {
+    applyDatePickerWorkaround();
     user = userEvent.setup();
+  });
+
+  afterEach(() => {
+    cleanupDatePickerWorkaround();
   });
 
   it('dispatches changeSearchParams on search button click', async () => {
@@ -36,6 +46,15 @@ describe('searchBar component', () => {
     };
     const { store } = createView(state);
 
+    // Date-time fields
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.type(dateFilterToDate, '2022-01-02 00:00:00');
+
+    // Shot number fields
+
     await user.click(screen.getByLabelText('open shot number search box'));
     const shotnumPopup = screen.getByRole('dialog');
     const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
@@ -52,8 +71,8 @@ describe('searchBar component', () => {
 
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
-        fromDate: undefined,
-        toDate: undefined,
+        fromDate: '2022-01-01 00:00:00',
+        toDate: '2022-01-02 00:00:00',
       },
       shotnumRange: {
         min: 1,
