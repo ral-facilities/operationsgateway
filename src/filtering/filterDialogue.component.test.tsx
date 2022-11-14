@@ -92,7 +92,7 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'type', label: 'type' },
+        { type: 'channel', value: 'type', label: 'Type' },
         operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
@@ -135,7 +135,7 @@ describe('Filter dialogue component', () => {
     const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
     const filter2 = screen.getAllByRole('combobox', { name: 'Filter' })[1];
 
-    await user.type(filter1, 'type{enter}is not null{enter}');
+    await user.type(filter1, 'Active exp{enter}is not null{enter}');
     await user.type(filter2, 'shot{enter}is null{enter}');
     await user.tab();
 
@@ -144,7 +144,11 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'type', label: 'type' },
+        {
+          type: 'channel',
+          value: 'activeExperiment',
+          label: 'Active Experiment',
+        },
         operators.find((t) => t.value === 'is not null')!,
       ],
       [
