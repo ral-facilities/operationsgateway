@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import FilterDialogue from './filterDialogue.component';
-import { act, prettyDOM, screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   getInitialState,
