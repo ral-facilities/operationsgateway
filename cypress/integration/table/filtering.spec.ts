@@ -28,13 +28,16 @@ describe('Filtering Component', () => {
   it('opens dialogue when you click the filters button in a filtered table column', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Time{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type(
+      'Shot Number{enter}is not null{enter}'
+    );
     cy.contains('Apply').click();
     cy.get('[role="dialog"]').should('not.exist');
 
     cy.wait('@getRecords');
+    cy.get('#shotnum').check();
     cy.get('[role="columnheader"]')
-      .first() // Time column
+      .eq(1) // Shot Number column
       .within(() => {
         cy.get('[aria-label="open filters"]').click();
       });
@@ -45,10 +48,12 @@ describe('Filtering Component', () => {
   it('lets a user create a filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Time{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type(
+      'Shot Number{enter}is not null{enter}'
+    );
 
     cy.get('[data-id="Input"]')
-      .contains('[role="button"]', 'Time')
+      .contains('[role="button"]', 'Shot Number')
       .should('be.visible');
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'is not null')
@@ -60,9 +65,7 @@ describe('Filtering Component', () => {
     cy.wait('@getRecords').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"metadata.timestamp":{"$ne":null}}'
-        )}`
+        `conditions=${encodeURIComponent('{"metadata.shotnum":{"$ne":null}}')}`
       );
     });
   });
@@ -70,10 +73,10 @@ describe('Filtering Component', () => {
   it('stops a user from creating an invalid filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Time{enter}<{enter}').blur();
+    cy.get('input[role="combobox"]').type('Shot Number{enter}<{enter}').blur();
 
     cy.get('[data-id="Input"]')
-      .contains('[role="button"]', 'Time')
+      .contains('[role="button"]', 'Shot Number')
       .should('be.visible');
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', /^<$/)
@@ -249,7 +252,9 @@ describe('Filtering Component', () => {
   it('lets a user create multiple filters and delete them', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Time{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type(
+      'Shot Number{enter}is not null{enter}'
+    );
 
     cy.contains('button', 'Add new filter').click();
 
@@ -264,7 +269,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"metadata.timestamp":{"$ne":null}}'
+          '{"metadata.shotnum":{"$ne":null}}'
         )}&conditions=${encodeURIComponent(
           '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
         )}`

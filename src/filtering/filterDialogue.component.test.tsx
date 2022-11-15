@@ -69,7 +69,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'Time' },
+            { type: 'channel', value: 'type', label: 'Type' },
             operators.find((t) => t.value === 'is not null')!,
             operators.find((t) => t.value === 'and')!,
             { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -92,7 +92,7 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp', label: 'Time' },
+        { type: 'channel', value: 'type', label: 'Type' },
         operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
@@ -106,7 +106,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'Time' },
+            { type: 'channel', value: 'type', label: 'type' },
             operators.find((t) => t.value === 'is not null')!,
           ],
         ] as Token[][],
@@ -135,7 +135,7 @@ describe('Filter dialogue component', () => {
     const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
     const filter2 = screen.getAllByRole('combobox', { name: 'Filter' })[1];
 
-    await user.type(filter1, 'time{enter}is not null{enter}');
+    await user.type(filter1, 'Active exp{enter}is not null{enter}');
     await user.type(filter2, 'shot{enter}is null{enter}');
     await user.tab();
 
@@ -144,7 +144,11 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp', label: 'Time' },
+        {
+          type: 'channel',
+          value: 'activeExperiment',
+          label: 'Active Experiment',
+        },
         operators.find((t) => t.value === 'is not null')!,
       ],
       [
@@ -161,7 +165,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'Time' },
+            { type: 'channel', value: 'type', label: 'type' },
             operators.find((t) => t.value === 'is not null')!,
           ],
           [
@@ -199,7 +203,7 @@ describe('Filter dialogue component', () => {
         ...getInitialState().filter,
         appliedFilters: [
           [
-            { type: 'channel', value: 'timestamp', label: 'Time' },
+            { type: 'channel', value: 'type', label: 'type' },
             operators.find((t) => t.value === 'is not null')!,
           ],
         ] as Token[][],
@@ -218,7 +222,7 @@ describe('Filter dialogue component', () => {
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
-        { type: 'channel', value: 'timestamp', label: 'Time' },
+        { type: 'channel', value: 'type', label: 'type' },
         operators.find((t) => t.value === 'is not null')!,
       ],
     ]);
@@ -232,5 +236,16 @@ describe('Filter dialogue component', () => {
     await user.click(screen.getByText('Apply'));
 
     expect(store.getState().filter.appliedFilters).toStrictEqual([[]]);
+  });
+
+  it("doesn't pass timestamp as a filterable channel", async () => {
+    const user = userEvent.setup();
+
+    createView();
+
+    const filter = screen.getByRole('combobox', { name: 'Filter' });
+    await user.type(filter, 'time');
+    // i.e. there's no suggestions in the autocomplete
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 });
