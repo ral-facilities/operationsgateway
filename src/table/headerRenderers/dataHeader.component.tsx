@@ -13,7 +13,13 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { MoreVert, Feed, Close, WrapText } from '@mui/icons-material';
+import {
+  MoreVert,
+  Feed,
+  Close,
+  WrapText,
+  FilterAlt,
+} from '@mui/icons-material';
 import React from 'react';
 import { FullChannelMetadata, Order } from '../../app.types';
 import { TableResizerProps } from 'react-table';
@@ -34,6 +40,8 @@ export interface DataHeaderProps {
   index: number;
   channelInfo?: FullChannelMetadata;
   wordWrap: boolean;
+  isFiltered: boolean;
+  openFilters: (headerName: string) => void;
 }
 
 export interface ColumnMenuProps {
@@ -47,9 +55,11 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
   const { dataKey, onClose, onToggleWordWrap, wordWrap } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+
+  const handleOptionsButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -62,7 +72,7 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
         aria-controls={open ? `${dataKey}-menu` : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        onClick={handleOptionsButtonClick}
         size="small"
       >
         <MoreVert fontSize="inherit" />
@@ -122,6 +132,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     channelInfo,
     wordWrap,
     onToggleWordWrap,
+    isFiltered,
+    openFilters,
   } = props;
 
   // TODO currently, when sort is empty, API returns sort by timestamp ASC
@@ -229,13 +241,27 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            // 33 - enough space for both menu icon + divider
-            width: '33px',
+            // 33 - enough space for menu icon + divider
+            // 57 including the filter icon
+            width: isFiltered ? 61 : 33,
             justifyContent: 'space-between',
             zIndex: 0,
             backgroundColor: (theme) => theme.palette.background.default,
           }}
         >
+          {isFiltered && (
+            <div>
+              <IconButton
+                aria-label="open filters"
+                id={`${dataKey}-filter-icon`}
+                onClick={() => openFilters(dataKey)}
+                size="small"
+                sx={{ left: 5 }}
+              >
+                <FilterAlt fontSize="inherit" />
+              </IconButton>
+            </div>
+          )}
           <ColumnMenu
             dataKey={dataKey}
             onClose={onClose}

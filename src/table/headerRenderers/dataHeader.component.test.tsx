@@ -4,11 +4,12 @@ import {
   render,
   RenderResult,
   screen,
-  fireEvent,
   act,
+  within,
 } from '@testing-library/react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { flushPromises } from '../../setupTests';
+import userEvent from '@testing-library/user-event';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
@@ -16,6 +17,8 @@ describe('Data Header', () => {
   const onClose = jest.fn();
   const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
+  const openFilters = jest.fn();
+  let user;
 
   const createView = (): RenderResult => {
     return render(
@@ -36,11 +39,12 @@ describe('Data Header', () => {
   };
 
   beforeEach(() => {
+    user = userEvent.setup();
     props = {
       dataKey: 'test',
       sort: {},
-      onSort: onSort,
-      onClose: onClose,
+      onSort,
+      onClose,
       label: 'Test',
       resizerProps: {},
       index: 0,
@@ -51,7 +55,9 @@ describe('Data Header', () => {
         description: 'test description',
       },
       wordWrap: false,
-      onToggleWordWrap: onToggleWordWrap,
+      onToggleWordWrap,
+      isFiltered: false,
+      openFilters,
     };
   });
 
@@ -59,72 +65,93 @@ describe('Data Header', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly without sort or filter', () => {
+  it('renders correctly', () => {
     props.disableSort = true;
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with sort but no filter', () => {
-    const view = createView();
-    expect(view.asFragment()).toMatchSnapshot();
+  it('renders correctly with sort applied', () => {
+    createView();
+    expect(screen.getByTestId('sort test')).toBeInTheDocument();
+  });
+
+  it('renders correctly with filter applied', () => {
+    props.isFiltered = true;
+    createView();
+    expect(screen.getByLabelText('open filters')).toBeInTheDocument();
   });
 
   it('renders a column icon if provided', () => {
-    props.icon = <div>Icon</div>;
-    const view = createView();
-    expect(view.asFragment()).toMatchSnapshot();
+    props.icon = <div data-testid="test icon">Icon</div>;
+    createView();
+    expect(screen.getByTestId('test icon')).toBeInTheDocument();
   });
 
-  it('opens menu when menu icon is clicked', () => {
+  it('calls the openFilters method when the filter button is clicked', async () => {
+    props.isFiltered = true;
+    createView();
+    await act(async () => {
+      await user.click(screen.getByLabelText('open filters'));
+      await flushPromises();
+    });
+
+    expect(openFilters).toHaveBeenCalledWith(props.dataKey);
+  });
+
+  it('opens menu when menu icon is clicked', async () => {
     createView();
     const menuIcon = screen.getByLabelText('test menu');
-
-    fireEvent.click(menuIcon);
+    await user.click(menuIcon);
 
     const menu = screen.getByRole('menu');
 
     expect(menu).toMatchSnapshot();
   });
 
-  it('calls onToggleWordWrap when toggle word wrap option is clicked', () => {
+  it('calls onToggleWordWrap when toggle word wrap option is clicked', async () => {
     createView();
     const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
-    fireEvent.click(menuIcon);
-
-    const closeOption = screen.getByText('Turn word wrap', { exact: false });
-    fireEvent.click(closeOption);
+    const menu = screen.getByRole('menu');
+    const closeOption = within(menu).getByText('Turn word wrap on');
+    await user.click(closeOption);
     expect(onToggleWordWrap).toHaveBeenCalledWith('test');
   });
 
-  it('calls onClose when close option is clicked', () => {
+  it('shows opposite word wrap toggle text if word wrap is already on', async () => {
+    props.wordWrap = true;
     createView();
     const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
-    fireEvent.click(menuIcon);
+    const menu = screen.getByRole('menu');
+    expect(within(menu).getByText('Turn word wrap off')).toBeInTheDocument();
+  });
+
+  it('calls onClose when close option is clicked', async () => {
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
 
     const closeOption = screen.getByText('Close');
-    fireEvent.click(closeOption);
+    await user.click(closeOption);
     expect(onClose).toHaveBeenCalledWith('test');
   });
 
-  it('removes column from display when header is middle clicked', () => {
+  it('removes column from display when header is middle clicked', async () => {
     createView();
     const header = screen.getByLabelText('test header');
-    fireEvent.mouseDown(header, { button: 1 });
+    await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
     expect(onClose).toHaveBeenCalledWith('test');
   });
-
-  it.todo('renders correctly with filter but no sort');
-
-  it.todo('renders correctly with sort and filter');
 
   describe('calls the onSort method when label is clicked', () => {
     it('sets asc order', async () => {
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
 
@@ -138,7 +165,7 @@ describe('Data Header', () => {
 
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
       expect(onSort).toHaveBeenCalledWith('test', 'desc');
@@ -151,7 +178,7 @@ describe('Data Header', () => {
 
       createView();
       await act(async () => {
-        screen.getByTestId('sort test').click();
+        await user.click(screen.getByTestId('sort test'));
         await flushPromises();
       });
       expect(onSort).toHaveBeenCalledWith('test', null);
@@ -178,12 +205,7 @@ describe('Data Header', () => {
     createView();
     const header = screen.getByText('Test');
 
-    fireEvent(
-      header,
-      new MouseEvent('mouseover', {
-        bubbles: true,
-      })
-    );
+    await user.hover(header);
 
     expect(
       await screen.findByText('Units: m', {
@@ -199,16 +221,12 @@ describe('Data Header', () => {
 
   it('displays tooltip with system name when user hovers over friendly column name', async () => {
     props.label = 'Test Friendly Name';
-    props.channelInfo.userFriendlyName = props.label as string;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    props.channelInfo!.userFriendlyName = props.label as string;
     createView();
     const header = screen.getByText('Test Friendly Name');
 
-    fireEvent(
-      header,
-      new MouseEvent('mouseover', {
-        bubbles: true,
-      })
-    );
+    await user.hover(header);
 
     expect(
       await screen.findByText('System Name: Test', {

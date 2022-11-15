@@ -31,6 +31,10 @@ describe('Filter dialogue component', () => {
     (axios.get as jest.Mock).mockResolvedValue({ data: testRecords });
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders filter dialogue when dialogue is open', async () => {
     let baseElement;
     await act(async () => {

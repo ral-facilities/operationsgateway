@@ -15,7 +15,7 @@ describe('Filtering Component', () => {
     cy.visit('/').wait(['@getRecords', '@getRecords', '@getRecordCount']);
   });
 
-  it('opens dialogue when you click on filter button and closes when you click close', () => {
+  it('opens dialogue when you click on main filters button and closes when you click close', () => {
     cy.contains('Filter').click();
 
     cy.get('[role="dialog"]').contains('Filters').should('be.visible');
@@ -23,6 +23,23 @@ describe('Filtering Component', () => {
     cy.get('[role="dialog"]').contains('Close').click();
 
     cy.get('[role="dialog"]').should('not.exist');
+  });
+
+  it('opens dialogue when you click the filters button in a filtered table column', () => {
+    cy.contains('Filter').click();
+
+    cy.get('input[role="combobox"]').type('Time{enter}is not null{enter}');
+    cy.contains('Apply').click();
+    cy.get('[role="dialog"]').should('not.exist');
+
+    cy.wait('@getRecords');
+    cy.get('[role="columnheader"]')
+      .first() // Time column
+      .within(() => {
+        cy.get('[aria-label="open filters"]').click();
+      });
+
+    cy.get('[role="dialog"]').contains('Filters').should('be.visible');
   });
 
   it('lets a user create a filter', () => {

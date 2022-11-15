@@ -23,6 +23,7 @@ import { AddCircle, Delete } from '@mui/icons-material';
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;
+  flashingFilterValue?: string;
 }
 
 const Heading = (props: React.ComponentProps<typeof Typography>) => {
@@ -46,7 +47,7 @@ const Body = (props: React.ComponentProps<typeof Typography>) => (
 );
 
 const FilterDialogue = (props: FilterDialogueProps) => {
-  const { open, onClose } = props;
+  const { open, onClose, flashingFilterValue } = props;
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
@@ -108,6 +109,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                     setValue={handleChangeValue(index)}
                     error={errors[index]}
                     setError={handleChangeError(index)}
+                    flashingFilterValue={flashingFilterValue}
                   />
                 </Grid>
                 <Grid item xs={0.6} mt={0.5}>
