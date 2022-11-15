@@ -36,7 +36,7 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
     },
   });
   const BUTTON_INDEX = 0;
-  const SLOPPY_CLICK_THRESHOLD = 10;
+  const SLOPPY_CLICK_THRESHOLD = 30;
   cy.get(target)
     .first()
     .then(($target) => {
