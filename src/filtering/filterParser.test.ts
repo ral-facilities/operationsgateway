@@ -1,10 +1,10 @@
 import { operators, parseFilter, Token } from './filterParser';
 
 describe('Filter parser', () => {
-  const timestampToken: Token = {
+  const shotnumToken: Token = {
     type: 'channel',
-    value: 'timestamp',
-    label: 'Time',
+    value: 'shotnum',
+    label: 'Shot Number',
   };
   const channelToken: Token = {
     type: 'channel',
@@ -36,8 +36,14 @@ describe('Filter parser', () => {
   /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   it('can parse a comparison operation', () => {
-    expect(parseFilter([timestampToken, ltToken, numberToken])).toEqual(
-      '{"metadata.timestamp":{"$lt":1}}'
+    expect(parseFilter([shotnumToken, ltToken, numberToken])).toEqual(
+      '{"metadata.shotnum":{"$lt":1}}'
+    );
+  });
+
+  it('can parse a comparison operation between two channels', () => {
+    expect(parseFilter([shotnumToken, ltToken, channelToken])).toEqual(
+      '{"$expr":{"$lt":["$metadata.shotnum","$channels.CHANNEL_1.data"]}}'
     );
   });
 
@@ -55,34 +61,34 @@ describe('Filter parser', () => {
     );
 
     expect(() => {
-      parseFilter([numberToken, ltToken, timestampToken]);
+      parseFilter([numberToken, ltToken, shotnumToken]);
     }).toThrowError('Unexpected number on left hand side of expression: 1');
 
     expect(() => {
-      parseFilter([isNullToken, ltToken, timestampToken]);
+      parseFilter([isNullToken, ltToken, shotnumToken]);
     }).toThrowError('Unexpected: is null');
   });
 
   it('throws error if a predicate is incomplete', () => {
     expect(() => {
-      parseFilter([timestampToken]);
+      parseFilter([shotnumToken]);
     }).toThrowError('Missing token at end. Expected: compop,unaryop');
 
     expect(() => {
-      parseFilter([timestampToken, channelToken]);
+      parseFilter([shotnumToken, channelToken]);
     }).toThrowError(
       'Expected token from types [compop,unaryop] at token CHANNEL_1'
     );
 
     expect(() => {
-      parseFilter([timestampToken, ltToken]);
+      parseFilter([shotnumToken, ltToken]);
     }).toThrowError('Missing operand');
   });
 
   it('throws error if an invalid operator is supplied', () => {
     expect(() => {
       parseFilter([
-        timestampToken,
+        shotnumToken,
         { type: 'compop', value: 'INVALID', label: 'INVALID' },
         numberToken,
       ]);
@@ -91,15 +97,19 @@ describe('Filter parser', () => {
 
   it('throws error if RHS of a comparison predicate is not valid', () => {
     expect(() => {
-      parseFilter([timestampToken, ltToken, ltToken]);
+      parseFilter([shotnumToken, ltToken, ltToken]);
     }).toThrowError('Unexpected: <');
   });
 
   it('can parse a not expression', () => {
+    expect(parseFilter([notToken, shotnumToken, eqToken, numberToken])).toEqual(
+      '{"metadata.shotnum":{"$not":{"$eq":1}}}'
+    );
+
     expect(
-      parseFilter([notToken, timestampToken, eqToken, channelToken])
+      parseFilter([notToken, shotnumToken, eqToken, channelToken])
     ).toEqual(
-      '{"metadata.timestamp":{"$not":{"$eq":"channels.CHANNEL_1.data"}}}'
+      '{"$expr":{"$not":{"$eq":["$metadata.shotnum","$channels.CHANNEL_1.data"]}}}'
     );
 
     expect(
@@ -107,18 +117,32 @@ describe('Filter parser', () => {
         notToken,
         openParenToken,
         notToken,
-        timestampToken,
+        shotnumToken,
+        eqToken,
+        numberToken,
+        closeParenToken,
+      ])
+    ).toEqual('{"metadata.shotnum":{"$eq":1}}');
+
+    expect(
+      parseFilter([
+        notToken,
+        openParenToken,
+        notToken,
+        shotnumToken,
         eqToken,
         channelToken,
         closeParenToken,
       ])
-    ).toEqual('{"metadata.timestamp":{"$eq":"channels.CHANNEL_1.data"}}');
+    ).toEqual(
+      '{"$expr":{"$eq":["$metadata.shotnum","$channels.CHANNEL_1.data"]}}'
+    );
   });
 
   it('can parse an AND expression', () => {
     expect(
       parseFilter([
-        timestampToken,
+        shotnumToken,
         gtToken,
         numberToken,
         andToken,
@@ -127,14 +151,14 @@ describe('Filter parser', () => {
         numberToken,
       ])
     ).toEqual(
-      '{"$and":[{"metadata.timestamp":{"$gt":1}},{"channels.CHANNEL_1.data":{"$lte":1}}]}'
+      '{"$and":[{"metadata.shotnum":{"$gt":1}},{"channels.CHANNEL_1.data":{"$lte":1}}]}'
     );
   });
 
   it('can parse an OR expression', () => {
     expect(
       parseFilter([
-        timestampToken,
+        shotnumToken,
         gteToken,
         numberToken,
         orToken,
@@ -143,14 +167,14 @@ describe('Filter parser', () => {
         stringToken,
       ])
     ).toEqual(
-      '{"$or":[{"metadata.timestamp":{"$gte":1}},{"channels.CHANNEL_1.data":{"$ne":"test"}}]}'
+      '{"$or":[{"metadata.shotnum":{"$gte":1}},{"channels.CHANNEL_1.data":{"$ne":"test"}}]}'
     );
   });
 
   it('can parse an expression with mixed AND and OR', () => {
     expect(
       parseFilter([
-        timestampToken,
+        shotnumToken,
         gteToken,
         numberToken,
         orToken,
@@ -162,7 +186,7 @@ describe('Filter parser', () => {
         isNotNullToken,
       ])
     ).toEqual(
-      '{"$or":[{"metadata.timestamp":{"$gte":1}},{"$and":[{"channels.CHANNEL_1.data":{"$ne":"test"}},{"channels.CHANNEL_1.data":{"$ne":null}}]}]}'
+      '{"$or":[{"metadata.shotnum":{"$gte":1}},{"$and":[{"channels.CHANNEL_1.data":{"$ne":"test"}},{"channels.CHANNEL_1.data":{"$ne":null}}]}]}'
     );
   });
 
@@ -170,7 +194,7 @@ describe('Filter parser', () => {
     expect(
       parseFilter([
         openParenToken,
-        timestampToken,
+        shotnumToken,
         gteToken,
         numberToken,
         orToken,
@@ -183,7 +207,7 @@ describe('Filter parser', () => {
         isNotNullToken,
       ])
     ).toEqual(
-      '{"$and":[{"$or":[{"metadata.timestamp":{"$gte":1}},{"channels.CHANNEL_1.data":{"$ne":"test"}}]},{"channels.CHANNEL_1.data":{"$ne":null}}]}'
+      '{"$and":[{"$or":[{"metadata.shotnum":{"$gte":1}},{"channels.CHANNEL_1.data":{"$ne":"test"}}]},{"channels.CHANNEL_1.data":{"$ne":null}}]}'
     );
   });
 
@@ -195,7 +219,7 @@ describe('Filter parser', () => {
 
   it('throws an error if there is a missing closing parenthesis', () => {
     expect(() => {
-      parseFilter([openParenToken, timestampToken, isNotNullToken]);
+      parseFilter([openParenToken, shotnumToken, isNotNullToken]);
     }).toThrowError('Missing token at end. Expected: closeparen');
   });
 
@@ -208,7 +232,7 @@ describe('Filter parser', () => {
       parseFilter([
         notToken,
         openParenToken,
-        timestampToken,
+        shotnumToken,
         gtToken,
         numberToken,
         andToken,
@@ -219,7 +243,7 @@ describe('Filter parser', () => {
         closeParenToken,
       ])
     ).toEqual(
-      '{"$or":[{"metadata.timestamp":{"$not":{"$gt":1}}},{"channels.CHANNEL_1.data":{"$lte":1}}]}'
+      '{"$or":[{"metadata.shotnum":{"$not":{"$gt":1}}},{"channels.CHANNEL_1.data":{"$lte":1}}]}'
     );
 
     expect(
@@ -227,7 +251,7 @@ describe('Filter parser', () => {
         notToken,
         openParenToken,
         notToken,
-        timestampToken,
+        shotnumToken,
         gtToken,
         numberToken,
         orToken,
@@ -237,7 +261,7 @@ describe('Filter parser', () => {
         closeParenToken,
       ])
     ).toEqual(
-      '{"$and":[{"metadata.timestamp":{"$gt":1}},{"channels.CHANNEL_1.data":{"$not":{"$lte":1}}}]}'
+      '{"$and":[{"metadata.shotnum":{"$gt":1}},{"channels.CHANNEL_1.data":{"$not":{"$lte":1}}}]}'
     );
   });
 });

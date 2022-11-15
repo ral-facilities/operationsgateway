@@ -211,6 +211,7 @@ class Predicate {
   param2: string | number | undefined;
   op: Token | undefined;
   not = false;
+  channelComp = false;
 
   /**
    * @param input {@link TokenInput} stream to use
@@ -243,6 +244,7 @@ class Predicate {
       if (token !== null) {
         if (token.type === 'channel') {
           this.param2 = convertChannel(token.value);
+          this.channelComp = true;
           input.consume();
         } else if (token.type === 'string') {
           // remove quotes
@@ -263,11 +265,20 @@ class Predicate {
   public toString(): string {
     let s = '';
     if (this.param1 && this.op && this.op.type === 'compop' && this.param2) {
-      const param2 =
-        typeof this.param2 === 'string' ? `"${this.param2}"` : this.param2;
-      s = `{"${this.param1}":${this.not ? '{"$not":' : ''}{"$${convertOperator(
-        this.op
-      )}":${param2}}${this.not ? '}' : ''}}`;
+      // need to use $expr function when comparing two channels
+      // but use "normal" syntax when comparing against a number or string
+      // as the "normal" syntax is more efficient
+      if (this.channelComp) {
+        s = `{"$expr":${this.not ? '{"$not":' : ''}{"$${convertOperator(
+          this.op
+        )}":["$${this.param1}","$${this.param2}"]}${this.not ? '}' : ''}}`;
+      } else {
+        const param2 =
+          typeof this.param2 === 'string' ? `"${this.param2}"` : this.param2;
+        s = `{"${this.param1}":${
+          this.not ? '{"$not":' : ''
+        }{"$${convertOperator(this.op)}":${param2}}${this.not ? '}' : ''}}`;
+      }
     } else if (this.param1 && this.op && this.op.type === 'unaryop') {
       s = `{"${this.param1}":${this.not ? '{"$not":' : ''}{"$${convertOperator(
         this.op
