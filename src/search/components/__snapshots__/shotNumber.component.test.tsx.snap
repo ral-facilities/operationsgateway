@@ -123,7 +123,7 @@ exports[`shotNumber search renders correctly 1`] = `
                   id=":r1:"
                   max="99999999"
                   min="0"
-                  name="shotnumber max"
+                  name="shot number max"
                   type="number"
                   value="99999999"
                 />
