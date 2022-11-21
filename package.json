@@ -12,7 +12,7 @@
     "@mui/material": "5.10.3",
     "@mui/system": "5.10.12",
     "@mui/x-date-pickers": "5.0.7",
-    "@reduxjs/toolkit": "1.8.3",
+    "@reduxjs/toolkit": "1.9.0",
     "@tanstack/react-virtual": "beta",
     "@types/jest": "29.2.0",
     "@types/node": "18.11.4",
@@ -42,7 +42,7 @@
     "react-table": "7.8.0",
     "single-spa-react": "5.0.0",
     "typescript": "4.8.2",
-    "web-vitals": "3.0.0"
+    "web-vitals": "3.1.0"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
@@ -89,7 +89,7 @@
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
-    "@craco/craco": "6.4.3",
+    "@craco/craco": "7.0.0",
     "@playwright/test": "1.27.0",
     "@testing-library/dom": "8.19.0",
     "@testing-library/jest-dom": "5.16.4",
@@ -97,15 +97,15 @@
     "@testing-library/user-event": "14.4.2",
     "@types/react-router-dom": "5.3.3",
     "@types/testing-library__jest-dom": "5.14.3",
-    "@typescript-eslint/eslint-plugin": "5.42.0",
-    "@typescript-eslint/parser": "5.42.0",
-    "@typescript-eslint/typescript-estree": "5.42.0",
-    "chart.js": "3.9.1",
+    "@typescript-eslint/eslint-plugin": "5.43.0",
+    "@typescript-eslint/parser": "5.43.0",
+    "@typescript-eslint/typescript-estree": "5.43.0",
+    "chart.js": "4.0.1",
     "chartjs-plugin-zoom": "1.2.1",
     "cross-env": "7.0.3",
     "cypress": "9.7.0",
     "cypress-failed-log": "2.10.0",
-    "eslint": "8.26.0",
+    "eslint": "8.27.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-cypress": "2.12.1",
@@ -116,7 +116,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "react-beautiful-dnd-test-utils": "4.1.1",
-    "serve": "14.0.1",
+    "serve": "14.1.1",
     "serve-static": "1.15.0",
     "start-server-and-test": "1.14.0"
   }
