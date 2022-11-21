@@ -115,7 +115,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "react-beautiful-dnd-test-utils": "4.1.1",
-    "serve": "14.0.1",
+    "serve": "14.1.1",
     "serve-static": "1.15.0",
     "start-server-and-test": "1.14.0"
   }
