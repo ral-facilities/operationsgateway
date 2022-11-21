@@ -49,18 +49,16 @@ export function updateFilter({
 }
 
 export interface DateTimeSearchProps {
-  receivedFromDate: Date | null;
-  receivedToDate: Date | null;
+  fromDate: Date | null;
+  toDate: Date | null;
   changeFromDate: (fromDate: Date | null) => void;
   changeToDate: (toDate: Date | null) => void;
+  resetTimeframe: () => void;
 }
 
 const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
-  const { receivedFromDate, receivedToDate, changeFromDate, changeToDate } =
+  const { fromDate, toDate, changeFromDate, changeToDate, resetTimeframe } =
     props;
-
-  const [fromDate, setFromDate] = React.useState<Date | null>(receivedFromDate);
-  const [toDate, setToDate] = React.useState<Date | null>(receivedToDate);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
@@ -88,7 +86,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               actionBar: { actions: ['clear'] },
             }}
             onChange={(date) => {
-              setFromDate(date as Date);
+              resetTimeframe();
               if (!popupOpen) {
                 updateFilter({
                   date: date as Date,
@@ -100,6 +98,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }
             }}
             onAccept={(date) => {
+              resetTimeframe();
               updateFilter({
                 date: date as Date,
                 prevDate: fromDate,
@@ -158,7 +157,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               actionBar: { actions: ['clear'] },
             }}
             onChange={(date) => {
-              setToDate(date as Date);
+              resetTimeframe();
               if (!popupOpen) {
                 updateFilter({
                   date: date as Date,
@@ -170,6 +169,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }
             }}
             onAccept={(date) => {
+              resetTimeframe();
               updateFilter({
                 date: date as Date,
                 prevDate: toDate,
