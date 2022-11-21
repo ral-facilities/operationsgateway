@@ -97,7 +97,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-router-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.4.0"],\
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.8.0"],\
-            ["serve", "npm:14.0.1"],\
+            ["serve", "npm:14.1.1"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
             ["start-server-and-test", "npm:1.14.0"],\
@@ -14872,7 +14872,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-router-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.4.0"],\
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.8.0"],\
-            ["serve", "npm:14.0.1"],\
+            ["serve", "npm:14.1.1"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
             ["start-server-and-test", "npm:1.14.0"],\
@@ -18625,10 +18625,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["serve", [\
-        ["npm:14.0.1", {\
-          "packageLocation": "./.yarn/cache/serve-npm-14.0.1-d757b46361-bf8e4437db.zip/node_modules/serve/",\
+        ["npm:14.1.1", {\
+          "packageLocation": "./.yarn/cache/serve-npm-14.1.1-9f904dd8ed-7db310dfbe.zip/node_modules/serve/",\
           "packageDependencies": [\
-            ["serve", "npm:14.0.1"],\
+            ["serve", "npm:14.1.1"],\
             ["@zeit/schemas", "npm:2.21.0"],\
             ["ajv", "npm:8.11.0"],\
             ["arg", "npm:5.0.2"],\
@@ -18638,17 +18638,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["clipboardy", "npm:3.0.0"],\
             ["compression", "npm:1.7.4"],\
             ["is-port-reachable", "npm:4.0.0"],\
-            ["serve-handler", "npm:6.1.3"],\
+            ["serve-handler", "npm:6.1.5"],\
             ["update-check", "npm:1.5.4"]\
           ],\
           "linkType": "HARD"\
         }]\
       ]],\
       ["serve-handler", [\
-        ["npm:6.1.3", {\
-          "packageLocation": "./.yarn/cache/serve-handler-npm-6.1.3-b099b266c5-384c1bc10a.zip/node_modules/serve-handler/",\
+        ["npm:6.1.5", {\
+          "packageLocation": "./.yarn/cache/serve-handler-npm-6.1.5-42f02a15c9-7a98ca9cbf.zip/node_modules/serve-handler/",\
           "packageDependencies": [\
-            ["serve-handler", "npm:6.1.3"],\
+            ["serve-handler", "npm:6.1.5"],\
             ["bytes", "npm:3.0.0"],\
             ["content-disposition", "npm:0.5.2"],\
             ["fast-url-parser", "npm:1.1.3"],\
