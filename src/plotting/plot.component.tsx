@@ -159,6 +159,8 @@ const Plot = (props: PlotProps) => {
         (options.scales.y2.display = selectedPlotChannels.some(
           (channel) => channel.options.yAxis === 'right'
         ));
+      options?.scales?.y2?.grid &&
+        (options.scales.y2.grid.display = gridVisible);
       return JSON.stringify(options);
     });
   }, [
