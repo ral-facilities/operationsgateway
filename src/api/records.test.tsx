@@ -128,7 +128,7 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
       expect(axios.get).toHaveBeenCalledWith(
@@ -171,10 +171,6 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      params.append(
-        'conditions',
-        '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}}]}'
-      );
       params.append('skip', '0');
       params.append('limit', '25');
 
@@ -231,7 +227,7 @@ describe('records api functions', () => {
       params.append('order', 'channels.CHANNEL_1 desc');
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
@@ -290,10 +286,6 @@ describe('records api functions', () => {
       });
 
       params.append('order', 'metadata.timestamp asc');
-      params.append(
-        'conditions',
-        '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}}]}'
-      );
 
       expect(axios.get).toHaveBeenCalledWith(
         '/records',
@@ -348,7 +340,7 @@ describe('records api functions', () => {
       params.append('order', 'metadata.shotnum asc');
       params.append(
         'conditions',
-        '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.shotnum":{"$gt":300}}]}'
       );
 
       expect(axios.get).toHaveBeenCalledWith(

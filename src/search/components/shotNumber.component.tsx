@@ -4,10 +4,10 @@ import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
 export interface ShotNumberProps {
-  receivedMin: number | null;
-  receivedMax: number | null;
-  changeMin: (min: number | null) => void;
-  changeMax: (max: number | null) => void;
+  receivedMin?: number;
+  receivedMax?: number;
+  changeMin: (min: number | undefined) => void;
+  changeMax: (max: number | undefined) => void;
 }
 
 const ShotNumberPopup = (
@@ -39,7 +39,9 @@ const ShotNumberPopup = (
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeMin(event.target.value ? Number(event.target.value) : null)
+              changeMin(
+                event.target.value ? Number(event.target.value) : undefined
+              )
             }
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
@@ -57,7 +59,9 @@ const ShotNumberPopup = (
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeMax(event.target.value ? Number(event.target.value) : null)
+              changeMax(
+                event.target.value ? Number(event.target.value) : undefined
+              )
             }
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
@@ -88,7 +92,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
-          borderColor: invalidRange ? '#d64141' : undefined,
+          borderColor: invalidRange ? 'rgb(214, 65, 65)' : undefined,
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',

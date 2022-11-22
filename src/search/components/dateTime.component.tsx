@@ -68,8 +68,10 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
 
   return (
     <Box
+      aria-label="date-time search box"
       sx={{
         border: '1.5px solid',
+        borderColor: invalidDateRange ? 'rgb(214, 65, 65)' : undefined,
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'row',

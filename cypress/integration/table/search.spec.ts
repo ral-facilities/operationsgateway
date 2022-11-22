@@ -27,9 +27,7 @@ describe('Search', () => {
     // Shot number fields
     cy.get('div[aria-label="open shot number search box"]').click();
     cy.get('input[name="shot number min"]').type('1');
-    cy.get('input[name="shot number max"]').type(
-      '{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}{backspace}'
-    );
+    cy.get('input[name="shot number max"]').type('9');
 
     cy.contains('Search').click();
 
@@ -56,5 +54,31 @@ describe('Search', () => {
         )}`
       );
     });
+  });
+
+  it('should highlight boxes red if error in search params', () => {
+    // Date-time box
+    cy.get('input[aria-label="from, date-time input"]').type(
+      '2022-01-01 00:00:00'
+    );
+    cy.get('input[aria-label="to, date-time input"]').type(
+      '2021-01-01 00:00:00'
+    );
+    cy.get('div[aria-label="date-time search box"]').should(
+      'have.css',
+      'border-color',
+      'rgb(214, 65, 65)' // shade of red
+    );
+
+    // Shot Number box
+    cy.get('div[aria-label="open shot number search box"]').click();
+    cy.get('input[name="shot number min"]').type('2');
+    cy.get('input[name="shot number max"]').type('1');
+    cy.get('div[aria-label="close shot number search box"]').click();
+    cy.get('div[aria-label="open shot number search box"]').should(
+      'have.css',
+      'border-color',
+      'rgb(214, 65, 65)' // shade of red
+    );
   });
 });
