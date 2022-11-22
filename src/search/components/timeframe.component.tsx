@@ -143,6 +143,7 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
+        aria-label={`${isOpen ? 'close' : 'open'} timeframe search box`}
         sx={{
           border: '1.5px solid',
           borderRadius: '10px',

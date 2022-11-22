@@ -10,6 +10,7 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { format } from 'date-fns';
 
 describe('searchBar component', () => {
   let user;
@@ -30,20 +31,7 @@ describe('searchBar component', () => {
   });
 
   it('dispatches changeSearchParams on search button click', async () => {
-    const state = {
-      ...getInitialState(),
-      search: {
-        ...getInitialState().search,
-        searchParams: {
-          ...getInitialState().search.searchParams,
-          shotnumRange: {
-            // zero for min and max to allow for proper userEvent typing to occur
-            min: 0,
-            max: 0,
-          },
-        },
-      },
-    };
+    const state = getInitialState();
     const { store } = createView(state);
 
     // Date-time fields
@@ -91,6 +79,34 @@ describe('searchBar component', () => {
       dateRange: {
         fromDate: undefined,
         toDate: undefined,
+      },
+      shotnumRange: {
+        min: undefined,
+        max: undefined,
+      },
+    });
+  });
+
+  it('searches by relative timeframe', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    await user.click(screen.getByLabelText('open timeframe search box'));
+    const timeframePopup = screen.getByRole('dialog');
+    await user.click(
+      within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
+    );
+    const expectedToDate = new Date();
+    const expectedFromDate = new Date(expectedToDate).setDate(
+      expectedToDate.getDate() - 7
+    );
+    await user.click(screen.getByLabelText('close timeframe search box'));
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss'),
+        toDate: format(expectedToDate, 'yyyy-MM-dd HH:mm:ss'),
       },
       shotnumRange: {
         min: undefined,
