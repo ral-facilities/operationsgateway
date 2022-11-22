@@ -43,7 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.10.3"],\
             ["@mui/system", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.10.12"],\
             ["@mui/x-date-pickers", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.7"],\
-            ["@playwright/test", "npm:1.27.0"],\
+            ["@playwright/test", "npm:1.28.0"],\
             ["@reduxjs/toolkit", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.9.0"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.13"],\
             ["@testing-library/dom", "npm:8.19.0"],\
@@ -4508,12 +4508,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@playwright/test", [\
-        ["npm:1.27.0", {\
-          "packageLocation": "./.yarn/cache/@playwright-test-npm-1.27.0-e2f531747d-ee72ba5f00.zip/node_modules/@playwright/test/",\
+        ["npm:1.28.0", {\
+          "packageLocation": "./.yarn/cache/@playwright-test-npm-1.28.0-20a17c7d04-5b90a4fd7a.zip/node_modules/@playwright/test/",\
           "packageDependencies": [\
-            ["@playwright/test", "npm:1.27.0"],\
+            ["@playwright/test", "npm:1.28.0"],\
             ["@types/node", "npm:18.11.4"],\
-            ["playwright-core", "npm:1.27.0"]\
+            ["playwright-core", "npm:1.28.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -14818,7 +14818,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.10.3"],\
             ["@mui/system", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.10.12"],\
             ["@mui/x-date-pickers", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.7"],\
-            ["@playwright/test", "npm:1.27.0"],\
+            ["@playwright/test", "npm:1.28.0"],\
             ["@reduxjs/toolkit", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.9.0"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.13"],\
             ["@testing-library/dom", "npm:8.19.0"],\
@@ -15264,10 +15264,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["playwright-core", [\
-        ["npm:1.27.0", {\
-          "packageLocation": "./.yarn/unplugged/playwright-core-npm-1.27.0-fba1af4de2/node_modules/playwright-core/",\
+        ["npm:1.28.0", {\
+          "packageLocation": "./.yarn/unplugged/playwright-core-npm-1.28.0-9bd034478b/node_modules/playwright-core/",\
           "packageDependencies": [\
-            ["playwright-core", "npm:1.27.0"]\
+            ["playwright-core", "npm:1.28.0"]\
           ],\
           "linkType": "HARD"\
         }]\
