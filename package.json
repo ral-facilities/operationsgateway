@@ -85,7 +85,7 @@
   "jest": {
     "resetMocks": false
   },
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@3.3.0",
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
     "@craco/craco": "7.0.0",
