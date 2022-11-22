@@ -3,6 +3,7 @@
 exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
 <DocumentFragment>
   <div
+    aria-label="date-time search box"
     class="MuiBox-root css-uf7cep"
   >
     <svg
@@ -128,6 +129,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
 exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
 <DocumentFragment>
   <div
+    aria-label="date-time search box"
     class="MuiBox-root css-uf7cep"
   >
     <svg

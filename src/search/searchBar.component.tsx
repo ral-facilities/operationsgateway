@@ -29,8 +29,12 @@ const SearchBar = (): React.ReactElement => {
 
   const [timeframe, setTimeframe] = React.useState<TimeframeValue | null>(null);
 
-  const [shotnumMin, setShotnumMin] = React.useState<number>(shotnumRange.min);
-  const [shotnumMax, setShotnumMax] = React.useState<number>(shotnumRange.max);
+  const [shotnumMin, setShotnumMin] = React.useState<number | undefined>(
+    shotnumRange.min ?? undefined
+  );
+  const [shotnumMax, setShotnumMax] = React.useState<number | undefined>(
+    shotnumRange.max ?? undefined
+  );
 
   const calculateTimeframeDateRange = (
     timeframe: TimeframeValue
@@ -109,8 +113,8 @@ const SearchBar = (): React.ReactElement => {
       </Grid>
       <Grid item xs={2}>
         <ShotNumber
-          min={shotnumMin}
-          max={shotnumMax}
+          receivedMin={shotnumMin}
+          receivedMax={shotnumMax}
           changeMin={setShotnumMin}
           changeMax={setShotnumMax}
         />

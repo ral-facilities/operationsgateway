@@ -58,8 +58,8 @@ exports[`shotNumber search renders correctly 1`] = `
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
-                data-shrink="true"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="false"
                 for=":r0:"
                 id=":r0:-label"
               >
@@ -72,18 +72,17 @@ exports[`shotNumber search renders correctly 1`] = `
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r0:"
-                  max="99999999"
                   min="0"
                   name="shot number min"
                   type="number"
-                  value="0"
+                  value=""
                 />
                 <fieldset
                   aria-hidden="true"
                   class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-1in441m"
+                    class="css-1ftyaf0"
                   >
                     <span>
                       Min
@@ -107,8 +106,8 @@ exports[`shotNumber search renders correctly 1`] = `
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
-                data-shrink="true"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+                data-shrink="false"
                 for=":r1:"
                 id=":r1:-label"
               >
@@ -121,18 +120,17 @@ exports[`shotNumber search renders correctly 1`] = `
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
                   id=":r1:"
-                  max="99999999"
                   min="0"
                   name="shot number max"
                   type="number"
-                  value="99999999"
+                  value=""
                 />
                 <fieldset
                   aria-hidden="true"
                   class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-1in441m"
+                    class="css-1ftyaf0"
                   >
                     <span>
                       Max

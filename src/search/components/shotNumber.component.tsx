@@ -3,20 +3,18 @@ import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-export const ABSOLUTE_MINIMUM = 0;
-export const ABSOLUTE_MAXIMUM = 99999999;
-
 export interface ShotNumberProps {
-  min: number;
-  max: number;
-  changeMin: (min: number) => void;
-  changeMax: (max: number) => void;
+  receivedMin?: number;
+  receivedMax?: number;
+  changeMin: (min: number | undefined) => void;
+  changeMax: (max: number | undefined) => void;
 }
 
 const ShotNumberPopup = (
   props: ShotNumberProps & { invalidRange: boolean }
 ): React.ReactElement => {
-  const { min, max, changeMin, changeMax, invalidRange } = props;
+  const { receivedMin, receivedMax, changeMin, changeMax, invalidRange } =
+    props;
 
   return (
     <div style={{ paddingTop: 5, paddingLeft: 5 }}>
@@ -36,11 +34,15 @@ const ShotNumberPopup = (
           <TextField
             name="shot number min"
             label="Min"
-            value={min}
+            value={receivedMin}
             type="number"
             size="small"
-            inputProps={{ min: ABSOLUTE_MINIMUM, max: ABSOLUTE_MAXIMUM }}
-            onChange={(event) => changeMin(Number(event.target.value))}
+            inputProps={{ min: 0 }}
+            onChange={(event) =>
+              changeMin(
+                event.target.value ? Number(event.target.value) : undefined
+              )
+            }
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -52,11 +54,15 @@ const ShotNumberPopup = (
           <TextField
             name="shot number max"
             label="Max"
-            value={max}
+            value={receivedMax}
             type="number"
             size="small"
-            inputProps={{ min: ABSOLUTE_MINIMUM, max: ABSOLUTE_MAXIMUM }}
-            onChange={(event) => changeMax(Number(event.target.value))}
+            inputProps={{ min: 0 }}
+            onChange={(event) =>
+              changeMax(
+                event.target.value ? Number(event.target.value) : undefined
+              )
+            }
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -75,7 +81,10 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
-  const invalidRange = props.min > props.max;
+  const invalidRange =
+    props.receivedMin && props.receivedMax
+      ? props.receivedMin > props.receivedMax
+      : false;
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
@@ -83,7 +92,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
-          borderColor: invalidRange ? '#d64141' : undefined,
+          borderColor: invalidRange ? 'rgb(214, 65, 65)' : undefined,
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',

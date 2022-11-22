@@ -1,9 +1,5 @@
 import React from 'react';
-import ShotNumber, {
-  type ShotNumberProps,
-  ABSOLUTE_MINIMUM,
-  ABSOLUTE_MAXIMUM,
-} from './shotNumber.component';
+import ShotNumber, { type ShotNumberProps } from './shotNumber.component';
 import {
   screen,
   render,
@@ -24,11 +20,6 @@ describe('shotNumber search', () => {
 
   beforeEach(() => {
     props = {
-      // zero for min and max to allow for better testing
-      // input type="number" is difficult to test with userEvent and state-handled values
-      // userEvent.type can only type at the end of the existing input in our case so we prefix our test numbers with zero to get the expected results
-      min: ABSOLUTE_MINIMUM,
-      max: ABSOLUTE_MAXIMUM,
       changeMin,
       changeMax,
     };
@@ -62,14 +53,6 @@ describe('shotNumber search', () => {
   });
 
   it('allows user to change min and max values and not show error when valid input', async () => {
-    props = {
-      ...props,
-      // zero for min and max to allow for proper userEvent typing to occur
-      // userEvent.type can only type at the end of the existing input in our case so we prefix our test numbers with zero to get the expected results
-      // input type="number" is difficult to test with userEvent and state-handled values
-      min: 0,
-      max: 0,
-    };
     createView();
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -92,8 +75,8 @@ describe('shotNumber search', () => {
   it('displays invalid range message when min > max', async () => {
     props = {
       ...props,
-      min: 2,
-      max: 1,
+      receivedMin: 2,
+      receivedMax: 1,
     };
     createView();
 

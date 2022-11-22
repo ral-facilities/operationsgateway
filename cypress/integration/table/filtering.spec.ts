@@ -66,7 +66,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.shotnum":{"$ne":null}}]}'
+          '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
         )}`
       );
     });
@@ -151,7 +151,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
+          '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
         )}`
       );
     });
@@ -235,7 +235,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
+          '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
         )}`
       );
     });
@@ -271,7 +271,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });
@@ -286,7 +286,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":0,"$lte":99999999}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });
