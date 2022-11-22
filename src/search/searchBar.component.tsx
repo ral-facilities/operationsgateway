@@ -25,8 +25,12 @@ const SearchBar = (): React.ReactElement => {
     dateRange.toDate ? new Date(dateRange.toDate) : null
   );
 
-  const [shotnumMin, setShotnumMin] = React.useState<number>(shotnumRange.min);
-  const [shotnumMax, setShotnumMax] = React.useState<number>(shotnumRange.max);
+  const [shotnumMin, setShotnumMin] = React.useState<number | null>(
+    shotnumRange.min ?? null
+  );
+  const [shotnumMax, setShotnumMax] = React.useState<number | null>(
+    shotnumRange.max ?? null
+  );
 
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
@@ -35,8 +39,8 @@ const SearchBar = (): React.ReactElement => {
     };
 
     const newShotnumRange: ShotnumRange = {
-      min: shotnumMin,
-      max: shotnumMax,
+      min: shotnumMin ?? undefined,
+      max: shotnumMax ?? undefined,
     };
 
     dispatch(
@@ -65,8 +69,8 @@ const SearchBar = (): React.ReactElement => {
       </Grid>
       <Grid item xs={2}>
         <ShotNumber
-          min={shotnumMin}
-          max={shotnumMax}
+          receivedMin={shotnumMin}
+          receivedMax={shotnumMax}
           changeMin={setShotnumMin}
           changeMax={setShotnumMax}
         />
