@@ -26,7 +26,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
   const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
 
   return (
-    <div style={{ paddingTop: 5, paddingLeft: 5 }}>
+    <div style={{ padding: 5 }}>
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your timeframe
       </Typography>
@@ -38,7 +38,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
           width: '90%',
         }}
       />
-      <Grid container>
+      <Grid container spacing={1} sx={{ paddingBottom: '15px' }}>
         <Grid item xs={4}>
           <Button
             variant="outlined"
@@ -68,7 +68,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <TextField
             name="timeframe"
             label="Timeframe"
@@ -81,50 +81,55 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             }
           />
         </Grid>
-        <Grid item xs={2}>
-          <Button
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              if (workingTimeframe > 0)
-                changeTimeframe({
-                  value: workingTimeframe,
-                  timescale: 'minutes',
-                });
-            }}
-          >
-            Mins
-          </Button>
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              if (workingTimeframe > 0)
-                changeTimeframe({
-                  value: workingTimeframe,
-                  timescale: 'hours',
-                });
-            }}
-          >
-            Hours
-          </Button>
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              if (workingTimeframe > 0)
-                changeTimeframe({
-                  value: workingTimeframe,
-                  timescale: 'days',
-                });
-            }}
-          >
-            Days
-          </Button>
+        <Grid container spacing={1} item xs={8}>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'minutes',
+                  });
+              }}
+            >
+              Mins
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'hours',
+                  });
+              }}
+            >
+              Hours
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'days',
+                  });
+              }}
+            >
+              Days
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </div>
@@ -173,7 +178,7 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
             top: 55,
             zIndex: 2,
             backgroundColor: '#ffffff',
-            width: 300,
+            width: 330,
           }}
           ref={popover}
         >
