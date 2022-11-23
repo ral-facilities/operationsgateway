@@ -94,7 +94,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               if (!popupOpen) {
                 updateFilter({
                   date: date as Date,
-                  prevDate: fromDate,
+                  prevDate: receivedFromDate,
                   otherDate: toDate,
                   fromDateOrToDateChanged: 'fromDate',
                   changeDate: changeFromDate,
@@ -104,7 +104,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             onAccept={(date) => {
               updateFilter({
                 date: date as Date,
-                prevDate: fromDate,
+                prevDate: receivedFromDate,
                 otherDate: toDate,
                 fromDateOrToDateChanged: 'fromDate',
                 changeDate: changeFromDate,
@@ -164,7 +164,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               if (!popupOpen) {
                 updateFilter({
                   date: date as Date,
-                  prevDate: toDate,
+                  prevDate: receivedToDate,
                   otherDate: fromDate,
                   fromDateOrToDateChanged: 'toDate',
                   changeDate: changeToDate,
@@ -174,7 +174,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             onAccept={(date) => {
               updateFilter({
                 date: date as Date,
-                prevDate: toDate,
+                prevDate: receivedToDate,
                 otherDate: fromDate,
                 fromDateOrToDateChanged: 'toDate',
                 changeDate: changeToDate,
