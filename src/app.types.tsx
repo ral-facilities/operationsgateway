@@ -116,6 +116,16 @@ export interface DateRange {
   toDate?: string;
 }
 
+export interface ShotnumRange {
+  min?: number;
+  max?: number;
+}
+
+export interface SearchParams {
+  dateRange: DateRange;
+  shotnumRange: ShotnumRange;
+}
+
 export interface ColumnState {
   wordWrap?: boolean;
 }

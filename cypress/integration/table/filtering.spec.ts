@@ -7,7 +7,7 @@ describe('Filtering Component', () => {
       });
     }).as('getRecords');
 
-    cy.intercept('**/records/count', (req) => {
+    cy.intercept('**/records/count**', (req) => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
@@ -65,7 +65,9 @@ describe('Filtering Component', () => {
     cy.wait('@getRecords').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
-        `conditions=${encodeURIComponent('{"metadata.shotnum":{"$ne":null}}')}`
+        `conditions=${encodeURIComponent(
+          '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
+        )}`
       );
     });
   });
@@ -149,7 +151,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}'
+          '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
         )}`
       );
     });
@@ -233,7 +235,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}'
+          '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
         )}`
       );
     });
@@ -269,9 +271,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"metadata.shotnum":{"$ne":null}}'
-        )}&conditions=${encodeURIComponent(
-          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+          '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });
@@ -286,7 +286,7 @@ describe('Filtering Component', () => {
       expect(request.url).to.contain('conditions=');
       expect(request.url).to.contain(
         `conditions=${encodeURIComponent(
-          '{"channels.CHANNEL_ABCDE.data":{"$ne":null}}'
+          '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
         )}`
       );
     });
