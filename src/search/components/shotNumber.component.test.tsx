@@ -10,8 +10,8 @@ import userEvent from '@testing-library/user-event';
 
 describe('shotNumber search', () => {
   let props: ShotNumberProps;
-  const changeMin = jest.fn();
-  const changeMax = jest.fn();
+  const changeSearchParameterShotnumMin = jest.fn();
+  const changeSearchParameterShotnumMax = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -20,8 +20,8 @@ describe('shotNumber search', () => {
 
   beforeEach(() => {
     props = {
-      changeMin,
-      changeMax,
+      changeSearchParameterShotnumMin,
+      changeSearchParameterShotnumMax,
     };
 
     user = userEvent.setup();
@@ -66,8 +66,8 @@ describe('shotNumber search', () => {
 
     await user.type(minInput, '1');
     await user.type(maxInput, '2');
-    expect(changeMin).toHaveBeenCalledWith(1);
-    expect(changeMax).toHaveBeenCalledWith(2);
+    expect(changeSearchParameterShotnumMin).toHaveBeenCalledWith(1);
+    expect(changeSearchParameterShotnumMax).toHaveBeenCalledWith(2);
     const helperTexts = within(shotnumPopup).queryAllByText('Invalid range');
     expect(helperTexts.length).toEqual(0);
   });
@@ -75,8 +75,8 @@ describe('shotNumber search', () => {
   it('displays invalid range message when min > max', async () => {
     props = {
       ...props,
-      receivedMin: 2,
-      receivedMax: 1,
+      searchParameterShotnumMin: 2,
+      searchParameterShotnumMax: 1,
     };
     createView();
 

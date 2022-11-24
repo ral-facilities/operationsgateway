@@ -156,7 +156,7 @@ const SearchBar = (): React.ReactElement => {
       <Grid item xs={1}>
         <Button
           variant="outlined"
-          sx={{ height: '100%' }}
+          sx={{ height: '54.6px' }}
           onClick={handleSearch}
         >
           Search

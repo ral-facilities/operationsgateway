@@ -87,31 +87,116 @@ describe('searchBar component', () => {
     });
   });
 
-  it('searches by relative timeframe', async () => {
-    const state = getInitialState();
-    const { store } = createView(state);
+  describe('searches by relative timeframe', () => {
+    it('minutes', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
 
-    await user.click(screen.getByLabelText('open timeframe search box'));
-    const timeframePopup = screen.getByRole('dialog');
-    await user.click(
-      within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
-    );
-    const expectedToDate = new Date();
-    const expectedFromDate = new Date(expectedToDate).setDate(
-      expectedToDate.getDate() - 7
-    );
-    await user.click(screen.getByLabelText('close timeframe search box'));
-    await user.click(screen.getByRole('button', { name: 'Search' }));
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setMinutes(
+        expectedToDate.getMinutes() - 10
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(store.getState().search.searchParams).toStrictEqual({
-      dateRange: {
-        fromDate: format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss'),
-        toDate: format(expectedToDate, 'yyyy-MM-dd HH:mm:ss'),
-      },
-      shotnumRange: {
-        min: undefined,
-        max: undefined,
-      },
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      // Sometimes the expected and actual date are received one second apart from each other
+      // To account for this, we'll just check it's close enough by verifying as far as the minute
+      // Could still technically fail but the chance is now much lower
+      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
+      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualFromDateToTheMinute
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualToDateToTheMinute
+      );
+    });
+
+    it('hours', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setHours(
+        expectedToDate.getHours() - 24
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      // Sometimes the expected and actual date are received one second apart from each other
+      // To account for this, we'll just check it's close enough by verifying as far as the minute
+      // Could still technically fail but the chance is now much lower
+      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
+      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualFromDateToTheMinute
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualToDateToTheMinute
+      );
+    });
+
+    it('days', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setDate(
+        expectedToDate.getDate() - 7
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      // Sometimes the expected and actual date are received one second apart from each other
+      // To account for this, we'll just check it's close enough by verifying as far as the minute
+      // Could still technically fail but the chance is now much lower
+      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
+      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualFromDateToTheMinute
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
+        actualToDateToTheMinute
+      );
     });
   });
 });
