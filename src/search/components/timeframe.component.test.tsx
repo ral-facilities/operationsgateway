@@ -170,5 +170,24 @@ describe('timeframe search', () => {
         timescale: 'days',
       });
     });
+
+    it('buttons do not respond if working timeframe is zero', async () => {
+      createView();
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Mins' })
+      );
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Hours' })
+      );
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Days' })
+      );
+
+      expect(changeTimeframe).not.toHaveBeenCalled();
+    });
   });
 });
