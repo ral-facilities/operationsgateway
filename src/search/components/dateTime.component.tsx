@@ -1,7 +1,7 @@
 import React from 'react';
 import { isValid, isEqual, isBefore } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { TextField, Divider, Typography, Box } from '@mui/material';
+import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 
@@ -14,7 +14,7 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   return date1 !== null && date2 !== null && isEqual(date1, date2);
 };
 
-export interface UpdateFilterParams {
+export interface VerifyAndUpdateParams {
   date: Date | null;
   prevDate: Date | null;
   otherDate: Date | null;
@@ -22,19 +22,14 @@ export interface UpdateFilterParams {
   changeDate: (date: Date | null) => void;
 }
 
-export function updateFilter({
+export function verifyAndUpdate({
   date,
   prevDate,
   otherDate,
   fromDateOrToDateChanged,
   changeDate,
-}: UpdateFilterParams): void {
-  if (
-    date &&
-    isValid(date) &&
-    !datesEqual(date, otherDate) &&
-    (!prevDate || !datesEqual(date, prevDate))
-  ) {
+}: VerifyAndUpdateParams): void {
+  if (date && isValid(date) && (!prevDate || !datesEqual(date, prevDate))) {
     const validFromDate =
       fromDateOrToDateChanged === 'fromDate' &&
       (!otherDate || isBefore(date, otherDate));
@@ -49,171 +44,215 @@ export function updateFilter({
 }
 
 export interface DateTimeSearchProps {
-  fromDate: Date | null;
-  toDate: Date | null;
-  changeFromDate: (fromDate: Date | null) => void;
-  changeToDate: (toDate: Date | null) => void;
+  searchParameterFromDate: Date | null;
+  searchParameterToDate: Date | null;
+  changeSearchParameterFromDate: (fromDate: Date | null) => void;
+  changeSearchParameterToDate: (toDate: Date | null) => void;
   resetTimeframe: () => void;
 }
 
 const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
-  const { fromDate, toDate, changeFromDate, changeToDate, resetTimeframe } =
-    props;
+  const {
+    searchParameterFromDate,
+    searchParameterToDate,
+    changeSearchParameterFromDate,
+    changeSearchParameterToDate,
+    resetTimeframe,
+  } = props;
+
+  const [datePickerFromDate, setDatePickerFromDate] =
+    React.useState<Date | null>(searchParameterFromDate);
+  const [datePickerToDate, setDatePickerToDate] = React.useState<Date | null>(
+    searchParameterToDate
+  );
+
+  React.useEffect(() => {
+    setDatePickerFromDate(searchParameterFromDate);
+    setDatePickerToDate(searchParameterToDate);
+  }, [searchParameterFromDate, searchParameterToDate]);
+
+  const [datePickerFromDateError, setDatePickerFromDateError] =
+    React.useState<boolean>(false);
+  const [datePickerToDateError, setDatePickerToDateError] =
+    React.useState<boolean>(false);
+
+  const invalidDateRange =
+    datePickerFromDate &&
+    datePickerToDate &&
+    isBefore(datePickerToDate, datePickerFromDate);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
-
-  const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   return (
     <Box
       aria-label="date-time search box"
       sx={{
         border: '1.5px solid',
-        borderColor: invalidDateRange ? 'rgb(214, 65, 65)' : undefined,
+        borderColor:
+          datePickerFromDateError || datePickerToDateError
+            ? 'rgb(214, 65, 65)'
+            : undefined,
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'row',
+        overflow: 'hidden',
       }}
     >
       <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <form style={{ display: 'inline-grid', padding: 3 }}>
-          <Typography>From date</Typography>
-          <DateTimePicker
-            inputFormat="yyyy-MM-dd HH:mm:ss"
-            mask="____-__-__ __:__:__"
-            value={fromDate}
-            maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
-            componentsProps={{
-              actionBar: { actions: ['clear'] },
-            }}
-            onChange={(date) => {
-              resetTimeframe();
-              if (!popupOpen) {
-                updateFilter({
+        <Grid container columns={2} direction="column">
+          <Grid item>
+            <Typography noWrap>From date</Typography>
+          </Grid>
+          <Grid item>
+            <DateTimePicker
+              inputFormat="yyyy-MM-dd HH:mm:ss"
+              mask="____-__-__ __:__:__"
+              value={datePickerFromDate}
+              maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
+              componentsProps={{
+                actionBar: { actions: ['clear'] },
+              }}
+              onChange={(date) => {
+                setDatePickerFromDate(date as Date);
+                resetTimeframe();
+                if (!popupOpen) {
+                  verifyAndUpdate({
+                    date: date as Date,
+                    prevDate: searchParameterFromDate,
+                    otherDate: datePickerToDate,
+                    fromDateOrToDateChanged: 'fromDate',
+                    changeDate: changeSearchParameterFromDate,
+                  });
+                }
+              }}
+              onAccept={(date) => {
+                resetTimeframe();
+                verifyAndUpdate({
                   date: date as Date,
-                  prevDate: fromDate,
-                  otherDate: toDate,
+                  prevDate: searchParameterFromDate,
+                  otherDate: datePickerToDate,
                   fromDateOrToDateChanged: 'fromDate',
-                  changeDate: changeFromDate,
+                  changeDate: changeSearchParameterFromDate,
                 });
-              }
-            }}
-            onAccept={(date) => {
-              resetTimeframe();
-              updateFilter({
-                date: date as Date,
-                prevDate: fromDate,
-                otherDate: toDate,
-                fromDateOrToDateChanged: 'fromDate',
-                changeDate: changeFromDate,
-              });
-            }}
-            onOpen={() => setPopupOpen(true)}
-            onClose={() => setPopupOpen(false)}
-            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
-            OpenPickerButtonProps={{
-              size: 'small',
-              'aria-label': 'from, date-time picker',
-            }}
-            renderInput={(renderProps) => {
-              const error =
-                // eslint-disable-next-line react/prop-types
-                (renderProps.error || invalidDateRange) ?? undefined;
-              let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
-              if (invalidDateRange) helperText = 'Invalid date-time range';
+              }}
+              onOpen={() => setPopupOpen(true)}
+              onClose={() => setPopupOpen(false)}
+              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              OpenPickerButtonProps={{
+                size: 'small',
+                'aria-label': 'from, date-time picker',
+              }}
+              renderInput={(renderProps) => {
+                const error =
+                  // eslint-disable-next-line react/prop-types
+                  (renderProps.error || invalidDateRange) ?? undefined;
+                setDatePickerFromDateError(!!error);
+                let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                if (invalidDateRange) helperText = 'Invalid date-time range';
 
-              return (
-                <TextField
-                  {...renderProps}
-                  id="from date-time"
-                  inputProps={{
-                    ...renderProps.inputProps,
-                    placeholder: 'From...',
-                    'aria-label': 'from, date-time input',
-                    sx: {
-                      fontSize: 12,
-                    },
-                  }}
-                  variant="standard"
-                  error={error}
-                  {...(error && { helperText: helperText })}
-                />
-              );
-            }}
-          />
-        </form>
+                return (
+                  <TextField
+                    {...renderProps}
+                    fullWidth
+                    id="from date-time"
+                    inputProps={{
+                      ...renderProps.inputProps,
+                      placeholder: 'From...',
+                      'aria-label': 'from, date-time input',
+                      sx: {
+                        fontSize: 12,
+                      },
+                    }}
+                    variant="standard"
+                    error={error}
+                    {...(error && { helperText: helperText })}
+                  />
+                );
+              }}
+            />
+          </Grid>
+        </Grid>
         <Divider
           orientation="vertical"
           flexItem
           sx={{ margin: 1, borderBottomWidth: 5 }}
         />
-        <form style={{ display: 'inline-grid', padding: 3 }}>
-          <Typography>To date</Typography>
-          <DateTimePicker
-            inputFormat="yyyy-MM-dd HH:mm:ss"
-            mask="____-__-__ __:__:__"
-            value={toDate}
-            minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
-            componentsProps={{
-              actionBar: { actions: ['clear'] },
-            }}
-            onChange={(date) => {
-              resetTimeframe();
-              if (!popupOpen) {
-                updateFilter({
-                  date: date as Date,
-                  prevDate: toDate,
-                  otherDate: fromDate,
-                  fromDateOrToDateChanged: 'toDate',
-                  changeDate: changeToDate,
-                });
+        <Grid container columns={2} direction="column">
+          <Grid item>
+            <Typography noWrap>To date</Typography>
+          </Grid>
+          <Grid item>
+            <DateTimePicker
+              inputFormat="yyyy-MM-dd HH:mm:ss"
+              mask="____-__-__ __:__:__"
+              value={datePickerToDate}
+              minDateTime={
+                datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
-            }}
-            onAccept={(date) => {
-              resetTimeframe();
-              updateFilter({
-                date: date as Date,
-                prevDate: toDate,
-                otherDate: fromDate,
-                fromDateOrToDateChanged: 'toDate',
-                changeDate: changeToDate,
-              });
-            }}
-            onOpen={() => setPopupOpen(true)}
-            onClose={() => setPopupOpen(false)}
-            views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
-            OpenPickerButtonProps={{
-              size: 'small',
-              'aria-label': 'to, date-time picker',
-            }}
-            renderInput={(renderProps) => {
-              const error =
-                // eslint-disable-next-line react/prop-types
-                (renderProps.error || invalidDateRange) ?? undefined;
-              let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
-              if (invalidDateRange) helperText = 'Invalid date-time range';
+              componentsProps={{
+                actionBar: { actions: ['clear'] },
+              }}
+              onChange={(date) => {
+                setDatePickerToDate(date as Date);
+                resetTimeframe();
+                if (!popupOpen) {
+                  verifyAndUpdate({
+                    date: date as Date,
+                    prevDate: searchParameterToDate,
+                    otherDate: datePickerFromDate,
+                    fromDateOrToDateChanged: 'toDate',
+                    changeDate: changeSearchParameterToDate,
+                  });
+                }
+              }}
+              onAccept={(date) => {
+                resetTimeframe();
+                verifyAndUpdate({
+                  date: date as Date,
+                  prevDate: searchParameterToDate,
+                  otherDate: datePickerFromDate,
+                  fromDateOrToDateChanged: 'toDate',
+                  changeDate: changeSearchParameterToDate,
+                });
+              }}
+              onOpen={() => setPopupOpen(true)}
+              onClose={() => setPopupOpen(false)}
+              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              OpenPickerButtonProps={{
+                size: 'small',
+                'aria-label': 'to, date-time picker',
+              }}
+              renderInput={(renderProps) => {
+                const error =
+                  // eslint-disable-next-line react/prop-types
+                  (renderProps.error || invalidDateRange) ?? undefined;
+                setDatePickerToDateError(!!error);
+                let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                if (invalidDateRange) helperText = 'Invalid date-time range';
 
-              return (
-                <TextField
-                  {...renderProps}
-                  id="to date-time"
-                  inputProps={{
-                    ...renderProps.inputProps,
-                    placeholder: 'To...',
-                    'aria-label': 'to, date-time input',
-                    sx: {
-                      fontSize: 12,
-                    },
-                  }}
-                  variant="standard"
-                  error={error}
-                  {...(error && { helperText: helperText })}
-                />
-              );
-            }}
-          />
-        </form>
+                return (
+                  <TextField
+                    {...renderProps}
+                    fullWidth
+                    id="to date-time"
+                    inputProps={{
+                      ...renderProps.inputProps,
+                      placeholder: 'To...',
+                      'aria-label': 'to, date-time input',
+                      sx: {
+                        fontSize: 12,
+                      },
+                    }}
+                    variant="standard"
+                    error={error}
+                    {...(error && { helperText: helperText })}
+                  />
+                );
+              }}
+            />
+          </Grid>
+        </Grid>
       </LocalizationProvider>
     </Box>
   );

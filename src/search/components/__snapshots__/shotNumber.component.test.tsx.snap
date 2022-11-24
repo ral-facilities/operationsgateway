@@ -7,7 +7,7 @@ exports[`shotNumber search renders correctly 1`] = `
   >
     <div
       aria-label="close shot number search box"
-      class="MuiBox-root css-8u4mh0"
+      class="MuiBox-root css-o3ftni"
     >
       <svg
         aria-hidden="true"
@@ -22,12 +22,12 @@ exports[`shotNumber search renders correctly 1`] = `
       </svg>
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
         >
           Shot Number
         </p>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 css-1isisa7-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-b87fj0-MuiTypography-root"
         >
           Select
         </h6>

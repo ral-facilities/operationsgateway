@@ -10,14 +10,14 @@ import {
 import { Schedule } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-export type TimeframeValue = {
+export type TimeframeRange = {
   value: number;
   timescale: 'minutes' | 'hours' | 'days';
 };
 
 export interface TimeframeProps {
-  timeframe: TimeframeValue | null;
-  changeTimeframe: (value: TimeframeValue) => void;
+  timeframe: TimeframeRange | null;
+  changeTimeframe: (value: TimeframeRange) => void;
 }
 
 const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
@@ -156,13 +156,14 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
           flexDirection: 'row',
           paddingRight: 5,
           cursor: 'pointer',
+          overflow: 'hidden',
         }}
         onClick={() => toggle(!isOpen)}
       >
         <Schedule sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
         <div>
-          <Typography>Timeframe</Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+          <Typography noWrap>Timeframe</Typography>
+          <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
             {props.timeframe
               ? `${props.timeframe.value} ${props.timeframe.timescale}`
               : 'Select'}

@@ -98,13 +98,14 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           flexDirection: 'row',
           paddingRight: 5,
           cursor: 'pointer',
+          overflow: 'hidden',
         }}
         onClick={() => toggle(!isOpen)}
       >
         <Adjust sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
         <div>
-          <Typography>Shot Number</Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+          <Typography noWrap>Shot Number</Typography>
+          <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
             Select
           </Typography>
         </div>
