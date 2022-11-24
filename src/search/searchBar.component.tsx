@@ -1,7 +1,7 @@
 import React from 'react';
 import DateTime from './components/dateTime.component';
 import Timeframe, {
-  type TimeframeValue,
+  type TimeframeRange,
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
@@ -14,30 +14,42 @@ import {
   selectSearchParams,
 } from '../state/slices/searchSlice';
 
+export type TimeframeDates = {
+  fromDate: Date | null;
+  toDate: Date | null;
+};
+
 const SearchBar = (): React.ReactElement => {
   const dispatch = useAppDispatch();
 
-  const searchParams = useAppSelector(selectSearchParams);
+  const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const { dateRange, shotnumRange } = searchParams;
 
-  const [fromDate, setFromDate] = React.useState<Date | null>(
-    dateRange.fromDate ? new Date(dateRange.fromDate) : null
-  );
-  const [toDate, setToDate] = React.useState<Date | null>(
-    dateRange.toDate ? new Date(dateRange.toDate) : null
-  );
+  // ########################
+  // DATE-TIME FIELDS
+  // ########################
+  // The FROM and TO dates sent as part of the query (if any)
+  const [searchParameterFromDate, setSearchParameterFromDate] =
+    React.useState<Date | null>(
+      dateRange.fromDate ? new Date(dateRange.fromDate) : null
+    );
+  const [searchParameterToDate, setSearchParameterToDate] =
+    React.useState<Date | null>(
+      dateRange.toDate ? new Date(dateRange.toDate) : null
+    );
 
-  const [timeframe, setTimeframe] = React.useState<TimeframeValue | null>(null);
-
-  const [shotnumMin, setShotnumMin] = React.useState<number | undefined>(
-    shotnumRange.min ?? undefined
-  );
-  const [shotnumMax, setShotnumMax] = React.useState<number | undefined>(
-    shotnumRange.max ?? undefined
-  );
+  // ########################
+  // TIMEFRAME
+  // ########################
+  // Timeframe range is NOT sent as part of query
+  // Instead, we use this to determine the FROM and TO dates
+  // This is set in the timeframe search box by the user
+  // If the user edits any of the date fields otherwise, this is set to null
+  const [timeframeRange, setTimeframeRange] =
+    React.useState<TimeframeRange | null>(null);
 
   const calculateTimeframeDateRange = (
-    timeframe: TimeframeValue
+    timeframe: TimeframeRange
   ): { from: Date; to: Date } => {
     const to = new Date();
     const from = new Date();
@@ -58,29 +70,45 @@ const SearchBar = (): React.ReactElement => {
   };
 
   const setRelativeTimeframe = React.useCallback(
-    (timeframe: TimeframeValue | null) => {
+    (timeframe: TimeframeRange | null) => {
       if (timeframe == null) {
-        setTimeframe(null);
+        setTimeframeRange(null);
         return;
       }
 
       const { from, to } = calculateTimeframeDateRange(timeframe);
-      setFromDate(from);
-      setToDate(to);
-      setTimeframe(timeframe);
+      setTimeframeRange(timeframe);
+      setSearchParameterFromDate(from);
+      setSearchParameterToDate(to);
     },
     []
   );
 
+  // ########################
+  // SHOT NUMBER MIN AND MAX
+  // ########################
+  // The SHOT NUMBER MIN AND MAX fields sent as part of the query (if any)
+  const [searchParameterShotnumMin, setSearchParameterShotnumMin] =
+    React.useState<number | undefined>(shotnumRange.min ?? undefined);
+  const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
+    React.useState<number | undefined>(shotnumRange.max ?? undefined);
+
+  // ########################
+  // INITIATING THE SEARCH
+  // ########################
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
-      fromDate: fromDate ? format(fromDate, 'yyyy-MM-dd HH:mm:ss') : undefined,
-      toDate: toDate ? format(toDate, 'yyyy-MM-dd HH:mm:ss') : undefined,
+      fromDate: searchParameterFromDate
+        ? format(searchParameterFromDate, 'yyyy-MM-dd HH:mm:ss')
+        : undefined,
+      toDate: searchParameterToDate
+        ? format(searchParameterToDate, 'yyyy-MM-dd HH:mm:ss')
+        : undefined,
     };
 
     const newShotnumRange: ShotnumRange = {
-      min: shotnumMin,
-      max: shotnumMax,
+      min: searchParameterShotnumMin,
+      max: searchParameterShotnumMax,
     };
 
     dispatch(
@@ -89,22 +117,28 @@ const SearchBar = (): React.ReactElement => {
         shotnumRange: newShotnumRange,
       })
     );
-  }, [dispatch, fromDate, shotnumMax, shotnumMin, toDate]);
+  }, [
+    dispatch,
+    searchParameterFromDate,
+    searchParameterShotnumMax,
+    searchParameterShotnumMin,
+    searchParameterToDate,
+  ]);
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={4}>
         <DateTime
-          fromDate={fromDate}
-          toDate={toDate}
-          changeFromDate={setFromDate}
-          changeToDate={setToDate}
+          searchParameterFromDate={searchParameterFromDate}
+          searchParameterToDate={searchParameterToDate}
+          changeSearchParameterFromDate={setSearchParameterFromDate}
+          changeSearchParameterToDate={setSearchParameterToDate}
           resetTimeframe={() => setRelativeTimeframe(null)}
         />
       </Grid>
       <Grid item xs={2}>
         <Timeframe
-          timeframe={timeframe}
+          timeframe={timeframeRange}
           changeTimeframe={setRelativeTimeframe}
         />
       </Grid>
@@ -113,10 +147,10 @@ const SearchBar = (): React.ReactElement => {
       </Grid>
       <Grid item xs={2}>
         <ShotNumber
-          receivedMin={shotnumMin}
-          receivedMax={shotnumMax}
-          changeMin={setShotnumMin}
-          changeMax={setShotnumMax}
+          searchParameterShotnumMin={searchParameterShotnumMin}
+          searchParameterShotnumMax={searchParameterShotnumMax}
+          changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
+          changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
         />
       </Grid>
       <Grid item xs={1}>

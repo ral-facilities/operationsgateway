@@ -14,7 +14,7 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   return date1 !== null && date2 !== null && isEqual(date1, date2);
 };
 
-export interface VerifyAndUpdateParams {
+export interface VerifyAndUpdateDateParams {
   date: Date | null;
   prevDate: Date | null;
   otherDate: Date | null;
@@ -22,13 +22,13 @@ export interface VerifyAndUpdateParams {
   changeDate: (date: Date | null) => void;
 }
 
-export function verifyAndUpdate({
+export function verifyAndUpdateDate({
   date,
   prevDate,
   otherDate,
   fromDateOrToDateChanged,
   changeDate,
-}: VerifyAndUpdateParams): void {
+}: VerifyAndUpdateDateParams): void {
   if (date && isValid(date) && (!prevDate || !datesEqual(date, prevDate))) {
     const validFromDate =
       fromDateOrToDateChanged === 'fromDate' &&
@@ -51,6 +51,24 @@ export interface DateTimeSearchProps {
   resetTimeframe: () => void;
 }
 
+/**
+ * The date-time fields are determined through the following variables:
+ *
+ * searchParameter(From/To)Date
+ * These dates are the global source of truth and live in the searchBar state
+ * Whatever is in these fields is what populates the search query
+ *
+ * datePicker(From/To)Date
+ * These dates are what currently fills the values of the date-time pickers
+ * They live in the DateTimeSearch state
+ * Whenever they represent a valid date, they update the searchParameter(From/To)Date variable
+ * This is done in the verifyAndUpdateDate function in this file
+ *
+ * timeframeRange
+ * This contains a user-selected timeframe range value, if it is set by the timeframe component
+ * If this is updated in that component, it updates the searchParameter(From/To)Dates
+ * Thanks to a useEffect hook in the DateTimeSearch component, this then updates the datePicker(From/To)Dates
+ */
 const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   const {
     searchParameterFromDate,
@@ -117,7 +135,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 setDatePickerFromDate(date as Date);
                 resetTimeframe();
                 if (!popupOpen) {
-                  verifyAndUpdate({
+                  verifyAndUpdateDate({
                     date: date as Date,
                     prevDate: searchParameterFromDate,
                     otherDate: datePickerToDate,
@@ -128,7 +146,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onAccept={(date) => {
                 resetTimeframe();
-                verifyAndUpdate({
+                verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterFromDate,
                   otherDate: datePickerToDate,
@@ -197,7 +215,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
                 if (!popupOpen) {
-                  verifyAndUpdate({
+                  verifyAndUpdateDate({
                     date: date as Date,
                     prevDate: searchParameterToDate,
                     otherDate: datePickerFromDate,
@@ -208,7 +226,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onAccept={(date) => {
                 resetTimeframe();
-                verifyAndUpdate({
+                verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterToDate,
                   otherDate: datePickerFromDate,
