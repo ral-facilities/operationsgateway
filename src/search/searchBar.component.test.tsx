@@ -187,6 +187,7 @@ describe('searchBar component', () => {
 
       // Sometimes the expected and actual date are received one second apart from each other
       // To account for this, we'll just check it's close enough by verifying as far as the minute
+      // So we cut off the seconds from the value
       // Could still technically fail but the chance is now much lower
       const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
       const actualToDateToTheMinute = actualToDate?.slice(0, -3);

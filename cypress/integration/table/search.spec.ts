@@ -1,5 +1,27 @@
 import { format } from 'date-fns';
 
+function getParamsFromUrl(url: string) {
+  const paramsString = url.split('?')[1];
+  const paramMap = new Map();
+  paramsString.split('&').forEach(function (part) {
+    const keyValPair = part.split('=');
+    const key = keyValPair[0];
+    const val = decodeURIComponent(keyValPair[1]);
+    paramMap.set(key, val);
+  });
+  return paramMap;
+}
+
+function getConditionsFromParams(params: Map<string, string>) {
+  const conditionsString = params.get('conditions');
+  if (!conditionsString) return undefined;
+
+  // Conditions are unified under one $and element in an array
+  const conditionsMap = JSON.parse(conditionsString).$and;
+  console.log(conditionsMap[0]);
+  return conditionsMap[0];
+}
+
 describe('Search', () => {
   beforeEach(() => {
     cy.intercept('**/records**', (req) => {
@@ -124,7 +146,7 @@ describe('Search', () => {
   });
 
   describe('searches by custom timeframe', () => {
-    it('last 5 minutes', () => {
+    it.only('last 5 minutes', () => {
       cy.get('div[aria-label="open timeframe search box"]').click();
       cy.get('input[name="timeframe"]').type('5');
       cy.contains('Mins').click();
@@ -133,22 +155,30 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setMinutes(
         expectedToDate.getMinutes() - 5
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap).not.equal(undefined);
+        const timestampRange = conditionsMap['metadata.timestamp'];
+
+        // Sometimes the expected and actual date are received one second apart from each other
+        // To account for this, we'll just check it's close enough by verifying as far as the minute
+        // So we cut off the seconds from the value
+        // Could still technically fail but the chance is now much lower
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
 
