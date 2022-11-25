@@ -14,12 +14,11 @@ function getParamsFromUrl(url: string) {
 
 function getConditionsFromParams(params: Map<string, string>) {
   const conditionsString = params.get('conditions');
-  if (!conditionsString) return undefined;
+  if (!conditionsString) return [];
 
   // Conditions are unified under one $and element in an array
   const conditionsMap = JSON.parse(conditionsString).$and;
-  console.log(conditionsMap[0]);
-  return conditionsMap[0];
+  return conditionsMap;
 }
 
 describe('Search', () => {
@@ -51,14 +50,30 @@ describe('Search', () => {
 
     cy.wait('@getRecords').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
-      // Correctly parse plus (+) symbols in URL by replacing them with %2B
-      // This ensures an accurate comparison can be made
-      const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-      expect(parsedUrl).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01+00:00:00","$lte":"2022-01-02+00:00:00"}}]}'
-        )}`
-      );
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(1);
+
+      const condition = conditionsMap[0];
+      const timestampRange = condition['metadata.timestamp'];
+      const gte: string = timestampRange['$gte'];
+      const lte: string = timestampRange['$lte'];
+      expect(gte).equal('2022-01-01+00:00:00');
+      expect(lte).equal('2022-01-02+00:00:00');
+    });
+
+    cy.wait('@getRecordCount').should(({ request }) => {
+      expect(request.url).to.contain('conditions=');
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(1);
+
+      const condition = conditionsMap[0];
+      const timestampRange = condition['metadata.timestamp'];
+      const gte: string = timestampRange['$gte'];
+      const lte: string = timestampRange['$lte'];
+      expect(gte).equal('2022-01-01+00:00:00');
+      expect(lte).equal('2022-01-02+00:00:00');
     });
   });
 
@@ -71,22 +86,47 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setMinutes(
         expectedToDate.getMinutes() - 10
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Sometimes the expected and actual date are received one second apart from each other
+        // To account for this, we'll just check it's close enough by verifying as far as the minute
+        // So we cut off the seconds from the value
+        // Could still technically fail but the chance is now much lower
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
 
@@ -98,22 +138,44 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setHours(
         expectedToDate.getHours() - 24
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
 
@@ -125,28 +187,50 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setDate(
         expectedToDate.getDate() - 7
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
   });
 
   describe('searches by custom timeframe', () => {
-    it.only('last 5 minutes', () => {
+    it('last 5 minutes', () => {
       cy.get('div[aria-label="open timeframe search box"]').click();
       cy.get('input[name="timeframe"]').type('5');
       cy.contains('Mins').click();
@@ -167,16 +251,30 @@ describe('Search', () => {
         expect(request.url).to.contain('conditions=');
         const paramMap: Map<string, string> = getParamsFromUrl(request.url);
         const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap).not.equal(undefined);
-        const timestampRange = conditionsMap['metadata.timestamp'];
+        expect(conditionsMap.length).equal(1);
 
-        // Sometimes the expected and actual date are received one second apart from each other
-        // To account for this, we'll just check it's close enough by verifying as far as the minute
-        // So we cut off the seconds from the value
-        // Could still technically fail but the chance is now much lower
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
         const gte: string = timestampRange['$gte'].slice(0, -3);
         const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
 
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
         expect(gte).equal(expectedFromDateString);
         expect(lte).equal(expectedToDateString);
       });
@@ -191,22 +289,44 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setHours(
         expectedToDate.getHours() - 5
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
 
@@ -219,22 +339,44 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setDate(
         expectedToDate.getDate() - 5
       );
+      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
+      const expectedFromDateString = format(
+        expectedFromDate,
+        'yyyy-MM-dd+HH:mm'
+      );
 
       cy.contains('Search').click();
 
       cy.wait('@getRecords').should(({ request }) => {
         expect(request.url).to.contain('conditions=');
-        // Correctly parse plus (+) symbols in URL by replacing them with %2B
-        // This ensures an accurate comparison can be made
-        const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-        expect(parsedUrl).to.contain(
-          `conditions=${encodeURIComponent(
-            `{"$and":[{"metadata.timestamp":{"$gte":"${format(
-              expectedFromDate,
-              'yyyy-MM-dd+HH:mm:ss'
-            )}","$lte":"${format(expectedToDate, 'yyyy-MM-dd+HH:mm:ss')}"}}]}`
-          )}`
-        );
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+
+      cy.wait('@getRecordCount').should(({ request }) => {
+        expect(request.url).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+
+        // Remove seconds from timestamps
+        const gte: string = timestampRange['$gte'].slice(0, -3);
+        const lte: string = timestampRange['$lte'].slice(0, -3);
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
       });
     });
   });
@@ -248,11 +390,30 @@ describe('Search', () => {
 
     cy.wait('@getRecords').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$gte":1,"$lte":9}}]}'
-        )}`
-      );
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(1);
+
+      const condition = conditionsMap[0];
+      const shotnumRange = condition['metadata.shotnum'];
+      const gte: string = shotnumRange['$gte'];
+      const lte: string = shotnumRange['$lte'];
+      expect(gte).equal(1);
+      expect(lte).equal(9);
+    });
+
+    cy.wait('@getRecordCount').should(({ request }) => {
+      expect(request.url).to.contain('conditions=');
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(1);
+
+      const condition = conditionsMap[0];
+      const shotnumRange = condition['metadata.shotnum'];
+      const gte: string = shotnumRange['$gte'];
+      const lte: string = shotnumRange['$lte'];
+      expect(gte).equal(1);
+      expect(lte).equal(9);
     });
   });
 
@@ -274,26 +435,44 @@ describe('Search', () => {
 
     cy.wait('@getRecords').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
-      // Correctly parse plus (+) symbols in URL by replacing them with %2B
-      // This ensures an accurate comparison can be made
-      const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-      expect(parsedUrl).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01+00:00:00","$lte":"2022-01-02+00:00:00"}},{"metadata.shotnum":{"$gte":1,"$lte":9}}]}'
-        )}`
-      );
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(2);
+
+      const timestampCondition = conditionsMap[0];
+      const timestampRange = timestampCondition['metadata.timestamp'];
+      const timestampGte: string = timestampRange['$gte'];
+      const timestampLte: string = timestampRange['$lte'];
+      expect(timestampGte).equal('2022-01-01+00:00:00');
+      expect(timestampLte).equal('2022-01-02+00:00:00');
+
+      const shotnumCondition = conditionsMap[1];
+      const shotnumRange = shotnumCondition['metadata.shotnum'];
+      const shotnumGte: string = shotnumRange['$gte'];
+      const shotnumLte: string = shotnumRange['$lte'];
+      expect(shotnumGte).equal(1);
+      expect(shotnumLte).equal(9);
     });
 
     cy.wait('@getRecordCount').should(({ request }) => {
       expect(request.url).to.contain('conditions=');
-      // Correctly parse plus (+) symbols in URL by replacing them with %2B
-      // This ensures an accurate comparison can be made
-      const parsedUrl = request.url.replace(new RegExp(/\+/g), '%2B');
-      expect(parsedUrl).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01+00:00:00","$lte":"2022-01-02+00:00:00"}},{"metadata.shotnum":{"$gte":1,"$lte":9}}]}'
-        )}`
-      );
+      const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      const conditionsMap = getConditionsFromParams(paramMap);
+      expect(conditionsMap.length).equal(2);
+
+      const timestampCondition = conditionsMap[0];
+      const timestampRange = timestampCondition['metadata.timestamp'];
+      const timestampGte: string = timestampRange['$gte'];
+      const timestampLte: string = timestampRange['$lte'];
+      expect(timestampGte).equal('2022-01-01+00:00:00');
+      expect(timestampLte).equal('2022-01-02+00:00:00');
+
+      const shotnumCondition = conditionsMap[1];
+      const shotnumRange = shotnumCondition['metadata.shotnum'];
+      const shotnumGte: string = shotnumRange['$gte'];
+      const shotnumLte: string = shotnumRange['$lte'];
+      expect(shotnumGte).equal(1);
+      expect(shotnumLte).equal(9);
     });
   });
 
