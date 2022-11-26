@@ -114,7 +114,7 @@
     "husky": "8.0.1",
     "jest-canvas-mock": "2.4.0",
     "lint-staged": "13.0.3",
-    "prettier": "2.7.1",
+    "prettier": "2.8.0",
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.1.1",
     "serve-static": "1.15.0",
