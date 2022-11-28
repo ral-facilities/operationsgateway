@@ -4605,14 +4605,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.1.2":
-  version: 1.1.2
-  resolution: "axios@npm:1.1.2"
+"axios@npm:1.2.0":
+  version: 1.2.0
+  resolution: "axios@npm:1.2.0"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 136c25a5031aa2845fdbda3006c36888bbe351b11d1195f1f898a23c5df1430febbdb1ad034a61f27967e83762d5b5a3e851fff8a363cb4badeb883f8ff21461
+  checksum: f08ce214e957dfde45b837f8d3c7861424608fb7df32faa638835e338782a9f4c0b05074e92e0e8dcca3a1e6250112fbbe1b15a6b21104da633d84745bbb79cc
   languageName: node
   linkType: hard
 
@@ -11144,7 +11144,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 5.43.0
     "@typescript-eslint/parser": 5.43.0
     "@typescript-eslint/typescript-estree": 5.43.0
-    axios: 1.1.2
+    axios: 1.2.0
     chart.js: 4.0.1
     chartjs-plugin-zoom: 1.2.1
     cross-env: 7.0.3
