@@ -3,6 +3,7 @@ import DateTime from './components/dateTime.component';
 import Timeframe from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
+import MaxShots from './components/maxShots.component';
 import { Grid, Button } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, ShotnumRange } from '../app.types';
@@ -31,6 +32,8 @@ const SearchBar = (): React.ReactElement => {
   const [shotnumMax, setShotnumMax] = React.useState<number | undefined>(
     shotnumRange.max ?? undefined
   );
+
+  const [maxShots, setMaxShots] = React.useState<number>(50);
 
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
@@ -83,6 +86,9 @@ const SearchBar = (): React.ReactElement => {
         >
           Search
         </Button>
+      </Grid>
+      <Grid item xs={1}>
+        <MaxShots maxNumber={maxShots} changeMaxNumber={setMaxShots} />
       </Grid>
     </Grid>
   );
