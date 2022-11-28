@@ -59,7 +59,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.43.0"],\
             ["axios", "npm:1.2.0"],\
             ["chart.js", "npm:4.0.1"],\
-            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
             ["cypress-failed-log", "npm:2.10.0"],\
@@ -7842,17 +7842,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["chartjs-plugin-zoom", [\
-        ["npm:1.2.1", {\
-          "packageLocation": "./.yarn/cache/chartjs-plugin-zoom-npm-1.2.1-df03c2d349-ea053ff103.zip/node_modules/chartjs-plugin-zoom/",\
+        ["npm:2.0.0", {\
+          "packageLocation": "./.yarn/cache/chartjs-plugin-zoom-npm-2.0.0-147af6a471-5d18567e96.zip/node_modules/chartjs-plugin-zoom/",\
           "packageDependencies": [\
-            ["chartjs-plugin-zoom", "npm:1.2.1"]\
+            ["chartjs-plugin-zoom", "npm:2.0.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1", {\
-          "packageLocation": "./.yarn/__virtual__/chartjs-plugin-zoom-virtual-3f08b24a3d/0/cache/chartjs-plugin-zoom-npm-1.2.1-df03c2d349-ea053ff103.zip/node_modules/chartjs-plugin-zoom/",\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/chartjs-plugin-zoom-virtual-b759c092ee/0/cache/chartjs-plugin-zoom-npm-2.0.0-147af6a471-5d18567e96.zip/node_modules/chartjs-plugin-zoom/",\
           "packageDependencies": [\
-            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["@types/chart.js", null],\
             ["chart.js", "npm:4.0.1"],\
             ["hammerjs", "npm:2.0.8"]\
@@ -14835,7 +14835,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.43.0"],\
             ["axios", "npm:1.2.0"],\
             ["chart.js", "npm:4.0.1"],\
-            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
             ["cypress-failed-log", "npm:2.10.0"],\

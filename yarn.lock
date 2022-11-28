@@ -5267,14 +5267,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-plugin-zoom@npm:1.2.1":
-  version: 1.2.1
-  resolution: "chartjs-plugin-zoom@npm:1.2.1"
+"chartjs-plugin-zoom@npm:2.0.0":
+  version: 2.0.0
+  resolution: "chartjs-plugin-zoom@npm:2.0.0"
   dependencies:
     hammerjs: ^2.0.8
   peerDependencies:
-    chart.js: ^3.2.0
-  checksum: ea053ff1037dc632ee9cf401246b28f9eb8391a313756e7764b6effcbdbe83a12c480dbacf83f96618486141ed48f3637b1d0d8660167020d331c65738806028
+    chart.js: ">=3.2.0"
+  checksum: 5d18567e968adb5347c3d506491d90e5a28132bb35155cef483be9de9bf7a5961b87fc1d72e1aed7ef88976ddcef45623fcad73cbb4fb3fbcecfc71774ebd541
   languageName: node
   linkType: hard
 
@@ -11146,7 +11146,7 @@ __metadata:
     "@typescript-eslint/typescript-estree": 5.43.0
     axios: 1.2.0
     chart.js: 4.0.1
-    chartjs-plugin-zoom: 1.2.1
+    chartjs-plugin-zoom: 2.0.0
     cross-env: 7.0.3
     cypress: 9.7.0
     cypress-failed-log: 2.10.0
