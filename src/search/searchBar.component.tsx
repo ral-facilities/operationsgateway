@@ -3,7 +3,7 @@ import DateTime from './components/dateTime.component';
 import Timeframe from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, ShotnumRange } from '../app.types';
 import { format } from 'date-fns';
@@ -12,7 +12,11 @@ import {
   selectSearchParams,
 } from '../state/slices/searchSlice';
 
-const SearchBar = (): React.ReactElement => {
+interface SearchBarProps {
+  expanded: boolean;
+}
+
+const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams);
@@ -51,40 +55,44 @@ const SearchBar = (): React.ReactElement => {
     );
   }, [dispatch, fromDate, shotnumMax, shotnumMin, toDate]);
 
+  const { expanded } = props;
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={4}>
-        <DateTime
-          receivedFromDate={fromDate}
-          receivedToDate={toDate}
-          changeFromDate={setFromDate}
-          changeToDate={setToDate}
-        />
+    <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <DateTime
+            receivedFromDate={fromDate}
+            receivedToDate={toDate}
+            changeFromDate={setFromDate}
+            changeToDate={setToDate}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Timeframe />
+        </Grid>
+        <Grid item xs={2}>
+          <Experiment />
+        </Grid>
+        <Grid item xs={2}>
+          <ShotNumber
+            receivedMin={shotnumMin}
+            receivedMax={shotnumMax}
+            changeMin={setShotnumMin}
+            changeMax={setShotnumMax}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button
+            variant="outlined"
+            sx={{ height: '100%' }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={2}>
-        <Timeframe />
-      </Grid>
-      <Grid item xs={2}>
-        <Experiment />
-      </Grid>
-      <Grid item xs={2}>
-        <ShotNumber
-          receivedMin={shotnumMin}
-          receivedMax={shotnumMax}
-          changeMin={setShotnumMin}
-          changeMax={setShotnumMax}
-        />
-      </Grid>
-      <Grid item xs={1}>
-        <Button
-          variant="outlined"
-          sx={{ height: '100%' }}
-          onClick={handleSearch}
-        >
-          Search
-        </Button>
-      </Grid>
-    </Grid>
+    </Collapse>
   );
 };
 

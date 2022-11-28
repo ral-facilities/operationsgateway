@@ -12,6 +12,8 @@ const DataView = React.memo((): React.ReactElement => {
     string | undefined
   >(undefined);
 
+  const [searchExpanded, setSearchExpanded] = React.useState<boolean>(true);
+
   const openFiltersFromDataHeader = React.useCallback((headerName: string) => {
     setFiltersOpen(true);
     setFlashingFilterValue(headerName);
@@ -19,8 +21,14 @@ const DataView = React.memo((): React.ReactElement => {
 
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>
-      <SearchBar />
-      <TableButtons openFilters={() => setFiltersOpen(true)} />
+      <SearchBar expanded={searchExpanded} />
+      <TableButtons
+        searchExpanded={searchExpanded}
+        toggleSearchExpanded={() =>
+          setSearchExpanded((searchExpanded) => !searchExpanded)
+        }
+        openFilters={() => setFiltersOpen(true)}
+      />
       <FilterDialogue
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
