@@ -113,4 +113,22 @@ describe('Data View', () => {
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
     expect(dialogue).toBeVisible();
   });
+
+  it('collapses & expands search when the show/hide search button is clicked', async () => {
+    const user = userEvent.setup();
+    await act(async () => {
+      createView();
+      await flushPromises();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Hide search' }));
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('button', { name: 'Search' })
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Show search' }));
+
+    expect(await screen.findByRole('button', { name: 'Search' })).toBeVisible();
+  });
 });
