@@ -4,6 +4,7 @@ import { RootState } from '../store';
 import { SearchParams } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
+import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
 
 // Define a type for the slice state
 interface SearchState {
@@ -15,6 +16,7 @@ export const initialState = {
   searchParams: {
     dateRange: {},
     shotnumRange: {},
+    maxShots: MAX_SHOTS_VALUES[0],
   },
 } as SearchState;
 

@@ -6,7 +6,7 @@ import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
 import { Grid, Button } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { DateRange, ShotnumRange } from '../app.types';
+import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { format } from 'date-fns';
 import {
   changeSearchParams,
@@ -17,7 +17,7 @@ const SearchBar = (): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams);
-  const { dateRange, shotnumRange } = searchParams;
+  const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
     dateRange.fromDate ? new Date(dateRange.fromDate) : null
@@ -33,7 +33,8 @@ const SearchBar = (): React.ReactElement => {
     shotnumRange.max ?? undefined
   );
 
-  const [maxShots, setMaxShots] = React.useState<number>(50);
+  const [maxShots, setMaxShots] =
+    React.useState<SearchParams['maxShots']>(maxShotsParam);
 
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
@@ -50,47 +51,48 @@ const SearchBar = (): React.ReactElement => {
       changeSearchParams({
         dateRange: newDateRange,
         shotnumRange: newShotnumRange,
+        maxShots,
       })
     );
-  }, [dispatch, fromDate, shotnumMax, shotnumMin, toDate]);
+  }, [dispatch, fromDate, maxShots, shotnumMax, shotnumMin, toDate]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={4}>
-        <DateTime
-          receivedFromDate={fromDate}
-          receivedToDate={toDate}
-          changeFromDate={setFromDate}
-          changeToDate={setToDate}
-        />
+    <div>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <DateTime
+            receivedFromDate={fromDate}
+            receivedToDate={toDate}
+            changeFromDate={setFromDate}
+            changeToDate={setToDate}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Timeframe />
+        </Grid>
+        <Grid item xs={2}>
+          <Experiment />
+        </Grid>
+        <Grid item xs={2}>
+          <ShotNumber
+            receivedMin={shotnumMin}
+            receivedMax={shotnumMax}
+            changeMin={setShotnumMin}
+            changeMax={setShotnumMax}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button
+            variant="outlined"
+            sx={{ height: '100%' }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={2}>
-        <Timeframe />
-      </Grid>
-      <Grid item xs={2}>
-        <Experiment />
-      </Grid>
-      <Grid item xs={2}>
-        <ShotNumber
-          receivedMin={shotnumMin}
-          receivedMax={shotnumMax}
-          changeMin={setShotnumMin}
-          changeMax={setShotnumMax}
-        />
-      </Grid>
-      <Grid item xs={1}>
-        <Button
-          variant="outlined"
-          sx={{ height: '100%' }}
-          onClick={handleSearch}
-        >
-          Search
-        </Button>
-      </Grid>
-      <Grid item xs={1}>
-        <MaxShots maxNumber={maxShots} changeMaxNumber={setMaxShots} />
-      </Grid>
-    </Grid>
+      <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+    </div>
   );
 };
 
