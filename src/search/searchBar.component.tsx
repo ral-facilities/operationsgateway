@@ -19,6 +19,8 @@ const SearchBar = (): React.ReactElement => {
   const searchParams = useAppSelector(selectSearchParams);
   const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
 
+  const [paramsUpdated, setParamsUpdated] = React.useState<boolean>(false);
+
   const [fromDate, setFromDate] = React.useState<Date | null>(
     dateRange.fromDate ? new Date(dateRange.fromDate) : null
   );
@@ -35,6 +37,10 @@ const SearchBar = (): React.ReactElement => {
 
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
+
+  React.useEffect(() => {
+    setParamsUpdated(true);
+  }, [fromDate, toDate, shotnumMin, shotnumMax, maxShots]);
 
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
@@ -54,6 +60,8 @@ const SearchBar = (): React.ReactElement => {
         maxShots,
       })
     );
+
+    setParamsUpdated(false);
   }, [dispatch, fromDate, maxShots, shotnumMax, shotnumMin, toDate]);
 
   return (
@@ -83,7 +91,7 @@ const SearchBar = (): React.ReactElement => {
         </Grid>
         <Grid item xs={1}>
           <Button
-            variant="outlined"
+            variant={paramsUpdated ? 'contained' : 'outlined'}
             sx={{ height: '100%' }}
             onClick={handleSearch}
           >
