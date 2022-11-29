@@ -39,6 +39,7 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
             <Grid item xs={11}>
               <RadioGroup
                 name="max shots group"
+                aria-label="select max shots"
                 value={maxShots}
                 onChange={(_, value) =>
                   Number.isNaN(Number.parseInt(value))

@@ -1,6 +1,11 @@
 import React from 'react';
 import MaxShots, { type MaxShotsProps } from './maxShots.component';
-import { render, screen, type RenderResult } from '@testing-library/react';
+import {
+  render,
+  screen,
+  within,
+  type RenderResult,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('maxShots search', () => {
@@ -44,7 +49,12 @@ describe('maxShots search', () => {
       };
       createView();
 
-      await user.click(screen.getByRole('radio', { name: '50' }));
+      const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+        name: 'select max shots',
+      });
+      await user.click(
+        within(maxShotsRadioGroup).getByRole('radio', { name: '50' })
+      );
       expect(changeMaxShots).toHaveBeenCalledWith(50);
     });
 
@@ -55,7 +65,12 @@ describe('maxShots search', () => {
       };
       createView();
 
-      await user.click(screen.getByRole('radio', { name: '1000' }));
+      const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+        name: 'select max shots',
+      });
+      await user.click(
+        within(maxShotsRadioGroup).getByRole('radio', { name: '1000' })
+      );
       expect(changeMaxShots).toHaveBeenCalledWith(1000);
     });
 
@@ -66,7 +81,12 @@ describe('maxShots search', () => {
       };
       createView();
 
-      await user.click(screen.getByRole('radio', { name: 'Unlimited' }));
+      const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+        name: 'select max shots',
+      });
+      await user.click(
+        within(maxShotsRadioGroup).getByRole('radio', { name: 'Unlimited' })
+      );
       expect(changeMaxShots).toHaveBeenCalledWith('Unlimited');
     });
   });

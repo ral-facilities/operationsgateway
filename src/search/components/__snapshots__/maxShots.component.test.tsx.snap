@@ -28,6 +28,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-ykovpn-MuiGrid-root"
           >
             <div
+              aria-label="select max shots"
               class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
               role="radiogroup"
             >

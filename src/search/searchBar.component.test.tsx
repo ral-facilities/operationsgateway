@@ -10,6 +10,7 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 
 describe('searchBar component', () => {
   let user;
@@ -67,8 +68,19 @@ describe('searchBar component', () => {
     await user.type(shotnumMin, '1');
     await user.type(shotnumMax, '2');
     await user.click(screen.getByLabelText('close shot number search box'));
-    await user.click(screen.getByRole('button', { name: 'Search' }));
 
+    // Max shots
+
+    const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+      name: 'select max shots',
+    });
+    await user.click(
+      within(maxShotsRadioGroup).getByRole('radio', { name: '1000' })
+    );
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: '2022-01-01 00:00:00',
@@ -78,6 +90,7 @@ describe('searchBar component', () => {
         min: 1,
         max: 2,
       },
+      maxShots: 1000,
     });
   });
 
@@ -96,6 +109,7 @@ describe('searchBar component', () => {
         min: undefined,
         max: undefined,
       },
+      maxShots: MAX_SHOTS_VALUES[0],
     });
   });
 });
