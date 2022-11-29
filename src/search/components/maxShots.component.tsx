@@ -46,8 +46,9 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
                     : changeMaxShots(Number(value))
                 }
               >
-                {MAX_SHOTS_VALUES.map((value) => (
+                {MAX_SHOTS_VALUES.map((value, i) => (
                   <FormControlLabel
+                    key={i}
                     value={value}
                     control={<Radio />}
                     label={value}

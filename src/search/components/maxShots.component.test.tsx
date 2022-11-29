@@ -44,8 +44,30 @@ describe('maxShots search', () => {
       };
       createView();
 
-      await user.click(screen.getByRole('input', { name: '50' }));
+      await user.click(screen.getByRole('radio', { name: '50' }));
       expect(changeMaxShots).toHaveBeenCalledWith(50);
+    });
+
+    it('1000 shots', async () => {
+      props = {
+        maxShots: 50,
+        changeMaxShots,
+      };
+      createView();
+
+      await user.click(screen.getByRole('radio', { name: '1000' }));
+      expect(changeMaxShots).toHaveBeenCalledWith(1000);
+    });
+
+    it('unlimited', async () => {
+      props = {
+        maxShots: 50,
+        changeMaxShots,
+      };
+      createView();
+
+      await user.click(screen.getByRole('radio', { name: 'Unlimited' }));
+      expect(changeMaxShots).toHaveBeenCalledWith('Unlimited');
     });
   });
 });
