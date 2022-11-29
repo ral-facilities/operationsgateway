@@ -284,8 +284,16 @@ export const usePlotRecords = (
   >(
     ['records', { sort: { [parsedXAxis]: 'asc' }, searchParams, filters }],
     (params) => {
-      const { sort, filters } = params.queryKey[1];
-      return fetchRecords(apiUrl, sort, searchParams, filters);
+      const { sort, filters, searchParams } = params.queryKey[1];
+      const { maxShots } = searchParams;
+      let offsetParams = undefined;
+      if (maxShots !== 'Unlimited') {
+        offsetParams = {
+          startIndex: 0,
+          stopIndex: maxShots,
+        };
+      }
+      return fetchRecords(apiUrl, sort, searchParams, filters, offsetParams);
     },
     {
       onError: (error) => {
