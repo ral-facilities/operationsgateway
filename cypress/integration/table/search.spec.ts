@@ -15,6 +15,18 @@ describe('Search', () => {
     cy.visit('/').wait(['@getRecords', '@getRecords', '@getRecordCount']);
   });
 
+  it('can be hidden and shown', () => {
+    cy.contains(/^Search$/).should('be.visible');
+
+    cy.contains('Hide search').click();
+
+    cy.contains(/^Search$/).should('not.be.visible');
+
+    cy.contains('Show search').click();
+
+    cy.contains(/^Search$/).should('be.visible');
+  });
+
   it('searches with filled inputs', () => {
     // Date-time fields
     cy.get('input[aria-label="from, date-time input"]').type(
