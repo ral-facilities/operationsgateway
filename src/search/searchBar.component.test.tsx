@@ -88,6 +88,26 @@ describe('searchBar component', () => {
   });
 
   describe('searches by relative timeframe', () => {
+    let realDate;
+
+    beforeEach(() => {
+      // Mock the Date constructor to allow for accurate comparison between expected and actual dates
+      const testDate = new Date('2022-01-01 00:00:00');
+      realDate = Date;
+      global.Date = class extends Date {
+        constructor(date) {
+          if (date) {
+            return super(date);
+          }
+          return testDate;
+        }
+      };
+    });
+
+    afterEach(() => {
+      global.Date = realDate;
+    });
+
     it('minutes', async () => {
       const state = getInitialState();
       const { store } = createView(state);
@@ -111,17 +131,11 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      // Sometimes the expected and actual date are received one second apart from each other
-      // To account for this, we'll just check it's close enough by verifying as far as the minute
-      // Could still technically fail but the chance is now much lower
-      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
-      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
-
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualFromDateToTheMinute
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
       );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualToDateToTheMinute
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
       );
     });
 
@@ -148,17 +162,11 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      // Sometimes the expected and actual date are received one second apart from each other
-      // To account for this, we'll just check it's close enough by verifying as far as the minute
-      // Could still technically fail but the chance is now much lower
-      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
-      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
-
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualFromDateToTheMinute
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
       );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualToDateToTheMinute
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
       );
     });
 
@@ -185,18 +193,11 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      // Sometimes the expected and actual date are received one second apart from each other
-      // To account for this, we'll just check it's close enough by verifying as far as the minute
-      // So we cut off the seconds from the value
-      // Could still technically fail but the chance is now much lower
-      const actualFromDateToTheMinute = actualFromDate?.slice(0, -3);
-      const actualToDateToTheMinute = actualToDate?.slice(0, -3);
-
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualFromDateToTheMinute
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
       );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm')).toEqual(
-        actualToDateToTheMinute
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
       );
     });
   });
