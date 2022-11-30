@@ -41,6 +41,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
       <Grid container spacing={1} sx={{ paddingBottom: '15px' }}>
         <Grid item xs={4}>
           <Button
+            size="small"
             variant="outlined"
             sx={{ height: '100%' }}
             onClick={() => changeTimeframe({ value: 10, timescale: 'minutes' })}
@@ -50,6 +51,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         </Grid>
         <Grid item xs={4}>
           <Button
+            size="small"
             variant="outlined"
             sx={{ height: '100%' }}
             onClick={() => changeTimeframe({ value: 24, timescale: 'hours' })}
@@ -59,6 +61,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         </Grid>
         <Grid item xs={4}>
           <Button
+            size="small"
             variant="outlined"
             sx={{ height: '100%' }}
             onClick={() => changeTimeframe({ value: 7, timescale: 'days' })}
