@@ -8,7 +8,7 @@ import ShotNumber from './components/shotNumber.component';
 import { Grid, Button } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, ShotnumRange } from '../app.types';
-import { format } from 'date-fns';
+import { format, sub } from 'date-fns';
 import {
   changeSearchParams,
   selectSearchParams,
@@ -52,19 +52,7 @@ const SearchBar = (): React.ReactElement => {
     timeframe: TimeframeRange
   ): { from: Date; to: Date } => {
     const to = new Date();
-    const from = new Date();
-
-    switch (timeframe.timescale) {
-      case 'minutes':
-        from.setMinutes(to.getMinutes() - timeframe.value);
-        break;
-      case 'hours':
-        from.setHours(to.getHours() - timeframe.value);
-        break;
-      case 'days':
-        from.setDate(to.getDate() - timeframe.value);
-        break;
-    }
+    const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
 
     return { from, to };
   };
