@@ -1,5 +1,5 @@
 import React from 'react';
-import { isValid, isEqual, isBefore } from 'date-fns';
+import { isValid, isEqual, isBefore, isAfter } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -29,10 +29,15 @@ export function verifyAndUpdateDate({
   fromDateOrToDateChanged,
   changeDate,
 }: VerifyAndUpdateDateParams): void {
-  if (date && isValid(date) && (!prevDate || !datesEqual(date, prevDate))) {
+  if (
+    date &&
+    isValid(date) &&
+    // !datesEqual(date, otherDate) &&
+    (!prevDate || !datesEqual(date, prevDate))
+  ) {
     const validFromDate =
       fromDateOrToDateChanged === 'fromDate' &&
-      (!otherDate || isBefore(date, otherDate));
+      (!otherDate || !isAfter(date, otherDate));
     const validToDate =
       fromDateOrToDateChanged === 'toDate' &&
       (!otherDate || !isBefore(date, otherDate));
@@ -145,6 +150,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 }
               }}
               onAccept={(date) => {
+                setDatePickerFromDate(date as Date);
                 resetTimeframe();
                 verifyAndUpdateDate({
                   date: date as Date,
@@ -225,6 +231,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 }
               }}
               onAccept={(date) => {
+                setDatePickerToDate(date as Date);
                 resetTimeframe();
                 verifyAndUpdateDate({
                   date: date as Date,

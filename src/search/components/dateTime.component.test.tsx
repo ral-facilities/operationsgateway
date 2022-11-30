@@ -99,13 +99,13 @@ describe('verifyAndUpdateDate function', () => {
     expect(changeDate).toHaveBeenCalledWith(new Date('2022-01-01 00:00:00'));
   });
 
-  it("doesn't call changeDate if dates are equal", () => {
+  it('allows changeDate to be called if both dates are equal', () => {
     verifyAndUpdateDate({
       ...props,
       otherDate: new Date('2022-01-01T00:00:00'),
     });
 
-    expect(changeDate).not.toHaveBeenCalled();
+    expect(changeDate).toHaveBeenCalledWith(new Date('2022-01-01T00:00:00'));
   });
 
   it("doesn't call changeDate if fromDate is invalid", () => {
