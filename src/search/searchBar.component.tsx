@@ -66,40 +66,48 @@ const SearchBar = (): React.ReactElement => {
 
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <DateTime
-            receivedFromDate={fromDate}
-            receivedToDate={toDate}
-            changeFromDate={setFromDate}
-            changeToDate={setToDate}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Timeframe />
-        </Grid>
-        <Grid item xs={2}>
-          <Experiment />
-        </Grid>
-        <Grid item xs={2}>
-          <ShotNumber
-            receivedMin={shotnumMin}
-            receivedMax={shotnumMax}
-            changeMin={setShotnumMin}
-            changeMax={setShotnumMax}
-          />
-        </Grid>
-        <Grid item xs={1}>
-          <Button
-            variant={paramsUpdated ? 'contained' : 'outlined'}
-            sx={{ height: '100%' }}
-            onClick={handleSearch}
-          >
-            Search
-          </Button>
+      <Grid container spacing={1} direction="row">
+        <Grid container item xs={11} direction="column">
+          <Grid item>
+            <Grid container spacing={1} direction="row">
+              <Grid item xs={5}>
+                <DateTime
+                  receivedFromDate={fromDate}
+                  receivedToDate={toDate}
+                  changeFromDate={setFromDate}
+                  changeToDate={setToDate}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Timeframe />
+              </Grid>
+              <Grid item xs={2}>
+                <Experiment />
+              </Grid>
+              <Grid item xs={2}>
+                <ShotNumber
+                  receivedMin={shotnumMin}
+                  receivedMax={shotnumMax}
+                  changeMin={setShotnumMin}
+                  changeMax={setShotnumMax}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <Button
+                  variant={paramsUpdated ? 'contained' : 'outlined'}
+                  sx={{ height: '100%' }}
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+          </Grid>
         </Grid>
       </Grid>
-      <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
     </div>
   );
 };

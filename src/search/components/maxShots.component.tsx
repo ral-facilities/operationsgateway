@@ -31,13 +31,20 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
           overflow: 'hidden',
         }}
       >
-        <Grid container direction="column">
-          <FormControl>
-            <Grid item xs={1}>
-              <FormLabel>Max shots</FormLabel>
-            </Grid>
-            <Grid item xs={11}>
+        <Grid container direction="row">
+          <Grid
+            item
+            xs={1}
+            display="flex"
+            alignItems="center"
+            justifyContent="left"
+          >
+            <FormLabel>Max shots</FormLabel>
+          </Grid>
+          <Grid item xs={11} justifyContent="left" display="flex">
+            <FormControl>
               <RadioGroup
+                row
                 name="max shots group"
                 aria-label="select max shots"
                 value={maxShots}
@@ -56,8 +63,8 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
                   />
                 ))}
               </RadioGroup>
-            </Grid>
-          </FormControl>
+            </FormControl>
+          </Grid>
         </Grid>
       </Box>
     </Box>
