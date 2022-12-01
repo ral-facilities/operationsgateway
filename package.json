@@ -2,6 +2,9 @@
   "name": "operationsgateway",
   "version": "0.1.0",
   "private": true,
+  "resolutions": {
+    "decode-uri-component": "0.2.1"
+  },
   "dependencies": {
     "@babel/runtime": "7.20.1",
     "@date-io/date-fns": "2.16.0",
