@@ -10,26 +10,26 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
       class="MuiBox-root css-1hqcbhu"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
       >
         <div
-          class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-4lvyo2-MuiGrid-root"
+        >
+          <label
+            class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
+          >
+            Max shots
+          </label>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-8l50tu-MuiGrid-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-u78q51-MuiGrid-root"
-          >
-            <label
-              class="MuiFormLabel-root MuiFormLabel-colorPrimary css-u4tvz2-MuiFormLabel-root"
-            >
-              Max shots
-            </label>
-          </div>
-          <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-11 css-ykovpn-MuiGrid-root"
+            class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
           >
             <div
               aria-label="select max shots"
-              class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+              class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
               role="radiogroup"
             >
               <label

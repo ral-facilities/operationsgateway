@@ -306,7 +306,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                   role="none"
                   aria-hidden={false}
                 >
-                  <td colSpan={columnOrder.length ?? 1}>
+                  <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
                     <CircularProgress id="table-loading-indicator" />
                   </td>
                 </Backdrop>
