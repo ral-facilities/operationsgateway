@@ -124,7 +124,7 @@ export interface ShotnumRange {
 export interface SearchParams {
   dateRange: DateRange;
   shotnumRange: ShotnumRange;
-  maxShots: number | 'Unlimited';
+  maxShots: number;
 }
 
 export interface ColumnState {

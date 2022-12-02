@@ -109,7 +109,7 @@ describe('Table', () => {
     it('displays the total data count if maxShots === "Unlimited"', () => {
       props = {
         ...props,
-        maxShots: 'Unlimited',
+        maxShots: Infinity,
       };
       const recordCount = recordRows.length;
       createView();

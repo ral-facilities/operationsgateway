@@ -388,7 +388,7 @@ describe('records api functions', () => {
           ...getInitialState().search,
           searchParams: {
             ...getInitialState().search.searchParams,
-            maxShots: 'Unlimited',
+            maxShots: Infinity,
           },
         },
       };

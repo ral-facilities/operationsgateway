@@ -316,11 +316,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         </div>
         <MuiTablePagination
           component="div"
-          count={
-            maxShots === 'Unlimited' || maxShots > totalDataCount
-              ? totalDataCount
-              : maxShots
-          }
+          count={maxShots > totalDataCount ? totalDataCount : maxShots}
           onPageChange={(e, page) => onPageChange(page)}
           page={page}
           rowsPerPage={resultsPerPage}

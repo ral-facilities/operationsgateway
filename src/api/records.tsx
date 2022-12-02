@@ -287,7 +287,7 @@ export const usePlotRecords = (
       const { sort, filters, searchParams } = params.queryKey[1];
       const { maxShots } = searchParams;
       let offsetParams = undefined;
-      if (maxShots !== 'Unlimited') {
+      if (maxShots !== Infinity) {
         offsetParams = {
           startIndex: 0,
           stopIndex: maxShots,

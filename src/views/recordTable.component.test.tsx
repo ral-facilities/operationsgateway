@@ -82,7 +82,7 @@ describe('Record Table', () => {
       isLoading: false,
     });
     (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: constructColumns(testChannels, [[]]),
+      data: constructColumns(testChannels),
       isLoading: false,
     });
 

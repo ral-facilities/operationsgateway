@@ -133,7 +133,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
                 class="PrivateSwitchBase-input css-1m9pwf3"
                 name="max shots group"
                 type="radio"
-                value="Unlimited"
+                value="Infinity"
               />
               <span
                 class="css-hyxlzm"

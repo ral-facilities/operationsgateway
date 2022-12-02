@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { SearchParams } from '../../app.types';
 
-export const MAX_SHOTS_VALUES = [50, 1000, 'Unlimited'];
+export const MAX_SHOTS_VALUES = [50, 1000, Infinity];
 
 export interface MaxShotsProps {
   maxShots: SearchParams['maxShots'];
@@ -46,18 +46,14 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
             name="max shots group"
             aria-label="select max shots"
             value={maxShots}
-            onChange={(_, value) =>
-              Number.isNaN(Number.parseInt(value))
-                ? changeMaxShots('Unlimited')
-                : changeMaxShots(Number(value))
-            }
+            onChange={(_, value) => changeMaxShots(Number(value))}
           >
             {MAX_SHOTS_VALUES.map((value, i) => (
               <FormControlLabel
                 key={i}
                 value={value}
                 control={<Radio />}
-                label={value}
+                label={value === Infinity ? 'Unlimited' : value}
               />
             ))}
           </RadioGroup>

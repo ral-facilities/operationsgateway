@@ -87,7 +87,7 @@ describe('maxShots search', () => {
       await user.click(
         within(maxShotsRadioGroup).getByRole('radio', { name: 'Unlimited' })
       );
-      expect(changeMaxShots).toHaveBeenCalledWith('Unlimited');
+      expect(changeMaxShots).toHaveBeenCalledWith(Infinity);
     });
   });
 });
