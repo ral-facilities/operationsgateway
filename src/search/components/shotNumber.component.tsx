@@ -87,7 +87,8 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
   const invalidRange =
-    props.searchParameterShotnumMin && props.searchParameterShotnumMax
+    props.searchParameterShotnumMin !== undefined &&
+    props.searchParameterShotnumMax !== undefined
       ? props.searchParameterShotnumMin > props.searchParameterShotnumMax
       : false;
 
