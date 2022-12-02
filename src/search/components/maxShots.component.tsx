@@ -52,7 +52,13 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
               <FormControlLabel
                 key={i}
                 value={value}
-                control={<Radio />}
+                control={
+                  <Radio
+                    aria-label={`Select ${
+                      value === Infinity ? 'unlimited' : value
+                    } max shots`}
+                  />
+                }
                 label={value === Infinity ? 'Unlimited' : value}
               />
             ))}
