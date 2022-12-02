@@ -14,9 +14,10 @@ import { format } from 'date-fns';
 
 describe('searchBar component', () => {
   let user;
+  let props: React.ComponentProps<typeof SearchBar>;
 
   const createView = (initialState?: PreloadedState<RootState>) => {
-    return renderComponentWithProviders(<SearchBar />, {
+    return renderComponentWithProviders(<SearchBar {...props} />, {
       preloadedState: initialState,
     });
   };
@@ -24,6 +25,9 @@ describe('searchBar component', () => {
   beforeEach(() => {
     applyDatePickerWorkaround();
     user = userEvent.setup();
+    props = {
+      expanded: true,
+    };
   });
 
   afterEach(() => {
@@ -200,5 +204,12 @@ describe('searchBar component', () => {
         actualToDate
       );
     });
+  });
+
+  it('displays nothing if expanded is false', async () => {
+    props = { expanded: false };
+    const { container } = createView();
+
+    expect(container).toBeEmptyDOMElement();
   });
 });

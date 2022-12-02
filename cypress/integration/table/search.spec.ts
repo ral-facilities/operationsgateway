@@ -501,4 +501,16 @@ describe('Search', () => {
       'rgb(214, 65, 65)' // shade of red
     );
   });
+
+  it('can be hidden and shown', () => {
+    cy.contains(/^Search$/).should('be.visible');
+
+    cy.contains('Hide search').click();
+
+    cy.contains(/^Search$/).should('not.be.visible');
+
+    cy.contains('Show search').click();
+
+    cy.contains(/^Search$/).should('be.visible');
+  });
 });

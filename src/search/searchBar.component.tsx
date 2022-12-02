@@ -5,7 +5,7 @@ import Timeframe, {
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, ShotnumRange } from '../app.types';
 import { format, sub } from 'date-fns';
@@ -19,7 +19,11 @@ export type TimeframeDates = {
   toDate: Date | null;
 };
 
-const SearchBar = (): React.ReactElement => {
+interface SearchBarProps {
+  expanded: boolean;
+}
+
+const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
@@ -113,44 +117,48 @@ const SearchBar = (): React.ReactElement => {
     searchParameterToDate,
   ]);
 
+  const { expanded } = props;
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={4}>
-        <DateTime
-          searchParameterFromDate={searchParameterFromDate}
-          searchParameterToDate={searchParameterToDate}
-          changeSearchParameterFromDate={setSearchParameterFromDate}
-          changeSearchParameterToDate={setSearchParameterToDate}
-          resetTimeframe={() => setRelativeTimeframe(null)}
-        />
+    <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <DateTime
+            searchParameterFromDate={searchParameterFromDate}
+            searchParameterToDate={searchParameterToDate}
+            changeSearchParameterFromDate={setSearchParameterFromDate}
+            changeSearchParameterToDate={setSearchParameterToDate}
+            resetTimeframe={() => setRelativeTimeframe(null)}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Timeframe
+            timeframe={timeframeRange}
+            changeTimeframe={setRelativeTimeframe}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Experiment />
+        </Grid>
+        <Grid item xs={2}>
+          <ShotNumber
+            searchParameterShotnumMin={searchParameterShotnumMin}
+            searchParameterShotnumMax={searchParameterShotnumMax}
+            changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
+            changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button
+            variant="outlined"
+            sx={{ height: '54.6px' }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={2}>
-        <Timeframe
-          timeframe={timeframeRange}
-          changeTimeframe={setRelativeTimeframe}
-        />
-      </Grid>
-      <Grid item xs={2}>
-        <Experiment />
-      </Grid>
-      <Grid item xs={2}>
-        <ShotNumber
-          searchParameterShotnumMin={searchParameterShotnumMin}
-          searchParameterShotnumMax={searchParameterShotnumMax}
-          changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
-          changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
-        />
-      </Grid>
-      <Grid item xs={1}>
-        <Button
-          variant="outlined"
-          sx={{ height: '54.6px' }}
-          onClick={handleSearch}
-        >
-          Search
-        </Button>
-      </Grid>
-    </Grid>
+    </Collapse>
   );
 };
 
