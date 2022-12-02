@@ -29,12 +29,7 @@ export function verifyAndUpdateDate({
   fromDateOrToDateChanged,
   changeDate,
 }: VerifyAndUpdateDateParams): void {
-  if (
-    date &&
-    isValid(date) &&
-    // !datesEqual(date, otherDate) &&
-    (!prevDate || !datesEqual(date, prevDate))
-  ) {
+  if (date && isValid(date) && (!prevDate || !datesEqual(date, prevDate))) {
     const validFromDate =
       fromDateOrToDateChanged === 'fromDate' &&
       (!otherDate || !isAfter(date, otherDate));
