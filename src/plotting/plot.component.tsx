@@ -55,7 +55,7 @@ const Plot = (props: PlotProps) => {
       responsive: true,
       maintainAspectRatio: false,
       interaction: {
-        mode: 'index',
+        mode: 'point',
         intersect: false,
       },
       plugins: {

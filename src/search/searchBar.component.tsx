@@ -4,7 +4,7 @@ import Timeframe from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { format } from 'date-fns';
@@ -13,7 +13,11 @@ import {
   selectSearchParams,
 } from '../state/slices/searchSlice';
 
-const SearchBar = (): React.ReactElement => {
+interface SearchBarProps {
+  expanded: boolean;
+}
+
+const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams);
@@ -64,8 +68,10 @@ const SearchBar = (): React.ReactElement => {
     setParamsUpdated(false);
   }, [dispatch, fromDate, maxShots, shotnumMax, shotnumMin, toDate]);
 
+  const { expanded } = props;
+
   return (
-    <div>
+    <Collapse in={expanded} timeout="auto" unmountOnExit>
       <Grid container spacing={1} direction="row">
         <Grid container item xs={11} direction="column">
           <Grid item>
@@ -108,7 +114,7 @@ const SearchBar = (): React.ReactElement => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Collapse>
   );
 };
 

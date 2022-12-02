@@ -6,15 +6,23 @@ import userEvent from '@testing-library/user-event';
 
 describe('Table buttons', () => {
   const openFilters = jest.fn();
+  const toggleSearchExpanded = jest.fn();
+
   let user;
+  let props: React.ComponentProps<typeof TableButtons>;
 
   const createView = () => {
-    return render(<TableButtons openFilters={openFilters} />);
+    return render(<TableButtons {...props} />);
   };
 
   beforeEach(() => {
     user = userEvent.setup();
     (axios.get as jest.Mock).mockResolvedValue({ data: [] });
+    props = {
+      openFilters,
+      toggleSearchExpanded,
+      searchExpanded: false,
+    };
   });
 
   it('renders the buttons', async () => {
@@ -27,5 +35,14 @@ describe('Table buttons', () => {
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
     expect(openFilters).toHaveBeenCalled();
+  });
+
+  it('calls toggle when the filters button is clicked', async () => {
+    // set this to true to test that the button name changes from the one we have in the snapshot
+    props.searchExpanded = true;
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Hide search' }));
+    expect(toggleSearchExpanded).toHaveBeenCalled();
   });
 });
