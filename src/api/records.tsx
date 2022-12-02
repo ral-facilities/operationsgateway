@@ -350,3 +350,28 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
     }
   );
 };
+
+export const useIncomingRecordCount = (
+  searchParams: SearchParams
+): UseQueryResult<number, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const { filters } = useAppSelector(selectQueryParams);
+
+  return useQuery<
+    number,
+    AxiosError,
+    number,
+    [string, { searchParams: SearchParams; filters: string[] }]
+  >(
+    ['incomingRecordCount', { searchParams, filters }],
+    (params) => {
+      const { searchParams, filters } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, searchParams, filters);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};

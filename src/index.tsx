@@ -122,9 +122,13 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
         throw Error('Invalid format');
       }
 
-      // Ensure the facility name exists.
       if (!('apiUrl' in settings)) {
         throw new Error('apiUrl is undefined in settings');
+      }
+
+      // Ensure a limit on how many records can be requested before displaying a warning is present
+      if (!('recordLimitWarning' in settings)) {
+        throw new Error('recordLimitWarning is undefined in settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {

@@ -5,15 +5,18 @@ import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import { Grid, Button } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { DateRange, ShotnumRange } from '../app.types';
+import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { format } from 'date-fns';
 import {
   changeSearchParams,
   selectSearchParams,
 } from '../state/slices/searchSlice';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import { useIncomingRecordCount } from '../api/records';
 
 const SearchBar = (): React.ReactElement => {
   const dispatch = useAppDispatch();
+  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
 
   const searchParams = useAppSelector(selectSearchParams);
   const { dateRange, shotnumRange } = searchParams;
@@ -32,6 +35,26 @@ const SearchBar = (): React.ReactElement => {
     shotnumRange.max ?? undefined
   );
 
+  const [incomingParams, setIncomingParams] =
+    React.useState<SearchParams>(searchParams);
+
+  const { data: incomingCount, isLoading: countLoading } =
+    useIncomingRecordCount(incomingParams);
+
+  const checkAndVerifyRecordLimit = React.useCallback((): boolean => {
+    if (
+      !countLoading &&
+      incomingCount &&
+      recordLimitWarning > -1 &&
+      incomingCount > recordLimitWarning
+    ) {
+      return window.confirm(
+        `This search will return over ${recordLimitWarning} results. Continue?`
+      );
+    }
+    return true;
+  }, [countLoading, incomingCount, recordLimitWarning]);
+
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
       fromDate: fromDate ? format(fromDate, 'yyyy-MM-dd HH:mm:ss') : undefined,
@@ -43,13 +66,23 @@ const SearchBar = (): React.ReactElement => {
       max: shotnumMax,
     };
 
-    dispatch(
-      changeSearchParams({
-        dateRange: newDateRange,
-        shotnumRange: newShotnumRange,
-      })
-    );
-  }, [dispatch, fromDate, shotnumMax, shotnumMin, toDate]);
+    const newSearchParams: SearchParams = {
+      dateRange: newDateRange,
+      shotnumRange: newShotnumRange,
+    };
+
+    setIncomingParams(newSearchParams);
+    if (!checkAndVerifyRecordLimit()) return;
+
+    dispatch(changeSearchParams(newSearchParams));
+  }, [
+    checkAndVerifyRecordLimit,
+    dispatch,
+    fromDate,
+    shotnumMax,
+    shotnumMin,
+    toDate,
+  ]);
 
   return (
     <Grid container spacing={2}>
