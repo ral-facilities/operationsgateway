@@ -67,7 +67,7 @@ describe('searchBar component', () => {
       name: 'select max shots',
     });
     await user.click(
-      within(maxShotsRadioGroup).getByRole('radio', { name: '1000' })
+      within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
 
     // Initiate search

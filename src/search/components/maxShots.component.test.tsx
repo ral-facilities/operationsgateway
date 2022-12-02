@@ -53,7 +53,7 @@ describe('maxShots search', () => {
         name: 'select max shots',
       });
       await user.click(
-        within(maxShotsRadioGroup).getByRole('radio', { name: '50' })
+        within(maxShotsRadioGroup).getByLabelText('Select 50 max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(50);
     });
@@ -69,7 +69,7 @@ describe('maxShots search', () => {
         name: 'select max shots',
       });
       await user.click(
-        within(maxShotsRadioGroup).getByRole('radio', { name: '1000' })
+        within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(1000);
     });
@@ -85,7 +85,7 @@ describe('maxShots search', () => {
         name: 'select max shots',
       });
       await user.click(
-        within(maxShotsRadioGroup).getByRole('radio', { name: 'Unlimited' })
+        within(maxShotsRadioGroup).getByLabelText('Select unlimited max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(Infinity);
     });

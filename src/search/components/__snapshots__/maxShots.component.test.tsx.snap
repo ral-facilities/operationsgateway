@@ -30,6 +30,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
+              aria-label="Select 50 max shots"
               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
@@ -79,6 +80,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
+              aria-label="Select 1000 max shots"
               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
@@ -127,6 +129,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
+              aria-label="Select unlimited max shots"
               class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
