@@ -1,17 +1,24 @@
 import React from 'react';
 import DateTime from './components/dateTime.component';
-import Timeframe from './components/timeframe.component';
+import Timeframe, {
+  type TimeframeRange,
+} from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
 import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
-import { format } from 'date-fns';
+import { format, sub } from 'date-fns';
 import {
   changeSearchParams,
   selectSearchParams,
 } from '../state/slices/searchSlice';
+
+export type TimeframeDates = {
+  fromDate: Date | null;
+  toDate: Date | null;
+};
 
 interface SearchBarProps {
   expanded: boolean;
@@ -20,41 +27,96 @@ interface SearchBarProps {
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
-  const searchParams = useAppSelector(selectSearchParams);
+  const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
 
   const [paramsUpdated, setParamsUpdated] = React.useState<boolean>(false);
 
-  const [fromDate, setFromDate] = React.useState<Date | null>(
-    dateRange.fromDate ? new Date(dateRange.fromDate) : null
-  );
-  const [toDate, setToDate] = React.useState<Date | null>(
-    dateRange.toDate ? new Date(dateRange.toDate) : null
+  // ########################
+  // DATE-TIME FIELDS
+  // ########################
+  // The FROM and TO dates sent as part of the query (if any)
+  const [searchParameterFromDate, setSearchParameterFromDate] =
+    React.useState<Date | null>(
+      dateRange.fromDate ? new Date(dateRange.fromDate) : null
+    );
+  const [searchParameterToDate, setSearchParameterToDate] =
+    React.useState<Date | null>(
+      dateRange.toDate ? new Date(dateRange.toDate) : null
+    );
+
+  // ########################
+  // TIMEFRAME
+  // ########################
+  // Timeframe range is NOT sent as part of query
+  // Instead, we use this to determine the FROM and TO dates
+  // This is set in the timeframe search box by the user
+  // If the user edits any of the date fields otherwise, this is set to null
+  const [timeframeRange, setTimeframeRange] =
+    React.useState<TimeframeRange | null>(null);
+
+  const calculateTimeframeDateRange = (
+    timeframe: TimeframeRange
+  ): { from: Date; to: Date } => {
+    const to = new Date();
+    const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
+
+    return { from, to };
+  };
+
+  const setRelativeTimeframe = React.useCallback(
+    (timeframe: TimeframeRange | null) => {
+      if (timeframe == null) {
+        setTimeframeRange(null);
+        return;
+      }
+
+      const { from, to } = calculateTimeframeDateRange(timeframe);
+      setTimeframeRange(timeframe);
+      setSearchParameterFromDate(from);
+      setSearchParameterToDate(to);
+    },
+    []
   );
 
-  const [shotnumMin, setShotnumMin] = React.useState<number | undefined>(
-    shotnumRange.min ?? undefined
-  );
-  const [shotnumMax, setShotnumMax] = React.useState<number | undefined>(
-    shotnumRange.max ?? undefined
-  );
+  // ########################
+  // SHOT NUMBER MIN AND MAX
+  // ########################
+  // The SHOT NUMBER MIN AND MAX fields sent as part of the query (if any)
+  const [searchParameterShotnumMin, setSearchParameterShotnumMin] =
+    React.useState<number | undefined>(shotnumRange.min ?? undefined);
+  const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
+    React.useState<number | undefined>(shotnumRange.max ?? undefined);
 
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
   React.useEffect(() => {
     setParamsUpdated(true);
-  }, [fromDate, toDate, shotnumMin, shotnumMax, maxShots]);
+  }, [
+    searchParameterFromDate,
+    searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    maxShots,
+  ]);
 
+  // ########################
+  // INITIATING THE SEARCH
+  // ########################
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
-      fromDate: fromDate ? format(fromDate, 'yyyy-MM-dd HH:mm:ss') : undefined,
-      toDate: toDate ? format(toDate, 'yyyy-MM-dd HH:mm:ss') : undefined,
+      fromDate: searchParameterFromDate
+        ? format(searchParameterFromDate, 'yyyy-MM-dd HH:mm:ss')
+        : undefined,
+      toDate: searchParameterToDate
+        ? format(searchParameterToDate, 'yyyy-MM-dd HH:mm:ss')
+        : undefined,
     };
 
     const newShotnumRange: ShotnumRange = {
-      min: shotnumMin,
-      max: shotnumMax,
+      min: searchParameterShotnumMin,
+      max: searchParameterShotnumMax,
     };
 
     dispatch(
@@ -66,7 +128,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     );
 
     setParamsUpdated(false);
-  }, [dispatch, fromDate, maxShots, shotnumMax, shotnumMin, toDate]);
+  }, [
+    dispatch,
+    searchParameterFromDate,
+    maxShots,
+    searchParameterShotnumMax,
+    searchParameterShotnumMin,
+    searchParameterToDate,
+  ]);
 
   const { expanded } = props;
 
@@ -78,24 +147,28 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
             <Grid container spacing={1} direction="row">
               <Grid item xs={5}>
                 <DateTime
-                  receivedFromDate={fromDate}
-                  receivedToDate={toDate}
-                  changeFromDate={setFromDate}
-                  changeToDate={setToDate}
+                  searchParameterFromDate={searchParameterFromDate}
+                  searchParameterToDate={searchParameterToDate}
+                  changeSearchParameterFromDate={setSearchParameterFromDate}
+                  changeSearchParameterToDate={setSearchParameterToDate}
+                  resetTimeframe={() => setRelativeTimeframe(null)}
                 />
               </Grid>
               <Grid item xs={2}>
-                <Timeframe />
+                <Timeframe
+                  timeframe={timeframeRange}
+                  changeTimeframe={setRelativeTimeframe}
+                />
               </Grid>
               <Grid item xs={2}>
                 <Experiment />
               </Grid>
               <Grid item xs={2}>
                 <ShotNumber
-                  receivedMin={shotnumMin}
-                  receivedMax={shotnumMax}
-                  changeMin={setShotnumMin}
-                  changeMax={setShotnumMax}
+                  searchParameterShotnumMin={searchParameterShotnumMin}
+                  searchParameterShotnumMax={searchParameterShotnumMax}
+                  changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
+                  changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
                 />
               </Grid>
               <Grid item xs={1}>

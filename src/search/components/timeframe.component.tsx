@@ -1,17 +1,145 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Grid,
+  Typography,
+  Button,
+  TextField,
+} from '@mui/material';
 import { Schedule } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-const TimeframePopup = (): React.ReactElement => {
+export type TimeframeRange = {
+  value: number;
+  timescale: 'minutes' | 'hours' | 'days';
+};
+
+export interface TimeframeProps {
+  timeframe: TimeframeRange | null;
+  changeTimeframe: (value: TimeframeRange) => void;
+}
+
+const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
+  const { changeTimeframe } = props;
+
+  const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
+
   return (
-    <div>
-      <Typography>Select your timeframe</Typography>
+    <div style={{ padding: 5 }}>
+      <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
+        Select your timeframe
+      </Typography>
+      <Divider
+        sx={{
+          marginBottom: 2,
+          borderBottomWidth: 2,
+          backgroundColor: 'black',
+          width: '90%',
+        }}
+      />
+      <Grid container spacing={1} sx={{ paddingBottom: '15px' }}>
+        <Grid item xs={4}>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ height: '100%' }}
+            onClick={() => changeTimeframe({ value: 10, timescale: 'minutes' })}
+          >
+            Last 10 mins
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ height: '100%' }}
+            onClick={() => changeTimeframe({ value: 24, timescale: 'hours' })}
+          >
+            Last 24 hours
+          </Button>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            size="small"
+            variant="outlined"
+            sx={{ height: '100%' }}
+            onClick={() => changeTimeframe({ value: 7, timescale: 'days' })}
+          >
+            Last 7 days
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={4}>
+          <TextField
+            name="timeframe"
+            label="Timeframe"
+            value={workingTimeframe}
+            type="number"
+            size="small"
+            inputProps={{ min: 0 }}
+            onChange={(event) =>
+              setWorkingTimeframe(Number(event.target.value))
+            }
+          />
+        </Grid>
+        <Grid container spacing={1} item xs={8}>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'minutes',
+                  });
+              }}
+            >
+              Mins
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'hours',
+                  });
+              }}
+            >
+              Hours
+            </Button>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                if (workingTimeframe > 0)
+                  changeTimeframe({
+                    value: workingTimeframe,
+                    timescale: 'days',
+                  });
+              }}
+            >
+              Days
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };
 
-const Timeframe = (): React.ReactElement => {
+const Timeframe = (props: TimeframeProps): React.ReactElement => {
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -23,6 +151,7 @@ const Timeframe = (): React.ReactElement => {
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
+        aria-label={`${isOpen ? 'close' : 'open'} timeframe search box`}
         sx={{
           border: '1.5px solid',
           borderRadius: '10px',
@@ -38,7 +167,9 @@ const Timeframe = (): React.ReactElement => {
         <div>
           <Typography noWrap>Timeframe</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            0
+            {props.timeframe
+              ? `${props.timeframe.value} ${props.timeframe.timescale}`
+              : 'Select'}
           </Typography>
         </div>
       </Box>
@@ -51,11 +182,11 @@ const Timeframe = (): React.ReactElement => {
             top: 55,
             zIndex: 2,
             backgroundColor: '#ffffff',
-            width: 300,
+            width: 330,
           }}
           ref={popover}
         >
-          <TimeframePopup />
+          <TimeframePopup {...props} />
         </Box>
       )}
     </Box>
