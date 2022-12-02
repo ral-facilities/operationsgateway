@@ -4,17 +4,22 @@ import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
 export interface ShotNumberProps {
-  receivedMin?: number;
-  receivedMax?: number;
-  changeMin: (min: number | undefined) => void;
-  changeMax: (max: number | undefined) => void;
+  searchParameterShotnumMin?: number;
+  searchParameterShotnumMax?: number;
+  changeSearchParameterShotnumMin: (min: number | undefined) => void;
+  changeSearchParameterShotnumMax: (max: number | undefined) => void;
 }
 
 const ShotNumberPopup = (
   props: ShotNumberProps & { invalidRange: boolean }
 ): React.ReactElement => {
-  const { receivedMin, receivedMax, changeMin, changeMax, invalidRange } =
-    props;
+  const {
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    changeSearchParameterShotnumMin,
+    changeSearchParameterShotnumMax,
+    invalidRange,
+  } = props;
 
   return (
     <div style={{ paddingTop: 5, paddingLeft: 5 }}>
@@ -34,12 +39,12 @@ const ShotNumberPopup = (
           <TextField
             name="shot number min"
             label="Min"
-            value={receivedMin}
+            value={searchParameterShotnumMin}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeMin(
+              changeSearchParameterShotnumMin(
                 event.target.value ? Number(event.target.value) : undefined
               )
             }
@@ -54,12 +59,12 @@ const ShotNumberPopup = (
           <TextField
             name="shot number max"
             label="Max"
-            value={receivedMax}
+            value={searchParameterShotnumMax}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeMax(
+              changeSearchParameterShotnumMax(
                 event.target.value ? Number(event.target.value) : undefined
               )
             }
@@ -82,8 +87,8 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
   const invalidRange =
-    props.receivedMin && props.receivedMax
-      ? props.receivedMin > props.receivedMax
+    props.searchParameterShotnumMin && props.searchParameterShotnumMax
+      ? props.searchParameterShotnumMin > props.searchParameterShotnumMax
       : false;
 
   return (
