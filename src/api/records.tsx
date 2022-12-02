@@ -352,10 +352,26 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
 };
 
 export const useIncomingRecordCount = (
-  searchParams: SearchParams
+  filters?: string[],
+  searchParams?: SearchParams
 ): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { filters } = useAppSelector(selectQueryParams);
+  const { filters: storeFilters, searchParams: storeSearchParams } =
+    useAppSelector(selectQueryParams);
+
+  let finalisedFilters: string[];
+  if (filters) {
+    finalisedFilters = filters;
+  } else {
+    finalisedFilters = storeFilters;
+  }
+
+  let finalisedSearchParams: SearchParams;
+  if (searchParams) {
+    finalisedSearchParams = searchParams;
+  } else {
+    finalisedSearchParams = storeSearchParams;
+  }
 
   return useQuery<
     number,
@@ -363,7 +379,10 @@ export const useIncomingRecordCount = (
     number,
     [string, { searchParams: SearchParams; filters: string[] }]
   >(
-    ['incomingRecordCount', { searchParams, filters }],
+    [
+      'incomingRecordCount',
+      { searchParams: finalisedSearchParams, filters: finalisedFilters },
+    ],
     (params) => {
       const { searchParams, filters } = params.queryKey[1];
       return fetchRecordCountQuery(apiUrl, searchParams, filters);

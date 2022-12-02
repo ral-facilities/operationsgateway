@@ -16,9 +16,23 @@ import {
   changeAppliedFilters,
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
-import { Token } from './filterParser';
+import { Token, parseFilter } from './filterParser';
 import { useChannels } from '../api/channels';
 import { AddCircle, Delete } from '@mui/icons-material';
+import { useIncomingRecordCount } from '../api/records';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
+
+const parseAllFilters = (filters: Token[][]): string[] => {
+  return filters.map((filter) => {
+    try {
+      return parseFilter(filter);
+    } catch (e) {
+      // this shouldn't happen, as we should block the application of invalid filters
+      // in the filterInput
+      return '';
+    }
+  });
+};
 
 interface FilterDialogueProps {
   open: boolean;
@@ -93,6 +107,43 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     []
   );
 
+  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
+
+  const [incomingFilters, setIncomingFilters] = React.useState<string[]>(
+    parseAllFilters(appliedFilters)
+  );
+
+  const { data: incomingCount, isLoading: countLoading } =
+    useIncomingRecordCount(incomingFilters, undefined);
+
+  const checkAndVerifyRecordLimit = React.useCallback((): boolean => {
+    if (
+      !countLoading &&
+      incomingCount &&
+      recordLimitWarning > -1 &&
+      incomingCount > recordLimitWarning
+    ) {
+      return window.confirm(
+        `This search will return over ${recordLimitWarning} results. Continue?`
+      );
+    }
+    return true;
+  }, [countLoading, incomingCount, recordLimitWarning]);
+
+  const applyFilters = React.useCallback(() => {
+    // remove any "empty" filters as they're not necessary
+    // just need to make sure there's at least one empty array in the
+    // case of no filters applied
+    let newFilters = filters.filter((f) => f.length > 0);
+    if (newFilters.length === 0) newFilters = [[]];
+
+    setIncomingFilters(parseAllFilters(newFilters));
+    if (!checkAndVerifyRecordLimit()) return;
+
+    dispatch(changeAppliedFilters(newFilters));
+    onClose();
+  }, [checkAndVerifyRecordLimit, dispatch, filters, onClose]);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -165,15 +216,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         <Button onClick={onClose}>Close</Button>
         <Button
           disabled={errors.some((e) => e.length !== 0)}
-          onClick={() => {
-            // remove any "empty" filters as they're not necessary
-            // just need to make sure there's at least one empty array in the
-            // case of no filters applied
-            let newFilters = filters.filter((f) => f.length > 0);
-            if (newFilters.length === 0) newFilters = [[]];
-            dispatch(changeAppliedFilters(newFilters));
-            onClose();
-          }}
+          onClick={() => applyFilters()}
         >
           Apply
         </Button>

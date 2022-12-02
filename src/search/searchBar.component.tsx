@@ -16,7 +16,6 @@ import { useIncomingRecordCount } from '../api/records';
 
 const SearchBar = (): React.ReactElement => {
   const dispatch = useAppDispatch();
-  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
 
   const searchParams = useAppSelector(selectSearchParams);
   const { dateRange, shotnumRange } = searchParams;
@@ -35,11 +34,13 @@ const SearchBar = (): React.ReactElement => {
     shotnumRange.max ?? undefined
   );
 
+  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
+
   const [incomingParams, setIncomingParams] =
     React.useState<SearchParams>(searchParams);
 
   const { data: incomingCount, isLoading: countLoading } =
-    useIncomingRecordCount(incomingParams);
+    useIncomingRecordCount(undefined, incomingParams);
 
   const checkAndVerifyRecordLimit = React.useCallback((): boolean => {
     if (
