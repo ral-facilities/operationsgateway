@@ -87,8 +87,18 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
     React.useState<number | undefined>(shotnumRange.max ?? undefined);
 
+  // ########################
+  // RECORD LIMIT WARNING
+  // ########################
+  // The limit on how many records are fetched before displaying a warning to the user
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
 
+  // ########################
+  // INCOMING PARAMETERS
+  // ########################
+  // Parameters initially used to fetch the count of records in the new search request
+  // Ties in with record limit warning message to get the count of new records before actually retrieving them
+  // Can be thought of as working search parameters before the user commits to searching by them
   const [incomingParams, setIncomingParams] =
     React.useState<SearchParams>(searchParams);
 
