@@ -223,7 +223,7 @@ test('user can zoom and pan the graph', async ({
   }
 });
 
-test('plots multiple channels on the y axis and displays correct tooltips', async ({
+test('plots multiple channels on the y axis', async ({
   page,
   context,
   browserName,
@@ -274,13 +274,6 @@ test('plots multiple channels on the y axis and displays correct tooltips', asyn
 
   const chart = await popup.locator('#my-chart');
 
-  // test that tooltips show up & have filtered out the channel which isn't visible
-  await chart.hover({
-    position: {
-      x: 100,
-      y: 100,
-    },
-  });
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 

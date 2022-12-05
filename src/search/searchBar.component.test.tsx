@@ -10,12 +10,14 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { format } from 'date-fns';
 
 describe('searchBar component', () => {
   let user;
+  let props: React.ComponentProps<typeof SearchBar>;
 
   const createView = (initialState?: PreloadedState<RootState>) => {
-    return renderComponentWithProviders(<SearchBar />, {
+    return renderComponentWithProviders(<SearchBar {...props} />, {
       preloadedState: initialState,
     });
   };
@@ -23,6 +25,9 @@ describe('searchBar component', () => {
   beforeEach(() => {
     applyDatePickerWorkaround();
     user = userEvent.setup();
+    props = {
+      expanded: true,
+    };
   });
 
   afterEach(() => {
@@ -30,20 +35,7 @@ describe('searchBar component', () => {
   });
 
   it('dispatches changeSearchParams on search button click', async () => {
-    const state = {
-      ...getInitialState(),
-      search: {
-        ...getInitialState().search,
-        searchParams: {
-          ...getInitialState().search.searchParams,
-          shotnumRange: {
-            // zero for min and max to allow for proper userEvent typing to occur
-            min: 0,
-            max: 0,
-          },
-        },
-      },
-    };
+    const state = getInitialState();
     const { store } = createView(state);
 
     // Date-time fields
@@ -97,5 +89,127 @@ describe('searchBar component', () => {
         max: undefined,
       },
     });
+  });
+
+  describe('searches by relative timeframe', () => {
+    let realDate;
+
+    beforeEach(() => {
+      // Mock the Date constructor to allow for accurate comparison between expected and actual dates
+      const testDate = new Date('2022-01-01 00:00:00');
+      realDate = Date;
+      global.Date = class extends Date {
+        constructor(date) {
+          if (date) {
+            return super(date);
+          }
+          return testDate;
+        }
+      };
+    });
+
+    afterEach(() => {
+      global.Date = realDate;
+    });
+
+    it('minutes', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setMinutes(
+        expectedToDate.getMinutes() - 10
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
+      );
+    });
+
+    it('hours', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setHours(
+        expectedToDate.getHours() - 24
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
+      );
+    });
+
+    it('days', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
+      );
+      const expectedToDate = new Date();
+      const expectedFromDate = new Date(expectedToDate).setDate(
+        expectedToDate.getDate() - 7
+      );
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualFromDate
+      );
+      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+        actualToDate
+      );
+    });
+  });
+
+  it('displays nothing if expanded is false', async () => {
+    props = { expanded: false };
+    const { container } = createView();
+
+    expect(container).toBeEmptyDOMElement();
   });
 });
