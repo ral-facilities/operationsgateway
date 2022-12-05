@@ -5,7 +5,15 @@ import Timeframe, {
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
-import { Grid, Button, Collapse } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Collapse,
+  Tooltip,
+  Box,
+  Typography,
+} from '@mui/material';
+import { Warning } from '@mui/icons-material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { format, sub } from 'date-fns';
@@ -93,6 +101,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // The limit on how many records are fetched before displaying a warning to the user
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
 
+  const [displayingWarningMessage, setDisplayingWarningMessage] =
+    React.useState<boolean>(false);
+
   // ########################
   // INCOMING PARAMETERS
   // ########################
@@ -105,18 +116,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const { data: incomingCount, isLoading: countLoading } =
     useIncomingRecordCount(undefined, incomingParams);
 
-  const checkAndVerifyRecordLimit = React.useCallback((): boolean => {
+  const overRecordLimit = React.useCallback((): boolean => {
     if (
       !countLoading &&
       incomingCount &&
       recordLimitWarning > -1 &&
       incomingCount > recordLimitWarning
     ) {
-      return window.confirm(
-        `This search will return over ${recordLimitWarning} results. Continue?`
-      );
+      return true;
     }
-    return true;
+    return false;
   }, [countLoading, incomingCount, recordLimitWarning]);
 
   // ########################
@@ -143,12 +152,17 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     };
 
     setIncomingParams(newSearchParams);
-    if (!checkAndVerifyRecordLimit()) return;
+    if (!displayingWarningMessage && overRecordLimit()) {
+      setDisplayingWarningMessage(true);
+      return;
+    }
 
+    setDisplayingWarningMessage(false);
     dispatch(changeSearchParams(newSearchParams));
   }, [
-    checkAndVerifyRecordLimit,
     dispatch,
+    displayingWarningMessage,
+    overRecordLimit,
     searchParameterFromDate,
     searchParameterShotnumMax,
     searchParameterShotnumMin,
@@ -187,13 +201,59 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           />
         </Grid>
         <Grid item xs={1}>
-          <Button
-            variant="outlined"
-            sx={{ height: '54.6px' }}
-            onClick={handleSearch}
-          >
-            Search
-          </Button>
+          {displayingWarningMessage ? (
+            <Tooltip
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    backgroundColor: 'yellow',
+                    color: 'black',
+                    border: '1px solid black',
+                  },
+                },
+              }}
+              arrow
+              placement="bottom"
+              title={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                  <div>
+                    <Typography variant="caption" align="center">
+                      {`This search will return over ${recordLimitWarning}
+                      results.`}
+                    </Typography>
+                    <br />
+                    <Typography variant="caption" align="center">
+                      Click Search again to continue
+                    </Typography>
+                  </div>
+                </Box>
+              }
+            >
+              <Button
+                variant="outlined"
+                sx={{ height: '54.6px' }}
+                onClick={handleSearch}
+              >
+                Search
+              </Button>
+            </Tooltip>
+          ) : (
+            <Button
+              variant="outlined"
+              sx={{ height: '54.6px' }}
+              onClick={handleSearch}
+            >
+              Search
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Collapse>
