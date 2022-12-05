@@ -117,15 +117,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     useIncomingRecordCount(undefined, incomingParams);
 
   const overRecordLimit = React.useCallback((): boolean => {
-    if (
+    return (
       !countLoading &&
-      incomingCount &&
+      incomingCount !== undefined &&
       recordLimitWarning > -1 &&
       incomingCount > recordLimitWarning
-    ) {
-      return true;
-    }
-    return false;
+    );
   }, [countLoading, incomingCount, recordLimitWarning]);
 
   // ########################
