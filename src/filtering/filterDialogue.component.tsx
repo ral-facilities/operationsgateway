@@ -8,6 +8,8 @@ import {
   Grid,
   IconButton,
   Typography,
+  Tooltip,
+  Box,
 } from '@mui/material';
 import React from 'react';
 import FilterInput from './filterInput.component';
@@ -18,7 +20,7 @@ import {
 } from '../state/slices/filterSlice';
 import { Token, parseFilter } from './filterParser';
 import { useChannels } from '../api/channels';
-import { AddCircle, Delete } from '@mui/icons-material';
+import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import { useIncomingRecordCount } from '../api/records';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 
@@ -109,6 +111,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
 
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
 
+  const [displayingWarningMessage, setDisplayingWarningMessage] =
+    React.useState<boolean>(false);
+
   const [incomingFilters, setIncomingFilters] = React.useState<string[]>(
     parseAllFilters(appliedFilters)
   );
@@ -116,18 +121,16 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const { data: incomingCount, isLoading: countLoading } =
     useIncomingRecordCount(incomingFilters, undefined);
 
-  const checkAndVerifyRecordLimit = React.useCallback((): boolean => {
+  const overRecordLimit = React.useCallback((): boolean => {
     if (
       !countLoading &&
       incomingCount &&
       recordLimitWarning > -1 &&
       incomingCount > recordLimitWarning
     ) {
-      return window.confirm(
-        `This search will return over ${recordLimitWarning} results. Continue?`
-      );
+      return true;
     }
-    return true;
+    return false;
   }, [countLoading, incomingCount, recordLimitWarning]);
 
   const applyFilters = React.useCallback(() => {
@@ -138,11 +141,15 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     if (newFilters.length === 0) newFilters = [[]];
 
     setIncomingFilters(parseAllFilters(newFilters));
-    if (!checkAndVerifyRecordLimit()) return;
+    if (!displayingWarningMessage && overRecordLimit()) {
+      setDisplayingWarningMessage(true);
+      return;
+    }
 
+    setDisplayingWarningMessage(false);
     dispatch(changeAppliedFilters(newFilters));
     onClose();
-  }, [checkAndVerifyRecordLimit, dispatch, filters, onClose]);
+  }, [dispatch, displayingWarningMessage, filters, onClose, overRecordLimit]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -214,12 +221,57 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
-        <Button
-          disabled={errors.some((e) => e.length !== 0)}
-          onClick={() => applyFilters()}
-        >
-          Apply
-        </Button>
+        {displayingWarningMessage ? (
+          <Tooltip
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  backgroundColor: 'yellow',
+                  color: 'black',
+                  border: '1px solid black',
+                },
+              },
+            }}
+            arrow
+            placement="bottom"
+            title={
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                }}
+              >
+                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                <div>
+                  <Typography variant="caption" align="center">
+                    {`This search will return over ${recordLimitWarning}
+                      results.`}
+                  </Typography>
+                  <br />
+                  <Typography variant="caption" align="center">
+                    Click Apply again to continue
+                  </Typography>
+                </div>
+              </Box>
+            }
+          >
+            <Button
+              disabled={errors.some((e) => e.length !== 0)}
+              onClick={() => applyFilters()}
+            >
+              Apply
+            </Button>
+          </Tooltip>
+        ) : (
+          <Button
+            disabled={errors.some((e) => e.length !== 0)}
+            onClick={() => applyFilters()}
+          >
+            Apply
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
