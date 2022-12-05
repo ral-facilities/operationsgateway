@@ -11,6 +11,7 @@ import {
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { format } from 'date-fns';
+import axios from 'axios';
 
 describe('searchBar component', () => {
   let user;
@@ -32,6 +33,7 @@ describe('searchBar component', () => {
 
   afterEach(() => {
     cleanupDatePickerWorkaround();
+    jest.clearAllMocks();
   });
 
   it('dispatches changeSearchParams on search button click', async () => {
@@ -82,6 +84,55 @@ describe('searchBar component', () => {
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: undefined,
+        toDate: undefined,
+      },
+      shotnumRange: {
+        min: undefined,
+        max: undefined,
+      },
+    });
+  });
+
+  it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
+    // Mock the returned count query response
+    (axios.get as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        data: 2,
+      })
+    );
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 1, // lower than the returned count of 2
+      },
+    };
+    const { store } = createView(state);
+
+    // Input some test data for the search
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    // Try and search
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    // Tooltip warning should be present
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+
+    // Store should not be updated, indicating search is yet to initiate
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {},
+      shotnumRange: {},
+    });
+
+    // Try search again
+    await user.click(screen.getByText('Search'));
+
+    // Store should now be updated, indicating search initiated on second attempt
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-01 00:00:00',
         toDate: undefined,
       },
       shotnumRange: {
