@@ -33,6 +33,8 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 
+jest.setTimeout(15000);
+
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
