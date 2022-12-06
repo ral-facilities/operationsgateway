@@ -138,6 +138,7 @@ describe('searchBar component', () => {
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {},
       shotnumRange: {},
+      maxShots: MAX_SHOTS_VALUES[0],
     });
 
     // Try search again
@@ -153,6 +154,7 @@ describe('searchBar component', () => {
         min: undefined,
         max: undefined,
       },
+      maxShots: MAX_SHOTS_VALUES[0],
     });
   });
 

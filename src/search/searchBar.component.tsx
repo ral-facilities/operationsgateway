@@ -116,6 +116,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // ########################
   // The limit on how many records are fetched before displaying a warning to the user
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
+  const recordLimitSet = recordLimitWarning > -1;
 
   const [displayingWarningMessage, setDisplayingWarningMessage] =
     React.useState<boolean>(false);
@@ -136,7 +137,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     return (
       !countLoading &&
       incomingCount !== undefined &&
-      recordLimitWarning > -1 &&
       incomingCount > recordLimitWarning
     );
   }, [countLoading, incomingCount, recordLimitWarning]);
@@ -165,24 +165,27 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       maxShots,
     };
 
-    setIncomingParams(newSearchParams);
-    if (!displayingWarningMessage && overRecordLimit()) {
-      setDisplayingWarningMessage(true);
-      return;
+    if (recordLimitSet) {
+      setIncomingParams(newSearchParams);
+      if (!displayingWarningMessage && overRecordLimit()) {
+        setDisplayingWarningMessage(true);
+        return;
+      }
     }
 
     setDisplayingWarningMessage(false);
     dispatch(changeSearchParams(newSearchParams));
     setParamsUpdated(false);
   }, [
+    searchParameterFromDate,
+    searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    maxShots,
+    recordLimitSet,
     dispatch,
     displayingWarningMessage,
     overRecordLimit,
-    searchParameterFromDate,
-    maxShots,
-    searchParameterShotnumMax,
-    searchParameterShotnumMin,
-    searchParameterToDate,
   ]);
 
   const { expanded } = props;
