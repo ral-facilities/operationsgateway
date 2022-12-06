@@ -5,9 +5,10 @@ import Timeframe, {
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
+import MaxShots from './components/maxShots.component';
 import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { DateRange, ShotnumRange } from '../app.types';
+import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { format, sub } from 'date-fns';
 import {
   changeSearchParams,
@@ -27,7 +28,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
-  const { dateRange, shotnumRange } = searchParams;
+  const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
+
+  const [paramsUpdated, setParamsUpdated] = React.useState<boolean>(false);
 
   // ########################
   // DATE-TIME FIELDS
@@ -85,6 +88,19 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
     React.useState<number | undefined>(shotnumRange.max ?? undefined);
 
+  const [maxShots, setMaxShots] =
+    React.useState<SearchParams['maxShots']>(maxShotsParam);
+
+  React.useEffect(() => {
+    setParamsUpdated(true);
+  }, [
+    searchParameterFromDate,
+    searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    maxShots,
+  ]);
+
   // ########################
   // INITIATING THE SEARCH
   // ########################
@@ -107,11 +123,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       changeSearchParams({
         dateRange: newDateRange,
         shotnumRange: newShotnumRange,
+        maxShots,
       })
     );
+
+    setParamsUpdated(false);
   }, [
     dispatch,
     searchParameterFromDate,
+    maxShots,
     searchParameterShotnumMax,
     searchParameterShotnumMin,
     searchParameterToDate,
@@ -121,41 +141,50 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <DateTime
-            searchParameterFromDate={searchParameterFromDate}
-            searchParameterToDate={searchParameterToDate}
-            changeSearchParameterFromDate={setSearchParameterFromDate}
-            changeSearchParameterToDate={setSearchParameterToDate}
-            resetTimeframe={() => setRelativeTimeframe(null)}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Timeframe
-            timeframe={timeframeRange}
-            changeTimeframe={setRelativeTimeframe}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Experiment />
-        </Grid>
-        <Grid item xs={2}>
-          <ShotNumber
-            searchParameterShotnumMin={searchParameterShotnumMin}
-            searchParameterShotnumMax={searchParameterShotnumMax}
-            changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
-            changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
-          />
-        </Grid>
-        <Grid item xs={1}>
-          <Button
-            variant="outlined"
-            sx={{ height: '54.6px' }}
-            onClick={handleSearch}
-          >
-            Search
-          </Button>
+      <Grid container spacing={1} direction="row">
+        <Grid container item xs={11} direction="column">
+          <Grid item>
+            <Grid container spacing={1} direction="row">
+              <Grid item xs={5}>
+                <DateTime
+                  searchParameterFromDate={searchParameterFromDate}
+                  searchParameterToDate={searchParameterToDate}
+                  changeSearchParameterFromDate={setSearchParameterFromDate}
+                  changeSearchParameterToDate={setSearchParameterToDate}
+                  resetTimeframe={() => setRelativeTimeframe(null)}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Timeframe
+                  timeframe={timeframeRange}
+                  changeTimeframe={setRelativeTimeframe}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Experiment />
+              </Grid>
+              <Grid item xs={2}>
+                <ShotNumber
+                  searchParameterShotnumMin={searchParameterShotnumMin}
+                  searchParameterShotnumMax={searchParameterShotnumMax}
+                  changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
+                  changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <Button
+                  variant={paramsUpdated ? 'contained' : 'outlined'}
+                  sx={{ height: '100%' }}
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+          </Grid>
         </Grid>
       </Grid>
     </Collapse>

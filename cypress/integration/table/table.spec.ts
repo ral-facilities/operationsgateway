@@ -309,4 +309,39 @@ describe('Table Component', () => {
       });
     });
   });
+
+  describe('can set max shots', () => {
+    it('50 shots', () => {
+      cy.intercept('**/records/count**', (req) => {
+        req.reply({ statusCode: 200, body: 50 });
+      }).as('getRecordCount');
+      cy.visit('/').wait(['@getRecordCount']);
+
+      cy.contains('1–25 of 50');
+    });
+
+    it('1000 shots', () => {
+      cy.intercept('**/records/count**', (req) => {
+        req.reply({ statusCode: 200, body: 1000 });
+      }).as('getRecordCount');
+
+      cy.get('span[aria-label="Select 1000 max shots"]').click();
+      cy.contains('Search').click();
+      cy.wait('@getRecordCount').then(() => {
+        cy.contains('1–25 of 1000');
+      });
+    });
+
+    it('unlimited shots', () => {
+      cy.intercept('**/records/count**', (req) => {
+        req.reply({ statusCode: 200, body: 2500 }); // arbitrary number greater than 1000
+      }).as('getRecordCount');
+
+      cy.get('span[aria-label="Select unlimited max shots"]').click();
+      cy.contains('Search').click();
+      cy.wait('@getRecordCount').then(() => {
+        cy.contains('1–25 of 2500');
+      });
+    });
+  });
 });

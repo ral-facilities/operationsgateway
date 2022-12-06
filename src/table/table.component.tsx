@@ -4,6 +4,7 @@ import {
   RecordRow,
   columnIconMappings,
   ColumnState,
+  SearchParams,
 } from '../app.types';
 import {
   useTable,
@@ -49,6 +50,7 @@ export interface TableProps {
   hiddenColumns: string[];
   columnOrder: string[];
   totalDataCount: number;
+  maxShots: SearchParams['maxShots'];
   page: number;
   loadedData: boolean;
   loadedCount: boolean;
@@ -72,6 +74,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     hiddenColumns,
     columnOrder,
     totalDataCount,
+    maxShots,
     loadedData,
     page,
     resultsPerPage,
@@ -303,7 +306,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                   role="none"
                   aria-hidden={false}
                 >
-                  <td colSpan={columnOrder.length ?? 1}>
+                  <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
                     <CircularProgress id="table-loading-indicator" />
                   </td>
                 </Backdrop>
@@ -313,7 +316,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         </div>
         <MuiTablePagination
           component="div"
-          count={totalDataCount}
+          count={maxShots > totalDataCount ? totalDataCount : maxShots}
           onPageChange={(e, page) => onPageChange(page)}
           page={page}
           rowsPerPage={resultsPerPage}

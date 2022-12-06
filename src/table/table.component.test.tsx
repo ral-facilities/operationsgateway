@@ -3,6 +3,7 @@ import Table, { TableProps } from './table.component';
 import { screen, render } from '@testing-library/react';
 import { RecordRow } from '../app.types';
 import { Column } from 'react-table';
+import userEvent from '@testing-library/user-event';
 
 describe('Table', () => {
   let props: TableProps;
@@ -59,6 +60,7 @@ describe('Table', () => {
       hiddenColumns: ['shotnum', 'activeArea', 'activeExperiment'],
       columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
+      maxShots: 50,
       page: 0,
       loadedData: true,
       loadedCount: true,
@@ -97,14 +99,43 @@ describe('Table', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('displays a record count', () => {
-    const recordCount = recordRows.length;
-    createView();
-    screen.getByText(`1–${recordCount} of ${recordCount}`);
+  describe('displays a record count', () => {
+    it('displays the total data count if maxShots > number of rows', () => {
+      const recordCount = recordRows.length;
+      createView();
+      screen.getByText(`1–${recordCount} of ${recordCount}`);
+    });
+
+    it('displays the total data count if maxShots === "Unlimited"', () => {
+      props = {
+        ...props,
+        maxShots: Infinity,
+      };
+      const recordCount = recordRows.length;
+      createView();
+      screen.getByText(`1–${recordCount} of ${recordCount}`);
+    });
+
+    it('displays the maxShots value if maxShots <= number of rows', () => {
+      props = {
+        ...props,
+        maxShots: 1,
+      };
+      createView();
+      screen.getByText('1–1 of 1');
+    });
   });
 
   it('displays page loading message when loadedData is false', async () => {
-    props.loadedData = false;
+    props = {
+      ...props,
+      data: [],
+      totalDataCount: 0,
+      loadedData: false,
+      loadedCount: false,
+      hiddenColumns: [],
+      columnOrder: [],
+    };
     createView();
     screen.getByRole('progressbar');
   });
@@ -114,5 +145,41 @@ describe('Table', () => {
     createView();
 
     screen.getByLabelText('no results message');
+  });
+
+  it('calls onPageChange when page is changed', async () => {
+    const user = userEvent.setup();
+    props = {
+      ...props,
+      totalDataCount: 50,
+    };
+    const { rerender } = createView();
+
+    await user.click(screen.getByRole('button', { name: 'Go to next page' }));
+    // React Table pagination is zero-based
+    expect(onPageChange).toHaveBeenCalledWith(1);
+
+    props = {
+      ...props,
+      page: 1,
+    };
+    rerender(<Table {...props} />);
+    await user.click(
+      screen.getByRole('button', { name: 'Go to previous page' })
+    );
+    expect(onPageChange).toHaveBeenCalledWith(0);
+  });
+
+  it('calls onResultsPerPageChange when rows per page is changed', async () => {
+    const user = userEvent.setup();
+    props = {
+      ...props,
+      totalDataCount: 50,
+    };
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+    await user.click(screen.getByRole('option', { name: '10' }));
+    expect(onResultsPerPageChange).toHaveBeenCalledWith(10);
   });
 });

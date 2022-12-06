@@ -285,7 +285,12 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      params.append('order', 'metadata.timestamp asc');
+      // Default params for usePlotRecords
+      params.append('order', 'metadata.timestamp asc'); // Assume the user is plotting time-series graph
+
+      // searchParams.maxShots defaults to 50
+      params.append('skip', '0');
+      params.append('limit', '50');
 
       expect(axios.get).toHaveBeenCalledWith(
         '/records',
@@ -311,7 +316,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(expectedData);
     });
 
-    it('can send x-axis and filter params as part of request', async () => {
+    it('can send x-axis, filter and maxShots params as part of request', async () => {
       state = {
         ...getInitialState(),
         filter: {
@@ -323,6 +328,13 @@ describe('records api functions', () => {
               { type: 'number', value: '300', label: '300' },
             ],
           ],
+        },
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            maxShots: 1000,
+          },
         },
       };
 
@@ -342,6 +354,8 @@ describe('records api functions', () => {
         'conditions',
         '{"$and":[{"metadata.shotnum":{"$gt":300}}]}'
       );
+      params.append('skip', '0');
+      params.append('limit', '1000');
 
       expect(axios.get).toHaveBeenCalledWith(
         '/records',
@@ -365,6 +379,40 @@ describe('records api functions', () => {
       ];
 
       expect(result.current.data).toEqual(expectedData);
+    });
+
+    it('does not set skip and limit params on request if maxShots === "Unlimited"', async () => {
+      state = {
+        ...getInitialState(),
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            maxShots: Infinity,
+          },
+        },
+      };
+
+      const { result } = renderHook(
+        () => usePlotRecords(testSelectedPlotChannels),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      params.append('order', 'metadata.timestamp asc');
+
+      expect(axios.get).toHaveBeenCalledWith(
+        '/records',
+        expect.objectContaining({ params })
+      );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
     });
   });
 
