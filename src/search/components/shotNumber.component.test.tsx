@@ -75,8 +75,8 @@ describe('shotNumber search', () => {
   it('displays invalid range message when min > max', async () => {
     props = {
       ...props,
-      searchParameterShotnumMin: 2,
-      searchParameterShotnumMax: 1,
+      searchParameterShotnumMin: 1,
+      searchParameterShotnumMax: 0,
     };
     createView();
 
@@ -89,8 +89,8 @@ describe('shotNumber search', () => {
       name: 'Max',
     });
 
-    expect(minInput).toHaveValue(2);
-    expect(maxInput).toHaveValue(1);
+    expect(minInput).toHaveValue(1);
+    expect(maxInput).toHaveValue(0);
 
     const helperTexts = within(shotnumPopup).getAllByText('Invalid range');
     // One helper text below each input
