@@ -1,6 +1,6 @@
 {
   "apiUrl": "http://opsgateway-epac-dev.clf.stfc.ac.uk:8000",
-  "recordLimitWarning": 10000,
+  "recordLimitWarning": -1,
   "routes": [
     {
       "section": "Homepage",
