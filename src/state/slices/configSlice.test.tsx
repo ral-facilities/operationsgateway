@@ -60,6 +60,17 @@ describe('configSlice', () => {
 
       expect(updatedState.urls.apiUrl).toEqual('test.api.url');
     });
+
+    it('should set recordLimitWarning property when loadRecordLimitWarningSetting action is sent', () => {
+      expect(state.recordLimitWarning).toEqual(-1);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadRecordLimitWarningSetting(10)
+      );
+
+      expect(updatedState.recordLimitWarning).toEqual(10);
+    });
   });
 
   describe('Actions', () => {
