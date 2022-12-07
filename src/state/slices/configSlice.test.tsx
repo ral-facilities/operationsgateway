@@ -4,6 +4,7 @@ import ConfigReducer, {
   loadUrls,
   loadPluginHostSetting,
   initialState,
+  loadRecordLimitWarningSetting,
 } from './configSlice';
 import { actions, resetActions, dispatch } from '../../setupTests';
 import { setSettings } from '../../settings';
@@ -66,10 +67,11 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadPluginHost and settingsLoaded actions are sent', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost and settingsLoaded actions are sent', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
+          recordLimitWarning: -1,
           routes: [
             {
               section: 'section',
@@ -84,12 +86,13 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(3);
+      expect(actions.length).toEqual(4);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
         })
       );
+      expect(actions).toContainEqual(loadRecordLimitWarningSetting(-1));
       expect(actions).toContainEqual(
         loadPluginHostSetting('http://localhost:3000/')
       );
@@ -100,6 +103,7 @@ describe('configSlice', () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
+          recordLimitWarning: -1,
           routes: [
             {
               section: 'section',
@@ -114,7 +118,7 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(2);
+      expect(actions.length).toEqual(3);
       expect(
         actions.every(({ type }) => type !== loadPluginHostSetting.type)
       ).toBe(true);
