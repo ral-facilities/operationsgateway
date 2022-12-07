@@ -292,7 +292,7 @@ const YAxisTab = (props: YAxisTabProps) => {
         ) : (
           <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
             <FormLabel
-              id={`${leftYAxisActive ? 'left' : 'right'}-y-scale-group-label`}
+              id={`${rightYAxisActive ? 'right' : 'left'}-y-scale-group-label`}
               sx={{ mr: 1 }}
             >
               Scale
@@ -300,16 +300,16 @@ const YAxisTab = (props: YAxisTabProps) => {
             <RadioGroup
               row
               aria-labelledby={`${
-                leftYAxisActive ? 'left' : 'right'
+                rightYAxisActive ? 'right' : 'left'
               }-y-scale-group-label`}
               name={`${
-                leftYAxisActive ? 'left' : 'right'
+                rightYAxisActive ? 'right' : 'left'
               } y scale radio buttons group`}
-              value={leftYAxisActive ? leftYAxisScale : rightYAxisScale}
+              value={rightYAxisActive ? rightYAxisScale : leftYAxisScale}
               onChange={(_, value) =>
-                leftYAxisActive
-                  ? handleChangeLeftYScale(value)
-                  : handleChangeRightYScale(value)
+                rightYAxisActive
+                  ? handleChangeRightYScale(value)
+                  : handleChangeLeftYScale(value)
               }
             >
               <FormControlLabel
