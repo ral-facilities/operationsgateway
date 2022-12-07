@@ -24,18 +24,6 @@ import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import { useIncomingRecordCount } from '../api/records';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 
-const parseAllFilters = (filters: Token[][]): string[] => {
-  return filters.map((filter) => {
-    try {
-      return parseFilter(filter);
-    } catch (e) {
-      // this shouldn't happen, as we should block the application of invalid filters
-      // in the filterInput
-      return '';
-    }
-  });
-};
-
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;
@@ -115,7 +103,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     React.useState<boolean>(false);
 
   const [incomingFilters, setIncomingFilters] = React.useState<string[]>(
-    parseAllFilters(appliedFilters)
+    appliedFilters.map((f) => parseFilter(f))
   );
 
   const { data: incomingCount, isLoading: countLoading } =
@@ -137,7 +125,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     let newFilters = filters.filter((f) => f.length > 0);
     if (newFilters.length === 0) newFilters = [[]];
 
-    setIncomingFilters(parseAllFilters(newFilters));
+    setIncomingFilters(newFilters.map((f) => parseFilter(f)));
     if (!displayingWarningMessage && overRecordLimit()) {
       setDisplayingWarningMessage(true);
       return;
