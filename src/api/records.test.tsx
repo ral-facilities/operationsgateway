@@ -4,6 +4,7 @@ import {
   Record,
   RecordRow,
   ScalarChannel,
+  SearchParams,
   SelectedPlotChannel,
 } from '../app.types';
 import {
@@ -19,12 +20,14 @@ import {
   getFormattedAxisData,
   usePlotRecords,
   useRecordCount,
+  useIncomingRecordCount,
   useRecordsPaginated,
 } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { parseISO } from 'date-fns';
-import { operators } from '../filtering/filterParser';
+import { operators, parseFilter, Token } from '../filtering/filterParser';
+import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
 
 const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
   if (!x || !y) return false;
@@ -90,6 +93,9 @@ describe('records api functions', () => {
         '/records/count',
         expect.objectContaining({ params })
       );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
       expect(result.current.data).toEqual(mockData.length);
     });
 
@@ -104,6 +110,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
+            maxShots: MAX_SHOTS_VALUES[0],
           },
         },
         filter: {
@@ -143,6 +150,139 @@ describe('records api functions', () => {
 
     it.todo(
       'sends axios request to fetch record count and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useIncomingRecordCount', () => {
+    let mockData: Record[];
+    let params: URLSearchParams;
+
+    beforeEach(() => {
+      params = new URLSearchParams();
+      mockData = testRecords;
+      (axios.get as jest.Mock).mockResolvedValue({
+        data: mockData.length,
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('sends axios request to fetch incoming record count and returns successful response', async () => {
+      const { result } = renderHook(() => useIncomingRecordCount(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(axios.get).toHaveBeenCalledWith(
+        '/records/count',
+        expect.objectContaining({ params })
+      );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
+      expect(result.current.data).toEqual(mockData.length);
+    });
+
+    it('can set filters and search params via function parameters', async () => {
+      const testFilters: Token[][] = [
+        [
+          { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+          operators.find((t) => t.value === '>')!,
+          { type: 'number', value: '300', label: '300' },
+        ],
+      ];
+      const testFilterStrings = testFilters.map((f) => parseFilter(f));
+      const testSearchParams: SearchParams = {
+        dateRange: {
+          fromDate: '2022-01-01 00:00:00',
+          toDate: '2022-01-02 00:00:00',
+        },
+        shotnumRange: {},
+        maxShots: MAX_SHOTS_VALUES[0],
+      };
+
+      const { result } = renderHook(
+        () => useIncomingRecordCount(testFilterStrings, testSearchParams),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+      );
+
+      expect(axios.get).toHaveBeenCalledWith(
+        '/records/count',
+        expect.objectContaining({ params })
+      );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
+      expect(result.current.data).toEqual(mockData.length);
+    });
+
+    it('can set search and filter params via the store', async () => {
+      state = {
+        ...getInitialState(),
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
+            maxShots: MAX_SHOTS_VALUES[0],
+          },
+        },
+        filter: {
+          ...getInitialState().filter,
+          appliedFilters: [
+            [
+              { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+              operators.find((t) => t.value === '>')!,
+              { type: 'number', value: '300', label: '300' },
+            ],
+          ],
+        },
+      };
+
+      const { result } = renderHook(() => useIncomingRecordCount(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+      );
+
+      expect(axios.get).toHaveBeenCalledWith(
+        '/records/count',
+        expect.objectContaining({ params })
+      );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
+      expect(result.current.data).toEqual(mockData.length);
+    });
+
+    it.todo(
+      'sends axios request to fetch incoming record count and throws an appropriate error on failure'
     );
   });
 
@@ -201,6 +341,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
+            maxShots: MAX_SHOTS_VALUES[0],
           },
         },
         filter: {
