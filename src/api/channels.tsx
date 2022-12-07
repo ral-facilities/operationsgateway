@@ -11,6 +11,7 @@ import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
+import { readSciGatewayToken } from '../parseTokens';
 
 export const generateChannelMetadata = (
   records: Record[]
@@ -68,11 +69,17 @@ export const generateChannelMetadata = (
 // TODO change this when we have a proper channel info endpoint to query
 // This just fetches metadata from the records endpoint at the moment
 const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
-  return axios.get(`${apiUrl}/records`).then((response) => {
-    const records: Record[] = response.data;
-    const metadata = generateChannelMetadata(records);
-    return metadata;
-  });
+  return axios
+    .get(`${apiUrl}/records`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken().sessionId}`,
+      },
+    })
+    .then((response) => {
+      const records: Record[] = response.data;
+      const metadata = generateChannelMetadata(records);
+      return metadata;
+    });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint

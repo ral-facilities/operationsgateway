@@ -6,12 +6,13 @@ import App from './App';
 import * as log from 'loglevel';
 import singleSpaReact from 'single-spa-react';
 import axios from 'axios';
-import { MicroFrontendId } from './app.types';
+import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { store } from './state/store';
 import { Provider } from 'react-redux';
 import './index.css';
+import jsrsasign from 'jsrsasign';
 
 export const pluginName = 'operationsgateway';
 
@@ -176,6 +177,38 @@ if (
 ) {
   render();
   log.setDefaultLevel(log.levels.DEBUG);
+
+  if (process.env.NODE_ENV === `development`) {
+    settings.then((settingsResult) => {
+      if (settingsResult) {
+        const apiUrl = settingsResult.apiUrl;
+        axios
+          .post(`${apiUrl}/sessions`, {
+            username: 'root',
+            password: 'pw',
+            mechanism: 'simple',
+          })
+          .then((response) => {
+            const jwtHeader = { alg: 'HS256', typ: 'JWT' };
+            const payload = {
+              sessionId: response.data.sessionID,
+              username: 'Thomas409',
+            };
+            const jwt = jsrsasign.KJUR.jws.JWS.sign(
+              'HS256',
+              jwtHeader,
+              payload,
+              'shh'
+            );
+
+            window.localStorage.setItem(MicroFrontendToken, jwt);
+          })
+          .catch((error) =>
+            log.error(`Can't log in to ICAT: ${error.message}`)
+          );
+      }
+    });
+  }
 } else {
   log.setDefaultLevel(log.levels.ERROR);
 }

@@ -3377,6 +3377,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsrsasign@npm:10.5.4":
+  version: 10.5.4
+  resolution: "@types/jsrsasign@npm:10.5.4"
+  checksum: e0ec7dcd534fe9a672a9b306f951f24eef1019b4d879d57e29a154eeb38cfb47f59239c2af1d202da211357feb452b96c45b8229ef3c440cf6d96606f4e5cff1
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:^1":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
@@ -9994,6 +10001,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsrsasign@npm:10.6.1":
+  version: 10.6.1
+  resolution: "jsrsasign@npm:10.6.1"
+  checksum: 372cde32c0a1b54f0df65e2091f7b99724103f150ff535df5db798897e91cac5c484284633959da8ddf4e3d4868253c428df4d3c709f44667928e05e705105d2
+  languageName: node
+  linkType: hard
+
 "jsx-ast-utils@npm:^2.4.1 || ^3.0.0, jsx-ast-utils@npm:^3.3.2":
   version: 3.3.2
   resolution: "jsx-ast-utils@npm:3.3.2"
@@ -11134,6 +11148,7 @@ __metadata:
     "@testing-library/react": 13.4.0
     "@testing-library/user-event": 14.4.2
     "@types/jest": 29.2.0
+    "@types/jsrsasign": 10.5.4
     "@types/node": 18.11.4
     "@types/react": 18.0.12
     "@types/react-beautiful-dnd": 13.1.2
@@ -11164,6 +11179,7 @@ __metadata:
     i18next-http-backend: 2.0.0
     immutability-helper: 3.1.1
     jest-canvas-mock: 2.4.0
+    jsrsasign: 10.6.1
     lint-staged: 13.0.3
     loglevel: 1.8.0
     prettier: 2.8.0

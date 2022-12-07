@@ -24,6 +24,34 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+const parseJwt = (token) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const payload = decodeURIComponent(
+    atob(base64).replace(/(.)/g, function (m, p) {
+      var code = p.charCodeAt(0).toString(16).toUpperCase();
+      return '%' + ('00' + code).slice(-2);
+    })
+  );
+  return payload;
+};
+
+export const readSciGatewayToken = () => {
+  const token = window.localStorage.getItem('scigateway:token');
+  let sessionId = null;
+  let username = null;
+  if (token) {
+    const parsedToken = JSON.parse(parseJwt(token));
+    if (parsedToken.sessionId) sessionId = parsedToken.sessionId;
+    if (parsedToken.username) username = parsedToken.username;
+  }
+
+  return {
+    sessionId,
+    username,
+  };
+};
+
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
     name: 'DRAGNDROP',
