@@ -11,7 +11,8 @@ import { COLOUR_ORDER } from './colourGenerator';
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
   let user;
-  const changeYAxesScale = jest.fn();
+  const changeLeftYAxisScale = jest.fn();
+  const changeRightYAxisScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
   const changeYMinimum = jest.fn();
   const changeYMaximum = jest.fn();
@@ -36,8 +37,10 @@ describe('y-axis tab', () => {
       changeSelectedPlotChannels,
       changeYMinimum,
       changeYMaximum,
-      YAxesScale: 'linear',
-      changeYAxesScale,
+      leftYAxisScale: 'linear',
+      rightYAxisScale: 'logarithmic',
+      changeLeftYAxisScale,
+      changeRightYAxisScale,
       initialSelectedColours: [],
       initialRemainingColours: COLOUR_ORDER.map((colour) => colour),
       changeSelectedColours,
@@ -82,7 +85,17 @@ describe('y-axis tab', () => {
     });
   });
 
-  it('renders Y scale radio buttons and calls changeYAxesScale on click', async () => {
+  it('renders Y scale radio buttons and calls changeLeftYAxisScale on click when there are only channels on the left axis', async () => {
+    props.selectedPlotChannels = testChannels.map((channel) => ({
+      name: channel.systemName,
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'solid',
+        yAxis: 'left',
+      },
+    }));
+
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
@@ -94,7 +107,77 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeYAxesScale).toHaveBeenCalledWith('logarithmic');
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('logarithmic');
+  });
+
+  it('renders Y scale radio buttons and calls changeRightYAxisScale on click when there are only channels on the right axis', async () => {
+    props.selectedPlotChannels = testChannels.map((channel) => ({
+      name: channel.systemName,
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'solid',
+        yAxis: 'right',
+      },
+    }));
+
+    createView();
+
+    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
+    expect(
+      within(radioGroup).getByRole('radio', {
+        name: 'Log',
+      })
+    ).toBeChecked();
+
+    await user.click(screen.getByRole('radio', { name: 'Linear' }));
+
+    expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
+  });
+
+  it('renders left and right Y scale radio buttons when there are channels on both axes', async () => {
+    props.selectedPlotChannels = testChannels.map((channel, index) => ({
+      name: channel.systemName,
+      options: {
+        visible: true,
+        colour: '#ffffff',
+        lineStyle: 'solid',
+        yAxis: index % 2 === 0 ? 'left' : 'right',
+      },
+    }));
+
+    createView();
+
+    const leftRadioGroup = screen.getByRole('radiogroup', {
+      name: 'Left Axis Scale',
+    });
+    const rightRadioGroup = screen.getByRole('radiogroup', {
+      name: 'Right Axis Scale',
+    });
+
+    expect(
+      within(leftRadioGroup).getByRole('radio', {
+        name: 'Linear',
+      })
+    ).toBeChecked();
+
+    await user.click(
+      within(leftRadioGroup).getByRole('radio', { name: 'Log' })
+    );
+
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('logarithmic');
+
+    expect(
+      within(rightRadioGroup).getByRole('radio', {
+        name: 'Log',
+      })
+    ).toBeChecked();
+
+    await user.click(
+      within(rightRadioGroup).getByRole('radio', { name: 'Linear' })
+    );
+
+    expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('allows user to add channels on the y-axis (keyboard only)', async () => {
@@ -229,7 +312,8 @@ describe('y-axis tab', () => {
         },
       },
     ]);
-    expect(changeYAxesScale).not.toHaveBeenCalled();
+    expect(changeLeftYAxisScale).not.toHaveBeenCalled();
+    expect(changeRightYAxisScale).not.toHaveBeenCalled();
   });
 
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
@@ -248,7 +332,8 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByLabelText('Remove test_1 from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
-    expect(changeYAxesScale).toHaveBeenCalledWith('linear');
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('linear');
+    expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
   });
 
   describe('min and max fields', () => {

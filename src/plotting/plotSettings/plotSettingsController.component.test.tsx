@@ -64,7 +64,8 @@ describe('Plot Settings component', () => {
   const changePlotType = jest.fn();
   const changeXAxis = jest.fn();
   const changeXAxisScale = jest.fn();
-  const changeYAxesScale = jest.fn();
+  const changeLeftYAxisScale = jest.fn();
+  const changeRightYAxisScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
   const changeXMinimum = jest.fn();
   const changeXMaximum = jest.fn();
@@ -93,8 +94,10 @@ describe('Plot Settings component', () => {
       changeXAxis,
       XAxisScale: 'linear',
       changeXAxisScale,
-      YAxesScale: 'logarithmic',
-      changeYAxesScale,
+      leftYAxisScale: 'logarithmic',
+      rightYAxisScale: 'linear',
+      changeLeftYAxisScale,
+      changeRightYAxisScale,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeXMinimum,

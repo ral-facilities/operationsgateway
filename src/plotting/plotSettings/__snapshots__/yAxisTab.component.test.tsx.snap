@@ -92,19 +92,19 @@ exports[`y-axis tab renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-wrap-xs-nowrap css-at2ojq-MuiGrid-root"
     >
       <div
         class="MuiFormControl-root css-qtsj9i-MuiFormControl-root"
       >
         <label
           class="MuiFormLabel-root MuiFormLabel-colorPrimary css-7dax6m-MuiFormLabel-root"
-          id="y-scale-group-label"
+          id="left-y-scale-group-label"
         >
           Scale
         </label>
         <div
-          aria-labelledby="y-scale-group-label"
+          aria-labelledby="left-y-scale-group-label"
           class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
           role="radiogroup"
         >
@@ -117,7 +117,7 @@ exports[`y-axis tab renders correctly 1`] = `
               <input
                 checked=""
                 class="PrivateSwitchBase-input css-1m9pwf3"
-                name="y scale radio buttons group"
+                name="left y scale radio buttons group"
                 type="radio"
                 value="linear"
               />
@@ -165,7 +165,7 @@ exports[`y-axis tab renders correctly 1`] = `
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
-                name="y scale radio buttons group"
+                name="left y scale radio buttons group"
                 type="radio"
                 value="logarithmic"
               />
