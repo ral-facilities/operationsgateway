@@ -59,8 +59,11 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>(
     plotConfig.XAxisScale
   );
-  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>(
-    plotConfig.YAxesScale
+  const [leftYAxisScale, setLeftYAxisScale] = React.useState<YAxesScale>(
+    plotConfig.leftYAxisScale
+  );
+  const [rightYAxisScale, setrightYAxisScale] = React.useState<YAxesScale>(
+    plotConfig.rightYAxisScale
   );
 
   const [XAxis, setXAxis] = React.useState<string | undefined>(
@@ -135,7 +138,8 @@ const PlotWindow = (props: PlotWindowProps) => {
         xMinimum,
         xMaximum,
         selectedPlotChannels,
-        YAxesScale,
+        leftYAxisScale,
+        rightYAxisScale,
         yMinimum,
         yMaximum,
         gridVisible,
@@ -149,7 +153,8 @@ const PlotWindow = (props: PlotWindowProps) => {
     [
       XAxis,
       XAxisScale,
-      YAxesScale,
+      leftYAxisScale,
+      rightYAxisScale,
       axesLabelsVisible,
       dispatch,
       gridVisible,
@@ -252,8 +257,10 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxis={setXAxis}
                 XAxisScale={XAxisScale}
                 changeXAxisScale={setXAxisScale}
-                YAxesScale={YAxesScale}
-                changeYAxesScale={setYAxesScale}
+                leftYAxisScale={leftYAxisScale}
+                changeLeftYAxisScale={setLeftYAxisScale}
+                rightYAxisScale={rightYAxisScale}
+                changeRightYAxisScale={setrightYAxisScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
                 xMinimum={xMinimum}
@@ -335,7 +342,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             type={plotType}
             XAxis={XAxis}
             XAxisScale={XAxisScale}
-            YAxesScale={YAxesScale}
+            leftYAxisScale={leftYAxisScale}
+            rightYAxisScale={rightYAxisScale}
             canvasRef={canvasRef}
             gridVisible={gridVisible}
             axesLabelsVisible={axesLabelsVisible}

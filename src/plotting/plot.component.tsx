@@ -18,7 +18,8 @@ export interface PlotProps {
   title: string;
   type: PlotType;
   XAxisScale: XAxisScale;
-  YAxesScale: YAxesScale;
+  leftYAxisScale: YAxesScale;
+  rightYAxisScale: YAxesScale;
   XAxis?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
@@ -37,7 +38,8 @@ const Plot = (props: PlotProps) => {
     title,
     type,
     XAxisScale,
-    YAxesScale,
+    leftYAxisScale,
+    rightYAxisScale,
     XAxis,
     canvasRef,
     gridVisible,
@@ -110,7 +112,7 @@ const Plot = (props: PlotProps) => {
           max: xMaximum,
         },
         y: {
-          type: YAxesScale,
+          type: leftYAxisScale,
           display: true,
           position: 'left',
           grid: {
@@ -120,7 +122,7 @@ const Plot = (props: PlotProps) => {
           max: yMaximum,
         },
         y2: {
-          type: YAxesScale,
+          type: rightYAxisScale,
           display: selectedPlotChannels.some(
             (channel) => channel.options.yAxis === 'right'
           ),
@@ -148,13 +150,13 @@ const Plot = (props: PlotProps) => {
       options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
       options?.scales?.y && (options.scales.y.min = yMinimum);
       options?.scales?.y && (options.scales.y.max = yMaximum);
-      options?.scales?.y && (options.scales.y.type = YAxesScale);
+      options?.scales?.y && (options.scales.y.type = leftYAxisScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       options?.scales?.y &&
         (options.scales.y.display = selectedPlotChannels.some(
           (channel) => channel.options.yAxis === 'left'
         ));
-      options?.scales?.y2 && (options.scales.y2.type = YAxesScale);
+      options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
           (channel) => channel.options.yAxis === 'right'
@@ -166,7 +168,8 @@ const Plot = (props: PlotProps) => {
   }, [
     XAxis,
     XAxisScale,
-    YAxesScale,
+    leftYAxisScale,
+    rightYAxisScale,
     axesLabelsVisible,
     gridVisible,
     title,

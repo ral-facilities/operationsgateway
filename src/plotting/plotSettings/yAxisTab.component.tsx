@@ -45,8 +45,10 @@ export interface YAxisTabProps {
   initialYMaximum?: number;
   changeYMinimum: (value: number | undefined) => void;
   changeYMaximum: (value: number | undefined) => void;
-  YAxesScale: YAxesScale;
-  changeYAxesScale: (YAxesScale: YAxesScale) => void;
+  leftYAxisScale: YAxesScale;
+  changeLeftYAxisScale: (YAxisScale: YAxesScale) => void;
+  rightYAxisScale: YAxesScale;
+  changeRightYAxisScale: (YAxisScale: YAxesScale) => void;
   initialSelectedColours: string[];
   initialRemainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
@@ -63,8 +65,10 @@ const YAxisTab = (props: YAxisTabProps) => {
     initialYMaximum,
     changeYMinimum,
     changeYMaximum,
-    YAxesScale,
-    changeYAxesScale,
+    leftYAxisScale,
+    changeLeftYAxisScale,
+    rightYAxisScale,
+    changeRightYAxisScale,
     initialSelectedColours,
     initialRemainingColours,
     changeSelectedColours,
@@ -105,11 +109,18 @@ const YAxisTab = (props: YAxisTabProps) => {
     }
   }, [changeYMaximum, yMaximum]);
 
-  const handleChangeYScale = React.useCallback(
+  const handleChangeLeftYScale = React.useCallback(
     (value: string) => {
-      changeYAxesScale(value as YAxesScale);
+      changeLeftYAxisScale(value as YAxesScale);
     },
-    [changeYAxesScale]
+    [changeLeftYAxisScale]
+  );
+
+  const handleChangeRightYScale = React.useCallback(
+    (value: string) => {
+      changeRightYAxisScale(value as YAxesScale);
+    },
+    [changeRightYAxisScale]
   );
 
   const addPlotChannel = React.useCallback(
@@ -162,7 +173,8 @@ const YAxisTab = (props: YAxisTabProps) => {
 
       // Reset to a linear scale if no channels are selected
       if (newSelectedPlotChannelsArray.length === 0) {
-        handleChangeYScale('linear');
+        handleChangeLeftYScale('linear');
+        handleChangeRightYScale('linear');
       }
     },
     [
@@ -170,7 +182,8 @@ const YAxisTab = (props: YAxisTabProps) => {
       changeSelectedColours,
       changeSelectedPlotChannels,
       colourGenerator,
-      handleChangeYScale,
+      handleChangeLeftYScale,
+      handleChangeRightYScale,
       selectedPlotChannels,
     ]
   );
@@ -211,27 +224,49 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid container item wrap="nowrap">
         <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-          <FormLabel id="y-scale-group-label" sx={{ mr: 1 }}>
-            Scale
-          </FormLabel>
+          <FormLabel id="left-y-scale-group-label">Left Axis Scale</FormLabel>
           <RadioGroup
-            row
-            aria-labelledby="y-scale-group-label"
-            name="y scale radio buttons group"
-            value={YAxesScale}
-            onChange={(_, value) => handleChangeYScale(value)}
+            aria-labelledby="left-y-scale-group-label"
+            name="left y scale radio buttons group"
+            value={leftYAxisScale}
+            onChange={(_, value) => handleChangeLeftYScale(value)}
+            sx={{ marginRight: '4px' }}
           >
             <FormControlLabel
               value="linear"
-              control={<Radio />}
+              control={<Radio size="small" sx={{ padding: '2' }} />}
               label="Linear"
+              sx={{ margin: 0 }}
             />
             <FormControlLabel
               value="logarithmic"
-              control={<Radio />}
+              control={<Radio size="small" sx={{ padding: '2' }} />}
               label="Log"
+              sx={{ margin: 0 }}
+            />
+          </RadioGroup>
+        </FormControl>
+        <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FormLabel id="right-y-scale-group-label">Right Axis Scale</FormLabel>
+          <RadioGroup
+            aria-labelledby="right-y-scale-group-label"
+            name="right y scale radio buttons group"
+            value={rightYAxisScale}
+            onChange={(_, value) => handleChangeRightYScale(value)}
+          >
+            <FormControlLabel
+              value="linear"
+              control={<Radio size="small" sx={{ padding: '2' }} />}
+              label="Linear"
+              sx={{ margin: 0 }}
+            />
+            <FormControlLabel
+              value="logarithmic"
+              control={<Radio size="small" sx={{ padding: '2' }} />}
+              label="Log"
+              sx={{ margin: 0 }}
             />
           </RadioGroup>
         </FormControl>

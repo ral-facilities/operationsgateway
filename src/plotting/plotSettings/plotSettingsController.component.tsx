@@ -61,8 +61,10 @@ export interface PlotSettingsControllerProps {
   changeXAxis: (value: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
-  YAxesScale: YAxesScale;
-  changeYAxesScale: (YAxesScale: YAxesScale) => void;
+  leftYAxisScale: YAxesScale;
+  changeLeftYAxisScale: (YAxisScale: YAxesScale) => void;
+  rightYAxisScale: YAxesScale;
+  changeRightYAxisScale: (YAxisScale: YAxesScale) => void;
   selectedPlotChannels: SelectedPlotChannel[];
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
@@ -93,8 +95,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeXAxis,
     XAxisScale,
     changeXAxisScale,
-    YAxesScale,
-    changeYAxesScale,
+    leftYAxisScale,
+    changeLeftYAxisScale,
+    rightYAxisScale,
+    changeRightYAxisScale,
     selectedPlotChannels,
     changeSelectedPlotChannels,
     xMinimum,
@@ -166,8 +170,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             initialYMaximum={yMaximum}
             changeYMinimum={changeYMinimum}
             changeYMaximum={changeYMaximum}
-            YAxesScale={YAxesScale}
-            changeYAxesScale={changeYAxesScale}
+            leftYAxisScale={leftYAxisScale}
+            changeLeftYAxisScale={changeLeftYAxisScale}
+            rightYAxisScale={rightYAxisScale}
+            changeRightYAxisScale={changeRightYAxisScale}
             initialSelectedColours={selectedColours}
             initialRemainingColours={remainingColours}
             changeSelectedColours={changeSelectedColours}

@@ -24,7 +24,8 @@ export interface PlotConfig {
   xMinimum?: number;
   xMaximum?: number;
   selectedPlotChannels: SelectedPlotChannel[];
-  YAxesScale: YAxesScale;
+  leftYAxisScale: YAxesScale;
+  rightYAxisScale: YAxesScale;
   yMinimum?: number;
   yMaximum?: number;
   gridVisible: boolean;
@@ -65,7 +66,8 @@ export const plotSlice = createSlice({
         plotType: 'scatter',
         XAxisScale: 'linear',
         selectedPlotChannels: [],
-        YAxesScale: 'linear',
+        leftYAxisScale: 'linear',
+        rightYAxisScale: 'linear',
         gridVisible: true,
         axesLabelsVisible: true,
         selectedColours: [],
