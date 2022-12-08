@@ -555,7 +555,7 @@ export const plotRecordsRouteDifferentScales = (context) =>
     });
   });
 
-test.only('user can plot channels on the right y axis', async ({
+test('user can plot channels on the right y axis', async ({
   page,
   context,
   browserName,
