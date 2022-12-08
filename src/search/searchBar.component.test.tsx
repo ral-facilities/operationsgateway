@@ -11,7 +11,7 @@ import {
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
-import { format } from 'date-fns';
+import { formatDateTimeForApi } from '../state/slices/searchSlice';
 
 describe('searchBar component', () => {
   let user;
@@ -136,9 +136,8 @@ describe('searchBar component', () => {
         within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
       );
       const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate).setMinutes(
-        expectedToDate.getMinutes() - 10
-      );
+      const expectedFromDate = new Date(expectedToDate);
+      expectedFromDate.setMinutes(expectedToDate.getMinutes() - 10);
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -149,12 +148,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualFromDate
-      );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualToDate
-      );
+      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
+      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
     });
 
     it('hours', async () => {
@@ -167,9 +162,8 @@ describe('searchBar component', () => {
         within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
       );
       const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate).setHours(
-        expectedToDate.getHours() - 24
-      );
+      const expectedFromDate = new Date(expectedToDate);
+      expectedFromDate.setHours(expectedToDate.getHours() - 24);
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -180,12 +174,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualFromDate
-      );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualToDate
-      );
+      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
+      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
     });
 
     it('days', async () => {
@@ -198,9 +188,8 @@ describe('searchBar component', () => {
         within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
       );
       const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate).setDate(
-        expectedToDate.getDate() - 7
-      );
+      const expectedFromDate = new Date(expectedToDate);
+      expectedFromDate.setDate(expectedToDate.getDate() - 7);
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -211,12 +200,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(format(expectedFromDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualFromDate
-      );
-      expect(format(expectedToDate, 'yyyy-MM-dd HH:mm:ss')).toEqual(
-        actualToDate
-      );
+      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
+      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
     });
   });
 
