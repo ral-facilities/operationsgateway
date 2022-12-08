@@ -555,7 +555,7 @@ export const plotRecordsRouteDifferentScales = (context) =>
     });
   });
 
-test('user can plot channels on the right y axis', async ({
+test.only('user can plot channels on the right y axis', async ({
   page,
   context,
   browserName,
@@ -604,6 +604,12 @@ test('user can plot channels on the right y axis', async ({
       .getByRole('radio', { name: 'Right' })
       .check();
   }
+
+  // test that independent scale config works
+  await popup
+    .getByRole('radiogroup', { name: 'Right Axis Scale' })
+    .locator('text=Log')
+    .click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
