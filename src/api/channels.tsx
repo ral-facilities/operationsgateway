@@ -72,7 +72,7 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios
     .get(`${apiUrl}/records`, {
       headers: {
-        Authorization: `Bearer ${readSciGatewayToken().sessionId}`,
+        Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
     .then((response) => {

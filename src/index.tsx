@@ -183,16 +183,23 @@ if (
       if (settingsResult) {
         const apiUrl = settingsResult.apiUrl;
         axios
-          .post(`${apiUrl}/sessions`, {
-            username: 'root',
-            password: 'pw',
-            mechanism: 'simple',
-          })
+          .post(
+            `${apiUrl}/login`,
+            {
+              username: 'frontend',
+              password: 'front',
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                accept: 'application/json',
+              },
+            }
+          )
           .then((response) => {
             const jwtHeader = { alg: 'HS256', typ: 'JWT' };
             const payload = {
-              sessionId: response.data.sessionID,
-              username: 'Thomas409',
+              username: response.data.username,
             };
             const jwt = jsrsasign.KJUR.jws.JWS.sign(
               'HS256',
@@ -203,9 +210,7 @@ if (
 
             window.localStorage.setItem(MicroFrontendToken, jwt);
           })
-          .catch((error) =>
-            log.error(`Can't log in to ICAT: ${error.message}`)
-          );
+          .catch((error) => log.error(`Got error: ${error.message}`));
       }
     });
   }

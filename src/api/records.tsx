@@ -93,7 +93,7 @@ const fetchRecords = async (
     .get(`${apiUrl}/records`, {
       params: queryParams,
       headers: {
-        Authorization: `Bearer ${readSciGatewayToken().sessionId}`,
+        Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
     .then((response) => {
@@ -148,7 +148,7 @@ const fetchRecordCountQuery = (
     .get(`${apiUrl}/records/count`, {
       params: queryParams,
       headers: {
-        Authorization: `Bearer ${readSciGatewayToken().sessionId}`,
+        Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
     .then((response) => response.data);

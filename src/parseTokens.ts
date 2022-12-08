@@ -17,22 +17,18 @@ const parseJwt = (token: string): string => {
 };
 
 export interface SciGatewayToken {
-  sessionId: string | null;
   username: string | null;
 }
 
 export const readSciGatewayToken = (): SciGatewayToken => {
   const token = localStorage.getItem(MicroFrontendToken);
-  let sessionId = null;
   let username = null;
   if (token) {
     const parsedToken = JSON.parse(parseJwt(token));
-    if (parsedToken.sessionId) sessionId = parsedToken.sessionId;
     if (parsedToken.username) username = parsedToken.username;
   }
 
   return {
-    sessionId,
     username,
   };
 };
