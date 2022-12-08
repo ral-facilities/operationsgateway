@@ -78,7 +78,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-http-backend", "npm:2.0.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
-            ["jsrsasign", "npm:10.6.1"],\
             ["lint-staged", "npm:13.0.3"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.8.0"],\
@@ -13532,15 +13531,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["jsrsasign", [\
-        ["npm:10.6.1", {\
-          "packageLocation": "./.yarn/cache/jsrsasign-npm-10.6.1-a8fa295369-372cde32c0.zip/node_modules/jsrsasign/",\
-          "packageDependencies": [\
-            ["jsrsasign", "npm:10.6.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["jsx-ast-utils", [\
         ["npm:3.3.2", {\
           "packageLocation": "./.yarn/cache/jsx-ast-utils-npm-3.3.2-fdadb9d53a-61d4596d44.zip/node_modules/jsx-ast-utils/",\
@@ -14874,7 +14864,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-http-backend", "npm:2.0.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
-            ["jsrsasign", "npm:10.6.1"],\
             ["lint-staged", "npm:13.0.3"],\
             ["loglevel", "npm:1.8.0"],\
             ["prettier", "npm:2.8.0"],\

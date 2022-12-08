@@ -12,7 +12,6 @@ import { OperationsGatewaySettings, setSettings } from './settings';
 import { store } from './state/store';
 import { Provider } from 'react-redux';
 import './index.css';
-import jsrsasign from 'jsrsasign';
 
 export const pluginName = 'operationsgateway';
 
@@ -183,32 +182,12 @@ if (
       if (settingsResult) {
         const apiUrl = settingsResult.apiUrl;
         axios
-          .post(
-            `${apiUrl}/login`,
-            {
-              username: 'frontend',
-              password: 'front',
-            },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                accept: 'application/json',
-              },
-            }
-          )
+          .post(`${apiUrl}/login`, {
+            username: 'frontend',
+            password: 'front',
+          })
           .then((response) => {
-            const jwtHeader = { alg: 'HS256', typ: 'JWT' };
-            const payload = {
-              username: response.data.username,
-            };
-            const jwt = jsrsasign.KJUR.jws.JWS.sign(
-              'HS256',
-              jwtHeader,
-              payload,
-              'shh'
-            );
-
-            window.localStorage.setItem(MicroFrontendToken, jwt);
+            window.localStorage.setItem(MicroFrontendToken, response.data);
           })
           .catch((error) => log.error(`Got error: ${error.message}`));
       }

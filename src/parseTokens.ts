@@ -3,32 +3,9 @@
 
 import { MicroFrontendToken } from './app.types';
 
-// when they JSON.parse the result of this function
-const parseJwt = (token: string): string => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const payload = decodeURIComponent(
-    atob(base64).replace(/(.)/g, function (m, p) {
-      const code = p.charCodeAt(0).toString(16).toUpperCase();
-      return '%' + ('00' + code).slice(-2);
-    })
-  );
-  return payload;
-};
-
-export interface SciGatewayToken {
-  username: string | null;
-}
+export type SciGatewayToken = string | null;
 
 export const readSciGatewayToken = (): SciGatewayToken => {
   const token = localStorage.getItem(MicroFrontendToken);
-  let username = null;
-  if (token) {
-    const parsedToken = JSON.parse(parseJwt(token));
-    if (parsedToken.username) username = parsedToken.username;
-  }
-
-  return {
-    username,
-  };
+  return token;
 };
