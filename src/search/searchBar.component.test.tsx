@@ -75,8 +75,8 @@ describe('searchBar component', () => {
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
-        fromDate: '2022-01-01 00:00:00',
-        toDate: '2022-01-02 00:00:00',
+        fromDate: '2022-01-01T00:00:00',
+        toDate: '2022-01-02T00:00:00',
       },
       shotnumRange: {
         min: 1,
