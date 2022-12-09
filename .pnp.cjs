@@ -96,7 +96,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["serve", "npm:14.1.1"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
-            ["start-server-and-test", "npm:1.14.0"],\
+            ["start-server-and-test", "npm:1.15.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["web-vitals", "npm:3.1.0"]\
           ],\
@@ -9083,10 +9083,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:841aa34fdf733eaf613524d4646b904100de29b79ffdf6fb8e04c1e42f9c364ccd9be8f20ef721fe454a732d4fa9447d666ba738e617a94ffce381b6b63e4e2c#npm:4.3.2", {\
-          "packageLocation": "./.yarn/__virtual__/debug-virtual-60cf43a4cf/0/cache/debug-npm-4.3.2-f0148b6afe-820ea160e2.zip/node_modules/debug/",\
+        ["virtual:5352974e0a266ad32382e98cbecc96c1cbac0416880b8e88618a40188161053f12670d50d4c8e9a86309e79d301a7398ab6135b21e7899032cd4793007c5037a#npm:4.3.2", {\
+          "packageLocation": "./.yarn/__virtual__/debug-virtual-54e81c5f9e/0/cache/debug-npm-4.3.2-f0148b6afe-820ea160e2.zip/node_modules/debug/",\
           "packageDependencies": [\
-            ["debug", "virtual:841aa34fdf733eaf613524d4646b904100de29b79ffdf6fb8e04c1e42f9c364ccd9be8f20ef721fe454a732d4fa9447d666ba738e617a94ffce381b6b63e4e2c#npm:4.3.2"],\
+            ["debug", "virtual:5352974e0a266ad32382e98cbecc96c1cbac0416880b8e88618a40188161053f12670d50d4c8e9a86309e79d301a7398ab6135b21e7899032cd4793007c5037a#npm:4.3.2"],\
             ["@types/supports-color", null],\
             ["ms", "npm:2.1.2"],\
             ["supports-color", null]\
@@ -14865,7 +14865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["serve", "npm:14.1.1"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
-            ["start-server-and-test", "npm:1.14.0"],\
+            ["start-server-and-test", "npm:1.15.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"],\
             ["web-vitals", "npm:3.1.0"]\
           ],\
@@ -19099,13 +19099,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["start-server-and-test", [\
-        ["npm:1.14.0", {\
-          "packageLocation": "./.yarn/cache/start-server-and-test-npm-1.14.0-841aa34fdf-8437f5fc39.zip/node_modules/start-server-and-test/",\
+        ["npm:1.15.0", {\
+          "packageLocation": "./.yarn/cache/start-server-and-test-npm-1.15.0-5352974e0a-cb297a07e8.zip/node_modules/start-server-and-test/",\
           "packageDependencies": [\
-            ["start-server-and-test", "npm:1.14.0"],\
+            ["start-server-and-test", "npm:1.15.0"],\
+            ["arg", "npm:5.0.2"],\
             ["bluebird", "npm:3.7.2"],\
             ["check-more-types", "npm:2.24.0"],\
-            ["debug", "virtual:841aa34fdf733eaf613524d4646b904100de29b79ffdf6fb8e04c1e42f9c364ccd9be8f20ef721fe454a732d4fa9447d666ba738e617a94ffce381b6b63e4e2c#npm:4.3.2"],\
+            ["debug", "virtual:5352974e0a266ad32382e98cbecc96c1cbac0416880b8e88618a40188161053f12670d50d4c8e9a86309e79d301a7398ab6135b21e7899032cd4793007c5037a#npm:4.3.2"],\
             ["execa", "npm:5.1.1"],\
             ["lazy-ass", "npm:1.6.0"],\
             ["ps-tree", "npm:1.2.0"],\
