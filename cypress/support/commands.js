@@ -28,8 +28,8 @@ const parseJwt = (token) => {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const payload = decodeURIComponent(
-    atob(base64).replace(/(.)/g, function (m, p) {
-      var code = p.charCodeAt(0).toString(16).toUpperCase();
+    window.atob(base64).replace(/(.)/g, function (m, p) {
+      const code = p.charCodeAt(0).toString(16).toUpperCase();
       return '%' + ('00' + code).slice(-2);
     })
   );
@@ -37,20 +37,31 @@ const parseJwt = (token) => {
 };
 
 export const readSciGatewayToken = () => {
-  const token = window.localStorage.getItem('scigateway:token');
-  let sessionId = null;
-  let username = null;
+  const token = localStorage.getItem('scigateway:token');
   if (token) {
     const parsedToken = JSON.parse(parseJwt(token));
-    if (parsedToken.sessionId) sessionId = parsedToken.sessionId;
-    if (parsedToken.username) username = parsedToken.username;
+    if (parsedToken.username) {
+      return token;
+    }
   }
-
-  return {
-    sessionId,
-    username,
-  };
+  return null;
 };
+
+Cypress.Commands.add('login', (credentials) => {
+  return cy.request('operationsgateway-settings.json').then((response) => {
+    const settings = response.body;
+    let body = {
+      username: 'frontend',
+      password: 'front',
+    };
+    if (credentials) {
+      body = credentials;
+    }
+    cy.request('POST', `${settings.apiUrl}/login`, body).then((response) => {
+      window.localStorage.setItem('scigateway:token', response.data);
+    });
+  });
+});
 
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
