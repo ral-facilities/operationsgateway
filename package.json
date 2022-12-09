@@ -15,7 +15,6 @@
     "@reduxjs/toolkit": "1.9.0",
     "@tanstack/react-virtual": "beta",
     "@types/jest": "29.2.0",
-    "@types/jsrsasign": "10.5.4",
     "@types/node": "18.11.4",
     "@types/react": "18.0.12",
     "@types/react-beautiful-dnd": "13.1.2",
