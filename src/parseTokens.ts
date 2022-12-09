@@ -4,29 +4,27 @@
 import { MicroFrontendToken } from './app.types';
 
 // when they JSON.parse the result of this function
-// const parseJwt = (token: string): string => {
-//   const base64Url = token.split('.')[1];
-//   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-//   const payload = decodeURIComponent(
-//     atob(base64).replace(/(.)/g, function (m, p) {
-//       const code = p.charCodeAt(0).toString(16).toUpperCase();
-//       return '%' + ('00' + code).slice(-2);
-//     })
-//   );
-//   return payload;
-// };
+const parseJwt = (token: string): string => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const payload = decodeURIComponent(
+    window.atob(base64).replace(/(.)/g, function (m, p) {
+      const code = p.charCodeAt(0).toString(16).toUpperCase();
+      return '%' + ('00' + code).slice(-2);
+    })
+  );
+  return payload;
+};
 
-export type SciGatewayToken = string | null;
+type SciGatewayToken = string | null;
 
 export const readSciGatewayToken = (): SciGatewayToken => {
   const token = localStorage.getItem(MicroFrontendToken);
-  return token;
-  // if (token) {
-  //   const parsedToken = parseJwt(token);
-  //   if (parsedToken.username) {
-  //     console.log('have ' + parsedToken.username);
-  //     return token;
-  //   }
-  // }
-  // return null;
+  if (token) {
+    const parsedToken = JSON.parse(parseJwt(token));
+    if (parsedToken.username) {
+      return token;
+    }
+  }
+  return null;
 };
