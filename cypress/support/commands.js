@@ -24,45 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-const parseJwt = (token) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const payload = decodeURIComponent(
-    window.atob(base64).replace(/(.)/g, function (m, p) {
-      const code = p.charCodeAt(0).toString(16).toUpperCase();
-      return '%' + ('00' + code).slice(-2);
-    })
-  );
-  return payload;
-};
-
-export const readSciGatewayToken = () => {
-  const token = localStorage.getItem('scigateway:token');
-  if (token) {
-    const parsedToken = JSON.parse(parseJwt(token));
-    if (parsedToken.username) {
-      return token;
-    }
-  }
-  return null;
-};
-
-Cypress.Commands.add('login', (credentials) => {
-  return cy.request('operationsgateway-settings.json').then((response) => {
-    const settings = response.body;
-    let body = {
-      username: 'frontend',
-      password: 'front',
-    };
-    if (credentials) {
-      body = credentials;
-    }
-    cy.request('POST', `${settings.apiUrl}/login`, body).then((response) => {
-      window.localStorage.setItem('scigateway:token', response.data);
-    });
-  });
-});
-
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
     name: 'DRAGNDROP',

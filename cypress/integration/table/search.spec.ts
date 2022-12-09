@@ -23,7 +23,6 @@ function getConditionsFromParams(params: Map<string, string>) {
 
 describe('Search', () => {
   beforeEach(() => {
-    cy.login();
     cy.intercept('**/records**', (req) => {
       req.reply({
         statusCode: 200,

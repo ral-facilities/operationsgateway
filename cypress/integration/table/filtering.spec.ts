@@ -1,6 +1,5 @@
 describe('Filtering Component', () => {
   beforeEach(() => {
-    cy.login();
     cy.intercept('**/records**', (req) => {
       req.reply({
         statusCode: 200,
