@@ -60,7 +60,7 @@ export function getDraggableSelector(draggableId) {
 
 export const formatDateTimeForApi = (datetime) => {
   const dateString = format(datetime, 'yyyy-MM-dd');
-  const timeString = format(datetime, 'HH:mm');
+  const timeString = format(datetime, 'HH:mm:ss');
 
   return `${dateString}T${timeString}`;
 };

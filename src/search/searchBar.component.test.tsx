@@ -205,6 +205,8 @@ describe('searchBar component', () => {
       const state = getInitialState();
       const { store } = createView(state);
 
+      // Set a relative timestamp and verify the initial seach is correct
+
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
       await user.click(
@@ -227,6 +229,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
       expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
 
+      // Mock a new date constructor to simulate time moving forward a minute
+
       const testDate = new Date('2022-01-11 12:01:00');
       realDate = Date;
       global.Date = class extends Date {
@@ -248,6 +252,8 @@ describe('searchBar component', () => {
         store.getState().search.searchParams.dateRange.toDate;
       expect(newActualFromDate).toBeDefined();
       expect(newActualToDate).toBeDefined();
+
+      // Check that the new datetime stamps have each moved forward a minute
 
       expect(newActualFromDate).toEqual(
         formatDateTimeForApi(newExpectedFromDate)
