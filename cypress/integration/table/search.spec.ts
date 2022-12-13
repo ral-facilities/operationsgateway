@@ -79,9 +79,7 @@ describe('Search', () => {
 
   describe('searches by relative timeframe', () => {
     beforeEach(() => {
-      cy.clock();
-      // Advance date to 1970-01-08 01:00:00
-      cy.tick(1000 * 60 * 60 * 24 * 7);
+      cy.clock(new Date('1970-01-08 01:00:00'));
     });
 
     it('last 10 minutes', () => {
@@ -267,9 +265,7 @@ describe('Search', () => {
 
   describe('searches by custom timeframe', () => {
     beforeEach(() => {
-      cy.clock();
-      // Advance date to 1970-01-08 01:00:00
-      cy.tick(1000 * 60 * 60 * 24 * 7);
+      cy.clock(new Date('1970-01-08 01:00:00'));
     });
 
     it('last 5 minutes', () => {
