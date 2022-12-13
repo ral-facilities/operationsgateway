@@ -6,7 +6,7 @@ import App from './App';
 import * as log from 'loglevel';
 import singleSpaReact from 'single-spa-react';
 import axios from 'axios';
-import { MicroFrontendId } from './app.types';
+import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { store } from './state/store';
@@ -180,6 +180,23 @@ if (
 ) {
   render();
   log.setDefaultLevel(log.levels.DEBUG);
+
+  if (process.env.NODE_ENV === `development`) {
+    settings.then((settingsResult) => {
+      if (settingsResult) {
+        const apiUrl = settingsResult.apiUrl;
+        axios
+          .post(`${apiUrl}/login`, {
+            username: 'frontend',
+            password: 'front',
+          })
+          .then((response) => {
+            window.localStorage.setItem(MicroFrontendToken, response.data);
+          })
+          .catch((error) => log.error(`Got error: ${error.message}`));
+      }
+    });
+  }
 } else {
   log.setDefaultLevel(log.levels.ERROR);
 }

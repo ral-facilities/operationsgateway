@@ -166,7 +166,9 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/records');
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        headers: { Authorization: 'Bearer null' },
+      });
       expect(result.current.data).not.toBeUndefined();
 
       const data = result.current.data;
@@ -190,7 +192,9 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/records');
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        headers: { Authorization: 'Bearer null' },
+      });
       expect(result.current.data).toEqual([]);
     });
 
@@ -301,7 +305,9 @@ describe('channels api functions', () => {
         },
       ];
 
-      expect(axios.get).toHaveBeenCalledWith('/records');
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        headers: { Authorization: 'Bearer null' },
+      });
       expect(result.current.data).toEqual(expected);
     });
 

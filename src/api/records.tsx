@@ -18,6 +18,7 @@ import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { parseISO, format } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
+import { readSciGatewayToken } from '../parseTokens';
 
 const fetchRecords = async (
   apiUrl: string,
@@ -89,7 +90,12 @@ const fetchRecords = async (
   }
 
   return axios
-    .get(`${apiUrl}/records`, { params: queryParams })
+    .get(`${apiUrl}/records`, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
     .then((response) => {
       const records: Record[] = response.data;
       return records;
@@ -139,7 +145,12 @@ const fetchRecordCountQuery = (
   }
 
   return axios
-    .get(`${apiUrl}/records/count`, { params: queryParams })
+    .get(`${apiUrl}/records/count`, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
     .then((response) => response.data);
 };
 

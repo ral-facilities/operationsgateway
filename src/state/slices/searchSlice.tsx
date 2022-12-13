@@ -5,6 +5,14 @@ import { SearchParams } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
 import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
+import { format } from 'date-fns';
+
+export const formatDateTimeForApi = (datetime: Date): string => {
+  const dateString = format(datetime, 'yyyy-MM-dd');
+  const timeString = format(datetime, 'HH:mm:ss');
+
+  return `${dateString}T${timeString}`;
+};
 
 // Define a type for the slice state
 interface SearchState {

@@ -17,10 +17,11 @@ import {
 import { Warning } from '@mui/icons-material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
-import { format, sub } from 'date-fns';
+import { sub } from 'date-fns';
 import {
   changeSearchParams,
   selectSearchParams,
+  formatDateTimeForApi,
 } from '../state/slices/searchSlice';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useIncomingRecordCount } from '../api/records';
@@ -147,10 +148,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const handleSearch = React.useCallback(() => {
     const newDateRange: DateRange = {
       fromDate: searchParameterFromDate
-        ? format(searchParameterFromDate, 'yyyy-MM-dd HH:mm:ss')
+        ? formatDateTimeForApi(searchParameterFromDate)
         : undefined,
       toDate: searchParameterToDate
-        ? format(searchParameterToDate, 'yyyy-MM-dd HH:mm:ss')
+        ? formatDateTimeForApi(searchParameterToDate)
         : undefined,
     };
 
