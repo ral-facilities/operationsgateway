@@ -139,10 +139,19 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate,
   ]);
 
-  const refreshData = React.useCallback(() => {
+  const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
+
+  const refreshData = () => {
     setRelativeTimeframe(timeframeRange);
-    handleSearch();
-  }, [handleSearch, setRelativeTimeframe, timeframeRange]);
+    setRefreshingData(true);
+  };
+
+  React.useEffect(() => {
+    if (refreshingData) {
+      handleSearch();
+      setRefreshingData(false);
+    }
+  }, [handleSearch, refreshingData]);
 
   const { expanded } = props;
 
@@ -189,12 +198,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container spacing={1} direction="row">
+          <Grid container direction="row">
             <Grid item>
               <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
             </Grid>
             <Grid item>
-              <DataRefresh refreshData={refreshData} />
+              <DataRefresh
+                timeframeSet={!!timeframeRange}
+                refreshData={refreshData}
+              />
             </Grid>
           </Grid>
         </Grid>

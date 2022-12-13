@@ -110,7 +110,7 @@ describe('searchBar component', () => {
 
     beforeEach(() => {
       // Mock the Date constructor to allow for accurate comparison between expected and actual dates
-      const testDate = new Date('2022-01-01 00:00:00');
+      const testDate = new Date('2022-01-11 12:00:00');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
@@ -135,9 +135,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
       );
-      const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate);
-      expectedFromDate.setMinutes(expectedToDate.getMinutes() - 10);
+      const expectedToDate = new Date('2022-01-11 12:00:00');
+      const expectedFromDate = new Date('2022-01-11 11:50:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -148,8 +147,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
-      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
+      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
+      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
     });
 
     it('hours', async () => {
@@ -161,9 +160,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
       );
-      const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate);
-      expectedFromDate.setHours(expectedToDate.getHours() - 24);
+      const expectedToDate = new Date('2022-01-11 12:00:00');
+      const expectedFromDate = new Date('2022-01-10 12:00:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -174,8 +172,8 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
-      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
+      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
+      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
     });
 
     it('days', async () => {
@@ -187,9 +185,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
       );
-      const expectedToDate = new Date();
-      const expectedFromDate = new Date(expectedToDate);
-      expectedFromDate.setDate(expectedToDate.getDate() - 7);
+      const expectedToDate = new Date('2022-01-11 12:00:00');
+      const expectedFromDate = new Date('2022-01-04 12:00:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -200,8 +197,62 @@ describe('searchBar component', () => {
       expect(actualFromDate).toBeDefined();
       expect(actualToDate).toBeDefined();
 
-      expect(formatDateTimeForApi(expectedFromDate)).toEqual(actualFromDate);
-      expect(formatDateTimeForApi(expectedToDate)).toEqual(actualToDate);
+      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
+      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+    });
+
+    it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', {
+          name: 'Last 10 mins',
+        })
+      );
+      const expectedToDate = new Date('2022-01-11 12:00:00');
+      const expectedFromDate = new Date('2022-01-11 11:50:00');
+      await user.click(screen.getByLabelText('close timeframe search box'));
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      const actualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const actualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(actualFromDate).toBeDefined();
+      expect(actualToDate).toBeDefined();
+
+      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
+      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+
+      const testDate = new Date('2022-01-11 12:01:00');
+      realDate = Date;
+      global.Date = class extends Date {
+        constructor(date) {
+          if (date) {
+            return super(date);
+          }
+          return testDate;
+        }
+      };
+
+      await user.click(screen.getByRole('button', { name: 'Refresh data' }));
+      const newExpectedToDate = new Date('2022-01-11 12:01:00');
+      const newExpectedFromDate = new Date('2022-01-11 11:51:00');
+
+      const newActualFromDate =
+        store.getState().search.searchParams.dateRange.fromDate;
+      const newActualToDate =
+        store.getState().search.searchParams.dateRange.toDate;
+      expect(newActualFromDate).toBeDefined();
+      expect(newActualToDate).toBeDefined();
+
+      expect(newActualFromDate).toEqual(
+        formatDateTimeForApi(newExpectedFromDate)
+      );
+      expect(newActualToDate).toEqual(formatDateTimeForApi(newExpectedToDate));
     });
   });
 
