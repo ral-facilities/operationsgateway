@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 export const prefix = 'data-rbd';
 export const dragHandle = (() => {
   const base = `${prefix}-drag-handle`;
@@ -55,3 +57,10 @@ export function getDraggableSelector(draggableId) {
   }
   return `[${draggable.id}]`;
 }
+
+export const formatDateTimeForApi = (datetime) => {
+  const dateString = format(datetime, 'yyyy-MM-dd');
+  const timeString = format(datetime, 'HH:mm');
+
+  return `${dateString}T${timeString}`;
+};

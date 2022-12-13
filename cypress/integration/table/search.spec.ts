@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { formatDateTimeForApi } from '../../support/util';
 
 function getParamsFromUrl(url: string) {
   const paramsString = url.split('?')[1];
@@ -58,8 +58,8 @@ describe('Search', () => {
       const timestampRange = condition['metadata.timestamp'];
       const gte: string = timestampRange['$gte'];
       const lte: string = timestampRange['$lte'];
-      expect(gte).equal('2022-01-01+00:00:00');
-      expect(lte).equal('2022-01-02+00:00:00');
+      expect(gte).equal('2022-01-01T00:00:00');
+      expect(lte).equal('2022-01-02T00:00:00');
     });
 
     cy.wait('@getRecordCount').should(({ request }) => {
@@ -72,8 +72,8 @@ describe('Search', () => {
       const timestampRange = condition['metadata.timestamp'];
       const gte: string = timestampRange['$gte'];
       const lte: string = timestampRange['$lte'];
-      expect(gte).equal('2022-01-01+00:00:00');
-      expect(lte).equal('2022-01-02+00:00:00');
+      expect(gte).equal('2022-01-01T00:00:00');
+      expect(lte).equal('2022-01-02T00:00:00');
     });
   });
 
@@ -86,11 +86,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setMinutes(
         expectedToDate.getMinutes() - 10
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -138,11 +135,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setHours(
         expectedToDate.getHours() - 24
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -187,11 +181,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setDate(
         expectedToDate.getDate() - 7
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -239,11 +230,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setMinutes(
         expectedToDate.getMinutes() - 5
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -289,11 +277,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setHours(
         expectedToDate.getHours() - 5
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -339,11 +324,8 @@ describe('Search', () => {
       const expectedFromDate = new Date(expectedToDate.toString()).setDate(
         expectedToDate.getDate() - 5
       );
-      const expectedToDateString = format(expectedToDate, 'yyyy-MM-dd+HH:mm');
-      const expectedFromDateString = format(
-        expectedFromDate,
-        'yyyy-MM-dd+HH:mm'
-      );
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
       cy.contains('Search').click();
 
@@ -443,8 +425,8 @@ describe('Search', () => {
       const timestampRange = timestampCondition['metadata.timestamp'];
       const timestampGte: string = timestampRange['$gte'];
       const timestampLte: string = timestampRange['$lte'];
-      expect(timestampGte).equal('2022-01-01+00:00:00');
-      expect(timestampLte).equal('2022-01-02+00:00:00');
+      expect(timestampGte).equal('2022-01-01T00:00:00');
+      expect(timestampLte).equal('2022-01-02T00:00:00');
 
       const shotnumCondition = conditionsMap[1];
       const shotnumRange = shotnumCondition['metadata.shotnum'];
@@ -464,8 +446,8 @@ describe('Search', () => {
       const timestampRange = timestampCondition['metadata.timestamp'];
       const timestampGte: string = timestampRange['$gte'];
       const timestampLte: string = timestampRange['$lte'];
-      expect(timestampGte).equal('2022-01-01+00:00:00');
-      expect(timestampLte).equal('2022-01-02+00:00:00');
+      expect(timestampGte).equal('2022-01-01T00:00:00');
+      expect(timestampLte).equal('2022-01-02T00:00:00');
 
       const shotnumCondition = conditionsMap[1];
       const shotnumRange = shotnumCondition['metadata.shotnum'];

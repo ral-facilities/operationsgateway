@@ -2,6 +2,7 @@ import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 import type { CartesianScaleTypeRegistry } from 'chart.js';
 
 export const MicroFrontendId = 'scigateway';
+export const MicroFrontendToken = `${MicroFrontendId}:token`;
 
 export interface Record {
   id: string;
