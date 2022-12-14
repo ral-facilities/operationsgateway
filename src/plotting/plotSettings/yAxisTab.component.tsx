@@ -43,10 +43,14 @@ export interface YAxisTabProps {
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
   ) => void;
-  initialYMinimum?: number;
-  initialYMaximum?: number;
-  changeYMinimum: (value: number | undefined) => void;
-  changeYMaximum: (value: number | undefined) => void;
+  initialLeftYAxisMinimum?: number;
+  initialLeftYAxisMaximum?: number;
+  changeLeftYAxisMinimum: (value: number | undefined) => void;
+  changeLeftYAxisMaximum: (value: number | undefined) => void;
+  initialRightYAxisMinimum?: number;
+  initialRightYAxisMaximum?: number;
+  changeRightYAxisMinimum: (value: number | undefined) => void;
+  changeRightYAxisMaximum: (value: number | undefined) => void;
   leftYAxisScale: YAxesScale;
   changeLeftYAxisScale: (YAxisScale: YAxesScale) => void;
   rightYAxisScale: YAxesScale;
@@ -63,10 +67,14 @@ const YAxisTab = (props: YAxisTabProps) => {
     allChannels,
     selectedPlotChannels,
     changeSelectedPlotChannels,
-    initialYMinimum,
-    initialYMaximum,
-    changeYMinimum,
-    changeYMaximum,
+    initialLeftYAxisMinimum,
+    initialLeftYAxisMaximum,
+    changeLeftYAxisMinimum,
+    changeLeftYAxisMaximum,
+    initialRightYAxisMinimum,
+    initialRightYAxisMaximum,
+    changeRightYAxisMinimum,
+    changeRightYAxisMaximum,
     leftYAxisScale,
     changeLeftYAxisScale,
     rightYAxisScale,
@@ -84,10 +92,10 @@ const YAxisTab = (props: YAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [yMinimum, setYMinimum] = React.useState<string>(
-    initialYMinimum ? '' + initialYMinimum : ''
+    initialLeftYAxisMinimum ? '' + initialLeftYAxisMinimum : ''
   );
   const [yMaximum, setYMaximum] = React.useState<string>(
-    initialYMaximum ? '' + initialYMaximum : ''
+    initialLeftYAxisMaximum ? '' + initialLeftYAxisMaximum : ''
   );
 
   const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
@@ -98,20 +106,45 @@ const YAxisTab = (props: YAxisTabProps) => {
   const [axis, setAxis] = React.useState<'right' | 'left'>('left');
 
   React.useEffect(() => {
-    if (yMinimum && parseFloat(yMinimum)) {
-      changeYMinimum(parseFloat(yMinimum));
-    } else {
-      changeYMinimum(undefined);
-    }
-  }, [changeYMinimum, yMinimum]);
+    const initialMinimum =
+      axis === 'right' ? initialRightYAxisMinimum : initialLeftYAxisMinimum;
+    const initialMaximum =
+      axis === 'right' ? initialRightYAxisMaximum : initialLeftYAxisMaximum;
 
-  React.useEffect(() => {
-    if (yMaximum && parseFloat(yMaximum)) {
-      changeYMaximum(parseFloat(yMaximum));
-    } else {
-      changeYMaximum(undefined);
-    }
-  }, [changeYMaximum, yMaximum]);
+    setYMinimum(initialMinimum ? '' + initialMinimum : '');
+    setYMaximum(initialMaximum ? '' + initialMaximum : '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [axis]);
+
+  const handleChangeYMinimum = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      setYMinimum(newValue);
+      const changeFn =
+        axis === 'right' ? changeRightYAxisMinimum : changeLeftYAxisMinimum;
+      if (newValue && parseFloat(newValue)) {
+        changeFn(parseFloat(newValue));
+      } else {
+        changeFn(undefined);
+      }
+    },
+    [axis, changeLeftYAxisMinimum, changeRightYAxisMinimum]
+  );
+
+  const handleChangeYMaximum = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      setYMaximum(newValue);
+      const changeFn =
+        axis === 'right' ? changeRightYAxisMaximum : changeLeftYAxisMaximum;
+      if (newValue && parseFloat(newValue)) {
+        changeFn(parseFloat(newValue));
+      } else {
+        changeFn(undefined);
+      }
+    },
+    [axis, changeLeftYAxisMaximum, changeRightYAxisMaximum]
+  );
 
   const handleChangeLeftYScale = React.useCallback(
     (value: string) => {
@@ -234,9 +267,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMinimum}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setYMinimum(event.target.value)
-            }
+            onChange={handleChangeYMinimum}
           />
         </Grid>
         <Grid item xs={6}>
@@ -250,9 +281,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMaximum}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setYMaximum(event.target.value)
-            }
+            onChange={handleChangeYMaximum}
           />
         </Grid>
       </Grid>

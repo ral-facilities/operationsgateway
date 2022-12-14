@@ -71,12 +71,16 @@ export interface PlotSettingsControllerProps {
   ) => void;
   xMinimum?: number;
   xMaximum?: number;
-  yMinimum?: number;
-  yMaximum?: number;
+  leftYAxisMinimum?: number;
+  leftYAxisMaximum?: number;
+  rightYAxisMinimum?: number;
+  rightYAxisMaximum?: number;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
-  changeYMinimum: (value: number | undefined) => void;
-  changeYMaximum: (value: number | undefined) => void;
+  changeLeftYAxisMinimum: (value: number | undefined) => void;
+  changeLeftYAxisMaximum: (value: number | undefined) => void;
+  changeRightYAxisMinimum: (value: number | undefined) => void;
+  changeRightYAxisMaximum: (value: number | undefined) => void;
   selectedColours: string[];
   remainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
@@ -103,12 +107,16 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeSelectedPlotChannels,
     xMinimum,
     xMaximum,
-    yMinimum,
-    yMaximum,
+    leftYAxisMinimum,
+    leftYAxisMaximum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
     changeXMinimum,
     changeXMaximum,
-    changeYMinimum,
-    changeYMaximum,
+    changeLeftYAxisMinimum,
+    changeLeftYAxisMaximum,
+    changeRightYAxisMinimum,
+    changeRightYAxisMaximum,
     selectedColours,
     remainingColours,
     changeSelectedColours,
@@ -166,10 +174,14 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             allChannels={allChannels}
             selectedPlotChannels={selectedPlotChannels}
             changeSelectedPlotChannels={changeSelectedPlotChannels}
-            initialYMinimum={yMinimum}
-            initialYMaximum={yMaximum}
-            changeYMinimum={changeYMinimum}
-            changeYMaximum={changeYMaximum}
+            initialLeftYAxisMinimum={leftYAxisMinimum}
+            initialLeftYAxisMaximum={leftYAxisMaximum}
+            changeLeftYAxisMinimum={changeLeftYAxisMinimum}
+            changeLeftYAxisMaximum={changeLeftYAxisMaximum}
+            initialRightYAxisMinimum={rightYAxisMinimum}
+            initialRightYAxisMaximum={rightYAxisMaximum}
+            changeRightYAxisMinimum={changeRightYAxisMinimum}
+            changeRightYAxisMaximum={changeRightYAxisMaximum}
             leftYAxisScale={leftYAxisScale}
             changeLeftYAxisScale={changeLeftYAxisScale}
             rightYAxisScale={rightYAxisScale}

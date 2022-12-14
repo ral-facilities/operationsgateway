@@ -26,8 +26,10 @@ export interface PlotConfig {
   selectedPlotChannels: SelectedPlotChannel[];
   leftYAxisScale: YAxesScale;
   rightYAxisScale: YAxesScale;
-  yMinimum?: number;
-  yMaximum?: number;
+  leftYAxisMinimum?: number;
+  leftYAxisMaximum?: number;
+  rightYAxisMinimum?: number;
+  rightYAxisMaximum?: number;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];
