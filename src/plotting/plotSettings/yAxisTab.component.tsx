@@ -14,6 +14,8 @@ import {
   Select,
   styled,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -188,20 +190,37 @@ const YAxisTab = (props: YAxisTabProps) => {
     ]
   );
 
-  const leftYAxisActive = React.useMemo(
-    () =>
-      selectedPlotChannels.some((channel) => channel.options.yAxis === 'left'),
-    [selectedPlotChannels]
-  );
-
-  const rightYAxisActive = React.useMemo(
-    () =>
-      selectedPlotChannels.some((channel) => channel.options.yAxis === 'right'),
-    [selectedPlotChannels]
-  );
+  const [axis, setAxis] = React.useState<'right' | 'left'>('left');
 
   return (
     <Grid container spacing={1} mt={1}>
+      <Grid item>
+        <ToggleButtonGroup
+          value={axis}
+          exclusive
+          size="small"
+          onChange={(
+            event: React.MouseEvent<HTMLElement>,
+            newAxis: 'left' | 'right'
+          ) => {
+            setAxis(newAxis);
+          }}
+          aria-label="y axis toggle"
+        >
+          <ToggleButton
+            value="left"
+            sx={{ textTransform: 'none', padding: '2px 6px' }}
+          >
+            Left
+          </ToggleButton>
+          <ToggleButton
+            value="right"
+            sx={{ textTransform: 'none', padding: '2px 6px' }}
+          >
+            Right
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Grid>
       <Grid container item spacing={1}>
         <Grid item xs={6}>
           <TextField
@@ -237,94 +256,33 @@ const YAxisTab = (props: YAxisTabProps) => {
         </Grid>
       </Grid>
       <Grid container item wrap="nowrap">
-        {leftYAxisActive && rightYAxisActive ? (
-          <>
-            <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FormLabel id="left-y-scale-group-label">
-                Left Axis Scale
-              </FormLabel>
-              <RadioGroup
-                aria-labelledby="left-y-scale-group-label"
-                name="left y scale radio buttons group"
-                value={leftYAxisScale}
-                onChange={(_, value) => handleChangeLeftYScale(value)}
-                sx={{ marginRight: '4px' }}
-              >
-                <FormControlLabel
-                  value="linear"
-                  control={<Radio size="small" sx={{ padding: '2' }} />}
-                  label="Linear"
-                  sx={{ margin: 0 }}
-                />
-                <FormControlLabel
-                  value="logarithmic"
-                  control={<Radio size="small" sx={{ padding: '2' }} />}
-                  label="Log"
-                  sx={{ margin: 0 }}
-                />
-              </RadioGroup>
-            </FormControl>
-            <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FormLabel id="right-y-scale-group-label">
-                Right Axis Scale
-              </FormLabel>
-              <RadioGroup
-                aria-labelledby="right-y-scale-group-label"
-                name="right y scale radio buttons group"
-                value={rightYAxisScale}
-                onChange={(_, value) => handleChangeRightYScale(value)}
-              >
-                <FormControlLabel
-                  value="linear"
-                  control={<Radio size="small" sx={{ padding: '2' }} />}
-                  label="Linear"
-                  sx={{ margin: 0 }}
-                />
-                <FormControlLabel
-                  value="logarithmic"
-                  control={<Radio size="small" sx={{ padding: '2' }} />}
-                  label="Log"
-                  sx={{ margin: 0 }}
-                />
-              </RadioGroup>
-            </FormControl>{' '}
-          </>
-        ) : (
-          <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-            <FormLabel
-              id={`${rightYAxisActive ? 'right' : 'left'}-y-scale-group-label`}
-              sx={{ mr: 1 }}
-            >
-              Scale
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby={`${
-                rightYAxisActive ? 'right' : 'left'
-              }-y-scale-group-label`}
-              name={`${
-                rightYAxisActive ? 'right' : 'left'
-              } y scale radio buttons group`}
-              value={rightYAxisActive ? rightYAxisScale : leftYAxisScale}
-              onChange={(_, value) =>
-                rightYAxisActive
-                  ? handleChangeRightYScale(value)
-                  : handleChangeLeftYScale(value)
-              }
-            >
-              <FormControlLabel
-                value="linear"
-                control={<Radio />}
-                label="Linear"
-              />
-              <FormControlLabel
-                value="logarithmic"
-                control={<Radio />}
-                label="Log"
-              />
-            </RadioGroup>
-          </FormControl>
-        )}
+        <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
+          <FormLabel id={`${axis}-y-scale-group-label`} sx={{ mr: 1 }}>
+            Scale
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby={`${axis}-y-scale-group-label`}
+            name={`${axis} y scale radio buttons group`}
+            value={axis === 'right' ? rightYAxisScale : leftYAxisScale}
+            onChange={(_, value) =>
+              axis === 'right'
+                ? handleChangeRightYScale(value)
+                : handleChangeLeftYScale(value)
+            }
+          >
+            <FormControlLabel
+              value="linear"
+              control={<Radio />}
+              label="Linear"
+            />
+            <FormControlLabel
+              value="logarithmic"
+              control={<Radio />}
+              label="Log"
+            />
+          </RadioGroup>
+        </FormControl>
       </Grid>
       <Grid container item>
         <FormControl fullWidth>
