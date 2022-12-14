@@ -95,6 +95,8 @@ const YAxisTab = (props: YAxisTabProps) => {
   const [autocompleteValue, setAutocompleteValue] = React.useState<string>('');
   const [selectValue, setSelectValue] = React.useState<string>('');
 
+  const [axis, setAxis] = React.useState<'right' | 'left'>('left');
+
   React.useEffect(() => {
     if (yMinimum && parseFloat(yMinimum)) {
       changeYMinimum(parseFloat(yMinimum));
@@ -133,7 +135,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           visible: true,
           lineStyle: 'solid',
           colour: colourGenerator.nextColour(), // Generate a colour for the channel to appear in the plot
-          yAxis: 'left',
+          yAxis: axis, // put the channel on the currently selected axis
         },
       };
 
@@ -150,6 +152,7 @@ const YAxisTab = (props: YAxisTabProps) => {
       changeSelectedPlotChannels,
       colourGenerator,
       selectedPlotChannels,
+      axis,
     ]
   );
 
@@ -189,8 +192,6 @@ const YAxisTab = (props: YAxisTabProps) => {
       selectedPlotChannels,
     ]
   );
-
-  const [axis, setAxis] = React.useState<'right' | 'left'>('left');
 
   return (
     <Grid container spacing={1} mt={1}>
@@ -371,64 +372,66 @@ const YAxisTab = (props: YAxisTabProps) => {
           )}
         />
       </Grid>
-      {selectedPlotChannels.map((plotChannel) => (
-        <Grid container item key={plotChannel.name}>
-          <Box
-            aria-label={`${plotChannel.name} label`}
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              width: 'inherit',
-              justifyContent: 'space-between',
-              border: 1,
-              padding: 1,
-            }}
-          >
-            <Tooltip
-              title={plotChannel.name}
-              arrow
-              placement="top"
-              leaveDelay={0}
-            >
-              <Typography maxWidth="208" noWrap>
-                {plotChannel.name}
-              </Typography>
-            </Tooltip>
+      {selectedPlotChannels
+        .filter((channel) => channel.options.yAxis === axis)
+        .map((plotChannel) => (
+          <Grid container item key={plotChannel.name}>
             <Box
-              sx={
-                // for some reason, styling these buttons in a row causes webkit
-                // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
-                /* istanbul ignore next */
-                process.env.REACT_APP_E2E_TESTING
-                  ? {}
-                  : {
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }
-              }
+              aria-label={`${plotChannel.name} label`}
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                width: 'inherit',
+                justifyContent: 'space-between',
+                border: 1,
+                padding: 1,
+              }}
             >
-              <MoreOptionsToggle
-                channel={plotChannel}
-                selectedPlotChannels={selectedPlotChannels}
-                changeSelectedPlotChannels={changeSelectedPlotChannels}
-              />
               <Tooltip
-                title="Remove from plot"
+                title={plotChannel.name}
                 arrow
                 placement="top"
-                enterDelay={0}
                 leaveDelay={0}
               >
-                <StyledClose
-                  aria-label={`Remove ${plotChannel.name} from plot`}
-                  onClick={() => removePlotChannel(plotChannel.name)}
-                />
+                <Typography maxWidth="208" noWrap>
+                  {plotChannel.name}
+                </Typography>
               </Tooltip>
+              <Box
+                sx={
+                  // for some reason, styling these buttons in a row causes webkit
+                  // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
+                  /* istanbul ignore next */
+                  process.env.REACT_APP_E2E_TESTING
+                    ? {}
+                    : {
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }
+                }
+              >
+                <MoreOptionsToggle
+                  channel={plotChannel}
+                  selectedPlotChannels={selectedPlotChannels}
+                  changeSelectedPlotChannels={changeSelectedPlotChannels}
+                />
+                <Tooltip
+                  title="Remove from plot"
+                  arrow
+                  placement="top"
+                  enterDelay={0}
+                  leaveDelay={0}
+                >
+                  <StyledClose
+                    aria-label={`Remove ${plotChannel.name} from plot`}
+                    onClick={() => removePlotChannel(plotChannel.name)}
+                  />
+                </Tooltip>
+              </Box>
             </Box>
-          </Box>
-        </Grid>
-      ))}
+          </Grid>
+        ))}
     </Grid>
   );
 };
