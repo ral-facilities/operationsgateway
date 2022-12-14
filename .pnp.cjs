@@ -74,7 +74,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.1.5"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.1.0"],\
@@ -11881,10 +11881,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next-http-backend", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.0.0-4b6746e83f-2e2c8f4278.zip/node_modules/i18next-http-backend/",\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.1.0-53cfc6f2d8-6cc31203c0.zip/node_modules/i18next-http-backend/",\
           "packageDependencies": [\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["cross-fetch", "npm:3.1.5"]\
           ],\
           "linkType": "HARD"\
@@ -14851,7 +14851,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.1.5"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.1.0"],\
