@@ -86,10 +86,10 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records/count', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect(result.current.data).toEqual(mockData.length);
     });
 
@@ -131,10 +131,10 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records/count', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
@@ -174,10 +174,10 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
@@ -232,10 +232,10 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
@@ -292,10 +292,10 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '50');
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
@@ -357,10 +357,10 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '1000');
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
@@ -406,10 +406,10 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records',
-        expect.objectContaining({ params })
-      );
+      expect(axios.get).toHaveBeenCalledWith('/records', {
+        params,
+        headers: { Authorization: 'Bearer null' },
+      });
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
