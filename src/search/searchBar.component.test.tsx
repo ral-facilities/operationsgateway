@@ -147,7 +147,7 @@ describe('searchBar component', () => {
     // Store should now be updated, indicating search initiated on second attempt
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
-        fromDate: '2022-01-01 00:00:00',
+        fromDate: '2022-01-01T00:00:00',
         toDate: undefined,
       },
       shotnumRange: {
