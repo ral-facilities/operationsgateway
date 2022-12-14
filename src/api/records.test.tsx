@@ -13,6 +13,7 @@ import {
   hooksWrapperWithProviders,
   getInitialState,
   generateRecord,
+  createTestQueryClient,
 } from '../setupTests';
 import axios from 'axios';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -147,6 +148,59 @@ describe('records api functions', () => {
         params.toString()
       );
       expect(result.current.data).toEqual(mockData.length);
+    });
+
+    it('returns cached data from incomingRecordCount request if it is available', async () => {
+      // Test that record count data is reused when we fetch the count of a large request before fetching the records themselves
+
+      // Create a queryClient here and pass it between each hooks instance
+      // This ensures a persistent query cache which we can then test with
+      const testQueryClient = createTestQueryClient();
+
+      // First simulate a call to useIncomingRecordCount hook
+      // This simulates the moment a user gets a warning for initiating a request with a large response of records
+      const { result: incomingRecordCountResult } = renderHook(
+        () => useIncomingRecordCount(),
+        {
+          wrapper: hooksWrapperWithProviders(state, testQueryClient),
+        }
+      );
+
+      await waitFor(() => {
+        expect(incomingRecordCountResult.current.isSuccess).toBeTruthy();
+      });
+
+      // We should have made one call to /records/count
+      expect(axios.get).toHaveBeenCalledTimes(1);
+      expect(axios.get).toHaveBeenCalledWith(
+        '/records/count',
+        expect.objectContaining({ params })
+      );
+      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
+        params.toString()
+      );
+      expect(incomingRecordCountResult.current.data).toEqual(mockData.length);
+
+      // Next, simulate a call to useRecordCount hook
+      // This is the moment a user has heeded the warning of a large response of records and initiated the actual search
+      // Normally, we fetch the count of records alongside the records themselves
+      // However, we already have that data in the query cache, populated from the useIncomingRecordCount hook!
+      const { result: recordCountResult } = renderHook(() => useRecordCount(), {
+        wrapper: hooksWrapperWithProviders(state, testQueryClient),
+      });
+
+      await waitFor(() => {
+        expect(recordCountResult.current.isSuccess).toBeTruthy();
+      });
+
+      // Should be no further calls to /records/count
+      // This tells us that the cache from the incomingRecordCount query was retrieved
+      expect(axios.get).toHaveBeenCalledTimes(1);
+
+      // The result from the useRecordCount hook should match the result of the useIncomingRecordCount hook
+      expect(recordCountResult.current.data).toEqual(
+        incomingRecordCountResult.current.data
+      );
     });
 
     it.todo(

@@ -82,12 +82,16 @@ export const createTestQueryClient = (): QueryClient =>
     defaultOptions: {
       queries: {
         retry: false,
+        staleTime: 300000,
       },
     },
   });
 
-export const hooksWrapperWithProviders = (state = {}) => {
-  const testQueryClient = createTestQueryClient();
+export const hooksWrapperWithProviders = (
+  state = {},
+  queryClient?: QueryClient
+) => {
+  const testQueryClient = queryClient ?? createTestQueryClient();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
     <Provider store={store}>
