@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
 import {
   Channel,
   ImageChannel,
@@ -350,6 +350,7 @@ export const usePlotRecords = (
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters } = useAppSelector(selectQueryParams);
+  const queryClient = useQueryClient();
 
   return useQuery<
     number,
@@ -366,6 +367,14 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      initialData: () =>
+        queryClient.getQueryData([
+          'incomingRecordCount',
+          {
+            searchParams,
+            filters,
+          },
+        ]),
     }
   );
 };
