@@ -8532,21 +8532,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:2.0.0":
-  version: 2.0.0
-  resolution: "i18next-http-backend@npm:2.0.0"
+"i18next-http-backend@npm:2.1.0":
+  version: 2.1.0
+  resolution: "i18next-http-backend@npm:2.1.0"
   dependencies:
     cross-fetch: 3.1.5
-  checksum: 2e2c8f427880540ce82a37367f095a9e4b2c816602443d1729a64062b6cedbaeb503a013e3fe5df0aa077ed0c252eb490d3c87245ef2945dbf2a11abad9872fe
+  checksum: 6cc31203c06beede328347e426cd69d450faa8cc403ac54b748bfddcd5f40ffacb65bd824815c4813d259556d0eee08887d92f11151512a74db3223a2b398a2f
   languageName: node
   linkType: hard
 
-"i18next@npm:22.1.5":
-  version: 22.1.5
-  resolution: "i18next@npm:22.1.5"
+"i18next@npm:22.3.0":
+  version: 22.3.0
+  resolution: "i18next@npm:22.3.0"
   dependencies:
     "@babel/runtime": ^7.20.6
-  checksum: 7e4f6ca9a01b0b9b528b03e5b4b2724866196e9d599ed24c20f6fa1d16760db9da37c010ba123d9db3dc7bee468f5bf8b8113240a4955e0ef96dd4548d1d123d
+  checksum: a6270ae600b27c28d759a2e396b7d644237155d75de600611ec9d17830408c7171c150870579da06370aebffda1486c545c6c9780881e9027d4a62783e5da6c0
   languageName: node
   linkType: hard
 
@@ -11161,9 +11161,9 @@ __metadata:
     express: 4.18.1
     history: 5.3.0
     husky: 8.0.1
-    i18next: 22.1.5
+    i18next: 22.3.0
     i18next-browser-languagedetector: 7.0.0
-    i18next-http-backend: 2.0.0
+    i18next-http-backend: 2.1.0
     immutability-helper: 3.1.1
     jest-canvas-mock: 2.4.0
     lint-staged: 13.1.0

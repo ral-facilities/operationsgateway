@@ -72,9 +72,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:22.1.5"],\
+            ["i18next", "npm:22.3.0"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.1.0"],\
@@ -11861,10 +11861,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next", [\
-        ["npm:22.1.5", {\
-          "packageLocation": "./.yarn/cache/i18next-npm-22.1.5-76749fc61e-7e4f6ca9a0.zip/node_modules/i18next/",\
+        ["npm:22.3.0", {\
+          "packageLocation": "./.yarn/cache/i18next-npm-22.3.0-44eb9481ec-a6270ae600.zip/node_modules/i18next/",\
           "packageDependencies": [\
-            ["i18next", "npm:22.1.5"],\
+            ["i18next", "npm:22.3.0"],\
             ["@babel/runtime", "npm:7.20.6"]\
           ],\
           "linkType": "HARD"\
@@ -11881,10 +11881,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next-http-backend", [\
-        ["npm:2.0.0", {\
-          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.0.0-4b6746e83f-2e2c8f4278.zip/node_modules/i18next-http-backend/",\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.1.0-53cfc6f2d8-6cc31203c0.zip/node_modules/i18next-http-backend/",\
           "packageDependencies": [\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["cross-fetch", "npm:3.1.5"]\
           ],\
           "linkType": "HARD"\
@@ -14849,9 +14849,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:22.1.5"],\
+            ["i18next", "npm:22.3.0"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.0.0"],\
+            ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.4.0"],\
             ["lint-staged", "npm:13.1.0"],\
@@ -17536,7 +17536,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.0.4"],\
             ["@types/react-native", null],\
             ["html-parse-stringify", "npm:3.0.1"],\
-            ["i18next", "npm:22.1.5"],\
+            ["i18next", "npm:22.3.0"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-native", null]\
