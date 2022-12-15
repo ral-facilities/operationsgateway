@@ -1,9 +1,30 @@
 import React from 'react';
 import { isValid, isEqual, isBefore, isAfter } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
+import {
+  TextField,
+  Divider,
+  Typography,
+  Box,
+  Grid,
+  keyframes,
+} from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
+import { TimeframeRange } from './timeframe.component';
+
+// Flash animation
+// Highlights chips in the autocomplete
+// Used when the filter icon in a table data header is clicked to emphasise it when the dialog appears
+const flash = keyframes`
+  0% {
+    background-color: #67becc;
+  }
+  100% {
+    background-color: #ebebeb;
+  }
+`;
+const flashAnimationLength = 1500; // milliseconds
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -49,6 +70,7 @@ export interface DateTimeSearchProps {
   changeSearchParameterFromDate: (fromDate: Date | null) => void;
   changeSearchParameterToDate: (toDate: Date | null) => void;
   resetTimeframe: () => void;
+  timeframeRange: TimeframeRange | null;
 }
 
 /**
@@ -76,6 +98,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     changeSearchParameterFromDate,
     changeSearchParameterToDate,
     resetTimeframe,
+    timeframeRange,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -101,6 +124,19 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (timeframeRange !== null) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, flashAnimationLength);
+    }
+  }, [timeframeRange]);
+
   return (
     <Box
       aria-label="date-time search box"
@@ -114,6 +150,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         display: 'flex',
         flexDirection: 'row',
         overflow: 'hidden',
+        ...(flashAnimationPlaying && {
+          animation: `${flash} ${flashAnimationLength}ms`,
+        }),
       }}
     >
       <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
