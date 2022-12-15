@@ -581,35 +581,43 @@ test('user can plot channels on the right y axis', async ({
 
   await popup.locator('text=Y').click();
 
+  // users can add channels to the right y axis directly when "right" is selected as the axis
+  await popup.locator('text=Right').click();
+
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  const channel_ABCDE = await popup.locator('text=CHANNEL_ABCDE');
+  await channel_ABCDE.click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
   await popup.locator('text=CHANNEL_DEFGH').click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_DEFGH"]').click();
+  await popup.locator('[aria-label="More options for CHANNEL_ABCDE"]').click();
 
+  // move ABCDE over to left axis - tests that users can move channels between left & right
   if (browserName === 'webkit') {
     // for some reason webkit can't use check or click on the radio button as it doesn't change
     // so use arrow key instead
     await popup
       .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByLabel('Left')
-      .press('ArrowRight');
+      .getByLabel('Right')
+      .press('ArrowLeft');
   } else {
     await popup
       .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByRole('radio', { name: 'Right' })
-      .check();
+      .getByRole('radio', { name: 'Left' })
+      .click();
   }
 
-  // test that independent scale config works
-  await popup
-    .getByRole('radiogroup', { name: 'Right Axis Scale' })
-    .locator('text=Log')
-    .click();
+  // should not exist anymore as it's moved over to the left "tab"
+  await expect(channel_ABCDE).toHaveCount(0);
+
+  // test that scale & min/max controls work for right y axis
+  await popup.locator('text=Log').click();
+
+  await popup.locator('label:has-text("Min")').fill('900000');
+  await popup.locator('label:has-text("Max")').fill('1500000');
 
   await popup.locator('[aria-label="close settings"]').click();
 
