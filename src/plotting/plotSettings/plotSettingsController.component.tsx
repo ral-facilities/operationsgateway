@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Box, styled, Tab, Tabs } from '@mui/material';
 import {
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
@@ -61,10 +61,10 @@ export interface PlotSettingsControllerProps {
   changeXAxis: (value: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
-  leftYAxisScale: YAxesScale;
-  changeLeftYAxisScale: (YAxisScale: YAxesScale) => void;
-  rightYAxisScale: YAxesScale;
-  changeRightYAxisScale: (YAxisScale: YAxesScale) => void;
+  leftYAxisScale: YAxisScale;
+  changeLeftYAxisScale: (YAxisScale: YAxisScale) => void;
+  rightYAxisScale: YAxisScale;
+  changeRightYAxisScale: (YAxisScale: YAxisScale) => void;
   selectedPlotChannels: SelectedPlotChannel[];
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]

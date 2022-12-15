@@ -15,7 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
@@ -65,10 +65,10 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>(
     plotConfig.XAxisScale
   );
-  const [leftYAxisScale, setLeftYAxisScale] = React.useState<YAxesScale>(
+  const [leftYAxisScale, setLeftYAxisScale] = React.useState<YAxisScale>(
     plotConfig.leftYAxisScale
   );
-  const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxesScale>(
+  const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxisScale>(
     plotConfig.rightYAxisScale
   );
 

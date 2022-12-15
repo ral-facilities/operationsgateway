@@ -3,7 +3,7 @@ import {
   PlotType,
   SelectedPlotChannel,
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
 } from '../../app.types';
 import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
@@ -24,8 +24,8 @@ export interface PlotConfig {
   xMinimum?: number;
   xMaximum?: number;
   selectedPlotChannels: SelectedPlotChannel[];
-  leftYAxisScale: YAxesScale;
-  rightYAxisScale: YAxesScale;
+  leftYAxisScale: YAxisScale;
+  rightYAxisScale: YAxisScale;
   leftYAxisMinimum?: number;
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;

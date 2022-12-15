@@ -24,7 +24,7 @@ import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
-  YAxesScale,
+  YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
 
@@ -51,10 +51,10 @@ export interface YAxisTabProps {
   initialRightYAxisMaximum?: number;
   changeRightYAxisMinimum: (value: number | undefined) => void;
   changeRightYAxisMaximum: (value: number | undefined) => void;
-  leftYAxisScale: YAxesScale;
-  changeLeftYAxisScale: (YAxisScale: YAxesScale) => void;
-  rightYAxisScale: YAxesScale;
-  changeRightYAxisScale: (YAxisScale: YAxesScale) => void;
+  leftYAxisScale: YAxisScale;
+  changeLeftYAxisScale: (YAxisScale: YAxisScale) => void;
+  rightYAxisScale: YAxisScale;
+  changeRightYAxisScale: (YAxisScale: YAxisScale) => void;
   initialSelectedColours: string[];
   initialRemainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
@@ -148,14 +148,14 @@ const YAxisTab = (props: YAxisTabProps) => {
 
   const handleChangeLeftYScale = React.useCallback(
     (value: string) => {
-      changeLeftYAxisScale(value as YAxesScale);
+      changeLeftYAxisScale(value as YAxisScale);
     },
     [changeLeftYAxisScale]
   );
 
   const handleChangeRightYScale = React.useCallback(
     (value: string) => {
-      changeRightYAxisScale(value as YAxesScale);
+      changeRightYAxisScale(value as YAxisScale);
     },
     [changeRightYAxisScale]
   );

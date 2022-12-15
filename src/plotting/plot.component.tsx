@@ -3,7 +3,7 @@ import {
   XAxisScale,
   PlotDataset,
   PlotType,
-  YAxesScale,
+  YAxisScale,
   SelectedPlotChannel,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
@@ -18,8 +18,8 @@ export interface PlotProps {
   title: string;
   type: PlotType;
   XAxisScale: XAxisScale;
-  leftYAxisScale: YAxesScale;
-  rightYAxisScale: YAxesScale;
+  leftYAxisScale: YAxisScale;
+  rightYAxisScale: YAxisScale;
   XAxis?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
