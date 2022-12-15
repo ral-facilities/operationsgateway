@@ -15,7 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
@@ -50,17 +50,26 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [xMaximum, setXMaximum] = React.useState<number | undefined>(
     plotConfig.xMaximum
   );
-  const [yMinimum, setYMinimum] = React.useState<number | undefined>(
-    plotConfig.yMinimum
-  );
-  const [yMaximum, setYMaximum] = React.useState<number | undefined>(
-    plotConfig.yMaximum
-  );
+  const [leftYAxisMinimum, setLeftYAxisMinimum] = React.useState<
+    number | undefined
+  >(plotConfig.leftYAxisMinimum);
+  const [leftYAxisMaximum, setLeftYAxisMaximum] = React.useState<
+    number | undefined
+  >(plotConfig.leftYAxisMaximum);
+  const [rightYAxisMinimum, setRightYAxisMinimum] = React.useState<
+    number | undefined
+  >(plotConfig.rightYAxisMinimum);
+  const [rightYAxisMaximum, setRightYAxisMaximum] = React.useState<
+    number | undefined
+  >(plotConfig.rightYAxisMaximum);
   const [XAxisScale, setXAxisScale] = React.useState<XAxisScale>(
     plotConfig.XAxisScale
   );
-  const [YAxesScale, setYAxesScale] = React.useState<YAxesScale>(
-    plotConfig.YAxesScale
+  const [leftYAxisScale, setLeftYAxisScale] = React.useState<YAxisScale>(
+    plotConfig.leftYAxisScale
+  );
+  const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxisScale>(
+    plotConfig.rightYAxisScale
   );
 
   const [XAxis, setXAxis] = React.useState<string | undefined>(
@@ -135,9 +144,12 @@ const PlotWindow = (props: PlotWindowProps) => {
         xMinimum,
         xMaximum,
         selectedPlotChannels,
-        YAxesScale,
-        yMinimum,
-        yMaximum,
+        leftYAxisScale,
+        rightYAxisScale,
+        leftYAxisMinimum,
+        leftYAxisMaximum,
+        rightYAxisMinimum,
+        rightYAxisMaximum,
         gridVisible,
         axesLabelsVisible,
         selectedColours,
@@ -147,22 +159,25 @@ const PlotWindow = (props: PlotWindowProps) => {
       dispatch(savePlot(configToSave));
     },
     [
+      plotTitle,
+      plotConfig.title,
+      plotType,
       XAxis,
       XAxisScale,
-      YAxesScale,
-      axesLabelsVisible,
-      dispatch,
-      gridVisible,
-      plotConfig.title,
-      plotTitle,
-      plotType,
-      remainingColours,
-      selectedColours,
-      selectedPlotChannels,
-      xMaximum,
       xMinimum,
-      yMaximum,
-      yMinimum,
+      xMaximum,
+      selectedPlotChannels,
+      leftYAxisScale,
+      rightYAxisScale,
+      leftYAxisMinimum,
+      leftYAxisMaximum,
+      rightYAxisMinimum,
+      rightYAxisMaximum,
+      gridVisible,
+      axesLabelsVisible,
+      selectedColours,
+      remainingColours,
+      dispatch,
     ]
   );
 
@@ -252,18 +267,24 @@ const PlotWindow = (props: PlotWindowProps) => {
                 changeXAxis={setXAxis}
                 XAxisScale={XAxisScale}
                 changeXAxisScale={setXAxisScale}
-                YAxesScale={YAxesScale}
-                changeYAxesScale={setYAxesScale}
+                leftYAxisScale={leftYAxisScale}
+                changeLeftYAxisScale={setLeftYAxisScale}
+                rightYAxisScale={rightYAxisScale}
+                changeRightYAxisScale={setRightYAxisScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
                 xMinimum={xMinimum}
                 xMaximum={xMaximum}
-                yMinimum={yMinimum}
-                yMaximum={yMaximum}
+                leftYAxisMinimum={leftYAxisMinimum}
+                leftYAxisMaximum={leftYAxisMaximum}
+                rightYAxisMinimum={rightYAxisMinimum}
+                rightYAxisMaximum={rightYAxisMaximum}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
-                changeYMinimum={setYMinimum}
-                changeYMaximum={setYMaximum}
+                changeLeftYAxisMinimum={setLeftYAxisMinimum}
+                changeLeftYAxisMaximum={setLeftYAxisMaximum}
+                changeRightYAxisMinimum={setRightYAxisMinimum}
+                changeRightYAxisMaximum={setRightYAxisMaximum}
                 selectedColours={selectedColours}
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
@@ -335,14 +356,17 @@ const PlotWindow = (props: PlotWindowProps) => {
             type={plotType}
             XAxis={XAxis}
             XAxisScale={XAxisScale}
-            YAxesScale={YAxesScale}
+            leftYAxisScale={leftYAxisScale}
+            rightYAxisScale={rightYAxisScale}
             canvasRef={canvasRef}
             gridVisible={gridVisible}
             axesLabelsVisible={axesLabelsVisible}
             xMinimum={xMinimum}
             xMaximum={xMaximum}
-            yMinimum={yMinimum}
-            yMaximum={yMaximum}
+            leftYAxisMinimum={leftYAxisMinimum}
+            leftYAxisMaximum={leftYAxisMaximum}
+            rightYAxisMinimum={rightYAxisMinimum}
+            rightYAxisMaximum={rightYAxisMaximum}
             viewReset={viewFlag}
           />
         </Grid>

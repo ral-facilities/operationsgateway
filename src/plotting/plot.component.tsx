@@ -3,7 +3,7 @@ import {
   XAxisScale,
   PlotDataset,
   PlotType,
-  YAxesScale,
+  YAxisScale,
   SelectedPlotChannel,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
@@ -18,15 +18,18 @@ export interface PlotProps {
   title: string;
   type: PlotType;
   XAxisScale: XAxisScale;
-  YAxesScale: YAxesScale;
+  leftYAxisScale: YAxisScale;
+  rightYAxisScale: YAxisScale;
   XAxis?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   xMinimum?: number;
   xMaximum?: number;
-  yMinimum?: number;
-  yMaximum?: number;
+  leftYAxisMinimum?: number;
+  leftYAxisMaximum?: number;
+  rightYAxisMinimum?: number;
+  rightYAxisMaximum?: number;
   viewReset: boolean;
 }
 
@@ -37,15 +40,18 @@ const Plot = (props: PlotProps) => {
     title,
     type,
     XAxisScale,
-    YAxesScale,
+    leftYAxisScale,
+    rightYAxisScale,
     XAxis,
     canvasRef,
     gridVisible,
     axesLabelsVisible,
     xMinimum,
     xMaximum,
-    yMinimum,
-    yMaximum,
+    leftYAxisMinimum,
+    leftYAxisMaximum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
     viewReset,
   } = props;
 
@@ -110,17 +116,17 @@ const Plot = (props: PlotProps) => {
           max: xMaximum,
         },
         y: {
-          type: YAxesScale,
+          type: leftYAxisScale,
           display: true,
           position: 'left',
           grid: {
             display: gridVisible,
           },
-          min: yMinimum,
-          max: yMaximum,
+          min: leftYAxisMinimum,
+          max: leftYAxisMaximum,
         },
         y2: {
-          type: YAxesScale,
+          type: rightYAxisScale,
           display: selectedPlotChannels.some(
             (channel) => channel.options.yAxis === 'right'
           ),
@@ -128,6 +134,8 @@ const Plot = (props: PlotProps) => {
           grid: {
             display: gridVisible,
           },
+          min: rightYAxisMinimum,
+          max: rightYAxisMaximum,
         },
       },
     } as ChartOptions<PlotType>)
@@ -146,15 +154,17 @@ const Plot = (props: PlotProps) => {
       options?.scales?.x?.title &&
         (options.scales.x.title.display = axesLabelsVisible);
       options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
-      options?.scales?.y && (options.scales.y.min = yMinimum);
-      options?.scales?.y && (options.scales.y.max = yMaximum);
-      options?.scales?.y && (options.scales.y.type = YAxesScale);
+      options?.scales?.y && (options.scales.y.min = leftYAxisMinimum);
+      options?.scales?.y && (options.scales.y.max = leftYAxisMaximum);
+      options?.scales?.y && (options.scales.y.type = leftYAxisScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       options?.scales?.y &&
         (options.scales.y.display = selectedPlotChannels.some(
           (channel) => channel.options.yAxis === 'left'
         ));
-      options?.scales?.y2 && (options.scales.y2.type = YAxesScale);
+      options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
+      options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
+      options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
           (channel) => channel.options.yAxis === 'right'
@@ -166,14 +176,17 @@ const Plot = (props: PlotProps) => {
   }, [
     XAxis,
     XAxisScale,
-    YAxesScale,
+    leftYAxisScale,
+    rightYAxisScale,
     axesLabelsVisible,
     gridVisible,
     title,
     xMaximum,
     xMinimum,
-    yMaximum,
-    yMinimum,
+    leftYAxisMaximum,
+    leftYAxisMinimum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
     selectedPlotChannels,
   ]);
 
