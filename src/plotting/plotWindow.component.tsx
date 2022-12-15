@@ -68,7 +68,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [leftYAxisScale, setLeftYAxisScale] = React.useState<YAxesScale>(
     plotConfig.leftYAxisScale
   );
-  const [rightYAxisScale, setrightYAxisScale] = React.useState<YAxesScale>(
+  const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxesScale>(
     plotConfig.rightYAxisScale
   );
 
@@ -270,7 +270,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 leftYAxisScale={leftYAxisScale}
                 changeLeftYAxisScale={setLeftYAxisScale}
                 rightYAxisScale={rightYAxisScale}
-                changeRightYAxisScale={setrightYAxisScale}
+                changeRightYAxisScale={setRightYAxisScale}
                 selectedPlotChannels={selectedPlotChannels}
                 changeSelectedPlotChannels={setSelectedPlotChannels}
                 xMinimum={xMinimum}
