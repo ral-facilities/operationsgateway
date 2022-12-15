@@ -6,6 +6,7 @@ import Timeframe, {
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
+import DataRefresh from './components/dataRefresh.component';
 import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
@@ -138,6 +139,20 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate,
   ]);
 
+  const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
+
+  const refreshData = () => {
+    setRelativeTimeframe(timeframeRange);
+    setRefreshingData(true);
+  };
+
+  React.useEffect(() => {
+    if (refreshingData) {
+      handleSearch();
+      setRefreshingData(false);
+    }
+  }, [handleSearch, refreshingData]);
+
   const { expanded } = props;
 
   return (
@@ -183,8 +198,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
-            <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+          <Grid container direction="row">
+            <Grid item>
+              <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+            </Grid>
+            <Grid item>
+              <DataRefresh
+                timeframeSet={!!timeframeRange}
+                refreshData={refreshData}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
