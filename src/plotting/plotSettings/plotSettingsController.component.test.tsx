@@ -69,8 +69,10 @@ describe('Plot Settings component', () => {
   const changeSelectedPlotChannels = jest.fn();
   const changeXMinimum = jest.fn();
   const changeXMaximum = jest.fn();
-  const changeYMinimum = jest.fn();
-  const changeYMaximum = jest.fn();
+  const changeLeftYAxisMinimum = jest.fn();
+  const changeLeftYAxisMaximum = jest.fn();
+  const changeRightYAxisMinimum = jest.fn();
+  const changeRightYAxisMaximum = jest.fn();
   const changePlotTitle = jest.fn();
 
   const createView = () => {
@@ -102,8 +104,10 @@ describe('Plot Settings component', () => {
       changeSelectedPlotChannels,
       changeXMinimum,
       changeXMaximum,
-      changeYMinimum,
-      changeYMaximum,
+      changeLeftYAxisMinimum,
+      changeLeftYAxisMaximum,
+      changeRightYAxisMinimum,
+      changeRightYAxisMaximum,
     };
 
     user = userEvent.setup({ delay: null });

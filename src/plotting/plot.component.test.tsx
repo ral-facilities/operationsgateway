@@ -60,8 +60,10 @@ describe('Plot component', () => {
       axesLabelsVisible: false,
       xMinimum: 10,
       xMaximum: 20,
-      yMinimum: 30,
-      yMaximum: 40,
+      leftYAxisMinimum: 30,
+      leftYAxisMaximum: 40,
+      rightYAxisMinimum: 50,
+      rightYAxisMaximum: 60,
       selectedPlotChannels: newSelectedPlotChannels,
     };
 
