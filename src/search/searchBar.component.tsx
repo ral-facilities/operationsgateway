@@ -15,6 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Warning } from '@mui/icons-material';
+import DataRefresh from './components/dataRefresh.component';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { sub } from 'date-fns';
@@ -212,6 +213,20 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     filters,
   ]);
 
+  const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
+
+  const refreshData = () => {
+    setRelativeTimeframe(timeframeRange);
+    setRefreshingData(true);
+  };
+
+  React.useEffect(() => {
+    if (refreshingData) {
+      handleSearch();
+      setRefreshingData(false);
+    }
+  }, [handleSearch, refreshingData]);
+
   const { expanded } = props;
 
   return (
@@ -305,8 +320,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
-            <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+          <Grid container direction="row">
+            <Grid item>
+              <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+            </Grid>
+            <Grid item>
+              <DataRefresh
+                timeframeSet={!!timeframeRange}
+                refreshData={refreshData}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

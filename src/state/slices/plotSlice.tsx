@@ -3,7 +3,7 @@ import {
   PlotType,
   SelectedPlotChannel,
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
 } from '../../app.types';
 import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
@@ -24,9 +24,12 @@ export interface PlotConfig {
   xMinimum?: number;
   xMaximum?: number;
   selectedPlotChannels: SelectedPlotChannel[];
-  YAxesScale: YAxesScale;
-  yMinimum?: number;
-  yMaximum?: number;
+  leftYAxisScale: YAxisScale;
+  rightYAxisScale: YAxisScale;
+  leftYAxisMinimum?: number;
+  leftYAxisMaximum?: number;
+  rightYAxisMinimum?: number;
+  rightYAxisMaximum?: number;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];
@@ -65,7 +68,8 @@ export const plotSlice = createSlice({
         plotType: 'scatter',
         XAxisScale: 'linear',
         selectedPlotChannels: [],
-        YAxesScale: 'linear',
+        leftYAxisScale: 'linear',
+        rightYAxisScale: 'linear',
         gridVisible: true,
         axesLabelsVisible: true,
         selectedColours: [],

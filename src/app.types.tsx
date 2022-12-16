@@ -139,7 +139,7 @@ export type XAxisScale = Extract<
   'linear' | 'logarithmic' | 'time'
 >;
 
-export type YAxesScale = Extract<
+export type YAxisScale = Extract<
   keyof CartesianScaleTypeRegistry,
   'linear' | 'logarithmic'
 >;

@@ -11,10 +11,13 @@ import { COLOUR_ORDER } from './colourGenerator';
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
   let user;
-  const changeYAxesScale = jest.fn();
+  const changeLeftYAxisScale = jest.fn();
+  const changeRightYAxisScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
-  const changeYMinimum = jest.fn();
-  const changeYMaximum = jest.fn();
+  const changeLeftYAxisMinimum = jest.fn();
+  const changeLeftYAxisMaximum = jest.fn();
+  const changeRightYAxisMinimum = jest.fn();
+  const changeRightYAxisMaximum = jest.fn();
   const changeSelectedColours = jest.fn();
   const changeRemainingColours = jest.fn();
 
@@ -34,10 +37,14 @@ describe('y-axis tab', () => {
       allChannels: testChannels as FullScalarChannelMetadata[],
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
-      changeYMinimum,
-      changeYMaximum,
-      YAxesScale: 'linear',
-      changeYAxesScale,
+      changeLeftYAxisMinimum,
+      changeLeftYAxisMaximum,
+      changeRightYAxisMinimum,
+      changeRightYAxisMaximum,
+      leftYAxisScale: 'linear',
+      rightYAxisScale: 'logarithmic',
+      changeLeftYAxisScale,
+      changeRightYAxisScale,
       initialSelectedColours: [],
       initialRemainingColours: COLOUR_ORDER.map((colour) => colour),
       changeSelectedColours,
@@ -82,7 +89,7 @@ describe('y-axis tab', () => {
     });
   });
 
-  it('renders Y scale radio buttons and calls changeYAxesScale on click', async () => {
+  it('renders Y scale radio buttons and calls changeLeftYAxisScale on click when the axis selected is the left', async () => {
     createView();
 
     const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
@@ -94,7 +101,24 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeYAxesScale).toHaveBeenCalledWith('logarithmic');
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('logarithmic');
+  });
+
+  it('renders Y scale radio buttons and calls changeRightYAxisScale on click when the axis selected is the right', async () => {
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Right' }));
+
+    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
+    expect(
+      within(radioGroup).getByRole('radio', {
+        name: 'Log',
+      })
+    ).toBeChecked();
+
+    await user.click(screen.getByRole('radio', { name: 'Linear' }));
+
+    expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('allows user to add channels on the y-axis (keyboard only)', async () => {
@@ -124,6 +148,8 @@ describe('y-axis tab', () => {
   it('allows user to add channels on the y-axis (mouse and keyboard)', async () => {
     createView();
 
+    await user.click(screen.getByRole('button', { name: 'Right' }));
+
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
@@ -137,7 +163,7 @@ describe('y-axis tab', () => {
           visible: true,
           colour: expect.anything(),
           lineStyle: 'solid',
-          yAxis: 'left',
+          yAxis: 'right',
         },
       },
     ]);
@@ -229,7 +255,8 @@ describe('y-axis tab', () => {
         },
       },
     ]);
-    expect(changeYAxesScale).not.toHaveBeenCalled();
+    expect(changeLeftYAxisScale).not.toHaveBeenCalled();
+    expect(changeRightYAxisScale).not.toHaveBeenCalled();
   });
 
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
@@ -248,7 +275,8 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByLabelText('Remove test_1 from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
-    expect(changeYAxesScale).toHaveBeenCalledWith('linear');
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('linear');
+    expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
   });
 
   describe('min and max fields', () => {
@@ -257,26 +285,30 @@ describe('y-axis tab', () => {
 
       const minField = screen.getByLabelText('Min');
       await user.type(minField, '1');
-      expect(changeYMinimum).toHaveBeenCalledWith(1);
+      expect(changeLeftYAxisMinimum).toHaveBeenCalledWith(1);
     });
 
     it('lets user change the max field and calls relevant onchange method', async () => {
       createView();
 
+      await user.click(screen.getByRole('button', { name: 'Right' }));
+
       const maxField = screen.getByLabelText('Max');
       await user.type(maxField, '1');
-      expect(changeYMaximum).toHaveBeenCalledWith(1);
+      expect(changeRightYAxisMaximum).toHaveBeenCalledWith(1);
     });
 
     it('sets minimum value to undefined if no float value is present', async () => {
       createView();
 
+      await user.click(screen.getByRole('button', { name: 'Right' }));
+
       const minField = screen.getByLabelText('Min');
       await user.type(minField, '1');
-      expect(changeYMinimum).toHaveBeenLastCalledWith(1);
+      expect(changeRightYAxisMinimum).toHaveBeenLastCalledWith(1);
 
       await user.clear(minField);
-      expect(changeYMinimum).toHaveBeenLastCalledWith(undefined);
+      expect(changeRightYAxisMinimum).toHaveBeenLastCalledWith(undefined);
     });
 
     it('sets maximum value to undefined if no float value is present', async () => {
@@ -284,10 +316,10 @@ describe('y-axis tab', () => {
 
       const maxField = screen.getByLabelText('Max');
       await user.type(maxField, '1');
-      expect(changeYMaximum).toHaveBeenLastCalledWith(1);
+      expect(changeLeftYAxisMaximum).toHaveBeenLastCalledWith(1);
 
       await user.clear(maxField);
-      expect(changeYMaximum).toHaveBeenLastCalledWith(undefined);
+      expect(changeLeftYAxisMaximum).toHaveBeenLastCalledWith(undefined);
     });
 
     it('displays helper text when min and max fields contain an invalid range', async () => {

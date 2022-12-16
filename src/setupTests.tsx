@@ -366,7 +366,8 @@ export const generatePlotConfig = (num: number) => {
     XAxisScale:
       num % 3 === 0 ? 'time' : num % 3 === 1 ? 'linear' : 'logarithmic',
     selectedPlotChannels: [],
-    YAxesScale: num % 2 === 0 ? 'linear' : 'logarithmic',
+    leftYAxisScale: num % 2 === 0 ? 'linear' : 'logarithmic',
+    rightYAxisScale: num % 2 === 0 ? 'logarithmic' : 'linear',
     gridVisible: num % 2 === 0,
     axesLabelsVisible: num % 2 !== 0,
     selectedColours: [],
