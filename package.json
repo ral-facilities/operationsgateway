@@ -58,7 +58,7 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "postinstall": "husky install"
+    "postinstall": "husky install && yarn sdks"
   },
   "lint-staged": {
     "src/**/*.{tsx,ts,js,jsx,json}": [
@@ -99,6 +99,7 @@
     "@typescript-eslint/eslint-plugin": "5.46.0",
     "@typescript-eslint/parser": "5.46.0",
     "@typescript-eslint/typescript-estree": "5.46.0",
+    "@yarnpkg/sdks": "3.0.0-rc.33",
     "chart.js": "4.0.1",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
