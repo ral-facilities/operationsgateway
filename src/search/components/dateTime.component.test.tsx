@@ -156,6 +156,7 @@ describe('DateTime tests', () => {
       changeSearchParameterFromDate,
       changeSearchParameterToDate,
       resetTimeframe,
+      timeframeRange: null,
     };
   });
 

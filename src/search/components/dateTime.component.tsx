@@ -110,7 +110,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
 
   // Stop the flash animation from playing after 1500ms
   React.useEffect(() => {
-    if (timeframeRange !== null) {
+    if (!!timeframeRange) {
       setFlashAnimationPlaying(true);
       setTimeout(() => {
         setFlashAnimationPlaying(false);
