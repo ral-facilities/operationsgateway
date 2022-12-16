@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Box, styled, Tab, Tabs } from '@mui/material';
 import {
   XAxisScale,
-  YAxesScale,
+  YAxisScale,
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
@@ -61,20 +61,26 @@ export interface PlotSettingsControllerProps {
   changeXAxis: (value: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
-  YAxesScale: YAxesScale;
-  changeYAxesScale: (YAxesScale: YAxesScale) => void;
+  leftYAxisScale: YAxisScale;
+  changeLeftYAxisScale: (YAxisScale: YAxisScale) => void;
+  rightYAxisScale: YAxisScale;
+  changeRightYAxisScale: (YAxisScale: YAxisScale) => void;
   selectedPlotChannels: SelectedPlotChannel[];
   changeSelectedPlotChannels: (
     selectedPlotChannels: SelectedPlotChannel[]
   ) => void;
   xMinimum?: number;
   xMaximum?: number;
-  yMinimum?: number;
-  yMaximum?: number;
+  leftYAxisMinimum?: number;
+  leftYAxisMaximum?: number;
+  rightYAxisMinimum?: number;
+  rightYAxisMaximum?: number;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
-  changeYMinimum: (value: number | undefined) => void;
-  changeYMaximum: (value: number | undefined) => void;
+  changeLeftYAxisMinimum: (value: number | undefined) => void;
+  changeLeftYAxisMaximum: (value: number | undefined) => void;
+  changeRightYAxisMinimum: (value: number | undefined) => void;
+  changeRightYAxisMaximum: (value: number | undefined) => void;
   selectedColours: string[];
   remainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
@@ -93,18 +99,24 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     changeXAxis,
     XAxisScale,
     changeXAxisScale,
-    YAxesScale,
-    changeYAxesScale,
+    leftYAxisScale,
+    changeLeftYAxisScale,
+    rightYAxisScale,
+    changeRightYAxisScale,
     selectedPlotChannels,
     changeSelectedPlotChannels,
     xMinimum,
     xMaximum,
-    yMinimum,
-    yMaximum,
+    leftYAxisMinimum,
+    leftYAxisMaximum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
     changeXMinimum,
     changeXMaximum,
-    changeYMinimum,
-    changeYMaximum,
+    changeLeftYAxisMinimum,
+    changeLeftYAxisMaximum,
+    changeRightYAxisMinimum,
+    changeRightYAxisMaximum,
     selectedColours,
     remainingColours,
     changeSelectedColours,
@@ -162,12 +174,18 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             allChannels={allChannels}
             selectedPlotChannels={selectedPlotChannels}
             changeSelectedPlotChannels={changeSelectedPlotChannels}
-            initialYMinimum={yMinimum}
-            initialYMaximum={yMaximum}
-            changeYMinimum={changeYMinimum}
-            changeYMaximum={changeYMaximum}
-            YAxesScale={YAxesScale}
-            changeYAxesScale={changeYAxesScale}
+            initialLeftYAxisMinimum={leftYAxisMinimum}
+            initialLeftYAxisMaximum={leftYAxisMaximum}
+            changeLeftYAxisMinimum={changeLeftYAxisMinimum}
+            changeLeftYAxisMaximum={changeLeftYAxisMaximum}
+            initialRightYAxisMinimum={rightYAxisMinimum}
+            initialRightYAxisMaximum={rightYAxisMaximum}
+            changeRightYAxisMinimum={changeRightYAxisMinimum}
+            changeRightYAxisMaximum={changeRightYAxisMaximum}
+            leftYAxisScale={leftYAxisScale}
+            changeLeftYAxisScale={changeLeftYAxisScale}
+            rightYAxisScale={rightYAxisScale}
+            changeRightYAxisScale={changeRightYAxisScale}
             initialSelectedColours={selectedColours}
             initialRemainingColours={remainingColours}
             changeSelectedColours={changeSelectedColours}
