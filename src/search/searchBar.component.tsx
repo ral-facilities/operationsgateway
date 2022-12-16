@@ -25,6 +25,8 @@ import {
 } from '../state/slices/searchSlice';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useIncomingRecordCount } from '../api/records';
+import { useQueryClient } from 'react-query';
+import { selectQueryFilters } from '../state/slices/filterSlice';
 
 export type TimeframeDates = {
   fromDate: Date | null;
@@ -40,6 +42,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
+
+  // we need filters so we can check for past queries before showing the warning message
+  const filters = useAppSelector(selectQueryFilters);
 
   const [paramsUpdated, setParamsUpdated] = React.useState<boolean>(false);
 
@@ -104,6 +109,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   React.useEffect(() => {
     setParamsUpdated(true);
+    // reset warning message when search params change
+    setDisplayingWarningMessage(false);
   }, [
     searchParameterFromDate,
     searchParameterToDate,
@@ -133,6 +140,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   const { data: incomingCount, isLoading: countLoading } =
     useIncomingRecordCount(undefined, incomingParams);
+
+  const queryClient = useQueryClient();
 
   const overRecordLimit = React.useCallback((): boolean => {
     return (
@@ -168,7 +177,19 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
     if (recordLimitSet) {
       setIncomingParams(newSearchParams);
-      if (!displayingWarningMessage && overRecordLimit()) {
+      if (
+        !displayingWarningMessage &&
+        overRecordLimit() &&
+        // search for if we have previously made a search with these params
+        // use exact: false to ignore things like sort, pagination etc.
+        queryClient.getQueriesData({
+          exact: false,
+          queryKey: [
+            'records',
+            { filters: filters, searchParams: newSearchParams },
+          ],
+        }).length === 0
+      ) {
         setDisplayingWarningMessage(true);
         return;
       }
@@ -187,6 +208,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     dispatch,
     displayingWarningMessage,
     overRecordLimit,
+    queryClient,
+    filters,
   ]);
 
   const { expanded } = props;

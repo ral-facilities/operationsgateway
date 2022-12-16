@@ -23,6 +23,8 @@ import { useChannels } from '../api/channels';
 import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import { useIncomingRecordCount } from '../api/records';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import { useQueryClient } from 'react-query';
+import { selectSearchParams } from '../state/slices/searchSlice';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -54,6 +56,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose, flashingFilterValue } = props;
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
+  // we need searchParams so we can check for past queries before showing the warning message
+  const searchParams = useAppSelector(selectSearchParams);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
   const [errors, setErrors] = React.useState<string[]>(
     appliedFilters.map(() => '')
@@ -109,6 +113,12 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const { data: incomingCount, isLoading: countLoading } =
     useIncomingRecordCount(incomingFilters, undefined);
 
+  const queryClient = useQueryClient();
+
+  React.useEffect(() => {
+    setDisplayingWarningMessage(false);
+  }, [filters]);
+
   const overRecordLimit = React.useCallback((): boolean => {
     return (
       !countLoading &&
@@ -125,8 +135,20 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     let newFilters = filters.filter((f) => f.length > 0);
     if (newFilters.length === 0) newFilters = [[]];
 
-    setIncomingFilters(newFilters.map((f) => parseFilter(f)));
-    if (!displayingWarningMessage && overRecordLimit()) {
+    const incomingFilters = newFilters.map((f) => parseFilter(f));
+    setIncomingFilters(incomingFilters);
+    if (
+      !displayingWarningMessage &&
+      overRecordLimit() && // search for if we have previously made a search with these params
+      // use exact: false to ignore things like sort, pagination etc.
+      queryClient.getQueriesData({
+        exact: false,
+        queryKey: [
+          'records',
+          { filters: incomingFilters, searchParams: searchParams },
+        ],
+      }).length === 0
+    ) {
       setDisplayingWarningMessage(true);
       return;
     }
@@ -134,7 +156,15 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     setDisplayingWarningMessage(false);
     dispatch(changeAppliedFilters(newFilters));
     onClose();
-  }, [dispatch, displayingWarningMessage, filters, onClose, overRecordLimit]);
+  }, [
+    dispatch,
+    displayingWarningMessage,
+    filters,
+    onClose,
+    overRecordLimit,
+    queryClient,
+    searchParams,
+  ]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
