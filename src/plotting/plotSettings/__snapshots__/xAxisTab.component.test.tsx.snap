@@ -125,7 +125,7 @@ exports[`x-axis tab renders correctly with from date and to date fields 1`] = `
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
               tabindex="-1"
             >
               <input
@@ -173,7 +173,7 @@ exports[`x-axis tab renders correctly with from date and to date fields 1`] = `
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-disabled MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
               tabindex="-1"
             >
               <input
@@ -230,7 +230,7 @@ exports[`x-axis tab renders correctly with from date and to date fields 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for="select x axis"
             id="select x axis-label"
@@ -306,7 +306,7 @@ exports[`x-axis tab renders correctly with from date and to date fields 1`] = `
               class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1in441m"
+                class="css-14lo706"
               >
                 <span>
                   Search
@@ -362,7 +362,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
             for=":r0:"
             id=":r0:-label"
@@ -386,7 +386,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
               class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1ftyaf0"
+                class="css-yjsfm1"
               >
                 <span>
                   Min
@@ -403,7 +403,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
             for=":r1:"
             id=":r1:-label"
@@ -427,7 +427,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
               class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1ftyaf0"
+                class="css-yjsfm1"
               >
                 <span>
                   Max
@@ -459,7 +459,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 checked=""
@@ -508,7 +508,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -566,7 +566,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for="select x axis"
             id="select x axis-label"
@@ -642,7 +642,7 @@ exports[`x-axis tab renders correctly with min and max fields 1`] = `
               class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1in441m"
+                class="css-14lo706"
               >
                 <span>
                   Search

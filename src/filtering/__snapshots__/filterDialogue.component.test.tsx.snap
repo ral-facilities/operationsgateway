@@ -72,7 +72,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="true"
                         for=":r1:"
                         id=":r1:-label"
@@ -101,7 +101,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
                           class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                         >
                           <legend
-                            class="css-1in441m"
+                            class="css-14lo706"
                           >
                             <span>
                               Filter
@@ -142,7 +142,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
                 class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1k23hlb-MuiButtonBase-root-MuiButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -205,7 +205,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
           class="MuiDialogActions-root MuiDialogActions-spacing css-hlj6pa-MuiDialogActions-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
@@ -215,7 +215,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
             />
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
