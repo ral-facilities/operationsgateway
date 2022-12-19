@@ -58,7 +58,7 @@ exports[`timeframe search renders correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -72,7 +72,7 @@ exports[`timeframe search renders correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -86,7 +86,7 @@ exports[`timeframe search renders correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
@@ -107,7 +107,7 @@ exports[`timeframe search renders correctly 1`] = `
               class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
             >
               <label
-                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="true"
                 for=":r0:"
                 id=":r0:-label"
@@ -131,7 +131,7 @@ exports[`timeframe search renders correctly 1`] = `
                   class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                 >
                   <legend
-                    class="css-1in441m"
+                    class="css-14lo706"
                   >
                     <span>
                       Timeframe
@@ -148,7 +148,7 @@ exports[`timeframe search renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -162,7 +162,7 @@ exports[`timeframe search renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -176,7 +176,7 @@ exports[`timeframe search renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
             >
               <button
-                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-7zhloy-MuiButtonBase-root-MuiButton-root"
                 tabindex="0"
                 type="button"
               >
