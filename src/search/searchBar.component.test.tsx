@@ -7,32 +7,21 @@ import {
   getInitialState,
   cleanupDatePickerWorkaround,
   applyDatePickerWorkaround,
-  testRecords,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import axios from 'axios';
 import { formatDateTimeForApi } from '../state/slices/searchSlice';
-import { QueryClient } from 'react-query';
-
-jest.setTimeout(25000);
 
 describe('searchBar component', () => {
   let user;
   let props: React.ComponentProps<typeof SearchBar>;
 
-  const createView = (
-    initialState?: PreloadedState<RootState>,
-    queryClient?: QueryClient
-  ) => {
-    return renderComponentWithProviders(
-      <SearchBar {...props} />,
-      {
-        preloadedState: initialState,
-      },
-      queryClient
-    );
+  const createView = (initialState?: PreloadedState<RootState>) => {
+    return renderComponentWithProviders(<SearchBar {...props} />, {
+      preloadedState: initialState,
+    });
   };
 
   beforeEach(() => {
@@ -156,65 +145,6 @@ describe('searchBar component', () => {
     await user.click(screen.getByText('Search'));
 
     // Store should now be updated, indicating search initiated on second attempt
-    expect(store.getState().search.searchParams).toStrictEqual({
-      dateRange: {
-        fromDate: '2022-01-01T00:00:00',
-        toDate: undefined,
-      },
-      shotnumRange: {
-        min: undefined,
-        max: undefined,
-      },
-      maxShots: MAX_SHOTS_VALUES[0],
-    });
-  });
-
-  it.only('does not show a warning tooltip for previous searches that already showed it', async () => {
-    // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: 2,
-      })
-    );
-
-    const testQueryClient = new QueryClient();
-    testQueryClient.setQueriesData(
-      [
-        '/records',
-        {
-          searchParams: {
-            dateRange: { fromDate: '2022-01-01T00:00:00' },
-            maxShots: 50,
-            shotnumRange: {},
-          },
-          filters: [''],
-        },
-      ],
-      () => {
-        return { data: [testRecords[0], testRecords[1]] };
-      }
-    );
-
-    const state = {
-      ...getInitialState(),
-      config: {
-        ...getInitialState().config,
-        recordLimitWarning: 1, // lower than the returned count of 2
-      },
-    };
-    const { store } = createView(state, testQueryClient);
-
-    // Try and search by the previously cached search params
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    await user.click(screen.getByRole('button', { name: 'Search' }));
-
-    // Tooltip warning should not be present
-    await user.hover(screen.getByRole('button', { name: 'Search' }));
-    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
-
-    // Store should be updated after one click of the search button
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: '2022-01-01T00:00:00',

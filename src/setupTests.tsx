@@ -110,10 +110,9 @@ export function renderComponentWithProviders(
     // Automatically create a store instance if no store was passed in
     store = setupStore(preloadedState),
     ...renderOptions
-  }: ExtendedRenderOptions = {},
-  queryClient?: QueryClient
+  }: ExtendedRenderOptions = {}
 ) {
-  const testQueryClient = queryClient ?? createTestQueryClient();
+  const testQueryClient = createTestQueryClient();
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {

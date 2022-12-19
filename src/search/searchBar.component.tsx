@@ -176,22 +176,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       maxShots,
     };
 
-    console.log('arrived with ' + JSON.stringify(newSearchParams));
-
     if (recordLimitSet) {
       setIncomingParams(newSearchParams);
-      console.log(
-        'queries: ' +
-          JSON.stringify(
-            queryClient.getQueriesData({
-              exact: false,
-              queryKey: [
-                'records',
-                { filters: filters, searchParams: newSearchParams },
-              ],
-            })
-          )
-      );
       if (
         !displayingWarningMessage &&
         overRecordLimit() &&
@@ -209,8 +195,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
         return;
       }
     }
-
-    console.log('dispatching with ' + JSON.stringify(newSearchParams));
 
     setDisplayingWarningMessage(false);
     dispatch(changeSearchParams(newSearchParams));
