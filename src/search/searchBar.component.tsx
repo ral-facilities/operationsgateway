@@ -289,6 +289,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                         },
                       },
                     }}
+                    data-testid="results-tooltip"
                     arrow
                     placement="bottom"
                     title={
