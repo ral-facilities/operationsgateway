@@ -108,13 +108,15 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   const [flashAnimationPlaying, setFlashAnimationPlaying] =
     React.useState<boolean>(false);
 
-  // Stop the flash animation from playing after 1500ms
-  React.useEffect(() => {
+  // clear any old animation and start new animation
+  // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
+  // this uses different method to others as the datetime can be quickly changed via the timeframe component
+  React.useLayoutEffect(() => {
     if (!!timeframeRange) {
-      setFlashAnimationPlaying(true);
+      setFlashAnimationPlaying(false);
       setTimeout(() => {
-        setFlashAnimationPlaying(false);
-      }, FLASH_ANIMATION.length);
+        setFlashAnimationPlaying(true);
+      }, 0);
     }
   }, [timeframeRange]);
 

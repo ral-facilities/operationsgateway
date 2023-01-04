@@ -11,9 +11,6 @@ const flash = keyframes`
   0% {
     background-color: #67becc;
   }
-  100% {
-    background-color: #ebebeb;
-  }
 `;
 const flashAnimationLength = 1500; // milliseconds
 
