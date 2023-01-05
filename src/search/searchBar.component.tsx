@@ -242,6 +242,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterFromDate={setSearchParameterFromDate}
                   changeSearchParameterToDate={setSearchParameterToDate}
                   resetTimeframe={() => setRelativeTimeframe(null)}
+                  timeframeRange={timeframeRange}
                 />
               </Grid>
               <Grid item xs={2}>

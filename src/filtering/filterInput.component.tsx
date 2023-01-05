@@ -9,20 +9,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
-import { keyframes } from '@emotion/react';
-
-// Flash animation
-// Highlights chips in the autocomplete
-// Used when the filter icon in a table data header is clicked to emphasise it when the dialog appears
-const flash = keyframes`
-  0% {
-    background-color: #67becc;
-  }
-  100% {
-    background-color: #ebebeb;
-  }
-`;
-const flashAnimationLength = 1500; // milliseconds
+import { FLASH_ANIMATION } from '../animation';
 
 interface FilterInputProps {
   channels: Token[];
@@ -141,7 +128,7 @@ const FilterInput = (props: FilterInputProps) => {
   // This ensures the chip doesn't flash every time it is selected from the autocomplete
   setTimeout(() => {
     setFlashAnimationPlaying(false);
-  }, flashAnimationLength);
+  }, FLASH_ANIMATION.length);
 
   return (
     <Autocomplete
@@ -234,7 +221,7 @@ const FilterInput = (props: FilterInputProps) => {
             sx={{
               ...(flashAnimationPlaying &&
                 flashingFilterValue === option.value && {
-                  animation: `${flash} ${flashAnimationLength}ms`,
+                  animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
                 }),
             }}
             {...getTagProps({ index })}
