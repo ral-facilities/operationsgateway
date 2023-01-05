@@ -12,14 +12,19 @@ import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
 import axios from 'axios';
+import { QueryClient } from 'react-query';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
   let user;
 
-  const createView = (initialState?: PreloadedState<RootState>) => {
+  const createView = (
+    initialState?: PreloadedState<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(<FilterDialogue {...props} />, {
       preloadedState: initialState,
+      queryClient,
     });
   };
 
@@ -153,7 +158,7 @@ describe('Filter dialogue component', () => {
         operators.find((t) => t.value === 'is null')!,
       ],
     ]);
-  }, 10000);
+  });
 
   it('deletes a filter when delete button is clicked', async () => {
     const state = {
@@ -278,6 +283,73 @@ describe('Filter dialogue component', () => {
 
     // Try search again
     await user.click(screen.getByText('Apply'));
+
+    // Store should now be updated, indicating search initiated on second attempt
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        {
+          type: 'channel',
+          value: 'activeExperiment',
+          label: 'Active Experiment',
+        },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+    ]);
+  });
+
+  it('does not show a warning tooltip for previous searches that already showed it', async () => {
+    // Mock the returned count query response
+    (axios.get as jest.Mock).mockImplementation((url: string) => {
+      if (url === '/records') return Promise.resolve({ data: testRecords });
+      return Promise.resolve({
+        data: 2,
+      });
+    });
+
+    const testQueryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+          staleTime: 300000,
+        },
+      },
+    });
+    testQueryClient.setQueryData(
+      [
+        'records',
+        {
+          searchParams: {
+            dateRange: {},
+            maxShots: 50,
+            shotnumRange: {},
+          },
+          filters: ['{"metadata.activeExperiment":{"$ne":null}}'],
+        },
+      ],
+      () => {
+        return { data: [testRecords[0], testRecords[1]] };
+      }
+    );
+
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 1, // lower than the returned count of 2
+      },
+    };
+    const { store } = createView(state, testQueryClient);
+
+    const filter = screen.getByRole('combobox', { name: 'Filter' });
+    await user.type(filter, 'Active exp{enter}is not null{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Apply' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
     // Store should now be updated, indicating search initiated on second attempt
     expect(store.getState().filter.appliedFilters).toStrictEqual([
