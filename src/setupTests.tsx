@@ -75,6 +75,7 @@ export const dispatch = (
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
   store?: AppStore;
+  queryClient?: QueryClient;
 }
 
 export const createTestQueryClient = (): QueryClient =>
@@ -109,16 +110,17 @@ export function renderComponentWithProviders(
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
     store = setupStore(preloadedState),
+    // Automatically create a query client instance if no query client was passed in
+    queryClient = createTestQueryClient(),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  const testQueryClient = createTestQueryClient();
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
     return (
       <Provider store={store}>
-        <QueryClientProvider client={testQueryClient}>
+        <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
       </Provider>
@@ -126,7 +128,7 @@ export function renderComponentWithProviders(
   }
   return {
     store,
-    queryClient: testQueryClient,
+    queryClient,
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 }
