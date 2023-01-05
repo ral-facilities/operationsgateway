@@ -13,7 +13,7 @@ module.exports = {
     'prettier',
     'plugin:cypress/recommended',
   ],
-  plugins: ['prettier', 'cypress'],
+  plugins: ['prettier', 'cypress', 'no-only-tests'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -23,6 +23,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'no-only-tests/no-only-tests': 'error',
   },
   overrides: [
     {

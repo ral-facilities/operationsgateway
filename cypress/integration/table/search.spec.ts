@@ -562,7 +562,7 @@ describe('Search', () => {
     });
   });
 
-  describe.only('with record limits', () => {
+  describe('with record limits', () => {
     beforeEach(() => {
       cy.intercept('**/records**', (req) => {
         req.reply({
