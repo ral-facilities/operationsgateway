@@ -33,6 +33,8 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 
+jest.setTimeout(15000);
+
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -73,6 +75,7 @@ export const dispatch = (
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
   store?: AppStore;
+  queryClient?: QueryClient;
 }
 
 export const createTestQueryClient = (): QueryClient =>
@@ -80,12 +83,16 @@ export const createTestQueryClient = (): QueryClient =>
     defaultOptions: {
       queries: {
         retry: false,
+        staleTime: 300000,
       },
     },
   });
 
-export const hooksWrapperWithProviders = (state = {}) => {
-  const testQueryClient = createTestQueryClient();
+export const hooksWrapperWithProviders = (
+  state = {},
+  queryClient?: QueryClient
+) => {
+  const testQueryClient = queryClient ?? createTestQueryClient();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
     <Provider store={store}>
@@ -103,16 +110,17 @@ export function renderComponentWithProviders(
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
     store = setupStore(preloadedState),
+    // Automatically create a query client instance if no query client was passed in
+    queryClient = createTestQueryClient(),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  const testQueryClient = createTestQueryClient();
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
     return (
       <Provider store={store}>
-        <QueryClientProvider client={testQueryClient}>
+        <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
       </Provider>
@@ -120,7 +128,7 @@ export function renderComponentWithProviders(
   }
   return {
     store,
-    queryClient: testQueryClient,
+    queryClient,
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 }

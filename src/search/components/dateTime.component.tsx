@@ -107,7 +107,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
       sx={{
         border: '1.5px solid',
         borderColor:
-          datePickerFromDateError || datePickerToDateError
+          datePickerFromDateError || datePickerToDateError || invalidDateRange
             ? 'rgb(214, 65, 65)'
             : undefined,
         borderRadius: '10px',
@@ -157,6 +157,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
+              onError={(error) => setDatePickerFromDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
               OpenPickerButtonProps={{
                 size: 'small',
@@ -164,9 +165,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               renderInput={(renderProps) => {
                 const error =
-                  // eslint-disable-next-line react/prop-types
                   (renderProps.error || invalidDateRange) ?? undefined;
-                setDatePickerFromDateError(!!error);
                 let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 
@@ -238,6 +237,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
+              onError={(error) => setDatePickerToDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
               OpenPickerButtonProps={{
                 size: 'small',
@@ -245,9 +245,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               renderInput={(renderProps) => {
                 const error =
-                  // eslint-disable-next-line react/prop-types
                   (renderProps.error || invalidDateRange) ?? undefined;
-                setDatePickerToDateError(!!error);
                 let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 

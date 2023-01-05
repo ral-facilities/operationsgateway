@@ -14,10 +14,10 @@ const ShotNumberPopup = (
   props: ShotNumberProps & { invalidRange: boolean }
 ): React.ReactElement => {
   const {
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
-    changeSearchParameterShotnumMin,
-    changeSearchParameterShotnumMax,
+    searchParameterShotnumMin: min,
+    searchParameterShotnumMax: max,
+    changeSearchParameterShotnumMin: changeMin,
+    changeSearchParameterShotnumMax: changeMax,
     invalidRange,
   } = props;
 
@@ -39,12 +39,12 @@ const ShotNumberPopup = (
           <TextField
             name="shot number min"
             label="Min"
-            value={searchParameterShotnumMin}
+            value={min}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeSearchParameterShotnumMin(
+              changeMin(
                 event.target.value ? Number(event.target.value) : undefined
               )
             }
@@ -59,12 +59,12 @@ const ShotNumberPopup = (
           <TextField
             name="shot number max"
             label="Max"
-            value={searchParameterShotnumMax}
+            value={max}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
             onChange={(event) =>
-              changeSearchParameterShotnumMax(
+              changeMax(
                 event.target.value ? Number(event.target.value) : undefined
               )
             }
@@ -78,6 +78,9 @@ const ShotNumberPopup = (
 };
 
 const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
+  const { searchParameterShotnumMin: min, searchParameterShotnumMax: max } =
+    props;
+
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -87,10 +90,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
   const invalidRange =
-    props.searchParameterShotnumMin !== undefined &&
-    props.searchParameterShotnumMax !== undefined
-      ? props.searchParameterShotnumMin > props.searchParameterShotnumMax
-      : false;
+    min !== undefined && max !== undefined ? min > max : false;
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
@@ -112,7 +112,13 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         <div>
           <Typography noWrap>Shot Number</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            Select
+            {min !== undefined && max === undefined
+              ? `Minimum: ${min}`
+              : min === undefined && max !== undefined
+              ? `Maximum: ${max}`
+              : min !== undefined && max !== undefined
+              ? `${min} to ${max}`
+              : 'Select'}
           </Typography>
         </div>
       </Box>

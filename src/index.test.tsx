@@ -20,6 +20,7 @@ describe('index - fetchSettings', () => {
   it('settings are loaded', async () => {
     const settingsResult = {
       apiUrl: 'api',
+      recordLimitWarning: -1,
       routes: [
         {
           section: 'section',
@@ -60,6 +61,7 @@ describe('index - fetchSettings', () => {
   it('settings loaded and multiple routes registered with any helpSteps provided', async () => {
     const settingsResult = {
       apiUrl: 'api',
+      recordLimitWarning: -1,
       routes: [
         {
           section: 'section0',
@@ -138,6 +140,26 @@ describe('index - fetchSettings', () => {
     );
   });
 
+  it('logs an error if recordLimitWarning is not defined in the settings', async () => {
+    (axios.get as jest.Mock).mockImplementationOnce(() =>
+      Promise.resolve({
+        data: {
+          apiUrl: 'api',
+        },
+      })
+    );
+
+    const settings = await fetchSettings();
+
+    expect(settings).toBeUndefined();
+    expect(log.error).toHaveBeenCalled();
+
+    const mockLog = (log.error as jest.Mock).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading /operationsgateway-settings.json: recordLimitWarning is undefined in settings'
+    );
+  });
+
   it('logs an error if settings.json is an invalid JSON object', async () => {
     (axios.get as jest.Mock).mockImplementationOnce(() =>
       Promise.resolve({
@@ -192,6 +214,7 @@ describe('index - fetchSettings', () => {
       Promise.resolve({
         data: {
           apiUrl: 'api',
+          recordLimitWarning: -1,
         },
       })
     );
@@ -212,6 +235,7 @@ describe('index - fetchSettings', () => {
       Promise.resolve({
         data: {
           apiUrl: 'api',
+          recordLimitWarning: -1,
           routes: [
             {
               section: 'section',
