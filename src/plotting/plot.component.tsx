@@ -160,14 +160,16 @@ const Plot = (props: PlotProps) => {
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       options?.scales?.y &&
         (options.scales.y.display = selectedPlotChannels.some(
-          (channel) => channel.options.yAxis === 'left'
+          (channel) =>
+            channel.options.yAxis === 'left' && channel.options.visible
         ));
       options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
       options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
       options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
-          (channel) => channel.options.yAxis === 'right'
+          (channel) =>
+            channel.options.yAxis === 'right' && channel.options.visible
         ));
       options?.scales?.y2?.grid &&
         (options.scales.y2.grid.display = gridVisible);
