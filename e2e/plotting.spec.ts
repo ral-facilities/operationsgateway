@@ -223,7 +223,7 @@ test('user can zoom and pan the graph', async ({
   }
 });
 
-test.only('plots multiple channels on the y axis', async ({
+test('plots multiple channels on the y axis', async ({
   page,
   context,
   browserName,
