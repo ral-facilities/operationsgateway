@@ -223,7 +223,7 @@ test('user can zoom and pan the graph', async ({
   }
 });
 
-test('plots multiple channels on the y axis', async ({
+test.only('plots multiple channels on the y axis', async ({
   page,
   context,
   browserName,
@@ -261,6 +261,18 @@ test('plots multiple channels on the y axis', async ({
 
   await popup.locator('[aria-label="More options for shotnum"]').click();
   await popup.locator('[aria-label="toggle shotnum visibility off"]').click();
+
+  // add to the right Y axis as when we hide the channel the right Y axis shouldn't be visible
+  await popup.getByRole('button', { name: 'Right' }).click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('GHIJK');
+
+  await popup.locator('text=CHANNEL_GHIJK').click();
+
+  await popup.locator('[aria-label="More options for CHANNEL_GHIJK"]').click();
+  await popup
+    .locator('[aria-label="toggle CHANNEL_GHIJK visibility off"]')
+    .click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
