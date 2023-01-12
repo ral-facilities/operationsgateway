@@ -139,6 +139,19 @@ class PlotWindowPortal extends React.PureComponent<
                   else return true;
                 },
               },
+              onClick: (evt, legendItem, legend) => {
+                const index = legendItem.datasetIndex;
+                Chart.defaults.plugins.legend.onClick(evt, legendItem, legend);
+
+                const ci = legend.chart;
+      
+                // only show relevant y axis if at least 1 dataset is visible on it 
+                const scale = ci.getDatasetMeta(index).yAxisID;
+                const datasetsVisibleOnAxis = ci.getSortedVisibleDatasetMetas().some((dataset) => dataset.yAxisID === scale);
+                
+                ci.options.scales[scale].display = datasetsVisibleOnAxis;
+                ci.update("none");
+              },
             },
             tooltip: {
               ...options?.plugins?.tooltip,
