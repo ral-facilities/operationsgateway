@@ -39,6 +39,7 @@ export interface XAxisTabProps {
   changeXMaximum: (value: number | undefined) => void;
 }
 
+// if XAxis === "timestamp", only render min/max config
 const XAxisTab = (props: XAxisTabProps) => {
   const {
     allChannels,
@@ -273,77 +274,78 @@ const XAxisTab = (props: XAxisTabProps) => {
           )}
         </Grid>
       </Grid>
-      <Grid item>
-        <FormControl
-          disabled={XAxisScale === 'time'}
-          sx={{ flexDirection: 'row', alignItems: 'center' }}
-        >
-          <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
-            Scale
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="x-scale-group-label"
-            name="x scale radio buttons group"
-            value={XAxisScale}
-            onChange={(_, value) => handleChangeXScale(value)}
-          >
-            <FormControlLabel
-              value="linear"
-              control={<Radio />}
-              label="Linear"
-            />
-            <FormControlLabel
-              value="logarithmic"
-              control={<Radio />}
-              label="Log"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-      <Grid container item>
-        <Autocomplete
-          disablePortal
-          freeSolo
-          clearOnBlur
-          id="select x axis"
-          options={allChannels.map((channel) => channel.systemName)}
-          fullWidth
-          role="autocomplete"
-          onInputChange={(_, newInputValue, reason) => {
-            if (reason === 'input') {
-              setXAxisInputVal(newInputValue);
-            }
-          }}
-          inputValue={XAxisInputVal}
-          value={XAxisInputVal}
-          onChange={(_, newValue) => {
-            if (newValue) {
-              handleXAxisChange(newValue);
-            }
-            setXAxisInputVal('');
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search"
-              variant="outlined"
-              size="small"
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              InputProps={{
-                ...params.InputProps,
-                style: { fontSize: 12 },
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
+      {XAxis !== 'timestamp' && (
+        <>
+          <Grid item>
+            <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
+                Scale
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="x-scale-group-label"
+                name="x scale radio buttons group"
+                value={XAxisScale}
+                onChange={(_, value) => handleChangeXScale(value)}
+              >
+                <FormControlLabel
+                  value="linear"
+                  control={<Radio />}
+                  label="Linear"
+                />
+                <FormControlLabel
+                  value="logarithmic"
+                  control={<Radio />}
+                  label="Log"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid container item>
+            <Autocomplete
+              disablePortal
+              freeSolo
+              clearOnBlur
+              id="select x axis"
+              options={allChannels.map((channel) => channel.systemName)}
+              fullWidth
+              role="autocomplete"
+              onInputChange={(_, newInputValue, reason) => {
+                if (reason === 'input') {
+                  setXAxisInputVal(newInputValue);
+                }
               }}
+              inputValue={XAxisInputVal}
+              value={XAxisInputVal}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  handleXAxisChange(newValue);
+                }
+                setXAxisInputVal('');
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search"
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{
+                    ...params.InputProps,
+                    style: { fontSize: 12 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
-          )}
-        />
-      </Grid>
-      {XAxis && (
+          </Grid>
+        </>
+      )}
+      {XAxis && XAxis !== 'timestamp' && (
         <Grid container item>
           <Box
             aria-label={`${XAxis} label`}
