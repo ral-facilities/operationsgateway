@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Plot Settings component renders plot settings form correctly (x-axis tab selected) 1`] = `
+exports[`Plot Settings component snapshots renders plot settings form correctly (timeseries plot) 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
@@ -24,6 +24,186 @@ changePlotTitle=undefined
       >
         plotType="scatter"
 changePlotType=undefined
+XAxis="timestamp"
+changeXAxis=undefined
+
+      </mock-charttypebuttons>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-9axob7-MuiPaper-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          X Axis Config
+        </p>
+        <mock-xaxistab
+          data-testid="mock-xAxisTab"
+        >
+          allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+XAxisScale="time"
+XAxis="timestamp"
+changeXAxis=undefined
+changeXAxisScale=undefined
+initialXMinimum=undefined
+initialXMaximum=undefined
+changeXMinimum=undefined
+changeXMaximum=undefined
+
+        </mock-xaxistab>
+      </div>
+      <div
+        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-ibczwg-MuiPaper-root"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+        >
+          Y Axes Config
+        </p>
+        <mock-yaxistab
+          data-testid="mock-yAxisTab"
+        >
+          selectedRecordTableChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  }
+]
+allChannels=[
+  {
+    "systemName": "timestamp",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Time"
+  },
+  {
+    "systemName": "shotnum",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Shot Number"
+  },
+  {
+    "systemName": "activeArea",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Area"
+  },
+  {
+    "systemName": "activeExperiment",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Active Experiment"
+  },
+  {
+    "systemName": "test_1",
+    "channel_dtype": "scalar",
+    "userFriendlyName": "Test 1",
+    "significantFigures": 4
+  },
+  {
+    "systemName": "test_2",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": false
+  },
+  {
+    "systemName": "test_3",
+    "channel_dtype": "scalar",
+    "significantFigures": 2,
+    "scientificNotation": true
+  }
+]
+selectedPlotChannels=[]
+changeSelectedPlotChannels=undefined
+initialLeftYAxisMinimum=undefined
+initialLeftYAxisMaximum=undefined
+changeLeftYAxisMinimum=undefined
+changeLeftYAxisMaximum=undefined
+initialRightYAxisMinimum=undefined
+initialRightYAxisMaximum=undefined
+changeRightYAxisMinimum=undefined
+changeRightYAxisMaximum=undefined
+leftYAxisScale="logarithmic"
+changeLeftYAxisScale=undefined
+rightYAxisScale="linear"
+changeRightYAxisScale=undefined
+initialSelectedColours=undefined
+initialRemainingColours=undefined
+changeSelectedColours=undefined
+changeRemainingColours=undefined
+
+        </mock-yaxistab>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Plot Settings component snapshots renders plot settings form correctly (x-axis tab selected) 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-plottitlefield
+        data-testid="mock-plotTitleField"
+      >
+        plotTitle=undefined
+changePlotTitle=undefined
+
+      </mock-plottitlefield>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <mock-charttypebuttons
+        data-testid="mock-chartTypeButtons"
+      >
+        plotType="scatter"
+changePlotType=undefined
+XAxis="test x-axis"
+changeXAxis=undefined
 
       </mock-charttypebuttons>
     </div>
@@ -155,7 +335,7 @@ changeXMaximum=undefined
 </DocumentFragment>
 `;
 
-exports[`Plot Settings component renders plot settings form correctly (y-axis tab selected) 1`] = `
+exports[`Plot Settings component snapshots renders plot settings form correctly (y-axis tab selected) 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-ffjoah-MuiGrid-root"
@@ -179,6 +359,8 @@ changePlotTitle=undefined
       >
         plotType="scatter"
 changePlotType=undefined
+XAxis="test x-axis"
+changeXAxis=undefined
 
       </mock-charttypebuttons>
     </div>

@@ -42,39 +42,19 @@ describe('x-axis tab', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly with min and max fields', () => {
+  it('renders correctly with arbitrary x axis', () => {
+    props.XAxis = 'test_1';
     const { asFragment } = createView();
 
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with from date and to date fields', () => {
+  it('renders correctly with timestamp x axis', () => {
     props.XAxisScale = 'time';
     props.XAxis = 'timestamp';
     const { asFragment } = createView();
 
     expect(asFragment()).toMatchSnapshot();
-  });
-
-  it('does not let the user change the X axis scale if time is selected as the X axis', async () => {
-    props.XAxis = 'timestamp';
-    props.XAxisScale = 'time';
-    createView();
-
-    const radioGroup = screen.getByRole('radiogroup', { name: 'Scale' });
-    const radioButtons = within(radioGroup).getAllByRole('radio');
-    radioButtons.forEach((radioButton) => {
-      expect(radioButton).toBeDisabled();
-    });
-  });
-
-  it('switches the min and max number fields for date range fields if time is selected as the X axis', () => {
-    props.XAxis = 'timestamp';
-    props.XAxisScale = 'time';
-    createView();
-
-    expect(screen.getByLabelText('from, date-time input')).toBeInTheDocument();
-    expect(screen.getByLabelText('to, date-time input')).toBeInTheDocument();
   });
 
   it('renders X scale radio buttons and calls changeXAxisScale on click', async () => {
@@ -120,26 +100,11 @@ describe('x-axis tab', () => {
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
-  it('changes scale to time automatically if time is selected as x-axis', async () => {
-    createView();
-
-    const autocomplete = screen.getByRole('autocomplete');
-    const input = within(autocomplete).getByRole('combobox');
-
-    await user.type(input, 'time');
-    autocomplete.focus();
-    fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
-    fireEvent.keyDown(autocomplete, { key: 'Enter' });
-
-    expect(changeXAxis).toHaveBeenCalledWith('timestamp');
-    expect(changeXAxisScale).toHaveBeenCalledWith('time');
-  });
-
   it('removes x-axis from display when we click Close on its label', async () => {
-    props.XAxis = 'timestamp';
+    props.XAxis = 'test_1';
     createView();
 
-    await user.click(screen.getByLabelText('Remove timestamp from x-axis'));
+    await user.click(screen.getByLabelText('Remove test_1 from x-axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith('');
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });

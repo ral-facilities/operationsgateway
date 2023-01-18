@@ -22,22 +22,28 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
     [changePlotType]
   );
 
-  const [plotVariant, setPlotVariant] =
-    React.useState<PlotVariant>('timeseries');
+  const [plotVariant, setPlotVariant] = React.useState<PlotVariant>(
+    XAxis === 'timestamp' ? 'timeseries' : 'xy'
+  );
 
   const handleChangePlotVariant = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>, newPlotVariant: PlotVariant) => {
-      setPlotVariant(newPlotVariant);
-      switch (newPlotVariant) {
-        case 'timeseries':
-          changeXAxis('timestamp');
-          break;
-        case 'xy':
-          changeXAxis(undefined);
-          changePlotType('scatter');
-          break;
-        default:
-          console.error('Unknown plot variant');
+    (
+      event: React.MouseEvent<HTMLElement>,
+      newPlotVariant: PlotVariant | null
+    ) => {
+      if (newPlotVariant !== null) {
+        setPlotVariant(newPlotVariant);
+        switch (newPlotVariant) {
+          case 'timeseries':
+            changeXAxis('timestamp');
+            break;
+          case 'xy':
+            changeXAxis(undefined);
+            changePlotType('scatter');
+            break;
+          default:
+            console.error('Unknown plot variant');
+        }
       }
     },
     [changePlotType, changeXAxis]
