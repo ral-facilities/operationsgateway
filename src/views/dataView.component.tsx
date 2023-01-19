@@ -5,9 +5,11 @@ import FilterDialogue from '../filtering/filterDialogue.component';
 import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import RecordTable from './recordTable.component';
 import TableButtons from './tableButtons.component';
+import ChannelsDialogue from '../channels/channelsDialogue.component';
 
 const DataView = React.memo((): React.ReactElement => {
   const [filtersOpen, setFiltersOpen] = React.useState<boolean>(false);
+  const [channelsOpen, setChannelsOpen] = React.useState<boolean>(false);
   const [flashingFilterValue, setFlashingFilterValue] = React.useState<
     string | undefined
   >(undefined);
@@ -28,11 +30,16 @@ const DataView = React.memo((): React.ReactElement => {
           setSearchExpanded((searchExpanded) => !searchExpanded)
         }
         openFilters={() => setFiltersOpen(true)}
+        openChannels={() => setChannelsOpen(true)}
       />
       <FilterDialogue
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
         flashingFilterValue={flashingFilterValue}
+      />
+      <ChannelsDialogue
+        open={channelsOpen}
+        onClose={() => setChannelsOpen(false)}
       />
       <RecordTable openFilters={openFiltersFromDataHeader} />
       <ColumnCheckboxes />
