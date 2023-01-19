@@ -29,9 +29,10 @@ import { initialState as initialFilterState } from './state/slices/filterSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClientProvider, QueryClient, setLogger } from 'react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
+import { staticChannels } from './api/channels';
 
 jest.setTimeout(15000);
 
@@ -87,6 +88,13 @@ export const createTestQueryClient = (): QueryClient =>
       },
     },
   });
+
+// silence react-query errors
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  error: jest.fn(),
+});
 
 export const hooksWrapperWithProviders = (
   state = {},
@@ -182,43 +190,27 @@ export const cleanupDatePickerWorkaround = (): void => {
 };
 
 export const testChannels: FullChannelMetadata[] = [
-  {
-    systemName: 'timestamp',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Time',
-  },
-  {
-    systemName: 'shotnum',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Shot Number',
-  },
-  {
-    systemName: 'activeArea',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Active Area',
-  },
-  {
-    systemName: 'activeExperiment',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Active Experiment',
-  },
+  ...Object.values(staticChannels),
   {
     systemName: 'test_1',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Test 1',
-    significantFigures: 4,
+    type: 'scalar',
+    name: 'Test 1',
+    precision: 4,
+    path: '/test_1',
   },
   {
     systemName: 'test_2',
-    channel_dtype: 'scalar',
-    significantFigures: 2,
-    scientificNotation: false,
+    type: 'scalar',
+    precision: 2,
+    notation: 'normal',
+    path: '/test_2',
   },
   {
     systemName: 'test_3',
-    channel_dtype: 'scalar',
-    significantFigures: 2,
-    scientificNotation: true,
+    type: 'scalar',
+    precision: 2,
+    notation: 'scientific',
+    path: '/test_3',
   },
 ];
 

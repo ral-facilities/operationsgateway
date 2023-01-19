@@ -50,9 +50,10 @@ describe('Data Header', () => {
       index: 0,
       channelInfo: {
         systemName: 'Test',
-        channel_dtype: 'scalar',
+        type: 'scalar',
         units: 'm',
         description: 'test description',
+        path: '/test',
       },
       wordWrap: false,
       onToggleWordWrap,
@@ -222,7 +223,7 @@ describe('Data Header', () => {
   it('displays tooltip with system name when user hovers over friendly column name', async () => {
     props.label = 'Test Friendly Name';
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    props.channelInfo!.userFriendlyName = props.label as string;
+    props.channelInfo!.name = props.label as string;
     createView();
     const header = screen.getByText('Test Friendly Name');
 

@@ -8,7 +8,7 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import { useChannels } from '../api/channels';
+import { staticChannels, useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 
 jest.mock('../api/channels', () => {
@@ -23,24 +23,7 @@ jest.mock('../api/channels', () => {
 
 describe('Column Checkboxes', () => {
   const availableChannels: FullChannelMetadata[] = [
-    {
-      systemName: 'timestamp',
-      channel_dtype: 'scalar',
-      userFriendlyName: 'Time',
-    },
-    {
-      systemName: 'shotnum',
-      channel_dtype: 'scalar',
-    },
-    {
-      systemName: 'activeArea',
-      channel_dtype: 'scalar',
-    },
-    {
-      systemName: 'activeExperiment',
-      channel_dtype: 'scalar',
-      userFriendlyName: 'Active Experiment',
-    },
+    ...Object.values(staticChannels),
   ];
 
   let state: PreloadedState<RootState>;

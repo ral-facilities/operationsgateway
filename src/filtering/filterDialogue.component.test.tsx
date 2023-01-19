@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import {
   getInitialState,
   renderComponentWithProviders,
+  testChannels,
   testRecords,
 } from '../setupTests';
 import { RootState } from '../state/store';
@@ -35,7 +36,9 @@ describe('Filter dialogue component', () => {
       onClose: jest.fn(),
     };
 
-    (axios.get as jest.Mock).mockResolvedValue({ data: testRecords });
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: { channels: testChannels.slice(4) },
+    });
   });
 
   afterEach(() => {
@@ -249,7 +252,8 @@ describe('Filter dialogue component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/records') return Promise.resolve({ data: testRecords });
+      if (url === '/channels')
+        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
       return Promise.resolve({
         data: 2,
       });
@@ -300,7 +304,8 @@ describe('Filter dialogue component', () => {
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/records') return Promise.resolve({ data: testRecords });
+      if (url === '/channels')
+        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
       return Promise.resolve({
         data: 2,
       });

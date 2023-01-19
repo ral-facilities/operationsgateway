@@ -77,8 +77,8 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
     (props: { channel: FullChannelMetadata }) => {
       const { channel } = props;
       const accessor = channel.systemName;
-      const label = channel.userFriendlyName
-        ? channel.userFriendlyName
+      const label = channel.name
+        ? channel.name
         : channel.systemName
         ? channel.systemName
         : accessor;

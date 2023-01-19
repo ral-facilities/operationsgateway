@@ -14,6 +14,7 @@ import {
   renderComponentWithProviders,
   testRecords,
   getInitialState,
+  testChannels,
 } from '../setupTests';
 import axios from 'axios';
 import { operators, Token } from '../filtering/filterParser';
@@ -36,6 +37,8 @@ describe('Data View', () => {
           return Promise.resolve({ data: testRecords });
         case '/records/count':
           return Promise.resolve({ data: testRecords.length });
+        case '/channels':
+          return Promise.resolve({ data: { channels: testChannels.slice(4) } });
         default:
           return Promise.reject(new Error('Invalid URL'));
       }

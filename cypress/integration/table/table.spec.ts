@@ -19,7 +19,11 @@ describe('Table Component', () => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
-    cy.visit('/').wait(['@getRecords', '@getRecordCount']);
+    cy.intercept('**/channels', (req) => {
+      req.reply({ statusCode: 200, fixture: 'channels.json' });
+    }).as('getChannels');
+
+    cy.visit('/').wait(['@getRecords', '@getRecordCount', '@getChannels']);
   });
 
   it('initialises with a time column', () => {

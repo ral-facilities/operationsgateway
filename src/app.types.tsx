@@ -52,30 +52,45 @@ export type DataType = 'scalar' | 'image' | 'waveform';
 
 export interface FullCommonChannelMetadata {
   systemName: string;
-  channel_dtype: DataType;
-  userFriendlyName?: string;
+  type: DataType;
+  path: string;
+  name?: string;
   description?: string;
-  units?: string;
+  historical?: boolean;
 }
 
 export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'scalar';
-  significantFigures?: number;
-  scientificNotation?: boolean;
+  type: 'scalar';
+  precision?: number;
+  notation?: 'scientific' | 'normal';
+  units?: string;
 }
 
 export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'image';
+  type: 'image';
 }
 
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'waveform';
+  type: 'waveform';
+  x_units?: string;
+  y_units?: string;
 }
 
 export type FullChannelMetadata =
   | FullScalarChannelMetadata
   | FullImageChannelMetadata
   | FullWaveformChannelMetadata;
+
+// Type guards because TS can't deal with nested discriminated unions
+export const isChannelMetadataScalar = (
+  c: FullChannelMetadata
+): c is FullScalarChannelMetadata => c.type === 'scalar';
+export const isChannelMetadataImage = (
+  c: FullChannelMetadata
+): c is FullImageChannelMetadata => c.type === 'image';
+export const isChannelMetadataWaveform = (
+  c: FullChannelMetadata
+): c is FullWaveformChannelMetadata => c.type === 'waveform';
 
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 

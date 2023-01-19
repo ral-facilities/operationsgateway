@@ -21,7 +21,12 @@ import {
   FilterAlt,
 } from '@mui/icons-material';
 import React from 'react';
-import { FullChannelMetadata, Order } from '../../app.types';
+import {
+  FullChannelMetadata,
+  isChannelMetadataScalar,
+  isChannelMetadataWaveform,
+  Order,
+} from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
@@ -224,13 +229,21 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             enterNextDelay={400}
             title={
               <div>
-                {channelInfo?.userFriendlyName && (
+                {channelInfo?.name && (
                   <Typography>
                     System Name: {channelInfo.systemName}{' '}
                   </Typography>
                 )}
                 <Typography>Description: {channelInfo?.description}</Typography>
-                <Typography>Units: {channelInfo?.units}</Typography>
+                {channelInfo && isChannelMetadataScalar(channelInfo) && (
+                  <Typography>Units: {channelInfo?.units}</Typography>
+                )}
+                {channelInfo && isChannelMetadataWaveform(channelInfo) && (
+                  <>
+                    <Typography>X Units: {channelInfo?.x_units}</Typography>
+                    <Typography>Y Units: {channelInfo?.y_units}</Typography>
+                  </>
+                )}
               </div>
             }
           >

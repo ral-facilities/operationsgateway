@@ -11,8 +11,11 @@ describe('Filtering Component', () => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
-    // remove second @getRecords once we query channels properly
-    cy.visit('/').wait(['@getRecords', '@getRecords', '@getRecordCount']);
+    cy.intercept('**/channels', (req) => {
+      req.reply({ statusCode: 200, fixture: 'channels.json' });
+    }).as('getChannels');
+
+    cy.visit('/').wait(['@getRecords', '@getChannels', '@getRecordCount']);
   });
 
   it('opens dialogue when you click on main filters button and closes when you click close', () => {
@@ -103,7 +106,7 @@ describe('Filtering Component', () => {
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
-      .contains('[role="button"]', 'CHANNEL_DEFGH')
+      .contains('[role="button"]', 'Channel_DEFGH')
       .should('be.visible');
     cy.get('@autoComplete')
       .contains('[role="button"]', /^"1"$/)
@@ -199,7 +202,7 @@ describe('Filtering Component', () => {
     cy.get('@autoComplete').then((el) => {
       const inputPosition = el[0].getBoundingClientRect();
       cy.wrap(el)
-        .contains('[role="button"]', /^CHANNEL_/)
+        .contains('[role="button"]', /^Channel_/)
         .then((chipEl) => {
           const chipPosition = chipEl[0].getBoundingClientRect();
           cy.wrap(el).click(

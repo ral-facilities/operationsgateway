@@ -4,7 +4,8 @@ import { Column } from 'react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
 import { ColumnState, Order, FullChannelMetadata } from '../../app.types';
-import { resultsPerPage } from '../../recordGeneration';
+
+export const resultsPerPage = 25;
 
 // Define a type for the slice state
 interface TableState {

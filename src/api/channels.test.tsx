@@ -3,13 +3,13 @@ import axios from 'axios';
 import { renderHook, waitFor } from '@testing-library/react';
 import {
   useChannels,
-  generateChannelMetadata,
   useAvailableColumns,
   getScalarChannels,
+  staticChannels,
 } from './channels';
-import { FullChannelMetadata, Record } from '../app.types';
+import { FullChannelMetadata } from '../app.types';
 import {
-  testRecords,
+  testChannels,
   hooksWrapperWithProviders,
   getInitialState,
 } from '../setupTests';
@@ -17,61 +17,15 @@ import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
 describe('channels api functions', () => {
-  let mockData: Record[];
+  let mockData: FullChannelMetadata[];
 
   beforeEach(() => {
-    mockData = testRecords;
+    // remove the first 4 items i.e. the staticChannels as these are added by fetchChannels
+    mockData = testChannels.slice(4);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  describe('generateChannelMetadata', () => {
-    it('generates a set of metadata for all channels parsed from records', () => {
-      const expected: FullChannelMetadata[] = [
-        {
-          channel_dtype: 'scalar',
-          systemName: 'timestamp',
-          userFriendlyName: 'Time',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'shotnum',
-          userFriendlyName: 'Shot Number',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'activeArea',
-          userFriendlyName: 'Active Area',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'activeExperiment',
-          userFriendlyName: 'Active Experiment',
-        },
-        {
-          channel_dtype: 'image',
-          systemName: 'test_1',
-        },
-        {
-          channel_dtype: 'waveform',
-          systemName: 'test_2',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'test_3',
-        },
-      ];
-
-      const response = generateChannelMetadata(mockData);
-      expect(response).toEqual(expected);
-    });
-
-    it('should not return any metadata if there are no records present in the response', () => {
-      const response = generateChannelMetadata([]);
-      expect(response).toEqual([]);
-    });
   });
 
   describe('useAvailableColumns', () => {
@@ -87,7 +41,7 @@ describe('channels api functions', () => {
 
     it('uses a select function to construct an array of columns from given channel metadata', async () => {
       (axios.get as jest.Mock).mockResolvedValueOnce({
-        data: mockData,
+        data: { channels: mockData },
       });
 
       const expected = [
@@ -95,56 +49,46 @@ describe('channels api functions', () => {
           accessor: 'timestamp',
           Header: () => 'Time',
           Cell: expect.anything(),
-          channelInfo: {
-            channel_dtype: 'scalar',
-            systemName: 'timestamp',
-            userFriendlyName: 'Time',
-          },
+          channelInfo: staticChannels['timestamp'],
         },
         {
           accessor: 'shotnum',
           Header: () => 'Shot Number',
           Cell: expect.anything(),
-          channelInfo: {
-            channel_dtype: 'scalar',
-            systemName: 'shotnum',
-            userFriendlyName: 'Shot Number',
-          },
+          channelInfo: staticChannels['shotnum'],
         },
         {
           accessor: 'activeArea',
           Header: () => 'Active Area',
           Cell: expect.anything(),
-          channelInfo: {
-            channel_dtype: 'scalar',
-            systemName: 'activeArea',
-            userFriendlyName: 'Active Area',
-          },
+          channelInfo: staticChannels['activeArea'],
         },
         {
           accessor: 'activeExperiment',
           Header: () => 'Active Experiment',
           Cell: expect.anything(),
-          channelInfo: {
-            channel_dtype: 'scalar',
-            systemName: 'activeExperiment',
-            userFriendlyName: 'Active Experiment',
-          },
+          channelInfo: staticChannels['activeExperiment'],
         },
         {
           accessor: 'test_1',
           Header: () => 'test_1',
           channelInfo: {
-            channel_dtype: 'image',
+            type: 'scalar',
+            name: 'Test 1',
+            precision: 4,
             systemName: 'test_1',
+            path: '/test_1',
           },
         },
         {
           accessor: 'test_2',
           Header: () => 'test_2',
           channelInfo: {
-            channel_dtype: 'waveform',
+            type: 'scalar',
             systemName: 'test_2',
+            path: '/test_2',
+            notation: 'normal',
+            precision: 2,
           },
         },
         {
@@ -152,8 +96,11 @@ describe('channels api functions', () => {
           Header: () => 'test_3',
           Cell: expect.anything(),
           channelInfo: {
-            channel_dtype: 'scalar',
+            type: 'scalar',
             systemName: 'test_3',
+            path: '/test_3',
+            notation: 'scientific',
+            precision: 2,
           },
         },
       ];
@@ -166,7 +113,7 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
+      expect(axios.get).toHaveBeenCalledWith('/channels', {
         headers: { Authorization: 'Bearer null' },
       });
       expect(result.current.data).not.toBeUndefined();
@@ -181,7 +128,7 @@ describe('channels api functions', () => {
 
     it('returns no columns if no data was present in the request response', async () => {
       (axios.get as jest.Mock).mockResolvedValueOnce({
-        data: [],
+        data: { channels: {} },
       });
 
       const { result } = renderHook(() => useAvailableColumns(), {
@@ -192,7 +139,7 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
+      expect(axios.get).toHaveBeenCalledWith('/channels', {
         headers: { Authorization: 'Bearer null' },
       });
       expect(result.current.data).toEqual([]);
@@ -209,16 +156,19 @@ describe('channels api functions', () => {
     beforeEach(() => {
       channels = [
         {
-          channel_dtype: 'image',
+          type: 'image',
           systemName: 'test_1',
+          path: '/test_1',
         },
         {
-          channel_dtype: 'waveform',
+          type: 'waveform',
           systemName: 'test_2',
+          path: '/test_2',
         },
         {
-          channel_dtype: 'scalar',
+          type: 'scalar',
           systemName: 'test_3',
+          path: '/test_3',
         },
       ];
     });
@@ -227,8 +177,9 @@ describe('channels api functions', () => {
       const result = getScalarChannels(channels);
       expect(result).toEqual([
         {
-          channel_dtype: 'scalar',
+          type: 'scalar',
           systemName: 'test_3',
+          path: '/test_3',
         },
       ]);
     });
@@ -236,12 +187,14 @@ describe('channels api functions', () => {
     it('returns empty array if no scalar channels exist', () => {
       channels = [
         {
-          channel_dtype: 'image',
+          type: 'image',
           systemName: 'test_1',
+          path: '/test_1',
         },
         {
-          channel_dtype: 'waveform',
+          type: 'waveform',
           systemName: 'test_2',
+          path: '/test_2',
         },
       ];
 
@@ -253,7 +206,7 @@ describe('channels api functions', () => {
   describe('useChannels', () => {
     beforeEach(() => {
       (axios.get as jest.Mock).mockResolvedValue({
-        data: mockData,
+        data: { channels: mockData },
       });
     });
 
@@ -271,41 +224,31 @@ describe('channels api functions', () => {
       });
 
       const expected: FullChannelMetadata[] = [
+        ...Object.values(staticChannels),
         {
-          channel_dtype: 'scalar',
-          systemName: 'timestamp',
-          userFriendlyName: 'Time',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'shotnum',
-          userFriendlyName: 'Shot Number',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'activeArea',
-          userFriendlyName: 'Active Area',
-        },
-        {
-          channel_dtype: 'scalar',
-          systemName: 'activeExperiment',
-          userFriendlyName: 'Active Experiment',
-        },
-        {
-          channel_dtype: 'image',
+          type: 'scalar',
+          name: 'Test 1',
+          precision: 4,
           systemName: 'test_1',
+          path: '/test_1',
         },
         {
-          channel_dtype: 'waveform',
+          type: 'scalar',
           systemName: 'test_2',
+          path: '/test_2',
+          notation: 'normal',
+          precision: 2,
         },
         {
-          channel_dtype: 'scalar',
+          type: 'scalar',
           systemName: 'test_3',
+          path: '/test_3',
+          notation: 'scientific',
+          precision: 2,
         },
       ];
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
+      expect(axios.get).toHaveBeenCalledWith('/channels', {
         headers: { Authorization: 'Bearer null' },
       });
       expect(result.current.data).toEqual(expected);
