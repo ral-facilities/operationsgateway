@@ -33,6 +33,13 @@ module.exports = {
         'testing-library/await-async-utils': 'off',
       },
     },
+    {
+      files: ['e2e/**/*'],
+      rules: {
+        'testing-library/prefer-screen-queries': 'off',
+        'testing-library/no-await-sync-query': 'off',
+      },
+    },
   ],
   parserOptions: {
     ecmaFeatures: {
