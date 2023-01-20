@@ -16,6 +16,12 @@ import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 import ChannelTree from './channelTree.component';
 import ChannelBreadcrumbs from './channelBreadcrumbs.component';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import {
+  selectSelectedIdsIgnoreOrder,
+  updateSelectedColumns,
+} from '../state/slices/tableSlice';
+import { createSelector } from '@reduxjs/toolkit';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -24,44 +30,95 @@ interface ChannelsDialogueProps {
 
 export interface TreeNode {
   name: string;
-  children: Record<string, TreeNode | FullChannelMetadata>;
+  checked: boolean;
+  children: Record<
+    string,
+    TreeNode | (FullChannelMetadata & { checked: boolean })
+  >;
 }
+
+/**
+ * @returns A selector for a tree representing the channel hierarchy,
+ * which is used by components in the channels folder
+ * @params availableChannels - array of all the channels the user can select
+ * @params selectedIds - array of all the channels currently selected
+ */
+export const selectChannelTree = createSelector(
+  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+    availableChannels,
+  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+    selectedIds,
+  (availableChannels, selectedIds) => {
+    const tree: TreeNode = { name: '/', children: {}, checked: false };
+    availableChannels.forEach((channel) => {
+      const { path } = channel;
+      // split the path and remove any empty strings
+      const splitPath = path.split('/').filter((el) => el);
+      splitPath.reduce((prev, curr, currIndex) => {
+        // init treenode if not already initialised
+        if (!prev.children?.[curr]) {
+          prev.children[curr] = {
+            name: curr,
+            checked: false,
+            children: {},
+          };
+        }
+        const node = prev.children[curr] as TreeNode;
+        // last item, so therefore is the channel
+        if (currIndex === splitPath.length - 1) {
+          node.children[channel.systemName] = {
+            ...channel,
+            checked: selectedIds.includes(channel.systemName),
+          };
+        }
+        // return the child node, so we drill deeper into the tree
+        return node;
+      }, tree);
+    });
+
+    return tree;
+  }
+);
 
 const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   const { open, onClose } = props;
 
-  const { data: channels } = useChannels({
-    select: (channels) => {
-      const tree: TreeNode = { name: '/', children: {} };
-      channels.forEach((channel) => {
-        const { path } = channel;
-        // split the path and remove any empty strings
-        const splitPath = path.split('/').filter((el) => el);
-        splitPath.reduce((prev, curr, currIndex) => {
-          // init treenode if not already initialised
-          if (!prev.children?.[curr]) {
-            prev.children[curr] = {
-              name: curr,
-              children: {},
-            };
-          }
-          const node = prev.children[curr] as TreeNode;
-          // last item, so therefore is the channel
-          if (currIndex === splitPath.length - 1) {
-            node.children[channel.systemName] = channel;
-          }
-          // return the child node, so we drill deeper into the tree
-          return node;
-        }, tree);
-      });
+  const { data: channels } = useChannels();
 
-      return tree;
+  const appliedSelectedIds = useAppSelector((state) =>
+    selectSelectedIdsIgnoreOrder(state)
+  );
+
+  const [selectedIds, setSelectedIds] = React.useState(appliedSelectedIds);
+
+  React.useEffect(() => {
+    setSelectedIds(appliedSelectedIds);
+  }, [appliedSelectedIds]);
+
+  const channelTree = useAppSelector((state) =>
+    selectChannelTree(channels ?? [], selectedIds)
+  );
+
+  const dispatch = useAppDispatch();
+
+  const onChannelSelect = React.useCallback((channel: string): void => {
+    setSelectedIds((selectedIds) => [...selectedIds, channel]);
+  }, []);
+
+  const onChannelDeselect = React.useCallback((channel: string): void => {
+    setSelectedIds((selectedIds) =>
+      selectedIds.filter((colId) => colId !== channel)
+    );
+  }, []);
+
+  const handleChannelChecked = React.useCallback(
+    (channel: string, checked: boolean) => {
+      checked ? onChannelDeselect(channel) : onChannelSelect(channel);
     },
-  });
+    [onChannelDeselect, onChannelSelect]
+  );
 
   const [currNode, setCurrNode] = React.useState('/');
-
-  console.log('channel tree', channels);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -104,8 +161,9 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
           <Grid item xs>
             <ChannelTree
               currNode={currNode}
-              tree={channels ?? { name: '/', children: {} }}
+              tree={channelTree ?? { name: '/', children: {}, checked: false }}
               setCurrNode={setCurrNode}
+              handleChannelChecked={handleChannelChecked}
             />
           </Grid>
           <Divider orientation="vertical" flexItem />
@@ -118,7 +176,8 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
         <Button onClick={onClose}>Close</Button>
         <Button
           onClick={() => {
-            return;
+            dispatch(updateSelectedColumns(selectedIds));
+            onClose();
           }}
         >
           Add Channels

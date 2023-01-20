@@ -37,6 +37,10 @@ export const tableSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
+    updateSelectedColumns: (state, action: PayloadAction<string[]>) => {
+      state.selectedColumnIds = action.payload;
+    },
+    // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
       // if it's the timestamp column, add to the beginning of the array
       if (action.payload === 'timestamp') {
@@ -97,6 +101,7 @@ export const tableSlice = createSlice({
 });
 
 export const {
+  updateSelectedColumns,
   selectColumn,
   deselectColumn,
   reorderColumn,
@@ -145,7 +150,7 @@ function arrayEquals(a: string[], b: string[]) {
  * are used. We use memoizeOptions to pass the arrayEquals function to check
  * whether selectedIds has changed if you ignore order.
  */
-const selectSelectedIdsIgnoreOrder = createSelector(
+export const selectSelectedIdsIgnoreOrder = createSelector(
   selectSelectedIds,
   (selectedIds) => selectedIds,
   {
@@ -154,10 +159,10 @@ const selectSelectedIdsIgnoreOrder = createSelector(
 );
 
 /**
- * @returns A selector for an array of Column objects which are currently selected,
+ * @returns A selector for an array of FullChannelMetadata objects which are currently selected,
  * which only changes when a column is selected/deselected and not when columns are reordered
  * @params state - the current redux state
- * @params availableColumns - array of all the columns the user can select
+ * @params availableChannels - array of all the columns the user can select
  */
 export const selectSelectedChannels = createSelector(
   selectAvailableChannels,

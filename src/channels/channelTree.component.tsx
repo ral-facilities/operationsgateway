@@ -13,10 +13,11 @@ type ChannelTreeProps = {
   currNode: string;
   tree: TreeNode;
   setCurrNode: (newNode: string) => void;
+  handleChannelChecked: (channel: string, checked: boolean) => void;
 };
 
 const ChannelTree = (props: ChannelTreeProps) => {
-  const { currNode, tree, setCurrNode } = props;
+  const { currNode, tree, setCurrNode, handleChannelChecked } = props;
 
   const nodes = currNode
     .split('/')
@@ -36,16 +37,18 @@ const ChannelTree = (props: ChannelTreeProps) => {
                 if (!leaf) {
                   setCurrNode(`${currNode !== '/' ? currNode : ''}/${value}`);
                 } else {
+                  if (value !== 'timestamp')
+                    handleChannelChecked(value, nodes.children[value].checked);
                   // add to channels? open up side panel?
                 }
               }}
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={false}
+                  checked={nodes.children[value].checked}
                   tabIndex={-1}
                   disableRipple
-                  disabled={!leaf}
+                  disabled={!leaf || value === 'timestamp'}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
