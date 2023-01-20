@@ -20,25 +20,25 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
     systemName: 'timestamp',
     name: 'Time',
     type: 'scalar',
-    path: '/system/timestamp',
+    path: '/system',
   },
   shotnum: {
     systemName: 'shotnum',
     name: 'Shot Number',
     type: 'scalar',
-    path: '/system/shotnum',
+    path: '/system',
   },
   activeArea: {
     systemName: 'activeArea',
     name: 'Active Area',
     type: 'scalar',
-    path: '/system/activeArea',
+    path: '/system',
   },
   activeExperiment: {
     systemName: 'activeExperiment',
     name: 'Active Experiment',
     type: 'scalar',
-    path: '/system/activeExperiment',
+    path: '/system',
   },
 };
 

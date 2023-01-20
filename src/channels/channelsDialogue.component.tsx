@@ -14,14 +14,55 @@ import {
   Typography,
 } from '@mui/material';
 import { NavigateNext, Search } from '@mui/icons-material';
+import { useChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
+import ChannelTree from './channelTree.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
   onClose: () => void;
 }
 
+export interface TreeNode {
+  name: string;
+  children: Record<string, TreeNode | FullChannelMetadata>;
+}
+
 const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   const { open, onClose } = props;
+
+  const { data: channels } = useChannels({
+    select: (channels) => {
+      const tree: TreeNode = { name: '/', children: {} };
+      channels.forEach((channel) => {
+        const { path } = channel;
+        // split the path and remove any empty strings
+        const splitPath = path.split('/').filter((el) => el);
+        splitPath.reduce((prev, curr, currIndex) => {
+          // init treenode if not already initialised
+          if (!prev.children?.[curr]) {
+            prev.children[curr] = {
+              name: curr,
+              children: {},
+            };
+          }
+          const node = prev.children[curr] as TreeNode;
+          // last item, so therefore is the channel
+          if (currIndex === splitPath.length - 1) {
+            node.children[channel.systemName] = channel;
+          }
+          // return the child node, so we drill deeper into the tree
+          return node;
+        }, tree);
+      });
+
+      return tree;
+    },
+  });
+
+  const [currNode, setCurrNode] = React.useState('/');
+
+  console.log('channel tree', channels);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -92,7 +133,11 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
       <DialogContent>
         <Grid container columnSpacing={2}>
           <Grid item xs>
-            Tree view
+            <ChannelTree
+              currNode={currNode}
+              tree={channels ?? { name: '/', children: {} }}
+              setCurrNode={setCurrNode}
+            />
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item xs>
