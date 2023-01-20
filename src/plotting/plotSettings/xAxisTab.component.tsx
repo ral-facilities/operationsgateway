@@ -14,7 +14,11 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, Close } from '@mui/icons-material';
-import { XAxisScale, FullScalarChannelMetadata } from '../../app.types';
+import {
+  XAxisScale,
+  FullScalarChannelMetadata,
+  FullChannelMetadata,
+} from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
@@ -31,7 +35,7 @@ export interface XAxisTabProps {
   allChannels: FullScalarChannelMetadata[];
   XAxisScale: XAxisScale;
   XAxis?: string;
-  changeXAxis: (value: string) => void;
+  changeXAxis: (value?: string) => void;
   changeXAxisScale: (value: XAxisScale) => void;
   initialXMinimum?: number;
   initialXMaximum?: number;
@@ -126,7 +130,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   );
 
   const handleXAxisChange = React.useCallback(
-    (value: string) => {
+    (value?: string) => {
       changeXAxis(value);
       if (value === 'timestamp') {
         handleChangeXScale('time');
@@ -304,10 +308,12 @@ const XAxisTab = (props: XAxisTabProps) => {
       <Grid container item>
         <Autocomplete
           disablePortal
-          freeSolo
           clearOnBlur
           id="select x axis"
-          options={allChannels.map((channel) => channel.systemName)}
+          options={allChannels.map((channel) => ({
+            label: channel.name ?? channel.systemName,
+            value: channel.systemName,
+          }))}
           fullWidth
           role="autocomplete"
           onInputChange={(_, newInputValue, reason) => {
@@ -316,10 +322,10 @@ const XAxisTab = (props: XAxisTabProps) => {
             }
           }}
           inputValue={XAxisInputVal}
-          value={XAxisInputVal}
+          value={null}
           onChange={(_, newValue) => {
             if (newValue) {
-              handleXAxisChange(newValue);
+              handleXAxisChange(newValue.value);
             }
             setXAxisInputVal('');
           }}
@@ -357,11 +363,16 @@ const XAxisTab = (props: XAxisTabProps) => {
             }}
           >
             <Typography maxWidth="240" noWrap>
-              {XAxis}
+              {(() => {
+                const xAxisChannel = allChannels.find(
+                  (channel) => channel.systemName === XAxis
+                ) as FullChannelMetadata;
+                return xAxisChannel.name ?? xAxisChannel.systemName;
+              })()}
             </Typography>
             <StyledClose
               aria-label={`Remove ${XAxis} from x-axis`}
-              onClick={() => handleXAxisChange('')}
+              onClick={() => handleXAxisChange(undefined)}
             />
           </Box>
         </Grid>

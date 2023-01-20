@@ -161,9 +161,10 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (channelName: string) => {
+    (newChannel: { label: string; value: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
-        name: channelName,
+        name: newChannel.label,
+        displayName: newChannel.value,
         options: {
           visible: true,
           lineStyle: 'solid',
@@ -324,7 +325,9 @@ const YAxisTab = (props: YAxisTabProps) => {
             value={selectValue}
             onChange={(event) => {
               const newValue = event.target.value;
-              addPlotChannel(newValue);
+              addPlotChannel(
+                JSON.parse(newValue) as { label: string; value: string }
+              );
               setSelectValue('');
             }}
             sx={{ fontSize: 12 }}
@@ -343,8 +346,14 @@ const YAxisTab = (props: YAxisTabProps) => {
               .map((channel) => {
                 const name = channel.systemName;
                 return (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                  <MenuItem
+                    key={name}
+                    value={JSON.stringify({
+                      label: channel.name ?? channel.systemName,
+                      value: name,
+                    })}
+                  >
+                    {channel.name ?? channel.systemName}
                   </MenuItem>
                 );
               })}
@@ -354,22 +363,24 @@ const YAxisTab = (props: YAxisTabProps) => {
       <Grid container item>
         <Autocomplete
           disablePortal
-          freeSolo
           clearOnBlur
           id="select data channels"
           options={allChannels
-            .map((channel) => channel.systemName)
             .filter(
-              (name) =>
-                name !== 'timestamp' &&
+              (channel) =>
+                channel.systemName !== 'timestamp' &&
                 !selectedPlotChannels
                   .map((channel) => channel.name)
-                  .includes(name)
-            )}
+                  .includes(channel.systemName)
+            )
+            .map((channel) => ({
+              label: channel.name ?? channel.systemName,
+              value: channel.systemName,
+            }))}
           fullWidth
           role="autocomplete"
           inputValue={autocompleteValue}
-          value={autocompleteValue}
+          value={null}
           onInputChange={(_, newInputValue, reason) => {
             if (reason === 'input') {
               setAutocompleteValue(newInputValue);

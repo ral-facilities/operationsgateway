@@ -58,7 +58,7 @@ export interface PlotSettingsControllerProps {
   plotType: PlotType;
   changePlotType: (plotType: PlotType) => void;
   XAxis?: string;
-  changeXAxis: (value: string) => void;
+  changeXAxis: (value?: string) => void;
   XAxisScale: XAxisScale;
   changeXAxisScale: (XAxisScale: XAxisScale) => void;
   leftYAxisScale: YAxisScale;

@@ -168,6 +168,7 @@ export type PlotDataset = {
 
 export type SelectedPlotChannel = {
   name: string;
+  displayName?: string;
   options: {
     visible: boolean;
     lineStyle: LineStyle;
