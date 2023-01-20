@@ -163,8 +163,8 @@ const YAxisTab = (props: YAxisTabProps) => {
   const addPlotChannel = React.useCallback(
     (newChannel: { label: string; value: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
-        name: newChannel.label,
-        displayName: newChannel.value,
+        name: newChannel.value,
+        displayName: newChannel.label,
         options: {
           visible: true,
           lineStyle: 'solid',
@@ -417,7 +417,9 @@ const YAxisTab = (props: YAxisTabProps) => {
         .map((plotChannel) => (
           <Grid container item key={plotChannel.name}>
             <Box
-              aria-label={`${plotChannel.name} label`}
+              aria-label={`${
+                plotChannel.displayName ?? plotChannel.name
+              } label`}
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -428,13 +430,13 @@ const YAxisTab = (props: YAxisTabProps) => {
               }}
             >
               <Tooltip
-                title={plotChannel.name}
+                title={plotChannel.displayName ?? plotChannel.name}
                 arrow
                 placement="top"
                 leaveDelay={0}
               >
                 <Typography maxWidth="208" noWrap>
-                  {plotChannel.name}
+                  {plotChannel.displayName ?? plotChannel.name}
                 </Typography>
               </Tooltip>
               <Box
@@ -464,7 +466,9 @@ const YAxisTab = (props: YAxisTabProps) => {
                   leaveDelay={0}
                 >
                   <StyledClose
-                    aria-label={`Remove ${plotChannel.name} from plot`}
+                    aria-label={`Remove ${
+                      plotChannel.displayName ?? plotChannel.name
+                    } from plot`}
                     onClick={() => removePlotChannel(plotChannel.name)}
                   />
                 </Tooltip>

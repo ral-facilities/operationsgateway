@@ -125,6 +125,10 @@ const PlotWindow = (props: PlotWindowProps) => {
       selectSelectedChannels(state, channels ?? [])
     ) as FullScalarChannelMetadata[];
 
+  const XAxisDisplayName = channels?.find(
+    (channel) => channel.systemName === XAxis
+  )?.name;
+
   const savePlotConfig = React.useCallback(
     (windowVars: {
       outerWidth: number;
@@ -355,6 +359,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             title={plotTitle}
             type={plotType}
             XAxis={XAxis}
+            XAxisDisplayName={XAxisDisplayName}
             XAxisScale={XAxisScale}
             leftYAxisScale={leftYAxisScale}
             rightYAxisScale={rightYAxisScale}

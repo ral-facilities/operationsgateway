@@ -111,9 +111,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           <Switch
             size="small"
             checked={thisChannel.options.visible}
-            aria-label={`toggle ${thisChannel.name} visibility ${
-              thisChannel.options.visible ? 'off' : 'on'
-            }`}
+            aria-label={`toggle ${
+              thisChannel.displayName ?? thisChannel.name
+            } visibility ${thisChannel.options.visible ? 'off' : 'on'}`}
             sx={{ m: 1 }}
             onChange={() => toggleChannelVisibility()}
           />
@@ -140,7 +140,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             }}
             sx={{ fontSize: 12, width: 70 }}
             inputProps={{
-              'aria-label': `change ${thisChannel.name} line style`,
+              'aria-label': `change ${
+                thisChannel.displayName ?? thisChannel.name
+              } line style`,
             }}
           >
             {LINE_STYLE_VALUES.map((style) => {
@@ -169,7 +171,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
         >
           <Typography sx={{ fontSize: 12 }}>Colour</Typography>
           <ColourPicker
-            channelName={thisChannel.name}
+            channelName={thisChannel.displayName ?? thisChannel.name}
             colour={thisChannel.options.colour}
             changeColour={changeChannelColour}
           />

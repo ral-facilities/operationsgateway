@@ -21,6 +21,7 @@ export interface PlotProps {
   leftYAxisScale: YAxisScale;
   rightYAxisScale: YAxisScale;
   XAxis?: string;
+  XAxisDisplayName?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -43,6 +44,7 @@ const Plot = (props: PlotProps) => {
     leftYAxisScale,
     rightYAxisScale,
     XAxis,
+    XAxisDisplayName,
     canvasRef,
     gridVisible,
     axesLabelsVisible,
@@ -107,7 +109,7 @@ const Plot = (props: PlotProps) => {
           },
           title: {
             display: axesLabelsVisible,
-            text: XAxis,
+            text: XAxisDisplayName ?? XAxis,
           },
           grid: {
             display: gridVisible,
@@ -153,7 +155,8 @@ const Plot = (props: PlotProps) => {
       options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
       options?.scales?.x?.title &&
         (options.scales.x.title.display = axesLabelsVisible);
-      options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
+      options?.scales?.x?.title &&
+        (options.scales.x.title.text = XAxisDisplayName ?? XAxis);
       options?.scales?.y && (options.scales.y.min = leftYAxisMinimum);
       options?.scales?.y && (options.scales.y.max = leftYAxisMaximum);
       options?.scales?.y && (options.scales.y.type = leftYAxisScale);
@@ -190,19 +193,21 @@ const Plot = (props: PlotProps) => {
     rightYAxisMinimum,
     rightYAxisMaximum,
     selectedPlotChannels,
+    XAxisDisplayName,
   ]);
 
   React.useEffect(() => {
     setDataString(
       JSON.stringify({
         datasets: datasets.map((dataset) => {
-          const channelConfig = selectedPlotChannels.find(
-            (channel) => channel.name === dataset.name
-          )?.options;
+          const { options: channelConfig, displayName } =
+            selectedPlotChannels.find(
+              (channel) => channel.name === dataset.name
+            ) ?? {};
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
 
           return {
-            label: dataset.name,
+            label: displayName ?? dataset.name,
             data: dataset.data,
             parsing: {
               yAxisKey: dataset.name,
