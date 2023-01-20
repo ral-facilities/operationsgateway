@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Breadcrumbs,
   Button,
   Dialog,
   DialogActions,
@@ -9,14 +8,14 @@ import {
   Divider,
   Grid,
   InputAdornment,
-  Link,
   TextField,
   Typography,
 } from '@mui/material';
-import { NavigateNext, Search } from '@mui/icons-material';
+import { Search } from '@mui/icons-material';
 import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 import ChannelTree from './channelTree.component';
+import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -95,40 +94,10 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
           borderStyle: 'solid none',
           paddingTop: '8px !important',
           paddingBottom: '8px',
+          overflowY: 'unset',
         }}
       >
-        <Breadcrumbs
-          separator={<NavigateNext fontSize="small" />}
-          aria-label="breadcrumb"
-        >
-          <Link
-            underline="hover"
-            key="1"
-            color="inherit"
-            component="span"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              return;
-            }}
-          >
-            MUI
-          </Link>
-          <Link
-            underline="hover"
-            key="2"
-            color="inherit"
-            component="span"
-            sx={{ cursor: 'pointer' }}
-            onClick={() => {
-              return;
-            }}
-          >
-            Core
-          </Link>
-          <Typography key="3" color="text.primary">
-            Breadcrumb
-          </Typography>
-        </Breadcrumbs>
+        <ChannelBreadcrumbs currNode={currNode} setCurrNode={setCurrNode} />
       </DialogContent>
       <DialogContent>
         <Grid container columnSpacing={2}>

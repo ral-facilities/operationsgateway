@@ -34,7 +34,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
             <ListItemButton
               onClick={() => {
                 if (!leaf) {
-                  setCurrNode(`${currNode}/${value}`);
+                  setCurrNode(`${currNode !== '/' ? currNode : ''}/${value}`);
                 } else {
                   // add to channels? open up side panel?
                 }
