@@ -11,8 +11,6 @@ const ChannelBreadcrumbs = (props: ChannelBreadcrumbsProps) => {
   const { currNode, setCurrNode } = props;
   // special handling for '/' otherwise we get ['','']
   const nodePath = currNode === '/' ? [''] : currNode.split('/');
-  console.log('currNode', currNode);
-  console.log('nodePath', nodePath);
 
   return (
     <Breadcrumbs
@@ -32,9 +30,11 @@ const ChannelBreadcrumbs = (props: ChannelBreadcrumbsProps) => {
           return (
             <Link
               key={label}
-              component="span"
-              sx={{ cursor: 'pointer' }}
-              onClick={() => {
+              href="#"
+              onClick={(ev) => {
+                // prevent default to stop the href="#" adding a hash to the URL
+                // and potentially jumping the page
+                ev.preventDefault();
                 setCurrNode(nodePath.slice(0, currIndex + 1).join('/'));
               }}
             >
