@@ -5,6 +5,7 @@ import type { PlotSettingsControllerProps } from './plotSettingsController.compo
 import userEvent from '@testing-library/user-event';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { testChannels } from '../../setupTests';
+import { staticChannels } from '../../api/channels';
 
 jest.mock('./plotTitleField.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -82,11 +83,7 @@ describe('Plot Settings component', () => {
   beforeEach(() => {
     props = {
       selectedRecordTableChannels: [
-        {
-          systemName: 'timestamp',
-          channel_dtype: 'scalar',
-          userFriendlyName: 'Time',
-        },
+        staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
       allChannels: testChannels as FullScalarChannelMetadata[],
       changePlotTitle,

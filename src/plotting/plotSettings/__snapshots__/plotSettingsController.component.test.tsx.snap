@@ -97,25 +97,25 @@ changePlotType=undefined
     "systemName": "timestamp",
     "name": "Time",
     "type": "scalar",
-    "path": "/system/timestamp"
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
     "name": "Shot Number",
     "type": "scalar",
-    "path": "/system/shotnum"
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
     "name": "Active Area",
     "type": "scalar",
-    "path": "/system/activeArea"
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
     "name": "Active Experiment",
     "type": "scalar",
-    "path": "/system/activeExperiment"
+    "path": "/system"
   },
   {
     "systemName": "test_1",
@@ -272,8 +272,9 @@ changePlotType=undefined
             selectedRecordTableChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   }
 ]
 allChannels=[
@@ -281,25 +282,25 @@ allChannels=[
     "systemName": "timestamp",
     "name": "Time",
     "type": "scalar",
-    "path": "/system/timestamp"
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
     "name": "Shot Number",
     "type": "scalar",
-    "path": "/system/shotnum"
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
     "name": "Active Area",
     "type": "scalar",
-    "path": "/system/activeArea"
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
     "name": "Active Experiment",
     "type": "scalar",
-    "path": "/system/activeExperiment"
+    "path": "/system"
   },
   {
     "systemName": "test_1",

@@ -14,11 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, Close } from '@mui/icons-material';
-import {
-  XAxisScale,
-  FullScalarChannelMetadata,
-  FullChannelMetadata,
-} from '../../app.types';
+import { XAxisScale, FullScalarChannelMetadata } from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
@@ -140,6 +136,12 @@ const XAxisTab = (props: XAxisTabProps) => {
     },
     [changeXAxis, handleChangeXScale]
   );
+
+  const xAxisChannel = allChannels.find(
+    (channel) => channel.systemName === XAxis
+  );
+  const xAxisLabel =
+    xAxisChannel && xAxisChannel.name ? xAxisChannel.name : XAxis;
 
   return (
     <Grid container spacing={1} mt={1}>
@@ -352,7 +354,7 @@ const XAxisTab = (props: XAxisTabProps) => {
       {XAxis && (
         <Grid container item>
           <Box
-            aria-label={`${XAxis} label`}
+            aria-label={`${xAxisLabel} label`}
             sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -363,15 +365,10 @@ const XAxisTab = (props: XAxisTabProps) => {
             }}
           >
             <Typography maxWidth="240" noWrap>
-              {(() => {
-                const xAxisChannel = allChannels.find(
-                  (channel) => channel.systemName === XAxis
-                ) as FullChannelMetadata;
-                return xAxisChannel.name ?? xAxisChannel.systemName;
-              })()}
+              {xAxisLabel}
             </Typography>
             <StyledClose
-              aria-label={`Remove ${XAxis} from x-axis`}
+              aria-label={`Remove ${xAxisLabel} from x-axis`}
               onClick={() => handleXAxisChange(undefined)}
             />
           </Box>

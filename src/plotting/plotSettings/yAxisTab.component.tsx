@@ -317,10 +317,11 @@ const YAxisTab = (props: YAxisTabProps) => {
       </Grid>
       <Grid container item>
         <FormControl fullWidth>
-          <InputLabel sx={{ fontSize: 12 }}>
+          <InputLabel sx={{ fontSize: 12 }} id="table-channel-select-label">
             Displayed table channels
           </InputLabel>
           <Select
+            labelId="table-channel-select-label"
             label="Displayed table channels"
             value={selectValue}
             onChange={(event) => {
@@ -331,9 +332,6 @@ const YAxisTab = (props: YAxisTabProps) => {
               setSelectValue('');
             }}
             sx={{ fontSize: 12 }}
-            inputProps={{
-              'data-testid': 'select displayed table channels',
-            }}
           >
             {selectedRecordTableChannels
               .filter((channel) => channel.systemName !== 'timestamp')
