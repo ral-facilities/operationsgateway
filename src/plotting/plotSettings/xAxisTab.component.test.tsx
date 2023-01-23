@@ -100,6 +100,17 @@ describe('x-axis tab', () => {
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
+  it('prevents user from selecting time in xy mode', async () => {
+    createView();
+
+    const autocomplete = screen.getByRole('autocomplete');
+    const input = within(autocomplete).getByRole('combobox');
+
+    await user.type(input, 'time');
+    // i.e. there's no suggestions in the autocomplete
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
   it('removes x-axis from display when we click Close on its label', async () => {
     props.XAxis = 'test_1';
     createView();

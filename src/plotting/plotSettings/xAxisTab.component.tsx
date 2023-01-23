@@ -307,7 +307,10 @@ const XAxisTab = (props: XAxisTabProps) => {
               freeSolo
               clearOnBlur
               id="select x axis"
-              options={allChannels.map((channel) => channel.systemName)}
+              options={allChannels
+                // don't let the user select timestamp in an XY plot
+                .filter((channel) => channel.systemName !== 'timestamp')
+                .map((channel) => channel.systemName)}
               fullWidth
               role="autocomplete"
               onInputChange={(_, newInputValue, reason) => {

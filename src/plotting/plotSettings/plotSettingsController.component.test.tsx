@@ -174,7 +174,7 @@ describe('Plot Settings component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('sets the correct values when plot variant changed between timeseries and xy', async () => {
+  it('sets the correct values when plot variant changed from xy to timeseries', async () => {
     createView();
 
     await user.click(screen.getByRole('button', { name: 'Timeseries' }));
@@ -183,8 +183,12 @@ describe('Plot Settings component', () => {
     expect(changeXAxisScale).toHaveBeenCalledWith('time');
     expect(changeXMinimum).toHaveBeenCalledWith(undefined);
     expect(changeXMaximum).toHaveBeenCalledWith(undefined);
+  });
 
-    jest.clearAllMocks();
+  it('sets the correct values when plot variant changed from timeseries to xy', async () => {
+    props.XAxis = 'timestamp';
+    props.XAxisScale = 'time';
+    createView();
 
     await user.click(screen.getByRole('button', { name: 'XY' }));
 

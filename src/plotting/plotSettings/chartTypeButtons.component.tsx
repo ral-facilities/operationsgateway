@@ -22,17 +22,12 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
     [changePlotType]
   );
 
-  const [plotVariant, setPlotVariant] = React.useState<PlotVariant>(
-    XAxis === 'timestamp' ? 'timeseries' : 'xy'
-  );
-
   const handleChangePlotVariant = React.useCallback(
     (
       event: React.MouseEvent<HTMLElement>,
       newPlotVariant: PlotVariant | null
     ) => {
       if (newPlotVariant !== null) {
-        setPlotVariant(newPlotVariant);
         switch (newPlotVariant) {
           case 'timeseries':
             changeXAxis('timestamp');
@@ -52,7 +47,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
   return (
     <Stack direction="row" spacing={1}>
       <ToggleButtonGroup
-        value={plotVariant}
+        value={XAxis === 'timestamp' ? 'timeseries' : 'xy'}
         exclusive
         onChange={handleChangePlotVariant}
         aria-label="chart type"

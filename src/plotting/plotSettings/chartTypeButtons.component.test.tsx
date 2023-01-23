@@ -37,10 +37,6 @@ describe('Chart Type Buttons', () => {
 
     await user.click(screen.getByRole('button', { name: 'XY' }));
 
-    expect(
-      screen.getByRole('button', { pressed: true, name: 'XY' })
-    ).toBeInTheDocument();
-
     expect(changePlotType).toHaveBeenCalledWith('scatter');
     expect(changeXAxis).toHaveBeenCalledWith(undefined);
   });
@@ -57,10 +53,6 @@ describe('Chart Type Buttons', () => {
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Timeseries' }));
-
-    expect(
-      screen.getByRole('button', { pressed: true, name: 'Timeseries' })
-    ).toBeInTheDocument();
 
     expect(changeXAxis).toHaveBeenCalledWith('timestamp');
   });
