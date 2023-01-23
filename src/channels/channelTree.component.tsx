@@ -24,36 +24,35 @@ const ChannelTree = (props: ChannelTreeProps) => {
     .filter((el) => el)
     .reduce((prev, curr) => prev.children?.[curr] as TreeNode, tree);
 
-  const leaf = !('children' in nodes.children[Object.keys(nodes.children)[0]]);
-
   return (
     <List dense>
-      {Object.keys(nodes.children).map((value) => {
-        const labelId = `checkbox-list-label-${value}`;
+      {Object.entries(nodes.children).map(([key, value]) => {
+        const leaf = !('children' in value);
+        const labelId = `checkbox-list-label-${key}`;
         return (
-          <ListItem key={value} disablePadding disableGutters>
+          <ListItem key={key} disablePadding disableGutters>
             <ListItemButton
               onClick={() => {
                 if (!leaf) {
-                  setCurrNode(`${currNode !== '/' ? currNode : ''}/${value}`);
+                  setCurrNode(`${currNode !== '/' ? currNode : ''}/${key}`);
                 } else {
-                  if (value !== 'timestamp')
-                    handleChannelChecked(value, nodes.children[value].checked);
+                  if (key !== 'timestamp')
+                    handleChannelChecked(key, value.checked);
                   // add to channels? open up side panel?
                 }
               }}
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={nodes.children[value].checked}
+                  checked={value?.checked}
                   tabIndex={-1}
                   disableRipple
-                  disabled={!leaf || value === 'timestamp'}
+                  disabled={!leaf || key === 'timestamp'}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={value} />
+              <ListItemText id={labelId} primary={key} />
             </ListItemButton>
           </ListItem>
         );

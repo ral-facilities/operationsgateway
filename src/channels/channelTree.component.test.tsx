@@ -4,6 +4,7 @@ import React from 'react';
 import { TreeNode } from './channelsDialogue.component';
 import ChannelTree from './channelTree.component';
 import { testChannels } from '../setupTests';
+import { staticChannels } from '../api/channels';
 
 describe('Channel Tree', () => {
   let currNode = '';
@@ -17,7 +18,7 @@ describe('Channel Tree', () => {
         name: 'test_1',
         checked: false,
         children: {
-          timestamp: { ...testChannels['timestamp'], checked: false },
+          timestamp: { ...staticChannels['timestamp'], checked: false },
           [testChannels[4].systemName]: { ...testChannels[4], checked: false },
           [testChannels[5].systemName]: { ...testChannels[5], checked: true },
         },

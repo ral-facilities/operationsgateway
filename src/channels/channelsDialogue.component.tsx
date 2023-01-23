@@ -40,14 +40,21 @@ export interface TreeNode {
 /**
  * @returns A selector for a tree representing the channel hierarchy,
  * which is used by components in the channels folder
+ * @params state - redux state - isn't actually used! (means we get nice memoisation from reselect)
  * @params availableChannels - array of all the channels the user can select
  * @params selectedIds - array of all the channels currently selected
  */
 export const selectChannelTree = createSelector(
-  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
-    availableChannels,
-  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
-    selectedIds,
+  (
+    state: unknown,
+    availableChannels: FullChannelMetadata[],
+    selectedIds: string[]
+  ) => availableChannels,
+  (
+    state: unknown,
+    availableChannels: FullChannelMetadata[],
+    selectedIds: string[]
+  ) => selectedIds,
   (availableChannels, selectedIds) => {
     const tree: TreeNode = { name: '/', children: {}, checked: false };
     availableChannels.forEach((channel) => {
@@ -96,7 +103,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   }, [appliedSelectedIds]);
 
   const channelTree = useAppSelector((state) =>
-    selectChannelTree(channels ?? [], selectedIds)
+    selectChannelTree(state, channels ?? [], selectedIds)
   );
 
   const dispatch = useAppDispatch();
