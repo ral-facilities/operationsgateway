@@ -3,808 +3,804 @@
 exports[`Table renders correctly with all columns displayed 1`] = `
 <DocumentFragment>
   <div>
-    <div>
-      <div>
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
-          role="table-container"
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1xcued6-MuiPaper-root-MuiTableContainer-root"
+      role="table-container"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+        role="table"
+        style="min-width: 132px;"
+      >
+        <thead
+          class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
-          <table
-            class="MuiTable-root css-rqglhn-MuiTable-root"
-            role="table"
-            style="min-width: 132px;"
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+            data-rbd-droppable-context-id="1"
+            data-rbd-droppable-id="columns"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 132px;"
           >
-            <thead
-              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              role="columnheader"
+              scope="col"
             >
-              <tr
-                class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-                data-rbd-droppable-context-id="1"
-                data-rbd-droppable-id="columns"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 132px;"
+              <div
+                class="MuiBox-root css-914c56"
               >
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
-                  role="columnheader"
-                  scope="col"
+                <div
+                  class="MuiBox-root css-12z0wuy"
                 >
-                  <div
-                    class="MuiBox-root css-914c56"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="AccessTimeIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <div
-                      class="MuiBox-root css-12z0wuy"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="AccessTimeIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                        />
-                        <path
-                          d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiBox-root css-0"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <span
-                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort timestamp"
-                        role="button"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                        >
-                          Timestamp
-                        </p>
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                          data-testid="ArrowDownwardIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root css-2luut9"
-                  >
-                    <div>
-                      <button
-                        aria-haspopup="true"
-                        aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="timestamp-menu-button"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                          data-testid="MoreVertIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                          />
-                        </svg>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                      contenteditable="true"
-                      draggable="false"
-                      role="separator"
-                      style="cursor: col-resize;"
-                      tabindex="-1"
+                    <path
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                     />
-                  </div>
-                </th>
-                <th
-                  aria-describedby="rbd-hidden-text-1-hidden-text-2"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
-                  data-rbd-drag-handle-context-id="1"
-                  data-rbd-drag-handle-draggable-id="shotnum"
-                  data-rbd-draggable-context-id="1"
-                  data-rbd-draggable-id="shotnum"
-                  draggable="false"
-                  role="columnheader"
-                  scope="col"
-                  tabindex="0"
-                >
-                  <div
-                    class="MuiBox-root css-914c56"
-                  >
-                    <div
-                      class="MuiBox-root css-12z0wuy"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="NumbersIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="m20.5 10 .5-2h-4l1-4h-2l-1 4h-4l1-4h-2L9 8H5l-.5 2h4l-1 4h-4L3 16h4l-1 4h2l1-4h4l-1 4h2l1-4h4l.5-2h-4l1-4h4zm-7 4h-4l1-4h4l-1 4z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiBox-root css-0"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <span
-                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort shotnum"
-                        role="button"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                        >
-                          Shot Number
-                        </p>
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                          data-testid="ArrowDownwardIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root css-2luut9"
-                  >
-                    <div>
-                      <button
-                        aria-haspopup="true"
-                        aria-label="shotnum menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="shotnum-menu-button"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                          data-testid="MoreVertIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                          />
-                        </svg>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                      contenteditable="true"
-                      draggable="false"
-                      role="separator"
-                      style="cursor: col-resize;"
-                      tabindex="-1"
+                    <path
+                      d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
                     />
-                  </div>
-                </th>
-                <th
-                  aria-describedby="rbd-hidden-text-1-hidden-text-2"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
-                  data-rbd-drag-handle-context-id="1"
-                  data-rbd-drag-handle-draggable-id="activeArea"
-                  data-rbd-draggable-context-id="1"
-                  data-rbd-draggable-id="activeArea"
-                  draggable="false"
-                  role="columnheader"
-                  scope="col"
-                  tabindex="0"
-                >
-                  <div
-                    class="MuiBox-root css-914c56"
-                  >
-                    <div
-                      class="MuiBox-root css-12z0wuy"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="PlaceIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiBox-root css-0"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <span
-                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort activeArea"
-                        role="button"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                        >
-                          Active Area
-                        </p>
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                          data-testid="ArrowDownwardIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root css-2luut9"
-                  >
-                    <div>
-                      <button
-                        aria-haspopup="true"
-                        aria-label="activeArea menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="activeArea-menu-button"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                          data-testid="MoreVertIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                          />
-                        </svg>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                      contenteditable="true"
-                      draggable="false"
-                      role="separator"
-                      style="cursor: col-resize;"
-                      tabindex="-1"
-                    />
-                  </div>
-                </th>
-                <th
-                  aria-describedby="rbd-hidden-text-1-hidden-text-2"
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
-                  data-rbd-drag-handle-context-id="1"
-                  data-rbd-drag-handle-draggable-id="activeExperiment"
-                  data-rbd-draggable-context-id="1"
-                  data-rbd-draggable-id="activeExperiment"
-                  draggable="false"
-                  role="columnheader"
-                  scope="col"
-                  tabindex="0"
-                >
-                  <div
-                    class="MuiBox-root css-914c56"
-                  >
-                    <div
-                      class="MuiBox-root css-12z0wuy"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="ScienceIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M19.8 18.4 14 10.67V6.5l1.35-1.69c.26-.33.03-.81-.39-.81H9.04c-.42 0-.65.48-.39.81L10 6.5v4.17L4.2 18.4c-.49.66-.02 1.6.8 1.6h14c.82 0 1.29-.94.8-1.6z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiBox-root css-0"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <span
-                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort activeExperiment"
-                        role="button"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                        >
-                          Active Experiment
-                        </p>
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                          data-testid="ArrowDownwardIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root css-2luut9"
-                  >
-                    <div>
-                      <button
-                        aria-haspopup="true"
-                        aria-label="activeExperiment menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="activeExperiment-menu-button"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                          data-testid="MoreVertIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                          />
-                        </svg>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                      contenteditable="true"
-                      draggable="false"
-                      role="separator"
-                      style="cursor: col-resize;"
-                      tabindex="-1"
-                    />
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              aria-busy="false"
-              aria-describedby="table-loading-indicator"
-              class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
-              role="rowgroup"
-            >
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 132px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1640995200000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 132px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1641081600000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        2
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 132px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1641168000000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        3
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        3
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        3
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                aria-hidden="false"
-                class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-                role="none"
-                style="opacity: 0; visibility: hidden;"
-              >
-                <td
-                  colspan="4"
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-0"
+                  data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
-                    id="table-loading-indicator"
-                    role="progressbar"
-                    style="width: 40px; height: 40px;"
+                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    data-testid="sort timestamp"
+                    role="button"
+                    tabindex="0"
                   >
-                    <svg
-                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                      viewBox="22 22 44 44"
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                     >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="20.2"
-                        stroke-width="3.6"
+                      Timestamp
+                    </p>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      data-testid="ArrowDownwardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
                       />
                     </svg>
                   </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div
-        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
-      >
-        <div
-          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
-        >
-          <div
-            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
-          />
-          <p
-            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r8:"
-          >
-            Rows per page:
-          </p>
-          <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-          >
-            <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby=":r8: :r7:"
-              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r7:"
-              role="button"
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-2luut9"
+              >
+                <div>
+                  <button
+                    aria-haspopup="true"
+                    aria-label="timestamp menu"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    id="timestamp-menu-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                  contenteditable="true"
+                  draggable="false"
+                  role="separator"
+                  style="cursor: col-resize;"
+                  tabindex="-1"
+                />
+              </div>
+            </th>
+            <th
+              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              data-rbd-drag-handle-context-id="1"
+              data-rbd-drag-handle-draggable-id="shotnum"
+              data-rbd-draggable-context-id="1"
+              data-rbd-draggable-id="shotnum"
+              draggable="false"
+              role="columnheader"
+              scope="col"
               tabindex="0"
             >
-              25
-            </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-              tabindex="-1"
-              value="25"
+              <div
+                class="MuiBox-root css-914c56"
+              >
+                <div
+                  class="MuiBox-root css-12z0wuy"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="NumbersIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="m20.5 10 .5-2h-4l1-4h-2l-1 4h-4l1-4h-2L9 8H5l-.5 2h4l-1 4h-4L3 16h4l-1 4h2l1-4h4l-1 4h2l1-4h4l.5-2h-4l1-4h4zm-7 4h-4l1-4h4l-1 4z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-0"
+                  data-mui-internal-clone-element="true"
+                >
+                  <span
+                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    data-testid="sort shotnum"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                    >
+                      Shot Number
+                    </p>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      data-testid="ArrowDownwardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-2luut9"
+              >
+                <div>
+                  <button
+                    aria-haspopup="true"
+                    aria-label="shotnum menu"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    id="shotnum-menu-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                  contenteditable="true"
+                  draggable="false"
+                  role="separator"
+                  style="cursor: col-resize;"
+                  tabindex="-1"
+                />
+              </div>
+            </th>
+            <th
+              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              data-rbd-drag-handle-context-id="1"
+              data-rbd-drag-handle-draggable-id="activeArea"
+              data-rbd-draggable-context-id="1"
+              data-rbd-draggable-id="activeArea"
+              draggable="false"
+              role="columnheader"
+              scope="col"
+              tabindex="0"
+            >
+              <div
+                class="MuiBox-root css-914c56"
+              >
+                <div
+                  class="MuiBox-root css-12z0wuy"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="PlaceIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-0"
+                  data-mui-internal-clone-element="true"
+                >
+                  <span
+                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    data-testid="sort activeArea"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                    >
+                      Active Area
+                    </p>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      data-testid="ArrowDownwardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-2luut9"
+              >
+                <div>
+                  <button
+                    aria-haspopup="true"
+                    aria-label="activeArea menu"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    id="activeArea-menu-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                  contenteditable="true"
+                  draggable="false"
+                  role="separator"
+                  style="cursor: col-resize;"
+                  tabindex="-1"
+                />
+              </div>
+            </th>
+            <th
+              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              data-rbd-drag-handle-context-id="1"
+              data-rbd-drag-handle-draggable-id="activeExperiment"
+              data-rbd-draggable-context-id="1"
+              data-rbd-draggable-id="activeExperiment"
+              draggable="false"
+              role="columnheader"
+              scope="col"
+              tabindex="0"
+            >
+              <div
+                class="MuiBox-root css-914c56"
+              >
+                <div
+                  class="MuiBox-root css-12z0wuy"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="ScienceIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19.8 18.4 14 10.67V6.5l1.35-1.69c.26-.33.03-.81-.39-.81H9.04c-.42 0-.65.48-.39.81L10 6.5v4.17L4.2 18.4c-.49.66-.02 1.6.8 1.6h14c.82 0 1.29-.94.8-1.6z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-0"
+                  data-mui-internal-clone-element="true"
+                >
+                  <span
+                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    data-testid="sort activeExperiment"
+                    role="button"
+                    tabindex="0"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                    >
+                      Active Experiment
+                    </p>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      data-testid="ArrowDownwardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-2luut9"
+              >
+                <div>
+                  <button
+                    aria-haspopup="true"
+                    aria-label="activeExperiment menu"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    id="activeExperiment-menu-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                  contenteditable="true"
+                  draggable="false"
+                  role="separator"
+                  style="cursor: col-resize;"
+                  tabindex="-1"
+                />
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          aria-busy="false"
+          aria-describedby="table-loading-indicator"
+          class="MuiTableBody-root css-29nbga-MuiTableBody-root"
+          role="rowgroup"
+        >
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1640995200000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1641081600000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    2
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    2
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    2
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1641168000000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    3
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    3
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    3
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            aria-hidden="false"
+            class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+            role="none"
+            style="opacity: 0; visibility: hidden;"
+          >
+            <td
+              colspan="4"
+            >
+              <span
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                id="table-loading-indicator"
+                role="progressbar"
+                style="width: 40px; height: 40px;"
+              >
+                <svg
+                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  viewBox="22 22 44 44"
+                >
+                  <circle
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    cx="44"
+                    cy="44"
+                    fill="none"
+                    r="20.2"
+                    stroke-width="3.6"
+                  />
+                </svg>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+      >
+        <div
+          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+          id=":r8:"
+        >
+          Rows per page:
+        </p>
+        <div
+          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r8: :r7:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+            id=":r7:"
+            role="button"
+            tabindex="0"
+          >
+            25
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="25"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
             />
+          </svg>
+        </div>
+        <p
+          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+        >
+          1–3 of 3
+        </p>
+        <div
+          class="MuiTablePagination-actions"
+        >
+          <button
+            aria-label="Go to previous page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to previous page"
+            type="button"
+          >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
-              data-testid="ArrowDropDownIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7 10l5 5 5-5z"
+                d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
               />
             </svg>
-          </div>
-          <p
-            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          </button>
+          <button
+            aria-label="Go to next page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to next page"
+            type="button"
           >
-            1–3 of 3
-          </p>
-          <div
-            class="MuiTablePagination-actions"
-          >
-            <button
-              aria-label="Go to previous page"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
-              title="Go to previous page"
-              type="button"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="KeyboardArrowLeftIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                />
-              </svg>
-            </button>
-            <button
-              aria-label="Go to next page"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
-              title="Go to next page"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="KeyboardArrowRightIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -815,337 +811,333 @@ exports[`Table renders correctly with all columns displayed 1`] = `
 exports[`Table renders correctly, with only timestamp column 1`] = `
 <DocumentFragment>
   <div>
-    <div>
-      <div>
-        <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-kts5it-MuiPaper-root-MuiTableContainer-root"
-          role="table-container"
+    <div
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1xcued6-MuiPaper-root-MuiTableContainer-root"
+      role="table-container"
+    >
+      <table
+        class="MuiTable-root css-rqglhn-MuiTable-root"
+        role="table"
+        style="min-width: 33px;"
+      >
+        <thead
+          class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
-          <table
-            class="MuiTable-root css-rqglhn-MuiTable-root"
-            role="table"
-            style="min-width: 33px;"
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+            data-rbd-droppable-context-id="0"
+            data-rbd-droppable-id="columns"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 33px;"
           >
-            <thead
-              class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              role="columnheader"
+              scope="col"
             >
-              <tr
-                class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-                data-rbd-droppable-context-id="0"
-                data-rbd-droppable-id="columns"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
+              <div
+                class="MuiBox-root css-914c56"
               >
-                <th
-                  class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
-                  role="columnheader"
-                  scope="col"
+                <div
+                  class="MuiBox-root css-12z0wuy"
                 >
-                  <div
-                    class="MuiBox-root css-914c56"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    data-testid="AccessTimeIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <div
-                      class="MuiBox-root css-12z0wuy"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="AccessTimeIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                        />
-                        <path
-                          d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                        />
-                      </svg>
-                    </div>
-                    <div
-                      class="MuiBox-root css-0"
-                      data-mui-internal-clone-element="true"
-                    >
-                      <span
-                        class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                        data-testid="sort timestamp"
-                        role="button"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
-                        >
-                          Timestamp
-                        </p>
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
-                          data-testid="ArrowDownwardIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="MuiBox-root css-2luut9"
-                  >
-                    <div>
-                      <button
-                        aria-haspopup="true"
-                        aria-label="timestamp menu"
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                        id="timestamp-menu-button"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
-                          data-testid="MoreVertIcon"
-                          focusable="false"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                          />
-                        </svg>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
-                      contenteditable="true"
-                      draggable="false"
-                      role="separator"
-                      style="cursor: col-resize;"
-                      tabindex="-1"
+                    <path
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
                     />
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody
-              aria-busy="false"
-              aria-describedby="table-loading-indicator"
-              class="MuiTableBody-root css-7zqea7-MuiTableBody-root"
-              role="rowgroup"
-            >
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1640995200000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                    <path
+                      d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
                     />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1641081600000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-                role="row"
-                style="display: flex; flex: 1 0 auto; min-width: 33px;"
-              >
-                <td
-                  class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
-                >
-                  <div
-                    class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
-                  >
-                    <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
-                    >
-                      <p
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
-                      >
-                        1641168000000
-                      </p>
-                    </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr
-                aria-hidden="false"
-                class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-                role="none"
-                style="opacity: 0; visibility: hidden;"
-              >
-                <td
-                  colspan="1"
+                  </svg>
+                </div>
+                <div
+                  class="MuiBox-root css-0"
+                  data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
-                    id="table-loading-indicator"
-                    role="progressbar"
-                    style="width: 40px; height: 40px;"
+                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    data-testid="sort timestamp"
+                    role="button"
+                    tabindex="0"
                   >
-                    <svg
-                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                      viewBox="22 22 44 44"
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
                     >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="20.2"
-                        stroke-width="3.6"
+                      Timestamp
+                    </p>
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      data-testid="ArrowDownwardIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
                       />
                     </svg>
                   </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root css-2luut9"
+              >
+                <div>
+                  <button
+                    aria-haspopup="true"
+                    aria-label="timestamp menu"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    id="timestamp-menu-button"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                  contenteditable="true"
+                  draggable="false"
+                  role="separator"
+                  style="cursor: col-resize;"
+                  tabindex="-1"
+                />
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          aria-busy="false"
+          aria-describedby="table-loading-indicator"
+          class="MuiTableBody-root css-29nbga-MuiTableBody-root"
+          role="rowgroup"
+        >
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1640995200000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1641081600000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
+            role="row"
+            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+          >
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                >
+                  <p
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                  >
+                    1641168000000
+                  </p>
+                </div>
+                <hr
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr
+            aria-hidden="false"
+            class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+            role="none"
+            style="opacity: 0; visibility: hidden;"
+          >
+            <td
+              colspan="1"
+            >
+              <span
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                id="table-loading-indicator"
+                role="progressbar"
+                style="width: 40px; height: 40px;"
+              >
+                <svg
+                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  viewBox="22 22 44 44"
+                >
+                  <circle
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    cx="44"
+                    cy="44"
+                    fill="none"
+                    r="20.2"
+                    stroke-width="3.6"
+                  />
+                </svg>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+    >
       <div
-        class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+          id=":r2:"
+        >
+          Rows per page:
+        </p>
+        <div
+          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r2: :r1:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+            id=":r1:"
+            role="button"
+            tabindex="0"
+          >
+            25
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="25"
           />
-          <p
-            class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-            id=":r2:"
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
           >
-            Rows per page:
-          </p>
-          <div
-            class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
-          >
-            <div
-              aria-expanded="false"
-              aria-haspopup="listbox"
-              aria-labelledby=":r2: :r1:"
-              class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-              id=":r1:"
-              role="button"
-              tabindex="0"
-            >
-              25
-            </div>
-            <input
-              aria-hidden="true"
-              class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
-              tabindex="-1"
-              value="25"
+            <path
+              d="M7 10l5 5 5-5z"
             />
+          </svg>
+        </div>
+        <p
+          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+        >
+          1–3 of 3
+        </p>
+        <div
+          class="MuiTablePagination-actions"
+        >
+          <button
+            aria-label="Go to previous page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to previous page"
+            type="button"
+          >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
-              data-testid="ArrowDropDownIcon"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
             >
               <path
-                d="M7 10l5 5 5-5z"
+                d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
               />
             </svg>
-          </div>
-          <p
-            class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          </button>
+          <button
+            aria-label="Go to next page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to next page"
+            type="button"
           >
-            1–3 of 3
-          </p>
-          <div
-            class="MuiTablePagination-actions"
-          >
-            <button
-              aria-label="Go to previous page"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
-              title="Go to previous page"
-              type="button"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="KeyboardArrowLeftIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
-                />
-              </svg>
-            </button>
-            <button
-              aria-label="Go to next page"
-              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
-              disabled=""
-              tabindex="-1"
-              title="Go to next page"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="KeyboardArrowRightIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

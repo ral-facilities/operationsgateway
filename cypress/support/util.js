@@ -64,3 +64,15 @@ export const formatDateTimeForApi = (datetime) => {
 
   return `${dateString}T${timeString}`;
 };
+
+export const addInitialSystemChannels = (channels) => {
+  cy.contains('Data Channels').click();
+
+  cy.contains('system').click();
+
+  channels.forEach((channel) => {
+    cy.findByRole('checkbox', { name: channel }).check();
+  });
+
+  cy.contains('Add Channels').click();
+};

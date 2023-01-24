@@ -2,7 +2,6 @@ import { Stack } from '@mui/material';
 import React from 'react';
 import SearchBar from '../search/searchBar.component';
 import FilterDialogue from '../filtering/filterDialogue.component';
-import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import RecordTable from './recordTable.component';
 import TableButtons from './tableButtons.component';
 import ChannelsDialogue from '../channels/channelsDialogue.component';
@@ -20,6 +19,12 @@ const DataView = React.memo((): React.ReactElement => {
     setFiltersOpen(true);
     setFlashingFilterValue(headerName);
   }, []);
+
+  // TODO: add in SG header & footer
+  // tabs + spacing + search + spacing + buttons + spacing + pagination
+  const tableHeight = `calc(100vh - (50px + 8px ${
+    searchExpanded ? '+ 96px + 8px' : ''
+  } + 32px + 8px + 52px))`;
 
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>
@@ -41,8 +46,10 @@ const DataView = React.memo((): React.ReactElement => {
         open={channelsOpen}
         onClose={() => setChannelsOpen(false)}
       />
-      <RecordTable openFilters={openFiltersFromDataHeader} />
-      <ColumnCheckboxes />
+      <RecordTable
+        openFilters={openFiltersFromDataHeader}
+        tableHeight={tableHeight}
+      />
     </Stack>
   );
 });

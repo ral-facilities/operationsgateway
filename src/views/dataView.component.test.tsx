@@ -59,10 +59,15 @@ describe('Data View', () => {
       screen.getByRole('textbox', { name: 'from, date-time input' })
     ).toBeInTheDocument();
     expect(screen.getByRole('table-container')).toBeInTheDocument();
-    expect(screen.getByLabelText('table checkboxes')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
     expect(
       screen.queryByRole('dialog', { name: 'Filters' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Data Channels' })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('dialog', { name: 'Data Channels' })
     ).not.toBeInTheDocument();
   });
 
@@ -89,6 +94,7 @@ describe('Data View', () => {
     const user = userEvent.setup();
     const state = {
       ...getInitialState(),
+      table: { ...getInitialState().table, selectedColumnIds: ['shotnum'] },
       filter: {
         ...getInitialState().filter,
         appliedFilters: [
@@ -101,11 +107,6 @@ describe('Data View', () => {
     };
     await act(async () => {
       createView(state);
-      await flushPromises();
-    });
-
-    await act(async () => {
-      screen.getByLabelText('shotnum checkbox').click();
       await flushPromises();
     });
 

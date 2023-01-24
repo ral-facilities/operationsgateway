@@ -44,8 +44,9 @@ export const extractChannelsFromTokens = (
 const RecordTable = React.memo(
   (props: {
     openFilters: (headerName: string) => void;
+    tableHeight: string;
   }): React.ReactElement => {
-    const { openFilters } = props;
+    const { openFilters, tableHeight } = props;
 
     const dispatch = useAppDispatch();
 
@@ -121,6 +122,7 @@ const RecordTable = React.memo(
 
     return (
       <Table
+        tableHeight={tableHeight}
         data={data ?? []}
         availableColumns={availableColumns ?? []}
         columnStates={columnStates}

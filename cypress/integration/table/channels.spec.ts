@@ -78,7 +78,7 @@ describe('Data Channels Component', () => {
 
     cy.findByRole('button', { name: '1' }).click();
 
-    cy.findByRole('button', { name: 'ABCDE' }).should('be.visible');
+    cy.contains('Channel_ABCDE').should('be.visible');
 
     cy.findByRole('link', { name: 'Channels' }).click();
 
@@ -86,7 +86,7 @@ describe('Data Channels Component', () => {
 
     cy.findByRole('button', { name: '2' }).click();
 
-    cy.findByRole('button', { name: 'DEFGH' }).should('be.visible');
+    cy.contains('Channel_DEFGH').should('be.visible');
 
     cy.contains('All Channels').click();
 

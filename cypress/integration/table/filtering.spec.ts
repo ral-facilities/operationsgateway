@@ -1,3 +1,5 @@
+import { addInitialSystemChannels } from '../../support/util';
+
 describe('Filtering Component', () => {
   beforeEach(() => {
     cy.intercept('**/records**', (req) => {
@@ -38,7 +40,7 @@ describe('Filtering Component', () => {
     cy.get('[role="dialog"]').should('not.exist');
 
     cy.wait('@getRecords');
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
     cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
       cy.get('[aria-label="open filters"]').click();
     });
