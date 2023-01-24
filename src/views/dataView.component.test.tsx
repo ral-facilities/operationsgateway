@@ -110,7 +110,7 @@ describe('Data View', () => {
     });
 
     const shotnumHeader = screen.getByRole('columnheader', {
-      name: 'shotnum header',
+      name: 'Shot Number',
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });

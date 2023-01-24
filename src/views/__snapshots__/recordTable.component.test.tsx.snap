@@ -30,7 +30,6 @@ exports[`Record Table renders correctly 1`] = `
                   scope="col"
                 >
                   <div
-                    aria-label="timestamp header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -382,7 +381,6 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                   scope="col"
                 >
                   <div
-                    aria-label="timestamp header"
                     class="MuiBox-root css-914c56"
                   >
                     <div

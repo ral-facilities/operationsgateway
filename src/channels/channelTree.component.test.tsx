@@ -85,7 +85,7 @@ describe('Channel Tree', () => {
     createView();
 
     await user.click(
-      screen.getByRole('checkbox', { name: testChannels[4].systemName })
+      screen.getByRole('checkbox', { name: testChannels[4].name })
     );
     expect(handleChannelChecked).toHaveBeenCalledWith(
       testChannels[4].systemName,
@@ -108,8 +108,8 @@ describe('Channel Tree', () => {
     currNode = '/test_1';
     createView();
 
-    expect(screen.getByRole('checkbox', { name: 'timestamp' })).toBeDisabled();
-    await user.click(screen.getByText('timestamp'));
+    expect(screen.getByRole('checkbox', { name: 'Time' })).toBeDisabled();
+    await user.click(screen.getByText('Time'));
     expect(handleChannelChecked).not.toHaveBeenCalled();
   });
 });

@@ -39,11 +39,9 @@ describe('Filtering Component', () => {
 
     cy.wait('@getRecords');
     cy.get('#shotnum').check();
-    cy.get('[role="columnheader"]')
-      .eq(1) // Shot Number column
-      .within(() => {
-        cy.get('[aria-label="open filters"]').click();
-      });
+    cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
+      cy.get('[aria-label="open filters"]').click();
+    });
 
     cy.get('[role="dialog"]').contains('Filters').should('be.visible');
   });

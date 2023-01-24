@@ -208,7 +208,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         sortDirection={currSortDirection}
       >
         <Box
-          aria-label={`${dataKey} header`}
           display="flex"
           sx={{
             // overflow: 'hidden',

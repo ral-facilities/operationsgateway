@@ -52,7 +52,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={key} />
+              <ListItemText id={labelId} primary={value?.name ?? key} />
             </ListItemButton>
           </ListItem>
         );

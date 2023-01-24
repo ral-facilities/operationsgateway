@@ -30,7 +30,6 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                   scope="col"
                 >
                   <div
-                    aria-label="timestamp header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -131,7 +130,6 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    aria-label="shotnum header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -229,7 +227,6 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    aria-label="activeArea header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -327,7 +324,6 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                   tabindex="0"
                 >
                   <div
-                    aria-label="activeExperiment header"
                     class="MuiBox-root css-914c56"
                   >
                     <div
@@ -846,7 +842,6 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                   scope="col"
                 >
                   <div
-                    aria-label="timestamp header"
                     class="MuiBox-root css-914c56"
                   >
                     <div

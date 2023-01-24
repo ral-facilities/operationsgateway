@@ -143,7 +143,7 @@ describe('Data Header', () => {
 
   it('removes column from display when header is middle clicked', async () => {
     createView();
-    const header = screen.getByLabelText('test header');
+    const header = screen.getByText('Test');
     await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
     expect(onClose).toHaveBeenCalledWith('test');
   });

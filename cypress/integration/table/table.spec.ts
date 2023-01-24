@@ -160,7 +160,7 @@ describe('Table Component', () => {
     }
 
     cy.get('[role="table-container"]').scrollTo('right');
-    cy.get('[role="columnheader"]').first().should('be.visible');
+    cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
   });
 
   it('column headers overflow when word wrap is enabled', () => {

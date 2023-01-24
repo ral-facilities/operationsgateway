@@ -31,6 +31,8 @@ module.exports = {
       rules: {
         'jest/valid-expect': 'off',
         'testing-library/await-async-utils': 'off',
+        'testing-library/await-async-query': 'off',
+        'testing-library/prefer-screen-queries': 'off',
       },
     },
     {

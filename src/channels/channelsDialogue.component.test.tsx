@@ -149,11 +149,13 @@ describe('Channels Dialogue', () => {
 
     await user.click(await screen.findByText('system'));
 
-    expect(screen.getByRole('checkbox', { name: 'activeArea' })).toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'shotnum' })).not.toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Active Area' })).toBeChecked();
+    expect(
+      screen.getByRole('checkbox', { name: 'Shot Number' })
+    ).not.toBeChecked();
 
-    await user.click(screen.getByRole('checkbox', { name: 'shotnum' }));
-    await user.click(screen.getByRole('checkbox', { name: 'activeArea' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Shot Number' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Active Area' }));
 
     await user.click(screen.getByText('Add Channels'));
 
