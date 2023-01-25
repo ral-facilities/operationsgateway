@@ -14,7 +14,7 @@ import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import axios from 'axios';
 import { formatDateTimeForApi } from '../state/slices/searchSlice';
-import { QueryClient } from 'react-query';
+import { QueryClient } from '@tanstack/react-query';
 
 describe('searchBar component', () => {
   let user;

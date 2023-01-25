@@ -102,7 +102,9 @@ describe('Data View', () => {
     });
 
     await act(async () => {
-      screen.getByLabelText('shotnum checkbox').click();
+      await user.click(
+        screen.getByRole('checkbox', { name: 'shotnum checkbox' })
+      );
       await flushPromises();
     });
 

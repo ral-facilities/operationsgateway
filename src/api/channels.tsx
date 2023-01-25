@@ -6,7 +6,11 @@ import {
   FullScalarChannelMetadata,
   Record,
 } from '../app.types';
-import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
+import {
+  useQuery,
+  UseQueryResult,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 import { Column } from 'react-table';
 import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';

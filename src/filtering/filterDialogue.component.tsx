@@ -23,7 +23,7 @@ import { useChannels } from '../api/channels';
 import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import { useIncomingRecordCount } from '../api/records';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { selectSearchParams } from '../state/slices/searchSlice';
 
 interface FilterDialogueProps {

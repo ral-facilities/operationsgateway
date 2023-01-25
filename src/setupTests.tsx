@@ -29,7 +29,7 @@ import { initialState as initialFilterState } from './state/slices/filterSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { QueryClientProvider, QueryClient } from 'react-query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 
