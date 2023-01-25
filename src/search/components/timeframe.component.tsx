@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Schedule } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export type TimeframeRange = {
   value: number;
@@ -148,6 +149,24 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (props.timeframe === null) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [props.timeframe]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
+
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
@@ -160,6 +179,9 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
           paddingRight: 5,
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >

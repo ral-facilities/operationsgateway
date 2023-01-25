@@ -96,4 +96,39 @@ describe('shotNumber search', () => {
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
   });
+
+  describe('displays the currently selected shot number range', () => {
+    it('none', () => {
+      createView();
+      expect(screen.getByText('Select')).toBeInTheDocument();
+    });
+
+    it('minimum only', () => {
+      props = {
+        ...props,
+        searchParameterShotnumMin: 1,
+      };
+      createView();
+      expect(screen.getByText('Minimum: 1')).toBeInTheDocument();
+    });
+
+    it('maximum only', () => {
+      props = {
+        ...props,
+        searchParameterShotnumMax: 1,
+      };
+      createView();
+      expect(screen.getByText('Maximum: 1')).toBeInTheDocument();
+    });
+
+    it('minimum and maximum', () => {
+      props = {
+        ...props,
+        searchParameterShotnumMin: 1,
+        searchParameterShotnumMax: 2,
+      };
+      createView();
+      expect(screen.getByText('1 to 2')).toBeInTheDocument();
+    });
+  });
 });

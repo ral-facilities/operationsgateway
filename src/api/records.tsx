@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult, useQueryClient } from '@tanstack/react-query';
 import {
   Channel,
   ImageChannel,
@@ -350,6 +350,7 @@ export const usePlotRecords = (
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters } = useAppSelector(selectQueryParams);
+  const queryClient = useQueryClient();
 
   return useQuery<
     number,
@@ -358,6 +359,58 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
     [string, { searchParams: SearchParams; filters: string[] }]
   >(
     ['recordCount', { searchParams, filters }],
+    (params) => {
+      const { searchParams, filters } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, searchParams, filters);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      initialData: () =>
+        queryClient.getQueryData([
+          'incomingRecordCount',
+          {
+            searchParams,
+            filters,
+          },
+        ]),
+    }
+  );
+};
+
+export const useIncomingRecordCount = (
+  filters?: string[],
+  searchParams?: SearchParams
+): UseQueryResult<number, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const { filters: storeFilters, searchParams: storeSearchParams } =
+    useAppSelector(selectQueryParams);
+
+  let finalisedFilters: string[];
+  if (filters) {
+    finalisedFilters = filters;
+  } else {
+    finalisedFilters = storeFilters;
+  }
+
+  let finalisedSearchParams: SearchParams;
+  if (searchParams) {
+    finalisedSearchParams = searchParams;
+  } else {
+    finalisedSearchParams = storeSearchParams;
+  }
+
+  return useQuery<
+    number,
+    AxiosError,
+    number,
+    [string, { searchParams: SearchParams; filters: string[] }]
+  >(
+    [
+      'incomingRecordCount',
+      { searchParams: finalisedSearchParams, filters: finalisedFilters },
+    ],
     (params) => {
       const { searchParams, filters } = params.queryKey[1];
       return fetchRecordCountQuery(apiUrl, searchParams, filters);

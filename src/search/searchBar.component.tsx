@@ -6,8 +6,16 @@ import Timeframe, {
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
+import {
+  Grid,
+  Button,
+  Collapse,
+  Tooltip,
+  Box,
+  Typography,
+} from '@mui/material';
+import { Warning } from '@mui/icons-material';
 import DataRefresh from './components/dataRefresh.component';
-import { Grid, Button, Collapse } from '@mui/material';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { DateRange, SearchParams, ShotnumRange } from '../app.types';
 import { sub } from 'date-fns';
@@ -16,6 +24,10 @@ import {
   selectSearchParams,
   formatDateTimeForApi,
 } from '../state/slices/searchSlice';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import { useIncomingRecordCount } from '../api/records';
+import { useQueryClient } from 'react-query';
+import { selectQueryFilters } from '../state/slices/filterSlice';
 
 export type TimeframeDates = {
   fromDate: Date | null;
@@ -31,6 +43,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
+
+  // we need filters so we can check for past queries before showing the warning message
+  const filters = useAppSelector(selectQueryFilters);
 
   const [paramsUpdated, setParamsUpdated] = React.useState<boolean>(false);
 
@@ -95,6 +110,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   React.useEffect(() => {
     setParamsUpdated(true);
+    // reset warning message when search params change
+    setDisplayingWarningMessage(false);
   }, [
     searchParameterFromDate,
     searchParameterToDate,
@@ -102,6 +119,38 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterShotnumMax,
     maxShots,
   ]);
+
+  // ########################
+  // RECORD LIMIT WARNING
+  // ########################
+  // The limit on how many records are fetched before displaying a warning to the user
+  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
+  const recordLimitSet = recordLimitWarning > -1;
+
+  const [displayingWarningMessage, setDisplayingWarningMessage] =
+    React.useState<boolean>(false);
+
+  // ########################
+  // INCOMING PARAMETERS
+  // ########################
+  // Parameters initially used to fetch the count of records in the new search request
+  // Ties in with record limit warning message to get the count of new records before actually retrieving them
+  // Can be thought of as working search parameters before the user commits to searching by them
+  const [incomingParams, setIncomingParams] =
+    React.useState<SearchParams>(searchParams);
+
+  const { data: incomingCount, isLoading: countLoading } =
+    useIncomingRecordCount(undefined, incomingParams);
+
+  const queryClient = useQueryClient();
+
+  const overRecordLimit = React.useCallback((): boolean => {
+    return (
+      !countLoading &&
+      incomingCount !== undefined &&
+      incomingCount > recordLimitWarning
+    );
+  }, [countLoading, incomingCount, recordLimitWarning]);
 
   // ########################
   // INITIATING THE SEARCH
@@ -121,22 +170,47 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       max: searchParameterShotnumMax,
     };
 
-    dispatch(
-      changeSearchParams({
-        dateRange: newDateRange,
-        shotnumRange: newShotnumRange,
-        maxShots,
-      })
-    );
+    const newSearchParams: SearchParams = {
+      dateRange: newDateRange,
+      shotnumRange: newShotnumRange,
+      maxShots,
+    };
 
+    if (recordLimitSet) {
+      setIncomingParams(newSearchParams);
+      if (
+        !displayingWarningMessage &&
+        overRecordLimit() &&
+        // search for if we have previously made a search with these params
+        // use exact: false to ignore things like sort, pagination etc.
+        queryClient.getQueriesData({
+          exact: false,
+          queryKey: [
+            'records',
+            { filters: filters, searchParams: newSearchParams },
+          ],
+        }).length === 0
+      ) {
+        setDisplayingWarningMessage(true);
+        return;
+      }
+    }
+
+    setDisplayingWarningMessage(false);
+    dispatch(changeSearchParams(newSearchParams));
     setParamsUpdated(false);
   }, [
-    dispatch,
     searchParameterFromDate,
-    maxShots,
-    searchParameterShotnumMax,
-    searchParameterShotnumMin,
     searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    maxShots,
+    recordLimitSet,
+    dispatch,
+    displayingWarningMessage,
+    overRecordLimit,
+    queryClient,
+    filters,
   ]);
 
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
@@ -168,6 +242,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterFromDate={setSearchParameterFromDate}
                   changeSearchParameterToDate={setSearchParameterToDate}
                   resetTimeframe={() => setRelativeTimeframe(null)}
+                  timeframeRange={timeframeRange}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -188,13 +263,62 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 />
               </Grid>
               <Grid item xs={1}>
-                <Button
-                  variant={paramsUpdated ? 'contained' : 'outlined'}
-                  sx={{ height: '100%' }}
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
+                {displayingWarningMessage ? (
+                  <Tooltip
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          backgroundColor: 'yellow',
+                          color: 'black',
+                          border: '1px solid black',
+                        },
+                      },
+                    }}
+                    data-testid="results-tooltip"
+                    arrow
+                    placement="bottom"
+                    title={
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          cursor: 'pointer',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <Warning
+                          sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }}
+                        />
+                        <div>
+                          <Typography variant="caption" align="center">
+                            {`This search will return over ${recordLimitWarning}
+                      results.`}
+                          </Typography>
+                          <br />
+                          <Typography variant="caption" align="center">
+                            Click Search again to continue
+                          </Typography>
+                        </div>
+                      </Box>
+                    }
+                  >
+                    <Button
+                      variant={paramsUpdated ? 'contained' : 'outlined'}
+                      sx={{ height: '100%' }}
+                      onClick={handleSearch}
+                    >
+                      Search
+                    </Button>
+                  </Tooltip>
+                ) : (
+                  <Button
+                    variant={paramsUpdated ? 'contained' : 'outlined'}
+                    sx={{ height: '100%' }}
+                    onClick={handleSearch}
+                  >
+                    Search
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </Grid>

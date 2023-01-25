@@ -1,5 +1,6 @@
 {
   "apiUrl": "example.api.url",
+  "recordLimitWarning": -1,
   "routes": [
     {
       "section": "Homepage",

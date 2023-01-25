@@ -8,6 +8,8 @@ import {
   Grid,
   IconButton,
   Typography,
+  Tooltip,
+  Box,
 } from '@mui/material';
 import React from 'react';
 import FilterInput from './filterInput.component';
@@ -16,9 +18,13 @@ import {
   changeAppliedFilters,
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
-import { Token } from './filterParser';
+import { Token, parseFilter } from './filterParser';
 import { useChannels } from '../api/channels';
-import { AddCircle, Delete } from '@mui/icons-material';
+import { AddCircle, Delete, Warning } from '@mui/icons-material';
+import { useIncomingRecordCount } from '../api/records';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import { useQueryClient } from 'react-query';
+import { selectSearchParams } from '../state/slices/searchSlice';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -50,6 +56,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose, flashingFilterValue } = props;
   const dispatch = useAppDispatch();
   const appliedFilters = useAppSelector(selectAppliedFilters);
+  // we need searchParams so we can check for past queries before showing the warning message
+  const searchParams = useAppSelector(selectSearchParams);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
   const [errors, setErrors] = React.useState<string[]>(
     appliedFilters.map(() => '')
@@ -92,6 +100,71 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       }),
     []
   );
+
+  const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
+
+  const [displayingWarningMessage, setDisplayingWarningMessage] =
+    React.useState<boolean>(false);
+
+  const [incomingFilters, setIncomingFilters] = React.useState<string[]>(
+    appliedFilters.map((f) => parseFilter(f))
+  );
+
+  const { data: incomingCount, isLoading: countLoading } =
+    useIncomingRecordCount(incomingFilters, undefined);
+
+  const queryClient = useQueryClient();
+
+  React.useEffect(() => {
+    setDisplayingWarningMessage(false);
+  }, [filters]);
+
+  const overRecordLimit = React.useCallback((): boolean => {
+    return (
+      !countLoading &&
+      incomingCount !== undefined &&
+      recordLimitWarning > -1 &&
+      incomingCount > recordLimitWarning
+    );
+  }, [countLoading, incomingCount, recordLimitWarning]);
+
+  const applyFilters = React.useCallback(() => {
+    // remove any "empty" filters as they're not necessary
+    // just need to make sure there's at least one empty array in the
+    // case of no filters applied
+    let newFilters = filters.filter((f) => f.length > 0);
+    if (newFilters.length === 0) newFilters = [[]];
+
+    const incomingFilters = newFilters.map((f) => parseFilter(f));
+    setIncomingFilters(incomingFilters);
+    if (
+      !displayingWarningMessage &&
+      overRecordLimit() && // search for if we have previously made a search with these params
+      // use exact: false to ignore things like sort, pagination etc.
+      queryClient.getQueriesData({
+        exact: false,
+        queryKey: [
+          'records',
+          { filters: incomingFilters, searchParams: searchParams },
+        ],
+      }).length === 0
+    ) {
+      setDisplayingWarningMessage(true);
+      return;
+    }
+
+    setDisplayingWarningMessage(false);
+    dispatch(changeAppliedFilters(newFilters));
+    onClose();
+  }, [
+    dispatch,
+    displayingWarningMessage,
+    filters,
+    onClose,
+    overRecordLimit,
+    queryClient,
+    searchParams,
+  ]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -163,20 +236,57 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
-        <Button
-          disabled={errors.some((e) => e.length !== 0)}
-          onClick={() => {
-            // remove any "empty" filters as they're not necessary
-            // just need to make sure there's at least one empty array in the
-            // case of no filters applied
-            let newFilters = filters.filter((f) => f.length > 0);
-            if (newFilters.length === 0) newFilters = [[]];
-            dispatch(changeAppliedFilters(newFilters));
-            onClose();
-          }}
-        >
-          Apply
-        </Button>
+        {displayingWarningMessage ? (
+          <Tooltip
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  backgroundColor: 'yellow',
+                  color: 'black',
+                  border: '1px solid black',
+                },
+              },
+            }}
+            arrow
+            placement="bottom"
+            title={
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                }}
+              >
+                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                <div>
+                  <Typography variant="caption" align="center">
+                    {`This search will return over ${recordLimitWarning}
+                      results.`}
+                  </Typography>
+                  <br />
+                  <Typography variant="caption" align="center">
+                    Click Apply again to continue
+                  </Typography>
+                </div>
+              </Box>
+            }
+          >
+            <Button
+              disabled={errors.some((e) => e.length !== 0)}
+              onClick={() => applyFilters()}
+            >
+              Apply
+            </Button>
+          </Tooltip>
+        ) : (
+          <Button
+            disabled={errors.some((e) => e.length !== 0)}
+            onClick={() => applyFilters()}
+          >
+            Apply
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

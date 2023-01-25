@@ -4,6 +4,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
+import { TimeframeRange } from './timeframe.component';
+import { FLASH_ANIMATION } from '../../animation';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -49,6 +51,7 @@ export interface DateTimeSearchProps {
   changeSearchParameterFromDate: (fromDate: Date | null) => void;
   changeSearchParameterToDate: (toDate: Date | null) => void;
   resetTimeframe: () => void;
+  timeframeRange: TimeframeRange | null;
 }
 
 /**
@@ -76,6 +79,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     changeSearchParameterFromDate,
     changeSearchParameterToDate,
     resetTimeframe,
+    timeframeRange,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -101,19 +105,37 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // clear any old animation and start new animation
+  // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
+  // this uses different method to others as the datetime can be quickly changed via the timeframe component
+  React.useLayoutEffect(() => {
+    if (!!timeframeRange) {
+      setFlashAnimationPlaying(false);
+      setTimeout(() => {
+        setFlashAnimationPlaying(true);
+      }, 0);
+    }
+  }, [timeframeRange]);
+
   return (
     <Box
       aria-label="date-time search box"
       sx={{
         border: '1.5px solid',
         borderColor:
-          datePickerFromDateError || datePickerToDateError
+          datePickerFromDateError || datePickerToDateError || invalidDateRange
             ? 'rgb(214, 65, 65)'
             : undefined,
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'row',
         overflow: 'hidden',
+        ...(flashAnimationPlaying && {
+          animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+        }),
       }}
     >
       <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
@@ -157,6 +179,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
+              onError={(error) => setDatePickerFromDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
               OpenPickerButtonProps={{
                 size: 'small',
@@ -164,9 +187,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               renderInput={(renderProps) => {
                 const error =
-                  // eslint-disable-next-line react/prop-types
                   (renderProps.error || invalidDateRange) ?? undefined;
-                setDatePickerFromDateError(!!error);
                 let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 
@@ -238,6 +259,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
+              onError={(error) => setDatePickerToDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
               OpenPickerButtonProps={{
                 size: 'small',
@@ -245,9 +267,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               renderInput={(renderProps) => {
                 const error =
-                  // eslint-disable-next-line react/prop-types
                   (renderProps.error || invalidDateRange) ?? undefined;
-                setDatePickerToDateError(!!error);
                 let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 
