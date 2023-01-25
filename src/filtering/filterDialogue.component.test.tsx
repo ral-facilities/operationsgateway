@@ -12,7 +12,7 @@ import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
 import axios from 'axios';
-import { QueryClient } from 'react-query';
+import { QueryClient } from '@tanstack/react-query';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
