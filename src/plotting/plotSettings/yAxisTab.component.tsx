@@ -24,6 +24,7 @@ import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
+  timeChannelName,
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
@@ -333,7 +334,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             }}
           >
             {selectedRecordTableChannels
-              .filter((channel) => channel.systemName !== 'timestamp')
+              .filter((channel) => channel.systemName !== timeChannelName)
               .filter(
                 (selected) =>
                   !selectedPlotChannels
@@ -361,7 +362,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             .map((channel) => channel.systemName)
             .filter(
               (name) =>
-                name !== 'timestamp' &&
+                name !== timeChannelName &&
                 !selectedPlotChannels
                   .map((channel) => channel.name)
                   .includes(name)

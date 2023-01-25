@@ -25,6 +25,7 @@ import { useIncomingRecordCount } from '../api/records';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useQueryClient } from 'react-query';
 import { selectSearchParams } from '../state/slices/searchSlice';
+import { timeChannelName } from '../app.types';
 
 interface FilterDialogueProps {
   open: boolean;
@@ -68,7 +69,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         .filter(
           (channel) =>
             channel.channel_dtype === 'scalar' &&
-            channel.systemName !== 'timestamp'
+            channel.systemName !== timeChannelName
         )
         .map(
           (channel) =>

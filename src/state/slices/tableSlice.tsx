@@ -3,7 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Column } from 'react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
-import { ColumnState, Order, FullChannelMetadata } from '../../app.types';
+import {
+  ColumnState,
+  Order,
+  FullChannelMetadata,
+  timeChannelName,
+} from '../../app.types';
 import { resultsPerPage } from '../../recordGeneration';
 
 // Define a type for the slice state
@@ -38,7 +43,7 @@ export const tableSlice = createSlice({
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
       // if it's the timestamp column, add to the beginning of the array
-      if (action.payload === 'timestamp') {
+      if (action.payload === timeChannelName) {
         state.selectedColumnIds.unshift(action.payload);
       } else {
         state.selectedColumnIds.push(action.payload);

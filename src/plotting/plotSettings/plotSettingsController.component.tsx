@@ -6,6 +6,7 @@ import {
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
+  timeChannelName,
 } from '../../app.types';
 import ChartTypeButtons from './chartTypeButtons.component';
 import PlotTitleField from './plotTitleField.component';
@@ -135,7 +136,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   const handleXAxisChange = React.useCallback(
     (value?: string) => {
       changeXAxis(value);
-      if (value === 'timestamp') {
+      if (value === timeChannelName) {
         changeXAxisScale('time');
       } else {
         changeXAxisScale('linear');
@@ -202,7 +203,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
         />
       </Grid>
       <Grid item>
-        {XAxis !== 'timestamp' && (
+        {XAxis !== timeChannelName && (
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
               value={XYTabValue}
@@ -215,7 +216,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             </Tabs>
           </Box>
         )}
-        {XAxis !== 'timestamp' ? (
+        {XAxis !== timeChannelName ? (
           <TabPanel value={XYTabValue} label={'X'}>
             {XAxisConfig}
           </TabPanel>
@@ -229,7 +230,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             {XAxisConfig}
           </Paper>
         )}
-        {XAxis !== 'timestamp' ? (
+        {XAxis !== timeChannelName ? (
           <TabPanel value={XYTabValue} label={'Y'}>
             {YAxisConfig}
           </TabPanel>

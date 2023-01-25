@@ -21,7 +21,7 @@ import {
   FilterAlt,
 } from '@mui/icons-material';
 import React from 'react';
-import { FullChannelMetadata, Order } from '../../app.types';
+import { FullChannelMetadata, Order, timeChannelName } from '../../app.types';
 import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
@@ -98,7 +98,7 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
           </ListItemIcon>
           <ListItemText>Turn word wrap {wordWrap ? 'off' : 'on'}</ListItemText>
         </MenuItem>
-        {dataKey.toUpperCase() !== 'TIMESTAMP' && (
+        {dataKey !== timeChannelName && (
           <MenuItem
             onClick={() => {
               onClose(dataKey);
@@ -212,7 +212,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
-            if (dataKey.toUpperCase() !== 'TIMESTAMP' && event.button === 1) {
+            if (dataKey !== timeChannelName && event.button === 1) {
               event.preventDefault();
               onClose(dataKey);
             }
@@ -289,7 +289,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   };
 
   // Timestamp column must not be reordered
-  return dataKey.toUpperCase() !== 'TIMESTAMP' ? (
+  return dataKey !== timeChannelName ? (
     <Draggable draggableId={dataKey} index={index}>
       {(provided) => <TableCellContent provided={provided} />}
     </Draggable>

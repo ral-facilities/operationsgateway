@@ -14,7 +14,11 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, Close } from '@mui/icons-material';
-import { XAxisScale, FullScalarChannelMetadata } from '../../app.types';
+import {
+  XAxisScale,
+  FullScalarChannelMetadata,
+  timeChannelName,
+} from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
@@ -129,7 +133,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   const handleXAxisChange = React.useCallback(
     (value: string) => {
       changeXAxis(value);
-      if (value === 'timestamp') {
+      if (value === timeChannelName) {
         handleChangeXScale('time');
       } else {
         handleChangeXScale('linear');
@@ -274,7 +278,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           )}
         </Grid>
       </Grid>
-      {XAxis !== 'timestamp' && (
+      {XAxis !== timeChannelName && (
         <>
           <Grid item>
             <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -309,7 +313,7 @@ const XAxisTab = (props: XAxisTabProps) => {
               id="select x axis"
               options={allChannels
                 // don't let the user select timestamp in an XY plot
-                .filter((channel) => channel.systemName !== 'timestamp')
+                .filter((channel) => channel.systemName !== timeChannelName)
                 .map((channel) => channel.systemName)}
               fullWidth
               role="autocomplete"
@@ -348,7 +352,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           </Grid>
         </>
       )}
-      {XAxis && XAxis !== 'timestamp' && (
+      {XAxis && XAxis !== timeChannelName && (
         <Grid container item>
           <Box
             aria-label={`${XAxis} label`}

@@ -8,7 +8,7 @@ import {
 } from '../state/slices/tableSlice';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useChannels } from '../api/channels';
-import { FullChannelMetadata } from '../app.types';
+import { FullChannelMetadata, timeChannelName } from '../app.types';
 
 const ColumnCheckboxes = React.memo((): React.ReactElement => {
   const { data: channels } = useChannels();
@@ -20,7 +20,7 @@ const ColumnCheckboxes = React.memo((): React.ReactElement => {
   React.useEffect(() => {
     if (channels) {
       setFilteredChannels(
-        channels.filter((channel) => channel.systemName !== 'timestamp')
+        channels.filter((channel) => channel.systemName !== timeChannelName)
       );
     } else {
       setFilteredChannels([]);

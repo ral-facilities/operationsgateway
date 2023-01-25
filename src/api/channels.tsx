@@ -5,6 +5,7 @@ import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
   Record,
+  timeChannelName,
 } from '../app.types';
 import { useQuery, UseQueryResult, UseQueryOptions } from 'react-query';
 import { Column } from 'react-table';
@@ -22,7 +23,7 @@ export const generateChannelMetadata = (
 
   // This metadata is always present in every record
   const timestampMetadata: FullScalarChannelMetadata = {
-    systemName: 'timestamp',
+    systemName: timeChannelName,
     userFriendlyName: 'Time',
     channel_dtype: 'scalar',
   };

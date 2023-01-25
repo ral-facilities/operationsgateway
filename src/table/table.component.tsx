@@ -5,6 +5,7 @@ import {
   columnIconMappings,
   ColumnState,
   SearchParams,
+  timeChannelName,
 } from '../app.types';
 import {
   useTable,
@@ -188,7 +189,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
                                 const dataKey = column.id;
                                 const isTimestampColumn =
-                                  dataKey.toUpperCase() === 'TIMESTAMP';
+                                  dataKey === timeChannelName;
                                 let columnStyles: SxProps<Theme> = {
                                   minWidth: column.minWidth,
                                   width: column.width,
@@ -222,9 +223,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                     label={column.render('Header')}
                                     onClose={onColumnClose}
                                     index={index}
-                                    icon={columnIconMappings.get(
-                                      column.id.toUpperCase()
-                                    )}
+                                    icon={columnIconMappings.get(column.id)}
                                     channelInfo={channelInfo}
                                     wordWrap={
                                       columnStates[dataKey]?.wordWrap ?? false
@@ -261,8 +260,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         const { key, ...otherCellProps } = cell.getCellProps();
 
                         const dataKey = cell.column.id;
-                        const isTimestampColumn =
-                          dataKey.toUpperCase() === 'TIMESTAMP';
+                        const isTimestampColumn = dataKey === timeChannelName;
 
                         let columnStyles: SxProps<Theme> = {
                           minWidth: cell.column.minWidth,

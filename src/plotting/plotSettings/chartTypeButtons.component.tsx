@@ -1,7 +1,7 @@
 import React from 'react';
 import { ToggleButtonGroup, ToggleButton, Stack } from '@mui/material';
 import { ScatterPlot, ShowChart } from '@mui/icons-material';
-import { PlotType } from '../../app.types';
+import { PlotType, timeChannelName } from '../../app.types';
 
 export interface ChartTypeButtonsProps {
   plotType: PlotType;
@@ -30,7 +30,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
       if (newPlotVariant !== null) {
         switch (newPlotVariant) {
           case 'timeseries':
-            changeXAxis('timestamp');
+            changeXAxis(timeChannelName);
             break;
           case 'xy':
             changeXAxis(undefined);
@@ -47,7 +47,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
   return (
     <Stack direction="row" spacing={1}>
       <ToggleButtonGroup
-        value={XAxis === 'timestamp' ? 'timeseries' : 'xy'}
+        value={XAxis === timeChannelName ? 'timeseries' : 'xy'}
         exclusive
         onChange={handleChangePlotVariant}
         aria-label="chart type"
@@ -59,7 +59,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
           XY
         </ToggleButton>
       </ToggleButtonGroup>
-      {XAxis === 'timestamp' && (
+      {XAxis === timeChannelName && (
         <ToggleButtonGroup
           value={plotType}
           exclusive
