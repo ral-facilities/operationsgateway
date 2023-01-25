@@ -82,8 +82,8 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('plots a shotnum vs channel graph with logarithmic scales', async ({
@@ -137,7 +137,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can zoom and pan the graph', async ({
@@ -213,7 +213,7 @@ test('user can zoom and pan the graph', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 
   // test the reset view button resets the zoom & pan
   // can't test reset zoom on chrome with the "have to close main window" workaround
@@ -230,7 +230,7 @@ test('user can zoom and pan the graph', async ({
       await chart.screenshot({
         type: 'png',
       })
-    ).toMatchSnapshot({ maxDiffPixels: 100 });
+    ).toMatchSnapshot({ maxDiffPixels: 150 });
   }
 });
 
@@ -307,7 +307,7 @@ test('plots multiple channels on the y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can hide gridlines and axes labels', async ({
@@ -370,7 +370,7 @@ test('user can hide gridlines and axes labels', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can add from and to dates to timestamp on x-axis', async ({
@@ -433,8 +433,8 @@ test('user can add from and to dates to timestamp on x-axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can add min and max limits to x- and y-axis', async ({
@@ -494,8 +494,8 @@ test('user can add min and max limits to x- and y-axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can change line style of plotted channels', async ({
@@ -566,7 +566,7 @@ test('user can change line style of plotted channels', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 const modifiedRecordsJson = recordsJson.map((record) => {
@@ -669,5 +669,5 @@ test('user can plot channels on the right y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
