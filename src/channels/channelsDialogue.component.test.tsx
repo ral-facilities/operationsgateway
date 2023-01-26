@@ -115,6 +115,8 @@ describe('Channels Dialogue', () => {
     await act(async () => {
       baseElement = createView().baseElement;
     });
+    // wait for the channels to load before taking the screenshot
+    await screen.findByText('system');
     expect(baseElement).toMatchSnapshot();
   });
 
