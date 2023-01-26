@@ -110,12 +110,33 @@ describe('Data View', () => {
       await flushPromises();
     });
 
-    const shotnumHeader = screen.getByRole('columnheader', {
+    const shotnumHeader = await screen.findByRole('columnheader', {
       name: 'Shot Number',
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
     expect(dialogue).toBeVisible();
+  });
+
+  it('opens the chnanels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {
+    const user = userEvent.setup();
+    await act(async () => {
+      createView();
+      await flushPromises();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Data Channels' }));
+
+    const dialogue = await screen.findByRole('dialog', {
+      name: 'Data Channels',
+    });
+    expect(dialogue).toBeVisible();
+
+    await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('dialog', { name: 'Data Channels' })
+    );
   });
 
   it('collapses & expands search when the show/hide search button is clicked', async () => {
