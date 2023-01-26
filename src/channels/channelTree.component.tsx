@@ -7,6 +7,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import React from 'react';
+import { FullChannelMetadata } from '../app.types';
 import { TreeNode } from './channelsDialogue.component';
 
 type ChannelTreeProps = {
@@ -14,10 +15,17 @@ type ChannelTreeProps = {
   tree: TreeNode;
   setCurrNode: (newNode: string) => void;
   handleChannelChecked: (channel: string, checked: boolean) => void;
+  handleChannelSelected: (channel: FullChannelMetadata) => void;
 };
 
 const ChannelTree = (props: ChannelTreeProps) => {
-  const { currNode, tree, setCurrNode, handleChannelChecked } = props;
+  const {
+    currNode,
+    tree,
+    setCurrNode,
+    handleChannelChecked,
+    handleChannelSelected,
+  } = props;
 
   const nodes = currNode
     .split('/')
@@ -36,9 +44,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                 if (!leaf) {
                   setCurrNode(`${currNode !== '/' ? currNode : ''}/${key}`);
                 } else {
-                  if (key !== 'timestamp')
-                    handleChannelChecked(key, value.checked);
-                  // add to channels? open up side panel?
+                  handleChannelSelected(value);
                 }
               }}
             >
@@ -50,6 +56,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                   disabled={!leaf || key === 'timestamp'}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
+                  onClick={() => handleChannelChecked(key, value.checked)}
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={value?.name ?? key} />
