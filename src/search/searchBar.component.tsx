@@ -26,7 +26,7 @@ import {
 } from '../state/slices/searchSlice';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useIncomingRecordCount } from '../api/records';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { selectQueryFilters } from '../state/slices/filterSlice';
 
 export type TimeframeDates = {
