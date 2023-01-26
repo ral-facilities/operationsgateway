@@ -101,12 +101,9 @@ describe('Data View', () => {
       await flushPromises();
     });
 
-    await act(async () => {
-      await user.click(
-        screen.getByRole('checkbox', { name: 'shotnum checkbox' })
-      );
-      await flushPromises();
-    });
+    await user.click(
+      await screen.findByRole('checkbox', { name: 'shotnum checkbox' })
+    );
 
     const shotnumHeader = screen.getByRole('columnheader', {
       name: 'shotnum header',
