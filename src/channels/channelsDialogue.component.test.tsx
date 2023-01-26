@@ -12,7 +12,7 @@ import {
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { QueryClient } from 'react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { RootState } from '../state/store';
 import { staticChannels } from '../api/channels';
 
