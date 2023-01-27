@@ -138,7 +138,7 @@ describe('Channels Dialogue', () => {
     expect(props.onClose).toHaveBeenCalled();
   });
 
-  it('dispatches changeAppliedFilters and onClose when apply button is clicked', async () => {
+  it('dispatches updateSelectedColumns and onClose when apply button is clicked', async () => {
     const state = {
       ...getInitialState(),
       table: {

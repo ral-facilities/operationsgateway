@@ -10,6 +10,7 @@ describe('Channel Tree', () => {
   let currNode = '';
   const setCurrNode = jest.fn();
   const handleChannelChecked = jest.fn();
+  const handleChannelSelected = jest.fn();
   const tree: TreeNode = {
     name: '/',
     checked: false,
@@ -38,6 +39,7 @@ describe('Channel Tree', () => {
         currNode={currNode}
         setCurrNode={setCurrNode}
         handleChannelChecked={handleChannelChecked}
+        handleChannelSelected={handleChannelSelected}
         tree={tree}
       />
     );
@@ -79,7 +81,7 @@ describe('Channel Tree', () => {
     expect(setCurrNode).toHaveBeenCalledWith('/test_2/test_3');
   });
 
-  it('should call handleChannelChecked when leaf node is clicked', async () => {
+  it('should call handleChannelChecked when leaf node checkbox is clicked', async () => {
     const user = userEvent.setup();
     currNode = '/test_1';
     createView();
@@ -103,13 +105,23 @@ describe('Channel Tree', () => {
     );
   });
 
-  it('should not call handleChannelChecked when timestamp is clicked', async () => {
+  it('should call handleChannelSelected when leaf node is clicked', async () => {
     const user = userEvent.setup();
     currNode = '/test_1';
     createView();
 
-    expect(screen.getByRole('checkbox', { name: 'Time' })).toBeDisabled();
-    await user.click(screen.getByText('Time'));
-    expect(handleChannelChecked).not.toHaveBeenCalled();
+    await user.click(screen.getByLabelText(testChannels[4].name));
+    expect(handleChannelSelected).toHaveBeenCalledWith({
+      ...testChannels[4],
+      checked: false,
+    });
+
+    handleChannelChecked.mockClear();
+
+    await user.click(screen.getByLabelText(testChannels[5].systemName));
+    expect(handleChannelSelected).toHaveBeenCalledWith({
+      ...testChannels[5],
+      checked: true,
+    });
   });
 });

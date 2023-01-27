@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Channel Metadata Panel should render correctly for no channel selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    Data Channels Help
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    There are two options to locate a channel. You can either search or use the navigation on the left.
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel metadata can also be viewed. This can be displayed by clicking a channel name
+  </p>
+</DocumentFragment>
+`;
+
+exports[`Channel Metadata Panel should render correctly for scalar channel with units selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    Test
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    System name: test
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Test description
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: scalar
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Units: cm
+  </p>
+</DocumentFragment>
+`;
+
+exports[`Channel Metadata Panel should render correctly for waveform channel with units selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    test_2
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: waveform
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+  >
+    X Units: mm
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Y Units: J
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-3784aq-MuiTypography-root"
+  >
+    This channel is historical
+  </p>
+</DocumentFragment>
+`;
