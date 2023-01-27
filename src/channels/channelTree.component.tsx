@@ -33,7 +33,15 @@ const ChannelTree = (props: ChannelTreeProps) => {
     .reduce((prev, curr) => prev.children?.[curr] as TreeNode, tree);
 
   return (
-    <List dense>
+    <List
+      dense
+      sx={{
+        overflow: 'auto',
+        // 100vh - 2* dialogue padding + title + breadcrumbs + content padding + footer
+        maxHeight: 'calc(100vh - (2 * 32px + 72px + 42px + 2 * 20px + 53px))',
+      }}
+      disablePadding
+    >
       {Object.entries(nodes.children).map(([key, value]) => {
         const leaf = !('children' in value);
         const labelId = `checkbox-list-label-${key}`;
@@ -51,8 +59,6 @@ const ChannelTree = (props: ChannelTreeProps) => {
               <ListItemIcon>
                 <Checkbox
                   checked={value?.checked}
-                  tabIndex={-1}
-                  disableRipple
                   disabled={!leaf || key === 'timestamp'}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}

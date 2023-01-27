@@ -24,18 +24,14 @@ const Heading = (props: React.ComponentProps<typeof Typography>) => {
     </Typography>
   );
 };
-const Body = (
-  props: React.ComponentProps<typeof Typography> & { bottomMargin?: boolean }
-) => (
-  <Typography
-    variant="body2"
-    gutterBottom={
-      typeof props.bottomMargin !== undefined ? props.bottomMargin : true
-    }
-  >
-    {props.children}
-  </Typography>
-);
+const Body = (props: React.ComponentProps<typeof Typography>) => {
+  const { children, ...restProps } = props;
+  return (
+    <Typography variant="body2" gutterBottom {...restProps}>
+      {props.children}
+    </Typography>
+  );
+};
 
 const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
   const { displayedChannel } = props;
@@ -46,20 +42,27 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
         <Heading>
           {displayedChannel?.name ?? displayedChannel.systemName}
         </Heading>
-        {displayedChannel?.description ?? (
+        {displayedChannel?.name && (
+          <Body>System name: {displayedChannel.systemName}</Body>
+        )}
+        {displayedChannel?.description && (
           <Body>{displayedChannel.description}</Body>
         )}
+        <Body>Channel type: {displayedChannel.type}</Body>
         {isChannelMetadataScalar(displayedChannel) &&
           displayedChannel.units && (
             <Body>Units: {displayedChannel.units}</Body>
           )}
         {isChannelMetadataWaveform(displayedChannel) && (
           <>
-            <Body bottomMargin={false}>
+            <Body gutterBottom={false}>
               X Units: {displayedChannel.x_units}
             </Body>
             <Body>Y Units: {displayedChannel.y_units}</Body>
           </>
+        )}
+        {displayedChannel?.historical && (
+          <Body fontWeight="bold">This channel is historical</Body>
         )}
       </>
     );
