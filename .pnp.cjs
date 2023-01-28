@@ -95,7 +95,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-router-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.7.0"],\
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.8.0"],\
-            ["serve", "npm:14.1.1"],\
+            ["serve", "npm:14.2.0"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
             ["start-server-and-test", "npm:1.15.0"],\
@@ -6581,10 +6581,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@zeit/schemas", [\
-        ["npm:2.21.0", {\
-          "packageLocation": "./.yarn/cache/@zeit-schemas-npm-2.21.0-85d854dbdd-59d4f0851d.zip/node_modules/@zeit/schemas/",\
+        ["npm:2.29.0", {\
+          "packageLocation": "./.yarn/cache/@zeit-schemas-npm-2.29.0-2ac7596f03-3cea06bb67.zip/node_modules/@zeit/schemas/",\
           "packageDependencies": [\
-            ["@zeit/schemas", "npm:2.21.0"]\
+            ["@zeit/schemas", "npm:2.29.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15305,7 +15305,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-router-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.7.0"],\
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.8.0"],\
-            ["serve", "npm:14.1.1"],\
+            ["serve", "npm:14.2.0"],\
             ["serve-static", "npm:1.15.0"],\
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.0"],\
             ["start-server-and-test", "npm:1.15.0"],\
@@ -19063,11 +19063,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["serve", [\
-        ["npm:14.1.1", {\
-          "packageLocation": "./.yarn/cache/serve-npm-14.1.1-9f904dd8ed-7db310dfbe.zip/node_modules/serve/",\
+        ["npm:14.2.0", {\
+          "packageLocation": "./.yarn/cache/serve-npm-14.2.0-52c615436d-a1c26e6c3d.zip/node_modules/serve/",\
           "packageDependencies": [\
-            ["serve", "npm:14.1.1"],\
-            ["@zeit/schemas", "npm:2.21.0"],\
+            ["serve", "npm:14.2.0"],\
+            ["@zeit/schemas", "npm:2.29.0"],\
             ["ajv", "npm:8.11.0"],\
             ["arg", "npm:5.0.2"],\
             ["boxen", "npm:7.0.0"],\
