@@ -1,3 +1,5 @@
+import { staticChannels } from '../api/channels';
+
 type TokenType =
   | 'not'
   | 'and'
@@ -128,9 +130,7 @@ const convertOperator = (opToken: Token): string => {
  * convertChannel("CHANNEL_1")
  */
 const convertChannel = (channel: string): string => {
-  if (
-    ['timestamp', 'shotnum', 'activeArea', 'activeExperiment'].includes(channel)
-  ) {
+  if (Object.keys(staticChannels).includes(channel)) {
     return `metadata.${channel}`;
   } else {
     return `channels.${channel}.data`;

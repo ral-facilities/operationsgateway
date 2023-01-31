@@ -7,6 +7,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import React from 'react';
+import { timeChannelName } from '../app.types';
 import { TreeNode } from './channelsDialogue.component';
 
 type ChannelTreeProps = {
@@ -36,7 +37,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                 if (!leaf) {
                   setCurrNode(`${currNode !== '/' ? currNode : ''}/${key}`);
                 } else {
-                  if (key !== 'timestamp')
+                  if (key !== timeChannelName)
                     handleChannelChecked(key, value.checked);
                   // add to channels? open up side panel?
                 }
@@ -47,7 +48,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                   checked={value?.checked}
                   tabIndex={-1}
                   disableRipple
-                  disabled={!leaf || key === 'timestamp'}
+                  disabled={!leaf || key === timeChannelName}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
                 />

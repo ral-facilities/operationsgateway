@@ -18,7 +18,7 @@ import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
-import { Order } from '../app.types';
+import { Order, timeChannelName } from '../app.types';
 import type { Token } from '../filtering/filterParser';
 
 export const extractChannelsFromTokens = (
@@ -115,8 +115,8 @@ const RecordTable = React.memo(
 
     // Ensure the timestamp column is opened automatically on table load
     React.useEffect(() => {
-      if (!dataLoading && !columnOrder.includes('timestamp')) {
-        dispatch(selectColumn('timestamp'));
+      if (!dataLoading && !columnOrder.includes(timeChannelName)) {
+        dispatch(selectColumn(timeChannelName));
       }
     }, [dataLoading, columnOrder, dispatch]);
 

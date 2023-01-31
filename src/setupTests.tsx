@@ -14,6 +14,7 @@ import {
   RecordRow,
   ScalarChannel,
   WaveformChannel,
+  timeChannelName,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -355,6 +356,7 @@ export const generatePlotConfig = (num: number) => {
     open: num % 2 === 0,
     title: plotTitle,
     plotType: num % 2 === 0 ? 'scatter' : 'line',
+    XAxis: num % 3 === 0 ? timeChannelName : undefined,
     XAxisScale:
       num % 3 === 0 ? 'time' : num % 3 === 1 ? 'linear' : 'logarithmic',
     selectedPlotChannels: [],

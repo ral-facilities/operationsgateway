@@ -9,6 +9,7 @@ exports[`Open Plots component renders windows for each open plot 1`] = `
   "open": true,
   "title": "Plot 0",
   "plotType": "scatter",
+  "XAxis": "timestamp",
   "XAxisScale": "time",
   "selectedPlotChannels": [],
   "leftYAxisScale": "linear",
