@@ -1,6 +1,6 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
-import { PlotDataset, XAxisScale } from '../app.types';
+import { PlotDataset, XAxisScale, timeChannelName } from '../app.types';
 import { format } from 'date-fns';
 
 export const formatTooltipLabel = (
@@ -102,7 +102,7 @@ export const constructDataRows = (
   const finalCsvRows: (string | number)[][] = sortedDataRows.map((dataRow) => {
     return headerRow.map((header) => {
       if (Object.keys(dataRow).includes(header)) {
-        return header === 'timestamp'
+        return header === timeChannelName
           ? formatTooltipLabel(dataRow[header], 'time')
           : dataRow[header];
       }

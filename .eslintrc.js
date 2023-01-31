@@ -37,6 +37,7 @@ module.exports = {
       files: ['e2e/**/*'],
       rules: {
         'testing-library/prefer-screen-queries': 'off',
+        'testing-library/no-await-sync-query': 'off',
       },
     },
   ],

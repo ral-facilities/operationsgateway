@@ -17,6 +17,7 @@ import {
   WaveformChannel,
   SelectedPlotChannel,
   SearchParams,
+  timeChannelName,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -289,7 +290,7 @@ export const usePlotRecords = (
 ): UseQueryResult<PlotDataset[], AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters } = useAppSelector(selectQueryParams);
-  const parsedXAxis = XAxis ?? 'timestamp';
+  const parsedXAxis = XAxis ?? timeChannelName;
 
   return useQuery<
     Record[],

@@ -37,12 +37,6 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('shotnu');
 
   await popup.locator('text=shotnum').click();
@@ -95,13 +89,15 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
+  await popup.getByRole('button', { name: 'XY' }).click();
+
   await popup.locator('label:has-text("Search")').fill('shotnu');
 
   await popup.locator('text=shotnum').click();
 
   await popup.locator('text=Log').click();
 
-  await popup.locator('text=Y').click();
+  await popup.getByRole('tab', { name: 'Y' }).click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
@@ -147,12 +143,6 @@ test('user can zoom and pan the graph', async ({
     page.waitForEvent('popup'),
     page.locator('text=Create a plot').click(),
   ]);
-
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('shotnu');
 
@@ -241,12 +231,6 @@ test('plots multiple channels on the y axis', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
   await popup.locator('text=CHANNEL_ABCDE').click();
@@ -314,12 +298,6 @@ test('user can hide gridlines and axes labels', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('shotnu');
 
   await popup.locator('text=shotnum').click();
@@ -380,18 +358,12 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
   await popup
     .locator('[aria-label="from, date-time input"]')
     .fill('2022-01-03 00:00:00');
   await popup
     .locator('[aria-label="to, date-time input"]')
     .fill('2022-01-10 00:00:00');
-
-  await popup.locator('text=Y').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('shotnu');
 
@@ -439,9 +411,9 @@ test('user can add min and max limits to x- and y-axis', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Title")').fill('Test shotnum plot');
+  await popup.getByRole('button', { name: 'XY' }).click();
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('label:has-text("Title")').fill('Test shotnum plot');
 
   await popup.locator('label:has-text("Search")').fill('shotnu');
 
@@ -450,7 +422,7 @@ test('user can add min and max limits to x- and y-axis', async ({
   await popup.locator('label:has-text("Min")').fill('1');
   await popup.locator('label:has-text("Max")').fill('2');
 
-  await popup.locator('text=Y').click();
+  await popup.getByRole('tab', { name: 'Y' }).click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
@@ -500,12 +472,6 @@ test('user can change line style of plotted channels', async ({
   ]);
 
   await popup.locator('[aria-label="line chart"]').click();
-
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
@@ -586,12 +552,6 @@ test('user can plot channels on the right y axis', async ({
   ]);
 
   await popup.locator('[aria-label="line chart"]').click();
-
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
 
   // users can add channels to the right y axis directly when "right" is selected as the axis
   await popup.locator('text=Right').click();

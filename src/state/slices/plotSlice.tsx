@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   PlotType,
   SelectedPlotChannel,
+  timeChannelName,
   XAxisScale,
   YAxisScale,
 } from '../../app.types';
@@ -66,7 +67,8 @@ export const plotSlice = createSlice({
         open: true,
         title: newPlotTitle,
         plotType: 'scatter',
-        XAxisScale: 'linear',
+        XAxis: timeChannelName,
+        XAxisScale: 'time',
         selectedPlotChannels: [],
         leftYAxisScale: 'linear',
         rightYAxisScale: 'linear',
