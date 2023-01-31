@@ -6,6 +6,8 @@ import {
   useAvailableColumns,
   getScalarChannels,
   staticChannels,
+  useChannelSummary,
+  ChannelSummary,
 } from './channels';
 import { FullChannelMetadata } from '../app.types';
 import {
@@ -252,6 +254,67 @@ describe('channels api functions', () => {
         headers: { Authorization: 'Bearer null' },
       });
       expect(result.current.data).toEqual(expected);
+    });
+
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useChannelSummary', () => {
+    beforeEach(() => {
+      (axios.get as jest.Mock).mockResolvedValue({
+        data: {
+          first_date: '2022-01-31T00:00:00',
+          most_recent_date: '2023-01-31T00:00:00',
+          recent_sample: [1, 2, 3],
+        } as ChannelSummary,
+      });
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('sends axios request to fetch channel summary and returns successful response', async () => {
+      const { result } = renderHook(() => useChannelSummary('channel'), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const expected: ChannelSummary = {
+        first_date: '2022-01-31T00:00:00',
+        most_recent_date: '2023-01-31T00:00:00',
+        recent_sample: [1, 2, 3],
+      };
+      expect(axios.get).toHaveBeenCalledWith(`/channels/summary/${'channel'}`, {
+        headers: { Authorization: 'Bearer null' },
+      });
+      expect(result.current.data).toEqual(expected);
+    });
+
+    it('does not send axios request to fetch channel summary when given no channel or system channel', async () => {
+      const { result } = renderHook(() => useChannelSummary(undefined), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      expect(result.current.isFetching).toBeFalsy();
+      expect(result.current.isLoading).toBeTruthy();
+      expect(axios.get).not.toHaveBeenCalled();
+
+      const { result: result2 } = renderHook(
+        () => useChannelSummary('timestamp'),
+        {
+          wrapper: hooksWrapperWithProviders(),
+        }
+      );
+
+      expect(result2.current.isFetching).toBeFalsy();
+      expect(result2.current.isLoading).toBeTruthy();
+      expect(axios.get).not.toHaveBeenCalled();
     });
 
     it.todo(
