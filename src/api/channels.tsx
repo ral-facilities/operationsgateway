@@ -46,8 +46,6 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
   },
 };
 
-// TODO change this when we have a proper channel info endpoint to query
-// This just fetches metadata from the records endpoint at the moment
 const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios
     .get<ChannelsEndpoint>(`${apiUrl}/channels`, {
@@ -71,6 +69,27 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
     });
 };
 
+interface ChannelSummary {
+  first_date: string;
+  most_recent_date: string;
+  recent_sample: string[] | number[];
+}
+
+const fetchChannelSummary = (
+  apiUrl: string,
+  channel: string
+): Promise<ChannelSummary> => {
+  return axios
+    .get(`${apiUrl}/channels/summary/${channel}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
@@ -87,6 +106,29 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
         console.log('Got error ' + error.message);
       },
       ...(options ?? {}),
+    }
+  );
+};
+
+export const useChannelSummary = (
+  channel: string | undefined
+): UseQueryResult<ChannelSummary, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const dataChannel =
+    typeof channel !== 'undefined' && !(channel in staticChannels)
+      ? channel
+      : '';
+
+  return useQuery(
+    ['channelSummary', dataChannel],
+    (params) => {
+      return fetchChannelSummary(apiUrl, dataChannel);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      enabled: dataChannel.length !== 0,
     }
   );
 };

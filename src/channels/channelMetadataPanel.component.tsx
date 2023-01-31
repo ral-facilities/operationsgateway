@@ -1,5 +1,16 @@
-import { Typography } from '@mui/material';
+import {
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { format, parseISO } from 'date-fns';
 import React from 'react';
+import { useChannelSummary } from '../api/channels';
 import {
   FullChannelMetadata,
   isChannelMetadataScalar,
@@ -36,6 +47,10 @@ const Body = (props: React.ComponentProps<typeof Typography>) => {
 const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
   const { displayedChannel } = props;
 
+  const { data: channelSummary } = useChannelSummary(
+    displayedChannel?.systemName
+  );
+
   if (displayedChannel) {
     return (
       <>
@@ -63,6 +78,77 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
         )}
         {displayedChannel?.historical && (
           <Body fontWeight="bold">This channel is historical</Body>
+        )}
+        {channelSummary && (
+          <>
+            <Divider />
+            <Typography
+              variant="body2"
+              component="h4"
+              gutterBottom
+              sx={{ fontWeight: 'bold', paddingTop: 1 }}
+            >
+              Data Summary
+            </Typography>
+            <Body gutterBottom={false}>
+              First data date:{' '}
+              {format(
+                parseISO(channelSummary.first_date),
+                'yyyy-MM-dd HH:mm:ss'
+              )}
+            </Body>
+            <Body>
+              Most recent data date:{' '}
+              {format(
+                parseISO(channelSummary.most_recent_date),
+                'yyyy-MM-dd HH:mm:ss'
+              )}
+            </Body>
+            <Typography
+              variant="body2"
+              component="h5"
+              gutterBottom
+              sx={{ fontWeight: 'bold', paddingTop: 1 }}
+            >
+              Recent Data
+            </Typography>
+            <TableContainer>
+              <Table aria-label="recent data">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Index</TableCell>
+                    <TableCell>Data</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {channelSummary.recent_sample.map((row, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell>
+                        {isChannelMetadataScalar(displayedChannel) ? (
+                          row
+                        ) : (
+                          <img
+                            src={`data:image/jpeg;base64,${row}`}
+                            alt={`${
+                              displayedChannel?.name ??
+                              displayedChannel.systemName
+                            } data summary recent data item ${index}`}
+                            style={{ border: '1px solid #000000' }}
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
         )}
       </>
     );
