@@ -1,4 +1,8 @@
-import { roundNumber } from './cellContentRenderers';
+import {
+  renderImage,
+  renderTimestamp,
+  roundNumber,
+} from './cellContentRenderers';
 
 describe('cell content renderers', () => {
   describe('roundNumber', () => {
@@ -70,6 +74,36 @@ describe('cell content renderers', () => {
     it('handles negative number significantFigures correctly in scientific mode', () => {
       const result = roundNumber(916.3, -1, 'scientific');
       expect(result).toBe('916.3');
+    });
+  });
+
+  describe('renderImage', () => {
+    it('returns an img tag with the correct src and alt attributes', () => {
+      const view = renderImage('base64', 'alt text');
+      expect(view).toMatchInlineSnapshot(`
+        <img
+          alt="alt text"
+          src="data:image/jpeg;base64,base64"
+          style={
+            Object {
+              "border": "1px solid #000000",
+            }
+          }
+        />
+      `);
+    });
+  });
+
+  describe('renderTimestamp', () => {
+    it('returns a timestamp string in the correct format', () => {
+      const view = renderTimestamp('2023-02-01T10:31:43');
+      expect(view).toEqual('2023-02-01 10:31:43');
+    });
+
+    it('throws an error if passed in string is not an ISO timestamp', () => {
+      expect(() => {
+        renderTimestamp('TEST');
+      }).toThrowError();
     });
   });
 });

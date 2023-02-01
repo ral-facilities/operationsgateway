@@ -1,3 +1,5 @@
+import { format, parseISO } from 'date-fns';
+
 export const roundNumber = (
   num: number,
   precision: number,
@@ -24,3 +26,14 @@ export const roundNumber = (
 
   return rounded;
 };
+
+export const renderImage = (base64Data: string, altText: string) => (
+  <img
+    src={`data:image/jpeg;base64,${base64Data}`}
+    alt={altText}
+    style={{ border: '1px solid #000000' }}
+  />
+);
+
+export const renderTimestamp = (serverTimestamp: string) =>
+  format(parseISO(serverTimestamp), 'yyyy-MM-dd HH:mm:ss');

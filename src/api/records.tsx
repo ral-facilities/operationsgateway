@@ -1,4 +1,3 @@
-import React from 'react';
 import axios, { AxiosError } from 'axios';
 import {
   useQuery,
@@ -20,9 +19,13 @@ import {
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import {
+  renderImage,
+  renderTimestamp,
+} from '../table/cellRenderers/cellContentRenderers';
 
 const fetchRecords = async (
   apiUrl: string,
@@ -200,8 +203,7 @@ export const useRecordsPaginated = (): UseQueryResult<
       select: (data: Record[]) =>
         data.map((record: Record) => {
           const timestampString = record.metadata.timestamp;
-          const timestampDate = parseISO(timestampString);
-          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+          const formattedDate = renderTimestamp(timestampString);
           const recordRow: RecordRow = {
             timestamp: formattedDate,
             shotnum: record.metadata.shotnum,
@@ -221,22 +223,16 @@ export const useRecordsPaginated = (): UseQueryResult<
                 break;
               case 'image':
                 channelData = (channel as ImageChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
+                channelData = renderImage(
+                  channelData,
+                  `${key} image for timestamp ${formattedDate}`
                 );
                 break;
               case 'waveform':
                 channelData = (channel as WaveformChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
+                channelData = renderImage(
+                  channelData,
+                  `${key} waveform for timestamp ${formattedDate}`
                 );
             }
 

@@ -8,7 +8,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { format, parseISO } from 'date-fns';
 import React from 'react';
 import { useChannelSummary } from '../api/channels';
 import {
@@ -16,6 +15,10 @@ import {
   isChannelMetadataScalar,
   isChannelMetadataWaveform,
 } from '../app.types';
+import {
+  renderImage,
+  renderTimestamp,
+} from '../table/cellRenderers/cellContentRenderers';
 
 type ChannelMetadataPanelProps = {
   displayedChannel: FullChannelMetadata | undefined;
@@ -91,18 +94,11 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
               Data Summary
             </Typography>
             <Body gutterBottom={false}>
-              First data date:{' '}
-              {format(
-                parseISO(channelSummary.first_date),
-                'yyyy-MM-dd HH:mm:ss'
-              )}
+              First data date: {renderTimestamp(channelSummary.first_date)}
             </Body>
             <Body>
               Most recent data date:{' '}
-              {format(
-                parseISO(channelSummary.most_recent_date),
-                'yyyy-MM-dd HH:mm:ss'
-              )}
+              {renderTimestamp(channelSummary.most_recent_date)}
             </Body>
             <Typography
               variant="body2"
@@ -130,18 +126,15 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                         {index + 1}
                       </TableCell>
                       <TableCell>
-                        {isChannelMetadataScalar(displayedChannel) ? (
-                          row
-                        ) : (
-                          <img
-                            src={`data:image/jpeg;base64,${row}`}
-                            alt={`${
-                              displayedChannel?.name ??
-                              displayedChannel.systemName
-                            } data summary recent data item ${index}`}
-                            style={{ border: '1px solid #000000' }}
-                          />
-                        )}
+                        {isChannelMetadataScalar(displayedChannel)
+                          ? row
+                          : renderImage(
+                              row as string,
+                              `${
+                                displayedChannel?.name ??
+                                displayedChannel.systemName
+                              } data summary recent data item ${index}`
+                            )}
                       </TableCell>
                     </TableRow>
                   ))}
