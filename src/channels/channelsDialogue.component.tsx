@@ -144,7 +144,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
                 </InputAdornment>
               ),
             }}
-          ></TextField>
+          />
         </Grid>
       </Grid>
       <DialogContent

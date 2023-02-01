@@ -41,9 +41,8 @@ const fetchRecords = async (
   for (const [key, value] of Object.entries(sort)) {
     // API recognises sort values as metadata.key or channel.key
     // Therefore, we must construct the appropriate parameter
-    const sortKey = Object.keys(staticChannels).includes(key)
-      ? `metadata.${key}`
-      : `channels.${key}`;
+    const sortKey =
+      key in staticChannels ? `metadata.${key}` : `channels.${key}`;
     queryParams.append('order', `${sortKey} ${value}`);
   }
 

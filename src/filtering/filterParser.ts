@@ -130,7 +130,7 @@ const convertOperator = (opToken: Token): string => {
  * convertChannel("CHANNEL_1")
  */
 const convertChannel = (channel: string): string => {
-  if (Object.keys(staticChannels).includes(channel)) {
+  if (channel in staticChannels) {
     return `metadata.${channel}`;
   } else {
     return `channels.${channel}.data`;
