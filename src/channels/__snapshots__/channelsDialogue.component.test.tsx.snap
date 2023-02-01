@@ -300,7 +300,7 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
               class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-hbvkri-MuiGrid-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"

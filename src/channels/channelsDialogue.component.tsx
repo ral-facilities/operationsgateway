@@ -184,7 +184,16 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
             />
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs>
+          <Grid
+            item
+            xs
+            sx={{
+              overflow: 'auto',
+              // 100vh - 2* dialogue padding + title + breadcrumbs + content padding + footer
+              maxHeight:
+                'calc(100vh - (2 * 32px + 72px + 42px + 2 * 20px + 53px))',
+            }}
+          >
             <ChannelMetadataPanel displayedChannel={displayedChannel} />
           </Grid>
         </Grid>
