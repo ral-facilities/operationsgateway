@@ -1,6 +1,10 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
-import { FullChannelMetadata, FullScalarChannelMetadata } from '../app.types';
+import {
+  FullChannelMetadata,
+  FullScalarChannelMetadata,
+  timeChannelName,
+} from '../app.types';
 import {
   useQuery,
   UseQueryResult,
@@ -20,8 +24,8 @@ interface ChannelsEndpoint {
 
 // This metadata is always present in every record
 export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
-  timestamp: {
-    systemName: 'timestamp',
+  [timeChannelName]: {
+    systemName: timeChannelName,
     name: 'Time',
     type: 'scalar',
     path: '/system',

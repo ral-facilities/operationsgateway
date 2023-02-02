@@ -9,7 +9,6 @@ import {
   Grid,
   InputAdornment,
   TextField,
-  Typography,
 } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { useChannels } from '../api/channels';
@@ -138,29 +137,25 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle component="div">
-        <Grid container columnSpacing={2}>
-          <Grid item xs>
-            <Typography variant="h6" component="h2">
-              Data Channels
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <TextField
-              size="small"
-              label="Search data channels"
-              fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-            ></TextField>
-          </Grid>
+      <Grid container columnSpacing={2} alignItems="center">
+        <Grid item xs>
+          <DialogTitle>Data Channels</DialogTitle>
         </Grid>
-      </DialogTitle>
+        <Grid item xs>
+          <TextField
+            size="small"
+            label="Search data channels"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+      </Grid>
       <DialogContent
         sx={{
           border: 'thin lightgrey',

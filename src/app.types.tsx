@@ -3,6 +3,7 @@ import type { CartesianScaleTypeRegistry } from 'chart.js';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
+export const timeChannelName = 'timestamp';
 
 export interface Record {
   id: string;
@@ -181,7 +182,7 @@ export type LineStyle = 'solid' | 'dashed' | 'dotted';
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
-  .set('TIMESTAMP', <AccessTime />)
-  .set('SHOTNUM', <Numbers />)
-  .set('ACTIVEAREA', <Place />)
-  .set('ACTIVEEXPERIMENT', <Science />);
+  .set(timeChannelName, <AccessTime />)
+  .set('shotnum', <Numbers />)
+  .set('activeArea', <Place />)
+  .set('activeExperiment', <Science />);

@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import React from 'react';
-import { FullChannelMetadata } from '../app.types';
+import { FullChannelMetadata, timeChannelName } from '../app.types';
 import { TreeNode } from './channelsDialogue.component';
 
 type ChannelTreeProps = {
@@ -59,7 +59,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
               <ListItemIcon>
                 <Checkbox
                   checked={value?.checked}
-                  disabled={!leaf || key === 'timestamp'}
+                  disabled={!leaf || key === timeChannelName}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
                   onClick={() => handleChannelChecked(key, value.checked)}
