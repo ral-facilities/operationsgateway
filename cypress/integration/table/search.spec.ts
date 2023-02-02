@@ -35,6 +35,10 @@ describe('Search', () => {
         req.reply({ statusCode: 200, fixture: 'recordCount.json' });
       }).as('getRecordCount');
 
+      cy.intercept('**/channels', (req) => {
+        req.reply({ statusCode: 200, fixture: 'channels.json' });
+      }).as('getChannels');
+
       // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
       let settings = Object.create(null);
       cy.request('operationsgateway-settings.json').then((response) => {
@@ -50,11 +54,10 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      // remove second @getRecords once we query channels properly
       cy.visit('/').wait([
         '@getSettings',
         '@getRecords',
-        '@getRecords',
+        '@getChannels',
         '@getRecordCount',
       ]);
     });
@@ -575,6 +578,10 @@ describe('Search', () => {
         req.reply({ statusCode: 200, fixture: 'recordCount.json' });
       }).as('getRecordCount');
 
+      cy.intercept('**/channels', (req) => {
+        req.reply({ statusCode: 200, fixture: 'channels.json' });
+      }).as('getChannels');
+
       // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
       let settings = Object.create(null);
       cy.request('operationsgateway-settings.json').then((response) => {
@@ -590,11 +597,10 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      // remove second @getRecords once we query channels properly
       cy.visit('/').wait([
         '@getSettings',
         '@getRecords',
-        '@getRecords',
+        '@getChannels',
         '@getRecordCount',
       ]);
     });

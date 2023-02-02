@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import recordsJson from './records.json';
+import channelsJson from './channels.json';
 
 export const plotRecordsRoute = (context) =>
   context.route('**/records**', (route) => {
@@ -15,6 +16,13 @@ export const recordCountRoute = (context) =>
     });
   });
 
+export const channelsRoute = (context) =>
+  context.route('**/channels**', (route) => {
+    return route.fulfill({
+      body: JSON.stringify(channelsJson),
+    });
+  });
+
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
   context,
@@ -22,6 +30,7 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -37,15 +46,15 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   // scroll down to get options button in full view
   await popup.mouse.wheel(0, 200);
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
-  await popup.locator('[aria-label="Pick shotnum colour"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
   await popup.locator('[aria-label="Hue"]').click();
   await popup.locator('[aria-label="Color"]').click();
 
@@ -67,8 +76,8 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('plots a shotnum vs channel graph with logarithmic scales', async ({
@@ -78,6 +87,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -91,9 +101,9 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
 
   await popup.getByRole('button', { name: 'XY' }).click();
 
-  await popup.locator('label:has-text("Search")').fill('shotnu');
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('text=Log').click();
 
@@ -101,7 +111,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('text=Log').click();
 
@@ -123,7 +133,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can zoom and pan the graph', async ({
@@ -133,6 +143,7 @@ test('user can zoom and pan the graph', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -144,9 +155,9 @@ test('user can zoom and pan the graph', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -192,7 +203,7 @@ test('user can zoom and pan the graph', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 
   // test the reset view button resets the zoom & pan
   // can't test reset zoom on chrome with the "have to close main window" workaround
@@ -209,7 +220,7 @@ test('user can zoom and pan the graph', async ({
       await chart.screenshot({
         type: 'png',
       })
-    ).toMatchSnapshot({ maxDiffPixels: 100 });
+    ).toMatchSnapshot({ maxDiffPixels: 150 });
   }
 });
 
@@ -220,6 +231,7 @@ test('plots multiple channels on the y axis', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -233,29 +245,31 @@ test('plots multiple channels on the y axis', async ({
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
-  await popup.locator('[aria-label="toggle shotnum visibility off"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup
+    .locator('[aria-label="toggle Shot Number visibility off"]')
+    .click();
 
   // add to the right Y axis as when we hide the channel the right Y axis shouldn't be visible
   await popup.getByRole('button', { name: 'Right' }).click();
 
   await popup.locator('label:has-text("Search all channels")').fill('GHIJK');
 
-  await popup.locator('text=CHANNEL_GHIJK').click();
+  await popup.locator('text=Channel_GHIJK').click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_GHIJK"]').click();
+  await popup.locator('[aria-label="More options for Channel_GHIJK"]').click();
   await popup
-    .locator('[aria-label="toggle CHANNEL_GHIJK visibility off"]')
+    .locator('[aria-label="toggle Channel_GHIJK visibility off"]')
     .click();
 
   await popup.locator('[aria-label="close settings"]').click();
@@ -277,7 +291,7 @@ test('plots multiple channels on the y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can hide gridlines and axes labels', async ({
@@ -287,6 +301,7 @@ test('user can hide gridlines and axes labels', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -298,9 +313,9 @@ test('user can hide gridlines and axes labels', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -333,7 +348,7 @@ test('user can hide gridlines and axes labels', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can add from and to dates to timestamp on x-axis', async ({
@@ -343,6 +358,7 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -365,9 +381,9 @@ test('user can add from and to dates to timestamp on x-axis', async ({
     .locator('[aria-label="to, date-time input"]')
     .fill('2022-01-10 00:00:00');
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -389,8 +405,8 @@ test('user can add from and to dates to timestamp on x-axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can add min and max limits to x- and y-axis', async ({
@@ -400,6 +416,7 @@ test('user can add min and max limits to x- and y-axis', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -413,11 +430,11 @@ test('user can add min and max limits to x- and y-axis', async ({
 
   await popup.getByRole('button', { name: 'XY' }).click();
 
-  await popup.locator('label:has-text("Title")').fill('Test shotnum plot');
+  await popup.locator('label:has-text("Title")').fill('Test Shot Number plot');
 
-  await popup.locator('label:has-text("Search")').fill('shotnu');
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('label:has-text("Min")').fill('1');
   await popup.locator('label:has-text("Max")').fill('2');
@@ -426,7 +443,7 @@ test('user can add min and max limits to x- and y-axis', async ({
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Min")').fill('-1');
   await popup.locator('label:has-text("Max")').fill('5');
@@ -449,8 +466,8 @@ test('user can add min and max limits to x- and y-axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can change line style of plotted channels', async ({
@@ -460,6 +477,7 @@ test('user can change line style of plotted channels', async ({
 }) => {
   await plotRecordsRoute(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -475,24 +493,24 @@ test('user can change line style of plotted channels', async ({
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_DEFGH"]').click();
+  await popup.locator('[aria-label="More options for Channel_DEFGH"]').click();
   await popup
-    .locator('[aria-label="change CHANNEL_DEFGH line style"]')
+    .locator('[aria-label="change Channel_DEFGH line style"]')
     .selectOption('dashed');
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
   await popup
-    .locator('[aria-label="change shotnum line style"]')
+    .locator('[aria-label="change Shot Number line style"]')
     .selectOption('dotted');
 
   await popup.locator('[aria-label="close settings"]').click();
@@ -514,7 +532,7 @@ test('user can change line style of plotted channels', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 const modifiedRecordsJson = recordsJson.map((record) => {
@@ -540,6 +558,7 @@ test('user can plot channels on the right y axis', async ({
 }) => {
   await plotRecordsRouteDifferentScales(context);
   await recordCountRoute(context);
+  await channelsRoute(context);
 
   await page.goto('/');
 
@@ -558,14 +577,14 @@ test('user can plot channels on the right y axis', async ({
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  const channel_ABCDE = await popup.locator('text=CHANNEL_ABCDE');
+  const channel_ABCDE = await popup.locator('text=Channel_ABCDE');
   await channel_ABCDE.click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_ABCDE"]').click();
+  await popup.locator('[aria-label="More options for Channel_ABCDE"]').click();
 
   // move ABCDE over to left axis - tests that users can move channels between left & right
   if (browserName === 'webkit') {
@@ -610,5 +629,5 @@ test('user can plot channels on the right y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

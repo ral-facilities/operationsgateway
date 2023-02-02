@@ -1,10 +1,8 @@
 import React from 'react';
 import axios, { AxiosError } from 'axios';
 import {
-  Channel,
   FullChannelMetadata,
   FullScalarChannelMetadata,
-  Record,
   timeChannelName,
 } from '../app.types';
 import {
@@ -18,72 +16,62 @@ import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
 import { readSciGatewayToken } from '../parseTokens';
 
-export const generateChannelMetadata = (
-  records: Record[]
-): FullChannelMetadata[] => {
-  if (!records || records.length === 0) return [];
+interface ChannelsEndpoint {
+  channels: {
+    [systemName: string]: Omit<FullChannelMetadata, 'systemName'>;
+  };
+}
 
-  const metadata: FullChannelMetadata[] = [];
-
-  // This metadata is always present in every record
-  const timestampMetadata: FullScalarChannelMetadata = {
+// This metadata is always present in every record
+export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
+  [timeChannelName]: {
     systemName: timeChannelName,
-    userFriendlyName: 'Time',
-    channel_dtype: 'scalar',
-  };
-  const shotnumMetadata: FullScalarChannelMetadata = {
+    name: 'Time',
+    type: 'scalar',
+    path: '/system',
+  },
+  shotnum: {
     systemName: 'shotnum',
-    userFriendlyName: 'Shot Number',
-    channel_dtype: 'scalar',
-  };
-  const activeAreaMetadata: FullScalarChannelMetadata = {
+    name: 'Shot Number',
+    type: 'scalar',
+    path: '/system',
+  },
+  activeArea: {
     systemName: 'activeArea',
-    userFriendlyName: 'Active Area',
-    channel_dtype: 'scalar',
-  };
-  const activeExperimentMetadata: FullScalarChannelMetadata = {
+    name: 'Active Area',
+    type: 'scalar',
+    path: '/system',
+  },
+  activeExperiment: {
     systemName: 'activeExperiment',
-    userFriendlyName: 'Active Experiment',
-    channel_dtype: 'scalar',
-  };
-  metadata.push(
-    timestampMetadata,
-    shotnumMetadata,
-    activeAreaMetadata,
-    activeExperimentMetadata
-  );
-
-  records.forEach((record: Record) => {
-    const keys = Object.keys(record.channels);
-    keys.forEach((key: string) => {
-      if (!metadata.find((channel) => channel.systemName === key)) {
-        const channel: Channel = record.channels[key];
-        const channelDataType = channel.metadata.channel_dtype;
-        const newMetadata: FullChannelMetadata = {
-          systemName: key,
-          channel_dtype: channelDataType,
-        };
-        metadata.push(newMetadata);
-      }
-    });
-  });
-
-  return metadata;
+    name: 'Active Experiment',
+    type: 'scalar',
+    path: '/system',
+  },
 };
 
 // TODO change this when we have a proper channel info endpoint to query
 // This just fetches metadata from the records endpoint at the moment
 const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios
-    .get(`${apiUrl}/records`, {
+    .get<ChannelsEndpoint>(`${apiUrl}/channels`, {
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
     .then((response) => {
-      const records: Record[] = response.data;
-      const metadata = generateChannelMetadata(records);
-      return metadata;
+      const { channels } = response.data;
+
+      if (!channels || Object.keys(channels).length === 0) return [];
+
+      const convertedChannels: FullChannelMetadata[] = Object.entries(
+        channels
+      ).map(([systemName, channel]) => ({
+        systemName,
+        ...channel,
+      }));
+
+      return [...Object.values(staticChannels), ...convertedChannels];
     });
 };
 
@@ -113,9 +101,7 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
   channels.forEach((channel: FullChannelMetadata) => {
     const newColumn: Column = {
       Header: () => {
-        const headerName = channel.userFriendlyName
-          ? channel.userFriendlyName
-          : channel.systemName;
+        const headerName = channel.name ? channel.name : channel.systemName;
         // Provide an actual header here when we have it
         // TODO: do we need to split on things other than underscore?
         const parts = headerName.split('_');
@@ -131,16 +117,11 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       // TODO: get these from data channel info
       channelInfo: channel,
     };
-    if (channel.channel_dtype === 'scalar') {
+    if (channel.type === 'scalar') {
       newColumn.Cell = ({ value }) =>
-        typeof value === 'number' &&
-        typeof channel.significantFigures === 'number' ? (
+        typeof value === 'number' && typeof channel.precision === 'number' ? (
           <React.Fragment>
-            {roundNumber(
-              value,
-              channel.significantFigures,
-              channel.scientificNotation ?? false
-            )}
+            {roundNumber(value, channel.precision, channel.notation)}
           </React.Fragment>
         ) : (
           <React.Fragment>{String(value ?? '')}</React.Fragment>
@@ -155,7 +136,7 @@ export const getScalarChannels = (
   channels: FullChannelMetadata[]
 ): FullScalarChannelMetadata[] => {
   return channels.filter(
-    (channel) => channel.channel_dtype === 'scalar'
+    (channel) => channel.type === 'scalar'
   ) as FullScalarChannelMetadata[];
 };
 

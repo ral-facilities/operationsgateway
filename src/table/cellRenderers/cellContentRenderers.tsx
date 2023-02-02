@@ -1,7 +1,7 @@
 export const roundNumber = (
   num: number,
-  significantFigures: number,
-  scientificNotation: boolean
+  precision: number,
+  notation: 'scientific' | 'normal' | undefined
 ): string => {
   /*
   In normal mode, do not round to the left of the decimal point,
@@ -10,17 +10,17 @@ export const roundNumber = (
   displayed as 9.2e2 or 916 in scientific or normal mode respectively.
   */
 
-  if (significantFigures <= 0) return num.toString();
+  if (precision <= 0) return num.toString();
 
   // count number of digits before decimal point (and ignore minus sign)
   const [integerPart] = num.toString().replace('-', '').split('.');
   const intDigits = integerPart.length;
 
-  const decimalPlaces =
-    intDigits >= significantFigures ? 0 : significantFigures - intDigits;
-  const rounded = scientificNotation
-    ? num.toExponential(significantFigures - 1)
-    : num.toFixed(decimalPlaces);
+  const decimalPlaces = intDigits >= precision ? 0 : precision - intDigits;
+  const rounded =
+    notation === 'scientific'
+      ? num.toExponential(precision - 1)
+      : num.toFixed(decimalPlaces);
 
   return rounded;
 };

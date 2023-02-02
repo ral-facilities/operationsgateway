@@ -46,41 +46,48 @@ changeXAxis=undefined
           allChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Shot Number"
+    "name": "Shot Number",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Area"
+    "name": "Active Area",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Experiment"
+    "name": "Active Experiment",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "test_1",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Test 1",
-    "significantFigures": 4
+    "type": "scalar",
+    "name": "Test 1",
+    "precision": 4,
+    "path": "/test_1"
   },
   {
     "systemName": "test_2",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": false
+    "type": "scalar",
+    "precision": 2,
+    "notation": "normal",
+    "path": "/test_2"
   },
   {
     "systemName": "test_3",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": true
+    "type": "scalar",
+    "precision": 2,
+    "notation": "scientific",
+    "path": "/test_3"
   }
 ]
 XAxisScale="time"
@@ -108,48 +115,56 @@ changeXMaximum=undefined
           selectedRecordTableChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   }
 ]
 allChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Shot Number"
+    "name": "Shot Number",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Area"
+    "name": "Active Area",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Experiment"
+    "name": "Active Experiment",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "test_1",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Test 1",
-    "significantFigures": 4
+    "type": "scalar",
+    "name": "Test 1",
+    "precision": 4,
+    "path": "/test_1"
   },
   {
     "systemName": "test_2",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": false
+    "type": "scalar",
+    "precision": 2,
+    "notation": "normal",
+    "path": "/test_2"
   },
   {
     "systemName": "test_3",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": true
+    "type": "scalar",
+    "precision": 2,
+    "notation": "scientific",
+    "path": "/test_3"
   }
 ]
 selectedPlotChannels=[]
@@ -275,41 +290,48 @@ changeXAxis=undefined
             allChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Shot Number"
+    "name": "Shot Number",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Area"
+    "name": "Active Area",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Experiment"
+    "name": "Active Experiment",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "test_1",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Test 1",
-    "significantFigures": 4
+    "type": "scalar",
+    "name": "Test 1",
+    "precision": 4,
+    "path": "/test_1"
   },
   {
     "systemName": "test_2",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": false
+    "type": "scalar",
+    "precision": 2,
+    "notation": "normal",
+    "path": "/test_2"
   },
   {
     "systemName": "test_3",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": true
+    "type": "scalar",
+    "precision": 2,
+    "notation": "scientific",
+    "path": "/test_3"
   }
 ]
 XAxisScale="linear"
@@ -447,48 +469,56 @@ changeXAxis=undefined
             selectedRecordTableChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   }
 ]
 allChannels=[
   {
     "systemName": "timestamp",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Time"
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "shotnum",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Shot Number"
+    "name": "Shot Number",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeArea",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Area"
+    "name": "Active Area",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "activeExperiment",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Active Experiment"
+    "name": "Active Experiment",
+    "type": "scalar",
+    "path": "/system"
   },
   {
     "systemName": "test_1",
-    "channel_dtype": "scalar",
-    "userFriendlyName": "Test 1",
-    "significantFigures": 4
+    "type": "scalar",
+    "name": "Test 1",
+    "precision": 4,
+    "path": "/test_1"
   },
   {
     "systemName": "test_2",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": false
+    "type": "scalar",
+    "precision": 2,
+    "notation": "normal",
+    "path": "/test_2"
   },
   {
     "systemName": "test_3",
-    "channel_dtype": "scalar",
-    "significantFigures": 2,
-    "scientificNotation": true
+    "type": "scalar",
+    "precision": 2,
+    "notation": "scientific",
+    "path": "/test_3"
   }
 ]
 selectedPlotChannels=[]

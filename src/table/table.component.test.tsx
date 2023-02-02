@@ -54,6 +54,7 @@ describe('Table', () => {
 
   beforeEach(() => {
     props = {
+      tableHeight: '100px',
       data: recordRows,
       availableColumns,
       columnStates: {},

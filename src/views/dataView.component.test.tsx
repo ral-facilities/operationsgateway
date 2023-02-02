@@ -14,6 +14,7 @@ import {
   renderComponentWithProviders,
   testRecords,
   getInitialState,
+  testChannels,
 } from '../setupTests';
 import axios from 'axios';
 import { operators, Token } from '../filtering/filterParser';
@@ -36,6 +37,8 @@ describe('Data View', () => {
           return Promise.resolve({ data: testRecords });
         case '/records/count':
           return Promise.resolve({ data: testRecords.length });
+        case '/channels':
+          return Promise.resolve({ data: { channels: testChannels.slice(4) } });
         default:
           return Promise.reject(new Error('Invalid URL'));
       }
@@ -56,10 +59,15 @@ describe('Data View', () => {
       screen.getByRole('textbox', { name: 'from, date-time input' })
     ).toBeInTheDocument();
     expect(screen.getByRole('table-container')).toBeInTheDocument();
-    expect(screen.getByLabelText('table checkboxes')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
     expect(
       screen.queryByRole('dialog', { name: 'Filters' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Data Channels' })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('dialog', { name: 'Data Channels' })
     ).not.toBeInTheDocument();
   });
 
@@ -86,6 +94,7 @@ describe('Data View', () => {
     const user = userEvent.setup();
     const state = {
       ...getInitialState(),
+      table: { ...getInitialState().table, selectedColumnIds: ['shotnum'] },
       filter: {
         ...getInitialState().filter,
         appliedFilters: [
@@ -101,16 +110,33 @@ describe('Data View', () => {
       await flushPromises();
     });
 
-    await user.click(
-      await screen.findByRole('checkbox', { name: 'shotnum checkbox' })
-    );
-
-    const shotnumHeader = screen.getByRole('columnheader', {
-      name: 'shotnum header',
+    const shotnumHeader = await screen.findByRole('columnheader', {
+      name: 'Shot Number',
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
     expect(dialogue).toBeVisible();
+  });
+
+  it('opens the chnanels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {
+    const user = userEvent.setup();
+    await act(async () => {
+      createView();
+      await flushPromises();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Data Channels' }));
+
+    const dialogue = await screen.findByRole('dialog', {
+      name: 'Data Channels',
+    });
+    expect(dialogue).toBeVisible();
+
+    await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('dialog', { name: 'Data Channels' })
+    );
   });
 
   it('collapses & expands search when the show/hide search button is clicked', async () => {

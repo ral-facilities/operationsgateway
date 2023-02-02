@@ -59,9 +59,12 @@ describe('Record Table', () => {
   const openFilters = jest.fn();
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(<RecordTable openFilters={openFilters} />, {
-      preloadedState: initialState,
-    });
+    return renderComponentWithStore(
+      <RecordTable openFilters={openFilters} tableHeight="100px" />,
+      {
+        preloadedState: initialState,
+      }
+    );
   };
 
   beforeEach(() => {

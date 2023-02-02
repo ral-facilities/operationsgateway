@@ -43,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.13"],\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
             ["@testing-library/dom", "npm:8.20.0"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.4.0"],\
@@ -2862,6 +2863,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@babel/runtime", [\
+        ["npm:7.20.13", {\
+          "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.20.13-45eeb6d8ad-09b7a97a05.zip/node_modules/@babel/runtime/",\
+          "packageDependencies": [\
+            ["@babel/runtime", "npm:7.20.13"],\
+            ["regenerator-runtime", "npm:0.13.11"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:7.20.6", {\
           "packageLocation": "./.yarn/cache/@babel-runtime-npm-7.20.6-ef7cda3b78-42a8504db2.zip/node_modules/@babel/runtime/",\
           "packageDependencies": [\
@@ -5120,6 +5129,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@tanstack/virtual-core", "npm:3.0.0-beta.13"],\
             ["@reach/observe-rect", "npm:1.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@testing-library/cypress", [\
+        ["npm:8.0.7", {\
+          "packageLocation": "./.yarn/cache/@testing-library-cypress-npm-8.0.7-75a7b40638-e005bc1a7e.zip/node_modules/@testing-library/cypress/",\
+          "packageDependencies": [\
+            ["@testing-library/cypress", "npm:8.0.7"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7", {\
+          "packageLocation": "./.yarn/__virtual__/@testing-library-cypress-virtual-7ed3727660/0/cache/@testing-library-cypress-npm-8.0.7-75a7b40638-e005bc1a7e.zip/node_modules/@testing-library/cypress/",\
+          "packageDependencies": [\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
+            ["@babel/runtime", "npm:7.20.13"],\
+            ["@testing-library/dom", "npm:8.20.0"],\
+            ["@types/cypress", null],\
+            ["cypress", "npm:9.7.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/cypress",\
+            "cypress"\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15253,6 +15286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.13"],\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
             ["@testing-library/dom", "npm:8.20.0"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.4.0"],\

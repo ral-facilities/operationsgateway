@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+import '@testing-library/cypress/add-commands';
+
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
     name: 'DRAGNDROP',
@@ -36,7 +38,7 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
     },
   });
   const BUTTON_INDEX = 0;
-  const SLOPPY_CLICK_THRESHOLD = 45;
+  const SLOPPY_CLICK_THRESHOLD = 10;
   cy.get(target)
     .first()
     .then(($target) => {

@@ -68,15 +68,14 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       return channels
         .filter(
           (channel) =>
-            channel.channel_dtype === 'scalar' &&
-            channel.systemName !== timeChannelName
+            channel.type === 'scalar' && channel.systemName !== timeChannelName
         )
         .map(
           (channel) =>
             ({
               type: 'channel',
               value: channel.systemName,
-              label: channel?.userFriendlyName ?? channel.systemName,
+              label: channel?.name ?? channel.systemName,
             } as Token)
         );
     },

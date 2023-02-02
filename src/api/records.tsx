@@ -24,6 +24,7 @@ import { selectQueryParams } from '../state/slices/searchSlice';
 import { parseISO, format } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import { staticChannels } from './channels';
 
 const fetchRecords = async (
   apiUrl: string,
@@ -40,14 +41,8 @@ const fetchRecords = async (
   for (const [key, value] of Object.entries(sort)) {
     // API recognises sort values as metadata.key or channel.key
     // Therefore, we must construct the appropriate parameter
-    const sortKey = [
-      'timestamp',
-      'shotnum',
-      'activeArea',
-      'activeExperiment',
-    ].includes(key)
-      ? `metadata.${key}`
-      : `channels.${key}`;
+    const sortKey =
+      key in staticChannels ? `metadata.${key}` : `channels.${key}`;
     queryParams.append('order', `${sortKey} ${value}`);
   }
 

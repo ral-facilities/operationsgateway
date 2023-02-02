@@ -1,4 +1,7 @@
-import { getHandleSelector } from '../../support/util';
+import {
+  getHandleSelector,
+  addInitialSystemChannels,
+} from '../../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   for (let i = 0; i < columns.length; i++) {
@@ -19,7 +22,11 @@ describe('Table Component', () => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
-    cy.visit('/').wait(['@getRecords', '@getRecordCount']);
+    cy.intercept('**/channels', (req) => {
+      req.reply({ statusCode: 200, fixture: 'channels.json' });
+    }).as('getChannels');
+
+    cy.visit('/').wait(['@getRecords', '@getRecordCount', '@getChannels']);
   });
 
   it('initialises with a time column', () => {
@@ -39,10 +46,16 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
 
     verifyColumnOrder(['Time', 'Shot Number']);
-    cy.get('#activeArea').check();
+
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('checkbox', { name: 'Active Area' }).check();
+
+    cy.contains('Add Channels').click();
+
     verifyColumnOrder(['Time', 'Shot Number', 'Active Area']);
   });
 
@@ -53,8 +66,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
-    cy.get('#activeArea').check();
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
 
     cy.get(getHandleSelector())
       .first()
@@ -80,8 +92,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
-    cy.get('#activeArea').check();
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
 
     cy.get(getHandleSelector())
       .first()
@@ -107,7 +118,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
 
     cy.get('[role="columnheader"]').first().as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
@@ -136,7 +147,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
     cy.get('[role="columnheader"]').should('be.visible');
 
     cy.get('[role="table-container"]').scrollTo('bottom');
@@ -150,13 +161,32 @@ describe('Table Component', () => {
       'false'
     );
 
-    // Add enough columns to require horizontal scroll bar
-    for (let i = 0; i < 7; i++) {
-      cy.get('[type="checkbox"').eq(i).check();
-    }
+    // // Add enough columns to require horizontal scroll bar
+    cy.contains('Data Channels').click();
+
+    cy.contains('system').click();
+
+    cy.findByRole('checkbox', { name: 'Shot Number' }).check();
+    cy.findByRole('checkbox', { name: 'Active Area' }).check();
+    cy.findByRole('checkbox', { name: 'Active Experiment' }).check();
+
+    cy.contains('All Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
+
+    cy.findByRole('checkbox', { name: 'Channel_ABCDE' }).check();
+    cy.findByRole('checkbox', { name: 'Channel_BCDEF' }).check();
+    cy.findByRole('checkbox', { name: 'Channel_CDEFG' }).check();
+
+    cy.contains('Add Channels').click();
 
     cy.get('[role="table-container"]').scrollTo('right');
-    cy.get('[role="columnheader"]').first().should('be.visible');
+    cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
+    // double check that we have scrolled far enough to test sticky column
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should(
+      'not.be.visible'
+    );
   });
 
   it('column headers overflow when word wrap is enabled', () => {
@@ -166,34 +196,38 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('[id^="CHANNEL_"]').first().as('channelCheckbox');
-    cy.get('@channelCheckbox').invoke('attr', 'id').as('channelName');
-    cy.get('@channelCheckbox').check();
+    cy.contains('Data Channels').click();
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
 
-    cy.get('@channelName').then((channelName) => {
-      cy.get('[data-testid^="sort timestamp"] p')
-        .invoke('css', 'height')
-        .then((height) => {
-          const singleLineHeight = +height.replace('px', '');
-          cy.get(`[data-testid^="sort ${channelName}"] p`)
-            .invoke('css', 'height')
-            .then((height) => +height.replace('px', ''))
-            .should('equal', singleLineHeight);
+    const channelName = 'CHANNEL_ABCDE';
 
-          // can't use cypress to trigger the menu opening, so use native browser
-          cy.document().then(($doc) => {
-            const clickEvent = new Event('click', { bubbles: true });
-            $doc
-              .querySelector(`#${channelName}-menu-button`)
-              ?.dispatchEvent(clickEvent);
-          });
-          cy.contains('Turn word wrap on').click();
-          cy.get(`[data-testid^="sort ${channelName}"] p`)
-            .invoke('css', 'height')
-            .then((height) => +height.replace('px', ''))
-            .should('be.gt', singleLineHeight);
+    cy.findByRole('checkbox', { name: new RegExp(channelName, 'i') }).check();
+
+    cy.contains('Add Channels').click();
+
+    cy.get('[data-testid^="sort timestamp"] p')
+      .invoke('css', 'height')
+      .then((height) => {
+        const singleLineHeight = +height.replace('px', '');
+        cy.get(`[data-testid^="sort ${channelName}"] p`)
+          .invoke('css', 'height')
+          .then((height) => +height.replace('px', ''))
+          .should('equal', singleLineHeight);
+
+        // can't use cypress to trigger the menu opening, so use native browser
+        cy.document().then(($doc) => {
+          const clickEvent = new Event('click', { bubbles: true });
+          $doc
+            .querySelector(`#${channelName}-menu-button`)
+            ?.dispatchEvent(clickEvent);
         });
-    });
+        cy.contains('Turn word wrap on').click();
+        cy.get(`[data-testid^="sort ${channelName}"] p`)
+          .invoke('css', 'height')
+          .then((height) => +height.replace('px', ''))
+          .should('be.gt', singleLineHeight);
+      });
   });
 
   describe.skip('should be able to sort by', () => {
@@ -254,7 +288,7 @@ describe('Table Component', () => {
     });
 
     it('multiple columns', () => {
-      cy.get('#shotnum').check();
+      addInitialSystemChannels(['Shot Number']);
       cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(200);

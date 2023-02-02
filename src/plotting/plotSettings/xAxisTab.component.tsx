@@ -35,7 +35,7 @@ export interface XAxisTabProps {
   allChannels: FullScalarChannelMetadata[];
   XAxisScale: XAxisScale;
   XAxis?: string;
-  changeXAxis: (value: string) => void;
+  changeXAxis: (value?: string) => void;
   changeXAxisScale: (value: XAxisScale) => void;
   initialXMinimum?: number;
   initialXMaximum?: number;
@@ -131,7 +131,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   );
 
   const handleXAxisChange = React.useCallback(
-    (value: string) => {
+    (value?: string) => {
       changeXAxis(value);
       if (value === timeChannelName) {
         handleChangeXScale('time');
@@ -141,6 +141,12 @@ const XAxisTab = (props: XAxisTabProps) => {
     },
     [changeXAxis, handleChangeXScale]
   );
+
+  const xAxisChannel = allChannels.find(
+    (channel) => channel.systemName === XAxis
+  );
+  const xAxisLabel =
+    xAxisChannel && xAxisChannel.name ? xAxisChannel.name : XAxis;
 
   return (
     <Grid container spacing={1} mt={1}>
@@ -308,13 +314,15 @@ const XAxisTab = (props: XAxisTabProps) => {
           <Grid container item>
             <Autocomplete
               disablePortal
-              freeSolo
               clearOnBlur
               id="select x axis"
               options={allChannels
                 // don't let the user select timestamp in an XY plot
                 .filter((channel) => channel.systemName !== timeChannelName)
-                .map((channel) => channel.systemName)}
+                .map((channel) => ({
+                  label: channel.name ?? channel.systemName,
+                  value: channel.systemName,
+                }))}
               fullWidth
               role="autocomplete"
               onInputChange={(_, newInputValue, reason) => {
@@ -323,10 +331,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 }
               }}
               inputValue={XAxisInputVal}
-              value={XAxisInputVal}
+              value={null}
               onChange={(_, newValue) => {
                 if (newValue) {
-                  handleXAxisChange(newValue);
+                  handleXAxisChange(newValue.value);
                 }
                 setXAxisInputVal('');
               }}
@@ -355,7 +363,7 @@ const XAxisTab = (props: XAxisTabProps) => {
       {XAxis && XAxis !== timeChannelName && (
         <Grid container item>
           <Box
-            aria-label={`${XAxis} label`}
+            aria-label={`${xAxisLabel} label`}
             sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -366,11 +374,11 @@ const XAxisTab = (props: XAxisTabProps) => {
             }}
           >
             <Typography maxWidth="240" noWrap>
-              {XAxis}
+              {xAxisLabel}
             </Typography>
             <StyledClose
-              aria-label={`Remove ${XAxis} from x-axis`}
-              onClick={() => handleXAxisChange('')}
+              aria-label={`Remove ${xAxisLabel} from x-axis`}
+              onClick={() => handleXAxisChange(undefined)}
             />
           </Box>
         </Grid>

@@ -6,7 +6,7 @@ import type { MoreOptionsProps } from './moreOptionsBox.component';
 import { useClickOutside } from '../../../hooks';
 
 const MoreOptionsToggle = (props: MoreOptionsProps) => {
-  const { name: channelName } = props.channel;
+  const channelName = props.channel.displayName ?? props.channel.name;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);

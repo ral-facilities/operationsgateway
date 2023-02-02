@@ -7,6 +7,7 @@ import type { YAxisTabProps } from './yAxisTab.component';
 import { testChannels } from '../../setupTests';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { COLOUR_ORDER } from './colourGenerator';
+import { staticChannels } from '../../api/channels';
 
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
@@ -28,11 +29,7 @@ describe('y-axis tab', () => {
   beforeEach(() => {
     props = {
       selectedRecordTableChannels: [
-        {
-          systemName: 'timestamp',
-          channel_dtype: 'scalar',
-          userFriendlyName: 'Time',
-        },
+        staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
       allChannels: testChannels as FullScalarChannelMetadata[],
       selectedPlotChannels: [],
@@ -67,6 +64,7 @@ describe('y-axis tab', () => {
   it('renders correctly with selected channels', () => {
     props.selectedPlotChannels = testChannels.map((channel) => ({
       name: channel.systemName,
+      displayName: channel.name,
       options: {
         visible: true,
         colour: '#ffffff',
@@ -78,13 +76,14 @@ describe('y-axis tab', () => {
     createView();
 
     props.selectedPlotChannels.forEach((channel) => {
-      const channelLabel = screen.getByLabelText(`${channel.name} label`);
-      expect(within(channelLabel).getByText(channel.name)).toBeInTheDocument();
+      const channelName = channel.displayName ?? channel.name;
+      const channelLabel = screen.getByLabelText(`${channelName} label`);
+      expect(within(channelLabel).getByText(channelName)).toBeInTheDocument();
       expect(
-        within(channelLabel).getByLabelText(`More options for ${channel.name}`)
+        within(channelLabel).getByLabelText(`More options for ${channelName}`)
       ).toBeInTheDocument();
       expect(
-        within(channelLabel).getByLabelText(`Remove ${channel.name} from plot`)
+        within(channelLabel).getByLabelText(`Remove ${channelName} from plot`)
       ).toBeInTheDocument();
     });
   });
@@ -134,7 +133,8 @@ describe('y-axis tab', () => {
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
+        name: 'test_2',
+        displayName: 'test_2',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -153,12 +153,13 @@ describe('y-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
-    await user.click(screen.getByText('test_1'));
+    await user.type(input, 'Test');
+    await user.click(screen.getByText('Test 1'));
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
         name: 'test_1',
+        displayName: 'Test 1',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -173,17 +174,27 @@ describe('y-axis tab', () => {
     props.selectedRecordTableChannels = [
       {
         systemName: 'test_1',
-        channel_dtype: 'scalar',
+        name: 'Test 1',
+        type: 'scalar',
+        path: '/test_1',
       },
     ];
     createView();
 
-    const select = screen.getByTestId('select displayed table channels');
-    fireEvent.change(select, { target: { value: 'test_1' } });
+    const select = screen.getByLabelText('Displayed table channels');
+    await userEvent.click(select);
+
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Displayed table channels',
+    });
+    await userEvent.click(
+      within(dropdown).getByRole('option', { name: 'Test 1' })
+    );
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
         name: 'test_1',
+        displayName: 'Test 1',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -198,7 +209,8 @@ describe('y-axis tab', () => {
     props.selectedRecordTableChannels = [
       {
         systemName: 'test_1',
-        channel_dtype: 'scalar',
+        type: 'scalar',
+        path: '/test_1',
       },
     ];
     props.selectedPlotChannels = [
@@ -214,10 +226,13 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    const select = screen.getByTestId('select displayed table channels');
-    fireEvent.change(select, { target: { value: 'test_1' } });
+    const select = screen.getByLabelText('Displayed table channels');
+    await userEvent.click(select);
 
-    expect(changeSelectedPlotChannels).not.toHaveBeenCalled();
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Displayed table channels',
+    });
+    expect(within(dropdown).queryByRole('option')).not.toBeInTheDocument();
   });
 
   it('removes channel from display when we click Close on its label', async () => {

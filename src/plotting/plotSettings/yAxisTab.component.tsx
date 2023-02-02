@@ -162,9 +162,10 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (channelName: string) => {
+    (newChannel: { label: string; value: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
-        name: channelName,
+        name: newChannel.value,
+        displayName: newChannel.label,
         options: {
           visible: true,
           lineStyle: 'solid',
@@ -317,21 +318,21 @@ const YAxisTab = (props: YAxisTabProps) => {
       </Grid>
       <Grid container item>
         <FormControl fullWidth>
-          <InputLabel sx={{ fontSize: 12 }}>
+          <InputLabel sx={{ fontSize: 12 }} id="table-channel-select-label">
             Displayed table channels
           </InputLabel>
           <Select
+            labelId="table-channel-select-label"
             label="Displayed table channels"
             value={selectValue}
             onChange={(event) => {
               const newValue = event.target.value;
-              addPlotChannel(newValue);
+              addPlotChannel(
+                JSON.parse(newValue) as { label: string; value: string }
+              );
               setSelectValue('');
             }}
             sx={{ fontSize: 12 }}
-            inputProps={{
-              'data-testid': 'select displayed table channels',
-            }}
           >
             {selectedRecordTableChannels
               .filter((channel) => channel.systemName !== timeChannelName)
@@ -344,8 +345,14 @@ const YAxisTab = (props: YAxisTabProps) => {
               .map((channel) => {
                 const name = channel.systemName;
                 return (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                  <MenuItem
+                    key={name}
+                    value={JSON.stringify({
+                      label: channel.name ?? channel.systemName,
+                      value: name,
+                    })}
+                  >
+                    {channel.name ?? channel.systemName}
                   </MenuItem>
                 );
               })}
@@ -355,22 +362,24 @@ const YAxisTab = (props: YAxisTabProps) => {
       <Grid container item>
         <Autocomplete
           disablePortal
-          freeSolo
           clearOnBlur
           id="select data channels"
           options={allChannels
-            .map((channel) => channel.systemName)
             .filter(
-              (name) =>
-                name !== timeChannelName &&
+              (channel) =>
+                channel.systemName !== timeChannelName &&
                 !selectedPlotChannels
                   .map((channel) => channel.name)
-                  .includes(name)
-            )}
+                  .includes(channel.systemName)
+            )
+            .map((channel) => ({
+              label: channel.name ?? channel.systemName,
+              value: channel.systemName,
+            }))}
           fullWidth
           role="autocomplete"
           inputValue={autocompleteValue}
-          value={autocompleteValue}
+          value={null}
           onInputChange={(_, newInputValue, reason) => {
             if (reason === 'input') {
               setAutocompleteValue(newInputValue);
@@ -407,7 +416,9 @@ const YAxisTab = (props: YAxisTabProps) => {
         .map((plotChannel) => (
           <Grid container item key={plotChannel.name}>
             <Box
-              aria-label={`${plotChannel.name} label`}
+              aria-label={`${
+                plotChannel.displayName ?? plotChannel.name
+              } label`}
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -418,13 +429,13 @@ const YAxisTab = (props: YAxisTabProps) => {
               }}
             >
               <Tooltip
-                title={plotChannel.name}
+                title={plotChannel.displayName ?? plotChannel.name}
                 arrow
                 placement="top"
                 leaveDelay={0}
               >
                 <Typography maxWidth="208" noWrap>
-                  {plotChannel.name}
+                  {plotChannel.displayName ?? plotChannel.name}
                 </Typography>
               </Tooltip>
               <Box
@@ -454,7 +465,9 @@ const YAxisTab = (props: YAxisTabProps) => {
                   leaveDelay={0}
                 >
                   <StyledClose
-                    aria-label={`Remove ${plotChannel.name} from plot`}
+                    aria-label={`Remove ${
+                      plotChannel.displayName ?? plotChannel.name
+                    } from plot`}
                     onClick={() => removePlotChannel(plotChannel.name)}
                   />
                 </Tooltip>

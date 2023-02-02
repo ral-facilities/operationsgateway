@@ -97,7 +97,6 @@ exports[`Data Header renders correctly 1`] = `
           tabindex="0"
         >
           <div
-            aria-label="test header"
             class="MuiBox-root css-914c56"
           >
             <div

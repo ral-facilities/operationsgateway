@@ -83,7 +83,7 @@ describe('x-axis tab', () => {
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeXAxis).toHaveBeenCalledWith('test_1');
+    expect(changeXAxis).toHaveBeenCalledWith('test_2');
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
@@ -93,8 +93,8 @@ describe('x-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
-    await user.click(screen.getByText('test_1'));
+    await user.type(input, 'Test');
+    await user.click(screen.getByText('Test 1'));
 
     expect(changeXAxis).toHaveBeenCalledWith('test_1');
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
@@ -115,8 +115,8 @@ describe('x-axis tab', () => {
     props.XAxis = 'test_1';
     createView();
 
-    await user.click(screen.getByLabelText('Remove test_1 from x-axis'));
-    expect(changeXAxis).toHaveBeenLastCalledWith('');
+    await user.click(screen.getByLabelText('Remove Test 1 from x-axis'));
+    expect(changeXAxis).toHaveBeenLastCalledWith(undefined);
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 

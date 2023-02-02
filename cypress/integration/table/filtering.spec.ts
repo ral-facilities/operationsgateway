@@ -1,3 +1,5 @@
+import { addInitialSystemChannels } from '../../support/util';
+
 describe('Filtering Component', () => {
   beforeEach(() => {
     cy.intercept('**/records**', (req) => {
@@ -11,8 +13,11 @@ describe('Filtering Component', () => {
       req.reply({ statusCode: 200, fixture: 'recordCount.json' });
     }).as('getRecordCount');
 
-    // remove second @getRecords once we query channels properly
-    cy.visit('/').wait(['@getRecords', '@getRecords', '@getRecordCount']);
+    cy.intercept('**/channels', (req) => {
+      req.reply({ statusCode: 200, fixture: 'channels.json' });
+    }).as('getChannels');
+
+    cy.visit('/').wait(['@getRecords', '@getChannels', '@getRecordCount']);
   });
 
   it('opens dialogue when you click on main filters button and closes when you click close', () => {
@@ -35,12 +40,10 @@ describe('Filtering Component', () => {
     cy.get('[role="dialog"]').should('not.exist');
 
     cy.wait('@getRecords');
-    cy.get('#shotnum').check();
-    cy.get('[role="columnheader"]')
-      .eq(1) // Shot Number column
-      .within(() => {
-        cy.get('[aria-label="open filters"]').click();
-      });
+    addInitialSystemChannels(['Shot Number']);
+    cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
+      cy.get('[aria-label="open filters"]').click();
+    });
 
     cy.get('[role="dialog"]').contains('Filters').should('be.visible');
   });
@@ -103,7 +106,7 @@ describe('Filtering Component', () => {
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
-      .contains('[role="button"]', 'CHANNEL_DEFGH')
+      .contains('[role="button"]', 'Channel_DEFGH')
       .should('be.visible');
     cy.get('@autoComplete')
       .contains('[role="button"]', /^"1"$/)
@@ -199,7 +202,7 @@ describe('Filtering Component', () => {
     cy.get('@autoComplete').then((el) => {
       const inputPosition = el[0].getBoundingClientRect();
       cy.wrap(el)
-        .contains('[role="button"]', /^CHANNEL_/)
+        .contains('[role="button"]', /^Channel_/)
         .then((chipEl) => {
           const chipPosition = chipEl[0].getBoundingClientRect();
           cy.wrap(el).click(
