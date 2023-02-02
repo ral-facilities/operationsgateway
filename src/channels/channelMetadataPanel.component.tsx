@@ -109,35 +109,41 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
               Recent Data
             </Typography>
             <TableContainer>
-              <Table aria-label="recent data">
+              <Table aria-label="recent data" size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Index</TableCell>
+                    <TableCell>Time</TableCell>
                     <TableCell>Data</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {channelSummary.recent_sample.map((row, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell>
-                        {isChannelMetadataScalar(displayedChannel)
-                          ? row
-                          : renderImage(
-                              row as string,
-                              `${
-                                displayedChannel?.name ??
-                                displayedChannel.systemName
-                              } data summary recent data item ${index}`
-                            )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {channelSummary.recent_sample.map((sample) => {
+                    const [timestamp, data] = Object.entries(sample)[0];
+                    const formattedTimestamp = renderTimestamp(timestamp);
+                    return (
+                      <TableRow
+                        key={formattedTimestamp}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          {formattedTimestamp}
+                        </TableCell>
+                        <TableCell>
+                          {isChannelMetadataScalar(displayedChannel)
+                            ? data
+                            : renderImage(
+                                data as string,
+                                `${
+                                  displayedChannel?.name ??
+                                  displayedChannel.systemName
+                                } data at ${formattedTimestamp}`
+                              )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

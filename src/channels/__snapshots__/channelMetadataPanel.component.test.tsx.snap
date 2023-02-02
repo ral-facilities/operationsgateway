@@ -84,13 +84,13 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
           class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
             scope="col"
           >
-            Index
+            Time
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
             scope="col"
           >
             Data
@@ -104,13 +104,13 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            1
+            2022-01-31 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             1
           </td>
@@ -119,13 +119,13 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            2
+            2022-01-30 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             2
           </td>
@@ -134,13 +134,13 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            3
+            2022-01-29 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             3
           </td>
@@ -235,13 +235,13 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
           class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
             scope="col"
           >
-            Index
+            Time
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeMedium css-1ygcj2i-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
             scope="col"
           >
             Data
@@ -255,16 +255,16 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            1
+            2022-01-31 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data summary recent data item 0"
+              alt="test_2 data at 2022-01-31 00:00:00"
               src="data:image/jpeg;base64,1"
               style="border: 1px solid #000000;"
             />
@@ -274,16 +274,16 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            2
+            2022-01-30 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data summary recent data item 1"
+              alt="test_2 data at 2022-01-30 00:00:00"
               src="data:image/jpeg;base64,2"
               style="border: 1px solid #000000;"
             />
@@ -293,16 +293,16 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
           class="MuiTableRow-root css-34nofg-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
             scope="row"
           >
-            3
+            2022-01-29 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data summary recent data item 2"
+              alt="test_2 data at 2022-01-29 00:00:00"
               src="data:image/jpeg;base64,3"
               style="border: 1px solid #000000;"
             />

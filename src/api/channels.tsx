@@ -72,7 +72,7 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
 export interface ChannelSummary {
   first_date: string;
   most_recent_date: string;
-  recent_sample: string[] | number[];
+  recent_sample: { [timestamp: string]: string | number }[];
 }
 
 const fetchChannelSummary = (

@@ -34,7 +34,11 @@ describe('Channel Metadata Panel', () => {
     channelSummary = {
       first_date: '2022-01-31T00:00:00',
       most_recent_date: '2023-01-31T00:00:00',
-      recent_sample: ['1', '2', '3'],
+      recent_sample: [
+        { '2022-01-31T00:00:00': 1 },
+        { '2022-01-30T00:00:00': 2 },
+        { '2022-01-29T00:00:00': 3 },
+      ],
     };
   });
 

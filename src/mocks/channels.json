@@ -1,0 +1,44 @@
+{
+  "_id": "123",
+  "channels": {
+    "CHANNEL_ABCDE": {
+      "name": "Channel_ABCDE",
+      "path": "/Channels/1/ABCDE",
+      "type": "scalar"
+    },
+    "CHANNEL_BCDEF": {
+      "name": "Channel_BCDEF",
+      "path": "/Channels/1/BCDEF",
+      "type": "image"
+    },
+    "CHANNEL_CDEFG": {
+      "name": "Channel_CDEFG",
+      "path": "/Channels/1/CDEFG",
+      "type": "waveform",
+      "x_units": "X",
+      "y_units": "Y"
+    },
+    "CHANNEL_DEFGH": {
+      "name": "Channel_DEFGH",
+      "path": "/Channels/2/DEFGH",
+      "type": "scalar",
+      "notation": "scientific",
+      "precision": 1
+    },
+    "CHANNEL_EFGHI": {
+      "name": "Channel_EFGHI",
+      "path": "/Channels/2/EFGHI",
+      "type": "image"
+    },
+    "CHANNEL_FGHIJ": {
+      "name": "Channel_FGHIJ",
+      "path": "/Channels/2/FGHIJ",
+      "type": "waveform"
+    },
+    "CHANNEL_GHIJK": {
+      "name": "Channel_GHIJK",
+      "path": "/Channels/3/GHIJK",
+      "type": "scalar"
+    }
+  }
+}

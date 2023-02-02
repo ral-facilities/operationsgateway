@@ -33,8 +33,19 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { staticChannels } from './api/channels';
+import { server } from './mocks/server.js';
 
 jest.setTimeout(15000);
+
+// Establish API mocking before all tests.
+beforeAll(() => server.listen());
+
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => server.resetHandlers());
+
+// Clean up after the tests are finished.
+afterAll(() => server.close());
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
