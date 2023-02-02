@@ -1468,16 +1468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
-  version: 7.20.6
-  resolution: "@babel/runtime@npm:7.20.6"
-  dependencies:
-    regenerator-runtime: ^0.13.11
-  checksum: 42a8504db21031b1859fbc0f52d698a3d2f5ada9519eb76c6f96a7e657d8d555732a18fe71ef428a67cc9fc81ca0d3562fb7afdc70549c5fec343190cbaa9b03
-  languageName: node
-  linkType: hard
-
-"@babel/runtime@npm:^7.14.6":
+"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.20.13
   resolution: "@babel/runtime@npm:7.20.13"
   dependencies:
@@ -2693,15 +2684,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.29.1":
-  version: 1.29.1
-  resolution: "@playwright/test@npm:1.29.1"
+"@playwright/test@npm:1.30.0":
+  version: 1.30.0
+  resolution: "@playwright/test@npm:1.30.0"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.29.1
+    playwright-core: 1.30.0
   bin:
     playwright: cli.js
-  checksum: c4424ee09f6589a296a3a78402f8c9eac841f3e5f44d96e3a2ba07aaa00d53ee9c10cc96379b304743a9e70f231df0ded0ad2fc197f412ada67b4cf17ee24b0f
+  checksum: 777432ac9cf3d0341fcd8dd265cb4c0775619d0ef48252b32a7c4d632d8038449756ec34bec873828cadbc08ba634e81176cb193304d34e699472771b7fb4d1e
   languageName: node
   linkType: hard
 
@@ -11498,7 +11489,7 @@ __metadata:
     "@mui/material": 5.11.0
     "@mui/system": 5.11.0
     "@mui/x-date-pickers": 5.0.7
-    "@playwright/test": 1.29.1
+    "@playwright/test": 1.30.0
     "@reduxjs/toolkit": 1.9.0
     "@tanstack/react-query": 4.20.4
     "@tanstack/react-query-devtools": 4.20.4
@@ -11913,12 +11904,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.29.1":
-  version: 1.29.1
-  resolution: "playwright-core@npm:1.29.1"
+"playwright-core@npm:1.30.0":
+  version: 1.30.0
+  resolution: "playwright-core@npm:1.30.0"
   bin:
     playwright: cli.js
-  checksum: e1c8423db4d28f44e5365a353f321b04a07709c8bf26d0c908f06d2c2669f715315170f84ca98a532951c2ac6324f5f48f651dca1abe43092c7637bdb4703303
+  checksum: 4c5693f27245a1168f94708ecd8e1eb0d200de435b25cc07cfa25b97a094633818954dc00baf24e0ff551825f672050b83d1309362c1f97213fe8ebd2a147ed9
   languageName: node
   linkType: hard
 
