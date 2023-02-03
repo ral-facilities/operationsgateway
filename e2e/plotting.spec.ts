@@ -1,37 +1,11 @@
 import { test, expect } from '@playwright/test';
-import recordsJson from './records.json';
-import channelsJson from './channels.json';
-
-export const plotRecordsRoute = (context) =>
-  context.route('**/records**', (route) => {
-    return route.fulfill({
-      body: JSON.stringify(recordsJson),
-    });
-  });
-
-export const recordCountRoute = (context) =>
-  context.route('**/records/count**', (route) => {
-    route.fulfill({
-      body: JSON.stringify(recordsJson.length),
-    });
-  });
-
-export const channelsRoute = (context) =>
-  context.route('**/channels**', (route) => {
-    return route.fulfill({
-      body: JSON.stringify(channelsJson),
-    });
-  });
+import recordsJson from '../src/mocks/records.json';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -85,10 +59,6 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -141,10 +111,6 @@ test('user can zoom and pan the graph', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -229,10 +195,6 @@ test('plots multiple channels on the y axis', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -299,10 +261,6 @@ test('user can hide gridlines and axes labels', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -356,10 +314,6 @@ test('user can add from and to dates to timestamp on x-axis', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -414,10 +368,6 @@ test('user can add min and max limits to x- and y-axis', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -475,10 +425,6 @@ test('user can change line style of plotted channels', async ({
   context,
   browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -535,32 +481,34 @@ test('user can change line style of plotted channels', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-const modifiedRecordsJson = recordsJson.map((record) => {
-  const newRecord = JSON.parse(JSON.stringify(record));
-  if (newRecord.channels.CHANNEL_DEFGH) {
-    newRecord.channels.CHANNEL_DEFGH.data =
-      newRecord.channels.CHANNEL_DEFGH.data * 100000;
-  }
-  return newRecord;
-});
-
-export const plotRecordsRouteDifferentScales = (context) =>
-  context.route('**/records**', (route) => {
-    return route.fulfill({
-      body: JSON.stringify(modifiedRecordsJson),
-    });
-  });
-
 test('user can plot channels on the right y axis', async ({
   page,
   context,
   browserName,
 }) => {
-  await plotRecordsRouteDifferentScales(context);
-  await recordCountRoute(context);
-  await channelsRoute(context);
-
   await page.goto('/');
+
+  await page.evaluate(async () => {
+    const { msw } = window;
+
+    const response = await fetch('/records');
+    const responseBody = await response.json();
+
+    const modifiedRecordsJson = responseBody.map((record) => {
+      const newRecord = JSON.parse(JSON.stringify(record));
+      if (newRecord.channels.CHANNEL_DEFGH) {
+        newRecord.channels.CHANNEL_DEFGH.data =
+          newRecord.channels.CHANNEL_DEFGH.data * 100000;
+      }
+      return newRecord;
+    });
+
+    msw.worker.use(
+      msw.rest.get('/records', async (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(modifiedRecordsJson));
+      })
+    );
+  });
 
   await page.locator('text=Plots').click();
 

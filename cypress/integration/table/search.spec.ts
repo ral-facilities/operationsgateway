@@ -24,21 +24,6 @@ function getConditionsFromParams(params: Map<string, string>) {
 describe('Search', () => {
   describe('no record limits', () => {
     beforeEach(() => {
-      cy.intercept('**/records**', (req) => {
-        req.reply({
-          statusCode: 200,
-          fixture: 'records.json',
-        });
-      }).as('getRecords');
-
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-      }).as('getRecordCount');
-
-      cy.intercept('**/channels', (req) => {
-        req.reply({ statusCode: 200, fixture: 'channels.json' });
-      }).as('getChannels');
-
       // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
       let settings = Object.create(null);
       cy.request('operationsgateway-settings.json').then((response) => {
@@ -54,12 +39,11 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      cy.visit('/').wait([
-        '@getSettings',
-        '@getRecords',
-        '@getChannels',
-        '@getRecordCount',
-      ]);
+      cy.visit('/').wait(['@getSettings']);
+    });
+
+    afterEach(() => {
+      cy.clearMocks();
     });
 
     it('searches by date-time', () => {
@@ -70,26 +54,42 @@ describe('Search', () => {
         '2022-01-02 00:00:00'
       );
 
+      cy.startSnoopingBrowserMockedRequest();
+
       cy.contains('Search').click();
-      cy.wait('@getRecordCount');
 
-      cy.wait('@getRecords').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
 
-        const condition = conditionsMap[0];
-        const timestampRange = condition['metadata.timestamp'];
-        const gte: string = timestampRange['$gte'];
-        const lte: string = timestampRange['$lte'];
-        expect(gte).equal('2022-01-01T00:00:00');
-        expect(lte).equal('2022-01-02T00:00:00');
-      });
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
 
-      cy.wait('@getRecordCount').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+          const condition = conditionsMap[0];
+          const timestampRange = condition['metadata.timestamp'];
+          const gte: string = timestampRange['$gte'];
+          const lte: string = timestampRange['$lte'];
+          expect(gte).equal('2022-01-01T00:00:00');
+          expect(lte).equal('2022-01-02T00:00:00');
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(2);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
         const conditionsMap = getConditionsFromParams(paramMap);
         expect(conditionsMap.length).equal(1);
 
@@ -116,27 +116,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -159,27 +175,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -202,27 +234,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -246,22 +294,33 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
+
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.clearMocks();
 
         // Advance time forward a minute
         cy.tick(60000);
@@ -272,22 +331,29 @@ describe('Search', () => {
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
           formatDateTimeForApi(newExpectedFromDate);
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-          // Check that the new datetime stamps have each moved forward a minute
-          expect(gte).equal(newExpectedFromDateString);
-          expect(lte).equal(newExpectedToDateString);
-        });
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+
+            // Check that the new datetime stamps have each moved forward a minute
+            expect(gte).equal(newExpectedFromDateString);
+            expect(lte).equal(newExpectedToDateString);
+          }
+        );
       });
     });
 
@@ -306,27 +372,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -350,27 +432,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -394,27 +492,43 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        cy.startSnoopingBrowserMockedRequest();
+
         cy.contains('Search').click();
-        cy.wait('@getRecordCount');
 
-        cy.wait('@getRecords').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
 
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal(expectedFromDateString);
-          expect(lte).equal(expectedToDateString);
-        });
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
 
-        cy.wait('@getRecordCount').should(({ request }) => {
-          expect(request.url).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.findBrowserMockedRequests({
+          method: 'GET',
+          url: '/records/count',
+        }).should((patchRequests) => {
+          expect(patchRequests.length).equal(2);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
           const conditionsMap = getConditionsFromParams(paramMap);
           expect(conditionsMap.length).equal(1);
 
@@ -434,26 +548,42 @@ describe('Search', () => {
       cy.get('input[name="shot number min"]').type('1');
       cy.get('input[name="shot number max"]').type('9');
 
+      cy.startSnoopingBrowserMockedRequest();
+
       cy.contains('Search').click();
-      cy.wait('@getRecordCount');
 
-      cy.wait('@getRecords').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
 
-        const condition = conditionsMap[0];
-        const shotnumRange = condition['metadata.shotnum'];
-        const gte: string = shotnumRange['$gte'];
-        const lte: string = shotnumRange['$lte'];
-        expect(gte).equal(1);
-        expect(lte).equal(9);
-      });
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
 
-      cy.wait('@getRecordCount').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+          const condition = conditionsMap[0];
+          const shotnumRange = condition['metadata.shotnum'];
+          const gte: string = shotnumRange['$gte'];
+          const lte: string = shotnumRange['$lte'];
+          expect(gte).equal(1);
+          expect(lte).equal(9);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(2);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
         const conditionsMap = getConditionsFromParams(paramMap);
         expect(conditionsMap.length).equal(1);
 
@@ -480,33 +610,49 @@ describe('Search', () => {
       cy.get('input[name="shot number min"]').type('1');
       cy.get('input[name="shot number max"]').type('9');
 
+      cy.startSnoopingBrowserMockedRequest();
+
       cy.contains('Search').click();
-      cy.wait('@getRecordCount');
 
-      cy.wait('@getRecords').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(2);
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
 
-        const timestampCondition = conditionsMap[0];
-        const timestampRange = timestampCondition['metadata.timestamp'];
-        const timestampGte: string = timestampRange['$gte'];
-        const timestampLte: string = timestampRange['$lte'];
-        expect(timestampGte).equal('2022-01-01T00:00:00');
-        expect(timestampLte).equal('2022-01-02T00:00:00');
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(2);
 
-        const shotnumCondition = conditionsMap[1];
-        const shotnumRange = shotnumCondition['metadata.shotnum'];
-        const shotnumGte: string = shotnumRange['$gte'];
-        const shotnumLte: string = shotnumRange['$lte'];
-        expect(shotnumGte).equal(1);
-        expect(shotnumLte).equal(9);
-      });
+          const timestampCondition = conditionsMap[0];
+          const timestampRange = timestampCondition['metadata.timestamp'];
+          const timestampGte: string = timestampRange['$gte'];
+          const timestampLte: string = timestampRange['$lte'];
+          expect(timestampGte).equal('2022-01-01T00:00:00');
+          expect(timestampLte).equal('2022-01-02T00:00:00');
 
-      cy.wait('@getRecordCount').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+          const shotnumCondition = conditionsMap[1];
+          const shotnumRange = shotnumCondition['metadata.shotnum'];
+          const shotnumGte: string = shotnumRange['$gte'];
+          const shotnumLte: string = shotnumRange['$lte'];
+          expect(shotnumGte).equal(1);
+          expect(shotnumLte).equal(9);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(2);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
         const conditionsMap = getConditionsFromParams(paramMap);
         expect(conditionsMap.length).equal(2);
 
@@ -567,22 +713,7 @@ describe('Search', () => {
 
   describe('with record limits', () => {
     beforeEach(() => {
-      cy.intercept('**/records**', (req) => {
-        req.reply({
-          statusCode: 200,
-          fixture: 'records.json',
-        });
-      }).as('getRecords');
-
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-      }).as('getRecordCount');
-
-      cy.intercept('**/channels', (req) => {
-        req.reply({ statusCode: 200, fixture: 'channels.json' });
-      }).as('getChannels');
-
-      // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
+      // We need a limit set on the records to ensure we get warning tooltips for these tests to pass
       let settings = Object.create(null);
       cy.request('operationsgateway-settings.json').then((response) => {
         settings = response.body;
@@ -597,12 +728,7 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      cy.visit('/').wait([
-        '@getSettings',
-        '@getRecords',
-        '@getChannels',
-        '@getRecordCount',
-      ]);
+      cy.visit('/').wait(['@getSettings']);
     });
 
     it('displays appropriate tooltips', () => {
@@ -610,18 +736,45 @@ describe('Search', () => {
         '2022-01-01 00:00:00'
       );
 
+      cy.startSnoopingBrowserMockedRequest();
+
       cy.contains('Search').click();
       cy.contains('Search').trigger('mouseover');
 
       // Tooltip should be present when we first try the search
       cy.contains('Click Search again to continue');
-      cy.wait('@getRecordCount');
       cy.contains('Search').click();
 
-      // Network request should have initiated
-      cy.wait('@getRecords').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
+
+          const condition = conditionsMap[0];
+          const timestampRange = condition['metadata.timestamp'];
+          const gte: string = timestampRange['$gte'];
+          expect(gte).equal('2022-01-01T00:00:00');
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
         const conditionsMap = getConditionsFromParams(paramMap);
         expect(conditionsMap.length).equal(1);
 
@@ -631,17 +784,7 @@ describe('Search', () => {
         expect(gte).equal('2022-01-01T00:00:00');
       });
 
-      cy.wait('@getRecordCount').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
-
-        const condition = conditionsMap[0];
-        const timestampRange = condition['metadata.timestamp'];
-        const gte: string = timestampRange['$gte'];
-        expect(gte).equal('2022-01-01T00:00:00');
-      });
+      cy.clearMocks();
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
@@ -654,22 +797,36 @@ describe('Search', () => {
       cy.contains('Click Search again to continue');
       cy.contains('Search').click();
 
-      // Network request should have initiated
-      cy.wait('@getRecords').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
 
-        const condition = conditionsMap[0];
-        const timestampRange = condition['metadata.timestamp'];
-        const gte: string = timestampRange['$gte'];
-        expect(gte).equal('2022-01-02T00:00:00');
-      });
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
 
-      cy.wait('@getRecordCount').should(({ request }) => {
-        expect(request.url).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(request.url);
+          const condition = conditionsMap[0];
+          const timestampRange = condition['metadata.timestamp'];
+          const gte: string = timestampRange['$gte'];
+          expect(gte).equal('2022-01-02T00:00:00');
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
         const conditionsMap = getConditionsFromParams(paramMap);
         expect(conditionsMap.length).equal(1);
 

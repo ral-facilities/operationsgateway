@@ -2,22 +2,11 @@ import { addInitialSystemChannels } from '../../support/util';
 
 describe('Filtering Component', () => {
   beforeEach(() => {
-    cy.intercept('**/records**', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'records.json',
-      });
-    }).as('getRecords');
+    cy.visit('/');
+  });
 
-    cy.intercept('**/records/count**', (req) => {
-      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-    }).as('getRecordCount');
-
-    cy.intercept('**/channels', (req) => {
-      req.reply({ statusCode: 200, fixture: 'channels.json' });
-    }).as('getChannels');
-
-    cy.visit('/').wait(['@getRecords', '@getChannels', '@getRecordCount']);
+  afterEach(() => {
+    cy.clearMocks();
   });
 
   it('opens dialogue when you click on main filters button and closes when you click close', () => {
@@ -39,7 +28,6 @@ describe('Filtering Component', () => {
     cy.contains('Apply').click();
     cy.get('[role="dialog"]').should('not.exist');
 
-    cy.wait('@getRecords');
     addInitialSystemChannels(['Shot Number']);
     cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
       cy.get('[aria-label="open filters"]').click();
@@ -62,17 +50,24 @@ describe('Filtering Component', () => {
       .contains('[role="button"]', 'is not null')
       .should('be.visible');
 
+    cy.startSnoopingBrowserMockedRequest();
+
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('stops a user from creating an invalid filter', () => {
@@ -146,18 +141,25 @@ describe('Filtering Component', () => {
     cy.get('@input').type('t');
     cy.get('@input').type('{leftArrow}{rightArrow}{enter}').blur();
 
+    cy.startSnoopingBrowserMockedRequest();
+
     // not would only be valid in it's current position, so no error means we didn't move
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
-        )}`
-      );
-    });
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('lets a user edit a filter using mouse', () => {
@@ -231,17 +233,24 @@ describe('Filtering Component', () => {
 
     cy.get('@input').type('{backspace}>={enter}').blur();
 
+    cy.startSnoopingBrowserMockedRequest();
+
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
-        )}`
-      );
-    });
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('stops a user from entering a random string', () => {
@@ -267,17 +276,26 @@ describe('Filtering Component', () => {
       .eq(1)
       .type('Channel{enter}is not null{enter}');
 
+    cy.startSnoopingBrowserMockedRequest();
+
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
+
+    cy.clearMocks();
 
     cy.contains('Filter').click();
 
@@ -285,13 +303,18 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
   });
 });

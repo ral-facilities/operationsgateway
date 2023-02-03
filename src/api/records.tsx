@@ -255,7 +255,9 @@ export const getFormattedAxisData = (
       formattedData = record.metadata.shotnum ?? NaN;
       break;
     case 'activeArea':
-      formattedData = parseInt(record.metadata.activeArea);
+      formattedData = record.metadata.activeArea
+        ? parseInt(record.metadata.activeArea)
+        : NaN;
       break;
     case 'activeExperiment':
       formattedData = record.metadata.activeExperiment

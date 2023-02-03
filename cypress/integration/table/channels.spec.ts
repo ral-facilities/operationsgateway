@@ -1,21 +1,6 @@
 describe('Data Channels Component', () => {
   beforeEach(() => {
-    cy.intercept('**/records**', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'records.json',
-      });
-    }).as('getRecords');
-
-    cy.intercept('**/records/count**', (req) => {
-      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-    }).as('getRecordCount');
-
-    cy.intercept('**/channels', (req) => {
-      req.reply({ statusCode: 200, fixture: 'channels.json' });
-    }).as('getChannels');
-
-    cy.visit('/').wait(['@getRecords', '@getChannels', '@getRecordCount']);
+    cy.visit('/');
   });
 
   it('opens dialogue when you click on main data channels button and closes when you click close', () => {
@@ -91,5 +76,26 @@ describe('Data Channels Component', () => {
     cy.contains('All Channels').click();
 
     cy.contains('system').should('be.visible');
+  });
+
+  it('displays channel metadata when user clicks on a channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+
+    cy.findByRole('button', { name: '1' }).click();
+
+    cy.findByRole('button', { name: 'Channel_BCDEF' }).click();
+
+    cy.findByAltText('Channel_BCDEF data at 2022-01-31 00:00:00')
+      .should('be.visible')
+      .should(($imgs) =>
+        // natural width means the img is a real image
+        $imgs.map((i, img) => expect(img.naturalWidth).to.be.greaterThan(0))
+      );
+
+    cy.findByRole('button', { name: 'Channel_ABCDE' }).click();
+
+    cy.findByRole('cell', { name: '6' }).should('be.visible');
   });
 });
