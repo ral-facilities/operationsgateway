@@ -1,9 +1,4 @@
-import {
-  setupWorker,
-  rest,
-  matchRequestUrl,
-  createResponseComposition,
-} from 'msw';
+import { setupWorker, rest, matchRequestUrl } from 'msw';
 import { handlers } from './handlers';
 
 // This configures a Service Worker with the given request handlers.
@@ -17,5 +12,4 @@ window.msw = {
   worker,
   rest,
   matchRequestUrl,
-  createResponseComposition,
 };
