@@ -34,7 +34,7 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { staticChannels } from './api/channels';
-import { server } from './mocks/server.js';
+import { server } from './mocks/server';
 
 jest.setTimeout(15000);
 
