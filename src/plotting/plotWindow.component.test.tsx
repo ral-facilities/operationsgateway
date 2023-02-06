@@ -15,11 +15,15 @@ import { PlotConfig } from '../state/slices/plotSlice';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
-jest.mock('./plotWindowPortal.component', () => ({ children }) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
-));
+jest.mock('./plotWindowPortal.component', () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ReactMock = require('react');
+  return ReactMock.forwardRef(({ children }, ref) => (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
+  ));
+});
 
 jest.mock('./plot.component', () => () => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -39,7 +39,7 @@ const ShotNumberPopup = (
           <TextField
             name="shot number min"
             label="Min"
-            value={min}
+            value={min ?? ''}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
@@ -59,7 +59,7 @@ const ShotNumberPopup = (
           <TextField
             name="shot number max"
             label="Max"
-            value={max}
+            value={max ?? ''}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
