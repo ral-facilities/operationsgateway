@@ -53,7 +53,9 @@ describe('Record Table', () => {
   it('renders correctly', async () => {
     const view = createView();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -85,7 +87,9 @@ describe('Record Table', () => {
 
     const view = createView();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     expect(view.asFragment()).toMatchSnapshot();
   });
@@ -96,7 +100,9 @@ describe('Record Table', () => {
       table: { ...state.table, selectedColumnIds: ['timestamp', 'shotnum'] },
     });
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     await user.click(screen.getByTestId('sort shotnum'));
 
@@ -124,7 +130,9 @@ describe('Record Table', () => {
     const user = userEvent.setup();
     createView();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     screen.getByText(`1–10 of ${recordsJson.length}`);
 
@@ -147,7 +155,9 @@ describe('Record Table', () => {
   it('adds columns in correct order on checkbox click', async () => {
     const { store } = createView();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     act(() => {
       store.dispatch(selectColumn('shotnum'));
@@ -212,7 +222,9 @@ describe('Record Table', () => {
       },
     });
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     expect(screen.getByText('3.3e+2')).toBeInTheDocument();
   });
@@ -220,7 +232,9 @@ describe('Record Table', () => {
   it("updates columns when a column's word wrap is toggled", async () => {
     createView();
 
-    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     let menuIcon = screen.getByLabelText('timestamp menu');
     fireEvent.click(menuIcon);

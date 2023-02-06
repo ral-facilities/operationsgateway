@@ -64,7 +64,7 @@ describe('channels api functions', () => {
           type: 'scalar',
           name: 'Channel_DEFGH',
           notation: 'scientific',
-          precision: 1,
+          precision: 2,
           systemName: 'CHANNEL_DEFGH',
           path: '/Channels/2',
         },
