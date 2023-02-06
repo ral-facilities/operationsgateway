@@ -35,6 +35,7 @@ import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { staticChannels } from './api/channels';
 import { server } from './mocks/server';
+import { matchRequestUrl, MockedRequest } from 'msw';
 
 jest.setTimeout(15000);
 
@@ -47,6 +48,42 @@ afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished.
 afterAll(() => server.close());
+
+/**
+ * Waits for msw request -
+ * @param method string representing the HTTP method
+ * @param url string representing the URL match for the route
+ * @returns a promise of the matching request
+ *  */
+export function waitForRequest(method: string, url: string) {
+  let requestId = '';
+
+  return new Promise<MockedRequest>((resolve, reject) => {
+    server.events.on('request:start', (req) => {
+      const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
+
+      const matchesUrl = matchRequestUrl(req.url, url).matches;
+
+      if (matchesMethod && matchesUrl) {
+        requestId = req.id;
+      }
+    });
+
+    server.events.on('request:match', (req) => {
+      if (req.id === requestId) {
+        resolve(req);
+      }
+    });
+
+    server.events.on('request:unhandled', (req) => {
+      if (req.id === requestId) {
+        reject(
+          new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
+        );
+      }
+    });
+  });
+}
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -2,20 +2,16 @@
 import {
   PlotDataset,
   Record,
-  RecordRow,
   ScalarChannel,
   SearchParams,
   SelectedPlotChannel,
 } from '../app.types';
 import {
-  testRecords,
-  testRecordRows,
   hooksWrapperWithProviders,
   getInitialState,
-  generateRecord,
   createTestQueryClient,
+  waitForRequest,
 } from '../setupTests';
-import axios from 'axios';
 import { renderHook, waitFor } from '@testing-library/react';
 import {
   getFormattedAxisData,
@@ -29,30 +25,7 @@ import { RootState } from '../state/store';
 import { parseISO } from 'date-fns';
 import { operators, parseFilter, Token } from '../filtering/filterParser';
 import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
-
-const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
-  if (!x || !y) return false;
-  if (x.length !== y.length) return false;
-
-  for (let i = 0; i < x.length; i++) {
-    const xRow = x[i];
-    const yRow = y[i];
-
-    const xKeys = Object.keys(xRow);
-    const yKeys = Object.keys(yRow);
-
-    for (let i = 0; i < xKeys.length; i++) {
-      if (xKeys[i] !== yKeys[i]) return false;
-    }
-
-    if (xRow.timestamp !== yRow.timestamp) return false;
-    if (xRow.shotnum !== yRow.shotnum) return false;
-    if (xRow.activeArea !== yRow.activeArea) return false;
-    if (xRow.activeExperiment !== yRow.activeExperiment) return false;
-  }
-
-  return true;
-};
+import recordsJson from '../mocks/records.json';
 
 describe('records api functions', () => {
   let state: PreloadedState<RootState>;
@@ -66,22 +39,13 @@ describe('records api functions', () => {
   });
 
   describe('useRecordCount', () => {
-    let mockData: Record[];
     let params: URLSearchParams;
 
     beforeEach(() => {
       params = new URLSearchParams();
-      mockData = testRecords;
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: mockData.length,
-      });
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('sends axios request to fetch record count and returns successful response', async () => {
+    it('sends request to fetch record count and returns successful response', async () => {
       const { result } = renderHook(() => useRecordCount(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -90,15 +54,7 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/records/count', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-
-      expect(result.current.data).toEqual(mockData.length);
+      expect(result.current.data).toEqual(recordsJson.length);
     });
 
     it('can send date and filter params as part of request', async () => {
@@ -127,6 +83,8 @@ describe('records api functions', () => {
         },
       };
 
+      const pendingRequest = waitForRequest('GET', '/records/count');
+
       const { result } = renderHook(() => useRecordCount(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -135,19 +93,15 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append(
         'conditions',
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(axios.get).toHaveBeenCalledWith('/records/count', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(result.current.data).toEqual(mockData.length);
+      expect(request.url.searchParams).toEqual(params);
+      expect(result.current.data).toEqual(recordsJson.length);
     });
 
     it('returns cached data from incomingRecordCount request if it is available', async () => {
@@ -156,6 +110,8 @@ describe('records api functions', () => {
       // Create a queryClient here and pass it between each hooks instance
       // This ensures a persistent query cache which we can then test with
       const testQueryClient = createTestQueryClient();
+
+      const pendingRequest = waitForRequest('GET', '/records/count');
 
       // First simulate a call to useIncomingRecordCount hook
       // This simulates the moment a user gets a warning for initiating a request with a large response of records
@@ -170,16 +126,20 @@ describe('records api functions', () => {
         expect(incomingRecordCountResult.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       // We should have made one call to /records/count
-      expect(axios.get).toHaveBeenCalledTimes(1);
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
+      expect(request.url.searchParams).toEqual(params);
+      expect(incomingRecordCountResult.current.data).toEqual(
+        recordsJson.length
       );
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(incomingRecordCountResult.current.data).toEqual(mockData.length);
+
+      // "listen" for second call to /records/count that we expect to never happen
+      const pendingRequest2 = waitForRequest('GET', '/records/count');
+      let isPending = true;
+      pendingRequest2.then(() => {
+        isPending = false;
+      });
 
       // Next, simulate a call to useRecordCount hook
       // This is the moment a user has heeded the warning of a large response of records and initiated the actual search
@@ -195,7 +155,7 @@ describe('records api functions', () => {
 
       // Should be no further calls to /records/count
       // This tells us that the cache from the incomingRecordCount query was retrieved
-      expect(axios.get).toHaveBeenCalledTimes(1);
+      expect(isPending).toBe(true);
 
       // The result from the useRecordCount hook should match the result of the useIncomingRecordCount hook
       expect(recordCountResult.current.data).toEqual(
@@ -209,22 +169,13 @@ describe('records api functions', () => {
   });
 
   describe('useIncomingRecordCount', () => {
-    let mockData: Record[];
     let params: URLSearchParams;
 
     beforeEach(() => {
       params = new URLSearchParams();
-      mockData = testRecords;
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: mockData.length,
-      });
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('sends axios request to fetch incoming record count and returns successful response', async () => {
+    it('sends request to fetch incoming record count and returns successful response', async () => {
       const { result } = renderHook(() => useIncomingRecordCount(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -233,14 +184,7 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(result.current.data).toEqual(mockData.length);
+      expect(result.current.data).toEqual(recordsJson.length);
     });
 
     it('can set filters and search params via function parameters', async () => {
@@ -261,6 +205,8 @@ describe('records api functions', () => {
         maxShots: MAX_SHOTS_VALUES[0],
       };
 
+      const pendingRequest = waitForRequest('GET', '/records/count');
+
       const { result } = renderHook(
         () => useIncomingRecordCount(testFilterStrings, testSearchParams),
         {
@@ -272,19 +218,15 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append(
         'conditions',
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(result.current.data).toEqual(mockData.length);
+      expect(request.url.searchParams).toEqual(params);
+      expect(result.current.data).toEqual(recordsJson.length);
     });
 
     it('can set search and filter params via the store', async () => {
@@ -313,6 +255,8 @@ describe('records api functions', () => {
         },
       };
 
+      const pendingRequest = waitForRequest('GET', '/records/count');
+
       const { result } = renderHook(() => useIncomingRecordCount(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -321,19 +265,15 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append(
         'conditions',
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(axios.get).toHaveBeenCalledWith(
-        '/records/count',
-        expect.objectContaining({ params })
-      );
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(result.current.data).toEqual(mockData.length);
+      expect(request.url.searchParams).toEqual(params);
+      expect(result.current.data).toEqual(recordsJson.length);
     });
 
     it.todo(
@@ -342,22 +282,15 @@ describe('records api functions', () => {
   });
 
   describe('useRecordsPaginated', () => {
-    let mockData: Record[];
     let params: URLSearchParams;
 
     beforeEach(() => {
       params = new URLSearchParams();
-      mockData = testRecords;
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: mockData,
-      });
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
+    it('sends request to fetch records, returns successful response and uses a select function to format the results', async () => {
+      const pendingRequest = waitForRequest('GET', '/records');
 
-    it('sends axios request to fetch records, returns successful response and uses a select function to format the results', async () => {
       const { result } = renderHook(() => useRecordsPaginated(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -366,19 +299,14 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(request.url.searchParams).toEqual(params);
+
+      expect(result.current.data).toMatchSnapshot();
     });
 
     it('can send sort, date range and filter parameters as part of request', async () => {
@@ -411,6 +339,8 @@ describe('records api functions', () => {
         },
       };
 
+      const pendingRequest = waitForRequest('GET', '/records');
+
       const { result } = renderHook(() => useRecordsPaginated(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -418,6 +348,8 @@ describe('records api functions', () => {
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
       });
+
+      const request = await pendingRequest;
 
       params.append('order', 'metadata.timestamp asc');
       params.append('order', 'channels.CHANNEL_1 desc');
@@ -428,26 +360,16 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(request.url.searchParams).toEqual(params);
     });
   });
 
   describe('usePlotRecords', () => {
-    let mockData: Record[];
     let params: URLSearchParams;
 
     const testSelectedPlotChannels: SelectedPlotChannel[] = [
       {
-        name: 'test_3',
+        name: 'CHANNEL_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -459,10 +381,6 @@ describe('records api functions', () => {
 
     beforeEach(() => {
       params = new URLSearchParams();
-      mockData = testRecords;
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: mockData,
-      });
     });
 
     afterEach(() => {
@@ -470,6 +388,8 @@ describe('records api functions', () => {
     });
 
     it('uses a select function to format the results', async () => {
+      const pendingRequest = waitForRequest('GET', '/records');
+
       const { result } = renderHook(
         () => usePlotRecords(testSelectedPlotChannels),
         {
@@ -481,6 +401,8 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       // Default params for usePlotRecords
       params.append('order', 'metadata.timestamp asc'); // Assume the user is plotting time-series graph
 
@@ -488,22 +410,23 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '50');
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
+      expect(request.url.searchParams).toEqual(params);
 
       const expectedData: PlotDataset[] = [
         {
-          name: 'test_3',
+          name: 'CHANNEL_ABCDE',
           data: [
             {
-              // mockData[2] is the test record with a scalar channel
-              timestamp: parseISO(mockData[2].metadata.timestamp).getTime(),
-              test_3: 333.3,
+              timestamp: parseISO(recordsJson[0].metadata.timestamp).getTime(),
+              CHANNEL_ABCDE: 1,
+            },
+            {
+              timestamp: parseISO(recordsJson[1].metadata.timestamp).getTime(),
+              CHANNEL_ABCDE: 2,
+            },
+            {
+              timestamp: parseISO(recordsJson[2].metadata.timestamp).getTime(),
+              CHANNEL_ABCDE: 3,
             },
           ],
         },
@@ -534,6 +457,8 @@ describe('records api functions', () => {
         },
       };
 
+      const pendingRequest = waitForRequest('GET', '/records');
+
       const { result } = renderHook(
         () => usePlotRecords(testSelectedPlotChannels, 'shotnum'),
         {
@@ -545,6 +470,8 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append('order', 'metadata.shotnum asc');
       params.append(
         'conditions',
@@ -553,22 +480,23 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '1000');
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
+      expect(request.url.searchParams).toEqual(params);
 
       const expectedData: PlotDataset[] = [
         {
-          name: 'test_3',
+          name: 'CHANNEL_ABCDE',
           data: [
             {
-              // mockData[2] is the test record with a scalar channel
+              CHANNEL_ABCDE: 1,
+              shotnum: 1,
+            },
+            {
+              CHANNEL_ABCDE: 2,
+              shotnum: 2,
+            },
+            {
+              CHANNEL_ABCDE: 3,
               shotnum: 3,
-              test_3: 333.3,
             },
           ],
         },
@@ -578,6 +506,8 @@ describe('records api functions', () => {
     });
 
     it('does not set skip and limit params on request if maxShots === "Unlimited"', async () => {
+      const pendingRequest = waitForRequest('GET', '/records');
+
       state = {
         ...getInitialState(),
         search: {
@@ -600,15 +530,11 @@ describe('records api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
+      const request = await pendingRequest;
+
       params.append('order', 'metadata.timestamp asc');
 
-      expect(axios.get).toHaveBeenCalledWith('/records', {
-        params,
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
-        params.toString()
-      );
+      expect(request.url.searchParams).toEqual(params);
     });
   });
 
@@ -616,9 +542,8 @@ describe('records api functions', () => {
     let testRecord: Record;
 
     beforeEach(() => {
-      // record with num = 3 creates a record with a scalar channel called test_3
-      // this corresponds with scalar metadata channel test_3 in testChannels variable
-      testRecord = generateRecord(3);
+      // this has the scalar channel CHANNE_ABCDE
+      testRecord = recordsJson[0];
     });
 
     it('formats timestamp correctly', () => {
@@ -628,7 +553,7 @@ describe('records api functions', () => {
     });
 
     it('formats shot number correctly', () => {
-      let result = getFormattedAxisData(testRecord, 'activeExperiment');
+      let result = getFormattedAxisData(testRecord, 'shotnum');
       expect(result).toEqual(testRecord.metadata.shotnum);
 
       testRecord.metadata.shotnum = undefined;
@@ -637,7 +562,11 @@ describe('records api functions', () => {
     });
 
     it('formats activeArea correctly', () => {
-      const result = getFormattedAxisData(testRecord, 'activeArea');
+      let result = getFormattedAxisData(testRecord, 'activeArea');
+      expect(result).toEqual(NaN);
+
+      testRecord.metadata.activeArea = '3';
+      result = getFormattedAxisData(testRecord, 'activeArea');
       expect(result).toEqual(parseInt(testRecord.metadata.activeArea));
     });
 
@@ -652,13 +581,13 @@ describe('records api functions', () => {
     });
 
     it('formats channel data correctly', () => {
-      let result = getFormattedAxisData(testRecord, 'test_3');
+      let result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(
-        (testRecord.channels['test_3'] as ScalarChannel).data
+        (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data
       );
 
-      (testRecord.channels['test_3'] as ScalarChannel).data = '1';
-      result = getFormattedAxisData(testRecord, 'test_3');
+      (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
+      result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(1);
 
       result = getFormattedAxisData(testRecord, 'invalid_channel');

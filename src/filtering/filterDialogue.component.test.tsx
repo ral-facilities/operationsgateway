@@ -3,17 +3,14 @@ import React from 'react';
 import FilterDialogue from './filterDialogue.component';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  getInitialState,
-  renderComponentWithProviders,
-  testChannels,
-  testRecords,
-} from '../setupTests';
+import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
-import axios from 'axios';
 import { QueryClient } from '@tanstack/react-query';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import recordsJson from '../mocks/records.json';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
@@ -35,10 +32,6 @@ describe('Filter dialogue component', () => {
       open: true,
       onClose: jest.fn(),
     };
-
-    (axios.get as jest.Mock).mockResolvedValue({
-      data: { channels: testChannels.slice(4) },
-    });
   });
 
   afterEach(() => {
@@ -251,13 +244,12 @@ describe('Filter dialogue component', () => {
 
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/channels')
-        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
-      return Promise.resolve({
-        data: 2,
-      });
-    });
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
+      })
+    );
+
     const state = {
       ...getInitialState(),
       config: {
@@ -303,13 +295,11 @@ describe('Filter dialogue component', () => {
 
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/channels')
-        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
-      return Promise.resolve({
-        data: 2,
-      });
-    });
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
+      })
+    );
 
     const testQueryClient = new QueryClient({
       defaultOptions: {
@@ -332,7 +322,7 @@ describe('Filter dialogue component', () => {
         },
       ],
       () => {
-        return { data: [testRecords[0], testRecords[1]] };
+        return { data: [recordsJson[0], recordsJson[1]] };
       }
     );
 

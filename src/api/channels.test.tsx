@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import axios from 'axios';
 import { renderHook, waitFor } from '@testing-library/react';
 import {
   useChannels,
@@ -9,23 +8,15 @@ import {
   useChannelSummary,
   ChannelSummary,
 } from './channels';
-import { FullChannelMetadata } from '../app.types';
-import {
-  testChannels,
-  hooksWrapperWithProviders,
-  getInitialState,
-} from '../setupTests';
+import { FullChannelMetadata, timeChannelName } from '../app.types';
+import { hooksWrapperWithProviders, getInitialState } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import channelsJson from '../mocks/channels.json';
 
 describe('channels api functions', () => {
-  let mockData: FullChannelMetadata[];
-
-  beforeEach(() => {
-    // remove the first 4 items i.e. the staticChannels as these are added by fetchChannels
-    mockData = testChannels.slice(4);
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -37,76 +28,7 @@ describe('channels api functions', () => {
       state = getInitialState();
     });
 
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('uses a select function to construct an array of columns from given channel metadata', async () => {
-      (axios.get as jest.Mock).mockResolvedValueOnce({
-        data: { channels: mockData },
-      });
-
-      const expected = [
-        {
-          accessor: 'timestamp',
-          Header: () => 'Time',
-          Cell: expect.anything(),
-          channelInfo: staticChannels['timestamp'],
-        },
-        {
-          accessor: 'shotnum',
-          Header: () => 'Shot Number',
-          Cell: expect.anything(),
-          channelInfo: staticChannels['shotnum'],
-        },
-        {
-          accessor: 'activeArea',
-          Header: () => 'Active Area',
-          Cell: expect.anything(),
-          channelInfo: staticChannels['activeArea'],
-        },
-        {
-          accessor: 'activeExperiment',
-          Header: () => 'Active Experiment',
-          Cell: expect.anything(),
-          channelInfo: staticChannels['activeExperiment'],
-        },
-        {
-          accessor: 'test_1',
-          Header: () => 'test_1',
-          channelInfo: {
-            type: 'scalar',
-            name: 'Test 1',
-            precision: 4,
-            systemName: 'test_1',
-            path: '/test_1',
-          },
-        },
-        {
-          accessor: 'test_2',
-          Header: () => 'test_2',
-          channelInfo: {
-            type: 'scalar',
-            systemName: 'test_2',
-            path: '/test_2',
-            notation: 'normal',
-            precision: 2,
-          },
-        },
-        {
-          accessor: 'test_3',
-          Header: () => 'test_3',
-          Cell: expect.anything(),
-          channelInfo: {
-            type: 'scalar',
-            systemName: 'test_3',
-            path: '/test_3',
-            notation: 'scientific',
-            precision: 2,
-          },
-        },
-      ];
-
       const { result } = renderHook(() => useAvailableColumns(), {
         wrapper: hooksWrapperWithProviders(state),
       });
@@ -114,24 +36,47 @@ describe('channels api functions', () => {
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
       });
-
-      expect(axios.get).toHaveBeenCalledWith('/channels', {
-        headers: { Authorization: 'Bearer null' },
-      });
-      expect(result.current.data).not.toBeUndefined();
 
       const data = result.current.data;
 
-      for (let i = 0; i < data!.length; i++) {
-        expect(data![i].accessor).toEqual(expected[i].accessor);
-        expect(data![i]['channelInfo']).toEqual(expected[i].channelInfo);
-      }
+      expect(data).not.toBeUndefined();
+
+      const timestampCol = data!.find(
+        (col) => col.accessor === timeChannelName
+      );
+
+      // assert it converts a static channel correctly
+      expect(timestampCol).toEqual({
+        accessor: 'timestamp',
+        Header: expect.any(Function),
+        Cell: expect.any(Function),
+        channelInfo: staticChannels['timestamp'],
+      });
+
+      const channelCol = data!.find((col) => col.accessor === 'CHANNEL_DEFGH');
+
+      // assert it converts a normal channel correctly
+      expect(channelCol).toEqual({
+        accessor: 'CHANNEL_DEFGH',
+        Header: expect.any(Function),
+        Cell: expect.any(Function),
+        channelInfo: {
+          type: 'scalar',
+          name: 'Channel_DEFGH',
+          notation: 'scientific',
+          precision: 1,
+          systemName: 'CHANNEL_DEFGH',
+          path: '/Channels/2',
+        },
+      });
     });
 
     it('returns no columns if no data was present in the request response', async () => {
-      (axios.get as jest.Mock).mockResolvedValueOnce({
-        data: { channels: {} },
-      });
+      server.use(
+        rest.get('/channels', (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json({ channels: {} }));
+        })
+      );
 
       const { result } = renderHook(() => useAvailableColumns(), {
         wrapper: hooksWrapperWithProviders(state),
@@ -141,9 +86,6 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(axios.get).toHaveBeenCalledWith('/channels', {
-        headers: { Authorization: 'Bearer null' },
-      });
       expect(result.current.data).toEqual([]);
     });
 
@@ -206,17 +148,7 @@ describe('channels api functions', () => {
   });
 
   describe('useChannels', () => {
-    beforeEach(() => {
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: { channels: mockData },
-      });
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('sends axios request to fetch channels and returns successful response', async () => {
+    it('sends request to fetch channels and returns successful response', async () => {
       const { result } = renderHook(() => useChannels(), {
         wrapper: hooksWrapperWithProviders(),
       });
@@ -225,35 +157,35 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      const expected: FullChannelMetadata[] = [
+      const expected = [
         ...Object.values(staticChannels),
-        {
-          type: 'scalar',
-          name: 'Test 1',
-          precision: 4,
-          systemName: 'test_1',
-          path: '/test_1',
-        },
-        {
-          type: 'scalar',
-          systemName: 'test_2',
-          path: '/test_2',
-          notation: 'normal',
-          precision: 2,
-        },
-        {
-          type: 'scalar',
-          systemName: 'test_3',
-          path: '/test_3',
-          notation: 'scientific',
-          precision: 2,
-        },
+        ...Object.entries(channelsJson.channels).map(
+          ([systemName, channel]) => ({
+            systemName,
+            ...channel,
+          })
+        ),
       ];
 
-      expect(axios.get).toHaveBeenCalledWith('/channels', {
-        headers: { Authorization: 'Bearer null' },
-      });
       expect(result.current.data).toEqual(expected);
+    });
+
+    it('returns no channels if no data was present in the request response', async () => {
+      server.use(
+        rest.get('/channels', (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json({ channels: {} }));
+        })
+      );
+
+      const { result } = renderHook(() => useChannels(), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual([]);
     });
 
     it.todo(
@@ -262,22 +194,8 @@ describe('channels api functions', () => {
   });
 
   describe('useChannelSummary', () => {
-    beforeEach(() => {
-      (axios.get as jest.Mock).mockResolvedValue({
-        data: {
-          first_date: '2022-01-31T00:00:00',
-          most_recent_date: '2023-01-31T00:00:00',
-          recent_sample: [1, 2, 3],
-        } as ChannelSummary,
-      });
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
-    it('sends axios request to fetch channel summary and returns successful response', async () => {
-      const { result } = renderHook(() => useChannelSummary('channel'), {
+    it('sends request to fetch channel summary and returns successful response', async () => {
+      const { result } = renderHook(() => useChannelSummary('CHANNEL_ABCDE'), {
         wrapper: hooksWrapperWithProviders(),
       });
 
@@ -286,24 +204,31 @@ describe('channels api functions', () => {
       });
 
       const expected: ChannelSummary = {
-        first_date: '2022-01-31T00:00:00',
+        first_date: '2022-01-29T00:00:00',
         most_recent_date: '2023-01-31T00:00:00',
-        recent_sample: [1, 2, 3],
+        recent_sample: [
+          { '2022-01-31T00:00:00': 6 },
+          { '2022-01-30T00:00:00': 5 },
+          { '2022-01-29T00:00:00': 4 },
+        ],
       };
-      expect(axios.get).toHaveBeenCalledWith(`/channels/summary/${'channel'}`, {
-        headers: { Authorization: 'Bearer null' },
-      });
+
       expect(result.current.data).toEqual(expected);
     });
 
-    it('does not send axios request to fetch channel summary when given no channel or system channel', async () => {
+    it('does not send request to fetch channel summary when given no channel or system channel', async () => {
+      let requestSent = false;
+      server.events.on('request:start', () => {
+        requestSent = true;
+      });
+
       const { result } = renderHook(() => useChannelSummary(undefined), {
         wrapper: hooksWrapperWithProviders(),
       });
 
       expect(result.current.isFetching).toBeFalsy();
       expect(result.current.isLoading).toBeTruthy();
-      expect(axios.get).not.toHaveBeenCalled();
+      expect(requestSent).toBe(false);
 
       const { result: result2 } = renderHook(
         () => useChannelSummary('timestamp'),
@@ -314,7 +239,7 @@ describe('channels api functions', () => {
 
       expect(result2.current.isFetching).toBeFalsy();
       expect(result2.current.isLoading).toBeTruthy();
-      expect(axios.get).not.toHaveBeenCalled();
+      expect(requestSent).toBe(false);
     });
 
     it.todo(

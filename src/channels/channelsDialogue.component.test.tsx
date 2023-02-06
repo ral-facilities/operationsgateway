@@ -11,7 +11,6 @@ import {
   testChannels,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { QueryClient } from '@tanstack/react-query';
 import { RootState } from '../state/store';
 import { staticChannels } from '../api/channels';
@@ -100,10 +99,6 @@ describe('Channels Dialogue', () => {
       open: true,
       onClose: jest.fn(),
     };
-
-    (axios.get as jest.Mock).mockResolvedValue({
-      data: { channels: testChannels.slice(4) },
-    });
   });
 
   afterEach(() => {

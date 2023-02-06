@@ -11424,7 +11424,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^1.0.0":
+"msw@npm:1.0.0":
   version: 1.0.0
   resolution: "msw@npm:1.0.0"
   dependencies:
@@ -11895,7 +11895,7 @@ __metadata:
     jest-canvas-mock: 2.4.0
     lint-staged: 13.1.0
     loglevel: 1.8.0
-    msw: ^1.0.0
+    msw: 1.0.0
     prettier: 2.8.0
     prop-types: 15.8.1
     react: 18.2.0

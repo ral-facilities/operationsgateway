@@ -1,7 +1,8 @@
-import axios from 'axios';
 import * as log from 'loglevel';
+import { rest } from 'msw';
 import { MicroFrontendId } from './app.types';
 import { fetchSettings } from './index';
+import { server } from './mocks/server';
 import { registerRoute } from './state/scigateway.actions';
 
 jest.mock('loglevel');
@@ -12,9 +13,9 @@ describe('index - fetchSettings', () => {
     global.CustomEvent = jest.fn();
   });
   afterEach(() => {
-    (axios.get as jest.Mock).mockClear();
     (log.error as jest.Mock).mockClear();
     (CustomEvent as jest.Mock).mockClear();
+    delete process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY;
   });
 
   it('settings are loaded', async () => {
@@ -31,9 +32,9 @@ describe('index - fetchSettings', () => {
       pluginHost: 'http://localhost:3000/',
     };
 
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: settingsResult,
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(settingsResult));
       })
     );
 
@@ -81,9 +82,9 @@ describe('index - fetchSettings', () => {
       helpSteps: [{ target: '#id', content: 'content' }],
     };
 
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: settingsResult,
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(settingsResult));
       })
     );
     const settings = await fetchSettings();
@@ -123,9 +124,9 @@ describe('index - fetchSettings', () => {
   });
 
   it('logs an error if API URLs is not defined in the settings', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {},
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({}));
       })
     );
 
@@ -141,11 +142,14 @@ describe('index - fetchSettings', () => {
   });
 
   it('logs an error if recordLimitWarning is not defined in the settings', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {
-          apiUrl: 'api',
-        },
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            apiUrl: 'api',
+          })
+        );
       })
     );
 
@@ -161,9 +165,9 @@ describe('index - fetchSettings', () => {
   });
 
   it('logs an error if settings.json is an invalid JSON object', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: 1,
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(1));
       })
     );
 
@@ -181,7 +185,14 @@ describe('index - fetchSettings', () => {
   it('logs an error if settings.json fails to be loaded with custom path', async () => {
     process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY =
       '/custom/directory/';
-    (axios.get as jest.Mock).mockImplementationOnce(() => Promise.reject({}));
+    server.use(
+      rest.get(
+        `${process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY}operationsgateway-settings.json`,
+        (req, res, ctx) => {
+          return res(ctx.status(404));
+        }
+      )
+    );
 
     const settings = await fetchSettings();
 
@@ -190,13 +201,16 @@ describe('index - fetchSettings', () => {
 
     const mockLog = (log.error as jest.Mock).mock;
     expect(mockLog.calls[0][0]).toEqual(
-      'Error loading /custom/directory/operationsgateway-settings.json: undefined'
+      'Error loading /custom/directory/operationsgateway-settings.json: Request failed with status code 404'
     );
-    delete process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY;
   });
 
   it('logs an error if fails to load a settings.json and is still in a loading state', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() => Promise.reject({}));
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
 
     const settings = await fetchSettings();
 
@@ -205,17 +219,20 @@ describe('index - fetchSettings', () => {
 
     const mockLog = (log.error as jest.Mock).mock;
     expect(mockLog.calls[0][0]).toEqual(
-      'Error loading /operationsgateway-settings.json: undefined'
+      'Error loading /operationsgateway-settings.json: Request failed with status code 500'
     );
   });
 
   it('logs an error if no routes are defined in the settings', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {
-          apiUrl: 'api',
-          recordLimitWarning: -1,
-        },
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+          })
+        );
       })
     );
 
@@ -231,18 +248,21 @@ describe('index - fetchSettings', () => {
   });
 
   it('logs an error if route has missing entries', async () => {
-    (axios.get as jest.Mock).mockImplementationOnce(() =>
-      Promise.resolve({
-        data: {
-          apiUrl: 'api',
-          recordLimitWarning: -1,
-          routes: [
-            {
-              section: 'section',
-              link: 'link',
-            },
-          ],
-        },
+    server.use(
+      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+            routes: [
+              {
+                section: 'section',
+                link: 'link',
+              },
+            ],
+          })
+        );
       })
     );
 
