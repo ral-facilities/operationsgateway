@@ -9,12 +9,15 @@ import {
   ChannelSummary,
 } from './channels';
 import { FullChannelMetadata, timeChannelName } from '../app.types';
-import { hooksWrapperWithProviders, getInitialState } from '../setupTests';
+import {
+  hooksWrapperWithProviders,
+  getInitialState,
+  testChannels,
+} from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
-import channelsJson from '../mocks/channels.json';
 
 describe('channels api functions', () => {
   afterEach(() => {
@@ -157,15 +160,7 @@ describe('channels api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      const expected = [
-        ...Object.values(staticChannels),
-        ...Object.entries(channelsJson.channels).map(
-          ([systemName, channel]) => ({
-            systemName,
-            ...channel,
-          })
-        ),
-      ];
+      const expected = testChannels;
 
       expect(result.current.data).toEqual(expected);
     });

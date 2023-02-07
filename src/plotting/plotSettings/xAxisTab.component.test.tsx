@@ -7,10 +7,9 @@ import userEvent from '@testing-library/user-event';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
-  testChannels,
+  testScalarChannels,
 } from '../../setupTests';
 import { format } from 'date-fns';
-import { FullScalarChannelMetadata } from '../../app.types';
 
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
@@ -26,7 +25,7 @@ describe('x-axis tab', () => {
 
   beforeEach(() => {
     props = {
-      allChannels: testChannels as FullScalarChannelMetadata[],
+      allChannels: testScalarChannels,
       XAxisScale: 'linear',
       XAxis: '',
       changeXAxis,
@@ -43,7 +42,7 @@ describe('x-axis tab', () => {
   });
 
   it('renders correctly with arbitrary x axis', () => {
-    props.XAxis = 'test_1';
+    props.XAxis = 'CHANNEL_ABCDE';
     const { asFragment } = createView();
 
     expect(asFragment()).toMatchSnapshot();
@@ -78,12 +77,12 @@ describe('x-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
+    await user.type(input, 'Channel_');
     autocomplete.focus();
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
-    expect(changeXAxis).toHaveBeenCalledWith('test_2');
+    expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_ABCDE');
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
@@ -93,10 +92,10 @@ describe('x-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'Test');
-    await user.click(screen.getByText('Test 1'));
+    await user.type(input, 'Channel_');
+    await user.click(screen.getByText('Channel_DEFGH'));
 
-    expect(changeXAxis).toHaveBeenCalledWith('test_1');
+    expect(changeXAxis).toHaveBeenCalledWith('CHANNEL_DEFGH');
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
@@ -112,10 +111,10 @@ describe('x-axis tab', () => {
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {
-    props.XAxis = 'test_1';
+    props.XAxis = 'CHANNEL_ABCDE';
     createView();
 
-    await user.click(screen.getByLabelText('Remove Test 1 from x-axis'));
+    await user.click(screen.getByLabelText('Remove Channel_ABCDE from x-axis'));
     expect(changeXAxis).toHaveBeenLastCalledWith(undefined);
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });

@@ -3,14 +3,24 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { TreeNode } from './channelsDialogue.component';
 import ChannelTree from './channelTree.component';
-import { testChannels } from '../setupTests';
 import { staticChannels } from '../api/channels';
+import channelsJson from '../mocks/channels.json';
+import { FullChannelMetadata } from '../app.types';
 
 describe('Channel Tree', () => {
   let currNode = '';
   const setCurrNode = jest.fn();
   const handleChannelChecked = jest.fn();
   const handleChannelSelected = jest.fn();
+  const channel1 = {
+    ...Object.values(channelsJson.channels)[0],
+    systemName: Object.keys(channelsJson.channels)[0],
+  } as FullChannelMetadata;
+  const channel2 = {
+    ...Object.values(channelsJson.channels)[1],
+    systemName: Object.keys(channelsJson.channels)[1],
+  } as FullChannelMetadata;
+
   const tree: TreeNode = {
     name: '/',
     checked: false,
@@ -20,8 +30,14 @@ describe('Channel Tree', () => {
         checked: false,
         children: {
           timestamp: { ...staticChannels['timestamp'], checked: false },
-          [testChannels[4].systemName]: { ...testChannels[4], checked: false },
-          [testChannels[5].systemName]: { ...testChannels[5], checked: true },
+          [channel1.systemName]: {
+            ...channel1,
+            checked: false,
+          },
+          [channel2.systemName]: {
+            ...channel2,
+            checked: true,
+          },
         },
       },
       test_2: {
@@ -87,20 +103,24 @@ describe('Channel Tree', () => {
     createView();
 
     await user.click(
-      screen.getByRole('checkbox', { name: testChannels[4].name })
+      screen.getByRole('checkbox', {
+        name: channel1.name,
+      })
     );
     expect(handleChannelChecked).toHaveBeenCalledWith(
-      testChannels[4].systemName,
+      channel1.systemName,
       false
     );
 
     handleChannelChecked.mockClear();
 
     await user.click(
-      screen.getByRole('checkbox', { name: testChannels[5].systemName })
+      screen.getByRole('checkbox', {
+        name: channel2.name,
+      })
     );
     expect(handleChannelChecked).toHaveBeenCalledWith(
-      testChannels[5].systemName,
+      channel2.systemName,
       true
     );
   });
@@ -110,17 +130,21 @@ describe('Channel Tree', () => {
     currNode = '/test_1';
     createView();
 
-    await user.click(screen.getByLabelText(testChannels[4].name));
+    await user.click(
+      screen.getByLabelText(channel1.name ?? channel1.systemName)
+    );
     expect(handleChannelSelected).toHaveBeenCalledWith({
-      ...testChannels[4],
+      ...channel1,
       checked: false,
     });
 
     handleChannelChecked.mockClear();
 
-    await user.click(screen.getByLabelText(testChannels[5].systemName));
+    await user.click(
+      screen.getByLabelText(channel2.name ?? channel2.systemName)
+    );
     expect(handleChannelSelected).toHaveBeenCalledWith({
-      ...testChannels[5],
+      ...channel2,
       checked: true,
     });
   });

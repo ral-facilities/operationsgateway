@@ -6,15 +6,10 @@ import '@testing-library/jest-dom';
 // need to mock <canvas> for plotting
 import 'jest-canvas-mock';
 import {
-  Channel,
   FullChannelMetadata,
-  ImageChannel,
   PlotDataset,
-  Record,
-  RecordRow,
-  ScalarChannel,
-  WaveformChannel,
   timeChannelName,
+  FullScalarChannelMetadata,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -31,11 +26,11 @@ import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { format, parseISO } from 'date-fns';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { staticChannels } from './api/channels';
 import { server } from './mocks/server';
 import { matchRequestUrl, MockedRequest } from 'msw';
+import channelsJson from './mocks/channels.json';
 
 jest.setTimeout(15000);
 
@@ -236,143 +231,32 @@ export const cleanupDatePickerWorkaround = (): void => {
   delete window.matchMedia;
 };
 
-export const testChannels: FullChannelMetadata[] = [
+export const testChannels = [
   ...Object.values(staticChannels),
-  {
-    systemName: 'test_1',
-    type: 'scalar',
-    name: 'Test 1',
-    precision: 4,
-    path: '/test_1',
-  },
-  {
-    systemName: 'test_2',
-    type: 'scalar',
-    precision: 2,
-    notation: 'normal',
-    path: '/test_2',
-  },
-  {
-    systemName: 'test_3',
-    type: 'scalar',
-    precision: 2,
-    notation: 'scientific',
-    path: '/test_3',
-  },
+  ...Object.entries(channelsJson.channels).map(
+    ([systemName, channel]) =>
+      ({
+        systemName,
+        ...channel,
+      } as FullChannelMetadata)
+  ),
 ];
 
-export const generateRecord = (num: number): Record => {
-  const numStr = `${num}`;
-
-  let channel: Channel;
-
-  if (num % 3 === 0) {
-    channel = {
-      metadata: {
-        channel_dtype: 'scalar',
-        units: 'km',
-      },
-      data:
-        num < 10
-          ? parseFloat(`${num}${num}${num}.${num}`)
-          : parseFloat(
-              numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-            ),
-    } as ScalarChannel;
-  } else if (num % 3 === 1) {
-    channel = {
-      metadata: {
-        channel_dtype: 'image',
-        horizontalPixels: num,
-        horizontalPixelUnits: numStr,
-        verticalPixels: num,
-        verticalPixelUnits: numStr,
-        cameraGain: num,
-        exposureTime: num,
-      },
-      imagePath: numStr,
-      thumbnail: numStr,
-    } as ImageChannel;
-  } else {
-    channel = {
-      metadata: {
-        channel_dtype: 'waveform',
-        xUnits: numStr,
-        yUnits: numStr,
-      },
-      waveformId: numStr,
-      thumbnail: numStr,
-    } as WaveformChannel;
-  }
-
-  return {
-    id: numStr,
-    metadata: {
-      dataVersion: numStr,
-      shotnum: num,
-      timestamp:
-        num < 10 ? `2022-01-0${num}T00:00:00` : `2022-01-${num}T00:00:00`,
-      activeArea: numStr,
-      activeExperiment: numStr,
-    },
-    channels: {
-      [`test_${num}`]: channel,
-    },
-  };
-};
-
-export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
-  generateRecord(i + 1)
-);
-
-export const generateRecordRow = (num: number) => {
-  const record = generateRecord(num);
-
-  const recordRow: RecordRow = {
-    timestamp: format(
-      parseISO(record.metadata.timestamp),
-      'yyyy-MM-dd HH:mm:ss'
+export const testScalarChannels: FullScalarChannelMetadata[] = [
+  ...Object.values(staticChannels),
+  ...Object.entries(channelsJson.channels)
+    .filter(([systemName, channel]) => channel.type === 'scalar')
+    .map(
+      ([systemName, channel]) =>
+        ({
+          systemName,
+          ...channel,
+        } as FullScalarChannelMetadata)
     ),
-    shotnum: record.metadata.shotnum,
-    activeArea: record.metadata.activeArea,
-    activeExperiment: record.metadata.activeExperiment,
-  };
-
-  const keys = Object.keys(record.channels);
-  keys.forEach((key: string) => {
-    const channel: Channel = record.channels[key];
-    let channelData;
-    const channelDataType = channel.metadata.channel_dtype;
-
-    switch (channelDataType) {
-      case 'scalar':
-        channelData = (channel as ScalarChannel).data;
-        break;
-      case 'image':
-        channelData = (channel as ImageChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
-        break;
-      case 'waveform':
-        channelData = (channel as WaveformChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
-    }
-
-    recordRow[key] = channelData;
-  });
-
-  return recordRow;
-};
-
-export const testRecordRows = Array.from(Array(3), (_, i) =>
-  generateRecordRow(i + 1)
-);
+];
 
 export const generatePlotDataset = (num: number) => {
-  const datasetName = testChannels[num].systemName;
+  const datasetName = testScalarChannels[num].systemName;
   const plotDataset: PlotDataset = {
     name: datasetName,
     data: [

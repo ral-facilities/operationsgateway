@@ -4,7 +4,7 @@ import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import YAxisTab from './yAxisTab.component';
 import type { YAxisTabProps } from './yAxisTab.component';
-import { testChannels } from '../../setupTests';
+import { testScalarChannels } from '../../setupTests';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { COLOUR_ORDER } from './colourGenerator';
 import { staticChannels } from '../../api/channels';
@@ -31,7 +31,7 @@ describe('y-axis tab', () => {
       selectedRecordTableChannels: [
         staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
-      allChannels: testChannels as FullScalarChannelMetadata[],
+      allChannels: testScalarChannels,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeLeftYAxisMinimum,
@@ -62,7 +62,7 @@ describe('y-axis tab', () => {
   });
 
   it('renders correctly with selected channels', () => {
-    props.selectedPlotChannels = testChannels.map((channel) => ({
+    props.selectedPlotChannels = testScalarChannels.map((channel) => ({
       name: channel.systemName,
       displayName: channel.name,
       options: {
@@ -126,15 +126,15 @@ describe('y-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
+    await user.type(input, 'Channel_');
     autocomplete.focus();
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_2',
-        displayName: 'test_2',
+        displayName: 'Channel_ABCDE',
+        name: 'CHANNEL_ABCDE',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -153,13 +153,13 @@ describe('y-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'Test');
-    await user.click(screen.getByText('Test 1'));
+    await user.type(input, 'Channel_');
+    await user.click(screen.getByText('Channel_DEFGH'));
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
-        displayName: 'Test 1',
+        displayName: 'Channel_DEFGH',
+        name: 'CHANNEL_DEFGH',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -171,14 +171,9 @@ describe('y-axis tab', () => {
   });
 
   it('populates the displayed table channels dropdown and adds selection to the y-axis', async () => {
-    props.selectedRecordTableChannels = [
-      {
-        systemName: 'test_1',
-        name: 'Test 1',
-        type: 'scalar',
-        path: '/test_1',
-      },
-    ];
+    props.selectedRecordTableChannels = testScalarChannels.filter(
+      (channel) => channel.systemName === 'CHANNEL_ABCDE'
+    );
     createView();
 
     const select = screen.getByLabelText('Displayed table channels');
@@ -188,13 +183,13 @@ describe('y-axis tab', () => {
       name: 'Displayed table channels',
     });
     await userEvent.click(
-      within(dropdown).getByRole('option', { name: 'Test 1' })
+      within(dropdown).getByRole('option', { name: 'Channel_ABCDE' })
     );
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
-        displayName: 'Test 1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -206,16 +201,13 @@ describe('y-axis tab', () => {
   });
 
   it('only populates the displayed table channels dropdown with options not already selected', async () => {
-    props.selectedRecordTableChannels = [
-      {
-        systemName: 'test_1',
-        type: 'scalar',
-        path: '/test_1',
-      },
-    ];
+    props.selectedRecordTableChannels = testScalarChannels.filter(
+      (channel) => channel.systemName === 'CHANNEL_ABCDE'
+    );
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -238,7 +230,8 @@ describe('y-axis tab', () => {
   it('removes channel from display when we click Close on its label', async () => {
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -247,7 +240,8 @@ describe('y-axis tab', () => {
         },
       },
       {
-        name: 'test_2',
+        name: 'CHANNEL_DEFGH',
+        displayName: 'Channel_DEFGH',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -258,10 +252,11 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    await user.click(screen.getByLabelText('Remove test_1 from plot'));
+    await user.click(screen.getByLabelText('Remove Channel_ABCDE from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
-        name: 'test_2',
+        name: 'CHANNEL_DEFGH',
+        displayName: 'Channel_DEFGH',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -277,7 +272,8 @@ describe('y-axis tab', () => {
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -288,7 +284,7 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    await user.click(screen.getByLabelText('Remove test_1 from plot'));
+    await user.click(screen.getByLabelText('Remove Channel_ABCDE from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
     expect(changeLeftYAxisScale).toHaveBeenCalledWith('linear');
     expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');

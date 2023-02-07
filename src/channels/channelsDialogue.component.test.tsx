@@ -7,8 +7,8 @@ import ChannelsDialogue, {
 } from './channelsDialogue.component';
 import {
   getInitialState,
-  renderComponentWithProviders,
   testChannels,
+  renderComponentWithProviders,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { QueryClient } from '@tanstack/react-query';
@@ -17,11 +17,8 @@ import { staticChannels } from '../api/channels';
 
 describe('selectChannelTree', () => {
   it('transforms channel list with selection info into TreeNode', () => {
-    const channels = testChannels;
-    channels[5].path = '/test_1';
-    channels[6].path = '/test_3/test_3_sub';
-    const selectedIds = ['timestamp', 'shotnum', 'test_1'];
-    const channelTree = selectChannelTree({}, channels ?? [], selectedIds);
+    const selectedIds = ['timestamp', 'shotnum', 'CHANNEL_ABCDE'];
+    const channelTree = selectChannelTree({}, testChannels, selectedIds);
 
     const expectedTree: TreeNode = {
       name: '/',
@@ -42,32 +39,60 @@ describe('selectChannelTree', () => {
             ])
           ),
         },
-        test_1: {
-          name: 'test_1',
+        Channels: {
+          name: 'Channels',
           checked: false,
           children: {
-            [testChannels[4].systemName]: {
-              ...testChannels[4],
-              checked: true,
-            },
-            [testChannels[5].systemName]: {
-              ...testChannels[5],
-              checked: false,
-            },
-          },
-        },
-        test_3: {
-          name: 'test_3',
-          checked: false,
-          children: {
-            test_3_sub: {
-              name: 'test_3_sub',
+            '1': {
+              name: '1',
               checked: false,
               children: {
-                [testChannels[6].systemName]: {
-                  ...testChannels[6],
-                  checked: false,
-                },
+                ...Object.fromEntries(
+                  testChannels
+                    .filter((channel) => channel.path.includes('1'))
+                    .map((channel) => [
+                      channel.systemName,
+                      {
+                        ...channel,
+                        checked:
+                          channel.systemName === 'CHANNEL_ABCDE' ? true : false,
+                      },
+                    ])
+                ),
+              },
+            },
+            '2': {
+              name: '2',
+              checked: false,
+              children: {
+                ...Object.fromEntries(
+                  testChannels
+                    .filter((channel) => channel.path.includes('2'))
+                    .map((channel) => [
+                      channel.systemName,
+                      {
+                        ...channel,
+                        checked: false,
+                      },
+                    ])
+                ),
+              },
+            },
+            '3': {
+              name: '3',
+              checked: false,
+              children: {
+                ...Object.fromEntries(
+                  testChannels
+                    .filter((channel) => channel.path.includes('3'))
+                    .map((channel) => [
+                      channel.systemName,
+                      {
+                        ...channel,
+                        checked: false,
+                      },
+                    ])
+                ),
               },
             },
           },

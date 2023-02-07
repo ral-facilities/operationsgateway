@@ -7,7 +7,6 @@ import {
   getInitialState,
   cleanupDatePickerWorkaround,
   applyDatePickerWorkaround,
-  testRecords,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -16,6 +15,7 @@ import { formatDateTimeForApi } from '../state/slices/searchSlice';
 import { QueryClient } from '@tanstack/react-query';
 import { rest } from 'msw';
 import { server } from '../mocks/server';
+import recordsJson from '../mocks/records.json';
 
 describe('searchBar component', () => {
   let user;
@@ -194,7 +194,7 @@ describe('searchBar component', () => {
         },
       ],
       () => {
-        return { data: [testRecords[0], testRecords[1]] };
+        return { data: [recordsJson[0], recordsJson[1]] };
       }
     );
 
