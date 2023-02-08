@@ -72,11 +72,11 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
     });
 });
 
+let mockedRequests = [];
+
 Cypress.Commands.add('clearMocks', () => {
   mockedRequests = [];
 });
-
-let mockedRequests = [];
 
 Cypress.Commands.add('startSnoopingBrowserMockedRequest', () => {
   cy.window().then((window) => {

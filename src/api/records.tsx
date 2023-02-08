@@ -6,14 +6,11 @@ import {
 } from '@tanstack/react-query';
 import {
   Channel,
-  ImageChannel,
   isChannelScalar,
   PlotDataset,
   Record,
   RecordRow,
-  ScalarChannel,
   SortType,
-  WaveformChannel,
   SelectedPlotChannel,
   SearchParams,
   timeChannelName,
@@ -23,10 +20,7 @@ import { selectQueryParams } from '../state/slices/searchSlice';
 import { parseISO } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
-import {
-  renderImage,
-  renderTimestamp,
-} from '../table/cellRenderers/cellContentRenderers';
+import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
 import { staticChannels } from './channels';
 
 const fetchRecords = async (
@@ -211,25 +205,11 @@ export const useRecordsPaginated = (): UseQueryResult<
           keys.forEach((key: string) => {
             const channel: Channel = record.channels[key];
             let channelData;
-            const channelDataType = channel.metadata.channel_dtype;
 
-            switch (channelDataType) {
-              case 'scalar':
-                channelData = (channel as ScalarChannel).data;
-                break;
-              case 'image':
-                channelData = (channel as ImageChannel).thumbnail;
-                channelData = renderImage(
-                  channelData,
-                  `${key} image for timestamp ${formattedDate}`
-                );
-                break;
-              case 'waveform':
-                channelData = (channel as WaveformChannel).thumbnail;
-                channelData = renderImage(
-                  channelData,
-                  `${key} waveform for timestamp ${formattedDate}`
-                );
+            if (isChannelScalar(channel)) {
+              channelData = channel.data;
+            } else {
+              channelData = channel.thumbnail;
             }
 
             recordRow[key] = channelData;

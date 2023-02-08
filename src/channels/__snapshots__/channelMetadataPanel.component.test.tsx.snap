@@ -264,7 +264,7 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data at 2022-01-31 00:00:00"
+              alt="test_2 waveform at 2022-01-31 00:00:00"
               src="data:image/jpeg;base64,1"
               style="border: 1px solid #000000;"
             />
@@ -283,7 +283,7 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data at 2022-01-30 00:00:00"
+              alt="test_2 waveform at 2022-01-30 00:00:00"
               src="data:image/jpeg;base64,2"
               style="border: 1px solid #000000;"
             />
@@ -302,7 +302,7 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
           >
             <img
-              alt="test_2 data at 2022-01-29 00:00:00"
+              alt="test_2 waveform at 2022-01-29 00:00:00"
               src="data:image/jpeg;base64,3"
               style="border: 1px solid #000000;"
             />

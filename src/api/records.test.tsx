@@ -2,7 +2,6 @@
 import {
   PlotDataset,
   Record,
-  RecordRow,
   ScalarChannel,
   SearchParams,
   SelectedPlotChannel,
@@ -29,30 +28,6 @@ import { RootState } from '../state/store';
 import { parseISO } from 'date-fns';
 import { operators, parseFilter, Token } from '../filtering/filterParser';
 import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
-
-const dataResponsesEqual = (x?: RecordRow[], y?: RecordRow[]): boolean => {
-  if (!x || !y) return false;
-  if (x.length !== y.length) return false;
-
-  for (let i = 0; i < x.length; i++) {
-    const xRow = x[i];
-    const yRow = y[i];
-
-    const xKeys = Object.keys(xRow);
-    const yKeys = Object.keys(yRow);
-
-    for (let i = 0; i < xKeys.length; i++) {
-      if (xKeys[i] !== yKeys[i]) return false;
-    }
-
-    if (xRow.timestamp !== yRow.timestamp) return false;
-    if (xRow.shotnum !== yRow.shotnum) return false;
-    if (xRow.activeArea !== yRow.activeArea) return false;
-    if (xRow.activeExperiment !== yRow.activeExperiment) return false;
-  }
-
-  return true;
-};
 
 describe('records api functions', () => {
   let state: PreloadedState<RootState>;
@@ -376,9 +351,7 @@ describe('records api functions', () => {
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(result.current.data).toStrictEqual(testRecordRows);
     });
 
     it('can send sort, date range and filter parameters as part of request', async () => {
@@ -435,9 +408,7 @@ describe('records api functions', () => {
       expect((axios.get as jest.Mock).mock.calls[0][1].params.toString()).toBe(
         params.toString()
       );
-      expect(
-        dataResponsesEqual(result.current.data, testRecordRows)
-      ).toBeTruthy();
+      expect(result.current.data).toStrictEqual(testRecordRows);
     });
   });
 

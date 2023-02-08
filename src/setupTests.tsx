@@ -15,6 +15,7 @@ import {
   ScalarChannel,
   WaveformChannel,
   timeChannelName,
+  isChannelScalar,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -305,23 +306,11 @@ export const generateRecordRow = (num: number) => {
   keys.forEach((key: string) => {
     const channel: Channel = record.channels[key];
     let channelData;
-    const channelDataType = channel.metadata.channel_dtype;
 
-    switch (channelDataType) {
-      case 'scalar':
-        channelData = (channel as ScalarChannel).data;
-        break;
-      case 'image':
-        channelData = (channel as ImageChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
-        break;
-      case 'waveform':
-        channelData = (channel as WaveformChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
+    if (isChannelScalar(channel)) {
+      channelData = channel.data;
+    } else {
+      channelData = channel.thumbnail;
     }
 
     recordRow[key] = channelData;
