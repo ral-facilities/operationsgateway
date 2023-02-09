@@ -92,6 +92,11 @@ describe('cell content renderers', () => {
         />
       `);
     });
+
+    it('returns null when src is undefined', () => {
+      const view = renderImage(undefined, 'alt text');
+      expect(view).toBeNull();
+    });
   });
 
   describe('renderTimestamp', () => {
@@ -100,10 +105,9 @@ describe('cell content renderers', () => {
       expect(view).toEqual('2023-02-01 10:31:43');
     });
 
-    it('throws an error if passed in string is not an ISO timestamp', () => {
-      expect(() => {
-        renderTimestamp('TEST');
-      }).toThrowError();
+    it('returns Invalid Date if passed in string is not an ISO timestamp', () => {
+      const view = renderTimestamp('TEST');
+      expect(view).toEqual(new Date('TEST').toString());
     });
   });
 });

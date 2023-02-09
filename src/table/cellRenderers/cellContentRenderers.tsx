@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
 
 export const roundNumber = (
   num: number,
@@ -27,13 +27,21 @@ export const roundNumber = (
   return rounded;
 };
 
-export const renderImage = (base64Data: string, altText: string) => (
-  <img
-    src={`data:image/jpeg;base64,${base64Data}`}
-    alt={altText}
-    style={{ border: '1px solid #000000' }}
-  />
-);
+export const renderImage = (base64Data: string | undefined, altText: string) =>
+  base64Data ? (
+    <img
+      src={`data:image/jpeg;base64,${base64Data}`}
+      alt={altText}
+      style={{ border: '1px solid #000000' }}
+    />
+  ) : null;
 
-export const renderTimestamp = (serverTimestamp: string) =>
-  format(parseISO(serverTimestamp), 'yyyy-MM-dd HH:mm:ss');
+export const renderTimestamp = (serverTimestamp: string) => {
+  const date = parseISO(serverTimestamp);
+  if (isValid(date)) {
+    return format(date, 'yyyy-MM-dd HH:mm:ss');
+  } else {
+    // if the date is invalid, return the "Invalid Date" string
+    return date.toString();
+  }
+};

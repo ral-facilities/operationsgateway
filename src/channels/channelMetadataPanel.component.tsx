@@ -138,7 +138,9 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                                 `${
                                   displayedChannel?.name ??
                                   displayedChannel.systemName
-                                } data at ${formattedTimestamp}`
+                                } ${
+                                  displayedChannel.type
+                                } at ${formattedTimestamp}`
                               )}
                         </TableCell>
                       </TableRow>

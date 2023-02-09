@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
+  isChannelMetadataScalar,
   timeChannelName,
 } from '../app.types';
 import {
@@ -11,7 +12,10 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { Column } from 'react-table';
-import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+import {
+  renderImage,
+  roundNumber,
+} from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
 import { readSciGatewayToken } from '../parseTokens';
@@ -159,7 +163,7 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       // TODO: get these from data channel info
       channelInfo: channel,
     };
-    if (channel.type === 'scalar') {
+    if (isChannelMetadataScalar(channel)) {
       newColumn.Cell = ({ value }) =>
         typeof value === 'number' && typeof channel.precision === 'number' ? (
           <React.Fragment>
@@ -167,6 +171,14 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
           </React.Fragment>
         ) : (
           <React.Fragment>{String(value ?? '')}</React.Fragment>
+        );
+    } else {
+      newColumn.Cell = ({ row, value }) =>
+        renderImage(
+          value,
+          `${channel.name ?? channel.systemName} ${
+            channel.type
+          } for timestamp ${row.values[timeChannelName]}`
         );
     }
     myColumns.push(newColumn);

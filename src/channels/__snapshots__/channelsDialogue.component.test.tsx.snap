@@ -192,6 +192,9 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                         system
                       </span>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </div>
                 </li>
                 <li
@@ -240,6 +243,9 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                         Channels
                       </span>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </div>
                 </li>
               </ul>
