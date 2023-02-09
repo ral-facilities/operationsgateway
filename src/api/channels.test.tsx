@@ -217,23 +217,22 @@ describe('channels api functions', () => {
         requestSent = true;
       });
 
-      const { result } = renderHook(() => useChannelSummary(undefined), {
-        wrapper: hooksWrapperWithProviders(),
-      });
+      const { result, rerender } = renderHook(
+        (channel?: string) => useChannelSummary(channel),
+        {
+          wrapper: hooksWrapperWithProviders(),
+          initialProps: undefined,
+        }
+      );
 
       expect(result.current.isFetching).toBeFalsy();
       expect(result.current.isLoading).toBeTruthy();
       expect(requestSent).toBe(false);
 
-      const { result: result2 } = renderHook(
-        () => useChannelSummary('timestamp'),
-        {
-          wrapper: hooksWrapperWithProviders(),
-        }
-      );
+      rerender('timestamp');
 
-      expect(result2.current.isFetching).toBeFalsy();
-      expect(result2.current.isLoading).toBeTruthy();
+      expect(result.current.isFetching).toBeFalsy();
+      expect(result.current.isLoading).toBeTruthy();
       expect(requestSent).toBe(false);
     });
 

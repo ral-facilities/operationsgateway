@@ -32,9 +32,7 @@ describe('selectChannelTree', () => {
               channelName,
               {
                 ...channel,
-                checked: selectedIds.find((channel) => channel === channelName)
-                  ? true
-                  : false,
+                checked: selectedIds.some((channel) => channel === channelName),
               },
             ])
           ),
@@ -46,54 +44,47 @@ describe('selectChannelTree', () => {
             '1': {
               name: '1',
               checked: false,
-              children: {
-                ...Object.fromEntries(
-                  testChannels
-                    .filter((channel) => channel.path.includes('1'))
-                    .map((channel) => [
-                      channel.systemName,
-                      {
-                        ...channel,
-                        checked:
-                          channel.systemName === 'CHANNEL_ABCDE' ? true : false,
-                      },
-                    ])
-                ),
-              },
+              children: testChannels.reduce((prev, curr) => {
+                if (curr.path.includes('1'))
+                  prev[curr.systemName] = {
+                    ...curr,
+                    checked: selectedIds.some(
+                      (channel) => channel === curr.systemName
+                    ),
+                  };
+
+                return prev;
+              }, {}),
             },
             '2': {
               name: '2',
               checked: false,
-              children: {
-                ...Object.fromEntries(
-                  testChannels
-                    .filter((channel) => channel.path.includes('2'))
-                    .map((channel) => [
-                      channel.systemName,
-                      {
-                        ...channel,
-                        checked: false,
-                      },
-                    ])
-                ),
-              },
+              children: testChannels.reduce((prev, curr) => {
+                if (curr.path.includes('2'))
+                  prev[curr.systemName] = {
+                    ...curr,
+                    checked: selectedIds.some(
+                      (channel) => channel === curr.systemName
+                    ),
+                  };
+
+                return prev;
+              }, {}),
             },
             '3': {
               name: '3',
               checked: false,
-              children: {
-                ...Object.fromEntries(
-                  testChannels
-                    .filter((channel) => channel.path.includes('3'))
-                    .map((channel) => [
-                      channel.systemName,
-                      {
-                        ...channel,
-                        checked: false,
-                      },
-                    ])
-                ),
-              },
+              children: testChannels.reduce((prev, curr) => {
+                if (curr.path.includes('3'))
+                  prev[curr.systemName] = {
+                    ...curr,
+                    checked: selectedIds.some(
+                      (channel) => channel === curr.systemName
+                    ),
+                  };
+
+                return prev;
+              }, {}),
             },
           },
         },
