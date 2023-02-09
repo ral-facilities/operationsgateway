@@ -116,7 +116,11 @@ describe('Channels Dialogue', () => {
       baseElement = createView().baseElement;
     });
     // wait for the channels to load before taking the screenshot
-    await screen.findByText('system');
+    await screen.findByRole('button', { name: 'system' });
+
+    // do some interaction to let UI load fully (i.e touch ripples)
+    await user.hover(screen.getByText('Data Channels'));
+
     expect(baseElement).toMatchSnapshot();
   });
 
