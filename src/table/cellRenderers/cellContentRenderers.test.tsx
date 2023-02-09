@@ -92,6 +92,11 @@ describe('cell content renderers', () => {
         />
       `);
     });
+
+    it('returns null when src is undefined', () => {
+      const view = renderImage(undefined, 'alt text');
+      expect(view).toBeNull();
+    });
   });
 
   describe('renderTimestamp', () => {
