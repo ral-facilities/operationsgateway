@@ -87,7 +87,7 @@ describe('Data Channels Component', () => {
 
     cy.findByRole('button', { name: 'Channel_BCDEF' }).click();
 
-    cy.findByAltText('Channel_BCDEF data at 2022-01-31 00:00:00')
+    cy.findByAltText('Channel_BCDEF image at 2022-01-31 00:00:00')
       .should('be.visible')
       .should(($imgs) =>
         // natural width means the img is a real image
