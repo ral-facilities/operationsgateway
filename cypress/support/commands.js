@@ -71,3 +71,50 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
         });
     });
 });
+
+let mockedRequests = [];
+
+Cypress.Commands.add('clearMocks', () => {
+  mockedRequests = [];
+});
+
+Cypress.Commands.add('startSnoopingBrowserMockedRequest', () => {
+  cy.window().then((window) => {
+    const worker = window?.msw?.worker;
+
+    worker.events.on('request:match', (req) => {
+      mockedRequests.push(req);
+    });
+  });
+});
+
+/**
+ * URL is a pattern matching URL that uses the same behavior as handlers URL matching
+ * e.g. '* /events/groups/:groupId' without the space
+ */
+Cypress.Commands.add('findBrowserMockedRequests', ({ method, url }) => {
+  return cy.window().then((window) => {
+    const { matchRequestUrl } = window?.msw;
+
+    return new Cypress.Promise((resolve, reject) => {
+      if (
+        !method ||
+        !url ||
+        typeof method !== 'string' ||
+        typeof url !== 'string'
+      ) {
+        return reject(
+          `Invalid parameters passed. Method: ${method} Url: ${url}`
+        );
+      }
+      resolve(
+        mockedRequests.filter((req) => {
+          const matchesMethod =
+            req.method && req.method.toLowerCase() === method.toLowerCase();
+          const matchesUrl = matchRequestUrl(req.url, url).matches;
+          return matchesMethod && matchesUrl;
+        })
+      );
+    });
+  });
+});

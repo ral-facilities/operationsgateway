@@ -62,8 +62,11 @@
     "postinstall": "husky install && yarn sdks"
   },
   "lint-staged": {
-    "src/**/*.{tsx,ts,js,jsx,json}": [
+    "src/**/*.{tsx,ts,js,jsx}": [
       "eslint --max-warnings=0 --fix",
+      "prettier --write"
+    ],
+    "*.json": [
       "prettier --write"
     ],
     "cypress/**/*.{tsx,ts,js,jsx}": [
@@ -111,16 +114,20 @@
     "eslint-config-prettier": "8.6.0",
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-cypress": "2.12.1",
-    "eslint-plugin-no-only-tests": "^3.1.0",
+    "eslint-plugin-no-only-tests": "3.1.0",
     "eslint-plugin-prettier": "4.2.1",
     "express": "4.18.1",
     "husky": "8.0.1",
     "jest-canvas-mock": "2.4.0",
     "lint-staged": "13.1.0",
+    "msw": "1.0.0",
     "prettier": "2.8.0",
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.2.0",
     "serve-static": "1.15.0",
     "start-server-and-test": "1.15.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

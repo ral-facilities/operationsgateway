@@ -1,4 +1,3 @@
-import React from 'react';
 import axios, { AxiosError } from 'axios';
 import {
   useQuery,
@@ -7,23 +6,21 @@ import {
 } from '@tanstack/react-query';
 import {
   Channel,
-  ImageChannel,
   isChannelScalar,
   PlotDataset,
   Record,
   RecordRow,
-  ScalarChannel,
   SortType,
-  WaveformChannel,
   SelectedPlotChannel,
   SearchParams,
   timeChannelName,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
-import { parseISO, format } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
 import { staticChannels } from './channels';
 
 const fetchRecords = async (
@@ -196,8 +193,7 @@ export const useRecordsPaginated = (): UseQueryResult<
       select: (data: Record[]) =>
         data.map((record: Record) => {
           const timestampString = record.metadata.timestamp;
-          const timestampDate = parseISO(timestampString);
-          const formattedDate = format(timestampDate, 'yyyy-MM-dd HH:mm:ss');
+          const formattedDate = renderTimestamp(timestampString);
           const recordRow: RecordRow = {
             timestamp: formattedDate,
             shotnum: record.metadata.shotnum,
@@ -209,31 +205,11 @@ export const useRecordsPaginated = (): UseQueryResult<
           keys.forEach((key: string) => {
             const channel: Channel = record.channels[key];
             let channelData;
-            const channelDataType = channel.metadata.channel_dtype;
 
-            switch (channelDataType) {
-              case 'scalar':
-                channelData = (channel as ScalarChannel).data;
-                break;
-              case 'image':
-                channelData = (channel as ImageChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
-                );
-                break;
-              case 'waveform':
-                channelData = (channel as WaveformChannel).thumbnail;
-                channelData = (
-                  <img
-                    src={`data:image/jpeg;base64,${channelData}`}
-                    alt={key}
-                    style={{ border: '1px solid #000000' }}
-                  />
-                );
+            if (isChannelScalar(channel)) {
+              channelData = channel.data;
+            } else {
+              channelData = channel.thumbnail;
             }
 
             recordRow[key] = channelData;
@@ -259,7 +235,9 @@ export const getFormattedAxisData = (
       formattedData = record.metadata.shotnum ?? NaN;
       break;
     case 'activeArea':
-      formattedData = parseInt(record.metadata.activeArea);
+      formattedData = record.metadata.activeArea
+        ? parseInt(record.metadata.activeArea)
+        : NaN;
       break;
     case 'activeExperiment':
       formattedData = record.metadata.activeExperiment

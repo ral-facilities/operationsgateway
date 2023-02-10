@@ -6,14 +6,14 @@ export const MicroFrontendToken = `${MicroFrontendId}:token`;
 export const timeChannelName = 'timestamp';
 
 export interface Record {
-  id: string;
+  _id: string;
   metadata: RecordMetadata;
   channels: { [channel: string]: Channel };
 }
 
 export interface RecordRow {
   timestamp: string;
-  activeArea: string;
+  activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
 
@@ -27,24 +27,24 @@ export interface ScalarMetadata {
 
 export interface ImageMetadata {
   channel_dtype: 'image';
-  horizontalPixels: number;
-  horizontalPixelUnits: string;
-  verticalPixels: number;
-  verticalPixelUnits: string;
-  cameraGain: number;
-  exposureTime: number;
+  x_pixel_size: number;
+  x_pixel_units: string;
+  y_pixel_size: number;
+  y_pixel_units: string;
+  gain: number;
+  exposure_time_s: number;
 }
 
 export interface WaveformMetadata {
   channel_dtype: 'waveform';
-  xUnits: string;
-  yUnits: string;
+  x_units: string;
+  y_units: string;
 }
 
 export interface RecordMetadata {
-  dataVersion: string;
+  epac_ops_data_version: string;
   timestamp: string;
-  activeArea: string;
+  activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
 }
@@ -102,13 +102,13 @@ export interface ScalarChannel {
 
 export interface ImageChannel {
   metadata: ImageMetadata;
-  imagePath: string;
+  image_path: string;
   thumbnail: string;
 }
 
 export interface WaveformChannel {
   metadata: WaveformMetadata;
-  waveformId: string;
+  waveform_id: string;
   thumbnail: string;
 }
 

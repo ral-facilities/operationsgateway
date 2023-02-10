@@ -3,7 +3,7 @@
 exports[`Channel Tree should render correctly for root 1`] = `
 <DocumentFragment>
   <ul
-    class="MuiList-root MuiList-padding MuiList-dense css-h4y409-MuiList-root"
+    class="MuiList-root MuiList-dense css-1xbd29p-MuiList-root"
   >
     <li
       class="MuiListItem-root MuiListItem-dense css-1nxmd3h-MuiListItem-root"
@@ -18,7 +18,7 @@ exports[`Channel Tree should render correctly for root 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
@@ -26,7 +26,6 @@ exports[`Channel Tree should render correctly for root 1`] = `
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
               disabled=""
-              tabindex="-1"
               type="checkbox"
             />
             <svg
@@ -70,7 +69,7 @@ exports[`Channel Tree should render correctly for root 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
@@ -78,7 +77,6 @@ exports[`Channel Tree should render correctly for root 1`] = `
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
               disabled=""
-              tabindex="-1"
               type="checkbox"
             />
             <svg
@@ -116,7 +114,7 @@ exports[`Channel Tree should render correctly for root 1`] = `
 exports[`Channel Tree should render correctly for sub node 1`] = `
 <DocumentFragment>
   <ul
-    class="MuiList-root MuiList-padding MuiList-dense css-h4y409-MuiList-root"
+    class="MuiList-root MuiList-dense css-1xbd29p-MuiList-root"
   >
     <li
       class="MuiListItem-root MuiListItem-dense css-1nxmd3h-MuiListItem-root"
@@ -131,7 +129,7 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
@@ -139,7 +137,6 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
               disabled=""
-              tabindex="-1"
               type="checkbox"
             />
             <svg
@@ -182,13 +179,12 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
           class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               aria-labelledby="checkbox-list-label-test_1"
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
-              tabindex="-1"
               type="checkbox"
             />
             <svg
@@ -202,6 +198,9 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
                 d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
               />
             </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
           </span>
         </div>
         <div
@@ -231,14 +230,13 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
           class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
               aria-labelledby="checkbox-list-label-test_2"
               checked=""
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
-              tabindex="-1"
               type="checkbox"
             />
             <svg
@@ -252,6 +250,9 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
                 d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
               />
             </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
           </span>
         </div>
         <div

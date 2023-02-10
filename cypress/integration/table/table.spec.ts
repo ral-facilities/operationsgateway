@@ -11,22 +11,7 @@ const verifyColumnOrder = (columns: string[]): void => {
 
 describe('Table Component', () => {
   beforeEach(() => {
-    cy.intercept('**/records**', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'records.json',
-      });
-    }).as('getRecords');
-
-    cy.intercept('**/records/count**', (req) => {
-      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-    }).as('getRecordCount');
-
-    cy.intercept('**/channels', (req) => {
-      req.reply({ statusCode: 200, fixture: 'channels.json' });
-    }).as('getChannels');
-
-    cy.visit('/').wait(['@getRecords', '@getRecordCount', '@getChannels']);
+    cy.visit('/');
   });
 
   it('initialises with a time column', () => {
@@ -346,36 +331,52 @@ describe('Table Component', () => {
 
   describe('can set max shots', () => {
     it('50 shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 50 });
-      }).as('getRecordCount');
-      cy.visit('/').wait(['@getRecordCount']);
+      cy.window().then((window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(50));
+          })
+        );
+      });
 
       cy.contains('1–25 of 50');
     });
 
     it('1000 shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 1000 });
-      }).as('getRecordCount');
+      cy.window().then(async (window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(1000));
+          })
+        );
+      });
 
       cy.get('span[aria-label="Select 1000 max shots"]').click();
       cy.contains('Search').click();
-      cy.wait('@getRecordCount').then(() => {
-        cy.contains('1–25 of 1000');
-      });
+      cy.contains('1–25 of 1000');
     });
 
     it('unlimited shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 2500 }); // arbitrary number greater than 1000
-      }).as('getRecordCount');
+      cy.window().then((window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(2500)); //arbirary number greater than 1000
+          })
+        );
+      });
 
       cy.get('span[aria-label="Select unlimited max shots"]').click();
       cy.contains('Search').click();
-      cy.wait('@getRecordCount').then(() => {
-        cy.contains('1–25 of 2500');
-      });
+      cy.contains('1–25 of 2500');
     });
   });
 });

@@ -21,6 +21,7 @@ import {
   updateSelectedColumns,
 } from '../state/slices/tableSlice';
 import { createSelector } from '@reduxjs/toolkit';
+import ChannelMetadataPanel from './channelMetadataPanel.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -125,6 +126,14 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   );
 
   const [currNode, setCurrNode] = React.useState('/');
+  const [displayedChannel, setDisplayedChannel] = React.useState<
+    FullChannelMetadata | undefined
+  >();
+
+  const onChangeNode = React.useCallback((newNode: string) => {
+    setCurrNode(newNode);
+    setDisplayedChannel(undefined);
+  }, []);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
@@ -156,7 +165,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
           overflowY: 'unset',
         }}
       >
-        <ChannelBreadcrumbs currNode={currNode} setCurrNode={setCurrNode} />
+        <ChannelBreadcrumbs currNode={currNode} setCurrNode={onChangeNode} />
       </DialogContent>
       <DialogContent>
         <Grid container columnSpacing={2}>
@@ -164,13 +173,23 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
             <ChannelTree
               currNode={currNode}
               tree={channelTree ?? { name: '/', children: {}, checked: false }}
-              setCurrNode={setCurrNode}
+              setCurrNode={onChangeNode}
               handleChannelChecked={handleChannelChecked}
+              handleChannelSelected={setDisplayedChannel}
             />
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs>
-            Help / info
+          <Grid
+            item
+            xs
+            sx={{
+              overflow: 'auto',
+              // 100vh - 2* dialogue padding + title + breadcrumbs + content padding + footer
+              maxHeight:
+                'calc(100vh - (2 * 32px + 72px + 42px + 2 * 20px + 53px))',
+            }}
+          >
+            <ChannelMetadataPanel displayedChannel={displayedChannel} />
           </Grid>
         </Grid>
       </DialogContent>

@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
+  isChannelMetadataScalar,
   timeChannelName,
 } from '../app.types';
 import {
@@ -11,7 +12,10 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { Column } from 'react-table';
-import { roundNumber } from '../table/cellRenderers/cellContentRenderers';
+import {
+  renderImage,
+  roundNumber,
+} from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
 import { useAppSelector } from '../state/hooks';
 import { readSciGatewayToken } from '../parseTokens';
@@ -50,8 +54,6 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
   },
 };
 
-// TODO change this when we have a proper channel info endpoint to query
-// This just fetches metadata from the records endpoint at the moment
 const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
   return axios
     .get<ChannelsEndpoint>(`${apiUrl}/channels`, {
@@ -75,6 +77,27 @@ const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
     });
 };
 
+export interface ChannelSummary {
+  first_date: string;
+  most_recent_date: string;
+  recent_sample: { [timestamp: string]: string | number }[];
+}
+
+const fetchChannelSummary = (
+  apiUrl: string,
+  channel: string
+): Promise<ChannelSummary> => {
+  return axios
+    .get(`${apiUrl}/channels/summary/${channel}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useChannels = <T extends unknown = FullChannelMetadata[]>(
   options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
@@ -91,6 +114,29 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
         console.log('Got error ' + error.message);
       },
       ...(options ?? {}),
+    }
+  );
+};
+
+export const useChannelSummary = (
+  channel: string | undefined
+): UseQueryResult<ChannelSummary, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const dataChannel =
+    typeof channel !== 'undefined' && !(channel in staticChannels)
+      ? channel
+      : '';
+
+  return useQuery(
+    ['channelSummary', dataChannel],
+    (params) => {
+      return fetchChannelSummary(apiUrl, dataChannel);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+      enabled: dataChannel.length !== 0,
     }
   );
 };
@@ -117,7 +163,7 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
       // TODO: get these from data channel info
       channelInfo: channel,
     };
-    if (channel.type === 'scalar') {
+    if (isChannelMetadataScalar(channel)) {
       newColumn.Cell = ({ value }) =>
         typeof value === 'number' && typeof channel.precision === 'number' ? (
           <React.Fragment>
@@ -125,6 +171,14 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
           </React.Fragment>
         ) : (
           <React.Fragment>{String(value ?? '')}</React.Fragment>
+        );
+    } else {
+      newColumn.Cell = ({ row, value }) =>
+        renderImage(
+          value,
+          `${channel.name ?? channel.systemName} ${
+            channel.type
+          } for timestamp ${row.values[timeChannelName]}`
         );
     }
     myColumns.push(newColumn);

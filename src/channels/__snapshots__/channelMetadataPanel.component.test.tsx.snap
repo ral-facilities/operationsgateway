@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Channel Metadata Panel should render correctly for no channel selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    Data Channels Help
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    There are two options to locate a channel. You can either search or use the navigation on the left.
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel metadata can also be viewed. This can be displayed by clicking a channel name
+  </p>
+</DocumentFragment>
+`;
+
+exports[`Channel Metadata Panel should render correctly for scalar channel with units selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    Test
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    System name: test
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Test description
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: scalar
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Units: cm
+  </p>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+  />
+  <h4
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Data Summary
+  </h4>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+  >
+    First data date: 2022-01-31 00:00:00
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Most recent data date: 2023-01-31 00:00:00
+  </p>
+  <h5
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Recent Data
+  </h5>
+  <div
+    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+  >
+    <table
+      aria-label="recent data"
+      class="MuiTable-root css-rqglhn-MuiTable-root"
+    >
+      <thead
+        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Time
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Data
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-31 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            1
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-30 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            2
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-29 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            3
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Channel Metadata Panel should render correctly for system channel 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    Shot Number
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    System name: shotnum
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: scalar
+  </p>
+</DocumentFragment>
+`;
+
+exports[`Channel Metadata Panel should render correctly for waveform channel with units selected 1`] = `
+<DocumentFragment>
+  <h3
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+  >
+    test_2
+  </h3>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: waveform
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+  >
+    X Units: mm
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Y Units: J
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-3784aq-MuiTypography-root"
+  >
+    This channel is historical
+  </p>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+  />
+  <h4
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Data Summary
+  </h4>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+  >
+    First data date: 2022-01-31 00:00:00
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Most recent data date: 2023-01-31 00:00:00
+  </p>
+  <h5
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Recent Data
+  </h5>
+  <div
+    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+  >
+    <table
+      aria-label="recent data"
+      class="MuiTable-root css-rqglhn-MuiTable-root"
+    >
+      <thead
+        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Time
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Data
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-31 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="test_2 waveform at 2022-01-31 00:00:00"
+              src="data:image/jpeg;base64,1"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-30 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="test_2 waveform at 2022-01-30 00:00:00"
+              src="data:image/jpeg;base64,2"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-29 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="test_2 waveform at 2022-01-29 00:00:00"
+              src="data:image/jpeg;base64,3"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;

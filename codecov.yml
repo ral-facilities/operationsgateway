@@ -9,3 +9,4 @@ coverage:
         target: 75
 ignore:
   - 'src/i18n.ts'
+  - 'src/mocks'

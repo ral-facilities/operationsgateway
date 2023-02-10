@@ -174,11 +174,17 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
 const settings = fetchSettings();
 setSettings(settings);
 
+function prepare() {
+  return import('./mocks/browser').then(({ worker }) => {
+    return worker.start();
+  });
+}
+
 if (
   process.env.NODE_ENV === 'development' ||
   process.env.REACT_APP_E2E_TESTING
 ) {
-  render();
+  prepare().then(() => render());
   log.setDefaultLevel(log.levels.DEBUG);
 
   if (process.env.NODE_ENV === `development`) {

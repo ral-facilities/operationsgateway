@@ -144,7 +144,7 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
             >
               <ul
-                class="MuiList-root MuiList-padding MuiList-dense css-h4y409-MuiList-root"
+                class="MuiList-root MuiList-dense css-1xbd29p-MuiList-root"
               >
                 <li
                   class="MuiListItem-root MuiListItem-dense css-1nxmd3h-MuiListItem-root"
@@ -159,7 +159,7 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                     >
                       <span
                         aria-disabled="true"
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
                         tabindex="-1"
                       >
                         <input
@@ -167,7 +167,6 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                           class="PrivateSwitchBase-input css-1m9pwf3"
                           data-indeterminate="false"
                           disabled=""
-                          tabindex="-1"
                           type="checkbox"
                         />
                         <svg
@@ -193,6 +192,9 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                         system
                       </span>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </div>
                 </li>
                 <li
@@ -208,7 +210,7 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                     >
                       <span
                         aria-disabled="true"
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
                         tabindex="-1"
                       >
                         <input
@@ -216,7 +218,6 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                           class="PrivateSwitchBase-input css-1m9pwf3"
                           data-indeterminate="false"
                           disabled=""
-                          tabindex="-1"
                           type="checkbox"
                         />
                         <svg
@@ -242,6 +243,9 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                         test_1
                       </span>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </div>
                 </li>
                 <li
@@ -257,7 +261,7 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                     >
                       <span
                         aria-disabled="true"
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-355xbt-MuiButtonBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
                         tabindex="-1"
                       >
                         <input
@@ -265,7 +269,6 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                           class="PrivateSwitchBase-input css-1m9pwf3"
                           data-indeterminate="false"
                           disabled=""
-                          tabindex="-1"
                           type="checkbox"
                         />
                         <svg
@@ -291,6 +294,9 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
                         test_3
                       </span>
                     </div>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
                   </div>
                 </li>
               </ul>
@@ -299,9 +305,23 @@ exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] =
               class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-hbvkri-MuiGrid-root"
             >
-              Help / info
+              <h3
+                class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+              >
+                Data Channels Help
+              </h3>
+              <p
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+              >
+                There are two options to locate a channel. You can either search or use the navigation on the left.
+              </p>
+              <p
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+              >
+                Channel metadata can also be viewed. This can be displayed by clicking a channel name
+              </p>
             </div>
           </div>
         </div>
