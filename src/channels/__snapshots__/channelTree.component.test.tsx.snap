@@ -182,7 +182,7 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
-              aria-labelledby="checkbox-list-label-test_1"
+              aria-labelledby="checkbox-list-label-CHANNEL_ABCDE"
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
               type="checkbox"
@@ -205,12 +205,12 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
         </div>
         <div
           class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
-          id="checkbox-list-label-test_1"
+          id="checkbox-list-label-CHANNEL_ABCDE"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
           >
-            Test 1
+            Channel_ABCDE
           </span>
         </div>
         <span
@@ -233,7 +233,7 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
             class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
           >
             <input
-              aria-labelledby="checkbox-list-label-test_2"
+              aria-labelledby="checkbox-list-label-CHANNEL_BCDEF"
               checked=""
               class="PrivateSwitchBase-input css-1m9pwf3"
               data-indeterminate="false"
@@ -257,12 +257,12 @@ exports[`Channel Tree should render correctly for sub node 1`] = `
         </div>
         <div
           class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
-          id="checkbox-list-label-test_2"
+          id="checkbox-list-label-CHANNEL_BCDEF"
         >
           <span
             class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
           >
-            test_2
+            Channel_BCDEF
           </span>
         </div>
         <span

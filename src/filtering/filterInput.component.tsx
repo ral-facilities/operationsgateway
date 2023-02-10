@@ -249,6 +249,13 @@ const FilterInput = (props: FilterInputProps) => {
           }}
         />
       )}
+      renderOption={(props, option) => (
+        // ensure we use the value and not the label as the key
+        // as theoretically only value has to be unique
+        <li {...props} key={option.value}>
+          {option.label}
+        </li>
+      )}
       // for some reason, it's not accepting the sx prop here even though it should
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

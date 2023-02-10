@@ -12,11 +12,8 @@ import DataView from './dataView.component';
 import {
   flushPromises,
   renderComponentWithProviders,
-  testRecords,
   getInitialState,
-  testChannels,
 } from '../setupTests';
-import axios from 'axios';
 import { operators, Token } from '../filtering/filterParser';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -29,21 +26,6 @@ describe('Data View', () => {
       preloadedState: initialState,
     });
   };
-
-  beforeEach(() => {
-    (axios.get as jest.Mock).mockImplementation((url: string) => {
-      switch (url) {
-        case '/records':
-          return Promise.resolve({ data: testRecords });
-        case '/records/count':
-          return Promise.resolve({ data: testRecords.length });
-        case '/channels':
-          return Promise.resolve({ data: { channels: testChannels.slice(4) } });
-        default:
-          return Promise.reject(new Error('Invalid URL'));
-      }
-    });
-  });
 
   afterEach(() => {
     jest.clearAllMocks();

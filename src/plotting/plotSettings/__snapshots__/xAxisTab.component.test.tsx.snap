@@ -310,17 +310,17 @@ exports[`x-axis tab renders correctly with arbitrary x axis 1`] = `
       class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
     >
       <div
-        aria-label="Test 1 label"
+        aria-label="Channel_ABCDE label"
         class="MuiBox-root css-6nqp5h"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1xh4m1x-MuiTypography-root"
         >
-          Test 1
+          Channel_ABCDE
         </p>
         <svg
           aria-hidden="true"
-          aria-label="Remove Test 1 from x-axis"
+          aria-label="Remove Channel_ABCDE from x-axis"
           class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pmilg0-MuiSvgIcon-root"
           data-testid="CloseIcon"
           focusable="false"

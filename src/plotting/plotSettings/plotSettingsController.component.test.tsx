@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 import userEvent from '@testing-library/user-event';
 import { FullScalarChannelMetadata } from '../../app.types';
-import { testChannels } from '../../setupTests';
 import { staticChannels } from '../../api/channels';
+import { testScalarChannels } from '../../setupTests';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;
@@ -36,7 +36,7 @@ describe('Plot Settings component', () => {
       selectedRecordTableChannels: [
         staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
-      allChannels: testChannels as FullScalarChannelMetadata[],
+      allChannels: testScalarChannels,
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,

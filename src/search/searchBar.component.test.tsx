@@ -7,14 +7,15 @@ import {
   getInitialState,
   cleanupDatePickerWorkaround,
   applyDatePickerWorkaround,
-  testRecords,
 } from '../setupTests';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
-import axios from 'axios';
 import { formatDateTimeForApi } from '../state/slices/searchSlice';
 import { QueryClient } from '@tanstack/react-query';
+import { rest } from 'msw';
+import { server } from '../mocks/server';
+import recordsJson from '../mocks/records.json';
 
 describe('searchBar component', () => {
   let user;
@@ -115,9 +116,9 @@ describe('searchBar component', () => {
 
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: 2,
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
       })
     );
     const state = {
@@ -166,9 +167,9 @@ describe('searchBar component', () => {
 
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation(() =>
-      Promise.resolve({
-        data: 2,
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
       })
     );
 
@@ -193,7 +194,7 @@ describe('searchBar component', () => {
         },
       ],
       () => {
-        return { data: [testRecords[0], testRecords[1]] };
+        return { data: [recordsJson[0], recordsJson[1]] };
       }
     );
 

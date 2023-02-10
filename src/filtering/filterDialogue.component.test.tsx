@@ -3,17 +3,14 @@ import React from 'react';
 import FilterDialogue from './filterDialogue.component';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  getInitialState,
-  renderComponentWithProviders,
-  testChannels,
-  testRecords,
-} from '../setupTests';
+import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
-import axios from 'axios';
 import { QueryClient } from '@tanstack/react-query';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import recordsJson from '../mocks/records.json';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
@@ -35,10 +32,6 @@ describe('Filter dialogue component', () => {
       open: true,
       onClose: jest.fn(),
     };
-
-    (axios.get as jest.Mock).mockResolvedValue({
-      data: { channels: testChannels.slice(4) },
-    });
   });
 
   afterEach(() => {
@@ -135,13 +128,17 @@ describe('Filter dialogue component', () => {
 
     await user.click(screen.getByText('Add new filter'));
 
-    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+    const filters = screen.getAllByRole('combobox', { name: 'Filter' });
+    expect(filters).toHaveLength(2);
 
-    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
-    const filter2 = screen.getAllByRole('combobox', { name: 'Filter' })[1];
+    const [filter1, filter2] = filters;
 
-    await user.type(filter1, 'Active exp{enter}is not null{enter}');
-    await user.type(filter2, 'shot{enter}is null{enter}');
+    await user.type(filter1, 'Act{enter}is{enter}', {
+      delay: null,
+    });
+    await user.type(filter2, 'sh{enter}={enter}1{enter}', {
+      delay: null,
+    });
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -151,14 +148,15 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeExperiment',
-          label: 'Active Experiment',
+          value: 'activeArea',
+          label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],
       [
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-        operators.find((t) => t.value === 'is null')!,
+        operators.find((t) => t.value === '=')!,
+        { type: 'number', value: '1', label: '1' },
       ],
     ]);
   });
@@ -251,13 +249,12 @@ describe('Filter dialogue component', () => {
 
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/channels')
-        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
-      return Promise.resolve({
-        data: 2,
-      });
-    });
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
+      })
+    );
+
     const state = {
       ...getInitialState(),
       config: {
@@ -272,7 +269,7 @@ describe('Filter dialogue component', () => {
     expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
 
     const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
-    await user.type(filter1, 'Active exp{enter}is not null{enter}');
+    await user.type(filter1, 'Act{enter}is{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -293,8 +290,8 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeExperiment',
-          label: 'Active Experiment',
+          value: 'activeArea',
+          label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],
@@ -303,13 +300,11 @@ describe('Filter dialogue component', () => {
 
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
-    (axios.get as jest.Mock).mockImplementation((url: string) => {
-      if (url === '/channels')
-        return Promise.resolve({ data: { channels: testChannels.slice(4) } });
-      return Promise.resolve({
-        data: 2,
-      });
-    });
+    server.use(
+      rest.get('/channels/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(2));
+      })
+    );
 
     const testQueryClient = new QueryClient({
       defaultOptions: {
@@ -328,11 +323,11 @@ describe('Filter dialogue component', () => {
             maxShots: 50,
             shotnumRange: {},
           },
-          filters: ['{"metadata.activeExperiment":{"$ne":null}}'],
+          filters: ['{"metadata.activeArea":{"$ne":null}}'],
         },
       ],
       () => {
-        return { data: [testRecords[0], testRecords[1]] };
+        return { data: [recordsJson[0], recordsJson[1]] };
       }
     );
 
@@ -346,7 +341,7 @@ describe('Filter dialogue component', () => {
     const { store } = createView(state, testQueryClient);
 
     const filter = screen.getByRole('combobox', { name: 'Filter' });
-    await user.type(filter, 'Active exp{enter}is not null{enter}');
+    await user.type(filter, 'Act{enter}is{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -361,8 +356,8 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeExperiment',
-          label: 'Active Experiment',
+          value: 'activeArea',
+          label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],

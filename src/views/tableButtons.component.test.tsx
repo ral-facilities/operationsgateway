@@ -1,7 +1,6 @@
 import React from 'react';
 import TableButtons from './tableButtons.component';
 import { render, screen } from '@testing-library/react';
-import axios from 'axios';
 import userEvent from '@testing-library/user-event';
 
 describe('Table buttons', () => {
@@ -18,7 +17,6 @@ describe('Table buttons', () => {
 
   beforeEach(() => {
     user = userEvent.setup();
-    (axios.get as jest.Mock).mockResolvedValue({ data: [] });
     props = {
       openFilters,
       openChannels,

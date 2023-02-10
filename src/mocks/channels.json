@@ -23,7 +23,7 @@
       "path": "/Channels/2",
       "type": "scalar",
       "notation": "scientific",
-      "precision": 1
+      "precision": 2
     },
     "CHANNEL_EFGHI": {
       "name": "Channel_EFGHI",

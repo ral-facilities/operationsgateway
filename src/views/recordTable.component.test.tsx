@@ -8,58 +8,29 @@ import {
   fireEvent,
   within,
   waitFor,
+  waitForElementToBeRemoved,
 } from '@testing-library/react';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
-  flushPromises,
   getInitialState,
-  renderComponentWithStore,
-  testRecordRows,
-  testChannels,
-  generateRecordRow,
+  renderComponentWithProviders,
 } from '../setupTests';
-import { useRecordCount, useRecordsPaginated } from '../api/records';
 import userEvent from '@testing-library/user-event';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import {
-  useAvailableColumns,
-  constructColumns,
-  useChannels,
-} from '../api/channels';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 import { operators, type Token } from '../filtering/filterParser';
-
-jest.mock('../api/records', () => {
-  const originalModule = jest.requireActual('../api/records');
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    useRecordsPaginated: jest.fn(),
-    useRecordCount: jest.fn(),
-  };
-});
-
-jest.mock('../api/channels', () => {
-  const originalModule = jest.requireActual('../api/channels');
-
-  return {
-    __esModule: true,
-    ...originalModule,
-    useChannels: jest.fn(),
-    useAvailableColumns: jest.fn(),
-  };
-});
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import recordsJson from '../mocks/records.json';
 
 describe('Record Table', () => {
-  let data;
   let state: PreloadedState<RootState>;
   const openFilters = jest.fn();
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(
+    return renderComponentWithProviders(
       <RecordTable openFilters={openFilters} tableHeight="100px" />,
       {
         preloadedState: initialState,
@@ -70,24 +41,6 @@ describe('Record Table', () => {
   beforeEach(() => {
     applyDatePickerWorkaround();
     userEvent.setup();
-    data = testRecordRows;
-
-    (useRecordsPaginated as jest.Mock).mockReturnValue({
-      data: data,
-      isLoading: false,
-    });
-    (useRecordCount as jest.Mock).mockReturnValue({
-      data: data.length,
-      isLoading: false,
-    });
-    (useChannels as jest.Mock).mockReturnValue({
-      data: testChannels,
-      isLoading: false,
-    });
-    (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: constructColumns(testChannels),
-      isLoading: false,
-    });
 
     state = getInitialState();
   });
@@ -97,51 +50,48 @@ describe('Record Table', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     const view = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders correctly while loading', () => {
-    (useRecordsPaginated as jest.Mock).mockReturnValue({
-      data: [],
-      isLoading: true,
-    });
-
-    (useRecordCount as jest.Mock).mockReturnValue({
-      isLoading: true,
-    });
-
-    (useAvailableColumns as jest.Mock).mockReturnValue({
-      data: [],
-      isLoading: true,
-    });
+    const loadingHandler = (req, res, ctx) => {
+      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
+      return new Promise(() => undefined);
+    };
+    server.use(
+      rest.get('/records', loadingHandler),
+      rest.get('/records/count', loadingHandler),
+      rest.get('/channels', loadingHandler)
+    );
 
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly while data count is zero', () => {
-    (useRecordsPaginated as jest.Mock).mockReturnValue({
-      data: [],
-      isLoading: false,
-    });
-    (useRecordCount as jest.Mock).mockReturnValue({
-      data: 0,
-      isLoading: false,
-    });
+  it('renders correctly while data count is zero', async () => {
+    server.use(
+      rest.get('/records', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json([]));
+      }),
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(0));
+      })
+    );
 
     const view = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
     expect(view.asFragment()).toMatchSnapshot();
-  });
-
-  it('calls the correct data fetching hooks on load', () => {
-    createView();
-
-    expect(useRecordsPaginated).toHaveBeenCalled();
-    expect(useRecordCount).toHaveBeenCalled();
-    expect(useAvailableColumns).toHaveBeenCalled();
   });
 
   it('can sort columns and removes column sort when column is closed', async () => {
@@ -150,11 +100,11 @@ describe('Record Table', () => {
       table: { ...state.table, selectedColumnIds: ['timestamp', 'shotnum'] },
     });
 
-    await user.click(screen.getByTestId('sort shotnum'));
-
-    await act(async () => {
-      await flushPromises();
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
     });
+
+    await user.click(screen.getByTestId('sort shotnum'));
 
     expect(screen.getByTestId('sort shotnum')).toHaveClass('Mui-active');
 
@@ -177,23 +127,18 @@ describe('Record Table', () => {
 
   it('paginates correctly', async () => {
     state = { ...state, table: { ...state.table, resultsPerPage: 10 } };
-    data = Array.from(Array(12), (_, i) => generateRecordRow(i + 1));
-    (useRecordsPaginated as jest.Mock).mockReturnValue({
-      data,
-      isLoading: false,
-    });
-    (useRecordCount as jest.Mock).mockReturnValue({
-      data: data.length,
-      isLoading: false,
-    });
     const user = userEvent.setup();
     createView();
 
-    screen.getByText(`1–10 of ${data.length}`);
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    screen.getByText(`1–10 of ${recordsJson.length}`);
 
     await user.click(screen.getByLabelText('Go to next page'));
 
-    screen.getByText(`11–12 of ${data.length}`);
+    screen.getByText(`11–${recordsJson.length} of ${recordsJson.length}`);
 
     const resultsPerPage = screen.getByRole('button', {
       name: /Rows per page/i,
@@ -204,11 +149,15 @@ describe('Record Table', () => {
 
     await user.click(listbox.getByText('25'));
 
-    screen.getByText(`1–12 of ${data.length}`);
+    screen.getByText(`1–${recordsJson.length} of ${recordsJson.length}`);
   });
 
-  it('adds columns in correct order on checkbox click', () => {
+  it('adds columns in correct order on checkbox click', async () => {
     const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     act(() => {
       store.dispatch(selectColumn('shotnum'));
@@ -248,12 +197,33 @@ describe('Record Table', () => {
   });
 
   it('rounds numbers correctly in scalar columns', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const recordToModifyIndex = recordsJson.findIndex(
+      (record) => 'CHANNEL_DEFGH' in record.channels
+    )!;
+    const modifiedRecord = { ...recordsJson[recordToModifyIndex] };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    modifiedRecord.channels.CHANNEL_DEFGH!.data = 333.3;
+    const modifiedRecords = [
+      ...recordsJson.slice(0, recordToModifyIndex),
+      modifiedRecord,
+      ...recordsJson.slice(recordToModifyIndex + 1),
+    ];
+    server.use(
+      rest.get('/records', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(modifiedRecords));
+      })
+    );
+
     createView({
-      table: { ...state.table, selectedColumnIds: ['timestamp', 'test_3'] },
+      table: {
+        ...state.table,
+        selectedColumnIds: ['timestamp', 'CHANNEL_DEFGH'],
+      },
     });
 
-    await act(async () => {
-      await flushPromises();
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
     });
 
     expect(screen.getByText('3.3e+2')).toBeInTheDocument();
@@ -261,6 +231,10 @@ describe('Record Table', () => {
 
   it("updates columns when a column's word wrap is toggled", async () => {
     createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
 
     let menuIcon = screen.getByLabelText('timestamp menu');
     fireEvent.click(menuIcon);

@@ -87,7 +87,10 @@
     ]
   },
   "jest": {
-    "resetMocks": false
+    "resetMocks": false,
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)"
+    ]
   },
   "packageManager": "yarn@3.3.0",
   "devDependencies": {

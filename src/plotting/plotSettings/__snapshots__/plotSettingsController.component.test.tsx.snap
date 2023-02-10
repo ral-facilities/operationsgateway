@@ -69,25 +69,24 @@ changeXAxis=undefined
     "path": "/system"
   },
   {
-    "systemName": "test_1",
-    "type": "scalar",
-    "name": "Test 1",
-    "precision": 4,
-    "path": "/test_1"
+    "systemName": "CHANNEL_ABCDE",
+    "name": "Channel_ABCDE",
+    "path": "/Channels/1",
+    "type": "scalar"
   },
   {
-    "systemName": "test_2",
+    "systemName": "CHANNEL_DEFGH",
+    "name": "Channel_DEFGH",
+    "path": "/Channels/2",
     "type": "scalar",
-    "precision": 2,
-    "notation": "normal",
-    "path": "/test_2"
-  },
-  {
-    "systemName": "test_3",
-    "type": "scalar",
-    "precision": 2,
     "notation": "scientific",
-    "path": "/test_3"
+    "precision": 2
+  },
+  {
+    "systemName": "CHANNEL_GHIJK",
+    "name": "Channel_GHIJK",
+    "path": "/Channels/3",
+    "type": "scalar"
   }
 ]
 XAxisScale="time"
@@ -146,25 +145,24 @@ allChannels=[
     "path": "/system"
   },
   {
-    "systemName": "test_1",
-    "type": "scalar",
-    "name": "Test 1",
-    "precision": 4,
-    "path": "/test_1"
+    "systemName": "CHANNEL_ABCDE",
+    "name": "Channel_ABCDE",
+    "path": "/Channels/1",
+    "type": "scalar"
   },
   {
-    "systemName": "test_2",
+    "systemName": "CHANNEL_DEFGH",
+    "name": "Channel_DEFGH",
+    "path": "/Channels/2",
     "type": "scalar",
-    "precision": 2,
-    "notation": "normal",
-    "path": "/test_2"
-  },
-  {
-    "systemName": "test_3",
-    "type": "scalar",
-    "precision": 2,
     "notation": "scientific",
-    "path": "/test_3"
+    "precision": 2
+  },
+  {
+    "systemName": "CHANNEL_GHIJK",
+    "name": "Channel_GHIJK",
+    "path": "/Channels/3",
+    "type": "scalar"
   }
 ]
 selectedPlotChannels=[]
@@ -313,25 +311,24 @@ changeXAxis=undefined
     "path": "/system"
   },
   {
-    "systemName": "test_1",
-    "type": "scalar",
-    "name": "Test 1",
-    "precision": 4,
-    "path": "/test_1"
+    "systemName": "CHANNEL_ABCDE",
+    "name": "Channel_ABCDE",
+    "path": "/Channels/1",
+    "type": "scalar"
   },
   {
-    "systemName": "test_2",
+    "systemName": "CHANNEL_DEFGH",
+    "name": "Channel_DEFGH",
+    "path": "/Channels/2",
     "type": "scalar",
-    "precision": 2,
-    "notation": "normal",
-    "path": "/test_2"
-  },
-  {
-    "systemName": "test_3",
-    "type": "scalar",
-    "precision": 2,
     "notation": "scientific",
-    "path": "/test_3"
+    "precision": 2
+  },
+  {
+    "systemName": "CHANNEL_GHIJK",
+    "name": "Channel_GHIJK",
+    "path": "/Channels/3",
+    "type": "scalar"
   }
 ]
 XAxisScale="linear"
@@ -500,25 +497,24 @@ allChannels=[
     "path": "/system"
   },
   {
-    "systemName": "test_1",
-    "type": "scalar",
-    "name": "Test 1",
-    "precision": 4,
-    "path": "/test_1"
+    "systemName": "CHANNEL_ABCDE",
+    "name": "Channel_ABCDE",
+    "path": "/Channels/1",
+    "type": "scalar"
   },
   {
-    "systemName": "test_2",
+    "systemName": "CHANNEL_DEFGH",
+    "name": "Channel_DEFGH",
+    "path": "/Channels/2",
     "type": "scalar",
-    "precision": 2,
-    "notation": "normal",
-    "path": "/test_2"
-  },
-  {
-    "systemName": "test_3",
-    "type": "scalar",
-    "precision": 2,
     "notation": "scientific",
-    "path": "/test_3"
+    "precision": 2
+  },
+  {
+    "systemName": "CHANNEL_GHIJK",
+    "name": "Channel_GHIJK",
+    "path": "/Channels/3",
+    "type": "scalar"
   }
 ]
 selectedPlotChannels=[]
