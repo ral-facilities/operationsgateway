@@ -183,4 +183,18 @@ describe('Channels Dialogue', () => {
     ]);
     expect(props.onClose).toHaveBeenCalled();
   });
+
+  it('selects a channel in the metadata panel & channel tree when search box is used', async () => {
+    createView();
+
+    const search = screen.getByLabelText('Search data channels');
+
+    await user.type(search, 'shot{arrowdown}{enter}');
+
+    // shot number should be visible in tree view
+    screen.getByRole('checkbox', { name: 'Shot Number' });
+
+    // shot number should be selected in the metadata panel
+    screen.getByText('System name: shotnum');
+  });
 });
