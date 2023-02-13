@@ -157,8 +157,9 @@ describe('Table Component', () => {
 
     cy.contains('All Channels').click();
 
-    cy.findByRole('button', { name: 'Channels' }).click();
-    cy.findByRole('button', { name: '1' }).click();
+    cy.findByLabelText('Search data channels').type(
+      'Channel_A{downArrow}{enter}'
+    );
 
     cy.findByRole('checkbox', { name: 'Channel_ABCDE' }).check();
     cy.findByRole('checkbox', { name: 'Channel_BCDEF' }).check();
@@ -182,10 +183,11 @@ describe('Table Component', () => {
     );
 
     cy.contains('Data Channels').click();
-    cy.findByRole('button', { name: 'Channels' }).click();
-    cy.findByRole('button', { name: '1' }).click();
-
     const channelName = 'CHANNEL_ABCDE';
+
+    cy.findByLabelText('Search data channels').type(
+      `${channelName}{downArrow}{enter}`
+    );
 
     cy.findByRole('checkbox', { name: new RegExp(channelName, 'i') }).check();
 
