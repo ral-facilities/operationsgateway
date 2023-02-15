@@ -7,10 +7,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
-  InputAdornment,
-  TextField,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
 import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 import ChannelTree from './channelTree.component';
@@ -22,6 +19,7 @@ import {
 } from '../state/slices/tableSlice';
 import { createSelector } from '@reduxjs/toolkit';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
+import ChannelSearch from './channelSearch.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -145,24 +143,24 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
     setDisplayedChannel(undefined);
   }, []);
 
+  const onSearchChange = React.useCallback((channel: FullChannelMetadata) => {
+    setCurrNode(channel.path);
+    setDisplayedChannel(channel);
+  }, []);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <Grid container columnSpacing={2} alignItems="center">
         <Grid item xs>
           <DialogTitle>Data Channels</DialogTitle>
         </Grid>
-        <Grid item xs>
-          <TextField
-            size="small"
-            label="Search data channels"
-            fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
+        <Grid item xs pr={1}>
+          <ChannelSearch
+            channels={channels ?? []}
+            onSearchChange={onSearchChange}
+            currPathAndChannel={`${currNode}${
+              displayedChannel ? `/${displayedChannel.systemName}` : ''
+            }`}
           />
         </Grid>
       </Grid>

@@ -119,4 +119,14 @@ describe('Data Channels Component', () => {
 
     cy.findByRole('cell', { name: '6' }).should('be.visible');
   });
+
+  it('displays channel metadata when user searches for a channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByLabelText('Search data channels').type('shot{downArrow}{enter}');
+
+    cy.findByText('System name: shotnum').should('be.visible');
+
+    cy.findByRole('checkbox', { name: 'Shot Number' }).should('exist');
+  });
 });
