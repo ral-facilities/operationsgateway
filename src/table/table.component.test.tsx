@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 describe('Table', () => {
   let props: TableProps;
   const generateRow = (num: number): RecordRow => ({
+    _id: `${num}`,
     timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00`)
       .getTime()
       .toString(),

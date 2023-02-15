@@ -12,6 +12,7 @@ export interface Record {
 }
 
 export interface RecordRow {
+  _id: string;
   timestamp: string;
   activeArea?: string;
   shotnum?: number;
@@ -122,6 +123,12 @@ export const isChannelImage = (c: Channel): c is ImageChannel =>
 export const isChannelWaveform = (c: Channel): c is WaveformChannel =>
   c?.metadata?.channel_dtype === 'waveform';
 
+export interface Waveform {
+  _id: string;
+  x: number[];
+  y: number[];
+}
+
 export type Order = 'asc' | 'desc';
 
 export interface SortType {
@@ -146,6 +153,22 @@ export interface SearchParams {
 
 export interface ColumnState {
   wordWrap?: boolean;
+}
+
+export const DEFAULT_WINDOW_VARS = {
+  outerWidth: 600,
+  outerHeight: 400,
+  screenX: 200,
+  screenY: 200,
+};
+
+export interface WindowConfig {
+  open: boolean;
+  title: string;
+  outerWidth: number;
+  outerHeight: number;
+  screenX: number;
+  screenY: number;
 }
 
 export type PlotType = 'scatter' | 'line';

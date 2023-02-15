@@ -19,17 +19,14 @@ import {
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
 import PlotWindowPortal from './plotWindowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import {
-  DEFAULT_WINDOW_VARS,
-  PlotConfig,
-  savePlot,
-} from '../state/slices/plotSlice';
+import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -101,8 +98,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   }, [axesLabelsVisible]);
 
   const resetView = React.useCallback(() => {
-    setViewFlag(!viewFlag);
-  }, [viewFlag]);
+    setViewFlag((viewFlag) => !viewFlag);
+  }, []);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {

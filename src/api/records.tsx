@@ -195,6 +195,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           const timestampString = record.metadata.timestamp;
           const formattedDate = renderTimestamp(timestampString);
           const recordRow: RecordRow = {
+            _id: record._id,
             timestamp: formattedDate,
             shotnum: record.metadata.shotnum,
             activeArea: record.metadata.activeArea,

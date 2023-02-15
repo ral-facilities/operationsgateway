@@ -3,7 +3,10 @@ import axios, { AxiosError } from 'axios';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
+  isChannelMetadataImage,
   isChannelMetadataScalar,
+  isChannelMetadataWaveform,
+  RecordRow,
   timeChannelName,
 } from '../app.types';
 import {
@@ -13,12 +16,14 @@ import {
 } from '@tanstack/react-query';
 import { Column } from 'react-table';
 import {
-  renderImage,
   roundNumber,
+  TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
 import { selectUrls } from '../state/slices/configSlice';
-import { useAppSelector } from '../state/hooks';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { readSciGatewayToken } from '../parseTokens';
+import { AppDispatch } from '../state/store';
+import { openTraceWindow } from '../state/slices/windowSlice';
 
 interface ChannelsEndpoint {
   channels: {
@@ -141,7 +146,10 @@ export const useChannelSummary = (
   );
 };
 
-export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
+export const constructColumns = (
+  channels: FullChannelMetadata[],
+  dispatch: AppDispatch
+): Column[] => {
   const myColumns: Column[] = [];
 
   channels.forEach((channel: FullChannelMetadata) => {
@@ -172,14 +180,32 @@ export const constructColumns = (channels: FullChannelMetadata[]): Column[] => {
         ) : (
           <React.Fragment>{String(value ?? '')}</React.Fragment>
         );
-    } else {
-      newColumn.Cell = ({ row, value }) =>
-        renderImage(
-          value,
-          `${channel.name ?? channel.systemName} ${
+    } else if (isChannelMetadataWaveform(channel)) {
+      newColumn.Cell = ({ row, value }) => (
+        <TraceOrImageThumbnail
+          base64Data={value}
+          altText={`${channel.name ?? channel.systemName} ${
             channel.type
-          } for timestamp ${row.values[timeChannelName]}`
-        );
+          } for timestamp ${row.values[timeChannelName]}`}
+          onClick={() =>
+            dispatch(
+              openTraceWindow({
+                recordId: (row.original as RecordRow)['_id'],
+                channelName: channel.systemName,
+              })
+            )
+          }
+        />
+      );
+    } else if (isChannelMetadataImage(channel)) {
+      newColumn.Cell = ({ row, value }) => (
+        <TraceOrImageThumbnail
+          base64Data={value}
+          altText={`${channel.name ?? channel.systemName} ${
+            channel.type
+          } for timestamp ${row.values[timeChannelName]}`}
+        />
+      );
     }
     myColumns.push(newColumn);
   });
@@ -198,10 +224,6 @@ const useScalarChannelsOptions = {
   select: (data: FullChannelMetadata[]) => getScalarChannels(data),
 };
 
-const useAvailableColumnsOptions = {
-  select: (data: FullChannelMetadata[]) => constructColumns(data),
-};
-
 export const useScalarChannels = (): UseQueryResult<
   FullScalarChannelMetadata[],
   AxiosError
@@ -210,5 +232,8 @@ export const useScalarChannels = (): UseQueryResult<
 };
 
 export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
-  return useChannels(useAvailableColumnsOptions);
+  const dispatch = useAppDispatch();
+  return useChannels({
+    select: (data: FullChannelMetadata[]) => constructColumns(data, dispatch),
+  });
 };
