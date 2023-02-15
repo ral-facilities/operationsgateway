@@ -31,25 +31,36 @@ describe('Data Channels Component', () => {
     cy.contains('system').click();
 
     cy.findByRole('checkbox', { name: 'Shot Number' }).check();
+    cy.findByRole('checkbox', { name: 'Active Area' }).check();
+    cy.findByRole('checkbox', { name: 'Active Experiment' }).check();
 
     cy.contains('Add Channels').click();
 
     cy.findByRole('columnheader', { name: 'Shot Number' }).should('be.visible');
+    cy.findByRole('columnheader', { name: 'Active Area' }).should('be.visible');
+    cy.findByRole('columnheader', { name: 'Active Experiment' }).should(
+      'be.visible'
+    );
 
     cy.contains('Data Channels').click();
+    cy.contains('All Channels').click();
+    cy.findByRole('checkbox', { name: 'system' }).should('be.checked');
+    cy.contains('system').click();
 
     cy.findByRole('checkbox', { name: 'Shot Number' }).uncheck();
-
-    cy.findByRole('checkbox', { name: 'Active Area' }).check();
 
     cy.contains('Add Channels').click();
 
     cy.findByRole('columnheader', { name: 'Shot Number' }).should('not.exist');
-    cy.findByRole('columnheader', { name: 'Active Area' }).should('be.visible');
   });
 
   it('lets a user navigate the channel tree', () => {
     cy.contains('Data Channels').click();
+
+    cy.findByRole('checkbox', { name: 'system' }).should(
+      'have.prop',
+      'indeterminate'
+    );
 
     cy.contains('system').click();
 
@@ -60,14 +71,20 @@ describe('Data Channels Component', () => {
     cy.findByRole('button', { name: 'Channels' }).click();
 
     cy.findByRole('button', { name: '1' }).should('be.visible');
+    cy.findByRole('checkbox', { name: '1' }).should('not.be.checked');
 
     cy.findByRole('button', { name: '1' }).click();
 
     cy.contains('Channel_ABCDE').should('be.visible');
+    cy.findByRole('checkbox', { name: 'Channel_ABCDE' }).check();
 
     cy.findByRole('link', { name: 'Channels' }).click();
 
     cy.findByRole('button', { name: '1' }).should('be.visible');
+    cy.findByRole('checkbox', { name: '1' }).should(
+      'have.prop',
+      'indeterminate'
+    );
 
     cy.findByRole('button', { name: '2' }).click();
 
@@ -76,6 +93,10 @@ describe('Data Channels Component', () => {
     cy.contains('All Channels').click();
 
     cy.contains('system').should('be.visible');
+    cy.findByRole('checkbox', { name: 'Channels' }).should(
+      'have.prop',
+      'indeterminate'
+    );
   });
 
   it('displays channel metadata when user clicks on a channel', () => {
