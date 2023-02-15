@@ -192,9 +192,11 @@ describe('Channels Dialogue', () => {
     await user.type(search, 'shot{arrowdown}{enter}');
 
     // shot number should be visible in tree view
-    screen.getByRole('checkbox', { name: 'Shot Number' });
+    expect(
+      screen.getByRole('checkbox', { name: 'Shot Number' })
+    ).toBeInTheDocument();
 
     // shot number should be selected in the metadata panel
-    screen.getByText('System name: shotnum');
+    expect(screen.getByText('System name: shotnum')).toBeInTheDocument();
   });
 });
