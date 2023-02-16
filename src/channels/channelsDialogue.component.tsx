@@ -7,10 +7,7 @@ import {
   DialogTitle,
   Divider,
   Grid,
-  InputAdornment,
-  TextField,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
 import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 import ChannelTree from './channelTree.component';
@@ -22,6 +19,7 @@ import {
 } from '../state/slices/tableSlice';
 import { createSelector } from '@reduxjs/toolkit';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
+import ChannelSearch from './channelSearch.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -30,7 +28,7 @@ interface ChannelsDialogueProps {
 
 export interface TreeNode {
   name: string;
-  checked: boolean;
+  checked?: boolean; // undefined represents indeterminate checkbox
   children: Record<
     string,
     TreeNode | (FullChannelMetadata & { checked: boolean })
@@ -56,26 +54,36 @@ export const selectChannelTree = createSelector(
     selectedIds: string[]
   ) => selectedIds,
   (availableChannels, selectedIds) => {
-    const tree: TreeNode = { name: '/', children: {}, checked: false };
+    const tree: TreeNode = { name: '/', children: {} };
     availableChannels.forEach((channel) => {
+      const channelSelected = selectedIds.includes(channel.systemName);
       const { path } = channel;
       // split the path and remove any empty strings
       const splitPath = path.split('/').filter((el) => el);
       splitPath.reduce((prev, curr, currIndex) => {
+        let node = prev.children[curr] as TreeNode;
         // init treenode if not already initialised
-        if (!prev.children?.[curr]) {
-          prev.children[curr] = {
+        if (!node) {
+          node = prev.children[curr] = {
             name: curr,
-            checked: false,
+            // when initialised there's by definition only 1 child so far, so use
+            // that child's channelSelected property
+            checked: channelSelected,
             children: {},
           };
+        } else {
+          // if node is already initialised, update the checked property of said node based on prev value and curr channel selected value
+          if (
+            (node.checked && !channelSelected) ||
+            (!node.checked && channelSelected)
+          )
+            node.checked = undefined; // aka there's a mix of selected & unselected children i.e. indeterminate
         }
-        const node = prev.children[curr] as TreeNode;
         // last item, so therefore is the channel
         if (currIndex === splitPath.length - 1) {
           node.children[channel.systemName] = {
             ...channel,
-            checked: selectedIds.includes(channel.systemName),
+            checked: channelSelected,
           };
         }
         // return the child node, so we drill deeper into the tree
@@ -135,24 +143,24 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
     setDisplayedChannel(undefined);
   }, []);
 
+  const onSearchChange = React.useCallback((channel: FullChannelMetadata) => {
+    setCurrNode(channel.path);
+    setDisplayedChannel(channel);
+  }, []);
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <Grid container columnSpacing={2} alignItems="center">
         <Grid item xs>
           <DialogTitle>Data Channels</DialogTitle>
         </Grid>
-        <Grid item xs>
-          <TextField
-            size="small"
-            label="Search data channels"
-            fullWidth
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
+        <Grid item xs pr={1}>
+          <ChannelSearch
+            channels={channels ?? []}
+            onSearchChange={onSearchChange}
+            currPathAndChannel={`${currNode}${
+              displayedChannel ? `/${displayedChannel.systemName}` : ''
+            }`}
           />
         </Grid>
       </Grid>
@@ -172,7 +180,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
           <Grid item xs>
             <ChannelTree
               currNode={currNode}
-              tree={channelTree ?? { name: '/', children: {}, checked: false }}
+              tree={channelTree ?? { name: '/', children: {} }}
               setCurrNode={onChangeNode}
               handleChannelChecked={handleChannelChecked}
               handleChannelSelected={setDisplayedChannel}

@@ -27,7 +27,7 @@ describe('Channel Tree', () => {
     children: {
       test_1: {
         name: 'test_1',
-        checked: false,
+        checked: undefined,
         children: {
           timestamp: { ...staticChannels['timestamp'], checked: false },
           [channel1.systemName]: {

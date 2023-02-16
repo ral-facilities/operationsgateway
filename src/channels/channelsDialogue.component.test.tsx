@@ -17,16 +17,15 @@ import { staticChannels } from '../api/channels';
 
 describe('selectChannelTree', () => {
   it('transforms channel list with selection info into TreeNode', () => {
-    const selectedIds = ['timestamp', 'shotnum', 'CHANNEL_ABCDE'];
+    const selectedIds = [...Object.keys(staticChannels), 'CHANNEL_ABCDE'];
     const channelTree = selectChannelTree({}, testChannels, selectedIds);
 
     const expectedTree: TreeNode = {
       name: '/',
-      checked: false,
       children: {
         system: {
           name: 'system',
-          checked: false,
+          checked: true,
           children: Object.fromEntries(
             Object.entries(staticChannels).map(([channelName, channel]) => [
               channelName,
@@ -39,11 +38,11 @@ describe('selectChannelTree', () => {
         },
         Channels: {
           name: 'Channels',
-          checked: false,
+          checked: undefined,
           children: {
             '1': {
               name: '1',
-              checked: false,
+              checked: undefined,
               children: testChannels.reduce((prev, curr) => {
                 if (curr.path.includes('1'))
                   prev[curr.systemName] = {
@@ -182,5 +181,21 @@ describe('Channels Dialogue', () => {
       'shotnum',
     ]);
     expect(props.onClose).toHaveBeenCalled();
+  });
+
+  it('selects a channel in the metadata panel & channel tree when search box is used', async () => {
+    createView();
+
+    const search = screen.getByLabelText('Search data channels');
+
+    await user.type(search, 'shot{arrowdown}{enter}');
+
+    // shot number should be visible in tree view
+    expect(
+      screen.getByRole('checkbox', { name: 'Shot Number' })
+    ).toBeInTheDocument();
+
+    // shot number should be selected in the metadata panel
+    expect(screen.getByText('System name: shotnum')).toBeInTheDocument();
   });
 });

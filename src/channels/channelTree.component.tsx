@@ -58,11 +58,14 @@ const ChannelTree = (props: ChannelTreeProps) => {
             >
               <ListItemIcon>
                 <Checkbox
-                  checked={value?.checked}
+                  checked={value.checked}
+                  indeterminate={typeof value.checked === 'undefined'}
                   disabled={!leaf || key === timeChannelName}
                   size="small"
                   inputProps={{ 'aria-labelledby': labelId }}
-                  onClick={() => handleChannelChecked(key, value.checked)}
+                  onClick={() =>
+                    leaf && handleChannelChecked(key, value.checked)
+                  }
                 />
               </ListItemIcon>
               <ListItemText id={labelId} primary={value?.name ?? key} />
