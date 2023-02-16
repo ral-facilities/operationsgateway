@@ -137,22 +137,37 @@ test('user can zoom and pan the graph', async ({
 
   const chart = await popup.locator('#my-chart');
   await chart.click();
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
 
+  // test drag to zoom
   await popup.dragAndDrop('#my-chart', '#my-chart', {
     sourcePosition: {
-      x: 100,
-      y: 100,
+      x: 250,
+      y: 120,
     },
     targetPosition: {
-      x: 25,
-      y: 25,
+      x: 450,
+      y: 180,
     },
   });
+
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+
+  await popup.keyboard.down('Shift');
+  await popup.dragAndDrop('#my-chart', '#my-chart', {
+    sourcePosition: {
+      x: 150,
+      y: 150,
+    },
+    targetPosition: {
+      x: 50,
+      y: 50,
+    },
+  });
+  await popup.keyboard.up('Shift');
 
   // click far side of chart to remove any tooltips
   await chart.click({

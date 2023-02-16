@@ -125,16 +125,16 @@ describe('x-axis tab', () => {
         createView();
 
         const minField = screen.getByLabelText('Min');
-        await user.type(minField, '1');
-        expect(changeXMinimum).toHaveBeenCalledWith(1);
+        await user.type(minField, '0');
+        expect(changeXMinimum).toHaveBeenCalledWith(0);
       });
 
       it('lets user change the max field and calls relevant onchange method', async () => {
         createView();
 
         const maxField = screen.getByLabelText('Max');
-        await user.type(maxField, '1');
-        expect(changeXMaximum).toHaveBeenCalledWith(1);
+        await user.type(maxField, '0');
+        expect(changeXMaximum).toHaveBeenCalledWith(0);
       });
 
       it('sets minimum value to undefined if no float value is present', async () => {
