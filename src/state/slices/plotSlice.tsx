@@ -36,7 +36,7 @@ interface PlotState {
 }
 
 // Define the initial state using that type
-export const initialState = {} as PlotState;
+export const initialState: PlotState = {};
 
 export const plotSlice = createSlice({
   name: 'plots',

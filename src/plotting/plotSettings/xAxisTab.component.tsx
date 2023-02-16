@@ -173,7 +173,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setFromDate(date as Date);
+                  setFromDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
                 OpenPickerButtonProps={{
@@ -239,7 +239,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setToDate(date as Date);
+                  setToDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
                 OpenPickerButtonProps={{

@@ -1,10 +1,10 @@
 import React from 'react';
-import PlotWindowPortal from './plotWindowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import { useWaveform } from '../api/waveforms';
 import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import TracePlot from './tracePlot.component';
-import { TraceButtons } from './plotButtons.component';
+import { TraceButtons } from '../windows/windowButtons.component';
 
 interface TraceWindowProps {
   onClose: () => void;
@@ -34,10 +34,10 @@ const TraceWindow = (props: TraceWindowProps) => {
     channelName
   );
 
-  const plotWindowRef = React.createRef<PlotWindowPortal>();
+  const plotWindowRef = React.createRef<WindowPortal>();
 
   return (
-    <PlotWindowPortal
+    <WindowPortal
       ref={plotWindowRef}
       title={title}
       onClose={onClose}
@@ -103,7 +103,7 @@ const TraceWindow = (props: TraceWindowProps) => {
           />
         </Backdrop>
       </Grid>
-    </PlotWindowPortal>
+    </WindowPortal>
   );
 };
 

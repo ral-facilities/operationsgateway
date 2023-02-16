@@ -15,7 +15,7 @@ interface WindowState {
 }
 
 // Define the initial state using that type
-export const initialState = {} as WindowState;
+export const initialState: WindowState = {};
 
 export const windowSlice = createSlice({
   name: 'windows',

@@ -261,7 +261,7 @@ const Plot = (props: PlotProps) => {
                 : undefined,
             pointRadius: lineStyle === 'dotted' ? 3 : undefined,
             borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
-          } as ChartDataset<PlotType, PlotDataset['data']>;
+          } satisfies ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })
     );

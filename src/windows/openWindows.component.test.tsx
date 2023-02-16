@@ -1,5 +1,5 @@
 import React from 'react';
-import OpenPlots from './openPlots.component';
+import OpenWindows from './openWindows.component';
 import {
   getInitialState,
   renderComponentWithStore,
@@ -9,7 +9,7 @@ import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
 // need to mock to avoid errors
-jest.mock('./plotWindow.component', () => (props) => (
+jest.mock('../plotting/plotWindow.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   <mock-plotWindow data-testid="mock-plotWindow">
@@ -22,11 +22,11 @@ jest.mock('./plotWindow.component', () => (props) => (
   </mock-plotWindow>
 ));
 
-describe('Open Plots component', () => {
+describe('Open Windows component', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(<OpenPlots />, {
+    return renderComponentWithStore(<OpenWindows />, {
       preloadedState: initialState,
     });
   };

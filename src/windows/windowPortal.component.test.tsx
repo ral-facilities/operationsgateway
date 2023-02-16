@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import PlotWindowPortal from './plotWindowPortal.component';
-import type { PlotWindowPortalProps } from './plotWindowPortal.component';
-import { DEFAULT_WINDOW_VARS } from '../state/slices/plotSlice';
+import WindowPortal from './windowPortal.component';
+import type { WindowPortalProps } from './windowPortal.component';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
 
-describe('Plot Window component', () => {
+describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;
-  let props: PlotWindowPortalProps;
+  let props: WindowPortalProps;
   const onClose = jest.fn();
   const mockAddEventListener = jest.fn();
   const mockRemoveEventListener = jest.fn();
@@ -27,9 +27,9 @@ describe('Plot Window component', () => {
 
   const createView = () =>
     render(
-      <PlotWindowPortal {...props}>
+      <WindowPortal {...props}>
         <TestComponent />
-      </PlotWindowPortal>
+      </WindowPortal>
     );
 
   beforeEach(() => {
@@ -68,9 +68,9 @@ describe('Plot Window component', () => {
     const { rerender } = createView();
 
     rerender(
-      <PlotWindowPortal {...props} title="new test title">
+      <WindowPortal {...props} title="new test title">
         <TestComponent />
-      </PlotWindowPortal>
+      </WindowPortal>
     );
 
     expect(newDocument.title).toEqual(
@@ -84,9 +84,9 @@ describe('Plot Window component', () => {
     const newMockOnClose = jest.fn();
 
     rerender(
-      <PlotWindowPortal {...props} onClose={newMockOnClose}>
+      <WindowPortal {...props} onClose={newMockOnClose}>
         <TestComponent />
-      </PlotWindowPortal>
+      </WindowPortal>
     );
 
     expect(mockRemoveEventListener).toHaveBeenCalledWith(

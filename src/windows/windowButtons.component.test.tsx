@@ -1,14 +1,15 @@
 import React from 'react';
-import PlotButtons, {
+import {
+  PlotButtons,
   PlotButtonsProps,
   constructDataRows,
   formatTooltipLabel,
-} from './plotButtons.component';
+} from './windowButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PlotDataset } from '../app.types';
 
-describe('Plot Buttons component', () => {
+describe('Window buttons components', () => {
   const canvas = document.createElement('canvas');
   const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
   let plotButtonsProps: PlotButtonsProps;

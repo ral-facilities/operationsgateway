@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Plot Buttons component renders plot buttons group 1`] = `
+exports[`Window buttons components renders plot buttons group 1`] = `
 <DocumentFragment>
   <div
     aria-label="plot actions"

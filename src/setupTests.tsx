@@ -10,6 +10,7 @@ import {
   PlotDataset,
   timeChannelName,
   FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -17,7 +18,6 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import {
-  DEFAULT_WINDOW_VARS,
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';

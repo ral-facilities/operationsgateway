@@ -85,7 +85,7 @@ const TracePlot = (props: TracePlotProps) => {
             pointHitRadius: 4, // ...but allow tooltips to act as if the points are there
           },
         ],
-      } as ChartData<'line'>)
+      } satisfies ChartData<'line'>)
     );
     const xLimits = { min: Math.min(...trace.x), max: Math.max(...trace.x) };
     const yLimits = { min: Math.min(...trace.y), max: Math.max(...trace.y) };

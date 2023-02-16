@@ -1,5 +1,5 @@
 import React from 'react';
-import PlotWindow from './plotWindow.component';
+import PlotWindow from '../plotting/plotWindow.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   closePlot,
@@ -11,9 +11,9 @@ import {
   selectTraceWindows,
   TraceOrImageWindow,
 } from '../state/slices/windowSlice';
-import TraceWindow from './traceWindow.component';
+import TraceWindow from '../traces/traceWindow.component';
 
-const OpenPlots = () => {
+const OpenWindows = () => {
   const openPlots = Object.values(useAppSelector(selectOpenPlots));
   const openTraces = Object.values(useAppSelector(selectTraceWindows));
   const dispatch = useAppDispatch();
@@ -45,4 +45,4 @@ const OpenPlots = () => {
   );
 };
 
-export default OpenPlots;
+export default OpenWindows;
