@@ -1,7 +1,7 @@
 import React from 'react';
 import PlotSettingsController from './plotSettings/plotSettingsController.component';
 import Plot from './plot.component';
-import PlotButtons from './plotButtons.component';
+import { PlotButtons } from './plotButtons.component';
 import {
   Box,
   Grid,
@@ -90,12 +90,12 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
-    setGridVisible(!gridVisible);
-  }, [gridVisible]);
+    setGridVisible((gridVisible) => !gridVisible);
+  }, []);
 
   const toggleAxesLabelsVisibility = React.useCallback(() => {
-    setAxesLabelsVisible(!axesLabelsVisible);
-  }, [axesLabelsVisible]);
+    setAxesLabelsVisible((axesLabelsVisible) => !axesLabelsVisible);
+  }, []);
 
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
@@ -302,7 +302,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             >
               <CircularProgress
                 id="settings-loading-indicator"
-                aria-label="settings-loading-indicator"
+                aria-label="Settings loading"
               />
             </Backdrop>
           </Drawer>
@@ -382,7 +382,7 @@ const PlotWindow = (props: PlotWindowProps) => {
         >
           <CircularProgress
             id="plot-loading-indicator"
-            aria-label="plot-loading-indicator"
+            aria-label="Plot loading"
           />
         </Backdrop>
       </Grid>

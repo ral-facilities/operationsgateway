@@ -4,6 +4,7 @@ import { useWaveform } from '../api/waveforms';
 import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import TracePlot from './tracePlot.component';
+import { TraceButtons } from './plotButtons.component';
 
 interface TraceWindowProps {
   onClose: () => void;
@@ -16,8 +17,14 @@ const TraceWindow = (props: TraceWindowProps) => {
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
+  const [pointsVisible, setPointsVisible] = React.useState<boolean>(false);
+
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
+  }, []);
+
+  const togglePointsVisibility = React.useCallback(() => {
+    setPointsVisible((pointsVisible) => !pointsVisible);
   }, []);
 
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -57,27 +64,29 @@ const TraceWindow = (props: TraceWindowProps) => {
           wrap="nowrap"
           sx={{ width: '100%', position: 'relative', height: '100%' }}
         >
-          <Grid container item justifyContent="space-between" wrap="nowrap">
-            <Grid item mr={1} mt={1}>
-              {/* <PlotButtons
-                data={records}
-                canvasRef={canvasRef}
-                title={plotTitle}
-                XAxis={XAxis}
-                gridVisible={gridVisible}
-                axesLabelsVisible={axesLabelsVisible}
-                toggleGridVisibility={toggleGridVisibility}
-                toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
-                resetView={resetView}
-                savePlot={handleSavePlot}
-              /> */}
-            </Grid>
+          <Grid
+            container
+            item
+            justifyContent="flex-end"
+            wrap="nowrap"
+            mt={1}
+            ml={-1}
+          >
+            <TraceButtons
+              data={waveform}
+              canvasRef={canvasRef}
+              title={title}
+              resetView={resetView}
+              pointsVisible={pointsVisible}
+              togglePointsVisibility={togglePointsVisibility}
+            />
           </Grid>
           <TracePlot
             trace={waveform ?? { _id: '0', x: [], y: [] }}
             canvasRef={canvasRef}
             viewReset={viewFlag}
             title={title}
+            pointsVisible={pointsVisible}
           />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}

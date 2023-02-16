@@ -1,6 +1,11 @@
 import { ButtonGroup, Button } from '@mui/material';
 import React from 'react';
-import { PlotDataset, XAxisScale, timeChannelName } from '../app.types';
+import {
+  PlotDataset,
+  XAxisScale,
+  timeChannelName,
+  Waveform,
+} from '../app.types';
 import { format } from 'date-fns';
 
 export const formatTooltipLabel = (
@@ -114,11 +119,34 @@ export const constructDataRows = (
 };
 
 /**
- *  Exports the graph data as a CSV
- *  @param data The data to export
- *  @param title The title of the plot (for the file name)
+ *  Common functionality to take a 2D array and create and download a CSV file
+ *  @param csvArray The data to create the CSV from
+ *  @param filename filename to use for the CSV file
  */
-function exportData(
+function createAndDownloadCSV(csvArray: unknown[][], filename: string) {
+  const csvContent =
+    'data:text/csv;charset=utf-8,' +
+    csvArray.map((x) => x.join(',')).join('\n');
+  const encodedUri = encodeURI(csvContent);
+
+  const link = document.createElement('a');
+  link.href = encodedUri;
+  link.download = `${filename}.csv`;
+
+  link.style.display = 'none';
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+/**
+ *  Exports the graph data as a CSV
+ *  @param title The title of the plot (for the file name)
+ *  @param XAxis the name of the X axis
+ *  @param plots The data to export
+ */
+function exportPlotData(
   title: string,
   XAxis?: string,
   plots?: PlotDataset[]
@@ -126,27 +154,34 @@ function exportData(
   if (XAxis && plots && plots.length > 0) {
     const csvArray = constructDataRows(XAxis, plots);
 
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      csvArray.map((x) => x.join(',')).join('\n');
-    const encodedUri = encodeURI(csvContent);
-
-    const link = document.createElement('a');
-    link.href = encodedUri;
-    link.download = `${title}.csv`;
-
-    link.style.display = 'none';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    createAndDownloadCSV(csvArray, title);
   }
 }
 
-export interface PlotButtonsProps {
-  data?: PlotDataset[];
+/**
+ *  Exports the trace data as a CSV
+ *  @param title The title of the trace (for the file name)
+ *  @param trace The trace to export
+ */
+function exportTraceData(title: string, trace?: Waveform): void {
+  if (trace) {
+    const csvArray = [
+      ['x', 'y'],
+      ...trace.x.map((x, index) => [x, trace.y[index]]),
+    ];
+
+    createAndDownloadCSV(csvArray, title);
+  }
+}
+
+interface CommonButtonsProps {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
+  resetView: () => void;
+}
+
+export interface PlotButtonsProps extends CommonButtonsProps {
+  data?: PlotDataset[];
   XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -156,7 +191,7 @@ export interface PlotButtonsProps {
   savePlot: () => void;
 }
 
-const PlotButtons = (props: PlotButtonsProps) => {
+export const PlotButtons = (props: PlotButtonsProps) => {
   const {
     data,
     canvasRef,
@@ -183,11 +218,41 @@ const PlotButtons = (props: PlotButtonsProps) => {
       <Button onClick={() => exportChart(canvasRef.current, title)}>
         Export Plot
       </Button>
-      <Button onClick={() => exportData(title, XAxis, data)}>
+      <Button onClick={() => exportPlotData(title, XAxis, data)}>
         Export Plot Data
       </Button>
     </ButtonGroup>
   );
 };
 
-export default PlotButtons;
+export interface TraceButtonsProps extends CommonButtonsProps {
+  data?: Waveform;
+  pointsVisible: boolean;
+  togglePointsVisibility: () => void;
+}
+
+export const TraceButtons = (props: TraceButtonsProps) => {
+  const {
+    data,
+    canvasRef,
+    title,
+    resetView,
+    pointsVisible,
+    togglePointsVisibility,
+  } = props;
+
+  return (
+    <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => resetView()}>Reset View</Button>
+      <Button onClick={() => togglePointsVisibility()}>
+        {pointsVisible ? 'Hide Points' : 'Show Points'}
+      </Button>
+      <Button onClick={() => exportChart(canvasRef.current, title)}>
+        Export Plot
+      </Button>
+      <Button onClick={() => exportTraceData(title, data)}>
+        Export Plot Data
+      </Button>
+    </ButtonGroup>
+  );
+};

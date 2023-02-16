@@ -10,10 +10,11 @@ export interface TracePlotProps {
   title: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   viewReset: boolean;
+  pointsVisible: boolean;
 }
 
 const TracePlot = (props: TracePlotProps) => {
-  const { trace, title, canvasRef, viewReset } = props;
+  const { trace, title, canvasRef, viewReset, pointsVisible } = props;
 
   const chartOptions: ChartOptions<'line'> = React.useMemo(
     () => ({
@@ -31,6 +32,12 @@ const TracePlot = (props: TracePlotProps) => {
         zoom: {
           zoom: {
             drag: {
+              enabled: true,
+            },
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
               enabled: true,
             },
             mode: 'xy',
@@ -74,8 +81,8 @@ const TracePlot = (props: TracePlotProps) => {
             data: trace.y,
             borderColor: '#1F77B4', // same colour as trace thumbnails from the backend
             borderWidth: 1.5,
-            pointRadius: 0, // disable points
-            pointHitRadius: 4, // ...but allow tooltips to act as if the points were there
+            pointRadius: pointsVisible ? 3 : 0,
+            pointHitRadius: 4, // ...but allow tooltips to act as if the points are there
           },
         ],
       } as ChartData<'line'>)
@@ -98,7 +105,7 @@ const TracePlot = (props: TracePlotProps) => {
         ...yLimits,
       };
     setOptionsString(JSON.stringify(chartOptions));
-  }, [chartOptions, trace]);
+  }, [chartOptions, trace, pointsVisible]);
 
   return (
     <div
