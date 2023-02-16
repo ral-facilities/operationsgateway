@@ -24,6 +24,7 @@ import { operators, type Token } from '../filtering/filterParser';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
 import recordsJson from '../mocks/records.json';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
 
 describe('Record Table', () => {
   let state: PreloadedState<RootState>;
@@ -40,7 +41,6 @@ describe('Record Table', () => {
 
   beforeEach(() => {
     applyDatePickerWorkaround();
-    userEvent.setup();
 
     state = getInitialState();
   });
@@ -248,6 +248,37 @@ describe('Record Table', () => {
     fireEvent.click(menuIcon);
 
     expect(screen.getByText('Turn word wrap off')).toBeInTheDocument();
+  });
+
+  it('opens trace window when a trace is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    act(() => {
+      // CHANNEL_CDEFG is a waveform channel
+      store.dispatch(selectColumn('CHANNEL_CDEFG'));
+    });
+
+    await user.click(
+      screen.getAllByAltText('Channel_CDEFG waveform', {
+        exact: false,
+      })[0]
+    );
+
+    expect(store.getState().windows).toEqual({
+      'Trace CHANNEL_CDEFG 7': {
+        open: true,
+        type: 'trace',
+        recordId: '7',
+        channelName: 'CHANNEL_CDEFG',
+        title: 'Trace CHANNEL_CDEFG 7',
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
   });
 
   it.todo('updates available columns when data from backend changes');
