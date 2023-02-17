@@ -23,7 +23,7 @@ import { selectUrls } from '../state/slices/configSlice';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { readSciGatewayToken } from '../parseTokens';
 import { AppDispatch } from '../state/store';
-import { openTraceWindow } from '../state/slices/windowSlice';
+import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
 
 interface ChannelsEndpoint {
   channels: {
@@ -204,6 +204,14 @@ export const constructColumns = (
           altText={`${channel.name ?? channel.systemName} ${
             channel.type
           } for timestamp ${row.values[timeChannelName]}`}
+          onClick={() =>
+            dispatch(
+              openImageWindow({
+                recordId: (row.original as RecordRow)['_id'],
+                channelName: channel.systemName,
+              })
+            )
+          }
         />
       );
     }

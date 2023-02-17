@@ -40,6 +40,25 @@ function exportChart(canvas: HTMLCanvasElement | null, title: string): void {
 }
 
 /**
+ *  Exports an image as PNG
+ *  @param title The filename
+ *  @param objectUrl The object url of the PNG to download
+ */
+function exportImage(filename: string, objectUrl?: string): void {
+  if (objectUrl) {
+    const link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = `${filename}.png`;
+
+    link.style.display = 'none';
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+}
+
+/**
  * A custom type for mapping an X value in a plot to multiple Y values
  * This can be used to represent one row of data in a CSV file
  *
@@ -175,13 +194,13 @@ function exportTraceData(title: string, trace?: Waveform): void {
 }
 
 interface CommonButtonsProps {
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   title: string;
   resetView: () => void;
 }
 
 export interface PlotButtonsProps extends CommonButtonsProps {
   data?: PlotDataset[];
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -227,6 +246,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
 
 export interface TraceButtonsProps extends CommonButtonsProps {
   data?: Waveform;
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   pointsVisible: boolean;
   togglePointsVisibility: () => void;
 }
@@ -253,6 +273,21 @@ export const TraceButtons = (props: TraceButtonsProps) => {
       <Button onClick={() => exportTraceData(title, data)}>
         Export Plot Data
       </Button>
+    </ButtonGroup>
+  );
+};
+
+export interface ImageButtonsProps extends CommonButtonsProps {
+  data?: string;
+}
+
+export const ImageButtons = (props: ImageButtonsProps) => {
+  const { data, title, resetView } = props;
+
+  return (
+    <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => resetView()}>Reset View</Button>
+      <Button onClick={() => exportImage(title, data)}>Export Image</Button>
     </ButtonGroup>
   );
 };

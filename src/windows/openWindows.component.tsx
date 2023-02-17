@@ -8,14 +8,17 @@ import {
 } from '../state/slices/plotSlice';
 import {
   closeWindow,
+  selectImageWindows,
   selectTraceWindows,
   TraceOrImageWindow,
 } from '../state/slices/windowSlice';
 import TraceWindow from '../traces/traceWindow.component';
+import ImageWindow from '../images/imageWindow.component';
 
 const OpenWindows = () => {
   const openPlots = Object.values(useAppSelector(selectOpenPlots));
   const openTraces = Object.values(useAppSelector(selectTraceWindows));
+  const openImages = Object.values(useAppSelector(selectImageWindows));
   const dispatch = useAppDispatch();
   return (
     <>
@@ -35,6 +38,17 @@ const OpenWindows = () => {
           <TraceWindow
             key={window.title}
             traceConfig={window}
+            onClose={() => {
+              dispatch(closeWindow(window.title));
+            }}
+          />
+        );
+      })}
+      {openImages.map((window: TraceOrImageWindow) => {
+        return (
+          <ImageWindow
+            key={window.title}
+            imageConfig={window}
             onClose={() => {
               dispatch(closeWindow(window.title));
             }}
