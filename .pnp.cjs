@@ -44,7 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.48"],\
             ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
-            ["@testing-library/dom", "npm:8.20.0"],\
+            ["@testing-library/dom", "npm:9.0.0"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.4.0"],\
             ["@testing-library/user-event", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:14.4.2"],\
@@ -5290,6 +5290,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pretty-format", "npm:27.5.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:9.0.0", {\
+          "packageLocation": "./.yarn/cache/@testing-library-dom-npm-9.0.0-d257fd1d0b-5381bf9438.zip/node_modules/@testing-library/dom/",\
+          "packageDependencies": [\
+            ["@testing-library/dom", "npm:9.0.0"],\
+            ["@babel/code-frame", "npm:7.18.6"],\
+            ["@babel/runtime", "npm:7.20.13"],\
+            ["@types/aria-query", "npm:5.0.1"],\
+            ["aria-query", "npm:5.1.3"],\
+            ["chalk", "npm:4.1.2"],\
+            ["dom-accessibility-api", "npm:0.5.16"],\
+            ["lz-string", "npm:1.4.4"],\
+            ["pretty-format", "npm:27.5.1"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@testing-library/jest-dom", [\
@@ -5350,7 +5365,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@testing-library-user-event-virtual-546d1a21fb/0/cache/@testing-library-user-event-npm-14.4.2-6d8c511652-66364f2c50.zip/node_modules/@testing-library/user-event/",\
           "packageDependencies": [\
             ["@testing-library/user-event", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:14.4.2"],\
-            ["@testing-library/dom", "npm:8.20.0"],\
+            ["@testing-library/dom", "npm:9.0.0"],\
             ["@types/testing-library__dom", null]\
           ],\
           "packagePeers": [\
@@ -16003,7 +16018,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.20.4"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.48"],\
             ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
-            ["@testing-library/dom", "npm:8.20.0"],\
+            ["@testing-library/dom", "npm:9.0.0"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:13.4.0"],\
             ["@testing-library/user-event", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:14.4.2"],\
