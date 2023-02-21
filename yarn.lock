@@ -3147,33 +3147,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.20.4":
-  version: 4.20.4
-  resolution: "@tanstack/query-core@npm:4.20.4"
-  checksum: bdb652296e4093d8cb042a67b9c035bc0a756e09a3b12aeb070068b07adc1c71174c2e6108f2a8c3322a26cb73ba57f431326aa0b813c81621674b9cc208cd93
+"@tanstack/query-core@npm:4.24.9":
+  version: 4.24.9
+  resolution: "@tanstack/query-core@npm:4.24.9"
+  checksum: 7b84e960d82c046c9eef6083cbc13b21c2ed8552fe8a5f092a66ca2586af66b770ca71ad838135ef49ac8b990e5f85d34a1d8b8de13fffb3abb0fb780a64a532
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:4.20.4":
-  version: 4.20.4
-  resolution: "@tanstack/react-query-devtools@npm:4.20.4"
+"@tanstack/react-query-devtools@npm:4.24.9":
+  version: 4.24.9
+  resolution: "@tanstack/react-query-devtools@npm:4.24.9"
   dependencies:
     "@tanstack/match-sorter-utils": ^8.7.0
     superjson: ^1.10.0
     use-sync-external-store: ^1.2.0
   peerDependencies:
-    "@tanstack/react-query": 4.20.4
+    "@tanstack/react-query": 4.24.9
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 77f55b3f7794ee95284969f4f5dfc8f81a856f31d9fa76343059e9580cb6099841cc63a540c6cdcc841be2c2249affdf49e1ad247f2c150472f856f2ecda9056
+  checksum: ec528c7b0f8e5bb24ed52d442111bb5c0f7a5090320ba580ac61fee42e6e6d87c8c25acaeb2f6305d7ca76bdb030c2b5961b72aa4ea06e0bed7356de0885f2bd
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:4.20.4":
-  version: 4.20.4
-  resolution: "@tanstack/react-query@npm:4.20.4"
+"@tanstack/react-query@npm:4.24.9":
+  version: 4.24.9
+  resolution: "@tanstack/react-query@npm:4.24.9"
   dependencies:
-    "@tanstack/query-core": 4.20.4
+    "@tanstack/query-core": 4.24.9
     use-sync-external-store: ^1.2.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3184,7 +3184,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: ba9e2f175c58bde592c0ad14285f289585474763f8d68072d651fa75263a3a7f75eead5b62aa3140db133b95468498bc58817d07513f6f857be2bd8031b491da
+  checksum: 409c945c5043d11fa2f3c219254df5b0505bdf7d9dc94821f5db495d87a38fe27e0a373144446cef42fc829d1449a64e3fa873adf37e8abe15562e5832d59516
   languageName: node
   linkType: hard
 
@@ -12155,8 +12155,8 @@ __metadata:
     "@mui/x-date-pickers": 5.0.7
     "@playwright/test": 1.30.0
     "@reduxjs/toolkit": 1.9.0
-    "@tanstack/react-query": 4.20.4
-    "@tanstack/react-query-devtools": 4.20.4
+    "@tanstack/react-query": 4.24.9
+    "@tanstack/react-query-devtools": 4.24.9
     "@tanstack/react-virtual": beta
     "@testing-library/cypress": 8.0.7
     "@testing-library/dom": 8.20.0
