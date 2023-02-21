@@ -52,7 +52,7 @@ class PlotWindowPortal extends React.PureComponent<
       // we do this so that all the Chart.js code which relies on window references the correct window (i.e. the popup)
       const chartjsScript = document.createElement('script');
       chartjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js';
+        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js';
       chartjsScript.crossOrigin = 'anonymous';
       chartjsScript.referrerPolicy = 'no-referrer';
       chartjsScript.async = false;
