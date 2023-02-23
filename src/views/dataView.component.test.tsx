@@ -3,6 +3,7 @@ import React from 'react';
 import {
   act,
   screen,
+  waitFor,
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
@@ -100,7 +101,7 @@ describe('Data View', () => {
     expect(dialogue).toBeVisible();
   });
 
-  it('opens the chnanels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {
+  it('opens the channels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {
     const user = userEvent.setup();
     await act(async () => {
       createView();
@@ -130,9 +131,11 @@ describe('Data View', () => {
 
     await user.click(screen.getByRole('button', { name: 'Hide search' }));
 
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole('button', { name: 'Search' })
-    );
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('button', { name: 'Search' })
+      ).not.toBeInTheDocument();
+    });
 
     await user.click(screen.getByRole('button', { name: 'Show search' }));
 
