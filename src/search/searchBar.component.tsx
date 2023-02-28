@@ -148,10 +148,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       !countLoading &&
       incomingCount !== undefined &&
       recordLimitWarning > -1 &&
-      searchParams.maxShots > recordLimitWarning &&
+      maxShots > recordLimitWarning &&
       incomingCount > recordLimitWarning
     );
-  }, [countLoading, incomingCount, recordLimitWarning, searchParams.maxShots]);
+  }, [countLoading, incomingCount, recordLimitWarning, maxShots]);
 
   // ########################
   // INITIATING THE SEARCH
