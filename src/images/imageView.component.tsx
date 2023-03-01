@@ -61,12 +61,18 @@ const ImageView = (props: ImageViewProps) => {
 
   const mouseDownHandler: React.MouseEventHandler = React.useCallback(
     (e) => {
+      if (e.button !== 0) {
+        // not left mouse click - ignore
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
 
+      const rect = overlay?.getBoundingClientRect();
+
       // save the starting x/y of the click
-      overlayProps.startX = e.clientX - (overlay?.offsetLeft ?? 0);
-      overlayProps.startY = e.clientY - (overlay?.offsetTop ?? 0);
+      overlayProps.startX = e.clientX - (rect?.left ?? 0);
+      overlayProps.startY = e.clientY - (rect?.top ?? 0);
 
       if (e.shiftKey) {
         overlayProps.prevStartX = overlayProps.startX;
@@ -78,7 +84,7 @@ const ImageView = (props: ImageViewProps) => {
         overlayProps.isZooming = true;
       }
     },
-    [overlayProps, overlay?.offsetLeft, overlay?.offsetTop]
+    [overlayProps, overlay]
   );
 
   const mouseMoveHandler: React.MouseEventHandler = React.useCallback(
@@ -91,9 +97,11 @@ const ImageView = (props: ImageViewProps) => {
         return;
       }
 
-      // get the current mouse position
-      const mouseX = e.clientX - overlay.offsetLeft;
-      const mouseY = e.clientY - overlay.offsetTop;
+      const rect = overlay.getBoundingClientRect();
+
+      // get the current mouse position relative to the canvas
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
 
       const originalWidth = overlay.width;
       const originalHeight = overlay.height;
@@ -113,16 +121,16 @@ const ImageView = (props: ImageViewProps) => {
 
         const aspectRatio = originalWidth / originalHeight;
 
-        const h2 = width / aspectRatio;
-        const w2 = height * aspectRatio;
+        const h2 = Math.abs(width) / aspectRatio;
+        const w2 = Math.abs(height) * aspectRatio;
 
         let adjustedWidth = width;
         let adjustedHeight = height;
 
-        if (width > w2) {
-          adjustedHeight = h2;
+        if (Math.abs(width) > w2) {
+          adjustedHeight = height >= 0 ? h2 : -h2;
         } else {
-          adjustedWidth = w2;
+          adjustedWidth = width >= 0 ? w2 : -w2;
         }
 
         // draw a new rect from the start position
@@ -180,14 +188,24 @@ const ImageView = (props: ImageViewProps) => {
         const scaleY = overlay.height / boxHeight;
 
         // clear the overlay
-        const ctx = overlay?.getContext('2d');
-        ctx?.clearRect(0, 0, overlay?.width ?? 0, overlay?.height ?? 0);
+        const ctx = overlay.getContext('2d');
+        ctx?.clearRect(0, 0, overlay.width, overlay.height);
 
         setZoom([scaleX, scaleY]);
-        setPan((oldPan) => [
-          oldPan[0] - boxLeft * scaleX,
-          oldPan[1] - boxTop * scaleY,
-        ]);
+        setPan((oldPan) => {
+          let newX = oldPan[0] - boxLeft * scaleX;
+          let newY = oldPan[1] - boxTop * scaleY;
+
+          // make sure pan doesn't go out of bounds
+          if (newX > 0) newX = 0;
+          if (newY > 0) newY = 0;
+          if (-overlay.width * (scaleX - 1) > newX)
+            newX = -overlay.width * (scaleX - 1);
+          if (-overlay.height * (scaleY - 1) > newY)
+            newY = -overlay.height * (scaleY - 1);
+
+          return [newX, newY];
+        });
       }
       if (overlayProps.isPanning) {
         overlayProps.isPanning = false;
