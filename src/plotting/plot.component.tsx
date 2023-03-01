@@ -81,6 +81,7 @@ const Plot = (props: PlotProps) => {
             },
             drag: {
               enabled: true,
+              threshold: 15,
             },
             mode: 'xy',
           },
@@ -153,6 +154,13 @@ const Plot = (props: PlotProps) => {
           },
           min: rightYAxisMinimum,
           max: rightYAxisMaximum,
+        },
+      },
+      transitions: {
+        zoom: {
+          animation: {
+            duration: 250,
+          },
         },
       },
     } satisfies ChartOptions<PlotType>)

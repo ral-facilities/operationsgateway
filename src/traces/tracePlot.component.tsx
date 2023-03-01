@@ -33,6 +33,7 @@ const TracePlot = (props: TracePlotProps) => {
           zoom: {
             drag: {
               enabled: true,
+              threshold: 15,
             },
             wheel: {
               enabled: true,
@@ -60,6 +61,13 @@ const TracePlot = (props: TracePlotProps) => {
           type: 'linear',
           display: true,
           position: 'left',
+        },
+      },
+      transitions: {
+        zoom: {
+          animation: {
+            duration: 250,
+          },
         },
       },
     }),
