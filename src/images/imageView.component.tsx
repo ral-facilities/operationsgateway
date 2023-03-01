@@ -2,11 +2,12 @@ import React from 'react';
 
 export interface ImageViewProps {
   image: string | undefined;
+  title: string;
   viewReset: boolean;
 }
 
 const ImageView = (props: ImageViewProps) => {
-  const { image, viewReset } = props;
+  const { image, viewReset, title } = props;
 
   const overlayPropsRef = React.useRef<{
     startX: number;
@@ -217,7 +218,7 @@ const ImageView = (props: ImageViewProps) => {
   return (
     <div style={{ position: 'relative' }}>
       <canvas
-        id="overlay"
+        data-testid="overlay"
         ref={overlayRef}
         style={{ position: 'absolute', zIndex: 2 }}
         onMouseDown={mouseDownHandler}
@@ -228,10 +229,10 @@ const ImageView = (props: ImageViewProps) => {
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
         <img
           src={image}
-          alt="lol"
+          alt={title}
           ref={imgRef}
           style={{
-            transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom[0]}, ${zoom[1]})`,
+            transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom[0]},${zoom[1]})`,
             transformOrigin: 'top left',
           }}
         />

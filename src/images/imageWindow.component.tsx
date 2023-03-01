@@ -66,7 +66,7 @@ const TraceWindow = (props: TraceWindowProps) => {
           >
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
-          <ImageView image={image} viewReset={viewFlag} />
+          <ImageView image={image} title={title} viewReset={viewFlag} />
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop
