@@ -241,7 +241,9 @@ export const useScalarChannels = (): UseQueryResult<
 
 export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
   const dispatch = useAppDispatch();
-  return useChannels({
-    select: (data: FullChannelMetadata[]) => constructColumns(data, dispatch),
-  });
+  const selectFn = React.useCallback(
+    (data: FullChannelMetadata[]) => constructColumns(data, dispatch),
+    [dispatch]
+  );
+  return useChannels({ select: selectFn });
 };
