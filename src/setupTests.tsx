@@ -115,6 +115,22 @@ export const dispatch = (
   }
 };
 
+if (typeof window.URL.createObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: () => 'testObjectUrl',
+  });
+}
+
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {
+      // no-op
+    },
+  });
+}
+
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {

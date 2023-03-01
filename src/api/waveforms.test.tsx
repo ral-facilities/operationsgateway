@@ -3,13 +3,13 @@ import { renderHook } from '@testing-library/react';
 import { hooksWrapperWithProviders } from '../setupTests';
 import { useWaveform } from './waveforms';
 
-describe('channels api functions', () => {
+describe('waveform api functions', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('useChannels', () => {
-    it('sends request to fetch channels and returns successful response', async () => {
+  describe('useWaveform', () => {
+    it('sends request to fetch waveform and returns successful response', async () => {
       const { result } = renderHook(() => useWaveform('1', 'TEST'), {
         wrapper: hooksWrapperWithProviders(),
       });
@@ -26,7 +26,7 @@ describe('channels api functions', () => {
     });
 
     it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
+      'sends axios request to fetch waveform and throws an appropriate error on failure'
     );
   });
 });
