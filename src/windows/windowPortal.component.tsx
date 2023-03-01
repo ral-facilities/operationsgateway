@@ -70,7 +70,7 @@ class WindowPortal extends React.PureComponent<
 
       const chartjsZoomScript = externalWindow.document.createElement('script');
       chartjsZoomScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.js';
+        'https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.0/chartjs-plugin-zoom.js';
       chartjsZoomScript.crossOrigin = 'anonymous';
       chartjsZoomScript.referrerPolicy = 'no-referrer';
       chartjsZoomScript.async = false;
