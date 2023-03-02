@@ -52,7 +52,7 @@ class PlotWindowPortal extends React.PureComponent<
       // we do this so that all the Chart.js code which relies on window references the correct window (i.e. the popup)
       const chartjsScript = document.createElement('script');
       chartjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js';
+        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js';
       chartjsScript.crossOrigin = 'anonymous';
       chartjsScript.referrerPolicy = 'no-referrer';
       chartjsScript.async = false;
@@ -80,7 +80,7 @@ class PlotWindowPortal extends React.PureComponent<
       const chartjsDateFnsScript = document.createElement('script');
       // TODO: switch this to cdnjs once it's added - this is for consistency and so we can use renovate to update it
       chartjsDateFnsScript.src =
-        'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js';
+        'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js';
       chartjsDateFnsScript.crossOrigin = 'anonymous';
       chartjsDateFnsScript.referrerPolicy = 'no-referrer';
       chartjsDateFnsScript.async = false;
