@@ -4,60 +4,24 @@ import {
   PlotButtonsProps,
   constructDataRows,
   formatTooltipLabel,
+  TraceButtonsProps,
+  TraceButtons,
+  ImageButtonsProps,
+  ImageButtons,
 } from './windowButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PlotDataset } from '../app.types';
 
 describe('Window buttons components', () => {
-  const canvas = document.createElement('canvas');
-  const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
-  let plotButtonsProps: PlotButtonsProps;
-
-  let user;
-  const toggleGridVisibility = jest.fn();
-  const toggleAxesLabelsVisibility = jest.fn();
-  const savePlot = jest.fn();
-  const resetView = jest.fn();
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
   const mockLinkSetAttribute = jest.fn();
   let mockLink: HTMLAnchorElement = {};
+  let user;
 
   beforeEach(() => {
     user = userEvent.setup();
-    plotButtonsProps = {
-      data: [
-        {
-          name: 'shotNum',
-          data: [
-            {
-              timestamp: new Date('2022-08-09T09:30:00').getTime(),
-              shotNum: 1,
-            },
-            {
-              timestamp: new Date('2022-08-09T09:31:00').getTime(),
-              shotNum: 2,
-            },
-            {
-              timestamp: new Date('2022-08-09T09:32:00').getTime(),
-              shotNum: 3,
-            },
-          ],
-        },
-      ],
-      XAxis: 'timestamp',
-      canvasRef: {
-        current: canvas,
-      },
-      title: 'test',
-      gridVisible: true,
-      axesLabelsVisible: true,
-      toggleGridVisibility,
-      toggleAxesLabelsVisibility,
-      resetView,
-      savePlot,
-    };
 
     mockLink = {
       href: '',
@@ -79,133 +43,390 @@ describe('Window buttons components', () => {
     document.body.appendChild = document.body.originalAppendChild;
   });
 
-  it('renders plot buttons group', () => {
-    const view = render(<PlotButtons {...plotButtonsProps} />);
+  describe('Plot buttons component', () => {
+    const canvas = document.createElement('canvas');
+    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    let plotButtonsProps: PlotButtonsProps;
 
-    expect(view.asFragment()).toMatchSnapshot();
-  });
+    const toggleGridVisibility = jest.fn();
+    const toggleAxesLabelsVisibility = jest.fn();
+    const savePlot = jest.fn();
+    const resetView = jest.fn();
 
-  it('renders alternate button text when axes labels and grid are hidden', () => {
-    plotButtonsProps = {
-      ...plotButtonsProps,
-      gridVisible: false,
-      axesLabelsVisible: false,
-    };
-    render(<PlotButtons {...plotButtonsProps} />);
-
-    expect(screen.getByText('Show Grid')).toBeInTheDocument();
-    expect(screen.getByText('Show Axes Labels')).toBeInTheDocument();
-  });
-
-  it('generates PNG file when export button is clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
-
-    // have to mock after render otherwise it fails to render our component
-    document.createElement = jest.fn().mockImplementation((tag) => {
-      if (tag === 'a') return mockLink;
-      else return document.originalCreateElement(tag);
-    });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
-      if (!(node instanceof Node)) return mockLink;
-      else return document.body.originalAppendChild(node);
-    });
-
-    await user.click(screen.getByRole('button', { name: 'Export Plot' }));
-
-    expect(document.createElement).toHaveBeenCalledWith('a');
-
-    expect(canvasToDataURLSpy).toHaveBeenCalled();
-    expect(mockLink.href).toEqual('data:image/png;base64,00');
-    expect(mockLink.download).toEqual('test.png');
-    expect(mockLink.target).toEqual('_blank');
-    expect(mockLink.style.display).toEqual('none');
-
-    expect(mockLinkClick).toHaveBeenCalled();
-    expect(mockLinkRemove).toHaveBeenCalled();
-  });
-
-  it('does nothing when export button is clicked if canvasRef is null', async () => {
-    plotButtonsProps.canvasRef.current = null;
-    render(<PlotButtons {...plotButtonsProps} />);
-
-    await user.click(screen.getByRole('button', { name: 'Export Plot' }));
-
-    expect(canvasToDataURLSpy).not.toHaveBeenCalled();
-  });
-
-  it('generates csv file when export data button is clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
-
-    // have to mock after render otherwise it fails to render our component
-    document.createElement = jest.fn().mockImplementation((tag) => {
-      if (tag === 'a') return mockLink;
-      else return document.originalCreateElement(tag);
-    });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
-      if (!(node instanceof Node)) return mockLink;
-      else return document.body.originalAppendChild(node);
+    beforeEach(() => {
+      plotButtonsProps = {
+        data: [
+          {
+            name: 'shotNum',
+            data: [
+              {
+                timestamp: new Date('2022-08-09T09:30:00').getTime(),
+                shotNum: 1,
+              },
+              {
+                timestamp: new Date('2022-08-09T09:31:00').getTime(),
+                shotNum: 2,
+              },
+              {
+                timestamp: new Date('2022-08-09T09:32:00').getTime(),
+                shotNum: 3,
+              },
+            ],
+          },
+        ],
+        XAxis: 'timestamp',
+        canvasRef: {
+          current: canvas,
+        },
+        title: 'test',
+        gridVisible: true,
+        axesLabelsVisible: true,
+        toggleGridVisibility,
+        toggleAxesLabelsVisibility,
+        resetView,
+        savePlot,
+      };
     });
 
-    await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
+    it('renders plot buttons group', () => {
+      const view = render(<PlotButtons {...plotButtonsProps} />);
 
-    expect(document.createElement).toHaveBeenCalledWith('a');
+      expect(view.asFragment()).toMatchSnapshot();
+    });
 
-    expect(mockLink.href).toEqual(
-      'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09%2009:30:00,1%0A2022-08-09%2009:31:00,2%0A2022-08-09%2009:32:00,3'
-    );
-    expect(mockLink.download).toEqual('test.csv');
-    expect(mockLink.target).toEqual('_blank');
-    expect(mockLink.style.display).toEqual('none');
+    it('renders alternate button text when axes labels and grid are hidden', () => {
+      plotButtonsProps = {
+        ...plotButtonsProps,
+        gridVisible: false,
+        axesLabelsVisible: false,
+      };
+      render(<PlotButtons {...plotButtonsProps} />);
 
-    expect(mockLinkClick).toHaveBeenCalled();
-    expect(mockLinkRemove).toHaveBeenCalled();
+      expect(screen.getByText('Show Grid')).toBeInTheDocument();
+      expect(screen.getByText('Show Axes Labels')).toBeInTheDocument();
+    });
+
+    it('generates PNG file when export button is clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = jest.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(canvasToDataURLSpy).toHaveBeenCalled();
+      expect(mockLink.href).toEqual('data:image/png;base64,00');
+      expect(mockLink.download).toEqual('test.png');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if canvasRef is null', async () => {
+      plotButtonsProps.canvasRef.current = null;
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(canvasToDataURLSpy).not.toHaveBeenCalled();
+    });
+
+    it('generates csv file when export data button is clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = jest.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(mockLink.href).toEqual(
+        'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09%2009:30:00,1%0A2022-08-09%2009:31:00,2%0A2022-08-09%2009:32:00,3'
+      );
+      expect(mockLink.download).toEqual('test.csv');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export data button is clicked if data is not correct', async () => {
+      plotButtonsProps.data = undefined;
+      const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
+      const createElementSpy = jest.spyOn(document, 'createElement');
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(createElementSpy).not.toHaveBeenCalledWith('a');
+
+      unmount();
+
+      plotButtonsProps.data = [];
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(createElementSpy).not.toHaveBeenCalledWith('a');
+    });
+
+    it('calls toggleGridVisibility when grid visibility button clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Hide Grid' }));
+      expect(toggleGridVisibility).toHaveBeenCalled();
+    });
+
+    it('calls toggleAxesLabelsVisibility when axes labels visibility button clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(
+        screen.getByRole('button', { name: 'Hide Axes Labels' })
+      );
+      expect(toggleAxesLabelsVisibility).toHaveBeenCalled();
+    });
+
+    it('calls resetView when Reset View button clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Reset View' }));
+      expect(resetView).toHaveBeenCalled();
+    });
+
+    it('calls savePlot when Save button clicked', async () => {
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+      expect(savePlot).toHaveBeenCalled();
+    });
   });
 
-  it('does nothing when export data button is clicked if data is not correct', async () => {
-    plotButtonsProps.data = undefined;
-    const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
-    const createElementSpy = jest.spyOn(document, 'createElement');
+  describe('Trace buttons component', () => {
+    const canvas = document.createElement('canvas');
+    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    let traceButtonsProps: TraceButtonsProps;
 
-    await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
+    const togglePointsVisibility = jest.fn();
+    const resetView = jest.fn();
 
-    expect(createElementSpy).not.toHaveBeenCalledWith('a');
+    beforeEach(() => {
+      traceButtonsProps = {
+        data: {
+          _id: 'test',
+          x: [1, 2, 3],
+          y: [5, 6, 4],
+        },
+        canvasRef: {
+          current: canvas,
+        },
+        title: 'test',
+        resetView,
+        pointsVisible: true,
+        togglePointsVisibility,
+      };
+    });
 
-    unmount();
+    it('renders trace buttons group', () => {
+      const view = render(<TraceButtons {...traceButtonsProps} />);
 
-    plotButtonsProps.data = [];
-    render(<PlotButtons {...plotButtonsProps} />);
+      expect(view.asFragment()).toMatchSnapshot();
+    });
 
-    await user.click(screen.getByRole('button', { name: 'Export Plot Data' }));
+    it('renders alternate button text when points are hidden', () => {
+      traceButtonsProps = {
+        ...traceButtonsProps,
+        pointsVisible: false,
+      };
+      render(<TraceButtons {...traceButtonsProps} />);
 
-    expect(createElementSpy).not.toHaveBeenCalledWith('a');
+      expect(screen.getByText('Show Points')).toBeInTheDocument();
+    });
+
+    it('generates PNG file when export button is clicked', async () => {
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = jest.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(canvasToDataURLSpy).toHaveBeenCalled();
+      expect(mockLink.href).toEqual('data:image/png;base64,00');
+      expect(mockLink.download).toEqual('test.png');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if canvasRef is null', async () => {
+      traceButtonsProps.canvasRef.current = null;
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(canvasToDataURLSpy).not.toHaveBeenCalled();
+    });
+
+    it('generates csv file when export data button is clicked', async () => {
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = jest.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(mockLink.href).toEqual(
+        'data:text/csv;charset=utf-8,x,y%0A1,5%0A2,6%0A3,4'
+      );
+      expect(mockLink.download).toEqual('test.csv');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export data button is clicked if data is not correct', async () => {
+      traceButtonsProps.data = undefined;
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      const createElementSpy = jest.spyOn(document, 'createElement');
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(createElementSpy).not.toHaveBeenCalledWith('a');
+    });
+
+    it('calls toggleGridVisibility when grid visibility button clicked', async () => {
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Hide Points' }));
+      expect(togglePointsVisibility).toHaveBeenCalled();
+    });
+
+    it('calls resetView when Reset View button clicked', async () => {
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Reset View' }));
+      expect(resetView).toHaveBeenCalled();
+    });
   });
 
-  it('calls toggleGridVisibility when grid visibility button clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
+  describe('Image buttons component', () => {
+    let imageButtonsProps: ImageButtonsProps;
 
-    await user.click(screen.getByRole('button', { name: 'Hide Grid' }));
-    expect(toggleGridVisibility).toHaveBeenCalled();
-  });
+    const resetView = jest.fn();
 
-  it('calls toggleAxesLabelsVisibility when axes labels visibility button clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
+    beforeEach(() => {
+      imageButtonsProps = {
+        data: 'test_data_uri',
+        title: 'test',
+        resetView,
+      };
+    });
 
-    await user.click(screen.getByRole('button', { name: 'Hide Axes Labels' }));
-    expect(toggleAxesLabelsVisibility).toHaveBeenCalled();
-  });
+    it('renders image buttons group', () => {
+      const view = render(<ImageButtons {...imageButtonsProps} />);
 
-  it('calls resetView when Reset View button clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
+      expect(view.asFragment()).toMatchSnapshot();
+    });
 
-    await user.click(screen.getByRole('button', { name: 'Reset View' }));
-    expect(resetView).toHaveBeenCalled();
-  });
+    it('generates PNG file when export button is clicked', async () => {
+      render(<ImageButtons {...imageButtonsProps} />);
 
-  it('calls savePlot when Save button clicked', async () => {
-    render(<PlotButtons {...plotButtonsProps} />);
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = jest.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
 
-    await user.click(screen.getByRole('button', { name: 'Save' }));
-    expect(savePlot).toHaveBeenCalled();
+      await user.click(screen.getByRole('button', { name: 'Export Image' }));
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(mockLink.href).toEqual('test_data_uri');
+      expect(mockLink.download).toEqual('test.png');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if data is undefined', async () => {
+      imageButtonsProps.data = undefined;
+      render(<ImageButtons {...imageButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = jest.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+
+      await user.click(screen.getByRole('button', { name: 'Export Image' }));
+
+      expect(document.createElement).not.toHaveBeenCalledWith('a');
+    });
+
+    it('calls resetView when Reset View button clicked', async () => {
+      render(<ImageButtons {...imageButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Reset View' }));
+      expect(resetView).toHaveBeenCalled();
+    });
   });
 });
 

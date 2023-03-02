@@ -37,6 +37,20 @@ jest.mock('../traces/traceWindow.component', () => (props) => (
   </mock-traceWindow>
 ));
 
+// need to mock to avoid errors
+jest.mock('../images/imageWindow.component', () => (props) => (
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  <mock-imageWindow data-testid="mock-imageWindow">
+    {Object.entries(props).map(
+      ([propName, propValue]) =>
+        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+    )}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
+  </mock-imageWindow>
+));
+
 describe('Open Windows component', () => {
   let state: PreloadedState<RootState>;
 
@@ -63,6 +77,14 @@ describe('Open Windows component', () => {
         recordId: '1',
         channelName: 'TEST',
         title: 'Trace TEST 1',
+        ...DEFAULT_WINDOW_VARS,
+      },
+      'Image TEST 1': {
+        open: true,
+        type: 'image',
+        recordId: '1',
+        channelName: 'TEST',
+        title: 'Image TEST 1',
         ...DEFAULT_WINDOW_VARS,
       },
     };

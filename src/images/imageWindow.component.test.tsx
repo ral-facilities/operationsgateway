@@ -1,6 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import TraceWindow from './traceWindow.component';
+import ImageWindow from './imageWindow.component';
 import userEvent from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../setupTests';
 import { rest } from 'msw';
@@ -18,19 +18,19 @@ jest.mock('../windows/windowPortal.component', () => {
   ));
 });
 
-jest.mock('./tracePlot.component', () => () => (
+jest.mock('./imageView.component', () => () => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-TracePlot data-testid="mock-trace-plot" />
+  <mock-ImageView data-testid="mock-image-view" />
 ));
 
-describe('Trace Window component', () => {
-  let testTraceConfig: TraceOrImageWindow;
+describe('Image Window component', () => {
+  let testImageConfig: TraceOrImageWindow;
 
   beforeEach(() => {
-    testTraceConfig = {
+    testImageConfig = {
       open: true,
-      type: 'trace',
+      type: 'image',
       channelName: 'TEST',
       recordId: '1',
       title: 'Test title',
@@ -44,35 +44,25 @@ describe('Trace Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <TraceWindow onClose={jest.fn()} traceConfig={testTraceConfig} />
+      <ImageWindow onClose={jest.fn()} imageConfig={testImageConfig} />
     );
   };
 
-  it('renders trace window correctly', () => {
+  it('renders image window correctly', () => {
     createView();
 
-    expect(screen.getByTestId('mock-trace-plot')).toBeVisible();
+    expect(screen.getByTestId('mock-image-view')).toBeVisible();
   });
 
-  it('renders correctly while waveform is loading', () => {
+  it('renders correctly while image is loading', () => {
     const loadingHandler = (req, res, ctx) => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
-    server.use(rest.get('/waveforms', loadingHandler));
+    server.use(rest.get('/images', loadingHandler));
 
     createView();
-    screen.getByLabelText('Trace loading');
-  });
-
-  it('changes points visibility button text on click', async () => {
-    const user = userEvent.setup();
-    createView();
-
-    await user.click(screen.getByRole('button', { name: 'Show Points' }));
-    expect(
-      screen.getByRole('button', { name: 'Hide Points' })
-    ).toBeInTheDocument();
+    screen.getByLabelText('Image loading');
   });
 
   it('reset view button is visible and interactable', async () => {

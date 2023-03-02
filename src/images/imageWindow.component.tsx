@@ -6,12 +6,12 @@ import ImageView from './imageView.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import { useImage } from '../api/images';
 
-interface TraceWindowProps {
+interface ImageWindowProps {
   onClose: () => void;
   imageConfig: TraceOrImageWindow;
 }
 
-const TraceWindow = (props: TraceWindowProps) => {
+const ImageWindow = (props: ImageWindowProps) => {
   const { onClose, imageConfig } = props;
   const { channelName, recordId, title } = imageConfig;
 
@@ -41,7 +41,7 @@ const TraceWindow = (props: TraceWindowProps) => {
       <Grid
         container
         direction="row"
-        id="trace-window"
+        id="image-window"
         sx={(theme) => ({
           position: 'relative',
           height: '100%',
@@ -77,8 +77,8 @@ const TraceWindow = (props: TraceWindowProps) => {
           aria-hidden={false}
         >
           <CircularProgress
-            id="trace-loading-indicator"
-            aria-label="Trace loading"
+            id="image-loading-indicator"
+            aria-label="Image loading"
           />
         </Backdrop>
       </Grid>
@@ -86,4 +86,4 @@ const TraceWindow = (props: TraceWindowProps) => {
   );
 };
 
-export default TraceWindow;
+export default ImageWindow;

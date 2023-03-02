@@ -88,5 +88,22 @@ onClose=undefined
 onClose=undefined
 
   </mock-tracewindow>
+  <mock-imagewindow
+    data-testid="mock-imageWindow"
+  >
+    imageConfig={
+  "open": true,
+  "type": "image",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Image TEST 1",
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-imagewindow>
 </DocumentFragment>
 `;
