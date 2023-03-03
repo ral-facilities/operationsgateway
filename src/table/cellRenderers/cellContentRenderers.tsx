@@ -27,18 +27,18 @@ export const roundNumber = (
   return rounded;
 };
 
-export const TraceOrImageThumbnail = (props: {
-  base64Data: string | undefined;
-  altText: string;
-  onClick?: () => unknown;
-}) => {
-  const { base64Data, altText, onClick } = props;
+export const TraceOrImageThumbnail = (
+  props: {
+    base64Data: string | undefined;
+  } & React.ComponentProps<'img'>
+) => {
+  const { base64Data, alt, style, ...rest } = props;
   return base64Data ? (
     <img
+      {...rest}
       src={`data:image/jpeg;base64,${base64Data}`}
-      alt={altText}
-      style={{ border: '1px solid #000000' }}
-      onClick={onClick}
+      alt={alt}
+      style={{ ...style, border: '1px solid #000000' }}
     />
   ) : null;
 };

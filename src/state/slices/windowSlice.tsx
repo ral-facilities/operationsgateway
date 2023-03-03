@@ -14,6 +14,16 @@ interface WindowState {
   [title: string]: TraceOrImageWindow;
 }
 
+// export function uuidv4() {
+//   // could use crypto.randomUUID instead
+//   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+//     (
+//       c ^
+//       (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+//     ).toString(16)
+//   );
+// }
+
 // Define the initial state using that type
 export const initialState: WindowState = {};
 
@@ -31,13 +41,14 @@ export const windowSlice = createSlice({
       action: PayloadAction<{ recordId: string; channelName: string }>
     ) => {
       const { recordId, channelName } = action.payload;
-      const title = `Trace ${channelName} ${recordId}`;
-      state[title] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         type: 'trace',
         recordId,
         channelName,
-        title,
+        title: `Trace ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };
     },
@@ -46,24 +57,25 @@ export const windowSlice = createSlice({
       action: PayloadAction<{ recordId: string; channelName: string }>
     ) => {
       const { recordId, channelName } = action.payload;
-      const title = `Image ${channelName} ${recordId}`;
-      state[title] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         type: 'image',
         recordId,
         channelName,
-        title,
+        title: `Image ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };
     },
-    saveWindow: (state, action: PayloadAction<TraceOrImageWindow>) => {
+    updateWindow: (state, action: PayloadAction<TraceOrImageWindow>) => {
       const windowConfig = action.payload;
-      state[windowConfig.title] = windowConfig;
+      state[windowConfig.id] = windowConfig;
     },
   },
 });
 
-export const { openTraceWindow, openImageWindow, closeWindow, saveWindow } =
+export const { openTraceWindow, openImageWindow, closeWindow, updateWindow } =
   windowSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

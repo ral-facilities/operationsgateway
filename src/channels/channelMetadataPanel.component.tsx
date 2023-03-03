@@ -136,7 +136,7 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                           ) : (
                             <TraceOrImageThumbnail
                               base64Data={data as string}
-                              altText={`${
+                              alt={`${
                                 displayedChannel?.name ??
                                 displayedChannel.systemName
                               } ${

@@ -184,7 +184,7 @@ export const constructColumns = (
       newColumn.Cell = ({ row, value }) => (
         <TraceOrImageThumbnail
           base64Data={value}
-          altText={`${channel.name ?? channel.systemName} ${
+          alt={`${channel.name ?? channel.systemName} ${
             channel.type
           } for timestamp ${row.values[timeChannelName]}`}
           onClick={() =>
@@ -201,7 +201,7 @@ export const constructColumns = (
       newColumn.Cell = ({ row, value }) => (
         <TraceOrImageThumbnail
           base64Data={value}
-          altText={`${channel.name ?? channel.systemName} ${
+          alt={`${channel.name ?? channel.systemName} ${
             channel.type
           } for timestamp ${row.values[timeChannelName]}`}
           onClick={() =>
