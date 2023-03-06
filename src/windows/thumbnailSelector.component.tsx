@@ -1,4 +1,4 @@
-import { List, ListItem, TablePagination } from '@mui/material';
+import { List, ListItem, TablePagination, Tooltip } from '@mui/material';
 import { Stack } from '@mui/system';
 import React from 'react';
 import { useRecordCount, useThumbnails } from '../api/records';
@@ -8,7 +8,10 @@ import {
   selectQueryParams,
   selectSearchParams,
 } from '../state/slices/searchSlice';
-import { TraceOrImageThumbnail } from '../table/cellRenderers/cellContentRenderers';
+import {
+  renderTimestamp,
+  TraceOrImageThumbnail,
+} from '../table/cellRenderers/cellContentRenderers';
 
 interface ThumbnailSelectorProps {
   channelName: string;
@@ -42,23 +45,34 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
           maxHeight: `calc(100vh - 58px - 38px)`,
         }}
       >
-        {thumbnails?.map((thumbnail) => {
-          const channelData = thumbnail.channels[channelName];
+        {thumbnails?.map((thumbnailRecord) => {
+          const channelData = thumbnailRecord.channels[channelName];
 
           if (typeof channelData === 'undefined') return null;
 
           return (
-            <ListItem key={thumbnail._id}>
-              <TraceOrImageThumbnail
-                base64Data={
-                  isChannelImage(channelData) || isChannelWaveform(channelData)
-                    ? channelData.thumbnail
-                    : undefined
-                }
-                alt={`${channelName} trace for timestamp ${thumbnail.metadata.timestamp}`}
-                style={{ margin: 'auto' }}
-                onClick={() => changeRecordId(thumbnail._id)}
-              />
+            <ListItem key={thumbnailRecord._id}>
+              <Tooltip
+                enterDelay={200}
+                enterNextDelay={200}
+                title={`Timestamp: ${renderTimestamp(
+                  thumbnailRecord.metadata.timestamp
+                )}`}
+                arrow
+                PopperProps={{ disablePortal: true }}
+              >
+                <TraceOrImageThumbnail
+                  base64Data={
+                    isChannelImage(channelData) ||
+                    isChannelWaveform(channelData)
+                      ? channelData.thumbnail
+                      : undefined
+                  }
+                  alt={`${channelName} trace for timestamp ${thumbnailRecord.metadata.timestamp}`}
+                  style={{ margin: 'auto' }}
+                  onClick={() => changeRecordId(thumbnailRecord._id)}
+                />
+              </Tooltip>
             </ListItem>
           );
         })}

@@ -119,7 +119,7 @@ const TracePlot = (props: TracePlotProps) => {
     <div
       style={{
         flex: '1 0 0',
-        maxHeight: 'calc(100% - 38px)',
+        maxHeight: 'calc(100vh - 38px)',
         maxWidth: 'calc(100% - 150px)',
       }}
     >
