@@ -1,5 +1,10 @@
-import { List, ListItem, TablePagination, Tooltip } from '@mui/material';
-import { Stack } from '@mui/system';
+import {
+  Grid,
+  List,
+  ListItemButton,
+  TablePagination,
+  Tooltip,
+} from '@mui/material';
 import React from 'react';
 import { useRecordCount, useThumbnails } from '../api/records';
 import { isChannelImage, isChannelWaveform } from '../app.types';
@@ -15,11 +20,12 @@ import {
 
 interface ThumbnailSelectorProps {
   channelName: string;
+  recordId: string;
   changeRecordId: (recordId: string) => void;
 }
 
 const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
-  const { channelName, changeRecordId } = props;
+  const { channelName, recordId, changeRecordId } = props;
 
   const { page: tablePage, resultsPerPage: tableResultsPerPage } =
     useAppSelector(selectQueryParams);
@@ -33,7 +39,9 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
   const { data: thumbnails } = useThumbnails(channelName, page, resultsPerPage);
 
   return (
-    <Stack
+    <Grid
+      container
+      item
       direction="column"
       justifyContent="space-between"
       sx={{ minWidth: 150, maxWidth: 150 }}
@@ -42,7 +50,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
         disablePadding
         sx={{
           overflow: 'auto',
-          maxHeight: `calc(100vh - 58px - 38px)`,
+          maxHeight: `calc(100vh - 58px - 46px)`,
         }}
       >
         {thumbnails?.map((thumbnailRecord) => {
@@ -51,14 +59,17 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
           if (typeof channelData === 'undefined') return null;
 
           return (
-            <ListItem key={thumbnailRecord._id}>
+            <ListItemButton
+              key={thumbnailRecord._id}
+              selected={thumbnailRecord._id === recordId}
+              onClick={() => changeRecordId(thumbnailRecord._id)}
+            >
               <Tooltip
-                enterDelay={200}
-                enterNextDelay={200}
                 title={`Timestamp: ${renderTimestamp(
                   thumbnailRecord.metadata.timestamp
                 )}`}
                 arrow
+                enterDelay={200}
                 PopperProps={{ disablePortal: true }}
               >
                 <TraceOrImageThumbnail
@@ -70,10 +81,9 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
                   }
                   alt={`${channelName} trace for timestamp ${thumbnailRecord.metadata.timestamp}`}
                   style={{ margin: 'auto' }}
-                  onClick={() => changeRecordId(thumbnailRecord._id)}
                 />
               </Tooltip>
-            </ListItem>
+            </ListItemButton>
           );
         })}
       </List>
@@ -94,6 +104,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
         labelRowsPerPage="Page size"
         onRowsPerPageChange={(event) => {
           setResultsPerPage(parseInt(event.target.value));
+          setPage(0);
         }}
         rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}
         padding="none"
@@ -140,7 +151,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
           },
         }}
       />
-    </Stack>
+    </Grid>
   );
 };
 

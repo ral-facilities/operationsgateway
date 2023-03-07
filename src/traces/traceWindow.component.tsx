@@ -65,10 +65,6 @@ const TraceWindow = (props: TraceWindowProps) => {
         outerHeight,
         screenX,
         screenY,
-        recordId: newRecordId ? newRecordId : traceConfig.recordId,
-        title: newRecordId
-          ? `Trace ${traceConfig.channelName} ${newRecordId}`
-          : traceConfig.title,
         ...(newRecordId
           ? {
               recordId: newRecordId,
@@ -129,6 +125,7 @@ const TraceWindow = (props: TraceWindowProps) => {
           <Grid container item wrap="nowrap" flexGrow={1}>
             <ThumbnailSelector
               channelName={channelName}
+              recordId={recordId}
               changeRecordId={updateTraceConfig}
             />
             <TracePlot
@@ -140,6 +137,7 @@ const TraceWindow = (props: TraceWindowProps) => {
             />
           </Grid>
         </Grid>
+
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop
           component="div"
