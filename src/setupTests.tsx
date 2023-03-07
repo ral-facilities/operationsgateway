@@ -54,7 +54,7 @@ export function waitForRequest(method: string, url: string) {
   let requestId = '';
 
   return new Promise<MockedRequest>((resolve, reject) => {
-    server.events.on('request:start', (req) => {
+    const onRequestStart = (req) => {
       const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
 
       const matchesUrl = matchRequestUrl(req.url, url).matches;
@@ -62,21 +62,33 @@ export function waitForRequest(method: string, url: string) {
       if (matchesMethod && matchesUrl) {
         requestId = req.id;
       }
-    });
+    };
 
-    server.events.on('request:match', (req) => {
+    const onRequestMatch = (req) => {
       if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
         resolve(req);
       }
-    });
+    };
 
-    server.events.on('request:unhandled', (req) => {
+    const onRequestUnhandled = (req) => {
       if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
         reject(
           new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
         );
       }
-    });
+    };
+
+    server.events.on('request:start', onRequestStart);
+
+    server.events.on('request:match', onRequestMatch);
+
+    server.events.on('request:unhandled', onRequestUnhandled);
   });
 }
 

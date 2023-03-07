@@ -386,7 +386,7 @@ export const useThumbnails = (
           startIndex,
           stopIndex,
         },
-        [channel, timeChannelName, 'shotnum']
+        [channel, timeChannelName]
       );
     },
     {
