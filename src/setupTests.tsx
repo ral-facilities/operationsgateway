@@ -31,6 +31,7 @@ import { staticChannels } from './api/channels';
 import { server } from './mocks/server';
 import { matchRequestUrl, MockedRequest } from 'msw';
 import channelsJson from './mocks/channels.json';
+import crypto from 'crypto';
 
 jest.setTimeout(15000);
 
@@ -142,6 +143,11 @@ if (typeof window.URL.revokeObjectURL === 'undefined') {
     },
   });
 }
+
+// jest doesn't implement web crypto so set up nodejs crypto as a default
+Object.defineProperty(global, 'crypto', {
+  value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
+});
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -313,6 +319,7 @@ export const generatePlotConfig = (num: number) => {
   const plotTitle = `Plot ${num}`;
 
   const plotConfig: PlotConfig = {
+    id: `test-plot-id-${num}`,
     open: num % 2 === 0,
     title: plotTitle,
     plotType: num % 2 === 0 ? 'scatter' : 'line',

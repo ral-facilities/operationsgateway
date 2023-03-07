@@ -39,7 +39,7 @@ describe('Plot Window component', () => {
       ...getInitialState(),
       plots: {
         ...getInitialState().plots,
-        [testPlotConfig.title]: testPlotConfig,
+        [testPlotConfig.id]: testPlotConfig,
       },
     };
   });
@@ -135,7 +135,7 @@ describe('Plot Window component', () => {
     await user.click(screen.getByRole('button', { name: 'Show Axes Labels' }));
     await user.click(screen.getByRole('button', { name: 'Save' }));
     expect(store.getState().plots).toStrictEqual({
-      [testPlotConfig.title]: expect.objectContaining({
+      [testPlotConfig.id]: expect.objectContaining({
         ...testPlotConfig,
         axesLabelsVisible: true,
       }),

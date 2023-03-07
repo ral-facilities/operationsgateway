@@ -6,7 +6,7 @@ import { RootState } from '../state/store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-describe('Plot Settings component', () => {
+describe('Plot List component', () => {
   let state: PreloadedState<RootState>;
 
   const createView = (initialState = state) => {
@@ -27,9 +27,9 @@ describe('Plot Settings component', () => {
 
   it('renders plot grid correctly with some plots', () => {
     state.plots = {
-      'Plot 1': { open: true },
-      'Plot 2': { open: false },
-      'Plot 3': { open: true },
+      '1': { open: true, id: '1', title: 'Plot 1' },
+      '2': { open: false, id: '2', title: 'Plot 2' },
+      '3': { open: true, id: '3', title: 'Plot 3' },
     };
     const view = createView();
 
@@ -47,7 +47,7 @@ describe('Plot Settings component', () => {
 
   it('deletes a plot when user clicks delete button', async () => {
     state.plots = {
-      'Plot 1': { open: false },
+      '1': { open: true, id: '1', title: 'Plot 1' },
     };
     const user = userEvent.setup();
     createView();
@@ -61,7 +61,7 @@ describe('Plot Settings component', () => {
 
   it('opens a plot when user clicks open button', async () => {
     state.plots = {
-      'Plot 1': { open: false },
+      '1': { open: false, id: '1', title: 'Plot 1' },
     };
     const user = userEvent.setup();
     const { store } = createView();
@@ -70,6 +70,6 @@ describe('Plot Settings component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Edit' }));
 
-    expect(store.getState().plots['Plot 1']?.open).toBe(true);
+    expect(store.getState().plots['1']?.open).toBe(true);
   });
 });

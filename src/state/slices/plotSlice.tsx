@@ -44,7 +44,7 @@ export const plotSlice = createSlice({
   initialState,
   reducers: {
     createPlot: (state) => {
-      const plotTitles = Object.keys(state);
+      const plotTitles = Object.values(state).map((config) => config.title);
       let i = 1;
       let newPlotTitle = '';
       while (true) {
