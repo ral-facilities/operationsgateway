@@ -74,3 +74,89 @@ test('user can zoom and pan the image', async ({ page }) => {
     })
   ).toMatchSnapshot();
 });
+
+test('user can change image via clicking on a thumbnail', async ({ page }) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  // create modified image to be queried when different thumbnail is selected
+  await page.evaluate(async () => {
+    const { msw } = window;
+
+    const response = await fetch('/images/1/1');
+    const responseBlob = await response.blob();
+    const url = window.URL.createObjectURL(responseBlob);
+
+    msw.worker.use(
+      msw.rest.get('/images/:recordId/:channelName', async (req, res, ctx) => {
+        const canvas = window.document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        const result = await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            if (context) {
+              // draw image
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+              // set composite mode
+              context.globalCompositeOperation = 'overlay';
+
+              // draw color
+              context.fillStyle = '#f00';
+              context.fillRect(0, 0, canvas.width, canvas.height);
+
+              canvas.toBlob(async (blob) => {
+                if (blob) {
+                  const arrayBuffer = await blob.arrayBuffer();
+
+                  resolve(
+                    res.once(
+                      ctx.status(200),
+                      ctx.set(
+                        'Content-Length',
+                        arrayBuffer.byteLength.toString()
+                      ),
+                      ctx.set('Content-Type', 'image/png'),
+                      ctx.body(arrayBuffer)
+                    )
+                  );
+                } else {
+                  reject();
+                }
+              });
+            } else {
+              reject();
+            }
+          };
+          img.onerror = reject;
+          img.src = url;
+        });
+
+        return result;
+      })
+    );
+  });
+
+  const canvas = await popup.getByTestId('overlay');
+
+  await popup
+    .getByAltText('Channel_BCDEF image', { exact: false })
+    .last()
+    .click();
+
+  // wait until the new image loads i.e. backdrop disappears & thus canvas is interactive
+  await canvas.click();
+
+  expect(
+    await canvas.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+});

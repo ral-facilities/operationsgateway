@@ -79,7 +79,10 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
                       ? channelData.thumbnail
                       : undefined
                   }
-                  alt={`${channelName} trace for timestamp ${thumbnailRecord.metadata.timestamp}`}
+                  // have to pass empty aria-label so tooltip title doesn't become the image accessible label
+                  // and instead it uses the alt text
+                  aria-label=""
+                  alt={`${channelName} ${channelData.metadata.channel_dtype} for timestamp ${thumbnailRecord.metadata.timestamp}`}
                   style={{ margin: 'auto' }}
                 />
               </Tooltip>
