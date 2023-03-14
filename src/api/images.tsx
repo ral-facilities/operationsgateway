@@ -21,10 +21,16 @@ export const fetchImage = async (
   if (falseColourParams) {
     const { colourMap, lowerLevel, upperLevel } = falseColourParams;
 
-    if (colourMap) params.set('colourmap_name', colourMap);
-    if (lowerLevel) params.set('lower_level', lowerLevel.toString());
-    if (upperLevel) params.set('upper_level', upperLevel.toString());
+    if (typeof colourMap !== 'undefined')
+      params.set('colourmap_name', colourMap);
+    if (typeof lowerLevel !== 'undefined')
+      params.set('lower_level', lowerLevel.toString());
+    if (typeof upperLevel !== 'undefined')
+      params.set('upper_level', upperLevel.toString());
   }
+
+  if (!falseColourParams || params.toString().length === 0)
+    params.set('original_image', 'true');
 
   return axios
     .get(`${apiUrl}/images/${recordId}/${channelName}`, {

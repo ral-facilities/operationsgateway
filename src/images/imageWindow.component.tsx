@@ -16,15 +16,17 @@ const ImageWindow = (props: ImageWindowProps) => {
   const { onClose, imageConfig } = props;
   const { channelName, recordId, title } = imageConfig;
 
-  const [colourMap, setColourMap] = React.useState('');
-  const [lowerLevel, setLowerLevel] = React.useState(0);
-  const [upperLevel, setUpperLevel] = React.useState(255);
+  const [colourMap, setColourMap] = React.useState<string | undefined>(
+    undefined
+  );
+  const [lowerLevel, setLowerLevel] = React.useState<number | undefined>(0);
+  const [upperLevel, setUpperLevel] = React.useState<number | undefined>(255);
 
   const { data: image, isLoading: imageLoading } = useImage(
     recordId,
     channelName,
     {
-      colourMap: colourMap !== '' ? colourMap : undefined,
+      colourMap: colourMap,
       lowerLevel: lowerLevel,
       upperLevel: upperLevel,
     }
@@ -76,16 +78,20 @@ const ImageWindow = (props: ImageWindowProps) => {
           >
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
-          <Grid container item wrap="nowrap">
-            <ImageView image={image} title={title} viewReset={viewFlag} />
-            <FalseColourPanel
-              colourMap={colourMap}
-              lowerLevel={lowerLevel}
-              upperLevel={upperLevel}
-              changeColourMap={setColourMap}
-              changeLowerLevel={setLowerLevel}
-              changeUpperLevel={setUpperLevel}
-            />
+          <Grid container item wrap="nowrap" spacing={1}>
+            <Grid item>
+              <ImageView image={image} title={title} viewReset={viewFlag} />
+            </Grid>
+            <Grid item>
+              <FalseColourPanel
+                colourMap={colourMap}
+                lowerLevel={lowerLevel}
+                upperLevel={upperLevel}
+                changeColourMap={setColourMap}
+                changeLowerLevel={setLowerLevel}
+                changeUpperLevel={setUpperLevel}
+              />
+            </Grid>
           </Grid>
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
