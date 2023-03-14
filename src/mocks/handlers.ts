@@ -74,4 +74,18 @@ export const handlers = [
       })
     );
   }),
+  rest.get('/images/colourmap_names', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json([
+        'colourmap_1',
+        'colourmap_2',
+        'colourmap_3',
+        'colourmap_4',
+        'colourmap_5',
+        'colourmap_6',
+        'colourmap_7',
+      ])
+    );
+  }),
 ];
