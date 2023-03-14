@@ -5,6 +5,7 @@ import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import ImageView from './imageView.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import { useImage } from '../api/images';
+import FalseColourPanel from './falseColourPanel.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -15,9 +16,18 @@ const ImageWindow = (props: ImageWindowProps) => {
   const { onClose, imageConfig } = props;
   const { channelName, recordId, title } = imageConfig;
 
+  const [colourMap, setColourMap] = React.useState('');
+  const [lowerLevel, setLowerLevel] = React.useState(0);
+  const [upperLevel, setUpperLevel] = React.useState(255);
+
   const { data: image, isLoading: imageLoading } = useImage(
     recordId,
-    channelName
+    channelName,
+    {
+      colourMap: colourMap !== '' ? colourMap : undefined,
+      lowerLevel: lowerLevel,
+      upperLevel: upperLevel,
+    }
   );
 
   const windowRef = React.createRef<WindowPortal>();
@@ -66,7 +76,17 @@ const ImageWindow = (props: ImageWindowProps) => {
           >
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
-          <ImageView image={image} title={title} viewReset={viewFlag} />
+          <Grid container item wrap="nowrap">
+            <ImageView image={image} title={title} viewReset={viewFlag} />
+            <FalseColourPanel
+              colourMap={colourMap}
+              lowerLevel={lowerLevel}
+              upperLevel={upperLevel}
+              changeColourMap={setColourMap}
+              changeLowerLevel={setLowerLevel}
+              changeUpperLevel={setUpperLevel}
+            />
+          </Grid>
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop
