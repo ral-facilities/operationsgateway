@@ -191,7 +191,9 @@ const ImageView = (props: ImageViewProps) => {
         if (
           (boxWidth > 10 || boxHeight > 10) &&
           boxLeft + boxWidth < overlay.width + 10 &&
-          boxTop + boxHeight < overlay.height + 10
+          boxTop + boxHeight < overlay.height + 10 &&
+          boxLeft > -10 &&
+          boxTop > -10
         ) {
           // zoomFactor is the same for both axis due to us enforcing same aspect ratio
           // so arbitrarily pick one of width or height here
@@ -238,15 +240,10 @@ const ImageView = (props: ImageViewProps) => {
       <canvas
         data-testid="overlay"
         ref={overlayRef}
-        style={{ position: 'absolute', zIndex: 2 }}
-        onContextMenu={(e) => {
-          console.log('lel');
-          e.preventDefault();
-        }}
-        onMouseDown={mouseDownHandler}
-        onMouseMove={mouseMoveHandler}
-        onMouseUp={mouseUpOutHandler}
-        onMouseOut={mouseUpOutHandler}
+        // have pointer-events: none and click handlers on img instead of canvas
+        // so that right clicking the image to bring up context menu is done on the
+        // img not the canvas
+        style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
       />
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
         <img
@@ -257,13 +254,10 @@ const ImageView = (props: ImageViewProps) => {
             transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom})`,
             transformOrigin: 'top left',
           }}
-          onContextMenu={(e) => {
-            console.log('lol');
-          }}
-          // onMouseDown={mouseDownHandler}
-          // onMouseMove={mouseMoveHandler}
-          // onMouseUp={mouseUpOutHandler}
-          // onMouseOut={mouseUpOutHandler}
+          onMouseDown={mouseDownHandler}
+          onMouseMove={mouseMoveHandler}
+          onMouseUp={mouseUpOutHandler}
+          onMouseOut={mouseUpOutHandler}
         />
       </div>
     </div>
