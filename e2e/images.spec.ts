@@ -25,43 +25,63 @@ test('user can zoom and pan the image', async ({ page }) => {
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
 
-  const canvas = await popup.getByTestId('overlay');
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // use image parent div as this is what crops the image to the correct size
+  const imageDiv = await popup
+    .locator('div', {
+      has: image,
+    })
+    // last is to get the most specific div i.e. direct parent
+    .last();
 
   // test drag to zoom
-  await popup.dragAndDrop(
-    '[data-testid="overlay"]',
-    '[data-testid="overlay"]',
-    {
-      sourcePosition: {
-        x: 62,
-        y: 45,
-      },
-      targetPosition: {
-        x: 222,
-        y: 174,
-      },
-    }
-  );
+  await imageDiv.dragTo(imageDiv, {
+    sourcePosition: {
+      x: 62,
+      y: 45,
+    },
+    targetPosition: {
+      x: 222,
+      y: 174,
+    },
+  });
 
   await popup.keyboard.down('Shift');
-  await popup.dragAndDrop(
-    '[data-testid="overlay"]',
-    '[data-testid="overlay"]',
-    {
-      sourcePosition: {
-        x: 488,
-        y: 354,
-      },
-      targetPosition: {
-        x: 188,
-        y: 144,
-      },
-    }
-  );
+  await imageDiv.dragTo(imageDiv, {
+    sourcePosition: {
+      x: 488,
+      y: 354,
+    },
+    targetPosition: {
+      x: 188,
+      y: 144,
+    },
+  });
   await popup.keyboard.up('Shift');
 
   expect(
-    await canvas.screenshot({
+    await imageDiv.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+
+  // test that multiple zoom levels work
+  await imageDiv.dragTo(imageDiv, {
+    sourcePosition: {
+      x: 150,
+      y: 330,
+    },
+    targetPosition: {
+      x: 350,
+      y: 430,
+    },
+  });
+
+  expect(
+    await imageDiv.screenshot({
       type: 'png',
     })
   ).toMatchSnapshot();
@@ -69,7 +89,7 @@ test('user can zoom and pan the image', async ({ page }) => {
   await popup.locator('text=Reset View').click();
 
   expect(
-    await canvas.screenshot({
+    await imageDiv.screenshot({
       type: 'png',
     })
   ).toMatchSnapshot();
