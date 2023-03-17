@@ -45,22 +45,21 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 0, clientY: 0 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 100, clientY: 100 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 100, clientY: 100 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(2,2)',
+      transform: 'translate(0px,0px) scale(2)',
     });
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 100, clientY: 100 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 40, clientY: 80 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 40, clientY: 80 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 0, clientY: 0 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-200px,-300px) scale(5,5)',
+      transform: 'translate(-200px,-300px) scale(10)',
     });
   });
 
@@ -70,31 +69,30 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
     // zoom into image
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 100, clientY: 100 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 0, clientY: 0 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 150, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 0, clientY: 0 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(2,2)',
+      transform: 'translate(0px,0px) scale(2)',
     });
 
-    fireEvent.mouseDown(overlay, {
+    fireEvent.mouseDown(image, {
       shiftKey: true,
       button: 0,
       clientX: 100,
       clientY: 100,
     });
-    fireEvent.mouseMove(overlay, {
+    fireEvent.mouseMove(image, {
       shiftKey: true,
       button: 0,
       clientX: 50,
       clientY: 50,
     });
-    fireEvent.mouseUp(overlay, {
+    fireEvent.mouseUp(image, {
       shiftKey: true,
       button: 0,
       clientX: 50,
@@ -102,7 +100,7 @@ describe('Image view component', () => {
     });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-50px,-50px) scale(2,2)',
+      transform: 'translate(-50px,-50px) scale(2)',
     });
   });
 
@@ -112,22 +110,21 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 100, clientY: 100 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 50, clientY: 100 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 50, clientY: 100 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 50, clientY: 100 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 50, clientY: 100 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-300px,-600px) scale(6,6)',
+      transform: 'translate(-300px,-600px) scale(6)',
     });
 
     props.viewReset = !props.viewReset;
     rerender(<ImageView {...props} />);
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(1,1)',
+      transform: 'translate(0px,0px) scale(1)',
     });
   });
 
@@ -137,19 +134,18 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
-    fireEvent.mouseDown(overlay, { button: 2, clientX: 50, clientY: 100 });
+    fireEvent.mouseDown(image, { button: 2, clientX: 50, clientY: 100 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(1,1)',
+      transform: 'translate(0px,0px) scale(1)',
     });
 
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 50, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 50, clientY: 100 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(1,1)',
+      transform: 'translate(0px,0px) scale(1)',
     });
   });
 
@@ -159,31 +155,30 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 75, clientY: 50 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 225, clientY: 150 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 225, clientY: 150 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 75, clientY: 50 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 225, clientY: 150 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 225, clientY: 150 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-150px,-100px) scale(2,2)',
+      transform: 'translate(-150px,-100px) scale(2)',
     });
 
     // try to pan out of bounds past 300,200
-    fireEvent.mouseDown(overlay, {
+    fireEvent.mouseDown(image, {
       shiftKey: true,
       button: 0,
       clientX: 200,
       clientY: 200,
     });
-    fireEvent.mouseMove(overlay, {
+    fireEvent.mouseMove(image, {
       shiftKey: true,
       button: 0,
       clientX: 0,
       clientY: 0,
     });
-    fireEvent.mouseUp(overlay, {
+    fireEvent.mouseUp(image, {
       shiftKey: true,
       button: 0,
       clientX: 0,
@@ -191,23 +186,23 @@ describe('Image view component', () => {
     });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-150px,-100px) scale(2,2)',
+      transform: 'translate(-150px,-100px) scale(2)',
     });
 
     // try to pan out of bounds past 0,0
-    fireEvent.mouseDown(overlay, {
+    fireEvent.mouseDown(image, {
       shiftKey: true,
       button: 0,
       clientX: 0,
       clientY: 0,
     });
-    fireEvent.mouseMove(overlay, {
+    fireEvent.mouseMove(image, {
       shiftKey: true,
       button: 0,
       clientX: 200,
       clientY: 200,
     });
-    fireEvent.mouseUp(overlay, {
+    fireEvent.mouseUp(image, {
       shiftKey: true,
       button: 0,
       clientX: 200,
@@ -215,7 +210,7 @@ describe('Image view component', () => {
     });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(2,2)',
+      transform: 'translate(0px,0px) scale(2)',
     });
   });
 
@@ -225,48 +220,95 @@ describe('Image view component', () => {
     // "load" image
     await flushPromises();
 
-    const overlay = screen.getByTestId('overlay');
     const image = screen.getByAltText('Test image');
 
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 75, clientY: 50 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 225, clientY: 150 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 225, clientY: 150 });
+    // try to zoom out of bounds past 300,200 on x axis
+    fireEvent.mouseDown(image, { button: 0, clientX: 285, clientY: 184 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 285, clientY: 200 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 285, clientY: 200 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-150px,-100px) scale(2,2)',
+      transform: 'translate(-3450px,-2300px) scale(12.5)',
     });
 
-    // try to zoom out of bounds past 300,200
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 290, clientY: 190 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 300, clientY: 200 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 300, clientY: 200 });
+    props.viewReset = !props.viewReset;
+    rerender(<ImageView {...props} />);
+
+    // try to zoom out of bounds past 300,200 on y axis
+    fireEvent.mouseDown(image, { button: 0, clientX: 285, clientY: 195 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 300, clientY: 195 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 300, clientY: 195 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(-5700px,-3800px) scale(20,20)',
+      transform: 'translate(-5700px,-3800px) scale(20)',
     });
 
     props.viewReset = !props.viewReset;
     rerender(<ImageView {...props} />);
 
     // try to zoom out of bounds past 0 on x axis
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 2, clientY: 100 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 1, clientY: 0 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 1, clientY: 0 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 15, clientY: 16 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 14, clientY: 0 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 14, clientY: 0 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(2,2)',
+      transform: 'translate(0px,0px) scale(12.5)',
     });
 
     props.viewReset = !props.viewReset;
     rerender(<ImageView {...props} />);
 
     // try to zoom out of bounds past 0 on Y axis
-    fireEvent.mouseDown(overlay, { button: 0, clientX: 100, clientY: 2 });
-    fireEvent.mouseMove(overlay, { button: 0, clientX: 0, clientY: 1 });
-    fireEvent.mouseUp(overlay, { button: 0, clientX: 0, clientY: 1 });
+    fireEvent.mouseDown(image, { button: 0, clientX: 15, clientY: 5 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 0, clientY: 4 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 0, clientY: 4 });
 
     expect(image).toHaveStyle({
-      transform: 'translate(0px,0px) scale(3,3)',
+      transform: 'translate(0px,0px) scale(20)',
+    });
+  });
+
+  it("doesn't let you zoom if zoom box is too small or zoom box too far out of bounds", async () => {
+    render(<ImageView {...props} />);
+
+    // "load" image
+    await flushPromises();
+
+    const image = screen.getByAltText('Test image');
+
+    // try a zoom box which is too small
+    fireEvent.mouseDown(image, { button: 0, clientX: 100, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 101, clientY: 101 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 101, clientY: 101 });
+
+    expect(image).toHaveStyle({
+      transform: 'translate(0px,0px) scale(1)',
+    });
+
+    // try a zoom box which exceeds 300,200
+    fireEvent.mouseDown(image, { button: 0, clientX: 290, clientY: 100 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 291, clientY: 150 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 291, clientY: 150 });
+
+    fireEvent.mouseDown(image, { button: 0, clientX: 150, clientY: 190 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 250, clientY: 191 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 250, clientY: 191 });
+
+    expect(image).toHaveStyle({
+      transform: 'translate(0px,0px) scale(1)',
+    });
+
+    // try a zoom box which exceeds 0,0
+    fireEvent.mouseDown(image, { button: 0, clientX: 1, clientY: 150 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 0, clientY: 100 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 0, clientY: 100 });
+
+    fireEvent.mouseDown(image, { button: 0, clientX: 250, clientY: 1 });
+    fireEvent.mouseMove(image, { button: 0, clientX: 150, clientY: 0 });
+    fireEvent.mouseUp(image, { button: 0, clientX: 150, clientY: 0 });
+
+    expect(image).toHaveStyle({
+      transform: 'translate(0px,0px) scale(1)',
     });
   });
 });

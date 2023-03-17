@@ -30,7 +30,7 @@ const ImageView = (props: ImageViewProps) => {
   });
 
   const [pan, setPan] = React.useState([0, 0]);
-  const [zoom, setZoom] = React.useState([1, 1]);
+  const [zoom, setZoom] = React.useState(1);
 
   const overlayProps = overlayPropsRef.current;
 
@@ -57,7 +57,7 @@ const ImageView = (props: ImageViewProps) => {
 
   React.useEffect(() => {
     setPan([0, 0]);
-    setZoom([1, 1]);
+    setZoom(1);
   }, [viewReset]);
 
   const mouseDownHandler: React.MouseEventHandler = React.useCallback(
@@ -157,8 +157,8 @@ const ImageView = (props: ImageViewProps) => {
           // make sure pan doesn't go out of bounds
           if (newX > 0) newX = 0;
           if (newY > 0) newY = 0;
-          if (-originalWidth * (zoom[0] - 1) > newX) newX = oldPan[0];
-          if (-originalHeight * (zoom[1] - 1) > newY) newY = oldPan[1];
+          if (-originalWidth * (zoom - 1) > newX) newX = oldPan[0];
+          if (-originalHeight * (zoom - 1) > newY) newY = oldPan[1];
 
           return [newX, newY];
         });
@@ -183,36 +183,56 @@ const ImageView = (props: ImageViewProps) => {
 
         const boxWidth = Math.abs(prevWidth);
         const boxHeight = Math.abs(prevHeight);
+
         const boxLeft = prevWidth < 0 ? startX - boxWidth : startX;
         const boxTop = prevHeight < 0 ? startY - boxHeight : startY;
-        const scaleX = overlay.width / boxWidth;
-        const scaleY = overlay.height / boxHeight;
+
+        // don't perform zoom if zoom box is too small, or if zoom box is out of bounds
+        if (
+          (boxWidth > 10 || boxHeight > 10) &&
+          boxLeft + boxWidth < overlay.width + 10 &&
+          boxTop + boxHeight < overlay.height + 10 &&
+          boxLeft > -10 &&
+          boxTop > -10
+        ) {
+          // zoomFactor is the same for both axis due to us enforcing same aspect ratio
+          // so arbitrarily pick one of width or height here
+          const zoomFactor = overlay.width / boxWidth;
+
+          setZoom((oldZoom) => zoomFactor * oldZoom);
+          setPan((oldPan) => {
+            let newX = (oldPan[0] - boxLeft) * zoomFactor;
+            let newY = (oldPan[1] - boxTop) * zoomFactor;
+
+            // make sure pan doesn't go out of bounds
+            if (newX > 0) newX = 0;
+            if (newY > 0) newY = 0;
+            if (-overlay.width * (zoomFactor * zoom - 1) > newX)
+              newX = -overlay.width * (zoomFactor * zoom - 1);
+            if (-overlay.height * (zoomFactor * zoom - 1) > newY)
+              newY = -overlay.height * (zoomFactor * zoom - 1);
+
+            return [newX, newY];
+          });
+        }
 
         // clear the overlay
         const ctx = overlay.getContext('2d');
         ctx?.clearRect(0, 0, overlay.width, overlay.height);
-
-        setZoom([scaleX, scaleY]);
-        setPan((oldPan) => {
-          let newX = oldPan[0] - boxLeft * scaleX;
-          let newY = oldPan[1] - boxTop * scaleY;
-
-          // make sure pan doesn't go out of bounds
-          if (newX > 0) newX = 0;
-          if (newY > 0) newY = 0;
-          if (-overlay.width * (scaleX - 1) > newX)
-            newX = -overlay.width * (scaleX - 1);
-          if (-overlay.height * (scaleY - 1) > newY)
-            newY = -overlay.height * (scaleY - 1);
-
-          return [newX, newY];
-        });
       }
       if (overlayProps.isPanning) {
         overlayProps.isPanning = false;
       }
+
+      // reset box properties
+      overlayProps.prevStartX = 0;
+      overlayProps.prevStartX = 0;
+      overlayProps.startX = 0;
+      overlayProps.startY = 0;
+      overlayProps.prevHeight = 0;
+      overlayProps.prevWidth = 0;
     },
-    [overlay, overlayProps]
+    [overlay, overlayProps, zoom]
   );
 
   return (
@@ -220,11 +240,10 @@ const ImageView = (props: ImageViewProps) => {
       <canvas
         data-testid="overlay"
         ref={overlayRef}
-        style={{ position: 'absolute', zIndex: 2 }}
-        onMouseDown={mouseDownHandler}
-        onMouseMove={mouseMoveHandler}
-        onMouseUp={mouseUpOutHandler}
-        onMouseOut={mouseUpOutHandler}
+        // have pointer-events: none and click handlers on img instead of canvas
+        // so that right clicking the image to bring up context menu is done on the
+        // img not the canvas
+        style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
       />
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
         <img
@@ -232,9 +251,13 @@ const ImageView = (props: ImageViewProps) => {
           alt={title}
           ref={imgRef}
           style={{
-            transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom[0]},${zoom[1]})`,
+            transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom})`,
             transformOrigin: 'top left',
           }}
+          onMouseDown={mouseDownHandler}
+          onMouseMove={mouseMoveHandler}
+          onMouseUp={mouseUpOutHandler}
+          onMouseOut={mouseUpOutHandler}
         />
       </div>
     </div>
