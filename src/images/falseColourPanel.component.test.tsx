@@ -19,6 +19,8 @@ describe('False colour panel component', () => {
       changeLowerLevel,
       changeUpperLevel,
     };
+
+    jest.clearAllMocks();
   });
 
   const createView = () => {
@@ -77,6 +79,24 @@ describe('False colour panel component', () => {
     expect(changeLowerLevel).toHaveBeenCalledWith(25);
   });
 
+  it('lower level slider cannot exceed upper level', async () => {
+    createView();
+
+    const upperSliderInput = screen.getByRole('slider', {
+      name: 'Upper Level (UL)',
+    });
+
+    await fireEvent.change(upperSliderInput, { target: { value: 100 } });
+
+    const lowerSliderInput = screen.getByRole('slider', {
+      name: 'Lower Level (LL)',
+    });
+
+    await fireEvent.change(lowerSliderInput, { target: { value: 125 } });
+
+    expect(changeLowerLevel).toHaveBeenCalledWith(100);
+  });
+
   it('renders upper level slider and changes upper level on change', async () => {
     createView();
 
@@ -84,9 +104,27 @@ describe('False colour panel component', () => {
       name: 'Upper Level (UL)',
     });
 
-    await fireEvent.change(sliderInput, { target: { value: 25 } });
+    await fireEvent.change(sliderInput, { target: { value: 50 } });
 
-    expect(changeLowerLevel).toHaveBeenCalledWith(25);
+    expect(changeUpperLevel).toHaveBeenCalledWith(50);
+  });
+
+  it('upper level slider cannot exceed lower level', async () => {
+    createView();
+
+    const lowerSliderInput = screen.getByRole('slider', {
+      name: 'Lower Level (LL)',
+    });
+
+    await fireEvent.change(lowerSliderInput, { target: { value: 100 } });
+
+    const upperSliderInput = screen.getByRole('slider', {
+      name: 'Upper Level (UL)',
+    });
+
+    await fireEvent.change(upperSliderInput, { target: { value: 75 } });
+
+    expect(changeUpperLevel).toHaveBeenCalledWith(100);
   });
 
   it('can be disabled and re-enabled', async () => {

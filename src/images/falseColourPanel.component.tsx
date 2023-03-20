@@ -137,14 +137,40 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             value={sliderLowerLevel}
             valueLabelDisplay="auto"
             marks={marks}
-            onChange={(event, value) =>
-              typeof value === 'number' && setSliderLowerLevel(value)
-            }
-            onChangeCommitted={(event, value) =>
-              typeof value === 'number' && changeLowerLevel(value)
-            }
+            track={false}
+            onChange={(event, value) => {
+              if (typeof value === 'number') {
+                if (value > sliderUpperLevel) {
+                  // have to set it to the min as onChange isn't called for every number
+                  setSliderLowerLevel(sliderUpperLevel);
+                } else {
+                  setSliderLowerLevel(value);
+                }
+              }
+            }}
+            onChangeCommitted={(event, value) => {
+              if (typeof value === 'number') {
+                if (value > sliderUpperLevel) {
+                  // have to set it to the min as onChange isn't called for every number
+                  changeLowerLevel(sliderUpperLevel);
+                } else {
+                  changeLowerLevel(value);
+                }
+              }
+            }}
             min={0}
             max={255}
+            sx={{
+              '& .MuiSlider-rail:after': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                height: '100%',
+                width: `${100 - (sliderUpperLevel / 255) * 100}%`,
+                backgroundColor: 'grey.400',
+              },
+            }}
           />
         </FormControl>
         <img src={colourBar} alt="Colour bar" />
@@ -155,14 +181,40 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             value={sliderUpperLevel}
             valueLabelDisplay="auto"
             marks={marks}
-            onChange={(event, value) =>
-              typeof value === 'number' && setSliderUpperLevel(value)
-            }
-            onChangeCommitted={(event, value) =>
-              typeof value === 'number' && changeUpperLevel(value)
-            }
+            track={false}
+            onChange={(event, value) => {
+              if (typeof value === 'number') {
+                if (value < sliderLowerLevel) {
+                  // have to set it to the min as onChange isn't called for every number
+                  setSliderUpperLevel(sliderLowerLevel);
+                } else {
+                  setSliderUpperLevel(value);
+                }
+              }
+            }}
+            onChangeCommitted={(event, value) => {
+              if (typeof value === 'number') {
+                if (value < sliderLowerLevel) {
+                  // have to set it to the min as onChange isn't called for every number
+                  changeUpperLevel(sliderLowerLevel);
+                } else {
+                  changeUpperLevel(value);
+                }
+              }
+            }}
             min={0}
             max={255}
+            sx={{
+              '& .MuiSlider-rail:before': {
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: '100%',
+                width: `${(sliderLowerLevel / 255) * 100}%`,
+                backgroundColor: 'grey.400',
+              },
+            }}
           />
           <FormLabel id="upper-level-label" sx={{ margin: 'auto' }}>
             Upper Level (UL)
