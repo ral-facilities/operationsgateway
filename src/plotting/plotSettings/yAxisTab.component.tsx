@@ -60,6 +60,10 @@ export interface YAxisTabProps {
   initialRemainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
   changeRemainingColours: (remaining: string[]) => void;
+  leftYAxisLabel?: string;
+  changeLeftYAxisLabel: (newLabel: string) => void;
+  rightYAxisLabel?: string;
+  changeRightYAxisLabel: (newLabel: string) => void;
 }
 
 const YAxisTab = (props: YAxisTabProps) => {
@@ -80,6 +84,10 @@ const YAxisTab = (props: YAxisTabProps) => {
     changeLeftYAxisScale,
     rightYAxisScale,
     changeRightYAxisScale,
+    leftYAxisLabel,
+    changeLeftYAxisLabel,
+    rightYAxisLabel,
+    changeRightYAxisLabel,
     initialSelectedColours,
     initialRemainingColours,
     changeSelectedColours,
@@ -228,6 +236,24 @@ const YAxisTab = (props: YAxisTabProps) => {
     ]
   );
 
+  const changeAxisLabel = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newLabel = event.currentTarget.value;
+      switch (axis) {
+        case 'left':
+          changeLeftYAxisLabel(newLabel);
+          break;
+
+        case 'right':
+          changeRightYAxisLabel(newLabel);
+          break;
+      }
+    },
+    [axis, changeLeftYAxisLabel, changeRightYAxisLabel]
+  );
+
+  const currentAxisLabel = axis === 'left' ? leftYAxisLabel : rightYAxisLabel;
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid item>
@@ -256,6 +282,18 @@ const YAxisTab = (props: YAxisTabProps) => {
             Right
           </ToggleButton>
         </ToggleButtonGroup>
+      </Grid>
+      <Grid container item>
+        <TextField
+          label="Label"
+          variant="outlined"
+          size="small"
+          fullWidth
+          InputProps={{ style: { fontSize: 12 } }}
+          InputLabelProps={{ style: { fontSize: 12 } }}
+          value={currentAxisLabel}
+          onChange={changeAxisLabel}
+        />
       </Grid>
       <Grid container item spacing={1}>
         <Grid item xs={6}>

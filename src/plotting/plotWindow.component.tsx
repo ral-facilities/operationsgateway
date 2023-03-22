@@ -35,6 +35,7 @@ interface PlotWindowProps {
   onClose: () => void;
   plotConfig: PlotConfig;
 }
+
 const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
@@ -71,6 +72,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxisScale>(
     plotConfig.rightYAxisScale
   );
+  const [leftYAxisLabel, setLeftYAxisLabel] = React.useState('');
+  const [rightYAxisLabel, setRightYAxisLabel] = React.useState('');
 
   const [XAxis, setXAxis] = React.useState<string | undefined>(
     plotConfig.XAxis
@@ -283,12 +286,16 @@ const PlotWindow = (props: PlotWindowProps) => {
                 leftYAxisMaximum={leftYAxisMaximum}
                 rightYAxisMinimum={rightYAxisMinimum}
                 rightYAxisMaximum={rightYAxisMaximum}
+                leftYAxisLabel={leftYAxisLabel}
+                rightYAxisLabel={rightYAxisLabel}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
                 changeLeftYAxisMinimum={setLeftYAxisMinimum}
                 changeLeftYAxisMaximum={setLeftYAxisMaximum}
                 changeRightYAxisMinimum={setRightYAxisMinimum}
                 changeRightYAxisMaximum={setRightYAxisMaximum}
+                changeLeftYAxisLabel={setLeftYAxisLabel}
+                changeRightYAxisLabel={setRightYAxisLabel}
                 selectedColours={selectedColours}
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
@@ -372,6 +379,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             leftYAxisMaximum={leftYAxisMaximum}
             rightYAxisMinimum={rightYAxisMinimum}
             rightYAxisMaximum={rightYAxisMaximum}
+            leftYAxisLabel={leftYAxisLabel}
+            rightYAxisLabel={rightYAxisLabel}
             viewReset={viewFlag}
           />
         </Grid>

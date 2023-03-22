@@ -31,6 +31,8 @@ export interface PlotProps {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   viewReset: boolean;
 }
 
@@ -54,6 +56,8 @@ const Plot = (props: PlotProps) => {
     leftYAxisMaximum,
     rightYAxisMinimum,
     rightYAxisMaximum,
+    leftYAxisLabel,
+    rightYAxisLabel,
     viewReset,
   } = props;
 
@@ -126,6 +130,10 @@ const Plot = (props: PlotProps) => {
           },
           min: leftYAxisMinimum,
           max: leftYAxisMaximum,
+          title: {
+            display: Boolean(leftYAxisLabel),
+            text: leftYAxisLabel,
+          },
         },
         y2: {
           type: rightYAxisScale,
@@ -138,6 +146,10 @@ const Plot = (props: PlotProps) => {
           },
           min: rightYAxisMinimum,
           max: rightYAxisMaximum,
+          title: {
+            display: Boolean(rightYAxisLabel),
+            text: rightYAxisLabel,
+          },
         },
       },
     } as ChartOptions<PlotType>)
@@ -166,6 +178,11 @@ const Plot = (props: PlotProps) => {
           (channel) =>
             channel.options.yAxis === 'left' && channel.options.visible
         ));
+      options?.scales?.y &&
+        (options.scales.y.title = {
+          display: Boolean(leftYAxisLabel),
+          text: leftYAxisLabel,
+        });
       options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
       options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
       options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
@@ -176,6 +193,11 @@ const Plot = (props: PlotProps) => {
         ));
       options?.scales?.y2?.grid &&
         (options.scales.y2.grid.display = gridVisible);
+      options?.scales?.y2 &&
+        (options.scales.y2.title = {
+          display: Boolean(rightYAxisLabel),
+          text: rightYAxisLabel,
+        });
       return JSON.stringify(options);
     });
   }, [
@@ -194,6 +216,8 @@ const Plot = (props: PlotProps) => {
     rightYAxisMaximum,
     selectedPlotChannels,
     XAxisDisplayName,
+    leftYAxisLabel,
+    rightYAxisLabel,
   ]);
 
   React.useEffect(() => {

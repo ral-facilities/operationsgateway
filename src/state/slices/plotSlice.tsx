@@ -31,6 +31,8 @@ export interface PlotConfig {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];
