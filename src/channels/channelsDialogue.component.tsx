@@ -181,6 +181,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
             <ChannelTree
               currNode={currNode}
               tree={channelTree ?? { name: '/', children: {} }}
+              displayedChannel={displayedChannel}
               setCurrNode={onChangeNode}
               handleChannelChecked={handleChannelChecked}
               handleChannelSelected={setDisplayedChannel}
@@ -197,7 +198,16 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
                 'calc(100vh - (2 * 32px + 72px + 42px + 2 * 20px + 53px))',
             }}
           >
-            <ChannelMetadataPanel displayedChannel={displayedChannel} />
+            <ChannelMetadataPanel
+              displayedChannel={displayedChannel}
+              isChannelSelected={
+                displayedChannel?.systemName
+                  ? selectedIds.includes(displayedChannel.systemName)
+                  : false
+              }
+              onSelectChannel={onChannelSelect}
+              onDeselectChannel={onChannelDeselect}
+            />
           </Grid>
         </Grid>
       </DialogContent>

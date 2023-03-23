@@ -16,6 +16,7 @@ type ChannelTreeProps = {
   setCurrNode: (newNode: string) => void;
   handleChannelChecked: (channel: string, checked: boolean) => void;
   handleChannelSelected: (channel: FullChannelMetadata) => void;
+  displayedChannel?: FullChannelMetadata;
 };
 
 const ChannelTree = (props: ChannelTreeProps) => {
@@ -25,6 +26,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
     setCurrNode,
     handleChannelChecked,
     handleChannelSelected,
+    displayedChannel,
   } = props;
 
   const nodes = currNode
@@ -48,6 +50,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
         return (
           <ListItem key={key} disablePadding disableGutters>
             <ListItemButton
+              selected={displayedChannel?.systemName === key}
               onClick={() => {
                 if (!leaf) {
                   setCurrNode(`${currNode !== '/' ? currNode : ''}/${key}`);
