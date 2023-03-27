@@ -75,7 +75,7 @@ describe('Search', () => {
           const gte: string = timestampRange['$gte'];
           const lte: string = timestampRange['$lte'];
           expect(gte).equal('2022-01-01T00:00:00');
-          expect(lte).equal('2022-01-02T00:00:00');
+          expect(lte).equal('2022-01-02T00:00:59');
         }
       );
 
@@ -98,7 +98,7 @@ describe('Search', () => {
         const gte: string = timestampRange['$gte'];
         const lte: string = timestampRange['$lte'];
         expect(gte).equal('2022-01-01T00:00:00');
-        expect(lte).equal('2022-01-02T00:00:00');
+        expect(lte).equal('2022-01-02T00:00:59');
       });
     });
 
@@ -111,7 +111,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 10 mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -170,7 +170,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 24 hours').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -229,7 +229,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 7 days').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-01 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -289,7 +289,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 10 mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -326,7 +326,7 @@ describe('Search', () => {
         cy.tick(60000);
 
         cy.get('button[aria-label="Refresh data"]').click();
-        const newExpectedToDate = new Date('1970-01-08 01:01:00');
+        const newExpectedToDate = new Date('1970-01-08 01:01:59');
         const newExpectedFromDate = new Date('1970-01-08 00:51:00');
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
@@ -367,7 +367,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:55:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -427,7 +427,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Hours').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 20:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -487,7 +487,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Days').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-03 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -630,7 +630,7 @@ describe('Search', () => {
           const timestampRange = timestampCondition['metadata.timestamp'];
           const timestampGte: string = timestampRange['$gte'];
           const timestampLte: string = timestampRange['$lte'];
-          expect(timestampGte).equal('2022-01-01T00:00:00');
+          expect(timestampGte).equal('2022-01-01T00:00:59');
           expect(timestampLte).equal('2022-01-02T00:00:00');
 
           const shotnumCondition = conditionsMap[1];
@@ -660,7 +660,7 @@ describe('Search', () => {
         const timestampRange = timestampCondition['metadata.timestamp'];
         const timestampGte: string = timestampRange['$gte'];
         const timestampLte: string = timestampRange['$lte'];
-        expect(timestampGte).equal('2022-01-01T00:00:00');
+        expect(timestampGte).equal('2022-01-01T00:00:59');
         expect(timestampLte).equal('2022-01-02T00:00:00');
 
         const shotnumCondition = conditionsMap[1];
