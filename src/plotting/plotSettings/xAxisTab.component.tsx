@@ -22,6 +22,7 @@ import {
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -201,19 +202,12 @@ const XAxisTab = (props: XAxisTabProps) => {
               />
             </LocalizationProvider>
           ) : (
-            <TextField
+            <PlotSettingsTextField
               label="Min"
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{ style: { fontSize: 12 } }}
-              InputLabelProps={{ style: { fontSize: 12 } }}
               error={invalidXRange}
               {...(invalidXRange && { helperText: 'Invalid range' })}
               value={xMinimum}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setXMinimum(event.target.value)
-              }
+              onChange={setXMinimum}
             />
           )}
         </Grid>

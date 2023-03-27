@@ -8,7 +8,7 @@ import { testScalarChannels } from '../../setupTests';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;
-  let user;
+  let user: ReturnType<typeof userEvent.setup>;
   const changePlotType = jest.fn();
   const changeXAxis = jest.fn();
   const changeXAxisScale = jest.fn();
@@ -48,6 +48,10 @@ describe('Plot Settings component', () => {
       rightYAxisScale: 'linear',
       changeLeftYAxisScale,
       changeRightYAxisScale,
+      leftYAxisLabel: 'left y axis label',
+      rightYAxisLabel: 'right y axis label',
+      changeLeftYAxisLabel: jest.fn(),
+      changeRightYAxisLabel: jest.fn(),
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeXMinimum,
@@ -68,17 +72,17 @@ describe('Plot Settings component', () => {
   describe('snapshots', () => {
     beforeAll(() => {
       jest.resetModules();
-      jest.doMock('./plotTitleField.component', () => (props) => (
+      jest.doMock('./plotSettingsTextField.component', () => (props) => (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        <mock-plotTitleField data-testid="mock-plotTitleField">
+        <mock-plotSettingsTextField data-testid="mock-plotSettingsTextField">
           {Object.entries(props).map(
             ([propName, propValue]) =>
               `${propName}=${JSON.stringify(propValue, null, 2)}\n`
           )}
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
           {/* @ts-ignore */}
-        </mock-plotTitleField>
+        </mock-plotSettingsTextField>
       ));
 
       jest.doMock('./chartTypeButtons.component', () => (props) => (
@@ -123,7 +127,7 @@ describe('Plot Settings component', () => {
 
     afterAll(() => {
       jest.resetModules();
-      jest.dontMock('./plotTitleField.component');
+      jest.dontMock('./plotSettingsTextField.component');
       jest.dontMock('./chartTypeButtons.component');
       jest.dontMock('./xAxisTab.component');
       jest.dontMock('./yAxisTab.component');

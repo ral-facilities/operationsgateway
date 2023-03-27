@@ -9,7 +9,7 @@ import {
   timeChannelName,
 } from '../../app.types';
 import ChartTypeButtons from './chartTypeButtons.component';
-import PlotTitleField from './plotTitleField.component';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 import XAxisTab from './xAxisTab.component';
 import YAxisTab from './yAxisTab.component';
 
@@ -201,10 +201,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <PlotTitleField
-          plotTitle={plotTitle}
-          changePlotTitle={changePlotTitle}
-        />
+        <PlotSettingsTextField value={plotTitle} onChange={changePlotTitle} />
       </Grid>
       <Grid item>
         <ChartTypeButtons

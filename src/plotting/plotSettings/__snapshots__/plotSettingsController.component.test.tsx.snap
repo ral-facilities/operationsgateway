@@ -8,13 +8,13 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
-      <mock-plottitlefield
-        data-testid="mock-plotTitleField"
+      <mock-plotsettingstextfield
+        data-testid="mock-plotSettingsTextField"
       >
-        plotTitle=undefined
-changePlotTitle=undefined
+        value=undefined
+onChange=undefined
 
-      </mock-plottitlefield>
+      </mock-plotsettingstextfield>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -179,6 +179,10 @@ leftYAxisScale="logarithmic"
 changeLeftYAxisScale=undefined
 rightYAxisScale="linear"
 changeRightYAxisScale=undefined
+leftYAxisLabel="left y axis label"
+changeLeftYAxisLabel=undefined
+rightYAxisLabel="right y axis label"
+changeRightYAxisLabel=undefined
 initialSelectedColours=undefined
 initialRemainingColours=undefined
 changeSelectedColours=undefined
@@ -199,13 +203,13 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
-      <mock-plottitlefield
-        data-testid="mock-plotTitleField"
+      <mock-plotsettingstextfield
+        data-testid="mock-plotSettingsTextField"
       >
-        plotTitle=undefined
-changePlotTitle=undefined
+        value=undefined
+onChange=undefined
 
-      </mock-plottitlefield>
+      </mock-plotsettingstextfield>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -362,13 +366,13 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
-      <mock-plottitlefield
-        data-testid="mock-plotTitleField"
+      <mock-plotsettingstextfield
+        data-testid="mock-plotSettingsTextField"
       >
-        plotTitle=undefined
-changePlotTitle=undefined
+        value=undefined
+onChange=undefined
 
-      </mock-plottitlefield>
+      </mock-plotsettingstextfield>
     </div>
     <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -531,6 +535,10 @@ leftYAxisScale="logarithmic"
 changeLeftYAxisScale=undefined
 rightYAxisScale="linear"
 changeRightYAxisScale=undefined
+leftYAxisLabel="left y axis label"
+changeLeftYAxisLabel=undefined
+rightYAxisLabel="right y axis label"
+changeRightYAxisLabel=undefined
 initialSelectedColours=undefined
 initialRemainingColours=undefined
 changeSelectedColours=undefined

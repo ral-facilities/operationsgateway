@@ -28,6 +28,7 @@ import {
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -126,8 +127,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   }, [axis]);
 
   const handleChangeYMinimum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMinimum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMinimum : changeLeftYAxisMinimum;
@@ -141,8 +141,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const handleChangeYMaximum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMaximum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMaximum : changeLeftYAxisMaximum;
@@ -237,8 +236,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const changeAxisLabel = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newLabel = event.currentTarget.value;
+    (newLabel: string) => {
       switch (axis) {
         case 'left':
           changeLeftYAxisLabel(newLabel);
@@ -284,26 +282,16 @@ const YAxisTab = (props: YAxisTabProps) => {
         </ToggleButtonGroup>
       </Grid>
       <Grid container item>
-        <TextField
+        <PlotSettingsTextField
           label="Label"
-          variant="outlined"
-          size="small"
-          fullWidth
-          InputProps={{ style: { fontSize: 12 } }}
-          InputLabelProps={{ style: { fontSize: 12 } }}
-          value={currentAxisLabel}
+          value={currentAxisLabel ?? ''}
           onChange={changeAxisLabel}
         />
       </Grid>
       <Grid container item spacing={1}>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Min"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMinimum}
@@ -311,13 +299,8 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Max"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMaximum}
