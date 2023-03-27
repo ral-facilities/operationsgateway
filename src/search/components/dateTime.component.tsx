@@ -180,7 +180,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerFromDateError(!!error)}
-              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              views={['year', 'month', 'day', 'hours', 'minutes']}
               OpenPickerButtonProps={{
                 size: 'small',
                 'aria-label': 'from, date-time picker',
@@ -260,7 +260,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerToDateError(!!error)}
-              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              views={['year', 'month', 'day', 'hours', 'minutes']}
               OpenPickerButtonProps={{
                 size: 'small',
                 'aria-label': 'to, date-time picker',
