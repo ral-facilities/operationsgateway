@@ -630,8 +630,8 @@ describe('Search', () => {
           const timestampRange = timestampCondition['metadata.timestamp'];
           const timestampGte: string = timestampRange['$gte'];
           const timestampLte: string = timestampRange['$lte'];
-          expect(timestampGte).equal('2022-01-01T00:00:00');
-          expect(timestampLte).equal('2022-01-02T00:00:59');
+          expect(timestampGte).equal('2022-01-01T00:00:59');
+          expect(timestampLte).equal('2022-01-02T00:00:00');
 
           const shotnumCondition = conditionsMap[1];
           const shotnumRange = shotnumCondition['metadata.shotnum'];
