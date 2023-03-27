@@ -62,12 +62,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       dateRange.toDate ? new Date(dateRange.toDate) : null
     );
 
-  // set seconds to 59 for searchParameterFromDate
+  // set seconds to 0 for searchParameterFromDate
   if (searchParameterFromDate) {
     searchParameterFromDate.setSeconds(0);
   }
 
-  // set seconds to 0 for searchParameterToDate
+  // set seconds to 59 for searchParameterToDate
   if (searchParameterToDate) {
     searchParameterToDate.setSeconds(59);
   }
