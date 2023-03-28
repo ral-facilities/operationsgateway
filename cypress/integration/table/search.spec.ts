@@ -703,7 +703,7 @@ describe('Search', () => {
         '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-02-01 00:00'
+        '2022-01-01 00:00'
       );
 
       const expectedToDate = new Date('2022-01-01 00:00:59');
