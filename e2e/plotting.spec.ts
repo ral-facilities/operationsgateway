@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import recordsJson from '../src/mocks/records.json';
+import { expect, test } from '@playwright/test';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
@@ -572,6 +571,37 @@ test('user can plot channels on the right y axis', async ({
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize y axis labels', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
+  await popup.getByRole('button', { name: 'Right' }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
+
+  const chart = await popup.locator('#my-chart');
 
   expect(
     await chart.screenshot({
