@@ -51,7 +51,7 @@ describe('Search', () => {
         '2022-01-01 00:00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00:59'
       );
 
       cy.startSnoopingBrowserMockedRequest();
@@ -602,7 +602,7 @@ describe('Search', () => {
         '2022-01-01 00:00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00:59'
       );
 
       // Shot number fields
@@ -696,6 +696,67 @@ describe('Search', () => {
         'border-color',
         'rgb(214, 65, 65)' // shade of red
       );
+    });
+
+    it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
+      cy.get('input[aria-label="from, date-time input"]').type(
+        '2022-01-01 00:00'
+      );
+      cy.get('input[aria-label="to, date-time input"]').type(
+        '2022-02-01 00:00'
+      );
+
+      const expectedToDate = new Date('2022-01-01 00:00:59');
+      const expectedFromDate = new Date('2022-01-01 00:00:00');
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.contains('Search').click();
+
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
+
+          const condition = conditionsMap[0];
+          const timestampRange = condition['metadata.timestamp'];
+          const gte: string = timestampRange['$gte'];
+          const lte: string = timestampRange['$lte'];
+          expect(gte).equal(expectedFromDateString);
+          expect(lte).equal(expectedToDateString);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(2);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(1);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+        const gte: string = timestampRange['$gte'];
+        const lte: string = timestampRange['$lte'];
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
     });
 
     it('can be hidden and shown', () => {

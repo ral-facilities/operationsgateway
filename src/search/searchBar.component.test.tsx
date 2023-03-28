@@ -95,6 +95,33 @@ describe('searchBar component', () => {
     });
   });
 
+  it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    // Date-time fields
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00:20');
+    await user.type(dateFilterToDate, '2022-01-02 00:00:40');
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-01T00:00:00',
+        toDate: '2022-01-02T00:00:59',
+      },
+      shotnumRange: {
+        min: undefined,
+        max: undefined,
+      },
+      maxShots: MAX_SHOTS_VALUES[0],
+    });
+  });
+
   it('sends default search parameters when none are amended by the user', async () => {
     const state = getInitialState();
     const { store } = createView(state);
@@ -357,7 +384,7 @@ describe('searchBar component', () => {
 
       // Mock a new date constructor to simulate time moving forward a minute
 
-      const testDate = new Date('2022-01-11 12:01:00');
+      const testDate = new Date('2022-01-11 12:01:59');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
