@@ -14,7 +14,7 @@ import ChannelTree from './channelTree.component';
 import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
-  selectSelectedIdsIgnoreOrder,
+  selectSelectedIds,
   updateSelectedColumns,
 } from '../state/slices/tableSlice';
 import { createSelector } from '@reduxjs/toolkit';
@@ -101,7 +101,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   const { data: channels } = useChannels();
 
   const appliedSelectedIds = useAppSelector((state) =>
-    selectSelectedIdsIgnoreOrder(state)
+    selectSelectedIds(state)
   );
 
   const [selectedIds, setSelectedIds] = React.useState(appliedSelectedIds);
