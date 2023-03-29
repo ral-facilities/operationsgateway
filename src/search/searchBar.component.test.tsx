@@ -144,15 +144,15 @@ describe('searchBar component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/channels/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(2));
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
       })
     );
     const state = {
       ...getInitialState(),
       config: {
         ...getInitialState().config,
-        recordLimitWarning: 1, // lower than the returned count of 2
+        recordLimitWarning: 30, // lower than the returned count of 31
       },
     };
     const { store } = createView(state);
@@ -192,11 +192,80 @@ describe('searchBar component', () => {
     });
   });
 
+  it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(100));
+      })
+    );
+
+    const state = {
+      ...getInitialState(),
+      search: {
+        ...getInitialState().search,
+        maxShots: 50,
+      },
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 75, // lower than the returned count of 100
+      },
+    };
+    createView(state);
+
+    // Input some test data for the search
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    // Try and search
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  });
+
+  it('displays a warning tooltip if previous search did not need one but the current one does', async () => {
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 30, // lower than the returned count of 31
+      },
+    };
+    createView(state);
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
+      })
+    );
+
+    await user.clear(dateFilterFromDate);
+    await user.type(dateFilterFromDate, '2022-01-02 00:00:00');
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    // Tooltip warning should be present
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+  });
+
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/channels/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(2));
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
       })
     );
 
@@ -229,7 +298,7 @@ describe('searchBar component', () => {
       ...getInitialState(),
       config: {
         ...getInitialState().config,
-        recordLimitWarning: 1, // lower than the returned count of 2
+        recordLimitWarning: 30, // lower than the returned count of 31
       },
     };
     const { store } = createView(state, testQueryClient);

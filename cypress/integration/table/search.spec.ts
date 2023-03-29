@@ -40,6 +40,9 @@ describe('Search', () => {
       }).as('getSettings');
 
       cy.visit('/').wait(['@getSettings']);
+
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
     });
 
     afterEach(() => {
@@ -57,6 +60,10 @@ describe('Search', () => {
       cy.startSnoopingBrowserMockedRequest();
 
       cy.contains('Search').click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
@@ -83,7 +90,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(2);
+        expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
@@ -104,7 +111,7 @@ describe('Search', () => {
 
     describe('searches by relative timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'));
+        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
       });
 
       it('last 10 minutes', () => {
@@ -119,6 +126,10 @@ describe('Search', () => {
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
+
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
@@ -146,7 +157,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -179,6 +190,10 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
@@ -205,7 +220,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -238,6 +253,10 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
@@ -264,7 +283,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -298,6 +317,10 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
@@ -326,7 +349,12 @@ describe('Search', () => {
         cy.tick(60000);
 
         cy.get('button[aria-label="Refresh data"]').click();
-        const newExpectedToDate = new Date('1970-01-08 01:01:59');
+
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
+        const newExpectedToDate = new Date('1970-01-08 01:01:00');
         const newExpectedFromDate = new Date('1970-01-08 00:51:00');
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
@@ -359,7 +387,7 @@ describe('Search', () => {
 
     describe('searches by custom timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'));
+        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
       });
 
       it('last 5 minutes', () => {
@@ -375,6 +403,10 @@ describe('Search', () => {
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
+
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
@@ -402,7 +434,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -436,6 +468,10 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
@@ -462,7 +498,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -496,6 +532,10 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('be.visible');
+        cy.findByRole('progressbar').should('not.exist');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
@@ -522,7 +562,7 @@ describe('Search', () => {
           method: 'GET',
           url: '/records/count',
         }).should((patchRequests) => {
-          expect(patchRequests.length).equal(2);
+          expect(patchRequests.length).equal(1);
           const request = patchRequests[0];
 
           expect(request.url.toString()).to.contain('conditions=');
@@ -552,6 +592,10 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
           expect(patchRequests.length).equal(1);
@@ -577,7 +621,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(2);
+        expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
@@ -614,6 +658,10 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
           expect(patchRequests.length).equal(1);
@@ -646,7 +694,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(2);
+        expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
@@ -784,7 +832,7 @@ describe('Search', () => {
           statusCode: 200,
           body: {
             ...settings,
-            recordLimitWarning: 1,
+            recordLimitWarning: 10,
           },
         });
       }).as('getSettings');
@@ -800,11 +848,18 @@ describe('Search', () => {
       cy.startSnoopingBrowserMockedRequest();
 
       cy.contains('Search').click();
+      // small wait for UI to be stable after count request is resolved
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.contains('Search').trigger('mouseover');
 
       // Tooltip should be present when we first try the search
       cy.contains('Click Search again to continue');
       cy.contains('Search').click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
+      cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
@@ -847,16 +902,48 @@ describe('Search', () => {
 
       cy.clearMocks();
 
+      // check that if a search drops below the limit the tooltip no longer displays
+      cy.window().then((window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res.once(ctx.status(200), ctx.json(8)); //arbitrary number less than 10
+          })
+        );
+      });
+
+      cy.get('input[aria-label="from, date-time input"]').clear();
+      cy.get('input[aria-label="from, date-time input"]').type(
+        '2022-01-11 00:00:00'
+      );
+
+      cy.contains('Search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      cy.contains('Search').trigger('mouseover');
+      // Tooltip should not be present with this new search
+      cy.contains('Click Search again to continue').should('not.exist');
+
+      cy.clearMocks();
+
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
         '2022-01-02 00:00:00'
       );
 
       cy.contains('Search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.contains('Search').trigger('mouseover');
       // Tooltip should be present with this new search
       cy.contains('Click Search again to continue');
       cy.contains('Search').click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
+      cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
@@ -903,6 +990,8 @@ describe('Search', () => {
       );
 
       cy.contains('Search').click();
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.contains('Search').trigger('mouseover');
 
       // We have attempted the first search again

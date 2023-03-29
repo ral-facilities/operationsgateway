@@ -137,7 +137,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // ########################
   // The limit on how many records are fetched before displaying a warning to the user
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
-  const recordLimitSet = recordLimitWarning > -1;
 
   const [displayingWarningMessage, setDisplayingWarningMessage] =
     React.useState<boolean>(false);
@@ -160,9 +159,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     return (
       !countLoading &&
       incomingCount !== undefined &&
+      recordLimitWarning > -1 &&
+      maxShots > recordLimitWarning &&
       incomingCount > recordLimitWarning
     );
-  }, [countLoading, incomingCount, recordLimitWarning]);
+  }, [countLoading, incomingCount, recordLimitWarning, maxShots]);
 
   // ########################
   // INITIATING THE SEARCH
@@ -188,8 +189,45 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       maxShots,
     };
 
-    if (recordLimitSet) {
-      setIncomingParams(newSearchParams);
+    setIncomingParams(newSearchParams);
+
+    // if the user re-clicks the button after the warning message is displayed
+    // or if the user has already fetched the data they're requesting
+    // update the applied filters
+    if (
+      displayingWarningMessage ||
+      // search for if we have previously made a search with these params
+      // use exact: false to ignore things like sort, pagination etc.
+      queryClient.getQueriesData({
+        exact: false,
+        queryKey: [
+          'records',
+          { filters: filters, searchParams: newSearchParams },
+        ],
+      }).length > 0
+    ) {
+      setDisplayingWarningMessage(false);
+      dispatch(changeSearchParams(newSearchParams));
+      setParamsUpdated(false);
+    }
+  }, [
+    searchParameterFromDate,
+    searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    maxShots,
+    dispatch,
+    displayingWarningMessage,
+    queryClient,
+    filters,
+  ]);
+
+  // this should run after handleSearch is called and incomingCount
+  // is subsequently updated - here we check if we're over the record limit and either
+  // display the warning message or update the applied filters
+  React.useEffect(() => {
+    // check incomingCount isn't undefined so we don't run on initial render
+    if (typeof incomingCount !== 'undefined') {
       if (
         !displayingWarningMessage &&
         overRecordLimit() &&
@@ -199,31 +237,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           exact: false,
           queryKey: [
             'records',
-            { filters: filters, searchParams: newSearchParams },
+            { filters: filters, searchParams: incomingParams },
           ],
         }).length === 0
       ) {
         setDisplayingWarningMessage(true);
-        return;
+      } else {
+        setDisplayingWarningMessage(false);
+        dispatch(changeSearchParams(incomingParams));
+        setParamsUpdated(false);
       }
     }
-
-    setDisplayingWarningMessage(false);
-    dispatch(changeSearchParams(newSearchParams));
-    setParamsUpdated(false);
-  }, [
-    searchParameterFromDate,
-    searchParameterToDate,
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
-    maxShots,
-    recordLimitSet,
-    dispatch,
-    displayingWarningMessage,
-    overRecordLimit,
-    queryClient,
-    filters,
-  ]);
+    // deliberately only want this use effect to be called when incomingCount or incomingParams changes
+    // i.e. so we can react to the result of new incoming count queries
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [incomingCount, incomingParams]);
 
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
