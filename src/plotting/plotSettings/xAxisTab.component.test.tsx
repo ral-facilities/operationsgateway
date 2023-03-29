@@ -195,7 +195,7 @@ describe('x-axis tab', () => {
         );
         await userEvent.type(
           dateFilterFromDate,
-          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedDate, 'yyyy-MM-dd HH:mm')
         );
         expect(changeXMinimum).toHaveBeenCalledWith(selectedDate.getTime());
       });
@@ -203,13 +203,41 @@ describe('x-axis tab', () => {
       it('lets user change the toDate field and calls relevant onchange method', async () => {
         createView();
 
-        const selectedDate = new Date('2022-01-01 00:00:00');
+        const selectedDate = new Date('2022-01-01 00:00:59');
         const dateFilterToDate = screen.getByLabelText('to, date-time input');
         await userEvent.type(
           dateFilterToDate,
-          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedDate, 'yyyy-MM-dd HH:mm')
         );
         expect(changeXMaximum).toHaveBeenCalledWith(selectedDate.getTime());
+      });
+
+      it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async () => {
+        createView();
+        const selectedFromDate = new Date('2022-01-01 00:0:00');
+        const selectedToDate = new Date('2022-01-01 00:00:00');
+        const expectedSelectedFromDate = new Date('2022-01-01 00:00:00');
+        const expectedSelectedToDate = new Date('2022-01-01 00:00:59');
+
+        const dateFilterFromDate = screen.getByLabelText(
+          'from, date-time input'
+        );
+        const dateFilterToDate = screen.getByLabelText('to, date-time input');
+        await userEvent.type(
+          dateFilterFromDate,
+          format(selectedFromDate, 'yyyy-MM-dd HH:mm')
+        );
+        await userEvent.type(
+          dateFilterToDate,
+          format(selectedToDate, 'yyyy-MM-dd HH:mm')
+        );
+
+        expect(changeXMaximum).toHaveBeenCalledWith(
+          expectedSelectedToDate.getTime()
+        );
+        expect(changeXMinimum).toHaveBeenCalledWith(
+          expectedSelectedFromDate.getTime()
+        );
       });
 
       it('displays helper text when fromDate and toDate fields contain an invalid range', async () => {
@@ -224,11 +252,11 @@ describe('x-axis tab', () => {
         const dateFilterToDate = screen.getByLabelText('to, date-time input');
         await userEvent.type(
           dateFilterFromDate,
-          format(selectedFromDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedFromDate, 'yyyy-MM-dd HH:mm')
         );
         await userEvent.type(
           dateFilterToDate,
-          format(selectedToDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedToDate, 'yyyy-MM-dd HH:mm')
         );
 
         // Check the helper text displays

@@ -72,6 +72,15 @@ const XAxisTab = (props: XAxisTabProps) => {
   const [toDate, setToDate] = React.useState<Date | null>(
     initialXMaximum && XAxisScale === 'time' ? new Date(initialXMaximum) : null
   );
+
+  // set seconds to 0 for fromDate
+  if (fromDate) {
+    fromDate.setSeconds(0);
+  }
+  // set seconds to 59 for toDate
+  if (toDate) {
+    toDate.setSeconds(59);
+  }
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
 
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
@@ -155,8 +164,8 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 componentsProps={{
@@ -165,7 +174,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                 onChange={(date) => {
                   setFromDate(date as Date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'from, date-time picker',
@@ -177,7 +186,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (fromDate && !isValid(fromDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (
@@ -221,8 +230,8 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 componentsProps={{
@@ -231,7 +240,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                 onChange={(date) => {
                   setToDate(date as Date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'to, date-time picker',
@@ -243,7 +252,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (toDate && !isValid(toDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (
