@@ -480,7 +480,43 @@ test('user can change line style of plotted channels', async ({
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
+test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  await page.goto('/');
 
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-01 00:00:00');
+  await popup
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-01 00:00:00');
+
+  const chart = await popup.locator('#my-chart');
+
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
 test('user can plot channels on the right y axis', async ({
   page,
   context,
