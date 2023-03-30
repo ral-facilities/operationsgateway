@@ -43,7 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.24.9"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.24.9"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.54"],\
-            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0"],\
             ["@testing-library/dom", "npm:9.0.1"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:14.0.0"],\
@@ -5265,17 +5265,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@testing-library/cypress", [\
-        ["npm:8.0.7", {\
-          "packageLocation": "./.yarn/cache/@testing-library-cypress-npm-8.0.7-75a7b40638-e005bc1a7e.zip/node_modules/@testing-library/cypress/",\
+        ["npm:9.0.0", {\
+          "packageLocation": "./.yarn/cache/@testing-library-cypress-npm-9.0.0-748b959376-fbd24e8f0b.zip/node_modules/@testing-library/cypress/",\
           "packageDependencies": [\
-            ["@testing-library/cypress", "npm:8.0.7"]\
+            ["@testing-library/cypress", "npm:9.0.0"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7", {\
-          "packageLocation": "./.yarn/__virtual__/@testing-library-cypress-virtual-7ed3727660/0/cache/@testing-library-cypress-npm-8.0.7-75a7b40638-e005bc1a7e.zip/node_modules/@testing-library/cypress/",\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0", {\
+          "packageLocation": "./.yarn/__virtual__/@testing-library-cypress-virtual-2c857b27d1/0/cache/@testing-library-cypress-npm-9.0.0-748b959376-fbd24e8f0b.zip/node_modules/@testing-library/cypress/",\
           "packageDependencies": [\
-            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0"],\
             ["@babel/runtime", "npm:7.21.0"],\
             ["@testing-library/dom", "npm:8.20.0"],\
             ["@types/cypress", null],\
@@ -16070,7 +16070,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.24.9"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.24.9"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.54"],\
-            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.0.7"],\
+            ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0"],\
             ["@testing-library/dom", "npm:9.0.1"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:14.0.0"],\
