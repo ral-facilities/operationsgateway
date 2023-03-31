@@ -747,22 +747,30 @@ describe('Search', () => {
     });
 
     it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
+      // Date-time fields
       cy.get('input[aria-label="from, date-time input"]').type(
         '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-01 00:00'
+        '2022-01-02 00:00'
       );
-
-      const expectedToDate = new Date('2022-01-01 00:00:59');
+      const expectedToDate = new Date('2022-01-02 00:00:59');
       const expectedFromDate = new Date('2022-01-01 00:00:00');
       const expectedToDateString = formatDateTimeForApi(expectedToDate);
       const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+      // Shot number fields
+      cy.get('div[aria-label="open shot number search box"]').click();
+      cy.get('input[name="shot number min"]').type('1');
+      cy.get('input[name="shot number max"]').type('9');
 
       cy.startSnoopingBrowserMockedRequest();
 
       cy.contains('Search').click();
 
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
           expect(patchRequests.length).equal(1);
