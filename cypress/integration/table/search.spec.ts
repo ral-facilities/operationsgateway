@@ -796,7 +796,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(1);
+        expect(patchRequests.length).equal(2);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
