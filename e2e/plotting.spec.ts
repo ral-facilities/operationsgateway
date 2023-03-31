@@ -499,22 +499,44 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
 
   await popup.locator('[aria-label="line chart"]').click();
 
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
   await popup
-    .locator('[aria-label="from, date-time input"]')
-    .fill('2022-01-01 00:00:00');
+  .locator('[aria-label="from, date-time input"]')
+  .fill('2022-01-10 23:57:00');
   await popup
-    .locator('[aria-label="to, date-time input"]')
-    .fill('2022-01-01 00:00:00');
+  .locator('[aria-label="to, date-time input"]')
+  .fill('2022-01-11 00:03:00');
+
+  // scroll down to get options button in full view
+  await popup.mouse.wheel(0, 200);
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
+  await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Color"]').click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  if (browserName === 'chromium') {
+    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
+    await page.close();
+    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
+    // need this to wait for canvas animations to execute
+    await popup.waitForTimeout(1000);
+  }
 
   const chart = await popup.locator('#my-chart');
-
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
-
   expect(
     await chart.screenshot({
       type: 'png',
     })
+    // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 test('user can plot channels on the right y axis', async ({

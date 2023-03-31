@@ -354,7 +354,7 @@ describe('Search', () => {
         cy.findByRole('progressbar').should('be.visible');
         cy.findByRole('progressbar').should('not.exist');
 
-        const newExpectedToDate = new Date('1970-01-08 01:01:00');
+        const newExpectedToDate = new Date('1970-01-08 01:01:59');
         const newExpectedFromDate = new Date('1970-01-08 00:51:00');
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
