@@ -781,7 +781,7 @@ describe('Search', () => {
             request.url.toString()
           );
           const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+          expect(conditionsMap.length).equal(2);
 
           const condition = conditionsMap[0];
           const timestampRange = condition['metadata.timestamp'];
@@ -796,7 +796,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(2);
+        expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
@@ -804,7 +804,7 @@ describe('Search', () => {
           request.url.toString()
         );
         const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
+        expect(conditionsMap.length).equal(2);
 
         const condition = conditionsMap[0];
         const timestampRange = condition['metadata.timestamp'];
