@@ -25,6 +25,7 @@ export const initialState = {
     dateRange: {},
     shotnumRange: {},
     maxShots: MAX_SHOTS_VALUES[0],
+    experimentID: null,
   },
 } as SearchState;
 

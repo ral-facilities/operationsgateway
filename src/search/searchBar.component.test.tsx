@@ -79,6 +79,11 @@ describe('searchBar component', () => {
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
 
+    // Experiment ID
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+
+    await user.click(screen.getByLabelText('close experiment search box'));
     // Initiate search
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -92,6 +97,7 @@ describe('searchBar component', () => {
         max: 2,
       },
       maxShots: 1000,
+      experimentID: null,
     });
   });
 
@@ -111,6 +117,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
@@ -144,6 +151,7 @@ describe('searchBar component', () => {
     // Store should not be updated, indicating search is yet to initiate
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {},
+      experimentID: null,
       shotnumRange: {},
       maxShots: MAX_SHOTS_VALUES[0],
     });
@@ -162,6 +170,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
@@ -258,6 +267,7 @@ describe('searchBar component', () => {
             dateRange: { fromDate: '2022-01-01T00:00:00' },
             maxShots: 50,
             shotnumRange: {},
+            experimentID: null,
           },
           filters: [''],
         },
@@ -297,6 +307,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
