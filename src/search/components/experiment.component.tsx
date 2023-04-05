@@ -2,7 +2,6 @@ import React from 'react';
 import { Search } from '@mui/icons-material';
 import {
   Autocomplete,
-  type FilterOptionsState,
   Box,
   Divider,
   Grid,
@@ -28,30 +27,17 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
   const [inputValue, setInputValue] = React.useState(
     experiment?.experiment_id ?? ''
   );
-  const filterOptions = (
-    options: ExperimentParams[],
-    { inputValue }: FilterOptionsState<ExperimentParams>
-  ) => {
-    const searchString = inputValue;
-    console.log(options);
-    return options.filter((option) => {
-      const experiment_id = option.experiment_id;
-      console.log(searchString);
-      return experiment_id.includes(searchString);
-    });
-  };
-  // const filterOptions = createFilterOptions({
-  //   matchFrom: 'start',
-  //   stringify: (option: ExperimentParams) => option.experiment_id,
-  // });
 
-  React.useEffect(() => {
-    // clear the search box if the user clicks another channel / navigates via breadcrumbs
-    if (!experiment && !value) {
-      setValue(null);
-      setInputValue('');
-    }
-  }, [experiment, value]);
+  const renderOptions = (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: ExperimentParams
+  ) => {
+    return (
+      <li {...props} key={option._id}>
+        {option.experiment_id}
+      </li>
+    );
+  };
   return (
     <div
       style={{
@@ -73,7 +59,6 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
         <Grid item xs={15}>
           <Autocomplete
             fullWidth
-            filterOptions={filterOptions}
             value={value}
             inputValue={inputValue}
             onInputChange={(event, newInputValue) =>
@@ -87,10 +72,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
               if (newValue) onExperimentChange(newValue);
               setValue(newValue);
             }}
-            // renderGroup={(params) => params as unknown as React.ReactNode}
-            // renderOption={(props, option, state) =>
-            //   [props, option, state.index] as React.ReactNode
-            // }
+            renderOption={renderOptions}
             renderInput={(params) => (
               <TextField
                 {...params}
