@@ -51,10 +51,10 @@ describe('Search', () => {
 
     it('searches by date-time', () => {
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:59'
+        '2022-01-02 00:00'
       );
 
       cy.startSnoopingBrowserMockedRequest();
@@ -111,7 +111,7 @@ describe('Search', () => {
 
     describe('searches by relative timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
+        cy.clock(new Date('1970-01-08 01:00'), ['Date']);
       });
 
       it('last 10 minutes', () => {
@@ -387,7 +387,7 @@ describe('Search', () => {
 
     describe('searches by custom timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
+        cy.clock(new Date('1970-01-08 01:00'), ['Date']);
       });
 
       it('last 5 minutes', () => {
@@ -643,10 +643,10 @@ describe('Search', () => {
     it('searches by multiple parameters', () => {
       // Date-time fields
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:59'
+        '2022-01-02 00:00'
       );
 
       // Shot number fields
@@ -723,10 +723,10 @@ describe('Search', () => {
     it('should highlight boxes red if error in search params', () => {
       // Date-time box
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2021-01-01 00:00:00'
+        '2021-01-01 00:00'
       );
       cy.get('div[aria-label="date-time search box"]').should(
         'have.css',
@@ -850,7 +850,7 @@ describe('Search', () => {
 
     it('displays appropriate tooltips', () => {
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
 
       cy.startSnoopingBrowserMockedRequest();
@@ -924,7 +924,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-11 00:00:00'
+        '2022-01-11 00:00'
       );
 
       cy.contains('Search').click();
@@ -938,7 +938,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00'
       );
 
       cy.contains('Search').click();
@@ -994,7 +994,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
 
       cy.contains('Search').click();

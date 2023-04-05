@@ -52,8 +52,8 @@ describe('searchBar component', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
-    await user.type(dateFilterToDate, '2022-01-02 00:00:59');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterToDate, '2022-01-02 00:00');
 
     // Shot number fields
 
@@ -103,8 +103,8 @@ describe('searchBar component', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:20');
-    await user.type(dateFilterToDate, '2022-01-02 00:00:40');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterToDate, '2022-01-02 00:00');
 
     // Initiate search
 
@@ -159,7 +159,7 @@ describe('searchBar component', () => {
 
     // Input some test data for the search
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -215,7 +215,7 @@ describe('searchBar component', () => {
 
     // Input some test data for the search
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -236,7 +236,7 @@ describe('searchBar component', () => {
     createView(state);
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -252,7 +252,7 @@ describe('searchBar component', () => {
     );
 
     await user.clear(dateFilterFromDate);
-    await user.type(dateFilterFromDate, '2022-01-02 00:00:00');
+    await user.type(dateFilterFromDate, '2022-01-02 00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -305,7 +305,7 @@ describe('searchBar component', () => {
 
     // Try and search by the previously cached search params
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00:00');
+    await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -332,7 +332,7 @@ describe('searchBar component', () => {
 
     beforeEach(() => {
       // Mock the Date constructor to allow for accurate comparison between expected and actual dates
-      const testDate = new Date('2022-01-11 12:00:00');
+      const testDate = new Date('2022-01-11 12:00');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
@@ -453,7 +453,7 @@ describe('searchBar component', () => {
 
       // Mock a new date constructor to simulate time moving forward a minute
 
-      const testDate = new Date('2022-01-11 12:01:59');
+      const testDate = new Date('2022-01-11 12:01');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
