@@ -504,11 +504,11 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
   await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup
-  .locator('[aria-label="from, date-time input"]')
-  .fill('2022-01-10 23:57:00');
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-10 23:57');
   await popup
-  .locator('[aria-label="to, date-time input"]')
-  .fill('2022-01-11 00:03:00');
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-11 00:03');
 
   // scroll down to get options button in full view
   await popup.mouse.wheel(0, 200);
