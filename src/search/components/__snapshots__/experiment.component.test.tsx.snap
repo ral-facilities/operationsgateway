@@ -99,6 +99,7 @@ exports[`Experiment search renders correctly 1`] = `
                     autocomplete="off"
                     class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
                     id=":r0:"
+                    name="experiment id"
                     role="combobox"
                     spellcheck="false"
                     type="text"

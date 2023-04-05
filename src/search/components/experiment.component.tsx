@@ -75,6 +75,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             renderOption={renderOptions}
             renderInput={(params) => (
               <TextField
+                name="experiment id"
                 {...params}
                 label="Select your experiment"
                 InputProps={{
