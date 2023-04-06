@@ -15,7 +15,6 @@ describe('channels api functions', () => {
       });
 
       await waitFor(() => {
-        console.log(result.current.isSuccess);
         expect(result.current.isSuccess).toBeTruthy();
       });
 
