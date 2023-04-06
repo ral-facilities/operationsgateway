@@ -79,11 +79,6 @@ describe('searchBar component', () => {
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
 
-    // Experiment ID
-
-    await user.click(screen.getByLabelText('open experiment search box'));
-
-    await user.click(screen.getByLabelText('close experiment search box'));
     // Initiate search
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -99,6 +94,22 @@ describe('searchBar component', () => {
       maxShots: 1000,
       experimentID: null,
     });
+  });
+
+  it('selects an experiment and displays it in the experiment box', async () => {
+    const expectedExperiment = {
+      _id: '18325019-4',
+      end_date: '2020-01-06T18:00:00',
+      experiment_id: '18325019',
+      part: 4,
+      start_date: '2020-01-03T10:00:00',
+    };
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '183{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue(expectedExperiment.experiment_id);
   });
 
   it('sends default search parameters when none are amended by the user', async () => {
