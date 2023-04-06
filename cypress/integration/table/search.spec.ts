@@ -747,6 +747,35 @@ describe('Search', () => {
     });
 
     it('select a experiment Id and it appears in the experiment box', () => {
+      const expectedExperiment = {
+        _id: '19510000-1',
+        end_date: '2019-10-01T17:00:00',
+        experiment_id: '19510000',
+        part: 1,
+        start_date: '2019-10-01T09:00:00',
+      };
+
+      // Shot number fields
+      cy.get('div[aria-label="open shot number search box"]').click();
+      cy.get('input[name="shot number min"]').type('1');
+      cy.get('input[name="shot number max"]').type('9');
+      cy.get('div[aria-label="close shot number search box"]').click();
+
+      cy.get('div[aria-label="open shot number search box"]')
+        .contains('1 to 9')
+        .should('exist');
+
+      // timeframe
+
+      cy.get('div[aria-label="open timeframe search box"]').click();
+      cy.get('input[name="timeframe"]').type('5');
+      cy.contains('Days').click();
+      cy.get('div[aria-label="close timeframe search box"]').click();
+
+      cy.get('div[aria-label="open timeframe search box"]')
+        .contains('5 days')
+        .should('exist');
+
       // experiment box
       cy.get('[aria-label="open experiment search box"]')
         .contains('ID 19510000')
@@ -756,9 +785,68 @@ describe('Search', () => {
       cy.get('input[name="experiment id"]').type('195');
       cy.get('input[name="experiment id"]').type('{downArrow}{enter}');
       cy.get('[aria-label="close experiment search box"]').click();
+
+      // Checks that when a experiment id is selected it updates
+      // the shot number, timeframe and experiment id
       cy.get('[aria-label="open experiment search box"]')
         .contains('ID 19510000')
         .should('exist');
+
+      cy.get('div[aria-label="open shot number search box"]')
+        .contains('1 to 9')
+        .should('not.exist');
+
+      cy.get('div[aria-label="open timeframe search box"]')
+        .contains('5 days')
+        .should('not.exist');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.contains('Search').click();
+
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(1);
+
+          const timestampCondition = conditionsMap[0];
+
+          const timestampRange = timestampCondition['metadata.timestamp'];
+          const timestampGte: string = timestampRange['$gte'];
+          const timestampLte: string = timestampRange['$lte'];
+          expect(timestampGte).equal(expectedExperiment.start_date);
+          expect(timestampLte).equal(expectedExperiment.end_date);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(2);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(2);
+
+        const timestampCondition = conditionsMap[0];
+        const timestampRange = timestampCondition['metadata.timestamp'];
+        const timestampGte: string = timestampRange['$gte'];
+        const timestampLte: string = timestampRange['$lte'];
+        expect(timestampGte).equal(expectedExperiment.start_date);
+        expect(timestampLte).equal(expectedExperiment.end_date);
+      });
     });
 
     it('can be hidden and shown', () => {
