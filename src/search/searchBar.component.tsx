@@ -119,6 +119,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
+  const setShotNumbers = React.useCallback(
+    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
+      setSearchParameterShotnumMin(shotnumMin);
+
+      setSearchParameterShotnumMax(shotnumMax);
+    },
+    []
+  );
+
   // ########################
   // Experiment ID
   // ########################
@@ -334,6 +343,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   experiment={searchParameterExperiment}
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   changeExperimentTimeframe={setExperimentTimeframe}
+                  resetShotnumbers={() => setShotNumbers(undefined, undefined)}
                 />
               </Grid>
               <Grid item xs={2}>

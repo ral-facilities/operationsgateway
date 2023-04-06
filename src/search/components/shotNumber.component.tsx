@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export interface ShotNumberProps {
   searchParameterShotnumMin?: number;
@@ -92,6 +93,27 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   const invalidRange =
     min !== undefined && max !== undefined ? min > max : false;
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (
+      props.searchParameterShotnumMax === undefined &&
+      props.searchParameterShotnumMin === undefined
+    ) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [props.searchParameterShotnumMax, props.searchParameterShotnumMin]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
+
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
@@ -105,6 +127,9 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           paddingRight: 5,
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >

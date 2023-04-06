@@ -13,6 +13,7 @@ import {
 import { ExperimentParams } from '../../app.types';
 import { ScienceOutlined } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export interface ExperimentProps {
   experiments: ExperimentParams[];
@@ -20,6 +21,7 @@ export interface ExperimentProps {
   experiment: ExperimentParams | null;
   resetTimeframe: () => void;
   changeExperimentTimeframe: (value: ExperimentParams) => void;
+  resetShotnumbers: () => void;
 }
 
 const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
@@ -29,6 +31,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
     experiment,
     resetTimeframe,
     changeExperimentTimeframe,
+    resetShotnumbers,
   } = props;
 
   const [value, setValue] = React.useState<ExperimentParams | null>(null);
@@ -78,6 +81,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             blurOnSelect
             onChange={(event: unknown, newValue: ExperimentParams | null) => {
               resetTimeframe();
+              resetShotnumbers();
               if (newValue) {
                 changeExperimentTimeframe(newValue);
                 onExperimentChange(newValue);
@@ -116,6 +120,23 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (props.experiment === null) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [props.experiment]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
@@ -129,6 +150,9 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
           paddingRight: 5,
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >
