@@ -804,6 +804,10 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
           expect(patchRequests.length).equal(1);
@@ -830,7 +834,7 @@ describe('Search', () => {
         method: 'GET',
         url: '/records/count',
       }).should((patchRequests) => {
-        expect(patchRequests.length).equal(2);
+        expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
 
         expect(request.url.toString()).to.contain('conditions=');
@@ -838,7 +842,7 @@ describe('Search', () => {
           request.url.toString()
         );
         const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(2);
+        expect(conditionsMap.length).equal(1);
 
         const timestampCondition = conditionsMap[0];
         const timestampRange = timestampCondition['metadata.timestamp'];
