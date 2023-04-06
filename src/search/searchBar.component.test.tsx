@@ -96,11 +96,10 @@ describe('searchBar component', () => {
     });
   });
 
-
   it('dispatches searchParams on search button click for a given experiment', async () => {
     const state = getInitialState();
     const { store } = createView(state);
-    
+
     const expectedExperiment = {
       _id: '18325019-4',
       end_date: '2020-01-06T18:00:00',
