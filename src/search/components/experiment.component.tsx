@@ -18,10 +18,18 @@ export interface ExperimentProps {
   experiments: ExperimentParams[];
   onExperimentChange: (experiment: ExperimentParams | null) => void;
   experiment: ExperimentParams | null;
+  resetTimeframe: () => void;
+  changeExperimentTimeframe: (value: ExperimentParams) => void;
 }
 
 const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
-  const { experiments, onExperimentChange, experiment } = props;
+  const {
+    experiments,
+    onExperimentChange,
+    experiment,
+    resetTimeframe,
+    changeExperimentTimeframe,
+  } = props;
 
   const [value, setValue] = React.useState<ExperimentParams | null>(null);
   const [inputValue, setInputValue] = React.useState(
@@ -34,7 +42,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
   ) => {
     return (
       <li {...props} key={option._id}>
-        {option.experiment_id}
+        {`${option.experiment_id} ( part ${option.part})`}
       </li>
     );
   };
@@ -69,7 +77,11 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             getOptionLabel={(option) => option.experiment_id}
             blurOnSelect
             onChange={(event: unknown, newValue: ExperimentParams | null) => {
-              if (newValue) onExperimentChange(newValue);
+              resetTimeframe();
+              if (newValue) {
+                changeExperimentTimeframe(newValue);
+                onExperimentChange(newValue);
+              }
               setValue(newValue);
             }}
             renderOption={renderOptions}
@@ -124,7 +136,9 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
         <div>
           <Typography noWrap>Experiment</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {experiment ? `ID ${experiment.experiment_id}` : 'Select'}
+            {experiment
+              ? `ID ${experiment.experiment_id} (part ${experiment.part})`
+              : 'Select'}
           </Typography>
         </div>
       </Box>

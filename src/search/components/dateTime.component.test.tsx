@@ -142,6 +142,7 @@ describe('DateTime tests', () => {
   const changeSearchParameterFromDate = jest.fn();
   const changeSearchParameterToDate = jest.fn();
   const resetTimeframe = jest.fn();
+  const resetExperimentTimeframe = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);
@@ -157,6 +158,8 @@ describe('DateTime tests', () => {
       changeSearchParameterToDate,
       resetTimeframe,
       timeframeRange: null,
+      resetExperimentTimeframe,
+      searchParameterExperiment: null,
     };
   });
 
@@ -180,7 +183,7 @@ describe('DateTime tests', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  it('calls changeDate and resetTimeframe when filling out and clearing date-time inputs', async () => {
+  it('calls changeDate and resetTimeframe and resetExperimentTimeframe when filling out and clearing date-time inputs', async () => {
     createView();
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
@@ -190,6 +193,7 @@ describe('DateTime tests', () => {
     );
 
     expect(resetTimeframe).toHaveBeenCalled();
+    expect(resetExperimentTimeframe).toHaveBeenCalled();
 
     await userEvent.clear(dateFilterFromDate);
     expect(changeSearchParameterFromDate).toHaveBeenCalledWith(null);

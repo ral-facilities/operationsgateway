@@ -127,6 +127,29 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [searchParameterExperiment, setSearchParameterExperiment] =
     React.useState<ExperimentParams | null>(experimentID);
 
+  const calculateExperimentDateRange = (
+    experiment: ExperimentParams
+  ): { from: Date; to: Date } => {
+    const to = new Date(experiment.end_date);
+    const from = new Date(experiment.start_date);
+
+    return { from, to };
+  };
+
+  const setExperimentTimeframe = React.useCallback(
+    (experiment: ExperimentParams | null) => {
+      if (experiment == null) {
+        setSearchParameterExperiment(null);
+        return;
+      }
+      const { from, to } = calculateExperimentDateRange(experiment);
+      setSearchParameterExperiment(experiment);
+      setSearchParameterFromDate(from);
+      setSearchParameterToDate(to);
+    },
+    []
+  );
+
   React.useEffect(() => {
     setParamsUpdated(true);
     // reset warning message when search params change
@@ -265,6 +288,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
   const refreshData = () => {
+    setExperimentTimeframe(searchParameterExperiment);
     setRelativeTimeframe(timeframeRange);
     setRefreshingData(true);
   };
@@ -292,12 +316,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterToDate={setSearchParameterToDate}
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   timeframeRange={timeframeRange}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  searchParameterExperiment={searchParameterExperiment}
                 />
               </Grid>
               <Grid item xs={2}>
                 <Timeframe
                   timeframe={timeframeRange}
                   changeTimeframe={setRelativeTimeframe}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -305,6 +332,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   experiments={experiments ?? []}
                   onExperimentChange={setSearchParameterExperiment}
                   experiment={searchParameterExperiment}
+                  resetTimeframe={() => setRelativeTimeframe(null)}
+                  changeExperimentTimeframe={setExperimentTimeframe}
                 />
               </Grid>
               <Grid item xs={2}>

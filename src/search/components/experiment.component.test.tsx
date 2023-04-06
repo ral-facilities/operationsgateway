@@ -12,6 +12,8 @@ import experimentsJson from '../../mocks/experiments.json';
 describe('Experiment search', () => {
   let props: ExperimentProps;
   const onExperimentChange = jest.fn();
+  const resetTimeFrame = jest.fn();
+  const changeExperimentTimeframe = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -23,6 +25,8 @@ describe('Experiment search', () => {
       experiments: experimentsJson,
       onExperimentChange,
       experiment: null,
+      resetTimeframe: resetTimeFrame,
+      changeExperimentTimeframe,
     };
 
     user = userEvent.setup();
@@ -65,7 +69,7 @@ describe('Experiment search', () => {
       },
     };
     createView();
-    expect(screen.getByText('ID 18325019')).toBeInTheDocument();
+    expect(screen.getByText('ID 18325019 (part 5)')).toBeInTheDocument();
   });
 
   it('should call onExperimentChange when option is selected and not when it is cleared', async () => {
@@ -85,6 +89,8 @@ describe('Experiment search', () => {
     await user.type(experimentPopup, '183{arrowdown}{enter}');
 
     expect(onExperimentChange).toHaveBeenCalledWith(expectedExperiment);
+    expect(resetTimeFrame).toHaveBeenCalledTimes(1);
+    expect(changeExperimentTimeframe).toHaveBeenCalledWith(expectedExperiment);
     expect(experimentPopup).toHaveValue('18325019');
   });
 });

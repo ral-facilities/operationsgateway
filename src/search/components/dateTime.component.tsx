@@ -6,6 +6,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
+import { ExperimentParams } from '../../app.types';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -52,6 +53,8 @@ export interface DateTimeSearchProps {
   changeSearchParameterToDate: (toDate: Date | null) => void;
   resetTimeframe: () => void;
   timeframeRange: TimeframeRange | null;
+  resetExperimentTimeframe: () => void;
+  searchParameterExperiment: ExperimentParams | null;
 }
 
 /**
@@ -80,6 +83,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     changeSearchParameterToDate,
     resetTimeframe,
     timeframeRange,
+    resetExperimentTimeframe,
+    searchParameterExperiment,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -112,13 +117,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
   // this uses different method to others as the datetime can be quickly changed via the timeframe component
   React.useLayoutEffect(() => {
-    if (!!timeframeRange) {
+    if (!!timeframeRange || !!searchParameterExperiment) {
       setFlashAnimationPlaying(false);
       setTimeout(() => {
         setFlashAnimationPlaying(true);
       }, 0);
     }
-  }, [timeframeRange]);
+  }, [timeframeRange, searchParameterExperiment]);
 
   return (
     <Box
@@ -156,6 +161,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerFromDate(date as Date);
                 resetTimeframe();
+                resetExperimentTimeframe();
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date as Date,
@@ -169,6 +175,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerFromDate(date as Date);
                 resetTimeframe();
+                resetExperimentTimeframe();
                 verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterFromDate,
@@ -236,6 +243,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetExperimentTimeframe();
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date as Date,
@@ -249,6 +257,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetExperimentTimeframe();
                 verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterToDate,
