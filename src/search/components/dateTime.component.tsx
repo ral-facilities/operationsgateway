@@ -54,6 +54,7 @@ export interface DateTimeSearchProps {
   resetTimeframe: () => void;
   timeframeRange: TimeframeRange | null;
   resetExperimentTimeframe: () => void;
+  setExperimentTimeframe: (value: ExperimentParams) => void;
   searchParameterExperiment: ExperimentParams | null;
 }
 
@@ -85,6 +86,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     timeframeRange,
     resetExperimentTimeframe,
     searchParameterExperiment,
+    setExperimentTimeframe,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -161,7 +163,24 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerFromDate(date as Date);
                 resetTimeframe();
-                resetExperimentTimeframe();
+
+                if (searchParameterExperiment && date) {
+                  const start_date = new Date(
+                    searchParameterExperiment.start_date
+                  );
+                  const end_date = new Date(searchParameterExperiment.end_date);
+
+                  if (date >= start_date && date <= end_date) {
+                    const updatedExperiment = {
+                      ...searchParameterExperiment,
+                      startDate: date,
+                    };
+                    setExperimentTimeframe(updatedExperiment);
+                  } else {
+                    resetExperimentTimeframe();
+                  }
+                }
+
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date as Date,
@@ -175,7 +194,22 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerFromDate(date as Date);
                 resetTimeframe();
-                resetExperimentTimeframe();
+                if (searchParameterExperiment && date) {
+                  const start_date = new Date(
+                    searchParameterExperiment.start_date
+                  );
+                  const end_date = new Date(searchParameterExperiment.end_date);
+
+                  if (date >= start_date && date <= end_date) {
+                    const updatedExperiment = {
+                      ...searchParameterExperiment,
+                      startDate: date,
+                    };
+                    setExperimentTimeframe(updatedExperiment);
+                  } else {
+                    resetExperimentTimeframe();
+                  }
+                }
                 verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterFromDate,
@@ -243,7 +277,19 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
-                resetExperimentTimeframe();
+                if (searchParameterExperiment && date) {
+                  const end_date = new Date(searchParameterExperiment.end_date);
+
+                  if (date <= end_date) {
+                    const updatedExperiment = {
+                      ...searchParameterExperiment,
+                      startDate: date,
+                    };
+                    setExperimentTimeframe(updatedExperiment);
+                  } else {
+                    resetExperimentTimeframe();
+                  }
+                }
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date as Date,
@@ -257,7 +303,19 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
-                resetExperimentTimeframe();
+                if (searchParameterExperiment && date) {
+                  const end_date = new Date(searchParameterExperiment.end_date);
+
+                  if (date <= end_date) {
+                    const updatedExperiment = {
+                      ...searchParameterExperiment,
+                      startDate: date,
+                    };
+                    setExperimentTimeframe(updatedExperiment);
+                  } else {
+                    resetExperimentTimeframe();
+                  }
+                }
                 verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterToDate,

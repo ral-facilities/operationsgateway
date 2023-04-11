@@ -45,7 +45,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
   ) => {
     return (
       <li {...props} key={option._id}>
-        {`${option.experiment_id} ( part ${option.part})`}
+        {`${option.experiment_id} (part ${option.part})`}
       </li>
     );
   };

@@ -326,6 +326,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   timeframeRange={timeframeRange}
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  setExperimentTimeframe={setExperimentTimeframe}
                   searchParameterExperiment={searchParameterExperiment}
                 />
               </Grid>
