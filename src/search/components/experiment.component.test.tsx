@@ -80,7 +80,8 @@ describe('Experiment search', () => {
     };
 
     await user.click(screen.getByLabelText('open experiment search box'));
-    const experimentPopup = screen.getByLabelText('Select your experiment');
+    const experimentPopup = screen.getByRole('combobox');
+    expect(experimentPopup).toBeInTheDocument('close experiment search box');
 
     await user.type(experimentPopup, '183{arrowdown}{enter}');
 
