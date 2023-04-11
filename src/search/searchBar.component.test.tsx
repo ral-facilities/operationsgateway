@@ -137,6 +137,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 

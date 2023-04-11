@@ -748,15 +748,14 @@ describe('Search', () => {
 
     it('select a experiment Id and it appears in the experiment box', () => {
       // experiment box
-      cy.get('[aria-label="open experiment search box"]')
+      cy.findByLabelText('open experiment search box')
         .contains('ID 19510000')
         .should('not.exist');
 
-      cy.get('[aria-label="open experiment search box"]').click();
-      cy.get('input[name="experiment id"]').type('195');
-      cy.get('input[name="experiment id"]').type('{downArrow}{enter}');
-      cy.get('[aria-label="close experiment search box"]').click();
-      cy.get('[aria-label="open experiment search box"]')
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('195').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
         .contains('ID 19510000')
         .should('exist');
     });
