@@ -73,6 +73,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       dateRange.toDate ? new Date(dateRange.toDate) : null
     );
 
+  // set seconds to 0 for searchParameterFromDate
+  if (searchParameterFromDate) {
+    searchParameterFromDate.setSeconds(0);
+  }
+
+  // set seconds to 59 for searchParameterToDate
+  if (searchParameterToDate) {
+    searchParameterToDate.setSeconds(59);
+  }
+
   // ########################
   // TIMEFRAME
   // ########################
@@ -87,7 +97,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     timeframe: TimeframeRange
   ): { from: Date; to: Date } => {
     const to = new Date();
+    to.setSeconds(59);
     const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
+    from.setSeconds(0);
 
     return { from, to };
   };
