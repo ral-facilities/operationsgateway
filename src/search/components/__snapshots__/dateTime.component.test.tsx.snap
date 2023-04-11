@@ -45,7 +45,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
               id="from date-time"
               placeholder="From..."
               type="tel"
-              value="2021-01-01 00:00:00"
+              value="2021-01-01 00:00"
             />
             <div
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
@@ -107,7 +107,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
               id="to date-time"
               placeholder="To..."
               type="tel"
-              value="2021-01-02 00:00:00"
+              value="2021-01-02 00:00"
             />
             <div
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"

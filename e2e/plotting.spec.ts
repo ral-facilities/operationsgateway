@@ -400,6 +400,56 @@ test('user can change line style of plotted channels', async ({ page }) => {
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
+test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-10 23:57');
+  await popup
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-11 00:03');
+
+  // scroll down to get options button in full view
+  await popup.mouse.wheel(0, 200);
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
+  await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Color"]').click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  const chart = await popup.locator('#my-chart');
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
 test('user can plot channels on the right y axis', async ({ page }) => {
   await page.goto('/');
 

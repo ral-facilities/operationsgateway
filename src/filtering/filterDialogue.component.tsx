@@ -124,22 +124,27 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       !countLoading &&
       incomingCount !== undefined &&
       recordLimitWarning > -1 &&
+      searchParams.maxShots > recordLimitWarning &&
       incomingCount > recordLimitWarning
     );
-  }, [countLoading, incomingCount, recordLimitWarning]);
+  }, [countLoading, incomingCount, recordLimitWarning, searchParams.maxShots]);
+
+  // remove any "empty" filters as they're not necessary
+  // just need to make sure there's at least one empty array in the
+  // case of no filters applied
+  let newFilters = filters.filter((f) => f.length > 0);
+  if (newFilters.length === 0) newFilters = [[]];
 
   const applyFilters = React.useCallback(() => {
-    // remove any "empty" filters as they're not necessary
-    // just need to make sure there's at least one empty array in the
-    // case of no filters applied
-    let newFilters = filters.filter((f) => f.length > 0);
-    if (newFilters.length === 0) newFilters = [[]];
-
     const incomingFilters = newFilters.map((f) => parseFilter(f));
     setIncomingFilters(incomingFilters);
+
+    // if the user re-clicks the button after the warning message is displayed
+    // or if the user has already fetched the data they're requesting
+    // update the applied filters
     if (
-      !displayingWarningMessage &&
-      overRecordLimit() && // search for if we have previously made a search with these params
+      displayingWarningMessage ||
+      // search for if we have previously made a search with these params
       // use exact: false to ignore things like sort, pagination etc.
       queryClient.getQueriesData({
         exact: false,
@@ -147,24 +152,51 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           'records',
           { filters: incomingFilters, searchParams: searchParams },
         ],
-      }).length === 0
+      }).length > 0
     ) {
-      setDisplayingWarningMessage(true);
-      return;
+      setDisplayingWarningMessage(false);
+      dispatch(changeAppliedFilters(newFilters));
+      onClose();
     }
-
-    setDisplayingWarningMessage(false);
-    dispatch(changeAppliedFilters(newFilters));
-    onClose();
   }, [
     dispatch,
     displayingWarningMessage,
-    filters,
     onClose,
-    overRecordLimit,
     queryClient,
     searchParams,
+    newFilters,
   ]);
+
+  // this should run after applyFilters is called and incomingCount
+  // is subsequently updated - here we check if we're over the record limit and either
+  // display the warning message or update the applied filters
+  React.useEffect(() => {
+    // check incomingCount isn't undefined so we don't run on initial render
+    if (typeof incomingCount !== 'undefined') {
+      if (
+        !displayingWarningMessage &&
+        overRecordLimit() &&
+        // search for if we have previously made a search with these params
+        // use exact: false to ignore things like sort, pagination etc.
+        queryClient.getQueriesData({
+          exact: false,
+          queryKey: [
+            'records',
+            { filters: incomingFilters, searchParams: searchParams },
+          ],
+        }).length === 0
+      ) {
+        setDisplayingWarningMessage(true);
+      } else {
+        setDisplayingWarningMessage(false);
+        dispatch(changeAppliedFilters(newFilters));
+        onClose();
+      }
+    }
+    // deliberately only want this use effect to be called when incomingCount or incomingFilters changes
+    // i.e. so we can react to the result of new incoming count queries
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [incomingCount, incomingFilters]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>

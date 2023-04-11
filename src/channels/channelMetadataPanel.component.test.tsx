@@ -7,6 +7,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
 import { staticChannels } from '../api/channels';
+import userEvent from '@testing-library/user-event';
 
 describe('Channel Metadata Panel', () => {
   let displayedChannel: FullChannelMetadata | undefined;
@@ -16,7 +17,12 @@ describe('Channel Metadata Panel', () => {
     queryClient?: QueryClient
   ) => {
     return renderComponentWithProviders(
-      <ChannelMetadataPanel displayedChannel={displayedChannel} />,
+      <ChannelMetadataPanel
+        isChannelSelected={false}
+        onSelectChannel={jest.fn()}
+        onDeselectChannel={jest.fn()}
+        displayedChannel={displayedChannel}
+      />,
       {
         preloadedState: initialState,
         queryClient,
@@ -66,5 +72,45 @@ describe('Channel Metadata Panel', () => {
     await screen.findByText('Data Summary');
 
     expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('should add displayed channel when add channel button is clicked', async () => {
+    const user = userEvent.setup();
+    const onSelectChannel = jest.fn();
+
+    renderComponentWithProviders(
+      <ChannelMetadataPanel
+        isChannelSelected={false}
+        onSelectChannel={onSelectChannel}
+        onDeselectChannel={jest.fn()}
+        displayedChannel={displayedChannel}
+      />
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Add this channel' }));
+
+    expect(onSelectChannel).toHaveBeenCalledWith(displayedChannel?.systemName);
+  });
+
+  it('should remove displayed channel when it is selected and when remove channel button is clicked', async () => {
+    const user = userEvent.setup();
+    const onDeselectChannel = jest.fn();
+
+    renderComponentWithProviders(
+      <ChannelMetadataPanel
+        isChannelSelected
+        onSelectChannel={jest.fn()}
+        onDeselectChannel={onDeselectChannel}
+        displayedChannel={displayedChannel}
+      />
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: 'Remove this channel' })
+    );
+
+    expect(onDeselectChannel).toHaveBeenCalledWith(
+      displayedChannel?.systemName
+    );
   });
 });
