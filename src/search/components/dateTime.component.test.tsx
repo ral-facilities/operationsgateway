@@ -209,19 +209,23 @@ describe('DateTime tests', () => {
 
   it.todo('calls changeDate when opening calendar and selecting elements');
 
-  it('displays helper text while typing date-time', async () => {
+  it('displays helper text while typing date-time (to date)', async () => {
+    createView();
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-');
+    expect(
+      screen.getByText('Date-time format: yyyy-MM-dd HH:mm')
+    ).toBeInTheDocument();
+  });
+
+  it('displays helper text while typing date-time (from date)', async () => {
     createView();
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await userEvent.type(dateFilterFromDate, '2022-01-');
     expect(
-      screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss')
-    ).toBeInTheDocument();
-
-    const dateFilterToDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterToDate, '2022-01-');
-    expect(
-      screen.getByText('Date-time format: yyyy-MM-dd HH:mm:ss')
+      screen.getByText('Date-time format: yyyy-MM-dd HH:mm')
     ).toBeInTheDocument();
   });
 

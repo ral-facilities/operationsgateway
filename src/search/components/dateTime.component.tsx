@@ -153,8 +153,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
           </Grid>
           <Grid item>
             <DateTimePicker
-              inputFormat="yyyy-MM-dd HH:mm:ss"
-              mask="____-__-__ __:__:__"
+              inputFormat="yyyy-MM-dd HH:mm"
+              mask="____-__-__ __:__"
               value={datePickerFromDate}
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
               componentsProps={{
@@ -221,7 +221,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerFromDateError(!!error)}
-              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              views={['year', 'month', 'day', 'hours', 'minutes']}
               OpenPickerButtonProps={{
                 size: 'small',
                 'aria-label': 'from, date-time picker',
@@ -229,7 +229,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
-                let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 
                 return (
@@ -265,8 +265,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
           </Grid>
           <Grid item>
             <DateTimePicker
-              inputFormat="yyyy-MM-dd HH:mm:ss"
-              mask="____-__-__ __:__:__"
+              inputFormat="yyyy-MM-dd HH:mm"
+              mask="____-__-__ __:__"
               value={datePickerToDate}
               minDateTime={
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
@@ -327,7 +327,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerToDateError(!!error)}
-              views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+              views={['year', 'month', 'day', 'hours', 'minutes']}
               OpenPickerButtonProps={{
                 size: 'small',
                 'aria-label': 'to, date-time picker',
@@ -335,7 +335,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
-                let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                 if (invalidDateRange) helperText = 'Invalid date-time range';
 
                 return (

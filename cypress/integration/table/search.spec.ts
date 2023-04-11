@@ -51,10 +51,10 @@ describe('Search', () => {
 
     it('searches by date-time', () => {
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00'
       );
 
       cy.startSnoopingBrowserMockedRequest();
@@ -82,7 +82,7 @@ describe('Search', () => {
           const gte: string = timestampRange['$gte'];
           const lte: string = timestampRange['$lte'];
           expect(gte).equal('2022-01-01T00:00:00');
-          expect(lte).equal('2022-01-02T00:00:00');
+          expect(lte).equal('2022-01-02T00:00:59');
         }
       );
 
@@ -105,20 +105,20 @@ describe('Search', () => {
         const gte: string = timestampRange['$gte'];
         const lte: string = timestampRange['$lte'];
         expect(gte).equal('2022-01-01T00:00:00');
-        expect(lte).equal('2022-01-02T00:00:00');
+        expect(lte).equal('2022-01-02T00:00:59');
       });
     });
 
     describe('searches by relative timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
+        cy.clock(new Date('1970-01-08 01:00'), ['Date']);
       });
 
       it('last 10 minutes', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 10 mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -181,7 +181,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 24 hours').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -244,7 +244,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 7 days').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-01 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -308,7 +308,7 @@ describe('Search', () => {
         cy.get('div[aria-label="open timeframe search box"]').click();
         cy.contains('Last 10 mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -354,7 +354,7 @@ describe('Search', () => {
         cy.findByRole('progressbar').should('be.visible');
         cy.findByRole('progressbar').should('not.exist');
 
-        const newExpectedToDate = new Date('1970-01-08 01:01:00');
+        const newExpectedToDate = new Date('1970-01-08 01:01:59');
         const newExpectedFromDate = new Date('1970-01-08 00:51:00');
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
@@ -387,7 +387,7 @@ describe('Search', () => {
 
     describe('searches by custom timeframe', () => {
       beforeEach(() => {
-        cy.clock(new Date('1970-01-08 01:00:00'), ['Date']);
+        cy.clock(new Date('1970-01-08 01:00'), ['Date']);
       });
 
       it('last 5 minutes', () => {
@@ -395,7 +395,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Mins').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:55:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -459,7 +459,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Hours').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 20:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -523,7 +523,7 @@ describe('Search', () => {
         cy.get('input[name="timeframe"]').type('5');
         cy.contains('Days').click();
 
-        const expectedToDate = new Date('1970-01-08 01:00:00');
+        const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-03 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
@@ -643,10 +643,10 @@ describe('Search', () => {
     it('searches by multiple parameters', () => {
       // Date-time fields
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00'
       );
 
       // Shot number fields
@@ -679,7 +679,7 @@ describe('Search', () => {
           const timestampGte: string = timestampRange['$gte'];
           const timestampLte: string = timestampRange['$lte'];
           expect(timestampGte).equal('2022-01-01T00:00:00');
-          expect(timestampLte).equal('2022-01-02T00:00:00');
+          expect(timestampLte).equal('2022-01-02T00:00:59');
 
           const shotnumCondition = conditionsMap[1];
           const shotnumRange = shotnumCondition['metadata.shotnum'];
@@ -709,7 +709,7 @@ describe('Search', () => {
         const timestampGte: string = timestampRange['$gte'];
         const timestampLte: string = timestampRange['$lte'];
         expect(timestampGte).equal('2022-01-01T00:00:00');
-        expect(timestampLte).equal('2022-01-02T00:00:00');
+        expect(timestampLte).equal('2022-01-02T00:00:59');
 
         const shotnumCondition = conditionsMap[1];
         const shotnumRange = shotnumCondition['metadata.shotnum'];
@@ -723,10 +723,10 @@ describe('Search', () => {
     it('should highlight boxes red if error in search params', () => {
       // Date-time box
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
       cy.get('input[aria-label="to, date-time input"]').type(
-        '2021-01-01 00:00:00'
+        '2021-01-01 00:00'
       );
       cy.get('div[aria-label="date-time search box"]').should(
         'have.css',
@@ -777,18 +777,17 @@ describe('Search', () => {
         .should('exist');
 
       // experiment box
-      cy.get('[aria-label="open experiment search box"]')
+      cy.findByLabelText('open experiment search box')
         .contains('ID 19510000')
         .should('not.exist');
 
-      cy.get('[aria-label="open experiment search box"]').click();
-      cy.get('input[name="experiment id"]').type('195');
-      cy.get('input[name="experiment id"]').type('{downArrow}{enter}');
-      cy.get('[aria-label="close experiment search box"]').click();
-
       // Checks that when a experiment id is selected it updates
       // the shot number, timeframe and experiment id
-      cy.get('[aria-label="open experiment search box"]')
+      cy.get('[aria-label="open experiment search box"]');
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('195').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
         .contains('ID 19510000')
         .should('exist');
 
@@ -853,6 +852,75 @@ describe('Search', () => {
       });
     });
 
+    it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
+      // Date-time fields
+      cy.get('input[aria-label="from, date-time input"]').type(
+        '2022-01-01 00:00'
+      );
+      cy.get('input[aria-label="to, date-time input"]').type(
+        '2022-01-02 00:00'
+      );
+      const expectedToDate = new Date('2022-01-02 00:00:59');
+      const expectedFromDate = new Date('2022-01-01 00:00:00');
+      const expectedToDateString = formatDateTimeForApi(expectedToDate);
+      const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+      // Shot number fields
+      cy.get('div[aria-label="open shot number search box"]').click();
+      cy.get('input[name="shot number min"]').type('1');
+      cy.get('input[name="shot number max"]').type('9');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.contains('Search').click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(2);
+
+          const condition = conditionsMap[0];
+          const timestampRange = condition['metadata.timestamp'];
+          const gte: string = timestampRange['$gte'];
+          const lte: string = timestampRange['$lte'];
+          expect(gte).equal(expectedFromDateString);
+          expect(lte).equal(expectedToDateString);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(2);
+
+        const condition = conditionsMap[0];
+        const timestampRange = condition['metadata.timestamp'];
+        const gte: string = timestampRange['$gte'];
+        const lte: string = timestampRange['$lte'];
+        expect(gte).equal(expectedFromDateString);
+        expect(lte).equal(expectedToDateString);
+      });
+    });
+
     it('can be hidden and shown', () => {
       cy.contains(/^Search$/).should('be.visible');
 
@@ -888,7 +956,7 @@ describe('Search', () => {
 
     it('displays appropriate tooltips', () => {
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
 
       cy.startSnoopingBrowserMockedRequest();
@@ -962,7 +1030,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-11 00:00:00'
+        '2022-01-11 00:00'
       );
 
       cy.contains('Search').click();
@@ -976,7 +1044,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-02 00:00:00'
+        '2022-01-02 00:00'
       );
 
       cy.contains('Search').click();
@@ -1032,7 +1100,7 @@ describe('Search', () => {
 
       cy.get('input[aria-label="from, date-time input"]').clear();
       cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00:00'
+        '2022-01-01 00:00'
       );
 
       cy.contains('Search').click();
