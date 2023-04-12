@@ -347,5 +347,17 @@ describe('y-axis tab', () => {
       // One for each input box
       expect(screen.getAllByText('Invalid range').length).toEqual(2);
     });
+
+    it('initialises correctly with falsy values', async () => {
+      props.initialLeftYAxisMinimum = 0;
+      props.initialLeftYAxisMaximum = 0;
+      createView();
+
+      const minField = screen.getByLabelText('Min');
+      expect(minField).toHaveValue('0');
+
+      const maxField = screen.getByLabelText('Max');
+      expect(maxField).toHaveValue('0');
+    });
   });
 });

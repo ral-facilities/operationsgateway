@@ -129,4 +129,35 @@ describe('Data Channels Component', () => {
 
     cy.findByRole('checkbox', { name: 'Shot Number' }).should('exist');
   });
+
+  it('displays a button in channel metadata panel that adds or removes the displayed channel', () => {
+    cy.contains('Data Channels').click();
+    cy.contains('system').click();
+    cy.findByRole('button', { name: 'Shot Number' }).click();
+
+    cy.findByRole('button', { name: 'Add this channel' }).click();
+
+    cy.findByRole('checkbox', { name: 'Shot Number' }).should('be.checked');
+    cy.findByRole('button', { name: 'Add this channel' }).should('not.exist');
+    cy.findByRole('button', { name: 'Remove this channel' }).should('exist');
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should('be.visible');
+
+    // reopen data channel dialog
+    cy.contains('Data Channels').click();
+    cy.contains('system').click();
+    cy.findByRole('button', { name: 'Shot Number' }).click();
+
+    cy.findByRole('button', { name: 'Remove this channel' }).click();
+
+    cy.findByRole('checkbox', { name: 'Shot Number' }).should('not.be.checked');
+    cy.findByRole('button', { name: 'Remove this channel' }).should(
+      'not.exist'
+    );
+    cy.findByRole('button', { name: 'Add this channel' }).should('exist');
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should('not.exist');
+  });
 });
