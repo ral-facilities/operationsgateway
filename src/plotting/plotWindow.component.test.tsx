@@ -13,13 +13,13 @@ import { RootState } from '../state/store';
 import { rest } from 'msw';
 import { server } from '../mocks/server';
 
-jest.mock('./plotWindowPortal.component', () => {
+jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = require('react');
   return ReactMock.forwardRef(({ children }, ref) => (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    <mock-PlotWindowPortal>{children}</mock-PlotWindowPortal>
+    <mock-WindowPortal>{children}</mock-WindowPortal>
   ));
 });
 
@@ -101,8 +101,8 @@ describe('Plot Window component', () => {
     );
 
     createView();
-    screen.getByLabelText('settings-loading-indicator');
-    screen.getByLabelText('plot-loading-indicator');
+    screen.getByLabelText('Settings loading');
+    screen.getByLabelText('Plot loading');
   });
 
   it('changes grid visibility button text on click', async () => {

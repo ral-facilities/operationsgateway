@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Trace plot component renders a canvas element with the correct attributes passed the correct props 1`] = `
+<DocumentFragment>
+  <div
+    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
+  >
+    <canvas
+      data-data="{\\"labels\\":[1,2,3],\\"datasets\\":[{\\"data\\":[5,6,4],\\"borderColor\\":\\"#1F77B4\\",\\"borderWidth\\":1.5,\\"pointRadius\\":0,\\"pointHitRadius\\":4}]}"
+      data-options="{\\"responsive\\":true,\\"maintainAspectRatio\\":false,\\"interaction\\":{\\"mode\\":\\"point\\",\\"intersect\\":false},\\"plugins\\":{\\"title\\":{\\"display\\":true,\\"text\\":\\"scatter plot\\"},\\"zoom\\":{\\"zoom\\":{\\"drag\\":{\\"enabled\\":true,\\"threshold\\":15},\\"wheel\\":{\\"enabled\\":true},\\"pinch\\":{\\"enabled\\":true},\\"mode\\":\\"xy\\"},\\"pan\\":{\\"enabled\\":true,\\"mode\\":\\"xy\\",\\"modifierKey\\":\\"shift\\"},\\"limits\\":{\\"x\\":{\\"min\\":1,\\"max\\":3},\\"y\\":{\\"min\\":4,\\"max\\":6}}},\\"legend\\":{\\"display\\":false}},\\"scales\\":{\\"x\\":{\\"type\\":\\"linear\\",\\"min\\":1,\\"max\\":3},\\"y\\":{\\"type\\":\\"linear\\",\\"display\\":true,\\"position\\":\\"left\\",\\"min\\":4,\\"max\\":6}},\\"transitions\\":{\\"zoom\\":{\\"animation\\":{\\"duration\\":250}}}}"
+      data-type="line"
+      data-view="false"
+      height="400"
+      id="my-chart"
+      width="400"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Trace plot component updates data object correctly when points are set to visible 1`] = `
+<DocumentFragment>
+  <div
+    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
+  >
+    <canvas
+      data-data="{\\"labels\\":[1,2,3],\\"datasets\\":[{\\"data\\":[5,6,4],\\"borderColor\\":\\"#1F77B4\\",\\"borderWidth\\":1.5,\\"pointRadius\\":3,\\"pointHitRadius\\":4}]}"
+      data-options="{\\"responsive\\":true,\\"maintainAspectRatio\\":false,\\"interaction\\":{\\"mode\\":\\"point\\",\\"intersect\\":false},\\"plugins\\":{\\"title\\":{\\"display\\":true,\\"text\\":\\"scatter plot\\"},\\"zoom\\":{\\"zoom\\":{\\"drag\\":{\\"enabled\\":true,\\"threshold\\":15},\\"wheel\\":{\\"enabled\\":true},\\"pinch\\":{\\"enabled\\":true},\\"mode\\":\\"xy\\"},\\"pan\\":{\\"enabled\\":true,\\"mode\\":\\"xy\\",\\"modifierKey\\":\\"shift\\"},\\"limits\\":{\\"x\\":{\\"min\\":1,\\"max\\":3},\\"y\\":{\\"min\\":4,\\"max\\":6}}},\\"legend\\":{\\"display\\":false}},\\"scales\\":{\\"x\\":{\\"type\\":\\"linear\\",\\"min\\":1,\\"max\\":3},\\"y\\":{\\"type\\":\\"linear\\",\\"display\\":true,\\"position\\":\\"left\\",\\"min\\":4,\\"max\\":6}},\\"transitions\\":{\\"zoom\\":{\\"animation\\":{\\"duration\\":250}}}}"
+      data-type="line"
+      data-view="false"
+      height="400"
+      id="my-chart"
+      width="400"
+    />
+  </div>
+</DocumentFragment>
+`;

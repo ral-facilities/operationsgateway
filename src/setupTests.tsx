@@ -10,6 +10,7 @@ import {
   PlotDataset,
   timeChannelName,
   FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -17,7 +18,6 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import {
-  DEFAULT_WINDOW_VARS,
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
@@ -114,6 +114,22 @@ export const dispatch = (
     actions.push(action);
   }
 };
+
+if (typeof window.URL.createObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: () => 'testObjectUrl',
+  });
+}
+
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {
+      // no-op
+    },
+  });
+}
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.

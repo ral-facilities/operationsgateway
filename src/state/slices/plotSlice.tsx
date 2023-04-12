@@ -1,24 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  DEFAULT_WINDOW_VARS,
   PlotType,
   SelectedPlotChannel,
   timeChannelName,
+  WindowConfig,
   XAxisScale,
   YAxisScale,
 } from '../../app.types';
 import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
 
-export const DEFAULT_WINDOW_VARS = {
-  outerWidth: 600,
-  outerHeight: 400,
-  screenX: 200,
-  screenY: 200,
-};
-
-export interface PlotConfig {
-  open: boolean;
-  title: string;
+export interface PlotConfig extends WindowConfig {
   plotType: PlotType;
   XAxis?: string;
   XAxisScale: XAxisScale;
@@ -35,10 +28,6 @@ export interface PlotConfig {
   axesLabelsVisible: boolean;
   selectedColours: string[];
   remainingColours: string[];
-  outerWidth: number;
-  outerHeight: number;
-  screenX: number;
-  screenY: number;
 }
 
 // Define a type for the slice state
@@ -47,7 +36,7 @@ interface PlotState {
 }
 
 // Define the initial state using that type
-export const initialState = {} as PlotState;
+export const initialState: PlotState = {};
 
 export const plotSlice = createSlice({
   name: 'plots',

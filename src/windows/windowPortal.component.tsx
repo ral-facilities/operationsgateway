@@ -6,13 +6,13 @@ import createCache from '@emotion/cache';
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
 
-interface PlotWindowPortalState {
+interface WindowPortalState {
   window: Window | null;
   containerEl: HTMLDivElement | null;
   styleCache: EmotionCache | null;
 }
 
-export interface PlotWindowPortalProps {
+export interface WindowPortalProps {
   title?: string;
   onClose: () => void;
   children: React.ReactNode;
@@ -22,11 +22,11 @@ export interface PlotWindowPortalProps {
   screenY: number;
 }
 
-class PlotWindowPortal extends React.PureComponent<
-  PlotWindowPortalProps,
-  PlotWindowPortalState
+class WindowPortal extends React.PureComponent<
+  WindowPortalProps,
+  WindowPortalState
 > {
-  constructor(props: PlotWindowPortalProps) {
+  constructor(props: WindowPortalProps) {
     super(props);
     this.state = { window: null, styleCache: null, containerEl: null };
   }
@@ -237,8 +237,8 @@ class PlotWindowPortal extends React.PureComponent<
   }
 
   componentDidUpdate(
-    prevProps: PlotWindowPortalProps,
-    prevState: PlotWindowPortalState
+    prevProps: WindowPortalProps,
+    prevState: WindowPortalState
   ) {
     if (prevState.window === null && this.state.window) {
       this.state.window.addEventListener('beforeunload', this.props.onClose);
@@ -266,4 +266,4 @@ class PlotWindowPortal extends React.PureComponent<
   }
 }
 
-export default PlotWindowPortal;
+export default WindowPortal;

@@ -4,10 +4,10 @@ import PlotReducer, {
   closePlot,
   savePlot,
   PlotConfig,
-  DEFAULT_WINDOW_VARS,
 } from './plotSlice';
 import { testPlotConfigs } from '../../setupTests';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
+import { DEFAULT_WINDOW_VARS } from '../../app.types';
 
 describe('plotSlice', () => {
   describe('Reducer', () => {
@@ -48,7 +48,7 @@ describe('plotSlice', () => {
           selectedColours: [],
           remainingColours: COLOUR_ORDER.map((colour) => colour),
           ...DEFAULT_WINDOW_VARS,
-        } as PlotConfig,
+        } satisfies PlotConfig,
       });
     });
 

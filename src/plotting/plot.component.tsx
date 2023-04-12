@@ -80,13 +80,29 @@ const Plot = (props: PlotProps) => {
               enabled: true,
             },
             drag: {
-              enabled: false,
+              enabled: true,
+              threshold: 15,
             },
             mode: 'xy',
           },
           pan: {
             enabled: true,
             mode: 'xy',
+            modifierKey: 'shift',
+          },
+          limits: {
+            x: {
+              min: xMinimum ?? 'original',
+              max: xMaximum ?? 'original',
+            },
+            y: {
+              min: leftYAxisMinimum ?? 'original',
+              max: leftYAxisMaximum ?? 'original',
+            },
+            y2: {
+              min: rightYAxisMinimum ?? 'original',
+              max: rightYAxisMaximum ?? 'original',
+            },
           },
         },
       },
@@ -140,7 +156,14 @@ const Plot = (props: PlotProps) => {
           max: rightYAxisMaximum,
         },
       },
-    } as ChartOptions<PlotType>)
+      transitions: {
+        zoom: {
+          animation: {
+            duration: 250,
+          },
+        },
+      },
+    } satisfies ChartOptions<PlotType>)
   );
   const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
 
@@ -151,6 +174,11 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       options?.scales?.x && (options.scales.x.min = xMinimum);
       options?.scales?.x && (options.scales.x.max = xMaximum);
+      options?.plugins?.zoom?.limits?.x &&
+        (options.plugins.zoom.limits.x = {
+          min: xMinimum ?? 'original',
+          max: xMaximum ?? 'original',
+        });
       options?.scales?.x && (options.scales.x.type = XAxisScale);
       options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
       options?.scales?.x?.title &&
@@ -159,6 +187,11 @@ const Plot = (props: PlotProps) => {
         (options.scales.x.title.text = XAxisDisplayName ?? XAxis);
       options?.scales?.y && (options.scales.y.min = leftYAxisMinimum);
       options?.scales?.y && (options.scales.y.max = leftYAxisMaximum);
+      options?.plugins?.zoom?.limits?.y &&
+        (options.plugins.zoom.limits.y = {
+          min: leftYAxisMinimum ?? 'original',
+          max: leftYAxisMaximum ?? 'original',
+        });
       options?.scales?.y && (options.scales.y.type = leftYAxisScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       options?.scales?.y &&
@@ -168,6 +201,11 @@ const Plot = (props: PlotProps) => {
         ));
       options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
       options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
+      options?.plugins?.zoom?.limits?.y2 &&
+        (options.plugins.zoom.limits.y2 = {
+          min: rightYAxisMinimum ?? 'original',
+          max: rightYAxisMaximum ?? 'original',
+        });
       options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
@@ -231,7 +269,7 @@ const Plot = (props: PlotProps) => {
                 : undefined,
             pointRadius: lineStyle === 'dotted' ? 3 : undefined,
             borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
-          } as ChartDataset<PlotType, PlotDataset['data']>;
+          } satisfies ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })
     );

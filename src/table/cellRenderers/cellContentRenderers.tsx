@@ -27,14 +27,21 @@ export const roundNumber = (
   return rounded;
 };
 
-export const renderImage = (base64Data: string | undefined, altText: string) =>
-  base64Data ? (
+export const TraceOrImageThumbnail = (props: {
+  base64Data: string | undefined;
+  altText: string;
+  onClick?: () => unknown;
+}) => {
+  const { base64Data, altText, onClick } = props;
+  return base64Data ? (
     <img
       src={`data:image/jpeg;base64,${base64Data}`}
       alt={altText}
       style={{ border: '1px solid #000000' }}
+      onClick={onClick}
     />
   ) : null;
+};
 
 export const renderTimestamp = (serverTimestamp: string) => {
   const date = parseISO(serverTimestamp);
