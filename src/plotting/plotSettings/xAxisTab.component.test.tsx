@@ -173,6 +173,18 @@ describe('x-axis tab', () => {
         // One for each input box
         expect(screen.getAllByText('Invalid range').length).toEqual(2);
       });
+
+      it('initialises correctly with falsy values', async () => {
+        props.initialXMinimum = 0;
+        props.initialXMaximum = 0;
+        createView();
+
+        const minField = screen.getByLabelText('Min');
+        expect(minField).toHaveValue('0');
+
+        const maxField = screen.getByLabelText('Max');
+        expect(maxField).toHaveValue('0');
+      });
     });
 
     describe('date-time values', () => {
@@ -266,6 +278,21 @@ describe('x-axis tab', () => {
         expect(screen.getAllByText('Invalid date-time range').length).toEqual(
           2
         );
+      });
+
+      it('initialises correctly with falsy values', async () => {
+        props.initialXMinimum = 0;
+        props.initialXMaximum = 0;
+        createView();
+
+        const expectedDate = new Date(0);
+        const expectedString = format(expectedDate, 'yyyy-MM-dd HH:mm');
+
+        const minField = screen.getByLabelText('from, date-time input');
+        expect(minField).toHaveValue(expectedString);
+
+        const maxField = screen.getByLabelText('to, date-time input');
+        expect(maxField).toHaveValue(expectedString);
       });
     });
   });
