@@ -122,6 +122,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         columnOrder,
         hiddenColumns,
       },
+      autoResetResize: false,
       useControlledState: (state) => {
         return React.useMemo(
           () => ({

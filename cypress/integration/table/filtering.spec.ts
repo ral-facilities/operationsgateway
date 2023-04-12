@@ -3,6 +3,9 @@ import { addInitialSystemChannels } from '../../support/util';
 describe('Filtering Component', () => {
   beforeEach(() => {
     cy.visit('/');
+
+    cy.findByRole('progressbar').should('be.visible');
+    cy.findByRole('progressbar').should('not.exist');
   });
 
   afterEach(() => {
@@ -54,6 +57,8 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
+
+    cy.findByRole('table').should('be.visible');
 
     cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
       (patchRequests) => {
@@ -147,6 +152,8 @@ describe('Filtering Component', () => {
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
+    cy.findByRole('table').should('be.visible');
+
     cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
       (patchRequests) => {
         expect(patchRequests.length).equal(1);
@@ -238,6 +245,8 @@ describe('Filtering Component', () => {
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
+    cy.findByRole('table').should('be.visible');
+
     cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
       (patchRequests) => {
         expect(patchRequests.length).equal(1);
@@ -281,6 +290,8 @@ describe('Filtering Component', () => {
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
+    cy.findByRole('table').should('be.visible');
+
     cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
       (patchRequests) => {
         expect(patchRequests.length).equal(1);
@@ -302,6 +313,8 @@ describe('Filtering Component', () => {
     cy.get('button[aria-label="Delete filter 0"]').click();
 
     cy.contains('Apply').click();
+
+    cy.findByRole('table').should('be.visible');
 
     cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
       (patchRequests) => {
