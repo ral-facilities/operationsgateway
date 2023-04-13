@@ -7,6 +7,8 @@ import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
 import { ExperimentParams } from '../../app.types';
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { styled } from '@mui/material/styles';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -16,6 +18,34 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   }
   return date1 !== null && date2 !== null && isEqual(date1, date2);
 };
+
+interface CustomPickerDayProps extends PickersDayProps<Date> {
+  dayIsBetween: boolean;
+  isFirstDay: boolean;
+  isLastDay: boolean;
+}
+
+const CustomPickersDay = styled(PickersDay, {
+  shouldForwardProp: (prop) =>
+    prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
+})<CustomPickerDayProps>(({ theme, dayIsBetween, isFirstDay, isLastDay }) => ({
+  ...(dayIsBetween && {
+    borderRadius: 0,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  }),
+  ...(isFirstDay && {
+    borderTopLeftRadius: '50%',
+    borderBottomLeftRadius: '50%',
+  }),
+  ...(isLastDay && {
+    borderTopRightRadius: '50%',
+    borderBottomRightRadius: '50%',
+  }),
+})) as React.ComponentType<CustomPickerDayProps>;
 
 export interface VerifyAndUpdateDateParams {
   date: Date | null;
@@ -56,6 +86,7 @@ export interface DateTimeSearchProps {
   resetExperimentTimeframe: () => void;
   setExperimentTimeframe: (value: ExperimentParams) => void;
   searchParameterExperiment: ExperimentParams | null;
+  experiments: ExperimentParams[];
 }
 
 /**
@@ -87,6 +118,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     resetExperimentTimeframe,
     searchParameterExperiment,
     setExperimentTimeframe,
+    experiments,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -126,6 +158,61 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
       }, 0);
     }
   }, [timeframeRange, searchParameterExperiment]);
+
+  const isDateTimeInExperiment = (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ): boolean => {
+    const startDate = new Date(experiment.start_date);
+    const endDate = new Date(experiment.end_date);
+    return dateTime >= startDate && dateTime <= endDate;
+  };
+
+  const findExperimentByDateTime = (
+    dateTime: Date,
+    experimentList: ExperimentParams[]
+  ): ExperimentParams | undefined => {
+    return experimentList.find((experiment) =>
+      isDateTimeInExperiment(dateTime, experiment)
+    );
+  };
+
+  const renderExperimentPickerDay = (
+    date: Date,
+    selectedDates: Array<Date | null>,
+    pickersDayProps: PickersDayProps<Date>
+  ) => {
+    if (!datePickerFromDate) {
+      return <PickersDay {...pickersDayProps} />;
+    }
+
+    const experimentRange = findExperimentByDateTime(
+      datePickerFromDate,
+      experiments
+    );
+
+    if (!experimentRange) {
+      return <PickersDay {...pickersDayProps} />;
+    }
+
+    const start = new Date(experimentRange.start_date);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(experimentRange.end_date);
+    const testDate = new Date(date);
+    const dayIsBetween = date >= start && date <= end;
+    const isFirstDay = testDate.getDate() === start.getDate();
+    const isLastDay = testDate.getDate() === end.getDate();
+
+    return (
+      <CustomPickersDay
+        {...pickersDayProps}
+        disableMargin
+        dayIsBetween={dayIsBetween}
+        isFirstDay={isFirstDay}
+        isLastDay={isLastDay}
+      />
+    );
+  };
 
   return (
     <Box
@@ -332,6 +419,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'to, date-time picker',
               }}
+              renderDay={renderExperimentPickerDay}
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
