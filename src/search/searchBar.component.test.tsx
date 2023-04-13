@@ -18,7 +18,7 @@ import { server } from '../mocks/server';
 import recordsJson from '../mocks/records.json';
 
 describe('searchBar component', () => {
-  let user;
+  let user: ReturnType<typeof userEvent.setup>;
   let props: React.ComponentProps<typeof SearchBar>;
 
   const createView = (
@@ -290,7 +290,7 @@ describe('searchBar component', () => {
         },
       ],
       () => {
-        return { data: [recordsJson[0], recordsJson[1]] };
+        return { data: [recordsJson[0], recotrdsJson[1]] };
       }
     );
 
@@ -362,6 +362,10 @@ describe('searchBar component', () => {
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
+      expect(
+        await screen.findByRole('checkbox', { name: 'Auto refresh' })
+      ).toBeInTheDocument();
+
       const actualFromDate =
         store.getState().search.searchParams.dateRange.fromDate;
       const actualToDate =
@@ -387,6 +391,10 @@ describe('searchBar component', () => {
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
+      expect(
+        await screen.findByRole('checkbox', { name: 'Auto refresh' })
+      ).toBeInTheDocument();
+
       const actualFromDate =
         store.getState().search.searchParams.dateRange.fromDate;
       const actualToDate =
@@ -411,6 +419,10 @@ describe('searchBar component', () => {
       const expectedFromDate = new Date('2022-01-04 12:00:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      expect(
+        await screen.findByRole('checkbox', { name: 'Auto refresh' })
+      ).toBeInTheDocument();
 
       const actualFromDate =
         store.getState().search.searchParams.dateRange.fromDate;
