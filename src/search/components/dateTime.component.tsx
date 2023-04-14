@@ -193,12 +193,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
       experiments
     );
 
-    console.log(experimentRange);
-
     if (!experimentRange) {
       return <PickersDay {...pickersDayProps} />;
     }
-    console.log(experimentRange);
 
     const start = new Date(experimentRange.start_date);
     start.setHours(0, 0, 0, 0);
@@ -236,7 +233,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     if (!experimentRange) {
       return <PickersDay {...pickersDayProps} />;
     }
-    console.log(experimentRange);
 
     const start = new Date(experimentRange.start_date);
     start.setHours(0, 0, 0, 0);
