@@ -290,7 +290,7 @@ describe('searchBar component', () => {
         },
       ],
       () => {
-        return { data: [recordsJson[0], recotrdsJson[1]] };
+        return { data: [recordsJson[0], recordsJson[1]] };
       }
     );
 
