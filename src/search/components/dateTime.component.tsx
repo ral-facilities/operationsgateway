@@ -177,7 +177,49 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     );
   };
 
-  const renderExperimentPickerDay = (
+  const renderExperimentPickerDayFrom = (
+    date: Date,
+    selectedDates: Array<Date | null>,
+    pickersDayProps: PickersDayProps<Date>
+  ) => {
+    if (!datePickerToDate) {
+      return <PickersDay {...pickersDayProps} />;
+    }
+
+    datePickerToDate.setSeconds(0);
+
+    const experimentRange = findExperimentByDateTime(
+      datePickerToDate,
+      experiments
+    );
+
+    console.log(experimentRange);
+
+    if (!experimentRange) {
+      return <PickersDay {...pickersDayProps} />;
+    }
+    console.log(experimentRange);
+
+    const start = new Date(experimentRange.start_date);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(experimentRange.end_date);
+    const testDate = new Date(date);
+    const dayIsBetween = date >= start && date <= end;
+    const isFirstDay = testDate.getDate() === start.getDate();
+    const isLastDay = testDate.getDate() === end.getDate();
+
+    return (
+      <CustomPickersDay
+        {...pickersDayProps}
+        disableMargin
+        dayIsBetween={dayIsBetween}
+        isFirstDay={isFirstDay}
+        isLastDay={isLastDay}
+      />
+    );
+  };
+
+  const renderExperimentPickerDayTo = (
     date: Date,
     selectedDates: Array<Date | null>,
     pickersDayProps: PickersDayProps<Date>
@@ -194,6 +236,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     if (!experimentRange) {
       return <PickersDay {...pickersDayProps} />;
     }
+    console.log(experimentRange);
 
     const start = new Date(experimentRange.start_date);
     start.setHours(0, 0, 0, 0);
@@ -313,6 +356,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'from, date-time picker',
               }}
+              renderDay={renderExperimentPickerDayFrom}
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
@@ -419,7 +463,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'to, date-time picker',
               }}
-              renderDay={renderExperimentPickerDay}
+              renderDay={renderExperimentPickerDayTo}
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
