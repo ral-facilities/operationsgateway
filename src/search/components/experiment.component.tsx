@@ -1,17 +1,102 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import {
+  Autocomplete,
+  Box,
+  Divider,
+  Grid,
+  TextField,
+  Typography,
+  // createFilterOptions,
+  InputAdornment,
+} from '@mui/material';
+import { ExperimentParams } from '../../app.types';
 import { ScienceOutlined } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 
-const ExperimentPopup = (): React.ReactElement => {
+export interface ExperimentProps {
+  experiments: ExperimentParams[];
+  onExperimentChange: (experiment: ExperimentParams | null) => void;
+  experiment: ExperimentParams | null;
+}
+
+const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
+  const { experiments, onExperimentChange, experiment } = props;
+
+  const [value, setValue] = React.useState<ExperimentParams | null>(null);
+  const [inputValue, setInputValue] = React.useState(
+    experiment?.experiment_id ?? ''
+  );
+
+  const renderOptions = (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: ExperimentParams
+  ) => {
+    return (
+      <li {...props} key={option._id}>
+        {option.experiment_id}
+      </li>
+    );
+  };
   return (
-    <div>
-      <Typography>Select your experiment</Typography>
+    <div
+      style={{
+        padding: 5,
+      }}
+    >
+      <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
+        Select your experiment
+      </Typography>
+      <Divider
+        sx={{
+          marginBottom: 2,
+          borderBottomWidth: 2,
+          backgroundColor: 'black',
+          width: '90%',
+        }}
+      />
+      <Grid container spacing={1}>
+        <Grid item xs={15}>
+          <Autocomplete
+            fullWidth
+            value={value}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) =>
+              setInputValue(newInputValue)
+            }
+            size="small"
+            options={experiments}
+            getOptionLabel={(option) => option.experiment_id}
+            blurOnSelect
+            onChange={(event: unknown, newValue: ExperimentParams | null) => {
+              if (newValue) onExperimentChange(newValue);
+              setValue(newValue);
+            }}
+            renderOption={renderOptions}
+            renderInput={(params) => (
+              <TextField
+                name="experiment id"
+                {...params}
+                label="Select your experiment"
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
 
-const Experiment = (): React.ReactElement => {
+const Experiment = (props: ExperimentProps): React.ReactElement => {
+  const { experiment } = props;
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -23,6 +108,7 @@ const Experiment = (): React.ReactElement => {
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
+        aria-label={`${isOpen ? 'close' : 'open'} experiment search box`}
         sx={{
           border: '1.5px solid',
           borderRadius: '10px',
@@ -38,7 +124,7 @@ const Experiment = (): React.ReactElement => {
         <div>
           <Typography noWrap>Experiment</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            Select
+            {experiment ? `ID ${experiment.experiment_id}` : 'Select'}
           </Typography>
         </div>
       </Box>
@@ -55,7 +141,7 @@ const Experiment = (): React.ReactElement => {
           }}
           ref={popover}
         >
-          <ExperimentPopup />
+          <ExperimentPopup {...props} />
         </Box>
       )}
     </Box>

@@ -17,7 +17,12 @@ import {
 import { Warning } from '@mui/icons-material';
 import DataRefresh from './components/dataRefresh.component';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { DateRange, SearchParams, ShotnumRange } from '../app.types';
+import {
+  DateRange,
+  ExperimentParams,
+  SearchParams,
+  ShotnumRange,
+} from '../app.types';
 import { sub } from 'date-fns';
 import {
   changeSearchParams,
@@ -28,6 +33,7 @@ import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useIncomingRecordCount } from '../api/records';
 import { useQueryClient } from '@tanstack/react-query';
 import { selectQueryFilters } from '../state/slices/filterSlice';
+import { useExperiment } from '../api/experiment';
 
 export type TimeframeDates = {
   fromDate: Date | null;
@@ -42,7 +48,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
-  const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
+  const {
+    dateRange,
+    shotnumRange,
+    maxShots: maxShotsParam,
+    experimentID,
+  } = searchParams;
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -120,6 +131,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
+  // ########################
+  // Experiment ID
+  // ########################
+
+  const { data: experiments } = useExperiment();
+  const [searchParameterExperiment, setSearchParameterExperiment] =
+    React.useState<ExperimentParams | null>(experimentID);
+
   React.useEffect(() => {
     setParamsUpdated(true);
     // reset warning message when search params change
@@ -187,6 +206,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       dateRange: newDateRange,
       shotnumRange: newShotnumRange,
       maxShots,
+      experimentID: searchParameterExperiment,
     };
 
     setIncomingParams(newSearchParams);
@@ -215,11 +235,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate,
     searchParameterShotnumMin,
     searchParameterShotnumMax,
+    searchParameterExperiment,
     maxShots,
-    dispatch,
     displayingWarningMessage,
     queryClient,
     filters,
+    dispatch,
   ]);
 
   // this should run after handleSearch is called and incomingCount
@@ -292,7 +313,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <Experiment />
+                <Experiment
+                  experiments={experiments ?? []}
+                  onExperimentChange={setSearchParameterExperiment}
+                  experiment={searchParameterExperiment}
+                />
               </Grid>
               <Grid item xs={2}>
                 <ShotNumber

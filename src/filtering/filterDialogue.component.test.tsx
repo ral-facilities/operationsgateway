@@ -401,6 +401,7 @@ describe('Filter dialogue component', () => {
             dateRange: {},
             maxShots: 50,
             shotnumRange: {},
+            experimentID: null,
           },
           filters: ['{"metadata.activeArea":{"$ne":null}}'],
         },

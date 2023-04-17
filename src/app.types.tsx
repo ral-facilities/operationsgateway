@@ -145,10 +145,19 @@ export interface ShotnumRange {
   max?: number;
 }
 
+export interface ExperimentParams {
+  _id: string;
+  end_date: string;
+  experiment_id: string;
+  part: number;
+  start_date: string;
+}
+
 export interface SearchParams {
   dateRange: DateRange;
   shotnumRange: ShotnumRange;
   maxShots: number;
+  experimentID: ExperimentParams | null;
 }
 
 export interface ColumnState {
