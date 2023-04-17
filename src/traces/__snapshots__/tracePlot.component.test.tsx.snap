@@ -3,7 +3,7 @@
 exports[`Trace plot component renders a canvas element with the correct attributes passed the correct props 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
+    style="flex: 1 0 0px; max-height: calc(100vh - 38px); max-width: calc(100% - 150px);"
   >
     <canvas
       data-data="{\\"labels\\":[1,2,3],\\"datasets\\":[{\\"data\\":[5,6,4],\\"borderColor\\":\\"#1F77B4\\",\\"borderWidth\\":1.5,\\"pointRadius\\":0,\\"pointHitRadius\\":4}]}"
@@ -21,7 +21,7 @@ exports[`Trace plot component renders a canvas element with the correct attribut
 exports[`Trace plot component updates data object correctly when points are set to visible 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
+    style="flex: 1 0 0px; max-height: calc(100vh - 38px); max-width: calc(100% - 150px);"
   >
     <canvas
       data-data="{\\"labels\\":[1,2,3],\\"datasets\\":[{\\"data\\":[5,6,4],\\"borderColor\\":\\"#1F77B4\\",\\"borderWidth\\":1.5,\\"pointRadius\\":3,\\"pointHitRadius\\":4}]}"

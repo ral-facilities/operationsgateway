@@ -29,10 +29,11 @@ describe('Image Window component', () => {
 
   beforeEach(() => {
     testImageConfig = {
+      id: '1',
       open: true,
       type: 'image',
-      channelName: 'TEST',
-      recordId: '1',
+      channelName: 'CHANNEL_BCDEF',
+      recordId: '4',
       title: 'Test title',
       ...DEFAULT_WINDOW_VARS,
     };
@@ -70,5 +71,25 @@ describe('Image Window component', () => {
     createView();
 
     await user.click(screen.getByRole('button', { name: 'Reset View' }));
+  });
+
+  it('dispatches updateWindow when new thumbnail is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    const thumbnails = await screen.findAllByRole('img');
+    await user.click(thumbnails[1]);
+
+    expect(store.getState().windows).toStrictEqual({
+      '1': {
+        id: '1',
+        open: true,
+        type: 'image',
+        channelName: 'CHANNEL_BCDEF',
+        recordId: '5',
+        title: 'Image CHANNEL_BCDEF 5',
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
   });
 });

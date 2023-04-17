@@ -6,6 +6,7 @@ exports[`Open Windows component renders windows for each open window 1`] = `
     data-testid="mock-plotWindow"
   >
     plotConfig={
+  "id": "test-plot-id-0",
   "open": true,
   "title": "Plot 0",
   "plotType": "scatter",
@@ -41,6 +42,7 @@ onClose=undefined
     data-testid="mock-plotWindow"
   >
     plotConfig={
+  "id": "test-plot-id-2",
   "open": true,
   "title": "Plot 2",
   "plotType": "scatter",

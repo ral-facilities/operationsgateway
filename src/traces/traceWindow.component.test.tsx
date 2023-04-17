@@ -29,10 +29,11 @@ describe('Trace Window component', () => {
 
   beforeEach(() => {
     testTraceConfig = {
+      id: '1',
       open: true,
       type: 'trace',
-      channelName: 'TEST',
-      recordId: '1',
+      channelName: 'CHANNEL_CDEFG',
+      recordId: '7',
       title: 'Test title',
       ...DEFAULT_WINDOW_VARS,
     };
@@ -80,5 +81,25 @@ describe('Trace Window component', () => {
     createView();
 
     await user.click(screen.getByRole('button', { name: 'Reset View' }));
+  });
+
+  it('dispatches updateWindow when new thumbnail is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    const thumbnails = await screen.findAllByRole('img');
+    await user.click(thumbnails[1]);
+
+    expect(store.getState().windows).toStrictEqual({
+      '1': {
+        id: '1',
+        open: true,
+        type: 'trace',
+        channelName: 'CHANNEL_CDEFG',
+        recordId: '8',
+        title: 'Trace CHANNEL_CDEFG 8',
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
   });
 });

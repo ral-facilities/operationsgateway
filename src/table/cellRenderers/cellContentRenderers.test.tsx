@@ -83,7 +83,7 @@ describe('cell content renderers', () => {
   describe('renderImage', () => {
     it('returns an img tag with the correct src and alt attributes', () => {
       const view = render(
-        <TraceOrImageThumbnail base64Data="base64" altText="alt text" />
+        <TraceOrImageThumbnail base64Data="base64" alt="alt text" />
       );
       expect(view.asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -98,7 +98,7 @@ describe('cell content renderers', () => {
 
     it('returns null when src is undefined', () => {
       const view = render(
-        <TraceOrImageThumbnail base64Data={undefined} altText="alt text" />
+        <TraceOrImageThumbnail base64Data={undefined} alt="alt text" />
       );
       expect(view.asFragment()).toMatchInlineSnapshot(`<DocumentFragment />`);
     });
@@ -109,7 +109,7 @@ describe('cell content renderers', () => {
       render(
         <TraceOrImageThumbnail
           base64Data="base64"
-          altText="alt text"
+          alt="alt text"
           onClick={onClick}
         />
       );

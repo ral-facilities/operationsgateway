@@ -30,6 +30,8 @@ describe('Record Table', () => {
   let state: PreloadedState<RootState>;
   const openFilters = jest.fn();
 
+  let uuidCount = 0;
+
   const createView = (initialState = state) => {
     return renderComponentWithProviders(
       <RecordTable openFilters={openFilters} tableHeight="100px" />,
@@ -43,6 +45,10 @@ describe('Record Table', () => {
     applyDatePickerWorkaround();
 
     state = getInitialState();
+
+    jest
+      .spyOn(global.crypto, 'randomUUID')
+      .mockImplementation(() => `${++uuidCount}`);
   });
 
   afterEach(() => {
@@ -270,7 +276,8 @@ describe('Record Table', () => {
     );
 
     expect(store.getState().windows).toEqual({
-      'Trace CHANNEL_CDEFG 7': {
+      [uuidCount]: {
+        id: `${uuidCount}`,
         open: true,
         type: 'trace',
         recordId: '7',

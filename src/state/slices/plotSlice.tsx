@@ -44,7 +44,7 @@ export const plotSlice = createSlice({
   initialState,
   reducers: {
     createPlot: (state) => {
-      const plotTitles = Object.keys(state);
+      const plotTitles = Object.values(state).map((config) => config.title);
       let i = 1;
       let newPlotTitle = '';
       while (true) {
@@ -52,7 +52,9 @@ export const plotSlice = createSlice({
         if (!plotTitles.includes(newPlotTitle)) break;
         i++;
       }
-      state[newPlotTitle] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         title: newPlotTitle,
         plotType: 'scatter',
@@ -77,7 +79,7 @@ export const plotSlice = createSlice({
     },
     savePlot: (state, action: PayloadAction<PlotConfig>) => {
       const plotConfig = action.payload;
-      state[plotConfig.title] = plotConfig;
+      state[plotConfig.id] = plotConfig;
     },
     deletePlot: (state, action: PayloadAction<string>) => {
       // TODO check here if the plot is open first. Otherwise, an error is printed in console

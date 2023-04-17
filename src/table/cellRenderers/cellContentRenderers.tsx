@@ -1,4 +1,5 @@
 import { format, isValid, parseISO } from 'date-fns';
+import React from 'react';
 
 export const roundNumber = (
   num: number,
@@ -27,21 +28,25 @@ export const roundNumber = (
   return rounded;
 };
 
-export const TraceOrImageThumbnail = (props: {
-  base64Data: string | undefined;
-  altText: string;
-  onClick?: () => unknown;
-}) => {
-  const { base64Data, altText, onClick } = props;
-  return base64Data ? (
-    <img
-      src={`data:image/jpeg;base64,${base64Data}`}
-      alt={altText}
-      style={{ border: '1px solid #000000' }}
-      onClick={onClick}
-    />
-  ) : null;
-};
+export const TraceOrImageThumbnail = React.forwardRef(
+  (
+    props: {
+      base64Data: string | undefined;
+    } & React.ComponentPropsWithRef<'img'>,
+    ref: React.ForwardedRef<HTMLImageElement>
+  ) => {
+    const { base64Data, alt, style, ...rest } = props;
+    return base64Data ? (
+      <img
+        {...rest}
+        ref={ref}
+        src={`data:image/jpeg;base64,${base64Data}`}
+        alt={alt}
+        style={{ ...style, border: '1px solid #000000' }}
+      />
+    ) : null;
+  }
+);
 
 export const renderTimestamp = (serverTimestamp: string) => {
   const date = parseISO(serverTimestamp);

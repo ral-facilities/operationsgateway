@@ -10,9 +10,18 @@ import { DEFAULT_WINDOW_VARS } from '../../app.types';
 describe('windowSlice', () => {
   describe('Reducer', () => {
     let state: typeof initialState;
+    let uuidCount = 0;
 
     beforeEach(() => {
       state = initialState;
+
+      jest
+        .spyOn(global.crypto, 'randomUUID')
+        .mockImplementation(() => `${++uuidCount}`);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     it('openTraceWindow creates a trace with the default options', () => {
@@ -21,7 +30,8 @@ describe('windowSlice', () => {
         openTraceWindow({ recordId: '1', channelName: 'TEST' })
       );
       expect(state).toEqual({
-        'Trace TEST 1': {
+        [uuidCount]: {
+          id: `${uuidCount}`,
           open: true,
           type: 'trace',
           recordId: '1',
@@ -38,7 +48,8 @@ describe('windowSlice', () => {
         openImageWindow({ recordId: '1', channelName: 'TEST' })
       );
       expect(state).toEqual({
-        'Image TEST 1': {
+        [uuidCount]: {
+          id: `${uuidCount}`,
           open: true,
           type: 'image',
           recordId: '1',
@@ -51,7 +62,8 @@ describe('windowSlice', () => {
 
     it('closeWindow deletes the window from the state', () => {
       state = {
-        'Trace TEST 1': {
+        'test uuid': {
+          id: 'test uuid',
           open: true,
           type: 'trace',
           recordId: '1',
@@ -60,7 +72,7 @@ describe('windowSlice', () => {
           ...DEFAULT_WINDOW_VARS,
         },
       };
-      state = WindowReducer(state, closeWindow('Trace TEST 1'));
+      state = WindowReducer(state, closeWindow('test uuid'));
       expect(state).toEqual({});
     });
 
