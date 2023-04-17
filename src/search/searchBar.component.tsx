@@ -30,7 +30,11 @@ import {
   formatDateTimeForApi,
 } from '../state/slices/searchSlice';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
-import { useIncomingRecordCount } from '../api/records';
+import {
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
+  useShotnumToDateConverter,
+} from '../api/records';
 import { useQueryClient } from '@tanstack/react-query';
 import { selectQueryFilters } from '../state/slices/filterSlice';
 import { useExperiment } from '../api/experiment';
@@ -131,13 +135,18 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
-  const setShotNumbers = React.useCallback(
-    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
-      setSearchParameterShotnumMin(shotnumMin);
+  const { data: dateToShotnum } = useDateToShotnumConverter(
+    searchParameterFromDate
+      ? formatDateTimeForApi(searchParameterFromDate)
+      : undefined,
+    searchParameterToDate
+      ? formatDateTimeForApi(searchParameterToDate)
+      : undefined
+  );
 
-      setSearchParameterShotnumMax(shotnumMax);
-    },
-    []
+  const { data: shotnumToDate } = useShotnumToDateConverter(
+    searchParameterShotnumMin,
+    searchParameterShotnumMax
   );
 
   // ########################
@@ -170,6 +179,32 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     },
     []
   );
+
+  const setShotnum = React.useCallback(
+    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
+      setSearchParameterShotnumMin(shotnumMin);
+      setSearchParameterShotnumMax(shotnumMax);
+    },
+    []
+  );
+
+  React.useEffect(() => {
+    if (dateToShotnum) {
+      setSearchParameterShotnumMin(dateToShotnum.min);
+      setSearchParameterShotnumMax(dateToShotnum.max);
+    }
+  }, [dateToShotnum]);
+
+  React.useEffect(() => {
+    if (shotnumToDate) {
+      const fromDate = shotnumToDate.from;
+      const toDate = shotnumToDate.to;
+      if (fromDate && toDate) {
+        setSearchParameterFromDate(new Date(fromDate));
+        setSearchParameterToDate(new Date(toDate));
+      }
+    }
+  }, [searchParameterExperiment, shotnumToDate]);
 
   React.useEffect(() => {
     setParamsUpdated(true);
@@ -341,6 +376,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   setExperimentTimeframe={setExperimentTimeframe}
                   searchParameterExperiment={searchParameterExperiment}
                   experiments={experiments ?? []}
+                  shotnumToDate={shotnumToDate}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -357,7 +393,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   experiment={searchParameterExperiment}
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   changeExperimentTimeframe={setExperimentTimeframe}
-                  resetShotnumbers={() => setShotNumbers(undefined, undefined)}
+                  resetShotnumber={() => setShotnum(undefined, undefined)}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -366,6 +402,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParameterShotnumMax={searchParameterShotnumMax}
                   changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
                   changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
+                  dateToShotnum={dateToShotnum}
                 />
               </Grid>
               <Grid item xs={1}>

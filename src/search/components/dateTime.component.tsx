@@ -6,7 +6,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
-import { ExperimentParams } from '../../app.types';
+import { DateRangeConverter, ExperimentParams } from '../../app.types';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
 
@@ -87,6 +87,7 @@ export interface DateTimeSearchProps {
   setExperimentTimeframe: (value: ExperimentParams) => void;
   searchParameterExperiment: ExperimentParams | null;
   experiments: ExperimentParams[];
+  shotnumToDate?: DateRangeConverter;
 }
 
 /**
@@ -119,6 +120,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     searchParameterExperiment,
     setExperimentTimeframe,
     experiments,
+    shotnumToDate,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -151,13 +153,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
   // this uses different method to others as the datetime can be quickly changed via the timeframe component
   React.useLayoutEffect(() => {
-    if (!!timeframeRange || !!searchParameterExperiment) {
+    if (!!timeframeRange || !!searchParameterExperiment || !!shotnumToDate) {
       setFlashAnimationPlaying(false);
       setTimeout(() => {
         setFlashAnimationPlaying(true);
       }, 0);
     }
-  }, [timeframeRange, searchParameterExperiment]);
+  }, [timeframeRange, searchParameterExperiment, shotnumToDate]);
 
   const isDateTimeInExperiment = (
     dateTime: Date,

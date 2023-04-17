@@ -3,12 +3,14 @@ import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 import { FLASH_ANIMATION } from '../../animation';
+import { ShotnumRange } from '../../app.types';
 
 export interface ShotNumberProps {
   searchParameterShotnumMin?: number;
   searchParameterShotnumMax?: number;
   changeSearchParameterShotnumMin: (min: number | undefined) => void;
   changeSearchParameterShotnumMax: (max: number | undefined) => void;
+  dateToShotnum?: ShotnumRange;
 }
 
 const ShotNumberPopup = (
@@ -79,8 +81,11 @@ const ShotNumberPopup = (
 };
 
 const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
-  const { searchParameterShotnumMin: min, searchParameterShotnumMax: max } =
-    props;
+  const {
+    searchParameterShotnumMin: min,
+    searchParameterShotnumMax: max,
+    dateToShotnum,
+  } = props;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
@@ -98,16 +103,13 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
 
   // Stop the flash animation from playing after 1500ms
   React.useEffect(() => {
-    if (
-      props.searchParameterShotnumMax === undefined &&
-      props.searchParameterShotnumMin === undefined
-    ) {
+    if (!!dateToShotnum) {
       setFlashAnimationPlaying(true);
       setTimeout(() => {
         setFlashAnimationPlaying(false);
       }, FLASH_ANIMATION.length);
     }
-  }, [props.searchParameterShotnumMax, props.searchParameterShotnumMin]);
+  }, [dateToShotnum]);
 
   // Prevent the flash animation playing on mount
   React.useEffect(() => {

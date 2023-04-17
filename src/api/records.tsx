@@ -14,6 +14,8 @@ import {
   SelectedPlotChannel,
   SearchParams,
   timeChannelName,
+  ShotnumRange,
+  DateRangeConverter,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -151,6 +153,110 @@ const fetchRecordCountQuery = (
     .then((response) => response.data);
 };
 
+export const fetchDateToShotnumConverterQuery = (
+  apiUrl: string,
+  fromDate: string | undefined,
+  toDate: string | undefined
+): Promise<ShotnumRange> => {
+  const queryParams = new URLSearchParams();
+  let timestampObj = {};
+  if (fromDate || toDate) {
+    timestampObj = {
+      from: fromDate,
+      to: toDate,
+    };
+  }
+
+  if (fromDate || toDate) {
+    queryParams.append('date_range', JSON.stringify(timestampObj));
+  }
+
+  return axios
+    .get(`${apiUrl}/records/range_converter`, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useDateToShotnumConverter = (
+  fromDate: string | undefined,
+  toDate: string | undefined
+): UseQueryResult<ShotnumRange, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
+    ShotnumRange,
+    AxiosError,
+    ShotnumRange,
+    [string, { fromDate: string | undefined; toDate: string | undefined }]
+  >(
+    ['dateToShotnumConverter', { fromDate, toDate }],
+    (params) => {
+      return fetchDateToShotnumConverterQuery(apiUrl, fromDate, toDate);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
+
+export const fetchShotnumToDateConverterQuery = (
+  apiUrl: string,
+  shotnumMin: number | undefined,
+  shotnumMax: number | undefined
+): Promise<DateRangeConverter> => {
+  const queryParams = new URLSearchParams();
+
+  let shotnumObj = {};
+  if (shotnumMin || shotnumMax) {
+    shotnumObj = {
+      min: shotnumMin,
+      max: shotnumMax,
+    };
+  }
+
+  if (shotnumMin || shotnumMax) {
+    queryParams.append('shotnum_range', JSON.stringify(shotnumObj));
+  }
+
+  return axios
+    .get(`${apiUrl}/records/range_converter`, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useShotnumToDateConverter = (
+  shotnumMin: number | undefined,
+  shotnumMax: number | undefined
+): UseQueryResult<DateRangeConverter, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
+    DateRangeConverter,
+    AxiosError,
+    DateRangeConverter,
+    [string, { shotnumMin: number | undefined; shotnumMax: number | undefined }]
+  >(
+    ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
+    (params) => {
+      return fetchShotnumToDateConverterQuery(apiUrl, shotnumMin, shotnumMax);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
 export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
