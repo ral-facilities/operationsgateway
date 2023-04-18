@@ -31,13 +31,14 @@ export const windowSlice = createSlice({
       action: PayloadAction<{ recordId: string; channelName: string }>
     ) => {
       const { recordId, channelName } = action.payload;
-      const title = `Trace ${channelName} ${recordId}`;
-      state[title] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         type: 'trace',
         recordId,
         channelName,
-        title,
+        title: `Trace ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };
     },
@@ -46,24 +47,25 @@ export const windowSlice = createSlice({
       action: PayloadAction<{ recordId: string; channelName: string }>
     ) => {
       const { recordId, channelName } = action.payload;
-      const title = `Image ${channelName} ${recordId}`;
-      state[title] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         type: 'image',
         recordId,
         channelName,
-        title,
+        title: `Image ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };
     },
-    saveWindow: (state, action: PayloadAction<TraceOrImageWindow>) => {
+    updateWindow: (state, action: PayloadAction<TraceOrImageWindow>) => {
       const windowConfig = action.payload;
-      state[windowConfig.title] = windowConfig;
+      state[windowConfig.id] = windowConfig;
     },
   },
 });
 
-export const { openTraceWindow, openImageWindow, closeWindow, saveWindow } =
+export const { openTraceWindow, openImageWindow, closeWindow, updateWindow } =
   windowSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

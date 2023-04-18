@@ -8,7 +8,7 @@ export const timeChannelName = 'timestamp';
 export interface Record {
   _id: string;
   metadata: RecordMetadata;
-  channels: { [channel: string]: Channel };
+  channels: { [channel: string]: Channel | undefined };
 }
 
 export interface RecordRow {
@@ -116,12 +116,13 @@ export interface WaveformChannel {
 export type Channel = ScalarChannel | ImageChannel | WaveformChannel;
 
 // Type guards because TS can't deal with nested discriminated unions
-export const isChannelScalar = (c: Channel): c is ScalarChannel =>
+export const isChannelScalar = (c: Channel | undefined): c is ScalarChannel =>
   c?.metadata?.channel_dtype === 'scalar';
-export const isChannelImage = (c: Channel): c is ImageChannel =>
+export const isChannelImage = (c: Channel | undefined): c is ImageChannel =>
   c?.metadata?.channel_dtype === 'image';
-export const isChannelWaveform = (c: Channel): c is WaveformChannel =>
-  c?.metadata?.channel_dtype === 'waveform';
+export const isChannelWaveform = (
+  c: Channel | undefined
+): c is WaveformChannel => c?.metadata?.channel_dtype === 'waveform';
 
 export interface Waveform {
   _id: string;
@@ -145,10 +146,19 @@ export interface ShotnumRange {
   max?: number;
 }
 
+export interface ExperimentParams {
+  _id: string;
+  end_date: string;
+  experiment_id: string;
+  part: number;
+  start_date: string;
+}
+
 export interface SearchParams {
   dateRange: DateRange;
   shotnumRange: ShotnumRange;
   maxShots: number;
+  experimentID: ExperimentParams | null;
 }
 
 export interface ColumnState {
@@ -163,6 +173,7 @@ export const DEFAULT_WINDOW_VARS = {
 };
 
 export interface WindowConfig {
+  id: string;
   open: boolean;
   title: string;
   outerWidth: number;

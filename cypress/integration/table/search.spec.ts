@@ -746,6 +746,20 @@ describe('Search', () => {
       );
     });
 
+    it('select a experiment Id and it appears in the experiment box', () => {
+      // experiment box
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 19510000')
+        .should('not.exist');
+
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('195').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 19510000')
+        .should('exist');
+    });
+
     it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
       // Date-time fields
       cy.get('input[aria-label="from, date-time input"]').type(

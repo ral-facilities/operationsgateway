@@ -283,7 +283,7 @@ const Plot = (props: PlotProps) => {
         maxWidth: '100%',
       }}
     >
-      {/* This canvas is turned into a Chart.js plot via code in plotWindowPortal.component.tsx */}
+      {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
       <canvas
         id="my-chart"
         ref={canvasRef}

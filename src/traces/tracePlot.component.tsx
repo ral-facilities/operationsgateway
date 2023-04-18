@@ -119,11 +119,11 @@ const TracePlot = (props: TracePlotProps) => {
     <div
       style={{
         flex: '1 0 0',
-        maxHeight: 'calc(100% - 38px)',
-        maxWidth: '100%',
+        maxHeight: 'calc(100vh - 38px)',
+        maxWidth: 'calc(100% - 150px)',
       }}
     >
-      {/* This canvas is turned into a Chart.js plot via code in plotWindowPortal.component.tsx */}
+      {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
       <canvas
         id="my-chart"
         ref={canvasRef}

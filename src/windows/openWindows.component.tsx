@@ -25,10 +25,10 @@ const OpenWindows = () => {
       {openPlots.map((plot: PlotConfig) => {
         return (
           <PlotWindow
-            key={plot.title}
+            key={plot.id}
             plotConfig={plot}
             onClose={() => {
-              dispatch(closePlot(plot.title));
+              dispatch(closePlot(plot.id));
             }}
           />
         );
@@ -36,10 +36,10 @@ const OpenWindows = () => {
       {openTraces.map((window: TraceOrImageWindow) => {
         return (
           <TraceWindow
-            key={window.title}
+            key={window.id}
             traceConfig={window}
             onClose={() => {
-              dispatch(closeWindow(window.title));
+              dispatch(closeWindow(window.id));
             }}
           />
         );
@@ -47,10 +47,10 @@ const OpenWindows = () => {
       {openImages.map((window: TraceOrImageWindow) => {
         return (
           <ImageWindow
-            key={window.title}
+            key={window.id}
             imageConfig={window}
             onClose={() => {
-              dispatch(closeWindow(window.title));
+              dispatch(closeWindow(window.id));
             }}
           />
         );

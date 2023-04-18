@@ -57,11 +57,11 @@ test('user can zoom and pan the trace', async ({ page }) => {
   // test drag to zoom
   await popup.dragAndDrop('#my-chart', '#my-chart', {
     sourcePosition: {
-      x: 300,
-      y: 190,
+      x: 250,
+      y: 180,
     },
     targetPosition: {
-      x: 525,
+      x: 395,
       y: 270,
     },
   });
@@ -79,8 +79,8 @@ test('user can zoom and pan the trace', async ({ page }) => {
       y: 150,
     },
     targetPosition: {
-      x: 50,
-      y: 50,
+      x: 130,
+      y: 80,
     },
   });
   await popup.keyboard.up('Shift');
@@ -88,7 +88,7 @@ test('user can zoom and pan the trace', async ({ page }) => {
   // click far side of chart to remove any tooltips
   await chart.click({
     position: {
-      x: 500,
+      x: 400,
       y: 200,
     },
     delay: 1000,
@@ -106,6 +106,54 @@ test('user can zoom and pan the trace', async ({ page }) => {
     // delay helps remove tooltips from the plot
     delay: 1000,
   });
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can change trace via clicking on a thumbnail', async ({ page }) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('Channel_CDEFG waveform', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  // create modified trace to be queried when different thumbnail is selected
+  await page.evaluate(async () => {
+    const { msw } = window;
+
+    msw.worker.use(
+      msw.rest.get(
+        '/waveforms/:recordId/:channelName',
+        async (req, res, ctx) => {
+          return res.once(
+            ctx.status(200),
+            ctx.json({
+              _id: '2',
+              x: '[2, 4, 6, 8, 10, 12, 14, 16, 18, 20]',
+              y: '[8, 1, 10, 9, 4, 3, 5, 6, 2, 7]',
+            })
+          );
+        }
+      )
+    );
+  });
+
+  const chart = await popup.locator('#my-chart');
+
+  await popup
+    .getByAltText('Channel_CDEFG waveform', { exact: false })
+    .last()
+    .click();
+
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 

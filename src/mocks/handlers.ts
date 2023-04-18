@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
+import experimentsJson from './experiments.json';
 import { Channel, isChannelScalar, Record } from '../app.types';
 
 // have to add undefined here due to how TS JSON parsing works
@@ -22,6 +23,9 @@ export const handlers = [
   }),
   rest.get('/channels', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(channelsJson));
+  }),
+  rest.get('/experiments', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(experimentsJson));
   }),
   rest.get('/records', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson));

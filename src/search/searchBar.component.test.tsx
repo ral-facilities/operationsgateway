@@ -92,7 +92,25 @@ describe('searchBar component', () => {
         max: 2,
       },
       maxShots: 1000,
+      experimentID: null,
     });
+  });
+
+  it('selects an experiment and displays it in the experiment box', async () => {
+    createView();
+    const expectedExperiment = {
+      _id: '18325019-4',
+      end_date: '2020-01-06T18:00:00',
+      experiment_id: '18325019',
+      part: 4,
+      start_date: '2020-01-03T10:00:00',
+    };
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '183{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue(expectedExperiment.experiment_id);
   });
 
   it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async () => {
@@ -119,6 +137,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
@@ -138,6 +157,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
@@ -171,6 +191,7 @@ describe('searchBar component', () => {
     // Store should not be updated, indicating search is yet to initiate
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {},
+      experimentID: null,
       shotnumRange: {},
       maxShots: MAX_SHOTS_VALUES[0],
     });
@@ -189,6 +210,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 
@@ -285,6 +307,7 @@ describe('searchBar component', () => {
             dateRange: { fromDate: '2022-01-01T00:00:00' },
             maxShots: 50,
             shotnumRange: {},
+            experimentID: null,
           },
           filters: [''],
         },
@@ -324,6 +347,7 @@ describe('searchBar component', () => {
         max: undefined,
       },
       maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     });
   });
 

@@ -19,6 +19,7 @@ import {
   useRecordCount,
   useIncomingRecordCount,
   useRecordsPaginated,
+  useThumbnails,
 } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -533,6 +534,97 @@ describe('records api functions', () => {
       const request = await pendingRequest;
 
       params.append('order', 'metadata.timestamp asc');
+
+      expect(request.url.searchParams).toEqual(params);
+    });
+  });
+
+  describe('useThumbnails', () => {
+    let params: URLSearchParams;
+
+    beforeEach(() => {
+      params = new URLSearchParams();
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('sends request to fetch records with a projection and returns successful response', async () => {
+      const pendingRequest = waitForRequest('GET', '/records');
+
+      const { result } = renderHook(() => useThumbnails('TEST', 1, 25), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append('skip', '25');
+      params.append('limit', '25');
+      params.append('projection', 'channels.TEST');
+      params.append('projection', 'metadata.timestamp');
+
+      expect(request.url.searchParams).toEqual(params);
+
+      expect(result.current.data).toEqual(recordsJson);
+    });
+
+    it('can send sort, date range and filter parameters as part of request', async () => {
+      state = {
+        ...getInitialState(),
+        table: {
+          ...getInitialState().table,
+          sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
+        },
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
+            maxShots: MAX_SHOTS_VALUES[0],
+          },
+        },
+        filter: {
+          ...getInitialState().filter,
+          appliedFilters: [
+            [
+              { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+              operators.find((t) => t.value === '>')!,
+              { type: 'number', value: '300', label: '300' },
+            ],
+          ],
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/records');
+
+      const { result } = renderHook(() => useThumbnails('TEST', 0, 25), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append('order', 'metadata.timestamp asc');
+      params.append('order', 'channels.CHANNEL_1 desc');
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+      );
+      params.append('skip', '0');
+      params.append('limit', '25');
+      params.append('projection', 'channels.TEST');
+      params.append('projection', 'metadata.timestamp');
 
       expect(request.url.searchParams).toEqual(params);
     });

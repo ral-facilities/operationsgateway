@@ -126,62 +126,6 @@ const PlotWindow = (props: PlotWindowProps) => {
     (channel) => channel.systemName === XAxis
   )?.name;
 
-  const savePlotConfig = React.useCallback(
-    (windowVars: {
-      outerWidth: number;
-      outerHeight: number;
-      screenX: number;
-      screenY: number;
-    }) => {
-      const configToSave: PlotConfig = {
-        // ensures that whenever we save the plot, it won't open up a new window
-        // if we always set open to true, a "new" plot config will be saved, with open = true
-        // this would open up a new window, which we don't want
-        open: plotTitle === plotConfig.title,
-        title: plotTitle,
-        plotType,
-        XAxis,
-        XAxisScale,
-        xMinimum,
-        xMaximum,
-        selectedPlotChannels,
-        leftYAxisScale,
-        rightYAxisScale,
-        leftYAxisMinimum,
-        leftYAxisMaximum,
-        rightYAxisMinimum,
-        rightYAxisMaximum,
-        gridVisible,
-        axesLabelsVisible,
-        selectedColours,
-        remainingColours,
-        ...windowVars,
-      };
-      dispatch(savePlot(configToSave));
-    },
-    [
-      plotTitle,
-      plotConfig.title,
-      plotType,
-      XAxis,
-      XAxisScale,
-      xMinimum,
-      xMaximum,
-      selectedPlotChannels,
-      leftYAxisScale,
-      rightYAxisScale,
-      leftYAxisMinimum,
-      leftYAxisMaximum,
-      rightYAxisMinimum,
-      rightYAxisMaximum,
-      gridVisible,
-      axesLabelsVisible,
-      selectedColours,
-      remainingColours,
-      dispatch,
-    ]
-  );
-
   const plotWindowRef = React.createRef<WindowPortal>();
 
   const handleSavePlot = React.useCallback(() => {
@@ -199,8 +143,53 @@ const PlotWindow = (props: PlotWindowProps) => {
       plotWindowRef.current?.state.window?.screenY ??
       DEFAULT_WINDOW_VARS.screenY;
 
-    savePlotConfig({ outerWidth, outerHeight, screenX, screenY });
-  }, [savePlotConfig, plotWindowRef]);
+    const configToSave: PlotConfig = {
+      ...plotConfig,
+      title: plotTitle,
+      plotType,
+      XAxis,
+      XAxisScale,
+      xMinimum,
+      xMaximum,
+      selectedPlotChannels,
+      leftYAxisScale,
+      rightYAxisScale,
+      leftYAxisMinimum,
+      leftYAxisMaximum,
+      rightYAxisMinimum,
+      rightYAxisMaximum,
+      gridVisible,
+      axesLabelsVisible,
+      selectedColours,
+      remainingColours,
+      outerWidth,
+      outerHeight,
+      screenX,
+      screenY,
+    };
+    dispatch(savePlot(configToSave));
+  }, [
+    plotWindowRef,
+    plotTitle,
+    plotConfig,
+    plotType,
+    XAxis,
+    XAxisScale,
+    xMinimum,
+    xMaximum,
+    selectedPlotChannels,
+    leftYAxisScale,
+    rightYAxisScale,
+    leftYAxisMinimum,
+    leftYAxisMaximum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
+    gridVisible,
+    axesLabelsVisible,
+    selectedColours,
+    remainingColours,
+    dispatch,
+  ]);
 
   return (
     <WindowPortal

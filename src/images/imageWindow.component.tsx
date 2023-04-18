@@ -1,11 +1,14 @@
 import React from 'react';
 import WindowPortal from '../windows/windowPortal.component';
-import { TraceOrImageWindow } from '../state/slices/windowSlice';
+import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import ImageView from './imageView.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import { useImage } from '../api/images';
 import FalseColourPanel from './falseColourPanel.component';
+import ThumbnailSelector from '../windows/thumbnailSelector.component';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { useAppDispatch } from '../state/hooks';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -15,6 +18,8 @@ interface ImageWindowProps {
 const ImageWindow = (props: ImageWindowProps) => {
   const { onClose, imageConfig } = props;
   const { channelName, recordId, title } = imageConfig;
+
+  const dispatch = useAppDispatch();
 
   const [colourMap, setColourMap] = React.useState<string | undefined>(
     undefined
@@ -39,6 +44,40 @@ const ImageWindow = (props: ImageWindowProps) => {
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
   }, []);
+
+  const updateImageConfig = React.useCallback(
+    (newRecordId?: string) => {
+      const outerWidth =
+        windowRef.current?.state.window?.outerWidth ??
+        DEFAULT_WINDOW_VARS.outerWidth;
+      const outerHeight =
+        windowRef.current?.state.window?.outerHeight ??
+        DEFAULT_WINDOW_VARS.outerHeight;
+      const screenX =
+        windowRef.current?.state.window?.screenX ?? DEFAULT_WINDOW_VARS.screenX;
+      const screenY =
+        windowRef.current?.state.window?.screenY ?? DEFAULT_WINDOW_VARS.screenY;
+
+      const configToSave: TraceOrImageWindow = {
+        // ensures that whenever we save the plot, it won't open up a new window
+        // if we always set open to true, a "new" plot config will be saved, with open = true
+        // this would open up a new window, which we don't want
+        ...imageConfig,
+        outerWidth,
+        outerHeight,
+        screenX,
+        screenY,
+        ...(newRecordId
+          ? {
+              recordId: newRecordId,
+              title: `Image ${imageConfig.channelName} ${newRecordId}`,
+            }
+          : {}),
+      };
+      dispatch(updateWindow(configToSave));
+    },
+    [windowRef, imageConfig, dispatch]
+  );
 
   return (
     <WindowPortal
@@ -74,13 +113,21 @@ const ImageWindow = (props: ImageWindowProps) => {
             justifyContent="flex-end"
             wrap="nowrap"
             mt={1}
+            mb={1}
             ml={-1}
           >
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
           <Grid container item wrap="nowrap" spacing={1}>
-            <Grid item>
-              <ImageView image={image} title={title} viewReset={viewFlag} />
+            <Grid container item spacing={1} xs="auto">
+              <ThumbnailSelector
+                channelName={channelName}
+                recordId={recordId}
+                changeRecordId={updateImageConfig}
+              />
+              <Grid item>
+                <ImageView image={image} title={title} viewReset={viewFlag} />
+              </Grid>
             </Grid>
             <Grid item>
               <FalseColourPanel
@@ -94,6 +141,7 @@ const ImageWindow = (props: ImageWindowProps) => {
             </Grid>
           </Grid>
         </Grid>
+
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop
           component="div"
