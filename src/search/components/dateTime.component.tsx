@@ -289,7 +289,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 actionBar: { actions: ['clear'] },
               }}
               onChange={(date) => {
-                setDatePickerFromDate(date as Date);
+                setDatePickerFromDate(date);
                 resetTimeframe();
 
                 if (searchParameterExperiment && date) {
@@ -311,7 +311,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
 
                 if (!popupOpen) {
                   verifyAndUpdateDate({
-                    date: date as Date,
+                    date: date,
                     prevDate: searchParameterFromDate,
                     otherDate: datePickerToDate,
                     fromDateOrToDateChanged: 'fromDate',
@@ -320,7 +320,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 }
               }}
               onAccept={(date) => {
-                setDatePickerFromDate(date as Date);
+                setDatePickerFromDate(date);
                 resetTimeframe();
                 if (searchParameterExperiment && date) {
                   const start_date = new Date(
@@ -339,7 +339,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   }
                 }
                 verifyAndUpdateDate({
-                  date: date as Date,
+                  date: date,
                   prevDate: searchParameterFromDate,
                   otherDate: datePickerToDate,
                   fromDateOrToDateChanged: 'fromDate',

@@ -1,7 +1,7 @@
 import React from 'react';
 import PlotSettingsController from './plotSettings/plotSettingsController.component';
 import Plot from './plot.component';
-import PlotButtons from './plotButtons.component';
+import { PlotButtons } from '../windows/windowButtons.component';
 import {
   Box,
   Grid,
@@ -19,17 +19,14 @@ import {
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
-import PlotWindowPortal from './plotWindowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import {
-  DEFAULT_WINDOW_VARS,
-  PlotConfig,
-  savePlot,
-} from '../state/slices/plotSlice';
+import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -93,16 +90,16 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
-    setGridVisible(!gridVisible);
-  }, [gridVisible]);
+    setGridVisible((gridVisible) => !gridVisible);
+  }, []);
 
   const toggleAxesLabelsVisibility = React.useCallback(() => {
-    setAxesLabelsVisible(!axesLabelsVisible);
-  }, [axesLabelsVisible]);
+    setAxesLabelsVisible((axesLabelsVisible) => !axesLabelsVisible);
+  }, []);
 
   const resetView = React.useCallback(() => {
-    setViewFlag(!viewFlag);
-  }, [viewFlag]);
+    setViewFlag((viewFlag) => !viewFlag);
+  }, []);
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
@@ -129,63 +126,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     (channel) => channel.systemName === XAxis
   )?.name;
 
-  const savePlotConfig = React.useCallback(
-    (windowVars: {
-      outerWidth: number;
-      outerHeight: number;
-      screenX: number;
-      screenY: number;
-    }) => {
-      const configToSave: PlotConfig = {
-        // ensures that whenever we save the plot, it won't open up a new window
-        // if we always set open to true, a "new" plot config will be saved, with open = true
-        // this would open up a new window, which we don't want
-        open: plotTitle === plotConfig.title,
-        title: plotTitle,
-        plotType,
-        XAxis,
-        XAxisScale,
-        xMinimum,
-        xMaximum,
-        selectedPlotChannels,
-        leftYAxisScale,
-        rightYAxisScale,
-        leftYAxisMinimum,
-        leftYAxisMaximum,
-        rightYAxisMinimum,
-        rightYAxisMaximum,
-        gridVisible,
-        axesLabelsVisible,
-        selectedColours,
-        remainingColours,
-        ...windowVars,
-      } as PlotConfig;
-      dispatch(savePlot(configToSave));
-    },
-    [
-      plotTitle,
-      plotConfig.title,
-      plotType,
-      XAxis,
-      XAxisScale,
-      xMinimum,
-      xMaximum,
-      selectedPlotChannels,
-      leftYAxisScale,
-      rightYAxisScale,
-      leftYAxisMinimum,
-      leftYAxisMaximum,
-      rightYAxisMinimum,
-      rightYAxisMaximum,
-      gridVisible,
-      axesLabelsVisible,
-      selectedColours,
-      remainingColours,
-      dispatch,
-    ]
-  );
-
-  const plotWindowRef = React.createRef<PlotWindowPortal>();
+  const plotWindowRef = React.createRef<WindowPortal>();
 
   const handleSavePlot = React.useCallback(() => {
     // Capture window size and position
@@ -202,11 +143,56 @@ const PlotWindow = (props: PlotWindowProps) => {
       plotWindowRef.current?.state.window?.screenY ??
       DEFAULT_WINDOW_VARS.screenY;
 
-    savePlotConfig({ outerWidth, outerHeight, screenX, screenY });
-  }, [savePlotConfig, plotWindowRef]);
+    const configToSave: PlotConfig = {
+      ...plotConfig,
+      title: plotTitle,
+      plotType,
+      XAxis,
+      XAxisScale,
+      xMinimum,
+      xMaximum,
+      selectedPlotChannels,
+      leftYAxisScale,
+      rightYAxisScale,
+      leftYAxisMinimum,
+      leftYAxisMaximum,
+      rightYAxisMinimum,
+      rightYAxisMaximum,
+      gridVisible,
+      axesLabelsVisible,
+      selectedColours,
+      remainingColours,
+      outerWidth,
+      outerHeight,
+      screenX,
+      screenY,
+    };
+    dispatch(savePlot(configToSave));
+  }, [
+    plotWindowRef,
+    plotTitle,
+    plotConfig,
+    plotType,
+    XAxis,
+    XAxisScale,
+    xMinimum,
+    xMaximum,
+    selectedPlotChannels,
+    leftYAxisScale,
+    rightYAxisScale,
+    leftYAxisMinimum,
+    leftYAxisMaximum,
+    rightYAxisMinimum,
+    rightYAxisMaximum,
+    gridVisible,
+    axesLabelsVisible,
+    selectedColours,
+    remainingColours,
+    dispatch,
+  ]);
 
   return (
-    <PlotWindowPortal
+    <WindowPortal
       ref={plotWindowRef}
       title={plotTitle}
       onClose={onClose}
@@ -305,7 +291,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             >
               <CircularProgress
                 id="settings-loading-indicator"
-                aria-label="settings-loading-indicator"
+                aria-label="Settings loading"
               />
             </Backdrop>
           </Drawer>
@@ -385,11 +371,11 @@ const PlotWindow = (props: PlotWindowProps) => {
         >
           <CircularProgress
             id="plot-loading-indicator"
-            aria-label="plot-loading-indicator"
+            aria-label="Plot loading"
           />
         </Backdrop>
       </Grid>
-    </PlotWindowPortal>
+    </WindowPortal>
   );
 };
 

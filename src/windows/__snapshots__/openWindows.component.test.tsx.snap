@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Open Plots component renders windows for each open plot 1`] = `
+exports[`Open Windows component renders windows for each open window 1`] = `
 <DocumentFragment>
   <mock-plotwindow
     data-testid="mock-plotWindow"
   >
     plotConfig={
+  "id": "test-plot-id-0",
   "open": true,
   "title": "Plot 0",
   "plotType": "scatter",
@@ -41,6 +42,7 @@ onClose=undefined
     data-testid="mock-plotWindow"
   >
     plotConfig={
+  "id": "test-plot-id-2",
   "open": true,
   "title": "Plot 2",
   "plotType": "scatter",
@@ -71,5 +73,39 @@ onClose=undefined
 onClose=undefined
 
   </mock-plotwindow>
+  <mock-tracewindow
+    data-testid="mock-traceWindow"
+  >
+    traceConfig={
+  "open": true,
+  "type": "trace",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Trace TEST 1",
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-tracewindow>
+  <mock-imagewindow
+    data-testid="mock-imageWindow"
+  >
+    imageConfig={
+  "open": true,
+  "type": "image",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Image TEST 1",
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-imagewindow>
 </DocumentFragment>
 `;

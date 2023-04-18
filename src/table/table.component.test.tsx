@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 describe('Table', () => {
   let props: TableProps;
   const generateRow = (num: number): RecordRow => ({
+    _id: `${num}`,
     timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00`)
       .getTime()
       .toString(),
@@ -180,7 +181,26 @@ describe('Table', () => {
     createView();
 
     await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+
+    // expect 100 to not exist as maxShots is 50
+    expect(
+      screen.queryByRole('option', { name: '100' })
+    ).not.toBeInTheDocument();
+
     await user.click(screen.getByRole('option', { name: '10' }));
     expect(onResultsPerPageChange).toHaveBeenCalledWith(10);
+  });
+
+  it('allows the user to have 100 rows per page when max shots is greater than 50', async () => {
+    const user = userEvent.setup();
+    props = {
+      ...props,
+      maxShots: 1000,
+    };
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+
+    expect(screen.getByRole('option', { name: '100' })).toBeInTheDocument();
   });
 });

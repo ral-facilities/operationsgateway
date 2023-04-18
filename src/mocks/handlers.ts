@@ -68,4 +68,14 @@ export const handlers = [
       );
     }
   }),
+  rest.get('/waveforms/:recordId/:channelName', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        _id: '1',
+        x: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]',
+        y: '[2, 10, 8, 7, 1, 4, 5, 3, 6, 9]',
+      })
+    );
+  }),
 ];

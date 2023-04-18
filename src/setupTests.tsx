@@ -10,6 +10,7 @@ import {
   PlotDataset,
   timeChannelName,
   FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -17,7 +18,6 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import {
-  DEFAULT_WINDOW_VARS,
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
@@ -31,6 +31,7 @@ import { staticChannels } from './api/channels';
 import { server } from './mocks/server';
 import { matchRequestUrl, MockedRequest } from 'msw';
 import channelsJson from './mocks/channels.json';
+import crypto from 'crypto';
 
 jest.setTimeout(15000);
 
@@ -54,7 +55,7 @@ export function waitForRequest(method: string, url: string) {
   let requestId = '';
 
   return new Promise<MockedRequest>((resolve, reject) => {
-    server.events.on('request:start', (req) => {
+    const onRequestStart = (req) => {
       const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
 
       const matchesUrl = matchRequestUrl(req.url, url).matches;
@@ -62,21 +63,33 @@ export function waitForRequest(method: string, url: string) {
       if (matchesMethod && matchesUrl) {
         requestId = req.id;
       }
-    });
+    };
 
-    server.events.on('request:match', (req) => {
+    const onRequestMatch = (req) => {
       if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
         resolve(req);
       }
-    });
+    };
 
-    server.events.on('request:unhandled', (req) => {
+    const onRequestUnhandled = (req) => {
       if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
         reject(
           new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
         );
       }
-    });
+    };
+
+    server.events.on('request:start', onRequestStart);
+
+    server.events.on('request:match', onRequestMatch);
+
+    server.events.on('request:unhandled', onRequestUnhandled);
   });
 }
 
@@ -114,6 +127,27 @@ export const dispatch = (
     actions.push(action);
   }
 };
+
+if (typeof window.URL.createObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: () => 'testObjectUrl',
+  });
+}
+
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {
+      // no-op
+    },
+  });
+}
+
+// jest doesn't implement web crypto so set up nodejs crypto as a default
+Object.defineProperty(global, 'crypto', {
+  value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
+});
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
@@ -285,6 +319,7 @@ export const generatePlotConfig = (num: number) => {
   const plotTitle = `Plot ${num}`;
 
   const plotConfig: PlotConfig = {
+    id: `test-plot-id-${num}`,
     open: num % 2 === 0,
     title: plotTitle,
     plotType: num % 2 === 0 ? 'scatter' : 'line',

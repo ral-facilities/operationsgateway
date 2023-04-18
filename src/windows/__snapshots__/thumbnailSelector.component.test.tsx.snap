@@ -1,0 +1,277 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Thumbnail selector component renders correctly when loading 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column css-1r907rv-MuiGrid-root"
+  >
+    <ul
+      class="MuiList-root css-zg5ruu-MuiList-root"
+    />
+    <div
+      class="MuiTablePagination-root css-u4fheo-MuiTablePagination-root"
+      padding="none"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+      >
+        <div
+          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+          id=":r6:"
+        >
+          Page size
+        </p>
+        <div
+          class="MuiInputBase-root MuiInputBase-colorPrimary css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r6: :r5:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+            id=":r5:"
+            role="button"
+            tabindex="0"
+          >
+            25
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="25"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+        >
+          1–25 of more than 25
+        </p>
+        <div
+          class="MuiTablePagination-actions"
+        >
+          <button
+            aria-label="Go to previous page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to previous page"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowLeftIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Go to next page"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+            tabindex="0"
+            title="Go to next page"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Thumbnail selector component renders list of thumbnails and pagination controls 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column css-1r907rv-MuiGrid-root"
+  >
+    <ul
+      class="MuiList-root css-zg5ruu-MuiList-root"
+    >
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+        role="button"
+        tabindex="0"
+      >
+        <img
+          alt="CHANNEL_BCDEF image for timestamp 2022-01-04T00:00:00"
+          aria-label=""
+          class=""
+          data-mui-internal-clone-element="true"
+          src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIABkAGQMBIgACEQEDEQH/xAAbAAABBAMAAAAAAAAAAAAAAAAFAAYICQECB//EACYQAAICAgICAQQDAQAAAAAAAAECAwQFBhESABMHISIxQRQVFkL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8ArB1DXTt+24bBLfpYpsnchpi9kpvTWr+xwvslf/lF55J/QB8fGX+GasFvP2MbscN3XtetNUy+SlgCPXYSMkZSNXYTLKVIjKN9SD39a/cR2iYbGZHDM9ajjc3szW2iGOy981Ilg6p0eIB4vbIzl16+wkAD7G7crYLgdP0nIfEuxZLNQXa23x2n9mLpasktC4/EX9lJJIa7FllYS9GEqnotbpzLyGCtXb8BFrWbNOvae7XetWtxTyQiJ2SaCOZeyBmCkCQAgMRyD9fA3kg/mqvrNbHbjHl9bxeK2d7dSXXr2Nyzu7UQAEhlpB5BFzXeJgz+vj1qqqeWIj54BrSs3DrO54HMWI3lr4/IV7ciRcdmWORWIHP054H78f2U+QdO1nHf5vUKuYyeq5anWfYTm/VXuWraDk+hoy6xRxP2aPkMSWIk7gADlR/J8x4B/dM1Qy9rHR47+TJWo0o6gs3EVJp+pYhmVWYDqGCAdj9sa/j8BvebeLwP/9k="
+          style="margin: auto; border: 1px solid #000000;"
+        />
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+        role="button"
+        tabindex="0"
+      >
+        <img
+          alt="CHANNEL_BCDEF image for timestamp 2022-01-05T00:00:00"
+          aria-label=""
+          class=""
+          data-mui-internal-clone-element="true"
+          src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIABkAGQMBIgACEQEDEQH/xAAbAAABBAMAAAAAAAAAAAAAAAAFAAYICQECB//EACYQAAICAgICAQQDAQAAAAAAAAECAwQFBhESABMHISIxQRQVFkL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8ArB1DXTt+24bBLfpYpsnchpi9kpvTWr+xwvslf/lF55J/QB8fGX+GasFvP2MbscN3XtetNUy+SlgCPXYSMkZSNXYTLKVIjKN9SD39a/cR2iYbGZHDM9ajjc3szW2iGOy981Ilg6p0eIB4vbIzl16+wkAD7G7crYLgdP0nIfEuxZLNQXa23x2n9mLpasktC4/EX9lJJIa7FllYS9GEqnotbpzLyGCtXb8BFrWbNOvae7XetWtxTyQiJ2SaCOZeyBmCkCQAgMRyD9fA3kg/mqvrNbHbjHl9bxeK2d7dSXXr2Nyzu7UQAEhlpB5BFzXeJgz+vj1qqqeWIj54BrSs3DrO54HMWI3lr4/IV7ciRcdmWORWIHP054H78f2U+QdO1nHf5vUKuYyeq5anWfYTm/VXuWraDk+hoy6xRxP2aPkMSWIk7gADlR/J8x4B/dM1Qy9rHR47+TJWo0o6gs3EVJp+pYhmVWYDqGCAdj9sa/j8BvebeLwP/9k="
+          style="margin: auto; border: 1px solid #000000;"
+        />
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+      <div
+        class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+        role="button"
+        tabindex="0"
+      >
+        <img
+          alt="CHANNEL_BCDEF image for timestamp 2022-01-06T00:00:00"
+          aria-label=""
+          class=""
+          data-mui-internal-clone-element="true"
+          src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIABkAGQMBIgACEQEDEQH/xAAbAAABBAMAAAAAAAAAAAAAAAAFAAYICQECB//EACYQAAICAgICAQQDAQAAAAAAAAECAwQFBhESABMHISIxQRQVFkL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8ArB1DXTt+24bBLfpYpsnchpi9kpvTWr+xwvslf/lF55J/QB8fGX+GasFvP2MbscN3XtetNUy+SlgCPXYSMkZSNXYTLKVIjKN9SD39a/cR2iYbGZHDM9ajjc3szW2iGOy981Ilg6p0eIB4vbIzl16+wkAD7G7crYLgdP0nIfEuxZLNQXa23x2n9mLpasktC4/EX9lJJIa7FllYS9GEqnotbpzLyGCtXb8BFrWbNOvae7XetWtxTyQiJ2SaCOZeyBmCkCQAgMRyD9fA3kg/mqvrNbHbjHl9bxeK2d7dSXXr2Nyzu7UQAEhlpB5BFzXeJgz+vj1qqqeWIj54BrSs3DrO54HMWI3lr4/IV7ciRcdmWORWIHP054H78f2U+QdO1nHf5vUKuYyeq5anWfYTm/VXuWraDk+hoy6xRxP2aPkMSWIk7gADlR/J8x4B/dM1Qy9rHR47+TJWo0o6gs3EVJp+pYhmVWYDqGCAdj9sa/j8BvebeLwP/9k="
+          style="margin: auto; border: 1px solid #000000;"
+        />
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </div>
+    </ul>
+    <div
+      class="MuiTablePagination-root css-u4fheo-MuiTablePagination-root"
+      padding="none"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+      >
+        <div
+          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
+          id=":r1:"
+        >
+          Page size
+        </p>
+        <div
+          class="MuiInputBase-root MuiInputBase-colorPrimary css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby=":r1: :r0:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
+            id=":r0:"
+            role="button"
+            tabindex="0"
+          >
+            25
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="25"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+        >
+          1–18 of 18
+        </p>
+        <div
+          class="MuiTablePagination-actions"
+        >
+          <button
+            aria-label="Go to previous page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to previous page"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowLeftIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+              />
+            </svg>
+          </button>
+          <button
+            aria-label="Go to next page"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+            disabled=""
+            tabindex="-1"
+            title="Go to next page"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="KeyboardArrowRightIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

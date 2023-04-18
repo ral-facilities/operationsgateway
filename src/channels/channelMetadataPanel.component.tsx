@@ -20,7 +20,7 @@ import {
   isChannelMetadataWaveform,
 } from '../app.types';
 import {
-  renderImage,
+  TraceOrImageThumbnail,
   renderTimestamp,
 } from '../table/cellRenderers/cellContentRenderers';
 
@@ -180,17 +180,19 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                           {formattedTimestamp}
                         </TableCell>
                         <TableCell>
-                          {isChannelMetadataScalar(displayedChannel)
-                            ? data
-                            : renderImage(
-                                data as string,
-                                `${
-                                  displayedChannel?.name ??
-                                  displayedChannel.systemName
-                                } ${
-                                  displayedChannel.type
-                                } at ${formattedTimestamp}`
-                              )}
+                          {isChannelMetadataScalar(displayedChannel) ? (
+                            data
+                          ) : (
+                            <TraceOrImageThumbnail
+                              base64Data={data as string}
+                              alt={`${
+                                displayedChannel?.name ??
+                                displayedChannel.systemName
+                              } ${
+                                displayedChannel.type
+                              } at ${formattedTimestamp}`}
+                            />
+                          )}
                         </TableCell>
                       </TableRow>
                     );

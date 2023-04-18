@@ -1,5 +1,8 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {
-  renderImage,
+  TraceOrImageThumbnail,
   renderTimestamp,
   roundNumber,
 } from './cellContentRenderers';
@@ -79,23 +82,39 @@ describe('cell content renderers', () => {
 
   describe('renderImage', () => {
     it('returns an img tag with the correct src and alt attributes', () => {
-      const view = renderImage('base64', 'alt text');
-      expect(view).toMatchInlineSnapshot(`
-        <img
-          alt="alt text"
-          src="data:image/jpeg;base64,base64"
-          style={
-            Object {
-              "border": "1px solid #000000",
-            }
-          }
-        />
+      const view = render(
+        <TraceOrImageThumbnail base64Data="base64" alt="alt text" />
+      );
+      expect(view.asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <img
+            alt="alt text"
+            src="data:image/jpeg;base64,base64"
+            style="border: 1px solid #000000;"
+          />
+        </DocumentFragment>
       `);
     });
 
     it('returns null when src is undefined', () => {
-      const view = renderImage(undefined, 'alt text');
-      expect(view).toBeNull();
+      const view = render(
+        <TraceOrImageThumbnail base64Data={undefined} alt="alt text" />
+      );
+      expect(view.asFragment()).toMatchInlineSnapshot(`<DocumentFragment />`);
+    });
+
+    it('can attach a onClick handler to the img', async () => {
+      const user = userEvent.setup();
+      const onClick = jest.fn();
+      render(
+        <TraceOrImageThumbnail
+          base64Data="base64"
+          alt="alt text"
+          onClick={onClick}
+        />
+      );
+      await user.click(screen.getByRole('img', { name: 'alt text' }));
+      expect(onClick).toHaveBeenCalled();
     });
   });
 

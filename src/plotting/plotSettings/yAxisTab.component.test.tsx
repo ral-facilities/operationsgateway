@@ -295,8 +295,8 @@ describe('y-axis tab', () => {
       createView();
 
       const minField = screen.getByLabelText('Min');
-      await user.type(minField, '1');
-      expect(changeLeftYAxisMinimum).toHaveBeenCalledWith(1);
+      await user.type(minField, '0');
+      expect(changeLeftYAxisMinimum).toHaveBeenCalledWith(0);
     });
 
     it('lets user change the max field and calls relevant onchange method', async () => {
@@ -305,8 +305,8 @@ describe('y-axis tab', () => {
       await user.click(screen.getByRole('button', { name: 'Right' }));
 
       const maxField = screen.getByLabelText('Max');
-      await user.type(maxField, '1');
-      expect(changeRightYAxisMaximum).toHaveBeenCalledWith(1);
+      await user.type(maxField, '0');
+      expect(changeRightYAxisMaximum).toHaveBeenCalledWith(0);
     });
 
     it('sets minimum value to undefined if no float value is present', async () => {
@@ -346,6 +346,18 @@ describe('y-axis tab', () => {
 
       // One for each input box
       expect(screen.getAllByText('Invalid range').length).toEqual(2);
+    });
+
+    it('initialises correctly with falsy values', async () => {
+      props.initialLeftYAxisMinimum = 0;
+      props.initialLeftYAxisMaximum = 0;
+      createView();
+
+      const minField = screen.getByLabelText('Min');
+      expect(minField).toHaveValue('0');
+
+      const maxField = screen.getByLabelText('Max');
+      expect(maxField).toHaveValue('0');
     });
   });
 });

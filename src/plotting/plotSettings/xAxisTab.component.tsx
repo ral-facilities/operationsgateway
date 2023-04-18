@@ -60,17 +60,25 @@ const XAxisTab = (props: XAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
-    initialXMinimum && XAxisScale !== 'time' ? '' + initialXMinimum : ''
+    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMinimum
+      : ''
   );
   const [xMaximum, setXMaximum] = React.useState<string>(
-    initialXMaximum && XAxisScale !== 'time' ? '' + initialXMaximum : ''
+    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMaximum
+      : ''
   );
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    initialXMinimum && XAxisScale === 'time' ? new Date(initialXMinimum) : null
+    typeof initialXMinimum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMinimum)
+      : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    initialXMaximum && XAxisScale === 'time' ? new Date(initialXMaximum) : null
+    typeof initialXMaximum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMaximum)
+      : null
   );
 
   // set seconds to 0 for fromDate
@@ -88,8 +96,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMinimum && parseFloat(xMinimum)) {
-        changeXMinimum(parseFloat(xMinimum));
+      const parsedXMinimum = parseFloat(xMinimum);
+      if (!Number.isNaN(parsedXMinimum)) {
+        changeXMinimum(parsedXMinimum);
       } else {
         changeXMinimum(undefined);
       }
@@ -98,8 +107,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMaximum && parseFloat(xMaximum)) {
-        changeXMaximum(parseFloat(xMaximum));
+      const parsedXMaximum = parseFloat(xMaximum);
+      if (!Number.isNaN(parsedXMaximum)) {
+        changeXMaximum(parsedXMaximum);
       } else {
         changeXMaximum(undefined);
       }
@@ -110,7 +120,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (fromDate) {
         const unixTimestamp = fromDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
       } else {
         changeXMinimum(undefined);
       }
@@ -121,7 +131,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (toDate) {
         const unixTimestamp = toDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
       } else {
         changeXMaximum(undefined);
       }
@@ -172,7 +182,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setFromDate(date as Date);
+                  setFromDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
@@ -238,7 +248,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setToDate(date as Date);
+                  setToDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{

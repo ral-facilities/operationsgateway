@@ -317,6 +317,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         onPageChange={(e, page) => onPageChange(page)}
         page={page}
         rowsPerPage={resultsPerPage}
+        rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}
         onRowsPerPageChange={(event) =>
           onResultsPerPageChange(parseInt(event.target.value))
         }
