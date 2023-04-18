@@ -20,10 +20,11 @@ export interface TimeframeProps {
   timeframe: TimeframeRange | null;
   changeTimeframe: (value: TimeframeRange) => void;
   resetExperimentTimeframe: () => void;
+  resetShotnumber: () => void;
 }
 
 const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
-  const { changeTimeframe, resetExperimentTimeframe } = props;
+  const { changeTimeframe, resetExperimentTimeframe, resetShotnumber } = props;
 
   const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
 
@@ -48,6 +49,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             sx={{ height: '100%' }}
             onClick={() => {
               resetExperimentTimeframe();
+              resetShotnumber();
               changeTimeframe({ value: 10, timescale: 'minutes' });
             }}
           >
@@ -61,6 +63,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             sx={{ height: '100%' }}
             onClick={() => {
               resetExperimentTimeframe();
+              resetShotnumber();
               changeTimeframe({ value: 24, timescale: 'hours' });
             }}
           >
@@ -74,6 +77,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             sx={{ height: '100%' }}
             onClick={() => {
               resetExperimentTimeframe();
+              resetShotnumber();
               changeTimeframe({ value: 7, timescale: 'days' });
             }}
           >
@@ -104,6 +108,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               onClick={() => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
+                  resetShotnumber();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'minutes',
@@ -122,6 +127,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               onClick={() => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
+                  resetShotnumber();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'hours',
@@ -140,6 +146,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               onClick={() => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
+                  resetShotnumber();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'days',

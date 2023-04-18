@@ -197,14 +197,45 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   React.useEffect(() => {
     if (shotnumToDate) {
-      const fromDate = shotnumToDate.from;
-      const toDate = shotnumToDate.to;
-      if (fromDate && toDate) {
-        setSearchParameterFromDate(new Date(fromDate));
-        setSearchParameterToDate(new Date(toDate));
+      if (shotnumToDate.from && shotnumToDate.to) {
+        const shotnumToDateFromDate = new Date(shotnumToDate.from);
+        const shotnumToDateToDate = new Date(shotnumToDate.to);
+
+        setSearchParameterFromDate(shotnumToDateFromDate);
+        setSearchParameterToDate(shotnumToDateToDate);
+
+        if (timeframeRange) {
+          const { from: timeframeFromDate, to: timeframeToDate } =
+            calculateTimeframeDateRange(timeframeRange);
+          if (
+            !(
+              timeframeFromDate >= shotnumToDateFromDate &&
+              timeframeToDate <= shotnumToDateToDate
+            )
+          ) {
+            setTimeframeRange(null);
+          }
+        }
+        if (searchParameterExperiment) {
+          const experimentStartDate = new Date(
+            searchParameterExperiment.start_date
+          );
+          const experimentEndDate = new Date(
+            searchParameterExperiment.end_date
+          );
+
+          if (
+            !(
+              experimentStartDate >= shotnumToDateFromDate &&
+              experimentEndDate <= shotnumToDateToDate
+            )
+          ) {
+            setSearchParameterExperiment(null);
+          }
+        }
       }
     }
-  }, [searchParameterExperiment, shotnumToDate]);
+  }, [searchParameterExperiment, setShotnum, shotnumToDate, timeframeRange]);
 
   React.useEffect(() => {
     setParamsUpdated(true);
@@ -384,6 +415,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   timeframe={timeframeRange}
                   changeTimeframe={setRelativeTimeframe}
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  resetShotnumber={() => setShotnum(undefined, undefined)}
                 />
               </Grid>
               <Grid item xs={2}>
