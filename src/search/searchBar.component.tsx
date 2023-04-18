@@ -205,16 +205,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
         setSearchParameterToDate(shotnumToDateToDate);
 
         if (timeframeRange) {
-          const { from: timeframeFromDate, to: timeframeToDate } =
-            calculateTimeframeDateRange(timeframeRange);
-          if (
-            !(
-              timeframeFromDate >= shotnumToDateFromDate &&
-              timeframeToDate <= shotnumToDateToDate
-            )
-          ) {
-            setTimeframeRange(null);
-          }
+          setTimeframeRange(null);
         }
         if (searchParameterExperiment) {
           const experimentStartDate = new Date(
