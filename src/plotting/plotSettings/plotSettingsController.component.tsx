@@ -201,7 +201,11 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <PlotSettingsTextField value={plotTitle} onChange={changePlotTitle} />
+        <PlotSettingsTextField
+          label="Title"
+          value={plotTitle}
+          onChange={changePlotTitle}
+        />
       </Grid>
       <Grid item>
         <ChartTypeButtons
