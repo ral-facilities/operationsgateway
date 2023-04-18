@@ -66,12 +66,13 @@ describe('Open Windows component', () => {
 
   it('renders windows for each open window', async () => {
     state.plots = {
-      [testPlotConfigs[0].title]: testPlotConfigs[0],
-      [testPlotConfigs[1].title]: testPlotConfigs[1],
-      [testPlotConfigs[2].title]: testPlotConfigs[2],
+      [testPlotConfigs[0].id]: testPlotConfigs[0],
+      [testPlotConfigs[1].id]: testPlotConfigs[1],
+      [testPlotConfigs[2].id]: testPlotConfigs[2],
     };
     state.windows = {
-      'Trace TEST 1': {
+      trace_window: {
+        id: 'trace_window',
         open: true,
         type: 'trace',
         recordId: '1',
@@ -79,7 +80,8 @@ describe('Open Windows component', () => {
         title: 'Trace TEST 1',
         ...DEFAULT_WINDOW_VARS,
       },
-      'Image TEST 1': {
+      image_window: {
+        id: 'image_window',
         open: true,
         type: 'image',
         recordId: '1',

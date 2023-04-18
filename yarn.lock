@@ -9058,6 +9058,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hacktimer@npm:1.1.3":
+  version: 1.1.3
+  resolution: "hacktimer@npm:1.1.3"
+  checksum: 77ba1c2949cf5cf3229545a6e7f14786997d1ac381c85f08ee55d1076f685d2cfb5755df60d1ad0994bb7d987b72270a4581bddecb0b89ae56df34fa32925ead
+  languageName: node
+  linkType: hard
+
 "hammerjs@npm:^2.0.8":
   version: 2.0.8
   resolution: "hammerjs@npm:2.0.8"
@@ -12308,6 +12315,7 @@ __metadata:
     eslint-plugin-no-only-tests: 3.1.0
     eslint-plugin-prettier: 4.2.1
     express: 4.18.1
+    hacktimer: 1.1.3
     history: 5.3.0
     husky: 8.0.1
     i18next: 22.4.3

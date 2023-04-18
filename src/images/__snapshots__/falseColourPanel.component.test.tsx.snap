@@ -1,0 +1,389 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`False colour panel component renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
+  >
+    <div
+      class="css-d34ffb-MuiStack-root"
+    >
+      <label
+        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+      >
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+        >
+          <span
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+            />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          />
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+        >
+          False Colour
+        </span>
+      </label>
+      <div
+        class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          id="colour-map-select-label"
+        >
+          Colour Map
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="colour-map-select-label colour-map-select"
+            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id="colour-map-select"
+            role="button"
+            tabindex="0"
+          >
+            <span
+              class="notranslate"
+            >
+              ​
+            </span>
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value=""
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-yjsfm1"
+            >
+              <span>
+                Colour Map
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+      <div
+        class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-bmhlz8-MuiFormLabel-root"
+          id="lower-level-label"
+        >
+          Lower Level (LL)
+        </label>
+        <span
+          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked MuiSlider-trackFalse css-170o3qy-MuiSlider-root"
+        >
+          <span
+            class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+          />
+          <span
+            class="MuiSlider-track css-pm1ix7-MuiSlider-track"
+            style="left: 0%; width: 0%;"
+          />
+          <span
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            data-index="0"
+            style="left: 0%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            data-index="0"
+            style="left: 0%;"
+          >
+            0
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="1"
+            style="left: 12.156862745098039%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="2"
+            style="left: 24.705882352941178%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="2"
+            style="left: 24.705882352941178%;"
+          >
+            63
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="3"
+            style="left: 37.254901960784316%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="4"
+            style="left: 49.80392156862745%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="4"
+            style="left: 49.80392156862745%;"
+          >
+            127
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="5"
+            style="left: 62.35294117647059%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="6"
+            style="left: 74.90196078431373%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="6"
+            style="left: 74.90196078431373%;"
+          >
+            191
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="7"
+            style="left: 87.45098039215686%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="8"
+            style="left: 100%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="8"
+            style="left: 100%;"
+          >
+            255
+          </span>
+          <span
+            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+            data-focusvisible="false"
+            data-index="0"
+            style="left: 0%;"
+          >
+            <input
+              aria-labelledby="lower-level-label"
+              aria-orientation="horizontal"
+              aria-valuemax="255"
+              aria-valuemin="0"
+              aria-valuenow="0"
+              data-index="0"
+              max="255"
+              min="0"
+              step="1"
+              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              type="range"
+              value="0"
+            />
+            <span
+              aria-hidden="true"
+              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+            >
+              <span
+                class="MuiSlider-valueLabelCircle"
+              >
+                <span
+                  class="MuiSlider-valueLabelLabel"
+                >
+                  0
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+      </div>
+      <img
+        alt="Colour bar"
+      />
+      <div
+        class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+      >
+        <span
+          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked MuiSlider-trackFalse css-11j9jvr-MuiSlider-root"
+        >
+          <span
+            class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+          />
+          <span
+            class="MuiSlider-track css-pm1ix7-MuiSlider-track"
+            style="left: 0%; width: 100%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="0"
+            style="left: 0%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="0"
+            style="left: 0%;"
+          >
+            0
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="1"
+            style="left: 12.156862745098039%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="2"
+            style="left: 24.705882352941178%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="2"
+            style="left: 24.705882352941178%;"
+          >
+            63
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="3"
+            style="left: 37.254901960784316%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="4"
+            style="left: 49.80392156862745%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="4"
+            style="left: 49.80392156862745%;"
+          >
+            127
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="5"
+            style="left: 62.35294117647059%;"
+          />
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="6"
+            style="left: 74.90196078431373%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            data-index="6"
+            style="left: 74.90196078431373%;"
+          >
+            191
+          </span>
+          <span
+            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            data-index="7"
+            style="left: 87.45098039215686%;"
+          />
+          <span
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            data-index="8"
+            style="left: 100%;"
+          />
+          <span
+            aria-hidden="true"
+            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            data-index="8"
+            style="left: 100%;"
+          >
+            255
+          </span>
+          <span
+            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
+            data-focusvisible="false"
+            data-index="0"
+            style="left: 100%;"
+          >
+            <input
+              aria-labelledby="upper-level-label"
+              aria-orientation="horizontal"
+              aria-valuemax="255"
+              aria-valuemin="0"
+              aria-valuenow="255"
+              data-index="0"
+              max="255"
+              min="0"
+              step="1"
+              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              type="range"
+              value="255"
+            />
+            <span
+              aria-hidden="true"
+              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+            >
+              <span
+                class="MuiSlider-valueLabelCircle"
+              >
+                <span
+                  class="MuiSlider-valueLabelLabel"
+                >
+                  255
+                </span>
+              </span>
+            </span>
+          </span>
+        </span>
+        <label
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-bmhlz8-MuiFormLabel-root"
+          id="upper-level-label"
+        >
+          Upper Level (UL)
+        </label>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -74,6 +74,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-no-only-tests", "npm:3.1.0"],\
             ["eslint-plugin-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.2.1"],\
             ["express", "npm:4.18.1"],\
+            ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.4.3"],\
@@ -12397,6 +12398,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["hacktimer", [\
+        ["npm:1.1.3", {\
+          "packageLocation": "./.yarn/cache/hacktimer-npm-1.1.3-155957c0f3-77ba1c2949.zip/node_modules/hacktimer/",\
+          "packageDependencies": [\
+            ["hacktimer", "npm:1.1.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["hammerjs", [\
         ["npm:2.0.8", {\
           "packageLocation": "./.yarn/cache/hammerjs-npm-2.0.8-f656ba2573-b092da7d15.zip/node_modules/hammerjs/",\
@@ -16101,6 +16111,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-no-only-tests", "npm:3.1.0"],\
             ["eslint-plugin-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.2.1"],\
             ["express", "npm:4.18.1"],\
+            ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.4.3"],\
