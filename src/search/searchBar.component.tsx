@@ -17,7 +17,12 @@ import {
 import { Warning } from '@mui/icons-material';
 import DataRefresh from './components/dataRefresh.component';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { DateRange, SearchParams, ShotnumRange } from '../app.types';
+import {
+  DateRange,
+  ExperimentParams,
+  SearchParams,
+  ShotnumRange,
+} from '../app.types';
 import { sub } from 'date-fns';
 import {
   changeSearchParams,
@@ -28,6 +33,7 @@ import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import { useIncomingRecordCount } from '../api/records';
 import { useQueryClient } from '@tanstack/react-query';
 import { selectQueryFilters } from '../state/slices/filterSlice';
+import { useExperiment } from '../api/experiment';
 
 export type TimeframeDates = {
   fromDate: Date | null;
@@ -42,7 +48,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
-  const { dateRange, shotnumRange, maxShots: maxShotsParam } = searchParams;
+  const {
+    dateRange,
+    shotnumRange,
+    maxShots: maxShotsParam,
+    experimentID,
+  } = searchParams;
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -62,6 +73,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       dateRange.toDate ? new Date(dateRange.toDate) : null
     );
 
+  // set seconds to 0 for searchParameterFromDate
+  if (searchParameterFromDate) {
+    searchParameterFromDate.setSeconds(0);
+  }
+
+  // set seconds to 59 for searchParameterToDate
+  if (searchParameterToDate) {
+    searchParameterToDate.setSeconds(59);
+  }
+
   // ########################
   // TIMEFRAME
   // ########################
@@ -76,7 +97,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     timeframe: TimeframeRange
   ): { from: Date; to: Date } => {
     const to = new Date();
+    to.setSeconds(59);
     const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
+    from.setSeconds(0);
 
     return { from, to };
   };
@@ -108,6 +131,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
+  // ########################
+  // Experiment ID
+  // ########################
+
+  const { data: experiments } = useExperiment();
+  const [searchParameterExperiment, setSearchParameterExperiment] =
+    React.useState<ExperimentParams | null>(experimentID);
+
   React.useEffect(() => {
     setParamsUpdated(true);
     // reset warning message when search params change
@@ -125,7 +156,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // ########################
   // The limit on how many records are fetched before displaying a warning to the user
   const recordLimitWarning = useAppSelector(selectRecordLimitWarning);
-  const recordLimitSet = recordLimitWarning > -1;
 
   const [displayingWarningMessage, setDisplayingWarningMessage] =
     React.useState<boolean>(false);
@@ -148,9 +178,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     return (
       !countLoading &&
       incomingCount !== undefined &&
+      recordLimitWarning > -1 &&
+      maxShots > recordLimitWarning &&
       incomingCount > recordLimitWarning
     );
-  }, [countLoading, incomingCount, recordLimitWarning]);
+  }, [countLoading, incomingCount, recordLimitWarning, maxShots]);
 
   // ########################
   // INITIATING THE SEARCH
@@ -174,10 +206,49 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       dateRange: newDateRange,
       shotnumRange: newShotnumRange,
       maxShots,
+      experimentID: searchParameterExperiment,
     };
 
-    if (recordLimitSet) {
-      setIncomingParams(newSearchParams);
+    setIncomingParams(newSearchParams);
+
+    // if the user re-clicks the button after the warning message is displayed
+    // or if the user has already fetched the data they're requesting
+    // update the applied filters
+    if (
+      displayingWarningMessage ||
+      // search for if we have previously made a search with these params
+      // use exact: false to ignore things like sort, pagination etc.
+      queryClient.getQueriesData({
+        exact: false,
+        queryKey: [
+          'records',
+          { filters: filters, searchParams: newSearchParams },
+        ],
+      }).length > 0
+    ) {
+      setDisplayingWarningMessage(false);
+      dispatch(changeSearchParams(newSearchParams));
+      setParamsUpdated(false);
+    }
+  }, [
+    searchParameterFromDate,
+    searchParameterToDate,
+    searchParameterShotnumMin,
+    searchParameterShotnumMax,
+    searchParameterExperiment,
+    maxShots,
+    displayingWarningMessage,
+    queryClient,
+    filters,
+    dispatch,
+  ]);
+
+  // this should run after handleSearch is called and incomingCount
+  // is subsequently updated - here we check if we're over the record limit and either
+  // display the warning message or update the applied filters
+  React.useEffect(() => {
+    // check incomingCount isn't undefined so we don't run on initial render
+    if (typeof incomingCount !== 'undefined') {
       if (
         !displayingWarningMessage &&
         overRecordLimit() &&
@@ -187,31 +258,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           exact: false,
           queryKey: [
             'records',
-            { filters: filters, searchParams: newSearchParams },
+            { filters: filters, searchParams: incomingParams },
           ],
         }).length === 0
       ) {
         setDisplayingWarningMessage(true);
-        return;
+      } else {
+        setDisplayingWarningMessage(false);
+        dispatch(changeSearchParams(incomingParams));
+        setParamsUpdated(false);
       }
     }
-
-    setDisplayingWarningMessage(false);
-    dispatch(changeSearchParams(newSearchParams));
-    setParamsUpdated(false);
-  }, [
-    searchParameterFromDate,
-    searchParameterToDate,
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
-    maxShots,
-    recordLimitSet,
-    dispatch,
-    displayingWarningMessage,
-    overRecordLimit,
-    queryClient,
-    filters,
-  ]);
+    // deliberately only want this use effect to be called when incomingCount or incomingParams changes
+    // i.e. so we can react to the result of new incoming count queries
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [incomingCount, incomingParams]);
 
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
@@ -252,7 +313,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 />
               </Grid>
               <Grid item xs={2}>
-                <Experiment />
+                <Experiment
+                  experiments={experiments ?? []}
+                  onExperimentChange={setSearchParameterExperiment}
+                  experiment={searchParameterExperiment}
+                />
               </Grid>
               <Grid item xs={2}>
                 <ShotNumber

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Image view component renders an image and a canvas overlay 1`] = `
+<DocumentFragment>
+  <div
+    style="position: relative;"
+  >
+    <canvas
+      data-testid="overlay"
+      height="200"
+      style="position: absolute; z-index: 2; pointer-events: none;"
+      width="300"
+    />
+    <div
+      style="display: inline-block; overflow: hidden;"
+    >
+      <img
+        alt="Test image"
+        src="testSrc"
+        style="transform: translate(0px,0px) scale(1); transform-origin: top left;"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

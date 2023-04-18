@@ -1,5 +1,7 @@
 import {
+  Button,
   Divider,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -8,6 +10,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import React from 'react';
 import { useChannelSummary } from '../api/channels';
 import {
@@ -16,12 +20,15 @@ import {
   isChannelMetadataWaveform,
 } from '../app.types';
 import {
-  renderImage,
+  TraceOrImageThumbnail,
   renderTimestamp,
 } from '../table/cellRenderers/cellContentRenderers';
 
 type ChannelMetadataPanelProps = {
   displayedChannel: FullChannelMetadata | undefined;
+  isChannelSelected: boolean;
+  onSelectChannel: (channel: string) => void;
+  onDeselectChannel: (channel: string) => void;
 };
 
 const Heading = (props: React.ComponentProps<typeof Typography>) => {
@@ -48,18 +55,60 @@ const Body = (props: React.ComponentProps<typeof Typography>) => {
 };
 
 const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
-  const { displayedChannel } = props;
+  const {
+    displayedChannel,
+    isChannelSelected,
+    onSelectChannel,
+    onDeselectChannel,
+  } = props;
 
   const { data: channelSummary } = useChannelSummary(
     displayedChannel?.systemName
   );
 
+  function addCurrentChannel() {
+    if (displayedChannel?.systemName) {
+      onSelectChannel(displayedChannel.systemName);
+    }
+  }
+
+  function removeCurrentChannel() {
+    if (displayedChannel?.systemName) {
+      onDeselectChannel(displayedChannel.systemName);
+    }
+  }
+
   if (displayedChannel) {
     return (
       <>
-        <Heading>
-          {displayedChannel?.name ?? displayedChannel.systemName}
-        </Heading>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Heading gutterBottom={false}>
+            {displayedChannel?.name ?? displayedChannel.systemName}
+          </Heading>
+          {isChannelSelected ? (
+            <Button
+              variant="outlined"
+              startIcon={<RemoveIcon />}
+              size="small"
+              onClick={removeCurrentChannel}
+            >
+              Remove this channel
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              size="small"
+              onClick={addCurrentChannel}
+            >
+              Add this channel
+            </Button>
+          )}
+        </Stack>
         {displayedChannel?.name && (
           <Body>System name: {displayedChannel.systemName}</Body>
         )}
@@ -131,17 +180,19 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                           {formattedTimestamp}
                         </TableCell>
                         <TableCell>
-                          {isChannelMetadataScalar(displayedChannel)
-                            ? data
-                            : renderImage(
-                                data as string,
-                                `${
-                                  displayedChannel?.name ??
-                                  displayedChannel.systemName
-                                } ${
-                                  displayedChannel.type
-                                } at ${formattedTimestamp}`
-                              )}
+                          {isChannelMetadataScalar(displayedChannel) ? (
+                            data
+                          ) : (
+                            <TraceOrImageThumbnail
+                              base64Data={data as string}
+                              alt={`${
+                                displayedChannel?.name ??
+                                displayedChannel.systemName
+                              } ${
+                                displayedChannel.type
+                              } at ${formattedTimestamp}`}
+                            />
+                          )}
                         </TableCell>
                       </TableRow>
                     );

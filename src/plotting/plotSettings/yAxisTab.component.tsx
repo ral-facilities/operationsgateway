@@ -102,10 +102,14 @@ const YAxisTab = (props: YAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [yMinimum, setYMinimum] = React.useState<string>(
-    initialLeftYAxisMinimum ? '' + initialLeftYAxisMinimum : ''
+    typeof initialLeftYAxisMinimum !== 'undefined'
+      ? '' + initialLeftYAxisMinimum
+      : ''
   );
   const [yMaximum, setYMaximum] = React.useState<string>(
-    initialLeftYAxisMaximum ? '' + initialLeftYAxisMaximum : ''
+    typeof initialLeftYAxisMaximum !== 'undefined'
+      ? '' + initialLeftYAxisMaximum
+      : ''
   );
 
   const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
@@ -121,8 +125,12 @@ const YAxisTab = (props: YAxisTabProps) => {
     const initialMaximum =
       axis === 'right' ? initialRightYAxisMaximum : initialLeftYAxisMaximum;
 
-    setYMinimum(initialMinimum ? '' + initialMinimum : '');
-    setYMaximum(initialMaximum ? '' + initialMaximum : '');
+    setYMinimum(
+      typeof initialMinimum !== 'undefined' ? '' + initialMinimum : ''
+    );
+    setYMaximum(
+      typeof initialMaximum !== 'undefined' ? '' + initialMaximum : ''
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axis]);
 
@@ -131,8 +139,9 @@ const YAxisTab = (props: YAxisTabProps) => {
       setYMinimum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMinimum : changeLeftYAxisMinimum;
-      if (newValue && parseFloat(newValue)) {
-        changeFn(parseFloat(newValue));
+      const parsedNewValue = parseFloat(newValue);
+      if (!Number.isNaN(parsedNewValue)) {
+        changeFn(parsedNewValue);
       } else {
         changeFn(undefined);
       }
@@ -145,8 +154,9 @@ const YAxisTab = (props: YAxisTabProps) => {
       setYMaximum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMaximum : changeLeftYAxisMaximum;
-      if (newValue && parseFloat(newValue)) {
-        changeFn(parseFloat(newValue));
+      const parsedNewValue = parseFloat(newValue);
+      if (!Number.isNaN(parsedNewValue)) {
+        changeFn(parsedNewValue);
       } else {
         changeFn(undefined);
       }

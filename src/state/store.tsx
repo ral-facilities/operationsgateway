@@ -11,6 +11,7 @@ import tableReducer from './slices/tableSlice';
 import searchReducer from './slices/searchSlice';
 import plotReducer from './slices/plotSlice';
 import filterReducer from './slices/filterSlice';
+import windowsReducer from './slices/windowSlice';
 
 const rootReducer = combineReducers({
   config: configReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   plots: plotReducer,
   filter: filterReducer,
+  windows: windowsReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {

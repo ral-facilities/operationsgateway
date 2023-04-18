@@ -61,18 +61,35 @@ const XAxisTab = (props: XAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
-    initialXMinimum && XAxisScale !== 'time' ? '' + initialXMinimum : ''
+    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMinimum
+      : ''
   );
   const [xMaximum, setXMaximum] = React.useState<string>(
-    initialXMaximum && XAxisScale !== 'time' ? '' + initialXMaximum : ''
+    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMaximum
+      : ''
   );
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    initialXMinimum && XAxisScale === 'time' ? new Date(initialXMinimum) : null
+    typeof initialXMinimum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMinimum)
+      : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    initialXMaximum && XAxisScale === 'time' ? new Date(initialXMaximum) : null
+    typeof initialXMaximum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMaximum)
+      : null
   );
+
+  // set seconds to 0 for fromDate
+  if (fromDate) {
+    fromDate.setSeconds(0);
+  }
+  // set seconds to 59 for toDate
+  if (toDate) {
+    toDate.setSeconds(59);
+  }
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
 
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
@@ -80,8 +97,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMinimum && parseFloat(xMinimum)) {
-        changeXMinimum(parseFloat(xMinimum));
+      const parsedXMinimum = parseFloat(xMinimum);
+      if (!Number.isNaN(parsedXMinimum)) {
+        changeXMinimum(parsedXMinimum);
       } else {
         changeXMinimum(undefined);
       }
@@ -90,8 +108,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMaximum && parseFloat(xMaximum)) {
-        changeXMaximum(parseFloat(xMaximum));
+      const parsedXMaximum = parseFloat(xMaximum);
+      if (!Number.isNaN(parsedXMaximum)) {
+        changeXMaximum(parsedXMaximum);
       } else {
         changeXMaximum(undefined);
       }
@@ -102,7 +121,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (fromDate) {
         const unixTimestamp = fromDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
       } else {
         changeXMinimum(undefined);
       }
@@ -113,7 +132,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (toDate) {
         const unixTimestamp = toDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
       } else {
         changeXMaximum(undefined);
       }
@@ -156,17 +175,17 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 componentsProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setFromDate(date as Date);
+                  setFromDate(date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'from, date-time picker',
@@ -178,7 +197,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (fromDate && !isValid(fromDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (
@@ -215,17 +234,17 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 componentsProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setToDate(date as Date);
+                  setToDate(date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'to, date-time picker',
@@ -237,7 +256,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (toDate && !isValid(toDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (

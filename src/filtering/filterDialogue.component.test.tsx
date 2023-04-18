@@ -250,8 +250,8 @@ describe('Filter dialogue component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/channels/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(2));
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
       })
     );
 
@@ -259,7 +259,7 @@ describe('Filter dialogue component', () => {
       ...getInitialState(),
       config: {
         ...getInitialState().config,
-        recordLimitWarning: 1, // lower than the returned count of 2
+        recordLimitWarning: 30, // lower than the returned count of 31
       },
     };
     const { store } = createView(state);
@@ -279,7 +279,7 @@ describe('Filter dialogue component', () => {
     await user.hover(screen.getByText('Apply'));
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 
-    // Store should not be updated, indicating search is yet to initiate
+    // // Store should not be updated, indicating search is yet to initiate
     expect(store.getState().filter.appliedFilters).toStrictEqual([[]]);
 
     // Try search again
@@ -298,11 +298,90 @@ describe('Filter dialogue component', () => {
     ]);
   });
 
+  it('displays a warning tooltip if previous filter did not need one but the current one does', async () => {
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 30, // lower than the returned count of 31
+      },
+    };
+    createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByText('Apply'));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
+      })
+    );
+
+    await user.type(filter1, '{backspace}={enter}1{enter}');
+    await user.tab();
+
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should be present
+    await user.hover(screen.getByText('Apply'));
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+  });
+
+  it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(100));
+      })
+    );
+
+    const state = {
+      ...getInitialState(),
+      search: {
+        ...getInitialState().search,
+        maxShots: 50,
+      },
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 75, // lower than the returned count of 100
+      },
+    };
+    createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Apply' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  });
+
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/channels/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(2));
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
       })
     );
 
@@ -322,6 +401,7 @@ describe('Filter dialogue component', () => {
             dateRange: {},
             maxShots: 50,
             shotnumRange: {},
+            experimentID: null,
           },
           filters: ['{"metadata.activeArea":{"$ne":null}}'],
         },
@@ -335,7 +415,7 @@ describe('Filter dialogue component', () => {
       ...getInitialState(),
       config: {
         ...getInitialState().config,
-        recordLimitWarning: 1, // lower than the returned count of 2
+        recordLimitWarning: 30, // lower than the returned count of 31
       },
     };
     const { store } = createView(state, testQueryClient);

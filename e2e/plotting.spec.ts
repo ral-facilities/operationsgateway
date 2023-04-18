@@ -2,8 +2,6 @@ import { expect, test } from '@playwright/test';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
-  context,
-  browserName,
 }) => {
   await page.goto('/');
 
@@ -36,14 +34,6 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
@@ -55,8 +45,6 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
 test('plots a shotnum vs channel graph with logarithmic scales', async ({
   page,
-  context,
-  browserName,
 }) => {
   await page.goto('/');
 
@@ -89,14 +77,6 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
@@ -105,11 +85,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can zoom and pan the graph', async ({
-  page,
-  context,
-  browserName,
-}) => {
+test('user can zoom and pan the graph', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -126,32 +102,39 @@ test('user can zoom and pan the graph', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   await chart.click();
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
 
+  // test drag to zoom
   await popup.dragAndDrop('#my-chart', '#my-chart', {
     sourcePosition: {
-      x: 100,
-      y: 100,
+      x: 250,
+      y: 120,
     },
     targetPosition: {
-      x: 25,
-      y: 25,
+      x: 450,
+      y: 180,
     },
   });
+
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+
+  await popup.keyboard.down('Shift');
+  await popup.dragAndDrop('#my-chart', '#my-chart', {
+    sourcePosition: {
+      x: 150,
+      y: 150,
+    },
+    targetPosition: {
+      x: 50,
+      y: 50,
+    },
+  });
+  await popup.keyboard.up('Shift');
 
   // click far side of chart to remove any tooltips
   await chart.click({
@@ -170,30 +153,21 @@ test('user can zoom and pan the graph', async ({
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
-  // test the reset view button resets the zoom & pan
-  // can't test reset zoom on chrome with the "have to close main window" workaround
-  if (browserName !== 'chromium') {
-    await popup.locator('text=Reset View').click({
-      // delay helps remove tooltips from the plot
-      delay: 1000,
-    });
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
+  await popup.locator('text=Reset View').click({
+    // delay helps remove tooltips from the plot
+    delay: 1000,
+  });
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
 
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await chart.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot({ maxDiffPixels: 150 });
-  }
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('plots multiple channels on the y axis', async ({
-  page,
-  context,
-  browserName,
-}) => {
+test('plots multiple channels on the y axis', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -235,14 +209,6 @@ test('plots multiple channels on the y axis', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   // need this to wait for canvas animations to execute
@@ -255,11 +221,7 @@ test('plots multiple channels on the y axis', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can hide gridlines and axes labels', async ({
-  page,
-  context,
-  browserName,
-}) => {
+test('user can hide gridlines and axes labels', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -291,14 +253,6 @@ test('user can hide gridlines and axes labels', async ({
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   expect(
@@ -310,8 +264,6 @@ test('user can hide gridlines and axes labels', async ({
 
 test('user can add from and to dates to timestamp on x-axis', async ({
   page,
-  context,
-  browserName,
 }) => {
   await page.goto('/');
 
@@ -343,14 +295,6 @@ test('user can add from and to dates to timestamp on x-axis', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   // eslint-disable-next-line jest/no-conditional-expect
@@ -362,11 +306,7 @@ test('user can add from and to dates to timestamp on x-axis', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can add min and max limits to x- and y-axis', async ({
-  page,
-  context,
-  browserName,
-}) => {
+test('user can add min and max limits to x- and y-axis', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -402,14 +342,6 @@ test('user can add min and max limits to x- and y-axis', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
@@ -419,11 +351,7 @@ test('user can add min and max limits to x- and y-axis', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can change line style of plotted channels', async ({
-  page,
-  context,
-  browserName,
-}) => {
+test('user can change line style of plotted channels', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -460,14 +388,6 @@ test('user can change line style of plotted channels', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   // need this to wait for canvas animations to execute
@@ -480,11 +400,57 @@ test('user can change line style of plotted channels', async ({
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can plot channels on the right y axis', async ({
+test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async ({
   page,
-  context,
-  browserName,
 }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-10 23:57');
+  await popup
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-11 00:03');
+
+  // scroll down to get options button in full view
+  await popup.mouse.wheel(0, 200);
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
+  await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Color"]').click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  const chart = await popup.locator('#my-chart');
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can plot channels on the right y axis', async ({ page }) => {
   await page.goto('/');
 
   await page.evaluate(async () => {
@@ -534,19 +500,10 @@ test('user can plot channels on the right y axis', async ({
   await popup.locator('[aria-label="More options for Channel_ABCDE"]').click();
 
   // move ABCDE over to left axis - tests that users can move channels between left & right
-  if (browserName === 'webkit') {
-    // for some reason webkit can't use check or click on the radio button as it doesn't change
-    // so use arrow key instead
-    await popup
-      .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByLabel('Right')
-      .press('ArrowLeft');
-  } else {
-    await popup
-      .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByRole('radio', { name: 'Left' })
-      .click();
-  }
+  await popup
+    .getByRole('radiogroup', { name: 'Y Axis' })
+    .getByRole('radio', { name: 'Left' })
+    .click();
 
   // should not exist anymore as it's moved over to the left "tab"
   await expect(channel_ABCDE).toHaveCount(0);
@@ -558,14 +515,6 @@ test('user can plot channels on the right y axis', async ({
   await popup.locator('label:has-text("Max")').fill('1500000');
 
   await popup.locator('[aria-label="close settings"]').click();
-
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
 
   const chart = await popup.locator('#my-chart');
 

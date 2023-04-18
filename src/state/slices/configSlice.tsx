@@ -17,14 +17,14 @@ interface ConfigState {
 }
 
 // Define the initial state using that type
-export const initialState = {
+export const initialState: ConfigState = {
   urls: {
     apiUrl: '',
   },
   recordLimitWarning: -1,
   pluginHost: '',
   settingsLoaded: false,
-} as ConfigState;
+};
 
 export const configSlice = createSlice({
   name: 'config',

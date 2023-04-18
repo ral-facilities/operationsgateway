@@ -28,13 +28,13 @@ interface TableState {
 }
 
 // Define the initial state using that type
-export const initialState = {
+export const initialState: TableState = {
   columnStates: {},
   selectedColumnIds: [],
   page: 0,
   resultsPerPage: resultsPerPage,
   sort: {},
-} as TableState;
+};
 
 export const tableSlice = createSlice({
   name: 'table',

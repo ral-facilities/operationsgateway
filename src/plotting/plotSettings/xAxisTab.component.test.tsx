@@ -125,16 +125,16 @@ describe('x-axis tab', () => {
         createView();
 
         const minField = screen.getByLabelText('Min');
-        await user.type(minField, '1');
-        expect(changeXMinimum).toHaveBeenCalledWith(1);
+        await user.type(minField, '0');
+        expect(changeXMinimum).toHaveBeenCalledWith(0);
       });
 
       it('lets user change the max field and calls relevant onchange method', async () => {
         createView();
 
         const maxField = screen.getByLabelText('Max');
-        await user.type(maxField, '1');
-        expect(changeXMaximum).toHaveBeenCalledWith(1);
+        await user.type(maxField, '0');
+        expect(changeXMaximum).toHaveBeenCalledWith(0);
       });
 
       it('sets minimum value to undefined if no float value is present', async () => {
@@ -173,6 +173,18 @@ describe('x-axis tab', () => {
         // One for each input box
         expect(screen.getAllByText('Invalid range').length).toEqual(2);
       });
+
+      it('initialises correctly with falsy values', async () => {
+        props.initialXMinimum = 0;
+        props.initialXMaximum = 0;
+        createView();
+
+        const minField = screen.getByLabelText('Min');
+        expect(minField).toHaveValue('0');
+
+        const maxField = screen.getByLabelText('Max');
+        expect(maxField).toHaveValue('0');
+      });
     });
 
     describe('date-time values', () => {
@@ -195,7 +207,7 @@ describe('x-axis tab', () => {
         );
         await userEvent.type(
           dateFilterFromDate,
-          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedDate, 'yyyy-MM-dd HH:mm')
         );
         expect(changeXMinimum).toHaveBeenCalledWith(selectedDate.getTime());
       });
@@ -203,13 +215,41 @@ describe('x-axis tab', () => {
       it('lets user change the toDate field and calls relevant onchange method', async () => {
         createView();
 
-        const selectedDate = new Date('2022-01-01 00:00:00');
+        const selectedDate = new Date('2022-01-01 00:00:59');
         const dateFilterToDate = screen.getByLabelText('to, date-time input');
         await userEvent.type(
           dateFilterToDate,
-          format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedDate, 'yyyy-MM-dd HH:mm')
         );
         expect(changeXMaximum).toHaveBeenCalledWith(selectedDate.getTime());
+      });
+
+      it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async () => {
+        createView();
+        const selectedFromDate = new Date('2022-01-01 00:0:00');
+        const selectedToDate = new Date('2022-01-01 00:00:00');
+        const expectedSelectedFromDate = new Date('2022-01-01 00:00:00');
+        const expectedSelectedToDate = new Date('2022-01-01 00:00:59');
+
+        const dateFilterFromDate = screen.getByLabelText(
+          'from, date-time input'
+        );
+        const dateFilterToDate = screen.getByLabelText('to, date-time input');
+        await userEvent.type(
+          dateFilterFromDate,
+          format(selectedFromDate, 'yyyy-MM-dd HH:mm')
+        );
+        await userEvent.type(
+          dateFilterToDate,
+          format(selectedToDate, 'yyyy-MM-dd HH:mm')
+        );
+
+        expect(changeXMaximum).toHaveBeenCalledWith(
+          expectedSelectedToDate.getTime()
+        );
+        expect(changeXMinimum).toHaveBeenCalledWith(
+          expectedSelectedFromDate.getTime()
+        );
       });
 
       it('displays helper text when fromDate and toDate fields contain an invalid range', async () => {
@@ -224,11 +264,11 @@ describe('x-axis tab', () => {
         const dateFilterToDate = screen.getByLabelText('to, date-time input');
         await userEvent.type(
           dateFilterFromDate,
-          format(selectedFromDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedFromDate, 'yyyy-MM-dd HH:mm')
         );
         await userEvent.type(
           dateFilterToDate,
-          format(selectedToDate, 'yyyy-MM-dd HH:mm:ss')
+          format(selectedToDate, 'yyyy-MM-dd HH:mm')
         );
 
         // Check the helper text displays
@@ -238,6 +278,21 @@ describe('x-axis tab', () => {
         expect(screen.getAllByText('Invalid date-time range').length).toEqual(
           2
         );
+      });
+
+      it('initialises correctly with falsy values', async () => {
+        props.initialXMinimum = 0;
+        props.initialXMaximum = 0;
+        createView();
+
+        const expectedDate = new Date(0);
+        const expectedString = format(expectedDate, 'yyyy-MM-dd HH:mm');
+
+        const minField = screen.getByLabelText('from, date-time input');
+        expect(minField).toHaveValue(expectedString);
+
+        const maxField = screen.getByLabelText('to, date-time input');
+        expect(maxField).toHaveValue(expectedString);
       });
     });
   });

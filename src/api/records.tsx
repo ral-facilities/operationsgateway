@@ -5,7 +5,6 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import {
-  Channel,
   isChannelScalar,
   PlotDataset,
   Record,
@@ -14,6 +13,8 @@ import {
   SelectedPlotChannel,
   SearchParams,
   timeChannelName,
+  isChannelImage,
+  isChannelWaveform,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -31,7 +32,8 @@ const fetchRecords = async (
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
-  }
+  },
+  projection?: string[]
 ): Promise<Record[]> => {
   const queryParams = new URLSearchParams();
 
@@ -85,6 +87,14 @@ const fetchRecords = async (
       JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
+
+  projection?.forEach((channel) => {
+    // API recognises projection values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const key =
+      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+    queryParams.append('projection', key);
+  });
 
   return axios
     .get(`${apiUrl}/records`, {
@@ -195,6 +205,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           const timestampString = record.metadata.timestamp;
           const formattedDate = renderTimestamp(timestampString);
           const recordRow: RecordRow = {
+            _id: record._id,
             timestamp: formattedDate,
             shotnum: record.metadata.shotnum,
             activeArea: record.metadata.activeArea,
@@ -203,16 +214,22 @@ export const useRecordsPaginated = (): UseQueryResult<
 
           const keys = Object.keys(record.channels);
           keys.forEach((key: string) => {
-            const channel: Channel = record.channels[key];
-            let channelData;
+            const channel = record.channels[key];
 
-            if (isChannelScalar(channel)) {
-              channelData = channel.data;
-            } else {
-              channelData = channel.thumbnail;
+            if (channel) {
+              let channelData;
+
+              if (isChannelScalar(channel)) {
+                channelData = channel.data;
+              } else if (
+                isChannelImage(channel) ||
+                isChannelWaveform(channel)
+              ) {
+                channelData = channel.thumbnail;
+              }
+
+              recordRow[key] = channelData;
             }
-
-            recordRow[key] = channelData;
           });
 
           return recordRow;
@@ -320,6 +337,61 @@ export const usePlotRecords = (
         });
 
         return plotDatasets;
+      },
+    }
+  );
+};
+
+export const useThumbnails = (
+  channel: string,
+  page: number,
+  resultsPerPage: number
+): UseQueryResult<Record[], AxiosError> => {
+  const { searchParams, sort, filters } = useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery<
+    Record[],
+    AxiosError,
+    Record[],
+    [
+      string,
+      string,
+      {
+        page: number;
+        resultsPerPage: number;
+        sort: SortType;
+        searchParams: SearchParams;
+        filters: string[];
+      }
+    ]
+  >(
+    [
+      'thumbnails',
+      channel,
+      { page, resultsPerPage, sort, searchParams, filters },
+    ],
+    (params) => {
+      const { page, resultsPerPage, sort, searchParams, filters } =
+        params.queryKey[2];
+      // React Table pagination is zero-based
+      const startIndex = page * resultsPerPage;
+      const stopIndex = startIndex + resultsPerPage;
+      return fetchRecords(
+        apiUrl,
+        sort,
+        searchParams,
+        filters,
+        {
+          startIndex,
+          stopIndex,
+        },
+        [channel, timeChannelName]
+      );
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
       },
     }
   );

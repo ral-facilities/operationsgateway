@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
+import experimentsJson from './experiments.json';
 import { Channel, isChannelScalar, Record } from '../app.types';
 
 // have to add undefined here due to how TS JSON parsing works
@@ -22,6 +23,9 @@ export const handlers = [
   }),
   rest.get('/channels', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(channelsJson));
+  }),
+  rest.get('/experiments', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(experimentsJson));
   }),
   rest.get('/records', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson));
@@ -63,5 +67,15 @@ export const handlers = [
         })
       );
     }
+  }),
+  rest.get('/waveforms/:recordId/:channelName', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        _id: '1',
+        x: '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]',
+        y: '[2, 10, 8, 7, 1, 4, 5, 3, 6, 9]',
+      })
+    );
   }),
 ];

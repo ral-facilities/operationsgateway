@@ -9,18 +9,18 @@ import {
   PlotConfig,
 } from '../state/slices/plotSlice';
 
-const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
+const PlotCard = (props: { plotConfig: PlotConfig }) => {
   const dispatch = useAppDispatch();
-  const { plotTitle } = props;
+  const { plotConfig } = props;
 
   return (
     <Card>
-      <CardContent>{plotTitle}</CardContent>
+      <CardContent>{plotConfig.title}</CardContent>
       <CardActions>
         <Button
           size="small"
           onClick={() => {
-            dispatch(openPlot(plotTitle));
+            dispatch(openPlot(plotConfig.id));
           }}
         >
           Edit
@@ -28,7 +28,7 @@ const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
         <Button
           size="small"
           onClick={() => {
-            dispatch(deletePlot(plotTitle));
+            dispatch(deletePlot(plotConfig.id));
           }}
         >
           Delete
@@ -57,9 +57,9 @@ const PlotList = (props: PlotListProps) => {
         </Button>
       </Grid>
       <Grid container item spacing={4}>
-        {Object.entries(plots).map(([plotTitle, plotConfig]) => (
-          <Grid item key={plotTitle}>
-            <PlotCard plotTitle={plotTitle} plotConfig={plotConfig} />
+        {Object.entries(plots).map(([plotId, plotConfig]) => (
+          <Grid item key={plotId}>
+            <PlotCard plotConfig={plotConfig} />
           </Grid>
         ))}
       </Grid>

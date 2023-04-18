@@ -20,13 +20,14 @@ interface SearchState {
 }
 
 // Define the initial state using that type
-export const initialState = {
+export const initialState: SearchState = {
   searchParams: {
     dateRange: {},
     shotnumRange: {},
     maxShots: MAX_SHOTS_VALUES[0],
+    experimentID: null,
   },
-} as SearchState;
+};
 
 export const searchSlice = createSlice({
   name: 'search',
