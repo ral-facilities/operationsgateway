@@ -14,10 +14,10 @@ describe('AutoRefreshToggle', () => {
     jest.useRealTimers();
   });
 
-  it('should enable auto refresh by default', () => {
+  it('should enable auto refresh if enabled', () => {
     const onRequestRefresh = jest.fn();
 
-    render(<AutoRefreshToggle onRequestRefresh={onRequestRefresh} />);
+    render(<AutoRefreshToggle enabled onRequestRefresh={onRequestRefresh} />);
 
     expect(
       screen.getByRole('checkbox', { name: 'Auto refresh' })
@@ -28,13 +28,29 @@ describe('AutoRefreshToggle', () => {
     expect(onRequestRefresh).toBeCalled();
   });
 
-  it('should cancel auto refresh when disabled', async () => {
+  it('should not enable auto refresh if disabled', () => {
+    const onRequestRefresh = jest.fn();
+
+    render(
+      <AutoRefreshToggle enabled={false} onRequestRefresh={onRequestRefresh} />
+    );
+
+    expect(
+      screen.getByRole('checkbox', { name: 'Auto refresh' })
+    ).not.toBeChecked();
+
+    jest.advanceTimersByTime(AUTO_REFRESH_INTERVAL_MS);
+
+    expect(onRequestRefresh).not.toBeCalled();
+  });
+
+  it('should cancel auto refresh when unchecked', async () => {
     const user = userEvent.setup({
       advanceTimers: jest.advanceTimersByTime,
     });
     const onRequestRefresh = jest.fn();
 
-    render(<AutoRefreshToggle onRequestRefresh={onRequestRefresh} />);
+    render(<AutoRefreshToggle enabled onRequestRefresh={onRequestRefresh} />);
 
     // run the timer to run the callback once
     jest.advanceTimersByTime(AUTO_REFRESH_INTERVAL_MS);
