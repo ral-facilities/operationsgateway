@@ -303,6 +303,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                       ...searchParameterExperiment,
                       startDate: date,
                     };
+
                     setExperimentTimeframe(updatedExperiment);
                   } else {
                     resetExperimentTimeframe();

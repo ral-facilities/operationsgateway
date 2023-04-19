@@ -13,6 +13,7 @@ describe('timeframe search', () => {
   let user;
   const changeTimeframe = jest.fn();
   const resetExperimentTimeframe = jest.fn();
+  const resetShotnumber = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<Timeframe {...props} />);
@@ -23,6 +24,7 @@ describe('timeframe search', () => {
       timeframe: null,
       changeTimeframe,
       resetExperimentTimeframe,
+      resetShotnumber,
     };
     user = userEvent.setup();
   });
@@ -83,6 +85,7 @@ describe('timeframe search', () => {
         timescale: 'minutes',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 24 hours', async () => {
@@ -99,6 +102,7 @@ describe('timeframe search', () => {
         timescale: 'hours',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 7 days', async () => {
@@ -115,6 +119,7 @@ describe('timeframe search', () => {
         timescale: 'days',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -137,6 +142,7 @@ describe('timeframe search', () => {
         timescale: 'minutes',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 18 hours', async () => {
@@ -157,6 +163,7 @@ describe('timeframe search', () => {
         timescale: 'hours',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 21 days', async () => {
@@ -177,6 +184,7 @@ describe('timeframe search', () => {
         timescale: 'days',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('buttons do not respond if working timeframe is zero', async () => {
@@ -197,6 +205,7 @@ describe('timeframe search', () => {
 
       expect(changeTimeframe).not.toHaveBeenCalled();
       expect(resetExperimentTimeframe).not.toHaveBeenCalled();
+      expect(resetShotnumber).not.toHaveBeenCalled();
     });
   });
 });

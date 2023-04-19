@@ -143,6 +143,7 @@ describe('DateTime tests', () => {
   const changeSearchParameterToDate = jest.fn();
   const resetTimeframe = jest.fn();
   const resetExperimentTimeframe = jest.fn();
+  const setExperimentTimeframe = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);
@@ -160,6 +161,9 @@ describe('DateTime tests', () => {
       timeframeRange: null,
       resetExperimentTimeframe,
       searchParameterExperiment: null,
+      setExperimentTimeframe,
+      experiments: [],
+      shotnumToDate: undefined,
     };
   });
 
@@ -184,6 +188,32 @@ describe('DateTime tests', () => {
   });
 
   it('calls changeDate and resetTimeframe and resetExperimentTimeframe when filling out and clearing date-time inputs', async () => {
+    const experiments = [
+      {
+        _id: '17210011-1',
+        end_date: '2019-01-20T18:00:00',
+        experiment_id: '17210011',
+        part: 1,
+        start_date: '2019-01-07T10:00:00',
+      },
+      {
+        _id: '18110022-1',
+        end_date: '2019-05-21T16:48:00',
+        experiment_id: '18110022',
+        part: 1,
+        start_date: '2019-04-08T09:00:00',
+      },
+      {
+        _id: '18110023-1',
+        end_date: '2019-02-12T17:48:00',
+        experiment_id: '18110023',
+        part: 1,
+        start_date: '2019-01-21T10:00:00',
+      },
+    ];
+    props.experiments = experiments;
+    props.searchParameterExperiment = experiments[0];
+
     createView();
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
@@ -192,17 +222,69 @@ describe('DateTime tests', () => {
       new Date('2022-01-01 00:00:00')
     );
 
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
+    expect(changeSearchParameterToDate).toHaveBeenCalledWith(
+      new Date('2022-01-02 00:00:00')
+    );
+
     expect(resetTimeframe).toHaveBeenCalled();
     expect(resetExperimentTimeframe).toHaveBeenCalled();
 
     await userEvent.clear(dateFilterFromDate);
     expect(changeSearchParameterFromDate).toHaveBeenCalledWith(null);
 
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2022-01-02 00:00:00');
-    expect(changeSearchParameterToDate).toHaveBeenCalledWith(
-      new Date('2022-01-02 00:00:00')
+    await userEvent.clear(dateFilterToDate);
+    expect(changeSearchParameterToDate).toHaveBeenCalledWith(null);
+  });
+
+  it('calls changeDate and resetTimeframe and setExperimentTimeframe when filling out and clearing date-time inputs', async () => {
+    const experiments = [
+      {
+        _id: '17210011-1',
+        end_date: '2019-01-20T18:00:00',
+        experiment_id: '17210011',
+        part: 1,
+        start_date: '2019-01-07T10:00:00',
+      },
+      {
+        _id: '18110022-1',
+        end_date: '2019-05-21T16:48:00',
+        experiment_id: '18110022',
+        part: 1,
+        start_date: '2019-04-08T09:00:00',
+      },
+      {
+        _id: '18110023-1',
+        end_date: '2019-02-12T17:48:00',
+        experiment_id: '18110023',
+        part: 1,
+        start_date: '2019-01-21T10:00:00',
+      },
+    ];
+    props.experiments = experiments;
+    props.searchParameterExperiment = experiments[0];
+
+    createView();
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    await userEvent.type(dateFilterFromDate, '2019-01-07 11:00:00');
+    expect(changeSearchParameterFromDate).toHaveBeenCalledWith(
+      new Date('2019-01-07 11:00:00')
     );
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await userEvent.type(dateFilterToDate, '2019-01-20 17:00:00');
+    expect(changeSearchParameterToDate).toHaveBeenCalledWith(
+      new Date('2019-01-20 17:00:00')
+    );
+
+    expect(resetTimeframe).toHaveBeenCalled();
+    expect(setExperimentTimeframe).toHaveBeenCalled();
+
+    await userEvent.clear(dateFilterFromDate);
+    expect(changeSearchParameterFromDate).toHaveBeenCalledWith(null);
+
     await userEvent.clear(dateFilterToDate);
     expect(changeSearchParameterToDate).toHaveBeenCalledWith(null);
   });

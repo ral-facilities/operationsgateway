@@ -44,7 +44,7 @@ describe('searchBar component', () => {
     jest.clearAllMocks();
   });
 
-  it('dispatches changeSearchParams on search button click', async () => {
+  it('dispatches changeSearchParams on search button click for a given date range', async () => {
     const state = getInitialState();
     const { store } = createView(state);
 
@@ -54,21 +54,6 @@ describe('searchBar component', () => {
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
     await user.type(dateFilterToDate, '2022-01-02 00:00');
-
-    // Shot number fields
-
-    await user.click(screen.getByLabelText('open shot number search box'));
-    const shotnumPopup = screen.getByRole('dialog');
-    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
-      name: 'Min',
-    });
-    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
-      name: 'Max',
-    });
-
-    await user.type(shotnumMin, '1');
-    await user.type(shotnumMax, '2');
-    await user.click(screen.getByLabelText('close shot number search box'));
 
     // Max shots
 
@@ -96,28 +81,75 @@ describe('searchBar component', () => {
     });
   });
 
+  it('dispatches changeSearchParams on search button click for a given shot number range', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    // Shot number fields
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Min',
+    });
+    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Max',
+    });
+
+    await user.type(shotnumMin, '5');
+    await user.type(shotnumMax, '10');
+    await user.click(screen.getByLabelText('close shot number search box'));
+
+    // Max shots
+
+    const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+      name: 'select max shots',
+    });
+    await user.click(
+      within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
+    );
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-05T00:00:00',
+        toDate: '2022-01-10T00:00:59',
+      },
+      shotnumRange: {
+        min: 5,
+        max: 10,
+      },
+      maxShots: 1000,
+      experimentID: null,
+    });
+  });
+
   it('dispatches searchParams on search button click for a given experiment', async () => {
     const state = getInitialState();
     const { store } = createView(state);
 
     const expectedExperiment = {
-      _id: '18325019-4',
-      end_date: '2020-01-06T18:00:00',
-      experiment_id: '18325019',
-      part: 4,
-      start_date: '2020-01-03T10:00:00',
+      _id: '20110003-1',
+      end_date: '2021-11-17T17:48:00',
+      experiment_id: '20110003',
+      part: 1,
+      start_date: '2021-10-04T09:00:00',
     };
+
+    const expectedEndDate = '2021-11-17T17:48:59';
 
     await user.click(screen.getByLabelText('open experiment search box'));
     const experimentPopup = screen.getByLabelText('Select your experiment');
 
-    await user.type(experimentPopup, '183{arrowdown}{enter}');
+    await user.type(experimentPopup, '201{arrowdown}{enter}');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: expectedExperiment.start_date,
-        toDate: expectedExperiment.end_date,
+        toDate: expectedEndDate,
       },
       shotnumRange: {
         min: undefined,
@@ -148,8 +180,8 @@ describe('searchBar component', () => {
         toDate: '2022-01-02T00:00:59',
       },
       shotnumRange: {
-        min: undefined,
-        max: undefined,
+        min: 1,
+        max: 2,
       },
       maxShots: MAX_SHOTS_VALUES[0],
       experimentID: null,
@@ -421,8 +453,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
       );
-      const expectedToDate = new Date('2022-01-11 12:00:59');
-      const expectedFromDate = new Date('2022-01-10 12:00:00');
+      const expectedToDate = new Date('2022-01-11 00:00:59');
+      const expectedFromDate = new Date('2022-01-10 00:00:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 

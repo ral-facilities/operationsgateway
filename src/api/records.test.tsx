@@ -20,6 +20,8 @@ import {
   useIncomingRecordCount,
   useRecordsPaginated,
   useThumbnails,
+  useShotnumToDateConverter,
+  useDateToShotnumConverter,
 } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -166,6 +168,60 @@ describe('records api functions', () => {
 
     it.todo(
       'sends axios request to fetch record count and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useShotnumToDateConverter', () => {
+    it('send a request to fetch date using ShotnumToDateConverter and returns a succesful response', async () => {
+      const shotnumMin = 4;
+      const shotnumMax = 19;
+
+      const expectedReponse = {
+        from: '2022-01-04T00:00:00',
+        to: '2022-01-18T00:00:00',
+      };
+
+      const { result } = renderHook(
+        () => useShotnumToDateConverter(shotnumMin, shotnumMax),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useDateToShotnumConverter', () => {
+    it('send a request to fetch date usingDateToShotnumConverter and returns a succesful response', async () => {
+      const fromDate = '2021-12-01T00:00:00';
+      const toDate = '2022-01-19T00:00:00';
+
+      const expectedReponse = {
+        min: 1,
+        max: 18,
+      };
+
+      const { result } = renderHook(
+        () => useDateToShotnumConverter(fromDate, toDate),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure'
     );
   });
 
