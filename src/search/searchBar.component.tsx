@@ -373,11 +373,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 refreshData={refreshData}
               />
             </Grid>
-            {timeframeRange && !paramsUpdated && (
-              <Grid item>
-                <AutoRefreshToggle onRequestRefresh={refreshData} />
-              </Grid>
-            )}
+            <Grid item>
+              <AutoRefreshToggle
+                enabled={Boolean(timeframeRange)}
+                onRequestRefresh={refreshData}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

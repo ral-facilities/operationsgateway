@@ -2,6 +2,7 @@ import { FormControlLabel, Switch } from '@mui/material';
 import React from 'react';
 
 interface AutoRefreshToggleProps {
+  enabled: boolean;
   onRequestRefresh: () => void;
 }
 
@@ -9,6 +10,7 @@ const DEFAULT_AUTO_REFRESH_ENABLED = true;
 const AUTO_REFRESH_INTERVAL_MS = 1000 * 60;
 
 function AutoRefreshToggle({
+  enabled,
   onRequestRefresh,
 }: AutoRefreshToggleProps): JSX.Element {
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = React.useState(
@@ -19,6 +21,8 @@ function AutoRefreshToggle({
   > | null>(null);
 
   React.useEffect(() => {
+    if (!enabled) return;
+
     if (autoRefreshTimeout.current) {
       clearInterval(autoRefreshTimeout.current);
     }
@@ -34,7 +38,7 @@ function AutoRefreshToggle({
         clearInterval(autoRefreshTimeout.current);
       }
     };
-  }, [isAutoRefreshEnabled, onRequestRefresh]);
+  }, [enabled, isAutoRefreshEnabled, onRequestRefresh]);
 
   function toggleAutoRefresh(enabled: boolean) {
     setIsAutoRefreshEnabled(enabled);
@@ -44,7 +48,8 @@ function AutoRefreshToggle({
     <FormControlLabel
       control={
         <Switch
-          checked={isAutoRefreshEnabled}
+          disabled={!enabled}
+          checked={isAutoRefreshEnabled && enabled}
           onChange={(_, checked) => toggleAutoRefresh(checked)}
         />
       }
