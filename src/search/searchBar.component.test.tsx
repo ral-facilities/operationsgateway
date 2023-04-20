@@ -453,8 +453,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
       );
-      const expectedToDate = new Date('2022-01-11 00:00:59');
-      const expectedFromDate = new Date('2022-01-10 00:00:00');
+      const expectedToDate = new Date('2022-01-11 12:00:59');
+      const expectedFromDate = new Date('2022-01-10 12:00:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 

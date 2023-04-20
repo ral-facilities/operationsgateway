@@ -173,16 +173,16 @@ describe('records api functions', () => {
 
   describe('useShotnumToDateConverter', () => {
     it('send a request to fetch date using ShotnumToDateConverter and returns a succesful response', async () => {
-      const shotnumMin = 4;
-      const shotnumMax = 19;
-
       const expectedReponse = {
         from: '2022-01-04T00:00:00',
         to: '2022-01-18T00:00:00',
+        min: 4,
+        max: 19,
       };
 
       const { result } = renderHook(
-        () => useShotnumToDateConverter(shotnumMin, shotnumMax),
+        () =>
+          useShotnumToDateConverter(expectedReponse.min, expectedReponse.max),
         {
           wrapper: hooksWrapperWithProviders(state),
         }
@@ -200,16 +200,16 @@ describe('records api functions', () => {
 
   describe('useDateToShotnumConverter', () => {
     it('send a request to fetch date usingDateToShotnumConverter and returns a succesful response', async () => {
-      const fromDate = '2021-12-01T00:00:00';
-      const toDate = '2022-01-19T00:00:00';
-
       const expectedReponse = {
+        from: '2021-12-01T00:00:00',
+        to: '2022-01-19T00:00:00',
         min: 1,
         max: 18,
       };
 
       const { result } = renderHook(
-        () => useDateToShotnumConverter(fromDate, toDate),
+        () =>
+          useDateToShotnumConverter(expectedReponse.from, expectedReponse.to),
         {
           wrapper: hooksWrapperWithProviders(state),
         }

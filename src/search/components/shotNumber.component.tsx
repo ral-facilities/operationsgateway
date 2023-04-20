@@ -3,14 +3,13 @@ import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
 import { FLASH_ANIMATION } from '../../animation';
-import { ShotnumRange } from '../../app.types';
 
 export interface ShotNumberProps {
   searchParameterShotnumMin?: number;
   searchParameterShotnumMax?: number;
   changeSearchParameterShotnumMin: (min: number | undefined) => void;
   changeSearchParameterShotnumMax: (max: number | undefined) => void;
-  dateToShotnum?: ShotnumRange;
+  resetDateRange: () => void;
 }
 
 const ShotNumberPopup = (
@@ -22,6 +21,7 @@ const ShotNumberPopup = (
     changeSearchParameterShotnumMin: changeMin,
     changeSearchParameterShotnumMax: changeMax,
     invalidRange,
+    resetDateRange,
   } = props;
 
   return (
@@ -46,11 +46,12 @@ const ShotNumberPopup = (
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
+            onChange={(event) => {
               changeMin(
                 event.target.value ? Number(event.target.value) : undefined
-              )
-            }
+              );
+              resetDateRange();
+            }}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -66,11 +67,12 @@ const ShotNumberPopup = (
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
+            onChange={(event) => {
               changeMax(
                 event.target.value ? Number(event.target.value) : undefined
-              )
-            }
+              );
+              resetDateRange();
+            }}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
           />
@@ -81,11 +83,8 @@ const ShotNumberPopup = (
 };
 
 const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
-  const {
-    searchParameterShotnumMin: min,
-    searchParameterShotnumMax: max,
-    dateToShotnum,
-  } = props;
+  const { searchParameterShotnumMin: min, searchParameterShotnumMax: max } =
+    props;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
@@ -103,20 +102,13 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
 
   // Stop the flash animation from playing after 1500ms
   React.useEffect(() => {
-    if (
-      !!dateToShotnum ||
-      (!props.searchParameterShotnumMax && !props.searchParameterShotnumMin)
-    ) {
+    if (!props.searchParameterShotnumMax && !props.searchParameterShotnumMin) {
       setFlashAnimationPlaying(true);
       setTimeout(() => {
         setFlashAnimationPlaying(false);
       }, FLASH_ANIMATION.length);
     }
-  }, [
-    dateToShotnum,
-    props.searchParameterShotnumMax,
-    props.searchParameterShotnumMin,
-  ]);
+  }, [props.searchParameterShotnumMax, props.searchParameterShotnumMin]);
 
   // Prevent the flash animation playing on mount
   React.useEffect(() => {

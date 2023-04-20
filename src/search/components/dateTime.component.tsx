@@ -6,7 +6,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
-import { DateRangeConverter, ExperimentParams } from '../../app.types';
+import { ExperimentParams } from '../../app.types';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { styled } from '@mui/material/styles';
 
@@ -87,7 +87,7 @@ export interface DateTimeSearchProps {
   setExperimentTimeframe: (value: ExperimentParams) => void;
   searchParameterExperiment: ExperimentParams | null;
   experiments: ExperimentParams[];
-  shotnumToDate?: DateRangeConverter;
+  resetShotnumberRange: () => void;
 }
 
 /**
@@ -120,7 +120,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     searchParameterExperiment,
     setExperimentTimeframe,
     experiments,
-    shotnumToDate,
+    resetShotnumberRange,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -153,13 +153,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
   // this uses different method to others as the datetime can be quickly changed via the timeframe component
   React.useLayoutEffect(() => {
-    if (!!timeframeRange || !!searchParameterExperiment || !!shotnumToDate) {
+    if (!!timeframeRange || !!searchParameterExperiment) {
       setFlashAnimationPlaying(false);
       setTimeout(() => {
         setFlashAnimationPlaying(true);
       }, 0);
     }
-  }, [timeframeRange, searchParameterExperiment, shotnumToDate]);
+  }, [timeframeRange, searchParameterExperiment]);
 
   const isDateTimeInExperiment = (
     dateTime: Date,
@@ -292,6 +292,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
 
+                resetShotnumberRange();
+
                 if (searchParameterExperiment && date) {
                   const start_date = new Date(
                     searchParameterExperiment.start_date
@@ -323,6 +325,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
+                resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   const start_date = new Date(
                     searchParameterExperiment.start_date
@@ -407,6 +410,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   const end_date = new Date(searchParameterExperiment.end_date);
 
@@ -433,6 +437,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   const end_date = new Date(searchParameterExperiment.end_date);
 

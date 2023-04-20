@@ -180,7 +180,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     []
   );
 
-  const setShotnum = React.useCallback(
+  const setShotnumberRange = React.useCallback(
     (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
       setSearchParameterShotnumMin(shotnumMin);
       setSearchParameterShotnumMax(shotnumMax);
@@ -188,22 +188,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     []
   );
 
-  React.useEffect(() => {
-    if (dateToShotnum) {
-      setSearchParameterShotnumMin(dateToShotnum.min);
-      setSearchParameterShotnumMax(dateToShotnum.max);
-    }
-  }, [dateToShotnum]);
+  const setDateRange = React.useCallback(
+    (fromDate: Date | null, toDate: Date | null) => {
+      setSearchParameterFromDate(fromDate);
+      setSearchParameterToDate(toDate);
+    },
+    []
+  );
 
   React.useEffect(() => {
-    if (shotnumToDate) {
+    if (!dateToShotnum && shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
         const shotnumToDateFromDate = new Date(shotnumToDate.from);
         const shotnumToDateToDate = new Date(shotnumToDate.to);
-
         setSearchParameterFromDate(shotnumToDateFromDate);
         setSearchParameterToDate(shotnumToDateToDate);
-
         if (timeframeRange) {
           setTimeframeRange(null);
         }
@@ -214,7 +213,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           const experimentEndDate = new Date(
             searchParameterExperiment.end_date
           );
-
           if (
             !(
               experimentStartDate >= shotnumToDateFromDate &&
@@ -225,8 +223,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           }
         }
       }
+    } else if (dateToShotnum && !shotnumToDate) {
+      setSearchParameterShotnumMin(dateToShotnum.min);
+      setSearchParameterShotnumMax(dateToShotnum.max);
     }
-  }, [searchParameterExperiment, setShotnum, shotnumToDate, timeframeRange]);
+  }, [dateToShotnum, searchParameterExperiment, shotnumToDate, timeframeRange]);
 
   React.useEffect(() => {
     setParamsUpdated(true);
@@ -398,7 +399,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   setExperimentTimeframe={setExperimentTimeframe}
                   searchParameterExperiment={searchParameterExperiment}
                   experiments={experiments ?? []}
-                  shotnumToDate={shotnumToDate}
+                  resetShotnumberRange={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
                 />
               </Grid>
               <Grid item xs={2}>
@@ -406,7 +409,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   timeframe={timeframeRange}
                   changeTimeframe={setRelativeTimeframe}
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
-                  resetShotnumber={() => setShotnum(undefined, undefined)}
+                  resetShotnumber={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
                 />
               </Grid>
               <Grid item xs={2}>
@@ -416,7 +421,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   experiment={searchParameterExperiment}
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   changeExperimentTimeframe={setExperimentTimeframe}
-                  resetShotnumber={() => setShotnum(undefined, undefined)}
+                  resetShotnumber={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
                 />
               </Grid>
               <Grid item xs={2}>
@@ -425,7 +432,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParameterShotnumMax={searchParameterShotnumMax}
                   changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
                   changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
-                  dateToShotnum={dateToShotnum}
+                  resetDateRange={() => setDateRange(null, null)}
                 />
               </Grid>
               <Grid item xs={1}>
