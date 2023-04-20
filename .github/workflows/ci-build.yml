@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
         with:
           node-version: '16.x'
       # Cache yarn dependencies / restore the cached dependencies during future workflows
@@ -23,7 +23,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -42,12 +42,12 @@ jobs:
         run: yarn test
       - name: Upload unit test coverage
         if: success()
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@894ff025c7b54547a9a2a1e9f228beae737ad3c2 # v3
       - name: Run e2e tests
         run: yarn e2e
       - name: Upload Cypress screenshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3
         with:
           name: OperationsGateway Screenshots
           path: cypress/screenshots
