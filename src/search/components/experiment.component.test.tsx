@@ -78,23 +78,23 @@ describe('Experiment search', () => {
     createView();
 
     const expectedExperiment = {
-      _id: '20110003-1',
-      end_date: '2021-11-17T17:48:00',
-      experiment_id: '20110003',
+      _id: '22110007-1',
+      end_date: '2022-01-15T12:00:00',
+      experiment_id: '22110007',
       part: 1,
-      start_date: '2021-10-04T09:00:00',
+      start_date: '2022-01-12T13:00:00',
     };
 
     await user.click(screen.getByLabelText('open experiment search box'));
     const experimentPopup = screen.getByRole('combobox');
     expect(experimentPopup).toBeInTheDocument('close experiment search box');
 
-    await user.type(experimentPopup, '201{arrowdown}{enter}');
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
 
     expect(onExperimentChange).toHaveBeenCalledWith(expectedExperiment);
     expect(resetTimeFrame).toHaveBeenCalledTimes(1);
     expect(resetShotnumber).toHaveBeenCalledTimes(1);
     expect(changeExperimentTimeframe).toHaveBeenCalledWith(expectedExperiment);
-    expect(experimentPopup).toHaveValue('20110003');
+    expect(experimentPopup).toHaveValue('22110007');
   });
 });

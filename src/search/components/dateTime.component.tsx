@@ -84,10 +84,14 @@ export interface DateTimeSearchProps {
   resetTimeframe: () => void;
   timeframeRange: TimeframeRange | null;
   resetExperimentTimeframe: () => void;
-  setExperimentTimeframe: (value: ExperimentParams) => void;
   searchParameterExperiment: ExperimentParams | null;
   experiments: ExperimentParams[];
   resetShotnumberRange: () => void;
+  isShotnumToDate: boolean;
+  isDateTimeInExperiment: (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ) => boolean;
 }
 
 /**
@@ -118,9 +122,10 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     timeframeRange,
     resetExperimentTimeframe,
     searchParameterExperiment,
-    setExperimentTimeframe,
     experiments,
     resetShotnumberRange,
+    isShotnumToDate,
+    isDateTimeInExperiment,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -153,22 +158,17 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
   // this uses different method to others as the datetime can be quickly changed via the timeframe component
   React.useLayoutEffect(() => {
-    if (!!timeframeRange || !!searchParameterExperiment) {
+    if (
+      !!timeframeRange ||
+      (!!searchParameterExperiment && !isShotnumToDate) ||
+      (isShotnumToDate && !searchParameterExperiment)
+    ) {
       setFlashAnimationPlaying(false);
       setTimeout(() => {
         setFlashAnimationPlaying(true);
       }, 0);
     }
-  }, [timeframeRange, searchParameterExperiment]);
-
-  const isDateTimeInExperiment = (
-    dateTime: Date,
-    experiment: ExperimentParams
-  ): boolean => {
-    const startDate = new Date(experiment.start_date);
-    const endDate = new Date(experiment.end_date);
-    return dateTime >= startDate && dateTime <= endDate;
-  };
+  }, [timeframeRange, searchParameterExperiment, isShotnumToDate]);
 
   const findExperimentByDateTime = (
     dateTime: Date,
@@ -300,14 +300,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   );
                   const end_date = new Date(searchParameterExperiment.end_date);
 
-                  if (date >= start_date && date <= end_date) {
-                    const updatedExperiment = {
-                      ...searchParameterExperiment,
-                      startDate: date,
-                    };
-
-                    setExperimentTimeframe(updatedExperiment);
-                  } else {
+                  if (!(date >= start_date && date <= end_date)) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -332,13 +325,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   );
                   const end_date = new Date(searchParameterExperiment.end_date);
 
-                  if (date >= start_date && date <= end_date) {
-                    const updatedExperiment = {
-                      ...searchParameterExperiment,
-                      startDate: date,
-                    };
-                    setExperimentTimeframe(updatedExperiment);
-                  } else {
+                  if (!(date >= start_date && date <= end_date)) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -414,13 +401,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 if (searchParameterExperiment && date) {
                   const end_date = new Date(searchParameterExperiment.end_date);
 
-                  if (date <= end_date) {
-                    const updatedExperiment = {
-                      ...searchParameterExperiment,
-                      startDate: date,
-                    };
-                    setExperimentTimeframe(updatedExperiment);
-                  } else {
+                  if (!(date <= end_date)) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -441,13 +422,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 if (searchParameterExperiment && date) {
                   const end_date = new Date(searchParameterExperiment.end_date);
 
-                  if (date <= end_date) {
-                    const updatedExperiment = {
-                      ...searchParameterExperiment,
-                      startDate: date,
-                    };
-                    setExperimentTimeframe(updatedExperiment);
-                  } else {
+                  if (!(date <= end_date)) {
                     resetExperimentTimeframe();
                   }
                 }

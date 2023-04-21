@@ -141,9 +141,11 @@ export interface DateRange {
   toDate?: string;
 }
 
-export interface DateRangeConverter {
+export interface DateRangetoShotnumConverter {
   from?: string;
   to?: string;
+  min?: number;
+  max?: number;
 }
 
 export interface ShotnumRange {

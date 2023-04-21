@@ -10,6 +10,7 @@ export interface ShotNumberProps {
   changeSearchParameterShotnumMin: (min: number | undefined) => void;
   changeSearchParameterShotnumMax: (max: number | undefined) => void;
   resetDateRange: () => void;
+  isDateToShotnum: boolean;
 }
 
 const ShotNumberPopup = (
@@ -83,8 +84,11 @@ const ShotNumberPopup = (
 };
 
 const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
-  const { searchParameterShotnumMin: min, searchParameterShotnumMax: max } =
-    props;
+  const {
+    searchParameterShotnumMin: min,
+    searchParameterShotnumMax: max,
+    isDateToShotnum,
+  } = props;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
@@ -102,13 +106,20 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
 
   // Stop the flash animation from playing after 1500ms
   React.useEffect(() => {
-    if (!props.searchParameterShotnumMax && !props.searchParameterShotnumMin) {
+    if (
+      (!props.searchParameterShotnumMax && !props.searchParameterShotnumMin) ||
+      isDateToShotnum
+    ) {
       setFlashAnimationPlaying(true);
       setTimeout(() => {
         setFlashAnimationPlaying(false);
       }, FLASH_ANIMATION.length);
     }
-  }, [props.searchParameterShotnumMax, props.searchParameterShotnumMin]);
+  }, [
+    isDateToShotnum,
+    props.searchParameterShotnumMax,
+    props.searchParameterShotnumMin,
+  ]);
 
   // Prevent the flash animation playing on mount
   React.useEffect(() => {

@@ -115,6 +115,8 @@ export const handlers = [
         max: toDateRecord.metadata.shotnum,
       };
       return res(ctx.status(200), ctx.json(reponseData));
+    } else {
+      return res(ctx.status(500), ctx.json(undefined));
     }
   }),
   rest.get('/channels/summary/:channelName', (req, res, ctx) => {

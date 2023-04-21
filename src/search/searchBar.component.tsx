@@ -196,6 +196,18 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     []
   );
 
+  const isDateTimeInExperiment = (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ): boolean => {
+    const startDate = new Date(experiment.start_date);
+    const endDate = new Date(experiment.end_date);
+    return dateTime >= startDate && dateTime <= endDate;
+  };
+
+  const isShotnumToDate = !dateToShotnum && shotnumToDate ? true : false;
+  const isDateToShotnum = dateToShotnum && !shotnumToDate ? true : false;
+
   React.useEffect(() => {
     if (!dateToShotnum && shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
@@ -207,19 +219,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           setTimeframeRange(null);
         }
         if (searchParameterExperiment) {
-          const experimentStartDate = new Date(
-            searchParameterExperiment.start_date
-          );
-          const experimentEndDate = new Date(
-            searchParameterExperiment.end_date
-          );
-          if (
-            !(
-              experimentStartDate >= shotnumToDateFromDate &&
-              experimentEndDate <= shotnumToDateToDate
-            )
-          ) {
-            setSearchParameterExperiment(null);
+          if (searchParameterFromDate && searchParameterToDate) {
+            if (
+              !(
+                isDateTimeInExperiment(
+                  searchParameterFromDate,
+                  searchParameterExperiment
+                ) &&
+                isDateTimeInExperiment(
+                  searchParameterToDate,
+                  searchParameterExperiment
+                )
+              )
+            ) {
+              setSearchParameterExperiment(null);
+            }
           }
         }
       }
@@ -227,7 +241,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterShotnumMin(dateToShotnum.min);
       setSearchParameterShotnumMax(dateToShotnum.max);
     }
-  }, [dateToShotnum, searchParameterExperiment, shotnumToDate, timeframeRange]);
+  }, [
+    dateToShotnum,
+    searchParameterExperiment,
+    searchParameterFromDate,
+    searchParameterToDate,
+    shotnumToDate,
+    timeframeRange,
+  ]);
 
   React.useEffect(() => {
     setParamsUpdated(true);
@@ -396,12 +417,13 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   timeframeRange={timeframeRange}
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
-                  setExperimentTimeframe={setExperimentTimeframe}
                   searchParameterExperiment={searchParameterExperiment}
                   experiments={experiments ?? []}
                   resetShotnumberRange={() =>
                     setShotnumberRange(undefined, undefined)
                   }
+                  isShotnumToDate={isShotnumToDate}
+                  isDateTimeInExperiment={isDateTimeInExperiment}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -433,6 +455,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
                   changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
                   resetDateRange={() => setDateRange(null, null)}
+                  isDateToShotnum={isDateToShotnum}
                 />
               </Grid>
               <Grid item xs={1}>

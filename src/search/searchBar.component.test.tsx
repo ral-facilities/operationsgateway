@@ -131,19 +131,19 @@ describe('searchBar component', () => {
     const { store } = createView(state);
 
     const expectedExperiment = {
-      _id: '20110003-1',
-      end_date: '2021-11-17T17:48:00',
-      experiment_id: '20110003',
+      _id: '22110007-1',
+      end_date: '2022-01-15T12:00:00',
+      experiment_id: '22110007',
       part: 1,
-      start_date: '2021-10-04T09:00:00',
+      start_date: '2022-01-12T13:00:00',
     };
 
-    const expectedEndDate = '2021-11-17T17:48:59';
+    const expectedEndDate = '2022-01-15T12:00:59';
 
     await user.click(screen.getByLabelText('open experiment search box'));
     const experimentPopup = screen.getByLabelText('Select your experiment');
 
-    await user.type(experimentPopup, '201{arrowdown}{enter}');
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
@@ -152,8 +152,8 @@ describe('searchBar component', () => {
         toDate: expectedEndDate,
       },
       shotnumRange: {
-        min: undefined,
-        max: undefined,
+        min: 13,
+        max: 15,
       },
       maxShots: 50,
       experimentID: expectedExperiment,

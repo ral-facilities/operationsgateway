@@ -24,6 +24,7 @@ describe('shotNumber search', () => {
       changeSearchParameterShotnumMin,
       changeSearchParameterShotnumMax,
       resetDateRange,
+      isDateToShotnum: false,
     };
 
     user = userEvent.setup();
