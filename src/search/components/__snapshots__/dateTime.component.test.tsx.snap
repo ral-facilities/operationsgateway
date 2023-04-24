@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CustomPickersDay function renders the CustomPickerDay correctly 1`] = `
+<body>
+  <div>
+    <div
+      class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-rvy3vs-MuiPickersDay-root"
+    />
+  </div>
+</body>
+`;
+
 exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
 <DocumentFragment>
   <div

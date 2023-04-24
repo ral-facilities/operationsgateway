@@ -25,7 +25,7 @@ interface CustomPickerDayProps extends PickersDayProps<Date> {
   isLastDay: boolean;
 }
 
-const CustomPickersDay = styled(PickersDay, {
+export const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) =>
     prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
 })<CustomPickerDayProps>(({ theme, dayIsBetween, isFirstDay, isLastDay }) => ({

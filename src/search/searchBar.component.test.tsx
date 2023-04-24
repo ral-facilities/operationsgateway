@@ -48,10 +48,21 @@ describe('searchBar component', () => {
     const state = getInitialState();
     const { store } = createView(state);
 
+    // experiment field
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
+
     // Date-time fields
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.clear(dateFilterFromDate);
+    await user.clear(dateFilterToDate);
+
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
     await user.type(dateFilterToDate, '2022-01-02 00:00');
 

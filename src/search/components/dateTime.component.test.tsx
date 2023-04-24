@@ -5,6 +5,7 @@ import DateTime, {
   verifyAndUpdateDate,
   type VerifyAndUpdateDateParams,
   renderExperimentPickerDay,
+  CustomPickersDay,
 } from './dateTime.component';
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -15,6 +16,8 @@ import {
 import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { ExperimentParams } from '../../app.types';
 import experimentsJSON from '../../mocks/experiments.json';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
@@ -60,6 +63,45 @@ describe('datesEqual function', () => {
   });
 });
 
+describe('CustomPickersDay function', () => {
+  it('renders the CustomPickerDay correctly', () => {
+    const dayIsBetween = true;
+    const isFirstDay = true;
+    const isLastDay = true;
+    const pickersDayProps = {
+      key: new Date('2022-02-05T00:00:00'),
+      day: new Date('2022-02-05T00:00:00'),
+      isAnimating: false,
+      disabled: false,
+      autoFocus: false,
+      today: false,
+      outsideCurrentMonth: true,
+      selected: false,
+      disableHighlightToday: undefined,
+      showDaysOutsideCurrentMonth: undefined,
+      onDaySelect: jest.fn(),
+      onBlur: jest.fn(),
+      onFocus: jest.fn(),
+      onkeydown: jest.fn(),
+    };
+    const createView = (): RenderResult => {
+      return render(
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <CustomPickersDay
+            {...pickersDayProps}
+            dayIsBetween={dayIsBetween}
+            isFirstDay={isFirstDay}
+            isLastDay={isLastDay}
+          />
+        </LocalizationProvider>
+      );
+    };
+
+    const view = createView();
+
+    expect(view.baseElement).toMatchSnapshot();
+  });
+});
 describe('renderExperimentPickerDay function', () => {
   let selectedDate: Date | null;
   let experiments: ExperimentParams[];
