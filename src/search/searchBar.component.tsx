@@ -232,7 +232,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 )
               )
             ) {
-              setSearchParameterExperiment(null);
+              setExperimentTimeframe(null);
             }
           }
         }
@@ -246,6 +246,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterExperiment,
     searchParameterFromDate,
     searchParameterToDate,
+    setExperimentTimeframe,
     shotnumToDate,
     timeframeRange,
   ]);
