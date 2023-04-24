@@ -276,46 +276,6 @@ describe('DateTime tests', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
-  // it.only('renderDay', () => {
-  //   const view = createView();
-  //   const experiments = [
-  //     {
-  //       _id: '17210011-1',
-  //       end_date: '2019-01-20T18:00:00',
-  //       experiment_id: '17210011',
-  //       part: 1,
-  //       start_date: '2019-01-07T10:00:00',
-  //     },
-  //     {
-  //       _id: '18110022-1',
-  //       end_date: '2019-05-21T16:48:00',
-  //       experiment_id: '18110022',
-  //       part: 1,
-  //       start_date: '2019-04-08T09:00:00',
-  //     },
-  //     {
-  //       _id: '18110023-1',
-  //       end_date: '2019-02-12T17:48:00',
-  //       experiment_id: '18110023',
-  //       part: 1,
-  //       start_date: '2019-01-21T10:00:00',
-  //     },
-  //   ];
-  //   props.experiments = experiments;
-  //   props.searchParameterExperiment = experiments[0];
-  //   const inputField = screen.getByLabelText('from, date-time input');
-  //   userEvent.click(inputField);
-  //   const days = screen.getAllByRole('cell', { name: /day-\d+/ });
-  //   expect(days).toHaveLength(7);
-  //   expect(days[0]).toHaveStyle({
-  //     borderTopLeftRadius: '50%',
-  //     borderBottomLeftRadius: '50%',
-  //   });
-  //   expect(days[6]).toHaveStyle({
-  //     borderTopRightRadius: '50%',
-  //     borderBottomRightRadius: '50%',
-  //   });
-  // });
   it('calls changeDate and resetTimeframe and resetExperimentTimeframe when filling out and clearing date-time inputs', async () => {
     const experiments = [
       {
