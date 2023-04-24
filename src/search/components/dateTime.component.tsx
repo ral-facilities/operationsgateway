@@ -47,6 +47,50 @@ const CustomPickersDay = styled(PickersDay, {
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
+export const renderExperimentPickerDay = (
+  selectedDate: Date | null,
+  experiments: ExperimentParams[],
+  isDateTimeInExperiment: (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ) => boolean,
+  date: Date,
+  selectedDates: Array<Date | null>,
+  pickersDayProps: PickersDayProps<Date>
+): React.ReactElement => {
+  if (!selectedDate) {
+    return <PickersDay {...pickersDayProps} />;
+  }
+
+  selectedDate.setSeconds(0);
+
+  const experimentRange = experiments.find((experiment) =>
+    isDateTimeInExperiment(selectedDate, experiment)
+  );
+
+  if (!experimentRange) {
+    return <PickersDay {...pickersDayProps} />;
+  }
+
+  const start = new Date(experimentRange.start_date);
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(experimentRange.end_date);
+  const testDate = new Date(date);
+  const dayIsBetween = date >= start && date <= end;
+  const isFirstDay = testDate.getDate() === start.getDate();
+  const isLastDay = testDate.getDate() === end.getDate();
+
+  return (
+    <CustomPickersDay
+      {...pickersDayProps}
+      disableMargin
+      dayIsBetween={dayIsBetween}
+      isFirstDay={isFirstDay}
+      isLastDay={isLastDay}
+    />
+  );
+};
+
 export interface VerifyAndUpdateDateParams {
   date: Date | null;
   prevDate: Date | null;
@@ -170,91 +214,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     }
   }, [timeframeRange, searchParameterExperiment, isShotnumToDate]);
 
-  const findExperimentByDateTime = (
-    dateTime: Date,
-    experimentList: ExperimentParams[]
-  ): ExperimentParams | undefined => {
-    return experimentList.find((experiment) =>
-      isDateTimeInExperiment(dateTime, experiment)
-    );
-  };
-
-  const renderExperimentPickerDayFrom = (
-    date: Date,
-    selectedDates: Array<Date | null>,
-    pickersDayProps: PickersDayProps<Date>
-  ) => {
-    if (!datePickerToDate) {
-      return <PickersDay {...pickersDayProps} />;
-    }
-
-    datePickerToDate.setSeconds(0);
-
-    const experimentRange = findExperimentByDateTime(
-      datePickerToDate,
-      experiments
-    );
-
-    if (!experimentRange) {
-      return <PickersDay {...pickersDayProps} />;
-    }
-
-    const start = new Date(experimentRange.start_date);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(experimentRange.end_date);
-    const testDate = new Date(date);
-    const dayIsBetween = date >= start && date <= end;
-    const isFirstDay = testDate.getDate() === start.getDate();
-    const isLastDay = testDate.getDate() === end.getDate();
-
-    return (
-      <CustomPickersDay
-        {...pickersDayProps}
-        disableMargin
-        dayIsBetween={dayIsBetween}
-        isFirstDay={isFirstDay}
-        isLastDay={isLastDay}
-      />
-    );
-  };
-
-  const renderExperimentPickerDayTo = (
-    date: Date,
-    selectedDates: Array<Date | null>,
-    pickersDayProps: PickersDayProps<Date>
-  ) => {
-    if (!datePickerFromDate) {
-      return <PickersDay {...pickersDayProps} />;
-    }
-
-    const experimentRange = findExperimentByDateTime(
-      datePickerFromDate,
-      experiments
-    );
-
-    if (!experimentRange) {
-      return <PickersDay {...pickersDayProps} />;
-    }
-
-    const start = new Date(experimentRange.start_date);
-    start.setHours(0, 0, 0, 0);
-    const end = new Date(experimentRange.end_date);
-    const testDate = new Date(date);
-    const dayIsBetween = date >= start && date <= end;
-    const isFirstDay = testDate.getDate() === start.getDate();
-    const isLastDay = testDate.getDate() === end.getDate();
-
-    return (
-      <CustomPickersDay
-        {...pickersDayProps}
-        disableMargin
-        dayIsBetween={dayIsBetween}
-        isFirstDay={isFirstDay}
-        isLastDay={isLastDay}
-      />
-    );
-  };
-
   return (
     <Box
       aria-label="date-time search box"
@@ -345,7 +304,16 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'from, date-time picker',
               }}
-              renderDay={renderExperimentPickerDayFrom}
+              renderDay={(date, selectedDates, pickersDayProps) =>
+                renderExperimentPickerDay(
+                  datePickerToDate,
+                  experiments,
+                  isDateTimeInExperiment,
+                  date,
+                  selectedDates,
+                  pickersDayProps
+                )
+              }
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
@@ -442,7 +410,16 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'to, date-time picker',
               }}
-              renderDay={renderExperimentPickerDayTo}
+              renderDay={(date, selectedDates, pickersDayProps) =>
+                renderExperimentPickerDay(
+                  datePickerFromDate,
+                  experiments,
+                  isDateTimeInExperiment,
+                  date,
+                  selectedDates,
+                  pickersDayProps
+                )
+              }
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;

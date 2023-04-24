@@ -4,6 +4,7 @@ import DateTime, {
   datesEqual,
   verifyAndUpdateDate,
   type VerifyAndUpdateDateParams,
+  renderExperimentPickerDay,
 } from './dateTime.component';
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,6 +12,9 @@ import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
 } from '../../setupTests';
+import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { ExperimentParams } from '../../app.types';
+import experimentsJSON from '../../mocks/experiments.json';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
@@ -53,6 +57,89 @@ describe('datesEqual function', () => {
     const date1 = null;
     const date2 = new Date('2019-09-18');
     expect(datesEqual(date1, date2)).toBe(false);
+  });
+});
+
+describe('renderExperimentPickerDay function', () => {
+  let selectedDate: Date | null;
+  let experiments: ExperimentParams[];
+  const isDateTimeInExperiment = (dateTime, experiment) => {
+    return (
+      new Date(dateTime) >= new Date(experiment.start_date) &&
+      new Date(dateTime) <= new Date(experiment.end_date)
+    );
+  };
+  let date: Date;
+  let selectedDates: Array<Date | null>;
+  let pickersDayProps: PickersDayProps<Date>;
+
+  beforeEach(() => {
+    selectedDate = null;
+    experiments = experimentsJSON;
+    date = new Date('2022-02-05T00:00:00');
+    selectedDates = [new Date('2022-01-06T00:00:00')];
+    pickersDayProps = {
+      key: date,
+      day: date,
+      isAnimating: false,
+      disabled: false,
+      autoFocus: false,
+      today: false,
+      outsideCurrentMonth: true,
+      selected: false,
+      disableHighlightToday: undefined,
+      showDaysOutsideCurrentMonth: undefined,
+      onDaySelect: jest.fn(),
+      onBlur: jest.fn(),
+      onFocus: jest.fn(),
+      onkeydown: jest.fn(),
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders a PickersDay component when selectedDate is with an experiment', () => {
+    selectedDate = new Date('2022-01-03T13:00:00');
+
+    const view = renderExperimentPickerDay(
+      selectedDate,
+      experiments,
+      isDateTimeInExperiment,
+      date,
+      selectedDates,
+      pickersDayProps
+    );
+
+    expect(view).toMatchSnapshot();
+  });
+
+  it('renders a PickersDay component when selectedDate is not with an experiment', () => {
+    selectedDate = new Date('2023-01-03T13:00:00');
+    const view = renderExperimentPickerDay(
+      selectedDate,
+      experiments,
+      isDateTimeInExperiment,
+      date,
+      selectedDates,
+      pickersDayProps
+    );
+
+    expect(view).toMatchSnapshot();
+  });
+
+  it('renders a PickersDay component when selectedDate is null', () => {
+    const view = renderExperimentPickerDay(
+      selectedDate,
+      experiments,
+      isDateTimeInExperiment,
+      date,
+      selectedDates,
+      pickersDayProps
+    );
+
+    expect(view).toMatchSnapshot();
   });
 });
 
@@ -189,6 +276,46 @@ describe('DateTime tests', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  // it.only('renderDay', () => {
+  //   const view = createView();
+  //   const experiments = [
+  //     {
+  //       _id: '17210011-1',
+  //       end_date: '2019-01-20T18:00:00',
+  //       experiment_id: '17210011',
+  //       part: 1,
+  //       start_date: '2019-01-07T10:00:00',
+  //     },
+  //     {
+  //       _id: '18110022-1',
+  //       end_date: '2019-05-21T16:48:00',
+  //       experiment_id: '18110022',
+  //       part: 1,
+  //       start_date: '2019-04-08T09:00:00',
+  //     },
+  //     {
+  //       _id: '18110023-1',
+  //       end_date: '2019-02-12T17:48:00',
+  //       experiment_id: '18110023',
+  //       part: 1,
+  //       start_date: '2019-01-21T10:00:00',
+  //     },
+  //   ];
+  //   props.experiments = experiments;
+  //   props.searchParameterExperiment = experiments[0];
+  //   const inputField = screen.getByLabelText('from, date-time input');
+  //   userEvent.click(inputField);
+  //   const days = screen.getAllByRole('cell', { name: /day-\d+/ });
+  //   expect(days).toHaveLength(7);
+  //   expect(days[0]).toHaveStyle({
+  //     borderTopLeftRadius: '50%',
+  //     borderBottomLeftRadius: '50%',
+  //   });
+  //   expect(days[6]).toHaveStyle({
+  //     borderTopRightRadius: '50%',
+  //     borderBottomRightRadius: '50%',
+  //   });
+  // });
   it('calls changeDate and resetTimeframe and resetExperimentTimeframe when filling out and clearing date-time inputs', async () => {
     const experiments = [
       {
