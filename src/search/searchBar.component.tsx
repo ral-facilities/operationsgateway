@@ -456,6 +456,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
                   changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
                   resetDateRange={() => setDateRange(null, null)}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
                   isDateToShotnum={isDateToShotnum}
                 />
               </Grid>
