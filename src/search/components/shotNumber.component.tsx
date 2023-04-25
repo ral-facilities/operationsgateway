@@ -54,7 +54,7 @@ const ShotNumberPopup = (
                 event.target.value ? Number(event.target.value) : undefined
               );
               resetDateRange();
-              if (!event.target.value) resetExperimentTimeframe();
+              if (!event.target.value && !max) resetExperimentTimeframe();
             }}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
@@ -76,7 +76,7 @@ const ShotNumberPopup = (
                 event.target.value ? Number(event.target.value) : undefined
               );
               resetDateRange();
-              if (!event.target.value) resetExperimentTimeframe();
+              if (!event.target.value && !min) resetExperimentTimeframe();
             }}
             error={invalidRange}
             {...(invalidRange && { helperText: 'Invalid range' })}
