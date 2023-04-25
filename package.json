@@ -47,7 +47,8 @@
   },
   "resolutions": {
     "@typescript-eslint/eslint-plugin": "5.52.0",
-    "@typescript-eslint/parser": "5.52.0"
+    "@typescript-eslint/parser": "5.52.0",
+    "@testing-library/react/@testing-library/dom": "9.2.0"
   },
   "scripts": {
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
@@ -97,12 +98,13 @@
       "node_modules/(?!axios)"
     ]
   },
-  "packageManager": "yarn@3.4.1",
+  "packageManager": "yarn@3.5.0",
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
     "@craco/craco": "7.0.0",
     "@playwright/test": "1.30.0",
     "@testing-library/cypress": "8.0.7",
+    "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",

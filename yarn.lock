@@ -5,20 +5,6 @@ __metadata:
   version: 6
   cacheKey: 8
 
-"#ansi-styles@npm:ansi-styles@6.1.0":
-  version: 6.1.0
-  resolution: "ansi-styles@npm:6.1.0"
-  checksum: 7a7f8528c07a9d20c3a92bccd2b6bc3bb4d26e5cb775c02826921477377bd495d615d61f710d56216344b6238d1d11ef2b0348e146c5b128715578bfb3217229
-  languageName: node
-  linkType: hard
-
-"#supports-color@npm:supports-color@9.2.2":
-  version: 9.2.2
-  resolution: "supports-color@npm:9.2.2"
-  checksum: 976d84877402fc38c1d43b1fde20b0a8dc0283273f21cfebe4ff7507d27543cdfbeec7db108a96b82d694465f06d64e8577562b05d0520b41710088e0a33cc50
-  languageName: node
-  linkType: hard
-
 "@ampproject/remapping@npm:^2.2.0":
   version: 2.2.0
   resolution: "@ampproject/remapping@npm:2.2.0"
@@ -3280,6 +3266,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:9.2.0":
+  version: 9.2.0
+  resolution: "@testing-library/dom@npm:9.2.0"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/runtime": ^7.12.5
+    "@types/aria-query": ^5.0.1
+    aria-query: ^5.0.0
+    chalk: ^4.1.0
+    dom-accessibility-api: ^0.5.9
+    lz-string: ^1.5.0
+    pretty-format: ^27.0.2
+  checksum: b145f43cd06ff083012cf2503aff6ccba97ff80715fcb106fe64af690f5536557bf24d37b97e8d685bbe3803d7f71d685ce71426cb1b9e250c3611e4372dcfa9
+  languageName: node
+  linkType: hard
+
 "@testing-library/dom@npm:^8.1.0":
   version: 8.20.0
   resolution: "@testing-library/dom@npm:8.20.0"
@@ -3293,22 +3295,6 @@ __metadata:
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
   checksum: 1e599129a2fe91959ce80900a0a4897232b89e2a8e22c1f5950c36d39c97629ea86b4986b60b173b5525a05de33fde1e35836ea597b03de78cc51b122835c6f0
-  languageName: node
-  linkType: hard
-
-"@testing-library/dom@npm:^9.0.0":
-  version: 9.0.1
-  resolution: "@testing-library/dom@npm:9.0.1"
-  dependencies:
-    "@babel/code-frame": ^7.10.4
-    "@babel/runtime": ^7.12.5
-    "@types/aria-query": ^5.0.1
-    aria-query: ^5.0.0
-    chalk: ^4.1.0
-    dom-accessibility-api: ^0.5.9
-    lz-string: ^1.5.0
-    pretty-format: ^27.0.2
-  checksum: fa3d4097d0efd3b186d90e32ffa71c3f9c4ea7a5a793b186b565044b2950eea469594e1f75803e5edb52a75731feecd19cf7034b009b0bd3bfba173eb9c9cd0c
   languageName: node
   linkType: hard
 
@@ -12285,6 +12271,7 @@ __metadata:
     "@tanstack/react-query-devtools": 4.24.9
     "@tanstack/react-virtual": beta
     "@testing-library/cypress": 8.0.7
+    "@testing-library/dom": 9.2.0
     "@testing-library/jest-dom": 5.16.4
     "@testing-library/react": 14.0.0
     "@testing-library/user-event": 14.4.3
