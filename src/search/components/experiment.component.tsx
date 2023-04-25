@@ -39,11 +39,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
     );
   };
   return (
-    <div
-      style={{
-        padding: 5,
-      }}
-    >
+    <Box sx={{ padding: '5px', bgcolor: 'background.default' }}>
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your experiment
       </Typography>
@@ -91,7 +87,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
           />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

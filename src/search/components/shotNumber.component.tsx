@@ -22,7 +22,13 @@ const ShotNumberPopup = (
   } = props;
 
   return (
-    <div style={{ paddingTop: 5, paddingLeft: 5 }}>
+    <Box
+      sx={{
+        paddingTop: '5px',
+        paddingLeft: '5px',
+        bgcolor: 'background.default',
+      }}
+    >
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your shot number
       </Typography>
@@ -73,7 +79,7 @@ const ShotNumberPopup = (
           />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

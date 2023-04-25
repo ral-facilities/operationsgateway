@@ -6,13 +6,13 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  styled,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -28,14 +28,6 @@ import {
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
-
-const StyledClose = styled(Close)(() => ({
-  cursor: 'pointer',
-  color: 'black',
-  '&:hover': {
-    color: 'red',
-  },
-}));
 
 export interface YAxisTabProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
@@ -474,12 +466,22 @@ const YAxisTab = (props: YAxisTabProps) => {
                   enterDelay={0}
                   leaveDelay={0}
                 >
-                  <StyledClose
+                  <IconButton
                     aria-label={`Remove ${
                       plotChannel.displayName ?? plotChannel.name
                     } from plot`}
+                    size="small"
+                    sx={{ padding: '1px', margin: '-1px 1px' }}
                     onClick={() => removePlotChannel(plotChannel.name)}
-                  />
+                  >
+                    <Close
+                      sx={{
+                        '&:hover': {
+                          color: 'red',
+                        },
+                      }}
+                    />
+                  </IconButton>
                 </Tooltip>
               </Box>
             </Box>

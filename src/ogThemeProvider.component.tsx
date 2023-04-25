@@ -17,6 +17,10 @@ document.addEventListener(MicroFrontendId, (e) => {
   const action = (e as CustomEvent).detail;
   if (sendThemeOptions.match(action)) {
     parentThemeOptions = action.payload.theme;
+    // SG dark mode blue is too dark for us, so set a custom, lighter blue
+    if (parentThemeOptions.palette.mode === 'dark') {
+      parentThemeOptions.palette.primary.main = parentThemeOptions.colours.blue;
+    }
   }
 });
 

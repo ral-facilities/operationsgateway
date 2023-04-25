@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { MicroFrontendId } from '../app.types';
+import { sendThemeOptions } from '../state/scigateway.actions';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
@@ -90,6 +92,23 @@ class WindowPortal extends React.PureComponent<
       const chartjsCode = document.createElement('script');
       chartjsCode.type = 'text/javascript';
 
+      // need a dummy element to attach a function to which is called in the event listener
+      // but is defined later in the chart js code
+      const chartJsFuncsElement = document.createElement('div');
+      chartJsFuncsElement.id = 'chartJsFuncsElement';
+      externalWindow.document.body.appendChild(chartJsFuncsElement);
+
+      document.addEventListener(MicroFrontendId, (e) => {
+        const action = (e as CustomEvent).detail;
+        if (sendThemeOptions.match(action)) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          chartJsFuncsElement.changeChartColours?.(
+            action.payload.theme.palette.mode
+          );
+        }
+      });
+
       /**
        * This code in the below string (which gets inserted into the script tag)
        * does the following:
@@ -166,7 +185,30 @@ class WindowPortal extends React.PureComponent<
       }
 
       var waitForChartJS = setInterval(function () {
-        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {
+        const lightModeColor = Chart.defaults.color;
+        const lightModeBorderColor = Chart.defaults.borderColor;
+
+        const chartJsFuncsElement = document.getElementById("chartJsFuncsElement");
+        chartJsFuncsElement.changeChartColours = function (mode) {
+          if (mode === 'dark') {
+            Chart.defaults.color = "#ADBABD";
+            Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+          } else {
+            Chart.defaults.color = lightModeColor;
+            Chart.defaults.borderColor = lightModeBorderColor;
+          }
+
+          Object.values(Chart.instances).forEach(instance => {
+            Object.keys(instance.options.scales).forEach((key) => {
+              instance.options.scales[key].ticks.color = Chart.defaults.color;
+              instance.options.scales[key].title.color = Chart.defaults.color;
+              instance.options.scales[key].grid.color = Chart.defaults.borderColor;
+            });
+            instance.update("none");
+          })
+        }
+
+        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {         
           waitForElm("#my-chart").then((canvas) => {
             if (canvas && canvas.getContext('2d')) {
               const chart = new Chart(canvas.getContext('2d'), {
