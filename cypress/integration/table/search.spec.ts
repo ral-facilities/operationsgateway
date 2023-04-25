@@ -50,12 +50,8 @@ describe('Search', () => {
     });
 
     it('searches by date-time', () => {
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -129,7 +125,7 @@ describe('Search', () => {
       });
 
       it('last 10 minutes', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 10 mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -192,7 +188,7 @@ describe('Search', () => {
       });
 
       it('last 24 hours', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 24 hours').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -255,7 +251,7 @@ describe('Search', () => {
       });
 
       it('last 7 days', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 7 days').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -319,7 +315,7 @@ describe('Search', () => {
 
       it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', () => {
         // Set a relative timestamp and verify the initial seach is correct
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 10 mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -362,7 +358,7 @@ describe('Search', () => {
         // Advance time forward a minute
         cy.tick(60000);
 
-        cy.get('button[aria-label="Refresh data"]').click();
+        cy.findByLabelText('Refresh data').click();
 
         // wait for search to initiate and finish
         cy.findByRole('progressbar').should('be.visible');
@@ -405,8 +401,8 @@ describe('Search', () => {
       });
 
       it('last 5 minutes', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -469,8 +465,8 @@ describe('Search', () => {
       });
 
       it('last 5 hours', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Hours').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -533,8 +529,8 @@ describe('Search', () => {
       });
 
       it('last 5 days', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Days').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -598,9 +594,9 @@ describe('Search', () => {
     });
 
     it('searches by shot number range', () => {
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('1');
-      cy.get('input[name="shot number max"]').type('9');
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('1');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('9');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -670,24 +666,22 @@ describe('Search', () => {
 
     it('should highlight boxes red if error in search params', () => {
       // Date-time box
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2021-01-01 00:00'
-      );
-      cy.get('div[aria-label="date-time search box"]').should(
+
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2021-01-01 00:00');
+
+      cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
         'rgb(214, 65, 65)' // shade of red
       );
 
-      // Shot Number box
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('2');
-      cy.get('input[name="shot number max"]').type('1');
-      cy.get('div[aria-label="close shot number search box"]').click();
-      cy.get('div[aria-label="open shot number search box"]').should(
+      // Shot number box
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('2');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('1');
+      cy.findByLabelText('close shot number search box').click();
+      cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
         'rgb(214, 65, 65)' // shade of red
@@ -704,23 +698,23 @@ describe('Search', () => {
       };
 
       // Shot number fields
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('1');
-      cy.get('input[name="shot number max"]').type('9');
-      cy.get('div[aria-label="close shot number search box"]').click();
 
-      cy.get('div[aria-label="open shot number search box"]')
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('1');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('9');
+      cy.findByLabelText('close shot number search box').click();
+      cy.findByLabelText('open shot number search box')
         .contains('1 to 9')
         .should('exist');
 
       // timeframe
 
-      cy.get('div[aria-label="open timeframe search box"]').click();
-      cy.get('input[name="timeframe"]').type('5');
+      cy.findByLabelText('open timeframe search box').click();
+      cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
       cy.contains('Days').click();
-      cy.get('div[aria-label="close timeframe search box"]').click();
+      cy.findByLabelText('close timeframe search box').click();
 
-      cy.get('div[aria-label="open timeframe search box"]')
+      cy.findByLabelText('open timeframe search box')
         .contains('5 days')
         .should('exist');
 
@@ -731,7 +725,7 @@ describe('Search', () => {
 
       // Checks that when a experiment id is selected it updates
       // the shot number, timeframe and experiment id
-      cy.get('[aria-label="open experiment search box"]');
+
       cy.findByLabelText('open experiment search box').click();
       cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
       cy.findByLabelText('close experiment search box').click();
@@ -739,11 +733,11 @@ describe('Search', () => {
         .contains('ID 22110007')
         .should('exist');
 
-      cy.get('div[aria-label="open shot number search box"]')
+      cy.findByLabelText('open shot number search box')
         .contains('1 to 9')
         .should('not.exist');
 
-      cy.get('div[aria-label="open timeframe search box"]')
+      cy.findByLabelText('open timeframe search box')
         .contains('5 days')
         .should('not.exist');
 
@@ -816,13 +810,9 @@ describe('Search', () => {
     });
 
     it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
-      // Date-time fields
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
+
       const expectedToDate = new Date('2022-01-02 00:00:59');
       const expectedFromDate = new Date('2022-01-01 00:00:00');
       const expectedToDateString = formatDateTimeForApi(expectedToDate);
@@ -1077,9 +1067,7 @@ describe('Search', () => {
     });
 
     it('displays appropriate tooltips', () => {
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -1150,10 +1138,8 @@ describe('Search', () => {
         );
       });
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-11 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-11 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -1164,10 +1150,8 @@ describe('Search', () => {
 
       cy.clearMocks();
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-02 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -1220,10 +1204,8 @@ describe('Search', () => {
         expect(gte).equal('2022-01-02T00:00:00');
       });
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
