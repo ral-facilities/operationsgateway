@@ -9,5 +9,8 @@ exports[`Window portal component renders child in separate document and initiali
       Test
     </div>
   </div>
+  <div
+    id="chartJsFuncsElement"
+  />
 </body>
 `;
