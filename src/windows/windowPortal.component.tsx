@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { Theme, useTheme } from '@mui/material';
+import { CssBaseline, Theme, useTheme } from '@mui/material';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
@@ -173,41 +173,47 @@ export class WindowPortal extends React.PureComponent<
       }
 
       var waitForChartJS = setInterval(function () {
-        const lightModeColor = Chart.defaults.color;
-        const lightModeBorderColor = Chart.defaults.borderColor;
+        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') { 
+          const lightModeColor = Chart.defaults.color;
+          const lightModeBorderColor = Chart.defaults.borderColor;
 
-        const themeElement = document.getElementById("themeElement");
-        const themeObserver = new MutationObserver(mutations => {
-          for(let mutation of mutations) {
-            if (mutation.type === 'attributes') {
-              if(mutation.attributeName === "data-mode"){
-                const mode = themeElement.dataset.mode;
-                if (mode === 'dark') {
-                  Chart.defaults.color = "#ADBABD";
-                  Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
-                } else {
-                  Chart.defaults.color = lightModeColor;
-                  Chart.defaults.borderColor = lightModeBorderColor;
+          const themeElement = document.getElementById("themeElement");
+
+          if (themeElement.dataset.mode === 'dark') {
+            Chart.defaults.color = "#ADBABD";
+            Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+          }
+
+          const themeObserver = new MutationObserver(mutations => {
+            for(let mutation of mutations) {
+              if (mutation.type === 'attributes') {
+                if(mutation.attributeName === "data-mode"){
+                  const mode = themeElement.dataset.mode;
+                  if (mode === 'dark') {
+                    Chart.defaults.color = "#ADBABD";
+                    Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+                  } else {
+                    Chart.defaults.color = lightModeColor;
+                    Chart.defaults.borderColor = lightModeBorderColor;
+                  }
+        
+                  Object.values(Chart.instances).forEach(instance => {
+                    Object.keys(instance.options.scales).forEach((key) => {
+                      instance.options.scales[key].ticks.color = Chart.defaults.color;
+                      instance.options.scales[key].title.color = Chart.defaults.color;
+                      instance.options.scales[key].grid.color = Chart.defaults.borderColor;
+                    });
+                    instance.update("none");
+                  })
                 }
-      
-                Object.values(Chart.instances).forEach(instance => {
-                  Object.keys(instance.options.scales).forEach((key) => {
-                    instance.options.scales[key].ticks.color = Chart.defaults.color;
-                    instance.options.scales[key].title.color = Chart.defaults.color;
-                    instance.options.scales[key].grid.color = Chart.defaults.borderColor;
-                  });
-                  instance.update("none");
-                })
               }
             }
-          }
-        });
+          });
 
-        themeObserver.observe(themeElement, {
-          attributes: true
-        });
-
-        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {         
+          themeObserver.observe(themeElement, {
+            attributes: true
+          });
+          
           waitForElm("#my-chart").then((canvas) => {
             if (canvas && canvas.getContext('2d')) {
               const chart = new Chart(canvas.getContext('2d'), {
@@ -307,7 +313,10 @@ export class WindowPortal extends React.PureComponent<
     }
     // create the React portal only once containerEl has been appended to the new window
     return ReactDOM.createPortal(
-      <CacheProvider value={styleCache}>{this.props.children}</CacheProvider>,
+      <CacheProvider value={styleCache}>
+        <CssBaseline enableColorScheme />
+        {this.props.children}
+      </CacheProvider>,
       containerEl
     );
   }
