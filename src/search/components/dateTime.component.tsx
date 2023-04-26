@@ -330,7 +330,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                       placeholder: 'From...',
                       'aria-label': 'from, date-time input',
                       sx: {
-                        fontSize: 12,
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
                       },
                     }}
                     variant="standard"
@@ -360,7 +361,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
               componentsProps={{
-                actionBar: { actions: ['clear'] },
+                actionBar: { actions: ['clear', 'today'] },
               }}
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
@@ -436,7 +437,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                       placeholder: 'To...',
                       'aria-label': 'to, date-time input',
                       sx: {
-                        fontSize: 12,
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
                       },
                     }}
                     variant="standard"

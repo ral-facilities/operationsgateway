@@ -141,6 +141,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           display: 'flex',
           flexDirection: 'row',
           paddingRight: 5,
+          paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
           ...(flashAnimationPlaying && {
