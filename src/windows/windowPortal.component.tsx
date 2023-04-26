@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { MicroFrontendId } from '../app.types';
-import { sendThemeOptions } from '../state/scigateway.actions';
 import { Theme, useTheme } from '@mui/material';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
@@ -93,23 +91,11 @@ export class WindowPortal extends React.PureComponent<
       const chartjsCode = document.createElement('script');
       chartjsCode.type = 'text/javascript';
 
-      // need a dummy element to attach a function to which is called in the event listener
-      // but is defined later in the chart js code
+      // need a theme element to attach theme info to which is observed for changes in the chart js code
       const themeElement = document.createElement('div');
       themeElement.id = 'themeElement';
-      // use passed in theme to ensure we initialise chart with the correct theme mode
       themeElement.dataset.mode = this.props.theme.palette.mode;
       externalWindow.document.body.appendChild(themeElement);
-
-      document.addEventListener(MicroFrontendId, (e) => {
-        const action = (e as CustomEvent).detail;
-        if (sendThemeOptions.match(action)) {
-          themeElement.dataset.mode = action.payload.theme.palette.mode;
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          themeElement.changeChartColours?.(themeElement.dataset.mode);
-        }
-      });
 
       /**
        * This code in the below string (which gets inserted into the script tag)
@@ -190,25 +176,36 @@ export class WindowPortal extends React.PureComponent<
         const lightModeColor = Chart.defaults.color;
         const lightModeBorderColor = Chart.defaults.borderColor;
 
-        themeElement.changeChartColours = function (mode) {
-          if (mode === 'dark') {
-            Chart.defaults.color = "#ADBABD";
-            Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
-          } else {
-            Chart.defaults.color = lightModeColor;
-            Chart.defaults.borderColor = lightModeBorderColor;
+        const themeElement = document.getElementById("themeElement");
+        const themeObserver = new MutationObserver(mutations => {
+          for(let mutation of mutations) {
+            if (mutation.type === 'attributes') {
+              if(mutation.attributeName === "data-mode"){
+                const mode = themeElement.dataset.mode;
+                if (mode === 'dark') {
+                  Chart.defaults.color = "#ADBABD";
+                  Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+                } else {
+                  Chart.defaults.color = lightModeColor;
+                  Chart.defaults.borderColor = lightModeBorderColor;
+                }
+      
+                Object.values(Chart.instances).forEach(instance => {
+                  Object.keys(instance.options.scales).forEach((key) => {
+                    instance.options.scales[key].ticks.color = Chart.defaults.color;
+                    instance.options.scales[key].title.color = Chart.defaults.color;
+                    instance.options.scales[key].grid.color = Chart.defaults.borderColor;
+                  });
+                  instance.update("none");
+                })
+              }
+            }
           }
+        });
 
-          Object.values(Chart.instances).forEach(instance => {
-            Object.keys(instance.options.scales).forEach((key) => {
-              instance.options.scales[key].ticks.color = Chart.defaults.color;
-              instance.options.scales[key].title.color = Chart.defaults.color;
-              instance.options.scales[key].grid.color = Chart.defaults.borderColor;
-            });
-            instance.update("none");
-          })
-        }
-        themeElement.changeChartColours(themeElement.dataset.mode);
+        themeObserver.observe(themeElement, {
+          attributes: true
+        });
 
         if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {         
           waitForElm("#my-chart").then((canvas) => {
@@ -281,7 +278,7 @@ export class WindowPortal extends React.PureComponent<
   }
 
   componentDidUpdate(
-    prevProps: WindowPortalProps,
+    prevProps: WindowPortalProps & { theme: Theme },
     prevState: WindowPortalState
   ) {
     if (prevState.window === null && this.state.window) {
@@ -294,6 +291,12 @@ export class WindowPortal extends React.PureComponent<
     if (prevProps.onClose !== this.props.onClose) {
       this.state.window?.removeEventListener('beforeunload', prevProps.onClose);
       this.state.window?.addEventListener('beforeunload', this.props.onClose);
+    }
+    if (prevProps.theme !== this.props.theme && this.state.window) {
+      const themeElement =
+        this.state.window.document.getElementById('themeElement');
+      if (themeElement)
+        themeElement.dataset.mode = this.props.theme.palette.mode;
     }
   }
 
