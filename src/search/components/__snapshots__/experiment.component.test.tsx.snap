@@ -7,7 +7,7 @@ exports[`Experiment search renders correctly 1`] = `
   >
     <div
       aria-label="close experiment search box"
-      class="MuiBox-root css-o3ftni"
+      class="MuiBox-root css-1mjwt1c"
     >
       <svg
         aria-hidden="true"
