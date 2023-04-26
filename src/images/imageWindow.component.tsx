@@ -1,5 +1,7 @@
 import React from 'react';
-import WindowPortal from '../windows/windowPortal.component';
+import WindowPortal, {
+  WindowPortal as WindowPortalClass,
+} from '../windows/windowPortal.component';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import ImageView from './imageView.component';
@@ -37,7 +39,7 @@ const ImageWindow = (props: ImageWindowProps) => {
     }
   );
 
-  const windowRef = React.createRef<WindowPortal>();
+  const windowRef = React.createRef<WindowPortalClass>();
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 

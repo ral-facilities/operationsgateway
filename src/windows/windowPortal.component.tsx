@@ -4,6 +4,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { MicroFrontendId } from '../app.types';
 import { sendThemeOptions } from '../state/scigateway.actions';
+import { Theme, useTheme } from '@mui/material';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
@@ -24,11 +25,11 @@ export interface WindowPortalProps {
   screenY: number;
 }
 
-class WindowPortal extends React.PureComponent<
-  WindowPortalProps,
+export class WindowPortal extends React.PureComponent<
+  WindowPortalProps & { theme: Theme },
   WindowPortalState
 > {
-  constructor(props: WindowPortalProps) {
+  constructor(props: WindowPortalProps & { theme: Theme }) {
     super(props);
     this.state = { window: null, styleCache: null, containerEl: null };
   }
@@ -94,18 +95,19 @@ class WindowPortal extends React.PureComponent<
 
       // need a dummy element to attach a function to which is called in the event listener
       // but is defined later in the chart js code
-      const chartJsFuncsElement = document.createElement('div');
-      chartJsFuncsElement.id = 'chartJsFuncsElement';
-      externalWindow.document.body.appendChild(chartJsFuncsElement);
+      const themeElement = document.createElement('div');
+      themeElement.id = 'themeElement';
+      // use passed in theme to ensure we initialise chart with the correct theme mode
+      themeElement.dataset.mode = this.props.theme.palette.mode;
+      externalWindow.document.body.appendChild(themeElement);
 
       document.addEventListener(MicroFrontendId, (e) => {
         const action = (e as CustomEvent).detail;
         if (sendThemeOptions.match(action)) {
+          themeElement.dataset.mode = action.payload.theme.palette.mode;
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          chartJsFuncsElement.changeChartColours?.(
-            action.payload.theme.palette.mode
-          );
+          themeElement.changeChartColours?.(themeElement.dataset.mode);
         }
       });
 
@@ -188,8 +190,7 @@ class WindowPortal extends React.PureComponent<
         const lightModeColor = Chart.defaults.color;
         const lightModeBorderColor = Chart.defaults.borderColor;
 
-        const chartJsFuncsElement = document.getElementById("chartJsFuncsElement");
-        chartJsFuncsElement.changeChartColours = function (mode) {
+        themeElement.changeChartColours = function (mode) {
           if (mode === 'dark') {
             Chart.defaults.color = "#ADBABD";
             Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
@@ -207,6 +208,7 @@ class WindowPortal extends React.PureComponent<
             instance.update("none");
           })
         }
+        themeElement.changeChartColours(themeElement.dataset.mode);
 
         if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {         
           waitForElm("#my-chart").then((canvas) => {
@@ -308,4 +310,14 @@ class WindowPortal extends React.PureComponent<
   }
 }
 
-export default WindowPortal;
+const WindowPortalWithTheme = React.memo(
+  React.forwardRef<WindowPortal, WindowPortalProps>(
+    (props: WindowPortalProps, ref) => {
+      const theme = useTheme();
+
+      return <WindowPortal {...props} theme={theme} ref={ref} />;
+    }
+  )
+);
+
+export default WindowPortalWithTheme;
