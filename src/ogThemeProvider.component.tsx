@@ -9,6 +9,16 @@ import { MicroFrontendId } from './app.types';
 import { sendThemeOptions } from './state/scigateway.actions';
 import { CssBaseline } from '@mui/material';
 
+declare module '@mui/material/styles' {
+  interface Theme {
+    colours?: { blue: string };
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    colours?: { blue: string };
+  }
+}
+
 // Store the parent theme options when received.
 // Otherwise, set to an empty theme.
 let parentThemeOptions: Theme = createTheme();
@@ -19,7 +29,10 @@ document.addEventListener(MicroFrontendId, (e) => {
   if (sendThemeOptions.match(action)) {
     parentThemeOptions = action.payload.theme;
     // SG dark mode blue is too dark for us, so set a custom, lighter blue
-    if (parentThemeOptions.palette.mode === 'dark') {
+    if (
+      parentThemeOptions.palette.mode === 'dark' &&
+      parentThemeOptions.colours?.blue
+    ) {
       parentThemeOptions.palette.primary.main = parentThemeOptions.colours.blue;
     }
   }

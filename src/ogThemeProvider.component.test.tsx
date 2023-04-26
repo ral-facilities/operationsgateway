@@ -5,16 +5,6 @@ import { MicroFrontendId } from './app.types';
 import { sendThemeOptions } from './state/scigateway.actions';
 import { render, screen } from '@testing-library/react';
 
-declare module '@mui/material/styles' {
-  interface Theme {
-    colours: { blue: string };
-  }
-  // allow configuration using `createTheme`
-  interface ThemeOptions {
-    colours: { blue: string };
-  }
-}
-
 describe('OGThemeProvider', () => {
   it('receives and uses the theme options', () => {
     // Create a basic theme.

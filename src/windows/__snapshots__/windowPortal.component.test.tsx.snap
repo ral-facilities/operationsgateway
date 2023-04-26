@@ -10,7 +10,24 @@ exports[`Window portal component renders child in separate document and initiali
     </div>
   </div>
   <div
-    id="chartJsFuncsElement"
+    data-mode="dark"
+    id="themeElement"
+  />
+</body>
+`;
+
+exports[`Window portal component renders with theme inherited from ThemeProvider 1`] = `
+<body>
+  <div>
+    <div
+      id="test"
+    >
+      Test
+    </div>
+  </div>
+  <div
+    data-mode="dark"
+    id="themeElement"
   />
 </body>
 `;
