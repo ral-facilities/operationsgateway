@@ -1490,7 +1490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.18.9, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
   dependencies:
@@ -12334,7 +12334,7 @@ __metadata:
     react-colorful: 5.6.1
     react-dom: 18.2.0
     react-draggable: 4.4.5
-    react-i18next: 12.1.1
+    react-i18next: 12.2.2
     react-redux: 8.0.2
     react-router-dom: 6.8.0
     react-scripts: 5.0.1
@@ -14000,11 +14000,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:12.1.1":
-  version: 12.1.1
-  resolution: "react-i18next@npm:12.1.1"
+"react-i18next@npm:12.2.2":
+  version: 12.2.2
+  resolution: "react-i18next@npm:12.2.2"
   dependencies:
-    "@babel/runtime": ^7.14.5
+    "@babel/runtime": ^7.20.6
     html-parse-stringify: ^3.0.1
   peerDependencies:
     i18next: ">= 19.0.0"
@@ -14014,7 +14014,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: baeb1957d70281d1a95ef0b94801bc2e6bf17066a49a45f32cd1a706ead3ddce2ab3e7b321e07c43f082efa9987c2d55856a5bdf419d9ad628dbfa9ec87af8ea
+  checksum: 460e32779f6abba287d63be6054f855202c2e365cbceca36673c8f37a497c2ac5a21a8577d20fcc0b3fcd4825f89427dc4fdf00136365963d27dac7d997c3c74
   languageName: node
   linkType: hard
 
