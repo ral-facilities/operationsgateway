@@ -62,8 +62,74 @@ const FilterInput = (props: FilterInputProps) => {
         setError('');
         setInputIndex((prevIndex) => prevIndex + -1);
       }
+      // allow selecting operators, channels, strings
+      // and numbers with Space key down
+      if (e.key === ' ') {
+        const operator = operators.find((opt) => opt.value === inputValue);
+        const channel = channels.filter((channel) =>
+          channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+
+        const newValue = [...value];
+
+        if (channel.length === 1) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          newValue.splice(inputIndex, 0, channel[0]);
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
+
+        if (operator) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          newValue.splice(inputIndex, 0, operator);
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
+
+        if (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          newValue.splice(inputIndex, 0, {
+            type: 'number',
+            value: inputValue,
+            label: inputValue,
+          });
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        } // new term is a string specified by either single or double quotes so allow it
+        else if (
+          (inputValue[0] === '"' &&
+            inputValue[inputValue.length - 1] === '"') ||
+          (inputValue[0] === "'" && inputValue[inputValue.length - 1] === "'")
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          newValue.splice(inputIndex, 0, {
+            type: 'string',
+            value: inputValue,
+            label: inputValue,
+          });
+
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
+      }
     },
-    [inputIndex, value, inputValue, setError, setValue]
+    [inputValue, value, setValue, setError, inputIndex, channels]
   );
 
   const clickHandler = React.useCallback<(e: React.MouseEvent) => void>(
@@ -166,7 +232,7 @@ const FilterInput = (props: FilterInputProps) => {
           const newTerm = newValue.find((v) => typeof v === 'string') as string;
           const newTermIndex = newValue.indexOf(newTerm);
           // new term is a valid number so allow it to be added
-          if (!Number.isNaN(Number(newTerm))) {
+          if (!Number.isNaN(Number(newTerm)) && inputValue.trim().length > 0) {
             newValue[newTermIndex] = {
               type: 'number',
               value: newTerm,
