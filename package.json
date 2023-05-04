@@ -100,7 +100,7 @@
   "packageManager": "yarn@3.4.1",
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
-    "@craco/craco": "7.0.0",
+    "@craco/craco": "7.1.0",
     "@playwright/test": "1.30.0",
     "@testing-library/cypress": "8.0.7",
     "@testing-library/dom": "9.0.1",
