@@ -133,7 +133,7 @@
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.2.0",
     "serve-static": "1.15.0",
-    "start-server-and-test": "1.15.0"
+    "start-server-and-test": "2.0.0"
   },
   "msw": {
     "workerDirectory": "public"
