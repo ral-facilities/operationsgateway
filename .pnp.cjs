@@ -81,7 +81,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
             ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
-            ["jest-canvas-mock", "npm:2.4.0"],\
+            ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.1.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
@@ -13729,10 +13729,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["jest-canvas-mock", [\
-        ["npm:2.4.0", {\
-          "packageLocation": "./.yarn/cache/jest-canvas-mock-npm-2.4.0-f993bb2728-feda3c9a33.zip/node_modules/jest-canvas-mock/",\
+        ["npm:2.5.0", {\
+          "packageLocation": "./.yarn/cache/jest-canvas-mock-npm-2.5.0-229c739e85-093bc15577.zip/node_modules/jest-canvas-mock/",\
           "packageDependencies": [\
-            ["jest-canvas-mock", "npm:2.4.0"],\
+            ["jest-canvas-mock", "npm:2.5.0"],\
             ["cssfontparser", "npm:1.2.1"],\
             ["moo-color", "npm:1.0.3"]\
           ],\
@@ -16094,7 +16094,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
             ["i18next-http-backend", "npm:2.1.0"],\
             ["immutability-helper", "npm:3.1.1"],\
-            ["jest-canvas-mock", "npm:2.4.0"],\
+            ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.1.0"],\
             ["loglevel", "npm:1.8.0"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
