@@ -61,7 +61,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.59.1"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.33"],\
             ["axios", "npm:1.4.0"],\
-            ["chart.js", "npm:4.2.1"],\
+            ["chart.js", "npm:4.3.0"],\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
@@ -79,7 +79,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.4.3"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.1.0"],\
+            ["i18next-http-backend", "npm:2.2.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
@@ -8499,10 +8499,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["chart.js", [\
-        ["npm:4.2.1", {\
-          "packageLocation": "./.yarn/cache/chart.js-npm-4.2.1-97512b9a29-7319fdfd1e.zip/node_modules/chart.js/",\
+        ["npm:4.3.0", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-4.3.0-8c27842bcb-157ceaa381.zip/node_modules/chart.js/",\
           "packageDependencies": [\
-            ["chart.js", "npm:4.2.1"],\
+            ["chart.js", "npm:4.3.0"],\
             ["@kurkle/color", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
@@ -8521,7 +8521,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["@types/chart.js", null],\
-            ["chart.js", "npm:4.2.1"],\
+            ["chart.js", "npm:4.3.0"],\
             ["hammerjs", "npm:2.0.8"]\
           ],\
           "packagePeers": [\
@@ -12864,10 +12864,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next-http-backend", [\
-        ["npm:2.1.0", {\
-          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.1.0-53cfc6f2d8-6cc31203c0.zip/node_modules/i18next-http-backend/",\
+        ["npm:2.2.0", {\
+          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.2.0-e39457ccde-21d22d947a.zip/node_modules/i18next-http-backend/",\
           "packageDependencies": [\
-            ["i18next-http-backend", "npm:2.1.0"],\
+            ["i18next-http-backend", "npm:2.2.0"],\
             ["cross-fetch", "npm:3.1.5"]\
           ],\
           "linkType": "HARD"\
@@ -16068,7 +16068,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.59.1"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.33"],\
             ["axios", "npm:1.4.0"],\
-            ["chart.js", "npm:4.2.1"],\
+            ["chart.js", "npm:4.3.0"],\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:9.7.0"],\
@@ -16086,7 +16086,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.4.3"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.1.0"],\
+            ["i18next-http-backend", "npm:2.2.0"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
