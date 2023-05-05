@@ -295,6 +295,7 @@ describe('DateTime tests', () => {
       resetShotnumberRange,
       isShotnumToDate: false,
       isDateTimeInExperiment,
+      invalidDateRange: false,
     };
   });
 
@@ -444,23 +445,12 @@ describe('DateTime tests', () => {
   });
 
   it('handles invalid date-time values correctly by not calling changeDate and displaying helper text', async () => {
+    props = { ...props, invalidDateRange: true };
     createView();
-
-    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2022-01-01 00:00:00');
-
-    expect(changeSearchParameterFromDate).toHaveBeenLastCalledWith(
-      new Date('2022-01-01 00:00:00')
-    );
-
-    const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2021-01-01 00:00:00');
 
     const helperTexts = screen.getAllByText('Invalid date-time range');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
-
-    expect(changeSearchParameterToDate).not.toHaveBeenCalled();
   });
 });

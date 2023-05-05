@@ -27,6 +27,7 @@ describe('shotNumber search', () => {
       resetDateRange,
       resetExperimentTimeframe,
       isDateToShotnum: false,
+      invalidShotNumberRange: false,
     };
 
     user = userEvent.setup();
@@ -83,6 +84,7 @@ describe('shotNumber search', () => {
       ...props,
       searchParameterShotnumMin: 1,
       searchParameterShotnumMax: 0,
+      invalidShotNumberRange: true,
     };
     createView();
 

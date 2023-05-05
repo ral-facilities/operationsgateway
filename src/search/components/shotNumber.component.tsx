@@ -12,17 +12,16 @@ export interface ShotNumberProps {
   resetDateRange: () => void;
   resetExperimentTimeframe: () => void;
   isDateToShotnum: boolean;
+  invalidShotNumberRange: boolean;
 }
 
-const ShotNumberPopup = (
-  props: ShotNumberProps & { invalidRange: boolean }
-): React.ReactElement => {
+const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
   const {
     searchParameterShotnumMin: min,
     searchParameterShotnumMax: max,
     changeSearchParameterShotnumMin: changeMin,
     changeSearchParameterShotnumMax: changeMax,
-    invalidRange,
+    invalidShotNumberRange,
     resetDateRange,
     resetExperimentTimeframe,
   } = props;
@@ -56,8 +55,8 @@ const ShotNumberPopup = (
               resetDateRange();
               if (!event.target.value && !max) resetExperimentTimeframe();
             }}
-            error={invalidRange}
-            {...(invalidRange && { helperText: 'Invalid range' })}
+            error={invalidShotNumberRange}
+            {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
         <Grid item xs={1}>
@@ -78,8 +77,8 @@ const ShotNumberPopup = (
               resetDateRange();
               if (!event.target.value && !min) resetExperimentTimeframe();
             }}
-            error={invalidRange}
-            {...(invalidRange && { helperText: 'Invalid range' })}
+            error={invalidShotNumberRange}
+            {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
       </Grid>
@@ -92,6 +91,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
     searchParameterShotnumMin: min,
     searchParameterShotnumMax: max,
     isDateToShotnum,
+    invalidShotNumberRange,
   } = props;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
@@ -101,9 +101,6 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
-
-  const invalidRange =
-    min !== undefined && max !== undefined ? min > max : false;
 
   const [flashAnimationPlaying, setFlashAnimationPlaying] =
     React.useState<boolean>(false);
@@ -136,7 +133,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
-          borderColor: invalidRange ? 'rgb(214, 65, 65)' : undefined,
+          borderColor: invalidShotNumberRange ? 'rgb(214, 65, 65)' : undefined,
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
@@ -177,7 +174,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           }}
           ref={popover}
         >
-          <ShotNumberPopup {...props} invalidRange={invalidRange} />
+          <ShotNumberPopup {...props} />
         </Box>
       )}
     </Box>

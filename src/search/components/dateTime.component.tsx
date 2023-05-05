@@ -136,6 +136,7 @@ export interface DateTimeSearchProps {
     dateTime: Date,
     experiment: ExperimentParams
   ) => boolean;
+  invalidDateRange: boolean;
 }
 
 /**
@@ -170,6 +171,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     resetShotnumberRange,
     isShotnumToDate,
     isDateTimeInExperiment,
+    invalidDateRange,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -187,11 +189,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     React.useState<boolean>(false);
   const [datePickerToDateError, setDatePickerToDateError] =
     React.useState<boolean>(false);
-
-  const invalidDateRange =
-    datePickerFromDate &&
-    datePickerToDate &&
-    isBefore(datePickerToDate, datePickerFromDate);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
