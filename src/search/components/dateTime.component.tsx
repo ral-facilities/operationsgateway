@@ -254,12 +254,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetShotnumberRange();
 
                 if (searchParameterExperiment && date) {
-                  const start_date = new Date(
-                    searchParameterExperiment.start_date
-                  );
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date >= start_date && date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -279,12 +276,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const start_date = new Date(
-                    searchParameterExperiment.start_date
-                  );
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date >= start_date && date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -368,9 +362,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -389,9 +383,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }

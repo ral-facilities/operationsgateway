@@ -151,20 +151,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
-  const { data: dateToShotnum } = useDateToShotnumConverter(
-    searchParameterFromDate
-      ? formatDateTimeForApi(searchParameterFromDate)
-      : undefined,
-    searchParameterToDate
-      ? formatDateTimeForApi(searchParameterToDate)
-      : undefined
-  );
-
-  const { data: shotnumToDate } = useShotnumToDateConverter(
-    searchParameterShotnumMin,
-    searchParameterShotnumMax
-  );
-
   // ########################
   // Experiment ID
   // ########################
@@ -204,6 +190,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     const endDate = new Date(experiment.end_date);
     return dateTime >= startDate && dateTime <= endDate;
   };
+  // Date range to shot number range converter
+  const { data: dateToShotnum } = useDateToShotnumConverter(
+    searchParameterFromDate
+      ? formatDateTimeForApi(searchParameterFromDate)
+      : undefined,
+    searchParameterToDate
+      ? formatDateTimeForApi(searchParameterToDate)
+      : undefined
+  );
+
+  // Shot number range to date range converter
+  const { data: shotnumToDate } = useShotnumToDateConverter(
+    searchParameterShotnumMin,
+    searchParameterShotnumMax
+  );
 
   // Checks for changes to shot number range and date range
   // This is for the animation in date time box and shotnum box
