@@ -76,53 +76,39 @@ const FilterInput = (props: FilterInputProps) => {
         );
 
         const newValue = [...value];
+        let newToken;
 
         switch (true) {
           case channel.length === 1:
-            e.preventDefault();
-            e.stopPropagation();
-
-            newValue.splice(inputIndex, 0, channel[0]);
+            newToken = channel[0];
             break;
 
           case operatorExactMatch !== undefined:
-            e.preventDefault();
-            e.stopPropagation();
-
-            newValue.splice(inputIndex, 0, operatorExactMatch as Token);
+            newToken = operatorExactMatch;
             break;
 
           case operatorListMatch.length === 1:
-            e.preventDefault();
-            e.stopPropagation();
-
-            newValue.splice(inputIndex, 0, operatorListMatch[0] as Token);
+            newToken = operatorListMatch[0];
             break;
 
           case !Number.isNaN(Number(inputValue)) &&
             inputValue.trim().length > 0:
-            e.preventDefault();
-            e.stopPropagation();
-
-            newValue.splice(inputIndex, 0, {
+            newToken = {
               type: 'number',
               value: inputValue,
               label: inputValue,
-            });
+            };
             break;
 
           case (inputValue[0] === '"' &&
             inputValue[inputValue.length - 1] === '"') ||
             (inputValue[0] === "'" &&
               inputValue[inputValue.length - 1] === "'"):
-            e.preventDefault();
-            e.stopPropagation();
-
-            newValue.splice(inputIndex, 0, {
+            newToken = {
               type: 'string',
               value: inputValue,
               label: inputValue,
-            });
+            };
             break;
 
           default:
@@ -130,14 +116,20 @@ const FilterInput = (props: FilterInputProps) => {
         }
 
         if (
-          channel.length === 1 ||
-          operatorExactMatch !== undefined ||
-          operatorListMatch.length === 1 ||
-          (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) ||
-          (inputValue[0] === '"' &&
-            inputValue[inputValue.length - 1] === '"') ||
-          (inputValue[0] === "'" && inputValue[inputValue.length - 1] === "'")
+          (channel.length === 1 ||
+            operatorExactMatch !== undefined ||
+            operatorListMatch.length === 1 ||
+            (!Number.isNaN(Number(inputValue)) &&
+              inputValue.trim().length > 0) ||
+            (inputValue[0] === '"' &&
+              inputValue[inputValue.length - 1] === '"') ||
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'")) &&
+          newToken
         ) {
+          e.preventDefault();
+          e.stopPropagation();
+          newValue.splice(inputIndex, 0, newToken as Token);
           setValue(newValue);
           setInputValue('');
           setError('');
