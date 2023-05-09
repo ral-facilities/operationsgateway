@@ -25,7 +25,7 @@ describe('Filtering Component', () => {
   it('opens dialogue when you click the filters button in a filtered table column', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type('Shot{enter}is no ');
     cy.contains('Apply').click();
     cy.get('[role="dialog"]').should('not.exist');
 
@@ -55,7 +55,7 @@ describe('Filtering Component', () => {
   it('lets a user create a filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type('Shot{enter}is no ');
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -89,7 +89,7 @@ describe('Filtering Component', () => {
   it('lets a user create a filter using space bar', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot is not null ');
+    cy.get('input[role="combobox"]').type('Shot is no ');
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -123,7 +123,8 @@ describe('Filtering Component', () => {
   it('stops a user from creating an invalid filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot{enter}<{enter}').blur();
+    cy.get('input[role="combobox"]').type('Shot{enter}<{enter}');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -140,7 +141,8 @@ describe('Filtering Component', () => {
   it('stops a user from creating an invalid filter using space bar', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot < ').blur();
+    cy.get('input[role="combobox"]').type('Shot < ');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -163,8 +165,8 @@ describe('Filtering Component', () => {
       .as('input')
       .type(
         'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}Shot{enter}>{enter}1{enter}'
-      )
-      .blur();
+      );
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
@@ -177,9 +179,11 @@ describe('Filtering Component', () => {
       .contains('[role="button"]', /^1$/)
       .should('be.visible');
 
-    cy.get('@input')
-      .type('{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}')
-      .blur();
+    cy.get('@input').type(
+      '{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}'
+    );
+
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^or$/)
@@ -187,9 +191,8 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').should('not.be.disabled');
 
-    cy.get('@input')
-      .type('{rightArrow}{rightArrow}{backspace}>={enter}')
-      .blur();
+    cy.get('@input').type('{rightArrow}{rightArrow}{backspace}>={enter}');
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^>=$/)
@@ -199,14 +202,16 @@ describe('Filtering Component', () => {
     // when the input is either empty (backspace) or the cursor in the input is
     // fully at the start (arrow left) or at the end (arrow right)
     cy.get('@input').type('{leftArrow}{leftArrow}'); // set correct cursor position (i.e. after conjunction, before start of second assertion)
-    cy.get('@input').type('not{backspace}').blur();
+    cy.get('@input').type('not{backspace}');
+    cy.get('@input').blur();
 
     cy.get('@input').should('have.value', 'no');
     // if backspace deleted the previous item, the expression wouldn't be valid
     cy.contains('Apply').should('not.be.disabled');
 
     cy.get('@input').type('t');
-    cy.get('@input').type('{leftArrow}{rightArrow}{enter}').blur();
+    cy.get('@input').type('{leftArrow}{rightArrow}{enter}');
+    cy.get('@input').blur();
 
     cy.startSnoopingBrowserMockedRequest();
 
@@ -238,8 +243,8 @@ describe('Filtering Component', () => {
     // as well as inputting numbers and strings
     cy.get('input[role="combobox"]')
       .as('input')
-      .type('Channel{downArrow}{enter}!= "1" and Shot > 1 ')
-      .blur();
+      .type('Channel{downArrow}{enter}!= "1" and Shot > 1 ');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
@@ -252,9 +257,10 @@ describe('Filtering Component', () => {
       .contains('[role="button"]', /^1$/)
       .should('be.visible');
 
-    cy.get('@input')
-      .type('{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}')
-      .blur();
+    cy.get('@input').type(
+      '{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}'
+    );
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^or$/)
@@ -262,9 +268,8 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').should('not.be.disabled');
 
-    cy.get('@input')
-      .type('{rightArrow}{rightArrow}{backspace}>={enter}')
-      .blur();
+    cy.get('@input').type('{rightArrow}{rightArrow}{backspace}>={enter}');
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^>=$/)
@@ -274,14 +279,16 @@ describe('Filtering Component', () => {
     // when the input is either empty (backspace) or the cursor in the input is
     // fully at the start (arrow left) or at the end (arrow right)
     cy.get('@input').type('{leftArrow}{leftArrow}'); // set correct cursor position (i.e. after conjunction, before start of second assertion)
-    cy.get('@input').type('not{backspace}').blur();
+    cy.get('@input').type('not{backspace}');
+    cy.get('@input').blur();
 
     cy.get('@input').should('have.value', 'no');
     // if backspace deleted the previous item, the expression wouldn't be valid
     cy.contains('Apply').should('not.be.disabled');
 
     cy.get('@input').type('t');
-    cy.get('@input').type('{leftArrow}{rightArrow}{enter}').blur();
+    cy.get('@input').type('{leftArrow}{rightArrow}{enter}');
+    cy.get('@input').blur();
 
     cy.startSnoopingBrowserMockedRequest();
 
@@ -313,8 +320,8 @@ describe('Filtering Component', () => {
       .as('input')
       .type(
         'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}not{enter}Shot{enter}>{enter}1{enter}'
-      )
-      .blur();
+      );
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
@@ -341,7 +348,8 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}or{enter}').blur();
+    cy.get('@input').type('{backspace}or{enter}');
+    cy.get('@input').blur();
 
     cy.contains('Apply').should('not.be.disabled');
 
@@ -358,7 +366,8 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}Channel{enter}').blur();
+    cy.get('@input').type('{backspace}Channel{enter}');
+    cy.get('@input').blur();
 
     cy.contains('Apply').should('not.be.disabled');
 
@@ -375,7 +384,8 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}>={enter}').blur();
+    cy.get('@input').type('{backspace}>={enter}');
+    cy.get('@input').blur();
 
     cy.startSnoopingBrowserMockedRequest();
 
@@ -402,7 +412,8 @@ describe('Filtering Component', () => {
   it('stops a user from entering a random string', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('INVALID{enter}').blur();
+    cy.get('input[role="combobox"]').type('INVALID{enter}');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('.MuiAutocomplete-tag').should('not.exist');
 
@@ -412,13 +423,11 @@ describe('Filtering Component', () => {
   it('lets a user create multiple filters and delete them', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').type('Shot{enter}is no {enter}');
 
     cy.contains('button', 'Add new filter').click();
 
-    cy.get('input[role="combobox"]')
-      .eq(1)
-      .type('Channel{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').eq(1).type('Channel{enter}is no {enter}');
 
     cy.startSnoopingBrowserMockedRequest();
 

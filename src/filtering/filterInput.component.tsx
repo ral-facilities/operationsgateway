@@ -65,9 +65,14 @@ const FilterInput = (props: FilterInputProps) => {
       // allow selecting operators, channels, strings
       // and numbers with Space key down
       if (e.key === ' ') {
-        const operator = operators.find((opt) => opt.value === inputValue);
+        const operatorExactMatch = operators.find(
+          (opt) => opt.value === inputValue
+        );
         const channel = channels.filter((channel) =>
           channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+        const operatorListMatch = operators.filter((opt) =>
+          opt.value.toLowerCase().startsWith(inputValue.toLowerCase())
         );
 
         const newValue = [...value];
@@ -80,11 +85,18 @@ const FilterInput = (props: FilterInputProps) => {
             newValue.splice(inputIndex, 0, channel[0]);
             break;
 
-          case operator !== undefined:
+          case operatorExactMatch !== undefined:
             e.preventDefault();
             e.stopPropagation();
 
-            newValue.splice(inputIndex, 0, operator as Token);
+            newValue.splice(inputIndex, 0, operatorExactMatch as Token);
+            break;
+
+          case operatorListMatch.length === 1:
+            e.preventDefault();
+            e.stopPropagation();
+
+            newValue.splice(inputIndex, 0, operatorListMatch[0] as Token);
             break;
 
           case !Number.isNaN(Number(inputValue)) &&
@@ -119,7 +131,8 @@ const FilterInput = (props: FilterInputProps) => {
 
         if (
           channel.length === 1 ||
-          operator ||
+          operatorExactMatch !== undefined ||
+          operatorListMatch.length === 1 ||
           (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) ||
           (inputValue[0] === '"' &&
             inputValue[inputValue.length - 1] === '"') ||

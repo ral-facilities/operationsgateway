@@ -66,6 +66,21 @@ describe('Filter input component', () => {
     expect(props.setError).toHaveBeenCalledWith('');
   });
 
+  it('lets a user type operators in the filters and use the space bar for autocomplete when there is only one operator available', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'n');
+    await user.type(filter, ' ');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      operators.find((t) => t.value === 'not')!,
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
   it('user can type in channels to the filter using space bar', async () => {
     const user = userEvent.setup();
     render(<FilterInput {...props} />);
