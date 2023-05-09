@@ -75,10 +75,10 @@ export const renderExperimentPickerDay = (
   const start = new Date(experimentRange.start_date);
   start.setHours(0, 0, 0, 0);
   const end = new Date(experimentRange.end_date);
-  const testDate = new Date(date);
+  const currentDate = new Date(date);
   const dayIsBetween = date >= start && date <= end;
-  const isFirstDay = testDate.getDate() === start.getDate();
-  const isLastDay = testDate.getDate() === end.getDate();
+  const isFirstDay = currentDate.getDate() === start.getDate();
+  const isLastDay = currentDate.getDate() === end.getDate();
 
   return (
     <CustomPickersDay
