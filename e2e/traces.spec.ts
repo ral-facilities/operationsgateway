@@ -126,6 +126,11 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
       .click(),
   ]);
 
+  const chart = await popup.locator('#my-chart');
+
+  // wait for first chart to load before loading new chart
+  await chart.click();
+
   // create modified trace to be queried when different thumbnail is selected
   await page.evaluate(async () => {
     const { msw } = window;
@@ -146,8 +151,6 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
       )
     );
   });
-
-  const chart = await popup.locator('#my-chart');
 
   await popup
     .getByAltText('Channel_CDEFG waveform', { exact: false })
