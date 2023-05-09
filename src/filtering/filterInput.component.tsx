@@ -72,56 +72,59 @@ const FilterInput = (props: FilterInputProps) => {
 
         const newValue = [...value];
 
-        if (channel.length === 1) {
-          e.preventDefault();
-          e.stopPropagation();
+        switch (true) {
+          case channel.length === 1:
+            e.preventDefault();
+            e.stopPropagation();
 
-          newValue.splice(inputIndex, 0, channel[0]);
-          setValue(newValue);
-          setInputValue('');
-          setError('');
-          setInputIndex((prevIndex) => prevIndex + 1);
+            newValue.splice(inputIndex, 0, channel[0]);
+            break;
+
+          case operator !== undefined:
+            e.preventDefault();
+            e.stopPropagation();
+
+            newValue.splice(inputIndex, 0, operator as Token);
+            break;
+
+          case !Number.isNaN(Number(inputValue)) &&
+            inputValue.trim().length > 0:
+            e.preventDefault();
+            e.stopPropagation();
+
+            newValue.splice(inputIndex, 0, {
+              type: 'number',
+              value: inputValue,
+              label: inputValue,
+            });
+            break;
+
+          case (inputValue[0] === '"' &&
+            inputValue[inputValue.length - 1] === '"') ||
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'"):
+            e.preventDefault();
+            e.stopPropagation();
+
+            newValue.splice(inputIndex, 0, {
+              type: 'string',
+              value: inputValue,
+              label: inputValue,
+            });
+            break;
+
+          default:
+            break;
         }
 
-        if (operator) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          newValue.splice(inputIndex, 0, operator);
-          setValue(newValue);
-          setInputValue('');
-          setError('');
-          setInputIndex((prevIndex) => prevIndex + 1);
-        }
-
-        if (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          newValue.splice(inputIndex, 0, {
-            type: 'number',
-            value: inputValue,
-            label: inputValue,
-          });
-          setValue(newValue);
-          setInputValue('');
-          setError('');
-          setInputIndex((prevIndex) => prevIndex + 1);
-        } // new term is a string specified by either single or double quotes so allow it
-        else if (
+        if (
+          channel.length === 1 ||
+          operator ||
+          (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) ||
           (inputValue[0] === '"' &&
             inputValue[inputValue.length - 1] === '"') ||
           (inputValue[0] === "'" && inputValue[inputValue.length - 1] === "'")
         ) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          newValue.splice(inputIndex, 0, {
-            type: 'string',
-            value: inputValue,
-            label: inputValue,
-          });
-
           setValue(newValue);
           setInputValue('');
           setError('');
