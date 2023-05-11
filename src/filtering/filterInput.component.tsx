@@ -64,72 +64,77 @@ const FilterInput = (props: FilterInputProps) => {
       }
       // allow selecting operators, channels, strings
       // and numbers with Space key down
-      const operatorExactMatch = operators.find(
-        (opt) => opt.value === inputValue
-      );
-      const channel = channels.filter((channel) =>
-        channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
-      );
-      const operatorListMatch = operators.filter((opt) =>
-        opt.value.toLowerCase().startsWith(inputValue.toLowerCase())
-      );
+      if (e.key === ' ') {
+        const operatorExactMatch = operators.find(
+          (opt) => opt.value === inputValue
+        );
+        const channel = channels.filter((channel) =>
+          channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+        const operatorListMatch = operators.filter((opt) =>
+          opt.value.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
 
-      const newValue = [...value];
-      let newToken;
+        const newValue = [...value];
+        let newToken;
 
-      switch (e.key === ' ') {
-        case channel.length === 1:
-          newToken = channel[0];
-          break;
+        switch (true) {
+          case channel.length === 1:
+            newToken = channel[0];
+            break;
 
-        case operatorExactMatch !== undefined:
-          newToken = operatorExactMatch;
-          break;
+          case operatorExactMatch !== undefined:
+            newToken = operatorExactMatch;
+            break;
 
-        case operatorListMatch.length === 1:
-          newToken = operatorListMatch[0];
-          break;
+          case operatorListMatch.length === 1:
+            newToken = operatorListMatch[0];
+            break;
 
-        case !Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0:
-          newToken = {
-            type: 'number',
-            value: inputValue,
-            label: inputValue,
-          };
-          break;
+          case !Number.isNaN(Number(inputValue)) &&
+            inputValue.trim().length > 0:
+            newToken = {
+              type: 'number',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
 
-        case (inputValue[0] === '"' &&
-          inputValue[inputValue.length - 1] === '"') ||
-          (inputValue[0] === "'" && inputValue[inputValue.length - 1] === "'"):
-          newToken = {
-            type: 'string',
-            value: inputValue,
-            label: inputValue,
-          };
-          break;
-
-        default:
-          break;
-      }
-
-      if (
-        (channel.length === 1 ||
-          operatorExactMatch !== undefined ||
-          operatorListMatch.length === 1 ||
-          (!Number.isNaN(Number(inputValue)) && inputValue.trim().length > 0) ||
-          (inputValue[0] === '"' &&
+          case (inputValue[0] === '"' &&
             inputValue[inputValue.length - 1] === '"') ||
-          (inputValue[0] === "'" &&
-            inputValue[inputValue.length - 1] === "'")) &&
-        newToken
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        newValue.splice(inputIndex, 0, newToken as Token);
-        setValue(newValue);
-        setInputValue('');
-        setError('');
-        setInputIndex((prevIndex) => prevIndex + 1);
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'"):
+            newToken = {
+              type: 'string',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
+
+          default:
+            break;
+        }
+
+        if (
+          (channel.length === 1 ||
+            operatorExactMatch !== undefined ||
+            operatorListMatch.length === 1 ||
+            (!Number.isNaN(Number(inputValue)) &&
+              inputValue.trim().length > 0) ||
+            (inputValue[0] === '"' &&
+              inputValue[inputValue.length - 1] === '"') ||
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'")) &&
+          newToken
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          newValue.splice(inputIndex, 0, newToken as Token);
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
       }
     },
     [inputValue, value, setValue, setError, inputIndex, channels]
