@@ -1,3 +1,8 @@
+// hacktimer needs to be first import
+// it puts all timer functionality in a web worker to avoid browsers throttling
+// timers when main window is hidden (needed for popups to be more responsive
+// in cases like main OG window tabbed out, or minimized etc)
+import 'hacktimer';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';

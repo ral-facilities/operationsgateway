@@ -7,6 +7,7 @@ import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
 import { isBefore } from 'date-fns';
+import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import {
   Grid,
   Button,
@@ -547,7 +548,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container direction="row">
+          <Grid container direction="row" columnGap={5}>
             <Grid item>
               <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
             </Grid>
@@ -555,6 +556,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               <DataRefresh
                 timeframeSet={!!timeframeRange}
                 refreshData={refreshData}
+              />
+            </Grid>
+            <Grid item>
+              <AutoRefreshToggle
+                enabled={Boolean(timeframeRange)}
+                onRequestRefresh={refreshData}
               />
             </Grid>
           </Grid>

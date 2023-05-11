@@ -26,7 +26,6 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          paddingRight: 5,
           overflow: 'hidden',
         }}
       >
