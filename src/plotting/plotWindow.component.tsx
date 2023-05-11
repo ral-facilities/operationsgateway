@@ -336,6 +336,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
                 resetView={resetView}
                 savePlot={handleSavePlot}
+                selectedPlotChannels={selectedPlotChannels}
               />
             </Grid>
           </Grid>
