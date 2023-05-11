@@ -7,7 +7,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
   >
     <div
       aria-label="select max shots to display"
-      class="MuiBox-root css-1hqcbhu"
+      class="MuiBox-root css-2sv9t8"
     >
       <div
         style="align-items: center; display: flex; justify-content: left; margin-right: 10px;"

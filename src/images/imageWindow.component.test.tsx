@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import ImageWindow from './imageWindow.component';
 import userEvent from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../setupTests';
@@ -77,8 +77,13 @@ describe('Image Window component', () => {
     const user = userEvent.setup();
     const { store } = createView();
 
-    const thumbnails = await screen.findAllByRole('img');
-    await user.click(thumbnails[1]);
+    // wait for thumbnails to load
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    const images = await screen.findAllByRole('img');
+    await user.click(images[1]);
 
     expect(store.getState().windows).toStrictEqual({
       '1': {
