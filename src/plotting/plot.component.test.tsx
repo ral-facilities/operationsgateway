@@ -44,7 +44,7 @@ describe('Plot component', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
     const newSelectedPlotChannels = [...props.selectedPlotChannels];
-    newSelectedPlotChannels.forEach((dataset, i) => (dataset.units = 'mg'));
+    newSelectedPlotChannels.forEach((dataset) => (dataset.units = 'mg'));
 
     props = {
       ...props,

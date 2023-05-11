@@ -82,8 +82,11 @@ export const constructDataRows = (
       const channel = selectedPlotChannels.find(
         (channel) => channel.name === plot.name
       );
+      const channelColumnNames = channel
+        ? `${channel.displayName}/${channel.name}/${channel.units}`
+        : 'Unknown Channel';
 
-      return `${channel?.displayName}/${channel?.name}/${channel?.units}`;
+      return channelColumnNames;
     })
   );
 
