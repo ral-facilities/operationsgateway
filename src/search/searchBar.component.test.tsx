@@ -96,6 +96,13 @@ describe('searchBar component', () => {
     const state = getInitialState();
     const { store } = createView(state);
 
+    // experiment field
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
     // Shot number fields
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -106,7 +113,8 @@ describe('searchBar component', () => {
     const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
       name: 'Max',
     });
-
+    await user.clear(shotnumMin);
+    await user.clear(shotnumMax);
     await user.type(shotnumMin, '5');
     await user.type(shotnumMax, '10');
     await user.click(screen.getByLabelText('close shot number search box'));

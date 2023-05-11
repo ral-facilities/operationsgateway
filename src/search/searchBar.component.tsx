@@ -89,6 +89,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate.setSeconds(59);
   }
 
+  const setDateRange = React.useCallback(
+    (fromDate: Date | null, toDate: Date | null) => {
+      setSearchParameterFromDate(fromDate);
+      setSearchParameterToDate(toDate);
+    },
+    []
+  );
+
   // ########################
   // TIMEFRAME
   // ########################
@@ -134,22 +142,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
     React.useState<number | undefined>(shotnumRange.max ?? undefined);
 
+  const setShotnumberRange = React.useCallback(
+    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
+      setSearchParameterShotnumMin(shotnumMin);
+      setSearchParameterShotnumMax(shotnumMax);
+    },
+    []
+  );
+
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
-
-  const { data: dateToShotnum } = useDateToShotnumConverter(
-    searchParameterFromDate
-      ? formatDateTimeForApi(searchParameterFromDate)
-      : undefined,
-    searchParameterToDate
-      ? formatDateTimeForApi(searchParameterToDate)
-      : undefined
-  );
-
-  const { data: shotnumToDate } = useShotnumToDateConverter(
-    searchParameterShotnumMin,
-    searchParameterShotnumMax
-  );
 
   // ########################
   // Experiment ID
@@ -182,22 +184,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     []
   );
 
-  const setShotnumberRange = React.useCallback(
-    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
-      setSearchParameterShotnumMin(shotnumMin);
-      setSearchParameterShotnumMax(shotnumMax);
-    },
-    []
-  );
-
-  const setDateRange = React.useCallback(
-    (fromDate: Date | null, toDate: Date | null) => {
-      setSearchParameterFromDate(fromDate);
-      setSearchParameterToDate(toDate);
-    },
-    []
-  );
-
   const isDateTimeInExperiment = (
     dateTime: Date,
     experiment: ExperimentParams
@@ -206,11 +192,33 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     const endDate = new Date(experiment.end_date);
     return dateTime >= startDate && dateTime <= endDate;
   };
+  // Date range to shot number range converter
+  const { data: dateToShotnum } = useDateToShotnumConverter(
+    searchParameterFromDate
+      ? formatDateTimeForApi(searchParameterFromDate)
+      : undefined,
+    searchParameterToDate
+      ? formatDateTimeForApi(searchParameterToDate)
+      : undefined
+  );
 
+  // Shot number range to date range converter
+  const { data: shotnumToDate } = useShotnumToDateConverter(
+    searchParameterShotnumMin,
+    searchParameterShotnumMax
+  );
+
+  // Checks for changes to shot number range and date range
+  // This is for the animation in date time box and shotnum box
   const isShotnumToDate = !dateToShotnum && shotnumToDate ? true : false;
   const isDateToShotnum = dateToShotnum && !shotnumToDate ? true : false;
 
+  // handles the date range to shot number conversion
   React.useEffect(() => {
+    // Sets the date range when the shot number range is selected.
+    // Additionally if the new shot number range is not within
+    // the current experiment id time frame it clears the experiment id
+    // and if a time frame range exist it clears the time frame range
     if (!dateToShotnum && shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
         const shotnumToDateFromDate = new Date(shotnumToDate.from);
@@ -239,6 +247,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           }
         }
       }
+      // Sets the shot number range when the date Range is selected.
+      // the logic for the timeframes and experiment timeframe is done
+      // in the dateTime component
     } else if (dateToShotnum && !shotnumToDate) {
       setSearchParameterShotnumMin(dateToShotnum.min);
       setSearchParameterShotnumMax(dateToShotnum.max);

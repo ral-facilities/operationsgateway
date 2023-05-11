@@ -75,10 +75,10 @@ export const renderExperimentPickerDay = (
   const start = new Date(experimentRange.start_date);
   start.setHours(0, 0, 0, 0);
   const end = new Date(experimentRange.end_date);
-  const testDate = new Date(date);
+  const currentDate = new Date(date);
   const dayIsBetween = date >= start && date <= end;
-  const isFirstDay = testDate.getDate() === start.getDate();
-  const isLastDay = testDate.getDate() === end.getDate();
+  const isFirstDay = currentDate.getDate() === start.getDate();
+  const isLastDay = currentDate.getDate() === end.getDate();
 
   return (
     <CustomPickersDay
@@ -251,12 +251,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetShotnumberRange();
 
                 if (searchParameterExperiment && date) {
-                  const start_date = new Date(
-                    searchParameterExperiment.start_date
-                  );
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date >= start_date && date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -276,12 +273,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const start_date = new Date(
-                    searchParameterExperiment.start_date
-                  );
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date >= start_date && date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -365,9 +359,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
@@ -386,9 +380,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 resetTimeframe();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
-                  const end_date = new Date(searchParameterExperiment.end_date);
-
-                  if (!(date <= end_date)) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
                     resetExperimentTimeframe();
                   }
                 }
