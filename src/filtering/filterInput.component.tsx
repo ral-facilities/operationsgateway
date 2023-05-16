@@ -115,18 +115,7 @@ const FilterInput = (props: FilterInputProps) => {
             break;
         }
 
-        if (
-          (channel.length === 1 ||
-            operatorExactMatch !== undefined ||
-            operatorListMatch.length === 1 ||
-            (!Number.isNaN(Number(inputValue)) &&
-              inputValue.trim().length > 0) ||
-            (inputValue[0] === '"' &&
-              inputValue[inputValue.length - 1] === '"') ||
-            (inputValue[0] === "'" &&
-              inputValue[inputValue.length - 1] === "'")) &&
-          newToken
-        ) {
+        if (newToken !== undefined) {
           e.preventDefault();
           e.stopPropagation();
           newValue.splice(inputIndex, 0, newToken as Token);
