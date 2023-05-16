@@ -6,13 +6,16 @@ import {
 } from 'msw';
 import image from './image.png';
 import colourbar from './colourbar.png';
+import image_reverse from './image_reverse.png';
+import colourbar_reverse from './colourbar_reverse.png';
 
 export const browserHandlers = [
   rest.get('/images/:recordId/:channelName', async (req, res, ctx) => {
-    const imageResponse = await fetch(image);
-
     const originalImage = req.url.searchParams.get('original_image');
     const colourmap = req.url.searchParams.get('colourmap_name');
+    const useInverseImage = colourmap?.endsWith('_r');
+    const imageToFetch = useInverseImage ? image_reverse : image;
+    const imageResponse = await fetch(imageToFetch);
 
     // do some basic canvas manip to emulate original images/different false colour maps
     if (originalImage || colourmap) {
@@ -59,6 +62,21 @@ export const browserHandlers = [
                   break;
                 case '7':
                   context.fillStyle = '#f80';
+                  break;
+                case '8':
+                  context.fillStyle = '#f50';
+                  break;
+                case '9':
+                  context.fillStyle = '#a0f';
+                  break;
+                case '10':
+                  context.fillStyle = '#4f6';
+                  break;
+                case '11':
+                  context.fillStyle = '#e80';
+                  break;
+                case '12':
+                  context.fillStyle = '#0af';
                   break;
                 default:
                   context.fillStyle = '#fff';
@@ -108,9 +126,10 @@ export const browserHandlers = [
     }
   }),
   rest.get('/images/colour_bar', async (req, res, ctx) => {
-    const imageResponse = await fetch(colourbar);
-
     const colourmap = req.url.searchParams.get('colourmap_name');
+    const useInverseImage = colourmap?.endsWith('_r');
+    const imageToFetch = useInverseImage ? colourbar_reverse : colourbar;
+    const imageResponse = await fetch(imageToFetch);
 
     if (colourmap) {
       const imageUrl = window.URL.createObjectURL(await imageResponse.blob());
@@ -155,6 +174,21 @@ export const browserHandlers = [
                   break;
                 case '7':
                   context.fillStyle = '#f80';
+                  break;
+                case '8':
+                  context.fillStyle = '#f50';
+                  break;
+                case '9':
+                  context.fillStyle = '#a0f';
+                  break;
+                case '10':
+                  context.fillStyle = '#4f6';
+                  break;
+                case '11':
+                  context.fillStyle = '#e80';
+                  break;
+                case '12':
+                  context.fillStyle = '#0af';
                   break;
                 default:
                   context.fillStyle = '#fff';

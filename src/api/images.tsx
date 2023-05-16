@@ -10,6 +10,11 @@ export interface FalseColourParams {
   upperLevel?: number;
 }
 
+export interface ColourMapsParams {
+  main: string[];
+  extended: string[];
+}
+
 export const fetchImage = async (
   apiUrl: string,
   recordId: string,
@@ -69,7 +74,9 @@ export const fetchColourBar = async (
     });
 };
 
-export const fetchColourMaps = async (apiUrl: string): Promise<string[]> => {
+export const fetchColourMaps = async (
+  apiUrl: string
+): Promise<ColourMapsParams> => {
   return axios
     .get(`${apiUrl}/images/colourmap_names`, {
       headers: {
@@ -128,10 +135,13 @@ export const useColourBar = (
   );
 };
 
-export const useColourMaps = (): UseQueryResult<string[], AxiosError> => {
+export const useColourMaps = (): UseQueryResult<
+  ColourMapsParams,
+  AxiosError
+> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<string[], AxiosError, string[], [string]>(
+  return useQuery<ColourMapsParams, AxiosError, ColourMapsParams, [string]>(
     ['colourmaps'],
     (params) => {
       return fetchColourMaps(apiUrl);

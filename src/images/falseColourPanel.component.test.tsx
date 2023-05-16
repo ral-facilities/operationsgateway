@@ -67,64 +67,24 @@ describe('False colour panel component', () => {
     expect(changeColourMap).toHaveBeenCalledWith(undefined);
   });
 
-  it('renders lower level slider and changes lower level on change', async () => {
+  it('renders range level slider, changes lower level on change and changes higher level on change', async () => {
     createView();
 
-    const sliderInput = screen.getByRole('slider', {
-      name: 'Lower Level (LL)',
+    const sliderInput = screen.getAllByRole('slider', {
+      name: 'Level Range',
     });
 
-    await fireEvent.change(sliderInput, { target: { value: 25 } });
+    const lowerSliderInput = sliderInput[0];
+
+    const upperSliderInput = sliderInput[1];
+
+    await fireEvent.change(lowerSliderInput, { target: { value: 25 } });
+
+    await fireEvent.change(upperSliderInput, { target: { value: 50 } });
 
     expect(changeLowerLevel).toHaveBeenCalledWith(25);
-  });
-
-  it('lower level slider cannot exceed upper level', async () => {
-    createView();
-
-    const upperSliderInput = screen.getByRole('slider', {
-      name: 'Upper Level (UL)',
-    });
-
-    await fireEvent.change(upperSliderInput, { target: { value: 100 } });
-
-    const lowerSliderInput = screen.getByRole('slider', {
-      name: 'Lower Level (LL)',
-    });
-
-    await fireEvent.change(lowerSliderInput, { target: { value: 125 } });
-
-    expect(changeLowerLevel).toHaveBeenCalledWith(100);
-  });
-
-  it('renders upper level slider and changes upper level on change', async () => {
-    createView();
-
-    const sliderInput = screen.getByRole('slider', {
-      name: 'Upper Level (UL)',
-    });
-
-    await fireEvent.change(sliderInput, { target: { value: 50 } });
 
     expect(changeUpperLevel).toHaveBeenCalledWith(50);
-  });
-
-  it('upper level slider cannot exceed lower level', async () => {
-    createView();
-
-    const lowerSliderInput = screen.getByRole('slider', {
-      name: 'Lower Level (LL)',
-    });
-
-    await fireEvent.change(lowerSliderInput, { target: { value: 100 } });
-
-    const upperSliderInput = screen.getByRole('slider', {
-      name: 'Upper Level (UL)',
-    });
-
-    await fireEvent.change(upperSliderInput, { target: { value: 75 } });
-
-    expect(changeUpperLevel).toHaveBeenCalledWith(100);
   });
 
   it('can be disabled and re-enabled', async () => {
@@ -138,7 +98,13 @@ describe('False colour panel component', () => {
       name: 'False Colour',
     });
 
+    const extendedColourMapSwitch = screen.getByRole('checkbox', {
+      name: 'Show extended colourmap options',
+    });
+
     expect(falseColourSwitch).toBeChecked();
+
+    expect(extendedColourMapSwitch).not.toBeDisabled();
 
     await user.click(falseColourSwitch);
 
@@ -146,6 +112,7 @@ describe('False colour panel component', () => {
     expect(changeColourMap).toHaveBeenCalledWith(undefined);
     expect(changeLowerLevel).toHaveBeenCalledWith(undefined);
     expect(changeUpperLevel).toHaveBeenCalledWith(undefined);
+    expect(extendedColourMapSwitch).toBeDisabled();
 
     jest.clearAllMocks();
 
@@ -173,5 +140,66 @@ describe('False colour panel component', () => {
 
     expect(falseColourSwitch).toBeChecked();
     expect(changeColourMap).toHaveBeenCalledWith('colourmap_2');
+  });
+
+  it('reverse the colour map if a reverse colour map exist for a given colour map', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    const select = screen.getByLabelText('Colour Map');
+    await user.click(select);
+
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Colour Map',
+    });
+    await user.click(
+      within(dropdown).getByRole('option', { name: 'colourmap_1' })
+    );
+
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1');
+
+    const reverseColourSwitch = screen.getByRole('checkbox', {
+      name: 'Reverse Colour',
+    });
+
+    expect(reverseColourSwitch).not.toBeChecked();
+    expect(reverseColourSwitch).toBeEnabled();
+
+    await user.click(reverseColourSwitch);
+
+    expect(reverseColourSwitch).toBeEnabled();
+    expect(reverseColourSwitch).toBeChecked();
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1_r');
+
+    jest.clearAllMocks();
+
+    await user.click(reverseColourSwitch);
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1');
+
+    jest.clearAllMocks();
+
+    // the reverse colour is disabled when it doesn't exist
+
+    const extendedColourMapSwitch = screen.getByRole('checkbox', {
+      name: 'Show extended colourmap options',
+    });
+
+    await user.click(extendedColourMapSwitch);
+
+    expect(extendedColourMapSwitch).toBeChecked();
+
+    const extendedSelect = screen.getByLabelText('Colour Map');
+    await user.click(extendedSelect);
+
+    const extendedDropdown = screen.getByRole('listbox', {
+      name: 'Colour Map',
+    });
+
+    await user.click(
+      within(extendedDropdown).getByRole('option', { name: 'colourmap_10' })
+    );
+
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_10');
+    expect(reverseColourSwitch).toBeDisabled();
   });
 });

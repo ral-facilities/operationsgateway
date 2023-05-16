@@ -81,15 +81,34 @@ export const handlers = [
   rest.get('/images/colourmap_names', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json([
-        'colourmap_1',
-        'colourmap_2',
-        'colourmap_3',
-        'colourmap_4',
-        'colourmap_5',
-        'colourmap_6',
-        'colourmap_7',
-      ])
+
+      ctx.json({
+        main: [
+          'colourmap_1',
+          'colourmap_1_r',
+          'colourmap_2',
+          'colourmap_2_r',
+          'colourmap_3',
+          'colourmap_3_r',
+          'colourmap_4',
+          'colourmap_4_r',
+        ],
+        extended: [
+          'colourmap_5',
+          'colourmap_5_r',
+          'colourmap_6',
+          'colourmap_6_r',
+          'colourmap_7',
+          'colourmap_7_r',
+          'colourmap_8',
+          'colourmap_8_r',
+          'colourmap_9',
+          'colourmap_9_r',
+          'colourmap_10',
+          'colourmap_11',
+          'colourmap_12',
+        ],
+      })
     );
   }),
 ];
