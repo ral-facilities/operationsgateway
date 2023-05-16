@@ -23,6 +23,10 @@ describe('False colour panel component', () => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const createView = () => {
     return renderComponentWithProviders(<FalseColourPanel {...props} />);
   };
@@ -173,8 +177,27 @@ describe('False colour panel component', () => {
 
     jest.clearAllMocks();
 
+    const select2 = screen.getByLabelText('Colour Map');
+    await user.click(select);
+
+    const dropdown2 = screen.getByRole('listbox', {
+      name: 'Colour Map',
+    });
+
+    await user.click(select2);
+
+    await user.click(
+      within(dropdown2).getByRole('option', { name: 'colourmap_2' })
+    );
+
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2_r');
+
+    jest.clearAllMocks();
+
     await user.click(reverseColourSwitch);
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1');
+    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2');
+
+    await user.click(reverseColourSwitch);
 
     jest.clearAllMocks();
 
