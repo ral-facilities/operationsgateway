@@ -115,7 +115,7 @@ const FilterInput = (props: FilterInputProps) => {
             break;
         }
 
-        if (newToken !== undefined) {
+        if (typeof newToken !== 'undefined') {
           e.preventDefault();
           e.stopPropagation();
           newValue.splice(inputIndex, 0, newToken as Token);
