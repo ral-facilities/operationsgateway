@@ -111,8 +111,8 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   // Stop the flash animation from playing after 1500ms
   React.useEffect(() => {
     if (
-      (typeof props.searchParameterShotnumMax !== undefined &&
-        typeof props.searchParameterShotnumMin !== undefined) ||
+      (typeof props.searchParameterShotnumMax === undefined &&
+        typeof props.searchParameterShotnumMin === undefined) ||
       isDateToShotnum
     ) {
       setFlashAnimationPlaying(true);
