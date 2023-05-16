@@ -210,16 +210,19 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   // Checks for changes to shot number range and date range
   // This is for the animation in date time box and shotnum box
-  const isShotnumToDate = !dateToShotnum && shotnumToDate ? true : false;
-  const isDateToShotnum = dateToShotnum && !shotnumToDate ? true : false;
+
+  const [isShotnumToDate, setIsShotnumToDate] = React.useState<boolean>(false);
+  const [isDateToShotnum, setIsDateToShotnum] = React.useState<boolean>(false);
 
   // handles the date range to shot number conversion
   React.useEffect(() => {
+    setIsShotnumToDate(!dateToShotnum && !!shotnumToDate);
+    setIsDateToShotnum(!!dateToShotnum && !shotnumToDate);
     // Sets the date range when the shot number range is selected.
     // Additionally if the new shot number range is not within
     // the current experiment id time frame it clears the experiment id
     // and if a time frame range exist it clears the time frame range
-    if (!dateToShotnum && shotnumToDate) {
+    if (!dateToShotnum && !!shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
         const shotnumToDateFromDate = new Date(shotnumToDate.from);
         const shotnumToDateToDate = new Date(shotnumToDate.to);
@@ -229,36 +232,32 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           setTimeframeRange(null);
         }
         if (searchParameterExperiment) {
-          if (searchParameterFromDate && searchParameterToDate) {
-            if (
-              !(
-                isDateTimeInExperiment(
-                  searchParameterFromDate,
-                  searchParameterExperiment
-                ) &&
-                isDateTimeInExperiment(
-                  searchParameterToDate,
-                  searchParameterExperiment
-                )
+          if (
+            !(
+              isDateTimeInExperiment(
+                shotnumToDateFromDate,
+                searchParameterExperiment
+              ) &&
+              isDateTimeInExperiment(
+                shotnumToDateToDate,
+                searchParameterExperiment
               )
-            ) {
-              setExperimentTimeframe(null);
-            }
+            )
+          ) {
+            setExperimentTimeframe(null);
           }
         }
       }
       // Sets the shot number range when the date Range is selected.
       // the logic for the timeframes and experiment timeframe is done
       // in the dateTime component
-    } else if (dateToShotnum && !shotnumToDate) {
+    } else if (!!dateToShotnum && !shotnumToDate) {
       setSearchParameterShotnumMin(dateToShotnum.min);
       setSearchParameterShotnumMax(dateToShotnum.max);
     }
   }, [
     dateToShotnum,
     searchParameterExperiment,
-    searchParameterFromDate,
-    searchParameterToDate,
     setExperimentTimeframe,
     shotnumToDate,
     timeframeRange,
