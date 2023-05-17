@@ -114,16 +114,23 @@ test('user can change the false colour parameters of an image', async ({
 
   await popup.getByRole('option', { name: 'colourmap_2' }).click();
 
-  const llSlider = await popup.getByRole('slider', {
-    name: 'Lower Level (LL)',
-  });
-  const llSliderRoot = await popup.locator('.MuiSlider-root', {
-    has: llSlider,
+  const slider = await popup.getByRole('slider', {
+    name: 'Level Range',
   });
 
-  const sliderDims = await llSliderRoot.boundingBox();
+  const SliderRoot = await popup.locator('.MuiSlider-root', {
+    has: slider,
+  });
 
-  await llSliderRoot.dragTo(llSliderRoot, {
+  const llSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(0);
+
+  const sliderDims = await SliderRoot.boundingBox();
+
+  await llSliderThumb.dragTo(SliderRoot, {
     targetPosition: {
       // moving the slider to the target value in %
       x: (sliderDims?.width ?? 0) * 0.4,
@@ -131,25 +138,98 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await llSlider.getAttribute('value')).toBe(`${0.4 * 255}`);
+  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
 
-  const ulSlider = await popup.getByRole('slider', {
-    name: 'Upper Level (UL)',
-  });
-  const ulSliderRoot = await popup.locator('.MuiSlider-root', {
-    has: ulSlider,
-  });
-
-  await ulSliderRoot.click({
-    position: {
+  const ulSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(1);
+  await ulSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
       x: (sliderDims?.width ?? 0) * 0.6,
       y: sliderDims?.height ? sliderDims.height / 2 : 0,
     },
   });
+  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.6 * 255}`);
 
-  expect(await ulSlider.getAttribute('value')).toBe(`${0.6 * 255}`);
   // blur to avoid focus tooltip appearing in snapshot
-  await ulSlider.blur();
+  await slider.nth(0).blur();
+  await slider.nth(1).blur();
+
+  // wait for new image to have loaded
+  await image.click();
+
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+});
+
+test('user can change the false colour to use reverse', async ({ page }) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'colourmap_2' }).click();
+
+  await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
+  // wait for new image to have loaded
+  await image.click();
+
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+});
+
+test('user can change the false colour to colourmap in extended list', async ({
+  page,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+
+  await popup
+    .getByRole('checkbox', { name: 'Show extended colourmap options' })
+    .click();
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'colourmap_10' }).click();
 
   // wait for new image to have loaded
   await image.click();
