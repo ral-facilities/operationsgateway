@@ -19,13 +19,12 @@ const MoreOptionsToggle = (props: MoreOptionsProps) => {
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <IconButton
-        color="primary"
         aria-label={`More options for ${channelName}`}
         size="small"
-        sx={{ paddingTop: '0', paddingBottom: '0' }}
+        sx={{ padding: '1px', margin: '-1px 1px' }}
         onClick={() => toggle(!isOpen)}
       >
-        <MoreVert sx={{ color: 'black' }} />
+        <MoreVert />
       </IconButton>
 
       {isOpen && (

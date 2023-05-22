@@ -142,12 +142,12 @@ test('user can change the false colour parameters of an image', async ({
 
   await ulSliderRoot.click({
     position: {
-      x: (sliderDims?.width ?? 0) * 0.6,
+      x: (sliderDims?.width ?? 0) * 0.8,
       y: sliderDims?.height ? sliderDims.height / 2 : 0,
     },
   });
 
-  expect(await ulSlider.getAttribute('value')).toBe(`${0.6 * 255}`);
+  expect(await ulSlider.getAttribute('value')).toBe(`${0.8 * 255}`);
   // blur to avoid focus tooltip appearing in snapshot
   await ulSlider.blur();
 

@@ -20,9 +20,8 @@ const DataView = React.memo((): React.ReactElement => {
     setFlashingFilterValue(headerName);
   }, []);
 
-  // TODO: add in SG header & footer
-  // tabs + spacing + search + spacing + buttons + spacing + pagination
-  const tableHeight = `calc(100vh - (50px + 8px ${
+  // SG header + SG footer + tabs + spacing + search + spacing + buttons + spacing + pagination
+  const tableHeight = `calc(100vh - (64px + 36px + 50px + 8px ${
     searchExpanded ? '+ 96px + 8px' : ''
   } + 32px + 8px + 52px))`;
 

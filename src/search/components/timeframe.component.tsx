@@ -27,7 +27,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
   const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
 
   return (
-    <div style={{ padding: 5 }}>
+    <Box sx={{ padding: '5px', bgcolor: 'background.default' }}>
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your timeframe
       </Typography>
@@ -136,7 +136,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

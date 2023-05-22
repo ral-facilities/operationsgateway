@@ -38,7 +38,7 @@ exports[`Experiment search renders correctly 1`] = `
       role="dialog"
     >
       <div
-        style="padding: 5px;"
+        class="MuiBox-root css-pse7nm"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
