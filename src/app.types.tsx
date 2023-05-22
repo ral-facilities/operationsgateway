@@ -203,6 +203,7 @@ export type PlotDataset = {
 
 export type SelectedPlotChannel = {
   name: string;
+  units: string;
   displayName?: string;
   options: {
     visible: boolean;

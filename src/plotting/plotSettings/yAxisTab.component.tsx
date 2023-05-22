@@ -164,9 +164,10 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (newChannel: { label: string; value: string }) => {
+    (newChannel: { label: string; value: string; units: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
         name: newChannel.value,
+        units: newChannel.units,
         displayName: newChannel.label,
         options: {
           visible: true,
@@ -330,7 +331,11 @@ const YAxisTab = (props: YAxisTabProps) => {
             onChange={(event) => {
               const newValue = event.target.value;
               addPlotChannel(
-                JSON.parse(newValue) as { label: string; value: string }
+                JSON.parse(newValue) as {
+                  label: string;
+                  value: string;
+                  units: string;
+                }
               );
               setSelectValue('');
             }}
@@ -376,6 +381,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             )
             .map((channel) => ({
               label: channel.name ?? channel.systemName,
+              units: channel.units ?? '',
               value: channel.systemName,
             }))}
           fullWidth

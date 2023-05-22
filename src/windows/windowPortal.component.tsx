@@ -53,7 +53,7 @@ export class WindowPortal extends React.PureComponent<
       // we do this so that all the Chart.js code which relies on window references the correct window (i.e. the popup)
       const chartjsScript = document.createElement('script');
       chartjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js';
+        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
       chartjsScript.crossOrigin = 'anonymous';
       chartjsScript.referrerPolicy = 'no-referrer';
       chartjsScript.async = false;
