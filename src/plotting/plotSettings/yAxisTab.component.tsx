@@ -6,13 +6,13 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  styled,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -29,14 +29,6 @@ import {
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
 import PlotSettingsTextField from './plotSettingsTextField.component';
-
-const StyledClose = styled(Close)(() => ({
-  cursor: 'pointer',
-  color: 'black',
-  '&:hover': {
-    color: 'red',
-  },
-}));
 
 export interface YAxisTabProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
@@ -179,9 +171,10 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (newChannel: { label: string; value: string }) => {
+    (newChannel: { label: string; value: string; units: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
         name: newChannel.value,
+        units: newChannel.units,
         displayName: newChannel.label,
         options: {
           visible: true,
@@ -359,7 +352,11 @@ const YAxisTab = (props: YAxisTabProps) => {
             onChange={(event) => {
               const newValue = event.target.value;
               addPlotChannel(
-                JSON.parse(newValue) as { label: string; value: string }
+                JSON.parse(newValue) as {
+                  label: string;
+                  value: string;
+                  units: string;
+                }
               );
               setSelectValue('');
             }}
@@ -405,6 +402,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             )
             .map((channel) => ({
               label: channel.name ?? channel.systemName,
+              units: channel.units ?? '',
               value: channel.systemName,
             }))}
           fullWidth
@@ -495,12 +493,22 @@ const YAxisTab = (props: YAxisTabProps) => {
                   enterDelay={0}
                   leaveDelay={0}
                 >
-                  <StyledClose
+                  <IconButton
                     aria-label={`Remove ${
                       plotChannel.displayName ?? plotChannel.name
                     } from plot`}
+                    size="small"
+                    sx={{ padding: '1px', margin: '-1px 1px' }}
                     onClick={() => removePlotChannel(plotChannel.name)}
-                  />
+                  >
+                    <Close
+                      sx={{
+                        '&:hover': {
+                          color: 'red',
+                        },
+                      }}
+                    />
+                  </IconButton>
                 </Tooltip>
               </Box>
             </Box>

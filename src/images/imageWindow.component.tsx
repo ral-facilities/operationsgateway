@@ -1,10 +1,13 @@
 import React from 'react';
-import WindowPortal from '../windows/windowPortal.component';
+import WindowPortal, {
+  WindowPortal as WindowPortalClass,
+} from '../windows/windowPortal.component';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import ImageView from './imageView.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import { useImage } from '../api/images';
+import FalseColourPanel from './falseColourPanel.component';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { useAppDispatch } from '../state/hooks';
@@ -20,12 +23,23 @@ const ImageWindow = (props: ImageWindowProps) => {
 
   const dispatch = useAppDispatch();
 
+  const [colourMap, setColourMap] = React.useState<string | undefined>(
+    undefined
+  );
+  const [lowerLevel, setLowerLevel] = React.useState<number | undefined>(0);
+  const [upperLevel, setUpperLevel] = React.useState<number | undefined>(255);
+
   const { data: image, isLoading: imageLoading } = useImage(
     recordId,
-    channelName
+    channelName,
+    {
+      colourMap: colourMap,
+      lowerLevel: lowerLevel,
+      upperLevel: upperLevel,
+    }
   );
 
-  const windowRef = React.createRef<WindowPortal>();
+  const windowRef = React.createRef<WindowPortalClass>();
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
@@ -106,14 +120,26 @@ const ImageWindow = (props: ImageWindowProps) => {
           >
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
-          <Grid container item wrap="nowrap" flexGrow={1} spacing={1}>
-            <ThumbnailSelector
-              channelName={channelName}
-              recordId={recordId}
-              changeRecordId={updateImageConfig}
-            />
+          <Grid container item wrap="nowrap" spacing={1}>
+            <Grid container item spacing={1} xs="auto">
+              <ThumbnailSelector
+                channelName={channelName}
+                recordId={recordId}
+                changeRecordId={updateImageConfig}
+              />
+              <Grid item>
+                <ImageView image={image} title={title} viewReset={viewFlag} />
+              </Grid>
+            </Grid>
             <Grid item>
-              <ImageView image={image} title={title} viewReset={viewFlag} />
+              <FalseColourPanel
+                colourMap={colourMap}
+                lowerLevel={lowerLevel}
+                upperLevel={upperLevel}
+                changeColourMap={setColourMap}
+                changeLowerLevel={setLowerLevel}
+                changeUpperLevel={setUpperLevel}
+              />
             </Grid>
           </Grid>
         </Grid>

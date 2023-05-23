@@ -135,6 +135,7 @@ describe('y-axis tab', () => {
       {
         displayName: 'Channel_ABCDE',
         name: 'CHANNEL_ABCDE',
+        units: '',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -160,6 +161,7 @@ describe('y-axis tab', () => {
       {
         displayName: 'Channel_DEFGH',
         name: 'CHANNEL_DEFGH',
+        units: '',
         options: {
           visible: true,
           colour: expect.anything(),

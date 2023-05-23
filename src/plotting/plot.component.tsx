@@ -262,14 +262,20 @@ const Plot = (props: PlotProps) => {
     setDataString(
       JSON.stringify({
         datasets: datasets.map((dataset) => {
-          const { options: channelConfig, displayName } =
-            selectedPlotChannels.find(
-              (channel) => channel.name === dataset.name
-            ) ?? {};
+          const {
+            options: channelConfig,
+            displayName,
+            units,
+          } = selectedPlotChannels.find(
+            (channel) => channel.name === dataset.name
+          ) ?? {};
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
+          const displayNameWithUnits = units
+            ? `${displayName} (${units})`
+            : `${displayName}`;
 
           return {
-            label: displayName ?? dataset.name,
+            label: displayNameWithUnits ?? dataset.name,
             data: dataset.data,
             parsing: {
               yAxisKey: dataset.name,

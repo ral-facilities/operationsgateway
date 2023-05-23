@@ -11,7 +11,7 @@ import {
 } from './windowButtons.component';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PlotDataset } from '../app.types';
+import { PlotDataset, SelectedPlotChannel } from '../app.types';
 
 describe('Window buttons components', () => {
   const mockLinkClick = jest.fn();
@@ -85,6 +85,19 @@ describe('Window buttons components', () => {
         toggleAxesLabelsVisibility,
         resetView,
         savePlot,
+        selectedPlotChannels: [
+          {
+            name: 'shotNum',
+            units: '',
+            displayName: 'Shot Number',
+            options: {
+              visible: true,
+              lineStyle: 'solid',
+              colour: 'blue',
+              yAxis: 'left',
+            },
+          },
+        ],
       };
     });
 
@@ -162,7 +175,7 @@ describe('Window buttons components', () => {
       expect(document.createElement).toHaveBeenCalledWith('a');
 
       expect(mockLink.href).toEqual(
-        'data:text/csv;charset=utf-8,timestamp,shotNum%0A2022-08-09%2009:30:00,1%0A2022-08-09%2009:31:00,2%0A2022-08-09%2009:32:00,3'
+        'data:text/csv;charset=utf-8,timestamp,Shot%20Number/shotNum/%0A2022-08-09%2009:30:00,1%0A2022-08-09%2009:31:00,2%0A2022-08-09%2009:32:00,3'
       );
       expect(mockLink.download).toEqual('test.csv');
       expect(mockLink.target).toEqual('_blank');
@@ -452,14 +465,28 @@ describe('constructDataRows', () => {
     },
   ];
 
+  let testSelectedPlotChannel = [
+    {
+      name: 'channel_1',
+      units: '',
+      displayName: 'Channel 1',
+      options: {
+        visible: true,
+        lineStyle: 'solid',
+        colour: 'blue',
+        yAxis: 'left',
+      },
+    },
+  ] as SelectedPlotChannel[];
+
   it('constructs a 2D array of CSV rows with an x-axis and one data channel', () => {
     const expectedResult = [
-      ['x_axis', 'channel_1'],
+      ['x_axis', 'Channel 1/channel_1/'],
       [1, 1],
       [2, 2],
       [3, 3],
     ];
-    const result = constructDataRows(XAxis, testPlots);
+    const result = constructDataRows(XAxis, testPlots, testSelectedPlotChannel);
     expect(result).toEqual(expectedResult);
   });
 
@@ -519,8 +546,49 @@ describe('constructDataRows', () => {
       },
     ];
 
+    testSelectedPlotChannel = [
+      {
+        name: 'channel_1',
+        units: '',
+        displayName: 'Channel 1',
+        options: {
+          visible: true,
+          lineStyle: 'solid',
+          colour: 'blue',
+          yAxis: 'left',
+        },
+      },
+      {
+        name: 'channel_2',
+        units: 'mg',
+        displayName: 'Channel 2',
+        options: {
+          visible: true,
+          lineStyle: 'solid',
+          colour: 'blue',
+          yAxis: 'left',
+        },
+      },
+      {
+        name: 'channel_3',
+        units: 'cm',
+        displayName: 'Channel 3',
+        options: {
+          visible: true,
+          lineStyle: 'solid',
+          colour: 'blue',
+          yAxis: 'left',
+        },
+      },
+    ] as SelectedPlotChannel[];
+
     const expectedResult = [
-      ['x_axis', 'channel_1', 'channel_2', 'channel_3'],
+      [
+        'x_axis',
+        'Channel 1/channel_1/',
+        'Channel 2/channel_2/mg',
+        'Channel 3/channel_3/cm',
+      ],
       [1, 1001, 2001, ''],
       [2, 1002, 2002, ''],
       [3, 1003, 2003, ''],
@@ -528,7 +596,7 @@ describe('constructDataRows', () => {
       [5, '', '', 3005],
       [6, '', '', 3006],
     ];
-    const result = constructDataRows(XAxis, testPlots);
+    const result = constructDataRows(XAxis, testPlots, testSelectedPlotChannel);
     expect(result).toEqual(expectedResult);
   });
 
@@ -554,12 +622,12 @@ describe('constructDataRows', () => {
     ];
 
     const expectedResult = [
-      ['x_axis', 'channel_1'],
+      ['x_axis', 'Channel 1/channel_1/'],
       [1, 1],
       [2, 2],
       [3, 3],
     ];
-    const result = constructDataRows(XAxis, testPlots);
+    const result = constructDataRows(XAxis, testPlots, testSelectedPlotChannel);
     expect(result).toEqual(expectedResult);
   });
 
@@ -585,13 +653,27 @@ describe('constructDataRows', () => {
       },
     ];
 
+    testSelectedPlotChannel = [
+      {
+        name: 'shotnum',
+        units: '',
+        displayName: 'Shot Number',
+        options: {
+          visible: true,
+          lineStyle: 'solid',
+          colour: 'blue',
+          yAxis: 'left',
+        },
+      },
+    ];
+
     const expectedResult = [
-      ['timestamp', 'shotnum'],
+      ['timestamp', 'Shot Number/shotnum/'],
       ['2022-01-01 00:00:00', 1],
       ['2022-01-01 00:01:00', 2],
       ['2022-01-01 00:02:00', 3],
     ];
-    const result = constructDataRows(XAxis, testPlots);
+    const result = constructDataRows(XAxis, testPlots, testSelectedPlotChannel);
     expect(result).toEqual(expectedResult);
   });
 });

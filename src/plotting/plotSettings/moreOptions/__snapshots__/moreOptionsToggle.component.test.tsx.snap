@@ -7,13 +7,13 @@ exports[`MoreOptionsToggle renders correctly when options box not open 1`] = `
   >
     <button
       aria-label="More options for shotnum"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-3p3qgx-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ooguyf-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-wg28wd-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
         data-testid="MoreVertIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -37,13 +37,13 @@ exports[`MoreOptionsToggle renders correctly when options box open and passes al
   >
     <button
       aria-label="More options for shotnum"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorPrimary MuiIconButton-sizeSmall css-3p3qgx-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ooguyf-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-wg28wd-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
         data-testid="MoreVertIcon"
         focusable="false"
         viewBox="0 0 24 24"

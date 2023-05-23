@@ -6,6 +6,7 @@ import { server } from './mocks/server';
 import { registerRoute } from './state/scigateway.actions';
 
 jest.mock('loglevel');
+jest.mock('hacktimer', () => ({}));
 
 describe('index - fetchSettings', () => {
   beforeEach(() => {

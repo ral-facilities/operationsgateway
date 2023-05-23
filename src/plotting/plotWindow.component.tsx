@@ -23,7 +23,9 @@ import {
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
-import WindowPortal from '../windows/windowPortal.component';
+import WindowPortal, {
+  WindowPortal as WindowPortalClass,
+} from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
@@ -129,7 +131,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     (channel) => channel.systemName === XAxis
   )?.name;
 
-  const plotWindowRef = React.createRef<WindowPortal>();
+  const plotWindowRef = React.createRef<WindowPortalClass>();
 
   const handleSavePlot = React.useCallback(() => {
     // Capture window size and position
@@ -343,6 +345,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 toggleAxesLabelsVisibility={toggleAxesLabelsVisibility}
                 resetView={resetView}
                 savePlot={handleSavePlot}
+                selectedPlotChannels={selectedPlotChannels}
               />
             </Grid>
           </Grid>

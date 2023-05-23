@@ -13,6 +13,7 @@ describe('Plot component', () => {
       datasets: testPlotDatasets,
       selectedPlotChannels: testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
+        units: '',
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,
@@ -43,9 +44,7 @@ describe('Plot component', () => {
     const { rerender, asFragment } = render(<Plot {...props} />);
 
     const newSelectedPlotChannels = [...props.selectedPlotChannels];
-    newSelectedPlotChannels.forEach(
-      (dataset, i) => (dataset.options.yAxis = 'right')
-    );
+    newSelectedPlotChannels.forEach((dataset) => (dataset.units = 'mg'));
 
     props = {
       ...props,

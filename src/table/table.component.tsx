@@ -158,6 +158,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         role="table-container"
         component={Paper}
         sx={{
+          background: 'unset',
           overflow: 'auto',
           maxHeight: tableHeight,
         }}

@@ -3,11 +3,115 @@
 exports[`Window portal component renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly 1`] = `
 <body>
   <div>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;-webkit-print-color-scheme:light;color-scheme:light;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      *,*::before,*::after{box-sizing:inherit;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      strong,b{font-weight:700;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      body{margin:0;color:rgba(0, 0, 0, 0.87);font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;background-color:#fff;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      @media print{body{background-color:#fff;}}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      body::backdrop{background-color:#fff;}
+    </style>
     <div
       id="test"
     >
       Test
     </div>
   </div>
+  <div
+    data-mode="dark"
+    id="themeElement"
+  />
+</body>
+`;
+
+exports[`Window portal component renders with theme inherited from ThemeProvider 1`] = `
+<body>
+  <div>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;-webkit-print-color-scheme:dark;color-scheme:dark;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      *,*::before,*::after{box-sizing:inherit;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      strong,b{font-weight:700;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      body{margin:0;color:#fff;font-family:"Roboto","Helvetica","Arial",sans-serif;font-weight:400;font-size:1rem;line-height:1.5;letter-spacing:0.00938em;background-color:#121212;}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      @media print{body{background-color:#fff;}}
+    </style>
+    <style
+      data-emotion="external-global"
+      data-s=""
+    >
+      
+      body::backdrop{background-color:#121212;}
+    </style>
+    <div
+      id="test"
+    >
+      Test
+    </div>
+  </div>
+  <div
+    data-mode="dark"
+    id="themeElement"
+  />
 </body>
 `;

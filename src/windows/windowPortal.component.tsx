@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { CssBaseline, Theme, useTheme } from '@mui/material';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
@@ -22,11 +23,11 @@ export interface WindowPortalProps {
   screenY: number;
 }
 
-class WindowPortal extends React.PureComponent<
-  WindowPortalProps,
+export class WindowPortal extends React.PureComponent<
+  WindowPortalProps & { theme: Theme },
   WindowPortalState
 > {
-  constructor(props: WindowPortalProps) {
+  constructor(props: WindowPortalProps & { theme: Theme }) {
     super(props);
     this.state = { window: null, styleCache: null, containerEl: null };
   }
@@ -52,7 +53,7 @@ class WindowPortal extends React.PureComponent<
       // we do this so that all the Chart.js code which relies on window references the correct window (i.e. the popup)
       const chartjsScript = document.createElement('script');
       chartjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js';
+        'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
       chartjsScript.crossOrigin = 'anonymous';
       chartjsScript.referrerPolicy = 'no-referrer';
       chartjsScript.async = false;
@@ -89,6 +90,12 @@ class WindowPortal extends React.PureComponent<
 
       const chartjsCode = document.createElement('script');
       chartjsCode.type = 'text/javascript';
+
+      // need a theme element to attach theme info to which is observed for changes in the chart js code
+      const themeElement = document.createElement('div');
+      themeElement.id = 'themeElement';
+      themeElement.dataset.mode = this.props.theme.palette.mode;
+      externalWindow.document.body.appendChild(themeElement);
 
       /**
        * This code in the below string (which gets inserted into the script tag)
@@ -166,7 +173,47 @@ class WindowPortal extends React.PureComponent<
       }
 
       var waitForChartJS = setInterval(function () {
-        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') {
+        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') { 
+          const lightModeColor = Chart.defaults.color;
+          const lightModeBorderColor = Chart.defaults.borderColor;
+
+          const themeElement = document.getElementById("themeElement");
+
+          if (themeElement.dataset.mode === 'dark') {
+            Chart.defaults.color = "#ADBABD";
+            Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+          }
+
+          const themeObserver = new MutationObserver(mutations => {
+            for(let mutation of mutations) {
+              if (mutation.type === 'attributes') {
+                if(mutation.attributeName === "data-mode"){
+                  const mode = themeElement.dataset.mode;
+                  if (mode === 'dark') {
+                    Chart.defaults.color = "#ADBABD";
+                    Chart.defaults.borderColor = "rgba(255,255,255,0.1)";
+                  } else {
+                    Chart.defaults.color = lightModeColor;
+                    Chart.defaults.borderColor = lightModeBorderColor;
+                  }
+        
+                  Object.values(Chart.instances).forEach(instance => {
+                    Object.keys(instance.options.scales).forEach((key) => {
+                      instance.options.scales[key].ticks.color = Chart.defaults.color;
+                      instance.options.scales[key].title.color = Chart.defaults.color;
+                      instance.options.scales[key].grid.color = Chart.defaults.borderColor;
+                    });
+                    instance.update("none");
+                  })
+                }
+              }
+            }
+          });
+
+          themeObserver.observe(themeElement, {
+            attributes: true
+          });
+          
           waitForElm("#my-chart").then((canvas) => {
             if (canvas && canvas.getContext('2d')) {
               const chart = new Chart(canvas.getContext('2d'), {
@@ -237,7 +284,7 @@ class WindowPortal extends React.PureComponent<
   }
 
   componentDidUpdate(
-    prevProps: WindowPortalProps,
+    prevProps: WindowPortalProps & { theme: Theme },
     prevState: WindowPortalState
   ) {
     if (prevState.window === null && this.state.window) {
@@ -251,6 +298,12 @@ class WindowPortal extends React.PureComponent<
       this.state.window?.removeEventListener('beforeunload', prevProps.onClose);
       this.state.window?.addEventListener('beforeunload', this.props.onClose);
     }
+    if (prevProps.theme !== this.props.theme && this.state.window) {
+      const themeElement =
+        this.state.window.document.getElementById('themeElement');
+      if (themeElement)
+        themeElement.dataset.mode = this.props.theme.palette.mode;
+    }
   }
 
   render() {
@@ -260,10 +313,23 @@ class WindowPortal extends React.PureComponent<
     }
     // create the React portal only once containerEl has been appended to the new window
     return ReactDOM.createPortal(
-      <CacheProvider value={styleCache}>{this.props.children}</CacheProvider>,
+      <CacheProvider value={styleCache}>
+        <CssBaseline enableColorScheme />
+        {this.props.children}
+      </CacheProvider>,
       containerEl
     );
   }
 }
 
-export default WindowPortal;
+const WindowPortalWithTheme = React.memo(
+  React.forwardRef<WindowPortal, WindowPortalProps>(
+    (props: WindowPortalProps, ref) => {
+      const theme = useTheme();
+
+      return <WindowPortal {...props} theme={theme} ref={ref} />;
+    }
+  )
+);
+
+export default WindowPortalWithTheme;
