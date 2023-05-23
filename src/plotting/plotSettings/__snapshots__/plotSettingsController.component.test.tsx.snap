@@ -11,7 +11,8 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
       <mock-plotsettingstextfield
         data-testid="mock-plotSettingsTextField"
       >
-        value=undefined
+        label="Title"
+value=undefined
 onChange=undefined
 
       </mock-plotsettingstextfield>
@@ -206,7 +207,8 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
       <mock-plotsettingstextfield
         data-testid="mock-plotSettingsTextField"
       >
-        value=undefined
+        label="Title"
+value=undefined
 onChange=undefined
 
       </mock-plotsettingstextfield>
@@ -369,7 +371,8 @@ exports[`Plot Settings component snapshots renders plot settings form correctly 
       <mock-plotsettingstextfield
         data-testid="mock-plotSettingsTextField"
       >
-        value=undefined
+        label="Title"
+value=undefined
 onChange=undefined
 
       </mock-plotsettingstextfield>
