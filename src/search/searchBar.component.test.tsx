@@ -44,31 +44,27 @@ describe('searchBar component', () => {
     jest.clearAllMocks();
   });
 
-  it('dispatches changeSearchParams on search button click', async () => {
+  it('dispatches changeSearchParams on search button click for a given date range', async () => {
     const state = getInitialState();
     const { store } = createView(state);
+
+    // experiment field
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
 
     // Date-time fields
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.clear(dateFilterFromDate);
+    await user.clear(dateFilterToDate);
+
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
     await user.type(dateFilterToDate, '2022-01-02 00:00');
-
-    // Shot number fields
-
-    await user.click(screen.getByLabelText('open shot number search box'));
-    const shotnumPopup = screen.getByRole('dialog');
-    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
-      name: 'Min',
-    });
-    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
-      name: 'Max',
-    });
-
-    await user.type(shotnumMin, '1');
-    await user.type(shotnumMax, '2');
-    await user.click(screen.getByLabelText('close shot number search box'));
 
     // Max shots
 
@@ -96,21 +92,191 @@ describe('searchBar component', () => {
     });
   });
 
-  it('selects an experiment and displays it in the experiment box', async () => {
-    createView();
-    const expectedExperiment = {
-      _id: '18325019-4',
-      end_date: '2020-01-06T18:00:00',
-      experiment_id: '18325019',
-      part: 4,
-      start_date: '2020-01-03T10:00:00',
-    };
+  it('dispatches changeSearchParams on search button click for a given shot number range', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    // experiment field
 
     await user.click(screen.getByLabelText('open experiment search box'));
     const experimentPopup = screen.getByLabelText('Select your experiment');
 
-    await user.type(experimentPopup, '183{arrowdown}{enter}');
-    expect(experimentPopup).toHaveValue(expectedExperiment.experiment_id);
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
+    // Shot number fields
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Min',
+    });
+    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Max',
+    });
+    await user.clear(shotnumMin);
+    await user.clear(shotnumMax);
+    await user.type(shotnumMin, '5');
+    await user.type(shotnumMax, '10');
+    await user.click(screen.getByLabelText('close shot number search box'));
+
+    // Max shots
+
+    const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+      name: 'select max shots',
+    });
+    await user.click(
+      within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
+    );
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-05T00:00:00',
+        toDate: '2022-01-10T00:00:59',
+      },
+      shotnumRange: {
+        min: 5,
+        max: 10,
+      },
+      maxShots: 1000,
+      experimentID: null,
+    });
+  });
+
+  it('clears experiment field when shot number min is not within the experiment timeframe', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
+
+    // Shot number fields
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Min',
+    });
+
+    await user.clear(shotnumMin);
+
+    await user.type(shotnumMin, '12');
+
+    await user.click(screen.getByLabelText('close shot number search box'));
+
+    // Max shots
+
+    const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+      name: 'select max shots',
+    });
+    await user.click(
+      within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
+    );
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-12T00:00:00',
+        toDate: '2022-01-15T00:00:59',
+      },
+      shotnumRange: {
+        min: 12,
+        max: 15,
+      },
+      maxShots: 1000,
+      experimentID: null,
+    });
+  });
+
+  it('clears experiment field when shot number max is not within the experiment timeframe', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+    expect(experimentPopup).toHaveValue('22110007');
+
+    // Shot number fields
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Max',
+    });
+
+    await user.clear(shotnumMax);
+
+    await user.type(shotnumMax, '16');
+
+    await user.click(screen.getByLabelText('close shot number search box'));
+
+    // Max shots
+
+    const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+      name: 'select max shots',
+    });
+    await user.click(
+      within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
+    );
+
+    // Initiate search
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: '2022-01-13T00:00:00',
+        toDate: '2022-01-16T00:00:59',
+      },
+      shotnumRange: {
+        min: 13,
+        max: 16,
+      },
+      maxShots: 1000,
+      experimentID: null,
+    });
+  });
+
+  it('dispatches searchParams on search button click for a given experiment', async () => {
+    const state = getInitialState();
+    const { store } = createView(state);
+
+    const expectedExperiment = {
+      _id: '22110007-1',
+      end_date: '2022-01-15T12:00:00',
+      experiment_id: '22110007',
+      part: 1,
+      start_date: '2022-01-12T13:00:00',
+    };
+
+    const expectedEndDate = '2022-01-15T12:00:59';
+
+    await user.click(screen.getByLabelText('open experiment search box'));
+    const experimentPopup = screen.getByLabelText('Select your experiment');
+
+    await user.type(experimentPopup, '221{arrowdown}{enter}');
+
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(store.getState().search.searchParams).toStrictEqual({
+      dateRange: {
+        fromDate: expectedExperiment.start_date,
+        toDate: expectedEndDate,
+      },
+      shotnumRange: {
+        min: 13,
+        max: 15,
+      },
+      maxShots: 50,
+      experimentID: expectedExperiment,
+    });
   });
 
   it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async () => {
@@ -133,8 +299,8 @@ describe('searchBar component', () => {
         toDate: '2022-01-02T00:00:59',
       },
       shotnumRange: {
-        min: undefined,
-        max: undefined,
+        min: 1,
+        max: 2,
       },
       maxShots: MAX_SHOTS_VALUES[0],
       experimentID: null,
@@ -457,6 +623,56 @@ describe('searchBar component', () => {
 
       expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
       expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+    });
+
+    it('clears timeframe range when shot numbers are manually selected', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
+      );
+
+      // Shot number fields
+
+      await user.click(screen.getByLabelText('open shot number search box'));
+      const shotnumPopup = screen.getByRole('dialog');
+      const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
+        name: 'Max',
+      });
+
+      await user.clear(shotnumMax);
+
+      await user.type(shotnumMax, '16');
+
+      await user.click(screen.getByLabelText('close shot number search box'));
+
+      // Max shots
+
+      const maxShotsRadioGroup = screen.getByRole('radiogroup', {
+        name: 'select max shots',
+      });
+      await user.click(
+        within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
+      );
+
+      // Initiate search
+
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+      expect(store.getState().search.searchParams).toStrictEqual({
+        dateRange: {
+          fromDate: '2022-01-05T00:00:00',
+          toDate: '2022-01-16T00:00:59',
+        },
+        shotnumRange: {
+          min: 5,
+          max: 16,
+        },
+        maxShots: 1000,
+        experimentID: null,
+      });
     });
 
     it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', async () => {

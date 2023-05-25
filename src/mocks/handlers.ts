@@ -33,6 +33,92 @@ export const handlers = [
   rest.get('/records/count', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson.length));
   }),
+  rest.get('/records/range_converter', (req, res, ctx) => {
+    const searchParams = new URLSearchParams(req.url.search);
+    const shotnumRange = searchParams.get('shotnum_range');
+    const dateRange = searchParams.get('date_range');
+
+    if (shotnumRange) {
+      const { min, max } = JSON.parse(decodeURIComponent(shotnumRange));
+      const shotnumMin = Number(min);
+      const shotnumMax = Number(max);
+
+      const shotnumRangeRecord = recordsJson.filter((record) => {
+        return (
+          record.metadata.shotnum >= shotnumMin &&
+          record.metadata.shotnum <= shotnumMax
+        );
+      });
+
+      const { shotnumMaxRecord, shotnumMinRecord } = shotnumRangeRecord.reduce(
+        (acc, record) => {
+          if (record.metadata.shotnum > acc.shotnumMaxRecord.metadata.shotnum) {
+            acc.shotnumMaxRecord = record;
+          }
+
+          if (record.metadata.shotnum < acc.shotnumMinRecord.metadata.shotnum) {
+            acc.shotnumMinRecord = record;
+          }
+
+          return acc;
+        },
+        {
+          shotnumMaxRecord: shotnumRangeRecord[0],
+          shotnumMinRecord: shotnumRangeRecord[0],
+        }
+      );
+
+      const reponseData = {
+        from: shotnumMinRecord.metadata.timestamp,
+        to: shotnumMaxRecord.metadata.timestamp,
+      };
+
+      return res(ctx.status(200), ctx.json(reponseData));
+    } else if (dateRange) {
+      const { from: fromDate, to: toDate } = JSON.parse(
+        decodeURIComponent(dateRange)
+      );
+
+      const dateRangeRecord = recordsJson.filter((record) => {
+        return (
+          new Date(record.metadata.timestamp) >= new Date(fromDate) &&
+          new Date(record.metadata.timestamp) <= new Date(toDate)
+        );
+      });
+
+      const { fromDateRecord, toDateRecord } = dateRangeRecord.reduce(
+        (acc, record) => {
+          if (
+            new Date(record.metadata.timestamp) >
+            new Date(acc.fromDateRecord.metadata.timestamp)
+          ) {
+            acc.toDateRecord = record;
+          }
+
+          if (
+            new Date(record.metadata.timestamp) <
+            new Date(acc.toDateRecord.metadata.timestamp)
+          ) {
+            acc.fromDateRecord = record;
+          }
+
+          return acc;
+        },
+        {
+          fromDateRecord: dateRangeRecord[0],
+          toDateRecord: dateRangeRecord[0],
+        }
+      );
+
+      const reponseData = {
+        min: fromDateRecord.metadata.shotnum,
+        max: toDateRecord.metadata.shotnum,
+      };
+      return res(ctx.status(200), ctx.json(reponseData));
+    } else {
+      return res(ctx.status(500), ctx.json(undefined));
+    }
+  }),
   rest.get('/channels/summary/:channelName', (req, res, ctx) => {
     const { channelName } = req.params;
     let channel;

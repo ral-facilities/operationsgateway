@@ -50,12 +50,8 @@ describe('Search', () => {
     });
 
     it('searches by date-time', () => {
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -75,14 +71,21 @@ describe('Search', () => {
             request.url.toString()
           );
           const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
+          expect(conditionsMap.length).equal(2);
 
-          const condition = conditionsMap[0];
-          const timestampRange = condition['metadata.timestamp'];
-          const gte: string = timestampRange['$gte'];
-          const lte: string = timestampRange['$lte'];
-          expect(gte).equal('2022-01-01T00:00:00');
-          expect(lte).equal('2022-01-02T00:00:59');
+          const timestampCondition = conditionsMap[0];
+          const timestampRange = timestampCondition['metadata.timestamp'];
+          const timestampGte: string = timestampRange['$gte'];
+          const timestampLte: string = timestampRange['$lte'];
+          expect(timestampGte).equal('2022-01-01T00:00:00');
+          expect(timestampLte).equal('2022-01-02T00:00:59');
+
+          const shotnumCondition = conditionsMap[1];
+          const shotnumRange = shotnumCondition['metadata.shotnum'];
+          const shotnumGte: string = shotnumRange['$gte'];
+          const shotnumLte: string = shotnumRange['$lte'];
+          expect(shotnumGte).equal(1);
+          expect(shotnumLte).equal(2);
         }
       );
 
@@ -98,14 +101,21 @@ describe('Search', () => {
           request.url.toString()
         );
         const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
+        expect(conditionsMap.length).equal(2);
 
-        const condition = conditionsMap[0];
-        const timestampRange = condition['metadata.timestamp'];
-        const gte: string = timestampRange['$gte'];
-        const lte: string = timestampRange['$lte'];
-        expect(gte).equal('2022-01-01T00:00:00');
-        expect(lte).equal('2022-01-02T00:00:59');
+        const timestampCondition = conditionsMap[0];
+        const timestampRange = timestampCondition['metadata.timestamp'];
+        const timestampGte: string = timestampRange['$gte'];
+        const timestampLte: string = timestampRange['$lte'];
+        expect(timestampGte).equal('2022-01-01T00:00:00');
+        expect(timestampLte).equal('2022-01-02T00:00:59');
+
+        const shotnumCondition = conditionsMap[1];
+        const shotnumRange = shotnumCondition['metadata.shotnum'];
+        const shotnumGte: string = shotnumRange['$gte'];
+        const shotnumLte: string = shotnumRange['$lte'];
+        expect(shotnumGte).equal(1);
+        expect(shotnumLte).equal(2);
       });
     });
 
@@ -115,7 +125,7 @@ describe('Search', () => {
       });
 
       it('last 10 minutes', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 10 mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -178,7 +188,7 @@ describe('Search', () => {
       });
 
       it('last 24 hours', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 24 hours').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -241,7 +251,7 @@ describe('Search', () => {
       });
 
       it('last 7 days', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 7 days').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -305,7 +315,7 @@ describe('Search', () => {
 
       it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', () => {
         // Set a relative timestamp and verify the initial seach is correct
-        cy.get('div[aria-label="open timeframe search box"]').click();
+        cy.findByLabelText('open timeframe search box').click();
         cy.contains('Last 10 mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -348,7 +358,7 @@ describe('Search', () => {
         // Advance time forward a minute
         cy.tick(60000);
 
-        cy.get('button[aria-label="Refresh data"]').click();
+        cy.findByLabelText('Refresh data').click();
 
         // wait for search to initiate and finish
         cy.findByRole('progressbar').should('be.visible');
@@ -391,8 +401,8 @@ describe('Search', () => {
       });
 
       it('last 5 minutes', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Mins').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -455,8 +465,8 @@ describe('Search', () => {
       });
 
       it('last 5 hours', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Hours').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -519,8 +529,8 @@ describe('Search', () => {
       });
 
       it('last 5 days', () => {
-        cy.get('div[aria-label="open timeframe search box"]').click();
-        cy.get('input[name="timeframe"]').type('5');
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
         cy.contains('Days').click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
@@ -584,75 +594,9 @@ describe('Search', () => {
     });
 
     it('searches by shot number range', () => {
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('1');
-      cy.get('input[name="shot number max"]').type('9');
-
-      cy.startSnoopingBrowserMockedRequest();
-
-      cy.contains('Search').click();
-
-      // wait for search to initiate and finish
-      cy.findByRole('progressbar').should('be.visible');
-      cy.findByRole('progressbar').should('not.exist');
-
-      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
-        (patchRequests) => {
-          expect(patchRequests.length).equal(1);
-          const request = patchRequests[0];
-
-          expect(request.url.toString()).to.contain('conditions=');
-          const paramMap: Map<string, string> = getParamsFromUrl(
-            request.url.toString()
-          );
-          const conditionsMap = getConditionsFromParams(paramMap);
-          expect(conditionsMap.length).equal(1);
-
-          const condition = conditionsMap[0];
-          const shotnumRange = condition['metadata.shotnum'];
-          const gte: string = shotnumRange['$gte'];
-          const lte: string = shotnumRange['$lte'];
-          expect(gte).equal(1);
-          expect(lte).equal(9);
-        }
-      );
-
-      cy.findBrowserMockedRequests({
-        method: 'GET',
-        url: '/records/count',
-      }).should((patchRequests) => {
-        expect(patchRequests.length).equal(1);
-        const request = patchRequests[0];
-
-        expect(request.url.toString()).to.contain('conditions=');
-        const paramMap: Map<string, string> = getParamsFromUrl(
-          request.url.toString()
-        );
-        const conditionsMap = getConditionsFromParams(paramMap);
-        expect(conditionsMap.length).equal(1);
-
-        const condition = conditionsMap[0];
-        const shotnumRange = condition['metadata.shotnum'];
-        const gte: string = shotnumRange['$gte'];
-        const lte: string = shotnumRange['$lte'];
-        expect(gte).equal(1);
-        expect(lte).equal(9);
-      });
-    });
-
-    it('searches by multiple parameters', () => {
-      // Date-time fields
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
-
-      // Shot number fields
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('1');
-      cy.get('input[name="shot number max"]').type('9');
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('1');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('9');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -679,7 +623,7 @@ describe('Search', () => {
           const timestampGte: string = timestampRange['$gte'];
           const timestampLte: string = timestampRange['$lte'];
           expect(timestampGte).equal('2022-01-01T00:00:00');
-          expect(timestampLte).equal('2022-01-02T00:00:59');
+          expect(timestampLte).equal('2022-01-09T00:00:59');
 
           const shotnumCondition = conditionsMap[1];
           const shotnumRange = shotnumCondition['metadata.shotnum'];
@@ -709,7 +653,7 @@ describe('Search', () => {
         const timestampGte: string = timestampRange['$gte'];
         const timestampLte: string = timestampRange['$lte'];
         expect(timestampGte).equal('2022-01-01T00:00:00');
-        expect(timestampLte).equal('2022-01-02T00:00:59');
+        expect(timestampLte).equal('2022-01-09T00:00:59');
 
         const shotnumCondition = conditionsMap[1];
         const shotnumRange = shotnumCondition['metadata.shotnum'];
@@ -722,24 +666,22 @@ describe('Search', () => {
 
     it('should highlight boxes red if error in search params', () => {
       // Date-time box
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2021-01-01 00:00'
-      );
-      cy.get('div[aria-label="date-time search box"]').should(
+
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2021-01-01 00:00');
+
+      cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
         'rgb(214, 65, 65)' // shade of red
       );
 
-      // Shot Number box
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('2');
-      cy.get('input[name="shot number max"]').type('1');
-      cy.get('div[aria-label="close shot number search box"]').click();
-      cy.get('div[aria-label="open shot number search box"]').should(
+      // Shot number box
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('2');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('1');
+      cy.findByLabelText('close shot number search box').click();
+      cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
         'rgb(214, 65, 65)' // shade of red
@@ -747,36 +689,134 @@ describe('Search', () => {
     });
 
     it('select a experiment Id and it appears in the experiment box', () => {
+      const expectedExperiment = {
+        _id: '22110007-1',
+        end_date: '2022-01-15T12:00:59',
+        experiment_id: '22110007',
+        part: 1,
+        start_date: '2022-01-12T13:00:00',
+      };
+
+      // Shot number fields
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('spinbutton', { name: 'Min' }).type('1');
+      cy.findByRole('spinbutton', { name: 'Max' }).type('9');
+      cy.findByLabelText('close shot number search box').click();
+      cy.findByLabelText('open shot number search box')
+        .contains('1 to 9')
+        .should('exist');
+
+      // timeframe
+
+      cy.findByLabelText('open timeframe search box').click();
+      cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
+      cy.contains('Days').click();
+      cy.findByLabelText('close timeframe search box').click();
+
+      cy.findByLabelText('open timeframe search box')
+        .contains('5 days')
+        .should('exist');
+
       // experiment box
       cy.findByLabelText('open experiment search box')
-        .contains('ID 19510000')
+        .contains('ID 22110007')
         .should('not.exist');
 
+      // Checks that when a experiment id is selected it updates
+      // the shot number, timeframe and experiment id
+
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('195').type('{downArrow}{enter}');
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
-        .contains('ID 19510000')
+        .contains('ID 22110007')
         .should('exist');
+
+      cy.findByLabelText('open shot number search box')
+        .contains('1 to 9')
+        .should('not.exist');
+
+      cy.findByLabelText('open timeframe search box')
+        .contains('5 days')
+        .should('not.exist');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.contains('Search').click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+          expect(conditionsMap.length).equal(2);
+
+          const timestampCondition = conditionsMap[0];
+
+          const timestampRange = timestampCondition['metadata.timestamp'];
+          const timestampGte: string = timestampRange['$gte'];
+          const timestampLte: string = timestampRange['$lte'];
+          expect(timestampGte).equal(expectedExperiment.start_date);
+          expect(timestampLte).equal(expectedExperiment.end_date);
+
+          const shotnumCondition = conditionsMap[1];
+          const shotnumRange = shotnumCondition['metadata.shotnum'];
+          const shotnumGte: string = shotnumRange['$gte'];
+          const shotnumLte: string = shotnumRange['$lte'];
+          expect(shotnumGte).equal(13);
+          expect(shotnumLte).equal(15);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(2);
+
+        const timestampCondition = conditionsMap[0];
+
+        const timestampRange = timestampCondition['metadata.timestamp'];
+        const timestampGte: string = timestampRange['$gte'];
+        const timestampLte: string = timestampRange['$lte'];
+        expect(timestampGte).equal(expectedExperiment.start_date);
+        expect(timestampLte).equal(expectedExperiment.end_date);
+
+        const shotnumCondition = conditionsMap[1];
+        const shotnumRange = shotnumCondition['metadata.shotnum'];
+        const shotnumGte: string = shotnumRange['$gte'];
+        const shotnumLte: string = shotnumRange['$lte'];
+        expect(shotnumGte).equal(13);
+        expect(shotnumLte).equal(15);
+      });
     });
 
     it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
-      // Date-time fields
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
-      cy.get('input[aria-label="to, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
+
       const expectedToDate = new Date('2022-01-02 00:00:59');
       const expectedFromDate = new Date('2022-01-01 00:00:00');
       const expectedToDateString = formatDateTimeForApi(expectedToDate);
       const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
-
-      // Shot number fields
-      cy.get('div[aria-label="open shot number search box"]').click();
-      cy.get('input[name="shot number min"]').type('1');
-      cy.get('input[name="shot number max"]').type('9');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -803,6 +843,13 @@ describe('Search', () => {
           const lte: string = timestampRange['$lte'];
           expect(gte).equal(expectedFromDateString);
           expect(lte).equal(expectedToDateString);
+
+          const shotnumCondition = conditionsMap[1];
+          const shotnumRange = shotnumCondition['metadata.shotnum'];
+          const shotnumGte: string = shotnumRange['$gte'];
+          const shotnumLte: string = shotnumRange['$lte'];
+          expect(shotnumGte).equal(1);
+          expect(shotnumLte).equal(2);
         }
       );
 
@@ -826,7 +873,164 @@ describe('Search', () => {
         const lte: string = timestampRange['$lte'];
         expect(gte).equal(expectedFromDateString);
         expect(lte).equal(expectedToDateString);
+
+        const shotnumCondition = conditionsMap[1];
+        const shotnumRange = shotnumCondition['metadata.shotnum'];
+        const shotnumGte: string = shotnumRange['$gte'];
+        const shotnumLte: string = shotnumRange['$lte'];
+        expect(shotnumGte).equal(1);
+        expect(shotnumLte).equal(2);
       });
+    });
+
+    it('searches within an experiment timeframe without the experiment id clearing', () => {
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('from, date-time picker').click();
+      cy.findByRole('dialog').contains(13).click();
+      cy.findByLabelText('from, date-time picker').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('to, date-time picker').click();
+      cy.findByRole('dialog').contains(14).click();
+      cy.findByLabelText('to, date-time picker').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+    });
+
+    it('clears experiment id when it searches outside the given experiment id experiment timeframe', () => {
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('from, date-time picker').click();
+      cy.findByRole('dialog').contains(11).click();
+      cy.findByLabelText('from, date-time picker').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('not.exist');
+
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('to, date-time picker').click();
+      cy.findByRole('dialog').contains(16).click();
+      cy.findByLabelText('to, date-time picker').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('not.exist');
+    });
+
+    it('searches within an experiment shot number range without the experiment id clearing', () => {
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Min',
+        })
+        .clear();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Min',
+        })
+        .type(14);
+      cy.findByLabelText('close shot number search box').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Max',
+        })
+        .clear();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Max',
+        })
+        .type(14);
+      cy.findByLabelText('close shot number search box').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+    });
+
+    it('clears experiment id when it searches outside the given experiment id shot number range', () => {
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Min',
+        })
+        .clear();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Min',
+        })
+        .type(12);
+      cy.findByLabelText('close shot number search box').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('not.exist');
+
+      cy.findByLabelText('open experiment search box').click();
+      cy.findByRole('combobox').type('221').type('{downArrow}{enter}');
+      cy.findByLabelText('close experiment search box').click();
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('exist');
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Max',
+        })
+        .clear();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Max',
+        })
+        .type(16);
+      cy.findByLabelText('close shot number search box').click();
+
+      cy.findByLabelText('open experiment search box')
+        .contains('ID 22110007')
+        .should('not.exist');
     });
 
     it('can be hidden and shown', () => {
@@ -863,9 +1067,7 @@ describe('Search', () => {
     });
 
     it('displays appropriate tooltips', () => {
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -936,10 +1138,8 @@ describe('Search', () => {
         );
       });
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-11 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-11 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -950,10 +1150,8 @@ describe('Search', () => {
 
       cy.clearMocks();
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-02 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-02 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -1006,10 +1204,8 @@ describe('Search', () => {
         expect(gte).equal('2022-01-02T00:00:00');
       });
 
-      cy.get('input[aria-label="from, date-time input"]').clear();
-      cy.get('input[aria-label="from, date-time input"]').type(
-        '2022-01-01 00:00'
-      );
+      cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
