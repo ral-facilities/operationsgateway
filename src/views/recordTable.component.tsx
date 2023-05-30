@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecordCount, useRecordsPaginated } from '../api/records';
 import Table from '../table/table.component';
+import { TextField, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   changeSort,
@@ -13,13 +14,29 @@ import {
   reorderColumn,
   selectColumn,
   toggleWordWrap,
+  updateSelectedColumns,
+  updateColumnStates,
 } from '../state/slices/tableSlice';
-import { selectQueryParams } from '../state/slices/searchSlice';
-import { selectAppliedFilters } from '../state/slices/filterSlice';
+import {
+  changeSearchParams,
+  selectQueryParams,
+} from '../state/slices/searchSlice';
+import {
+  changeAppliedFilters,
+  selectAppliedFilters,
+} from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order, timeChannelName } from '../app.types';
 import type { Token } from '../filtering/filterParser';
+import { selectPlots } from '../state/slices/plotSlice';
+import {
+  TraceOrImageWindow,
+  openImageWindow,
+  openTraceWindow,
+  selectImageWindows,
+  selectTraceWindows,
+} from '../state/slices/windowSlice';
 
 export const extractChannelsFromTokens = (
   appliedFilters: Token[][]
@@ -54,7 +71,7 @@ const RecordTable = React.memo(
     const queryParams = useAppSelector(selectQueryParams);
     const { sort, page, resultsPerPage, searchParams } = queryParams;
     const { maxShots } = searchParams;
-
+    const plots = useAppSelector(selectPlots);
     const { data, isLoading: dataLoading } = useRecordsPaginated();
     const { data: count, isLoading: countLoading } = useRecordCount();
     const { data: availableColumns, isLoading: columnsLoading } =
@@ -64,6 +81,10 @@ const RecordTable = React.memo(
     const hiddenColumns = useAppSelector((state) =>
       selectHiddenColumns(state, availableColumns ?? [])
     );
+
+    const windowTrace = useAppSelector(selectTraceWindows);
+
+    const windowImage = useAppSelector(selectImageWindows);
 
     const columnOrder = useAppSelector(selectSelectedIds);
 
@@ -120,30 +141,133 @@ const RecordTable = React.memo(
       }
     }, [dataLoading, columnOrder, dispatch]);
 
+    const [savedSession, setSavedSession] = React.useState<string | undefined>(
+      undefined
+    );
+
+    // console.log(savedSession);
+
+    const handleExport = React.useCallback(() => {
+      const sortArray: { column: string; order: Order }[] = Object.entries(
+        sort as {
+          [column: string]: Order;
+        }
+      ).map(([column, order]) => ({
+        column,
+        order,
+      }));
+
+      const windowTraceArray: { recordId: string; channelName: string }[] = (
+        windowTrace as TraceOrImageWindow[]
+      ).map(({ recordId, channelName }) => ({ recordId, channelName }));
+
+      const windowImageArray: { recordId: string; channelName: string }[] = (
+        windowImage as TraceOrImageWindow[]
+      ).map(({ recordId, channelName }) => ({ recordId, channelName }));
+
+      const session = {
+        sortArray,
+        page,
+        resultsPerPage,
+        searchParams,
+        columnOrder,
+        columnStates,
+        appliedFilters,
+        plots,
+        windowTraceArray,
+        windowImageArray,
+      };
+      setSavedSession(JSON.stringify(session));
+    }, [
+      sort,
+      page,
+      resultsPerPage,
+      searchParams,
+      columnOrder,
+      columnStates,
+      appliedFilters,
+      plots,
+      windowTrace,
+      windowImage,
+    ]);
+
+    const handleImport = React.useCallback(() => {
+      if (savedSession) {
+        const {
+          sortArray,
+          page,
+          resultsPerPage,
+          searchParams,
+          columnOrder,
+          columnStates,
+          appliedFilters,
+          plots,
+          windowTraceArray,
+          windowImageArray,
+        } = JSON.parse(savedSession);
+        dispatch(changeSearchParams(searchParams));
+        dispatch(changeAppliedFilters(appliedFilters));
+        dispatch(updateSelectedColumns(columnOrder));
+        dispatch(updateColumnStates(columnStates));
+
+        sortArray.forEach((sort: { column: string; order: Order }) => {
+          dispatch(changeSort(sort));
+        });
+        windowImageArray.forEach(
+          (windowImage: { recordId: string; channelName: string }) => {
+            dispatch(openImageWindow(windowImage));
+            console.log('Image');
+          }
+        );
+        windowTraceArray.forEach(
+          (windowTrace: { recordId: string; channelName: string }) => {
+            dispatch(openTraceWindow(windowTrace));
+            console.log('Trace');
+          }
+        );
+        console.log(page);
+        console.log(resultsPerPage);
+        console.log(plots);
+      }
+    }, [savedSession, dispatch]);
+
     return (
-      <Table
-        tableHeight={tableHeight}
-        data={data ?? []}
-        availableColumns={availableColumns ?? []}
-        columnStates={columnStates}
-        hiddenColumns={hiddenColumns}
-        columnOrder={columnOrder}
-        totalDataCount={count ?? 0}
-        maxShots={maxShots}
-        page={page}
-        loadedData={!dataLoading && !columnsLoading}
-        loadedCount={!countLoading}
-        resultsPerPage={resultsPerPage}
-        onResultsPerPageChange={onResultsPerPageChange}
-        onPageChange={onPageChange}
-        sort={sort}
-        onSort={handleSort}
-        onColumnWordWrapToggle={handleColumnWordWrapToggle}
-        onDragEnd={handleOnDragEnd}
-        onColumnClose={handleColumnClose}
-        openFilters={openFilters}
-        filteredChannelNames={filteredChannelNames}
-      />
+      <div>
+        <Table
+          tableHeight={tableHeight}
+          data={data ?? []}
+          availableColumns={availableColumns ?? []}
+          columnStates={columnStates}
+          hiddenColumns={hiddenColumns}
+          columnOrder={columnOrder}
+          totalDataCount={count ?? 0}
+          maxShots={maxShots}
+          page={page}
+          loadedData={!dataLoading && !columnsLoading}
+          loadedCount={!countLoading}
+          resultsPerPage={resultsPerPage}
+          onResultsPerPageChange={onResultsPerPageChange}
+          onPageChange={onPageChange}
+          sort={sort}
+          onSort={handleSort}
+          onColumnWordWrapToggle={handleColumnWordWrapToggle}
+          onDragEnd={handleOnDragEnd}
+          onColumnClose={handleColumnClose}
+          openFilters={openFilters}
+          filteredChannelNames={filteredChannelNames}
+        />
+        <Button onClick={handleExport}> Export </Button>
+        <TextField
+          sx={{ width: '100%' }}
+          value={savedSession}
+          onChange={(event) => {
+            setSavedSession(
+              event.target.value ? event.target.value : undefined
+            );
+          }}
+        />
+        <Button onClick={handleImport}> Import </Button>
+      </div>
     );
   }
 );

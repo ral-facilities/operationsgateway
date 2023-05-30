@@ -42,6 +42,24 @@ export const windowSlice = createSlice({
         ...DEFAULT_WINDOW_VARS,
       };
     },
+    // openTraceWindows: (
+    //   state,
+    //   action: PayloadAction<{ recordId: string; channelName: string }[]>
+    // ) => {
+    //   action.payload.forEach((payload) => {
+    //     const { recordId, channelName } = payload;
+    //     const id = crypto.randomUUID();
+    //     state[id] = {
+    //       id: id,
+    //       open: true,
+    //       type: 'trace',
+    //       recordId,
+    //       channelName,
+    //       title: `Trace ${channelName} ${recordId}`,
+    //       ...DEFAULT_WINDOW_VARS,
+    //     };
+    //   });
+    // },
     openImageWindow: (
       state,
       action: PayloadAction<{ recordId: string; channelName: string }>
