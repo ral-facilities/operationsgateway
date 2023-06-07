@@ -327,6 +327,102 @@ describe('searchBar component', () => {
     });
   });
 
+  it('disables the serach button if a invalid date range is selected', async () => {
+    createView();
+
+    // From Date is above To Date
+
+    const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+
+    await user.type(dateFilterFromDate, '2023-01-01 00:00');
+    await user.type(dateFilterToDate, '2022-01-02 00:00');
+
+    const helperTexts = screen.getAllByText('Invalid date-time range');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    expect(searchButton).toBeDisabled();
+
+    // only the From date is defined
+
+    await user.clear(dateFilterFromDate);
+    await user.clear(dateFilterToDate);
+
+    await user.type(dateFilterFromDate, '2023-01-01 00:00');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    expect(searchButton).toBeDisabled();
+
+    // only the To date is defined
+
+    await user.clear(dateFilterFromDate);
+    await user.clear(dateFilterToDate);
+
+    await user.type(dateFilterToDate, '2023-01-01 00:00');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    expect(searchButton).toBeDisabled();
+  });
+
+  it('disables the serach button if a invalid shot number range is selected', async () => {
+    createView();
+
+    // Minimum shot number is above Max shot number
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+
+    const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Max',
+    });
+
+    const shotnumMin = within(shotnumPopup).getByRole('spinbutton', {
+      name: 'Min',
+    });
+
+    await user.type(shotnumMax, '2');
+    await user.type(shotnumMin, '10');
+
+    const helperTexts = screen.getAllByText('Invalid range');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    expect(searchButton).toBeDisabled();
+
+    // only the minimum shot number is defined
+
+    await user.clear(shotnumMax);
+    await user.clear(shotnumMin);
+
+    await user.type(shotnumMin, '1');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    expect(searchButton).toBeDisabled();
+
+    // only the maximum shot number is defined
+
+    await user.clear(shotnumMax);
+    await user.clear(shotnumMin);
+
+    await user.type(shotnumMax, '10');
+
+    // One helper text below each input
+    expect(helperTexts.length).toEqual(2);
+
+    expect(searchButton).toBeDisabled();
+  });
+
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
@@ -346,6 +442,9 @@ describe('searchBar component', () => {
     // Input some test data for the search
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterToDate, '2023-01-01 00:00');
 
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -369,11 +468,11 @@ describe('searchBar component', () => {
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
-        toDate: undefined,
+        toDate: '2023-01-01T00:00:59',
       },
       shotnumRange: {
-        min: undefined,
-        max: undefined,
+        min: 1,
+        max: 18,
       },
       maxShots: MAX_SHOTS_VALUES[0],
       experimentID: null,
@@ -405,6 +504,9 @@ describe('searchBar component', () => {
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterToDate, '2023-01-01 00:00');
+
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -425,6 +527,9 @@ describe('searchBar component', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
+
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterToDate, '2023-01-01 00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -470,9 +575,12 @@ describe('searchBar component', () => {
         'records',
         {
           searchParams: {
-            dateRange: { fromDate: '2022-01-01T00:00:00' },
+            dateRange: {
+              fromDate: '2022-01-01T00:00:00',
+              toDate: '2023-01-01T00:00:59',
+            },
             maxShots: 50,
-            shotnumRange: {},
+            shotnumRange: { min: 1, max: 18 },
             experimentID: null,
           },
           filters: [''],
@@ -496,6 +604,9 @@ describe('searchBar component', () => {
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01 00:00');
 
+    const dateFilterToDate = screen.getByLabelText('to, date-time input');
+    await user.type(dateFilterToDate, '2023-01-01 00:00');
+
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
     // Tooltip warning should not be present
@@ -506,11 +617,11 @@ describe('searchBar component', () => {
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
-        toDate: undefined,
+        toDate: '2023-01-01T00:00:59',
       },
       shotnumRange: {
-        min: undefined,
-        max: undefined,
+        min: 1,
+        max: 18,
       },
       maxShots: MAX_SHOTS_VALUES[0],
       experimentID: null,

@@ -6,6 +6,7 @@ import Timeframe, {
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
+import { isBefore } from 'date-fns';
 import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import {
   Grid,
@@ -262,6 +263,28 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     timeframeRange,
   ]);
 
+  // ##################################################
+  // Check for vaild Date Ranges and Shot Number Ranges
+  // ##################################################
+
+  const invalidDateRange =
+    (searchParameterFromDate !== null &&
+      searchParameterToDate !== null &&
+      searchParameterFromDate &&
+      searchParameterToDate &&
+      isBefore(searchParameterToDate, searchParameterFromDate)) ||
+    (!searchParameterFromDate && searchParameterToDate !== null) ||
+    (searchParameterFromDate !== null && !searchParameterToDate);
+
+  const invalidShotNumberRange =
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax !== undefined &&
+      searchParameterShotnumMin > searchParameterShotnumMax) ||
+    (searchParameterShotnumMin === undefined &&
+      searchParameterShotnumMax !== undefined) ||
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax === undefined);
+
   React.useEffect(() => {
     setParamsUpdated(true);
     // reset warning message when search params change
@@ -436,6 +459,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   }
                   isShotnumToDate={isShotnumToDate}
                   isDateTimeInExperiment={isDateTimeInExperiment}
+                  invalidDateRange={invalidDateRange}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -469,6 +493,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetDateRange={() => setDateRange(null, null)}
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
                   isDateToShotnum={isDateToShotnum}
+                  invalidShotNumberRange={invalidShotNumberRange}
                 />
               </Grid>
               <Grid item xs={1}>
@@ -515,6 +540,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                       variant={paramsUpdated ? 'contained' : 'outlined'}
                       sx={{ height: '100%' }}
                       onClick={handleSearch}
+                      disabled={invalidDateRange || invalidShotNumberRange}
                     >
                       Search
                     </Button>
@@ -524,6 +550,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                     variant={paramsUpdated ? 'contained' : 'outlined'}
                     sx={{ height: '100%' }}
                     onClick={handleSearch}
+                    disabled={invalidDateRange || invalidShotNumberRange}
                   >
                     Search
                   </Button>
