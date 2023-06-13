@@ -2,6 +2,9 @@ import {
   configureStore,
   combineReducers,
   PreloadedState,
+  AnyAction,
+  Reducer,
+  createAction,
 } from '@reduxjs/toolkit';
 import OperationsGatewayMiddleware, {
   listenToMessages,
@@ -13,7 +16,10 @@ import plotReducer from './slices/plotSlice';
 import filterReducer from './slices/filterSlice';
 import windowsReducer from './slices/windowSlice';
 
-const rootReducer = combineReducers({
+export const importSession =
+  createAction<Omit<RootState, 'config'>>('IMPORT_SESSION');
+
+const sliceReducer = combineReducers({
   config: configReducer,
   table: tableReducer,
   search: searchReducer,
@@ -21,6 +27,11 @@ const rootReducer = combineReducers({
   filter: filterReducer,
   windows: windowsReducer,
 });
+
+const rootReducer: Reducer = (state: RootState, action: AnyAction) =>
+  action.type === importSession.toString()
+    ? { ...action.payload, config: state.config } // load new state
+    : sliceReducer(state, action); //defer to original reducer
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
   return configureStore({
@@ -31,7 +42,7 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
   });
 }
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof sliceReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
 
