@@ -45,12 +45,6 @@ export const tableSlice = createSlice({
     updateSelectedColumns: (state, action: PayloadAction<string[]>) => {
       state.selectedColumnIds = action.payload;
     },
-    updateColumnStates: (
-      state,
-      action: PayloadAction<{ [id: string]: ColumnState }>
-    ) => {
-      state.columnStates = action.payload;
-    },
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
       // if it's the timestamp column, add to the beginning of the array
@@ -113,7 +107,6 @@ export const tableSlice = createSlice({
 
 export const {
   updateSelectedColumns,
-  updateColumnStates,
   selectColumn,
   deselectColumn,
   reorderColumn,
