@@ -2,7 +2,12 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
-import { Channel, isChannelScalar, Record } from '../app.types';
+import {
+  Channel,
+  ExperimentParams,
+  isChannelScalar,
+  Record,
+} from '../app.types';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -26,6 +31,53 @@ export const handlers = [
   }),
   rest.get('/experiments', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(experimentsJson));
+  }),
+  rest.get('*/experiments', async (req, res, ctx) => {
+    const originalResponse = await ctx.fetch(req);
+    // Retrieve the original response data
+    const originalData = await originalResponse.json();
+    const adjustDates = (
+      dictList: ExperimentParams[],
+      rangeStart: Date,
+      rangeEnd: Date
+    ): ExperimentParams[] => {
+      const sortedList = [...dictList].sort(
+        (a, b) =>
+          new Date(a.start_date).getTime() - new Date(b.start_date).getTime()
+      );
+
+      const experimentRange =
+        (rangeEnd.getTime() - rangeStart.getTime()) / dictList.length;
+
+      let currentStartDate = rangeStart;
+
+      for (const experiment of sortedList) {
+        const startDate = currentStartDate.toISOString();
+        const endDate = new Date(
+          currentStartDate.getTime() + experimentRange
+        ).toISOString();
+
+        experiment.start_date = startDate;
+        experiment.end_date = endDate;
+
+        currentStartDate = new Date(
+          currentStartDate.getTime() + experimentRange
+        );
+      }
+
+      return sortedList;
+    };
+    // The start and end dates are derived from the
+    // operations gateway api data
+    const startDate = new Date('2022-04-07 14:16:16');
+    const endDate = new Date('2022-04-08 09:44:01');
+
+    return res(
+      ctx.status(200),
+      ctx.json(
+        adjustDates(originalData as ExperimentParams[], startDate, endDate)
+      )
+    );
   }),
   rest.get('/records', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson));

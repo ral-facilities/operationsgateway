@@ -46,7 +46,7 @@ const fetchRecords = async (
     queryParams.append('order', `${sortKey} ${value}`);
   }
 
-  const { dateRange, shotnumRange } = searchParams;
+  const { dateRange } = searchParams;
 
   let timestampObj = {};
   if (dateRange.fromDate || dateRange.toDate) {
@@ -58,23 +58,13 @@ const fetchRecords = async (
     };
   }
 
-  let shotnumObj = {};
-  if (shotnumRange.min || shotnumRange.max) {
-    shotnumObj = {
-      'metadata.shotnum': {
-        $gte: shotnumRange.min,
-        $lte: shotnumRange.max,
-      },
-    };
-  }
-
   const filtersObj = filters
     .filter((f) => f.length !== 0)
     .map((f) => JSON.parse(f));
 
   const searchObj = [];
   if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
-  if (shotnumRange.min || shotnumRange.max) searchObj.push(shotnumObj);
+
   searchObj.push(...filtersObj);
 
   if (searchObj.length > 0) {
@@ -117,7 +107,7 @@ const fetchRecordCountQuery = (
 ): Promise<number> => {
   const queryParams = new URLSearchParams();
 
-  const { dateRange, shotnumRange } = searchParams;
+  const { dateRange } = searchParams;
 
   let timestampObj = {};
   if (dateRange.fromDate || dateRange.toDate) {
@@ -129,23 +119,13 @@ const fetchRecordCountQuery = (
     };
   }
 
-  let shotnumObj = {};
-  if (shotnumRange.min || shotnumRange.max) {
-    shotnumObj = {
-      'metadata.shotnum': {
-        $gte: shotnumRange.min,
-        $lte: shotnumRange.max,
-      },
-    };
-  }
-
   const filtersObj = filters
     .filter((f) => f.length !== 0)
     .map((f) => JSON.parse(f));
 
   const searchObj = [];
   if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
-  if (shotnumRange.min || shotnumRange.max) searchObj.push(shotnumObj);
+
   searchObj.push(...filtersObj);
 
   if (searchObj.length > 0) {
