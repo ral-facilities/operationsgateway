@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
 import SessionButtons from '../session/sessionButtons.component';
-import SessionDialogue from '../session/sessionDialogue.component';
+import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
 
 type TabValue = 'Data' | 'Plots';
@@ -55,17 +55,10 @@ const ViewTabs = () => {
 
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
 
-  const [savedSession, setSavedSession] = React.useState<string | undefined>(
-    undefined
-  );
-
   const [sessionName, setSessionName] = React.useState<string | undefined>(
     undefined
   );
-  const [sessionSummary, setSessionSummary] = React.useState<
-    string | undefined
-  >(undefined);
-  console.log(savedSession);
+  const [sessionSummary, setSessionSummary] = React.useState<string>('');
 
   return (
     <Box
@@ -98,15 +91,7 @@ const ViewTabs = () => {
             <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
           </Tabs>
           <Box marginLeft="auto">
-            <SessionButtons
-              openSessionSave={() => {
-                setSessionSaveOpen(true);
-              }}
-              sessionName={sessionName}
-              sessionSummary={sessionSummary}
-              setSessionName={setSessionName}
-              setSessionSummary={setSessionSummary}
-            />
+            <SessionButtons />
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
@@ -115,10 +100,9 @@ const ViewTabs = () => {
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
         </TabPanel>
-        <SessionDialogue
+        <SaveSessionDialogue
           open={sessionSaveOpen}
           onClose={() => setSessionSaveOpen(false)}
-          setSavedSession={setSavedSession}
           sessionName={sessionName}
           sessionSummary={sessionSummary}
           setSessionName={setSessionName}

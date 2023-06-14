@@ -228,3 +228,14 @@ export const columnIconMappings = new Map()
   .set('shotnum', <Numbers />)
   .set('activeArea', <Place />)
   .set('activeExperiment', <Science />);
+
+export interface Session {
+  name: string;
+  summary: string;
+  auto_saved: boolean;
+  session_data: string;
+}
+
+export interface SaveSessionResponse {
+  session_id: string;
+}

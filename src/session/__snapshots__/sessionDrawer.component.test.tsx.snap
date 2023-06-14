@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`session Drawer renders correctly 1`] = `
+<DocumentFragment>
+  <div>
+    <div
+      class="MuiDrawer-root MuiDrawer-docked css-1korx6p-MuiDrawer-docked"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-14kuwsc-MuiPaper-root-MuiDrawer-paper"
+      >
+        <div
+          class="MuiBox-root css-1gsv261"
+        >
+          <div
+            class="MuiBox-root css-169vqz6"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rfi1dl-MuiTypography-root"
+            >
+              Workspaces
+            </p>
+            <div
+              class="MuiBox-root css-zdpt2t"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="AddCircleIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-0"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

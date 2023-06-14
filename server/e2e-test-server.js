@@ -9,7 +9,13 @@ app.get('/operationsgateway-settings.json', function (req, res) {
   // If so, use the settings file specific to E2E
   // Otherwise, use the same settings file that is also for running the app normally (yarn start etc).
   const isCiEnv = process.env.CI;
-  res.sendFile(path.resolve('./server/e2e-settings.json'));
+  res.sendFile(
+    path.resolve(
+      isCiEnv
+        ? './server/e2e-settings.json'
+        : './public/operationsgateway-settings.json'
+    )
+  );
 });
 
 app.use(

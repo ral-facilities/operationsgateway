@@ -6,24 +6,23 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
+import { useSaveSession } from '../api/sessions';
 
-interface SessionDialogueProps {
+export interface SessionDialogueProps {
   open: boolean;
   onClose: () => void;
-  setSavedSession: (session: string | undefined) => void;
   sessionName: string | undefined;
-  sessionSummary: string | undefined;
-  setSessionName: (session: string | undefined) => void;
-  setSessionSummary: (session: string | undefined) => void;
+  sessionSummary: string;
+  setSessionName: (sessionName: string | undefined) => void;
+  setSessionSummary: (sessionSummary: string) => void;
 }
 
-const SessionDialogue = (props: SessionDialogueProps) => {
+const SaveSessionDialogue = (props: SessionDialogueProps) => {
   const {
     open,
     onClose,
-    setSavedSession,
     sessionName,
     sessionSummary,
     setSessionName,
@@ -31,17 +30,24 @@ const SessionDialogue = (props: SessionDialogueProps) => {
   } = props;
 
   const state = useAppSelector(({ config, ...state }) => state);
+  const { mutate: saveSession } = useSaveSession();
+
+  const [nameError, setNameError] = useState(false);
 
   const handleExportSession = React.useCallback(() => {
-    const session = {
-      ...{ name: sessionName },
-      ...{ session_data: state },
-      ...{ summary: sessionSummary },
-      ...{ auto_saved: true },
-    };
-    setSavedSession(JSON.stringify(session));
-    onClose();
-  }, [onClose, sessionName, sessionSummary, setSavedSession, state]);
+    if (sessionName) {
+      const session = {
+        name: sessionName,
+        session_data: JSON.stringify(state),
+        summary: sessionSummary,
+        auto_saved: false,
+      };
+      saveSession(session);
+      onClose();
+    } else {
+      setNameError(true);
+    }
+  }, [onClose, saveSession, sessionName, sessionSummary, state]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
@@ -51,8 +57,11 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           label="Name*"
           sx={{ width: '100%', margin: '4px' }}
           value={sessionName}
+          error={nameError}
+          helperText={nameError && 'Please enter a name'}
           onChange={(event) => {
             setSessionName(event.target.value ? event.target.value : undefined);
+            setNameError(false); // Reset the error when the user makes changes
           }}
         />
         <TextField
@@ -61,18 +70,16 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           multiline
           value={sessionSummary}
           onChange={(event) => {
-            setSessionSummary(
-              event.target.value ? event.target.value : undefined
-            );
+            setSessionSummary(event.target.value ? event.target.value : '');
           }}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
-        <Button onClick={handleExportSession}> Save </Button>
+        <Button onClick={handleExportSession}>Save</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default SessionDialogue;
+export default SaveSessionDialogue;

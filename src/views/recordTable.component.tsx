@@ -54,6 +54,7 @@ const RecordTable = React.memo(
     const queryParams = useAppSelector(selectQueryParams);
     const { sort, page, resultsPerPage, searchParams } = queryParams;
     const { maxShots } = searchParams;
+
     const { data, isLoading: dataLoading } = useRecordsPaginated();
     const { data: count, isLoading: countLoading } = useRecordCount();
     const { data: availableColumns, isLoading: columnsLoading } =
