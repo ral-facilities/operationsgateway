@@ -30,7 +30,7 @@ describe('session api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual('1');
+      expect(result.current.data).toEqual({ session_id: '1' });
     });
 
     it.todo(

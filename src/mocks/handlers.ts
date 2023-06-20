@@ -27,7 +27,7 @@ export const handlers = [
     );
   }),
   rest.post('/sessions', (req, res, ctx) => {
-    const sessionID = '1';
+    const sessionID = { session_id: '1' };
     return res(ctx.status(200), ctx.json(sessionID));
   }),
   rest.get('/channels', (req, res, ctx) => {
