@@ -26,7 +26,13 @@ export const handlers = [
       )
     );
   }),
-  rest.post('/sessions', (req, res, ctx) => {
+  rest.post('/sessions', async (req, res, ctx) => {
+    const sessionsParams = new URLSearchParams(req.url.search);
+    const sessionName = sessionsParams.get('name');
+
+    if (sessionName === 'test_dup') {
+      return res(ctx.status(409), ctx.json(''));
+    }
     const sessionID = { session_id: '1' };
     return res(ctx.status(200), ctx.json(sessionID));
   }),

@@ -11,8 +11,8 @@ describe('save session dialogue', () => {
   let user;
 
   const onClose = jest.fn();
-  const setSessionName = jest.fn();
-  const setSessionSummary = jest.fn();
+  const onChangeSessionName = jest.fn();
+  const onChangeSessionSummary = jest.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SaveSessionDialogue {...props} />);
@@ -24,8 +24,8 @@ describe('save session dialogue', () => {
       onClose: onClose,
       sessionName: undefined,
       sessionSummary: '',
-      setSessionName: setSessionName,
-      setSessionSummary: setSessionSummary,
+      onChangeSessionName: onChangeSessionName,
+      onChangeSessionSummary: onChangeSessionSummary,
     };
 
     user = userEvent; // Assigning userEvent to 'user'
@@ -46,7 +46,7 @@ describe('save session dialogue', () => {
     await user.click(saveButton);
     const helperTexts = screen.getByText('Please enter a name');
     expect(helperTexts).toBeInTheDocument();
-    expect(setSessionName).not.toHaveBeenCalled();
+    expect(onChangeSessionName).not.toHaveBeenCalled();
     expect(onClose).not.toHaveBeenCalled();
   });
 
@@ -57,8 +57,22 @@ describe('save session dialogue', () => {
     user.type(nameInput, 'Test Session');
 
     await waitFor(() => {
-      expect(setSessionName).toHaveBeenCalledWith('Test Session');
+      expect(onChangeSessionName).toHaveBeenCalledWith('Test Session');
     });
+  });
+
+  it('displays error message when post request fails', async () => {
+    props = { ...props, sessionName: 'test_dup' };
+    createView();
+    const saveButton = screen.getByRole('button', { name: 'Save' });
+    await user.click(saveButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('Request failed with status code 409')
+      ).toBeInTheDocument();
+    });
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('calls setSessionSummary when input value changes', async () => {
@@ -66,7 +80,7 @@ describe('save session dialogue', () => {
     const summaryTextarea = screen.getByLabelText('Summary');
     user.type(summaryTextarea, 'Test Summary');
     await waitFor(() => {
-      expect(setSessionSummary).toHaveBeenCalled();
+      expect(onChangeSessionSummary).toHaveBeenCalled();
     });
   });
 
@@ -86,8 +100,8 @@ describe('save session dialogue', () => {
       onClose: onClose,
       sessionName: 'Test Session',
       sessionSummary: 'Test Summary',
-      setSessionName: setSessionName,
-      setSessionSummary: setSessionSummary,
+      onChangeSessionName: onChangeSessionName,
+      onChangeSessionSummary: onChangeSessionSummary,
     };
     createView();
     const saveButton = screen.getByRole('button', { name: 'Save' });

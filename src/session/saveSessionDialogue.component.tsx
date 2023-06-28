@@ -15,8 +15,8 @@ export interface SessionDialogueProps {
   onClose: () => void;
   sessionName: string | undefined;
   sessionSummary: string;
-  setSessionName: (sessionName: string | undefined) => void;
-  setSessionSummary: (sessionSummary: string) => void;
+  onChangeSessionName: (sessionName: string | undefined) => void;
+  onChangeSessionSummary: (sessionSummary: string) => void;
 }
 
 const SaveSessionDialogue = (props: SessionDialogueProps) => {
@@ -25,14 +25,22 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     onClose,
     sessionName,
     sessionSummary,
-    setSessionName,
-    setSessionSummary,
+    onChangeSessionName,
+    onChangeSessionSummary,
   } = props;
 
   const state = useAppSelector(({ config, ...state }) => state);
-  const { mutate: saveSession } = useSaveSession();
+  const { mutateAsync: saveSession } = useSaveSession();
 
-  const [nameError, setNameError] = useState(false);
+  const [nameError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
+    undefined
+  );
+  const handleClose = React.useCallback(() => {
+    onClose();
+    onChangeSessionName(undefined);
+    onChangeSessionSummary('');
+  }, [onClose, onChangeSessionName, onChangeSessionSummary]);
 
   const handleExportSession = React.useCallback(() => {
     if (sessionName) {
@@ -42,12 +50,18 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
         summary: sessionSummary,
         auto_saved: false,
       };
-      saveSession(session);
-      onClose();
+      saveSession(session)
+        .then((response) => handleClose())
+        .catch((error) => {
+          setError(true);
+          console.log(error.message);
+          setErrorMessage(error.message);
+        });
     } else {
-      setNameError(true);
+      setError(true);
+      setErrorMessage('Please enter a name');
     }
-  }, [onClose, saveSession, sessionName, sessionSummary, state]);
+  }, [handleClose, saveSession, sessionName, sessionSummary, state]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
@@ -58,10 +72,12 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
           sx={{ width: '100%', margin: '4px' }}
           value={sessionName}
           error={nameError}
-          helperText={nameError && 'Please enter a name'}
+          helperText={nameError && errorMessage}
           onChange={(event) => {
-            setSessionName(event.target.value ? event.target.value : undefined);
-            setNameError(false); // Reset the error when the user makes changes
+            onChangeSessionName(
+              event.target.value ? event.target.value : undefined
+            );
+            setError(false); // Reset the error when the user makes changes
           }}
         />
         <TextField
@@ -70,7 +86,9 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
           multiline
           value={sessionSummary}
           onChange={(event) => {
-            setSessionSummary(event.target.value ? event.target.value : '');
+            onChangeSessionSummary(
+              event.target.value ? event.target.value : ''
+            );
           }}
         />
       </DialogContent>

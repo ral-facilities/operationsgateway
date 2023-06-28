@@ -105,8 +105,8 @@ const ViewTabs = () => {
           onClose={() => setSessionSaveOpen(false)}
           sessionName={sessionName}
           sessionSummary={sessionSummary}
-          setSessionName={setSessionName}
-          setSessionSummary={setSessionSummary}
+          onChangeSessionName={setSessionName}
+          onChangeSessionSummary={setSessionSummary}
         />
       </Box>
     </Box>
