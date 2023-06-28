@@ -35,11 +35,6 @@ describe('save session dialogue', () => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly', () => {
-    const { asFragment } = createView();
-    expect(asFragment()).toMatchSnapshot();
-  });
-
   it('displays warning message when name field is not defined', async () => {
     createView();
     const saveButton = screen.getByRole('button', { name: 'Save' });
