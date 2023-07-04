@@ -36,6 +36,7 @@ describe('searchBar component', () => {
     user = userEvent.setup();
     props = {
       expanded: true,
+      sessionId: '1',
     };
   });
 

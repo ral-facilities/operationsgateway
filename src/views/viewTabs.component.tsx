@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
-import SessionButtons from '../session/sessionButtons.component';
+import SessionSaveButtons from '../session/sessionSaveButtons.component';
 import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
 
@@ -59,6 +59,9 @@ const ViewTabs = () => {
     undefined
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
+  const [sessionId, setSessionId] = React.useState<string | undefined>(
+    undefined
+  );
 
   return (
     <Box
@@ -73,6 +76,8 @@ const ViewTabs = () => {
         openSessionSave={() => {
           setSessionSaveOpen(true);
         }}
+        sessionId={sessionId}
+        onChangeSessionId={setSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -91,11 +96,11 @@ const ViewTabs = () => {
             <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
           </Tabs>
           <Box marginLeft="auto">
-            <SessionButtons />
+            <SessionSaveButtons />
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView />
+          <DataView sessionId={sessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />

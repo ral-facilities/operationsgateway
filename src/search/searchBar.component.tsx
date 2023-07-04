@@ -5,7 +5,7 @@ import Timeframe, {
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
-import MaxShots from './components/maxShots.component';
+import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import { isBefore } from 'date-fns';
 import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import {
@@ -48,10 +48,12 @@ export type TimeframeDates = {
 
 interface SearchBarProps {
   expanded: boolean;
+  sessionId: string | undefined;
 }
 
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
+  const { expanded, sessionId } = props;
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const {
@@ -265,24 +267,32 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   // Updates the search fields when a session is loaded
   React.useEffect(() => {
-    if (shotnumRange) {
-      setSearchParameterShotnumMax(shotnumRange.max);
-      setSearchParameterShotnumMin(shotnumRange.min);
+    if (dateRange.fromDate) {
+      setSearchParameterFromDate(new Date(dateRange.fromDate));
     }
+    if (dateRange.toDate) {
+      setSearchParameterToDate(new Date(dateRange.toDate));
+    }
+
     if (experimentID) {
       setSearchParameterExperiment(experimentID);
     }
 
-    if (dateRange.fromDate && dateRange.toDate) {
-      const reduxSessionFromDate = new Date(dateRange.fromDate);
-      const reduxSessionToDate = new Date(dateRange.toDate);
-      setSearchParameterFromDate(reduxSessionFromDate);
-      setSearchParameterToDate(reduxSessionToDate);
+    setMaxShots(maxShotsParam);
+  }, [dateRange, experimentID, maxShotsParam]);
+
+  // removes all the search fields when a session is loaded
+  React.useEffect(() => {
+    if (sessionId) {
+      setSearchParameterExperiment(null);
+      setSearchParameterFromDate(null);
+      setSearchParameterToDate(null);
+      setSearchParameterShotnumMin(undefined);
+      setSearchParameterShotnumMax(undefined);
+      setMaxShots(MAX_SHOTS_VALUES[0]);
     }
-    if (maxShotsParam) {
-      setMaxShots(maxShotsParam);
-    }
-  }, [dateRange, experimentID, maxShotsParam, shotnumRange]);
+  }, [sessionId]);
+
   // ##################################################
   // Check for vaild Date Ranges and Shot Number Ranges
   // ##################################################
@@ -454,8 +464,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setRefreshingData(false);
     }
   }, [handleSearch, refreshingData]);
-
-  const { expanded } = props;
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>

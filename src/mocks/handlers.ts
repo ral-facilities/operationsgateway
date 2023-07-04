@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
+import sessionsJson from './sessionsList.json';
 import {
   Channel,
   ExperimentParams,
@@ -35,6 +36,22 @@ export const handlers = [
     }
     const sessionID = { session_id: '1' };
     return res(ctx.status(200), ctx.json(sessionID));
+  }),
+  rest.get('/sessions/list', async (req, res, ctx) => {
+    // const sessionData = sessionsJson.find((session) => session._id === '1');
+    // console.log(sessionData?.session_data);
+    return res(ctx.status(200), ctx.json(sessionsJson));
+  }),
+  rest.get('/sessions/:id', async (req, res, ctx) => {
+    const session_id = req.url.pathname.replace('/sessions/', '');
+    const sessionData = sessionsJson.find(
+      (session) => session._id === session_id
+    );
+    if (sessionData) {
+      return res(ctx.status(200), ctx.json(sessionData));
+    } else {
+      return res(ctx.status(400), ctx.json(''));
+    }
   }),
   rest.get('/channels', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(channelsJson));
