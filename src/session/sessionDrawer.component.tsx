@@ -68,15 +68,15 @@ const SessionListElement = (
         >
           {session.name}
         </Typography>
+        <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
+          <IconButton>
+            <EditIcon sx={{ fontSize: '1em' }} />
+          </IconButton>
+          <IconButton>
+            <DeleteIcon sx={{ fontSize: '1em' }} />
+          </IconButton>
+        </Box>
       </Button>
-      <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
-        <IconButton>
-          <EditIcon sx={{ fontSize: '1em' }} />
-        </IconButton>
-        <IconButton>
-          <DeleteIcon sx={{ fontSize: '1em' }} />
-        </IconButton>
-      </Box>
     </Box>
   );
 };
