@@ -79,7 +79,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.5.1"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.1.0"],\
+            ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
@@ -9195,11 +9195,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["cross-fetch", [\
-        ["npm:3.1.5", {\
-          "packageLocation": "./.yarn/cache/cross-fetch-npm-3.1.5-e414995db9-f6b8c6ee3e.zip/node_modules/cross-fetch/",\
+        ["npm:3.1.6", {\
+          "packageLocation": "./.yarn/cache/cross-fetch-npm-3.1.6-cdb982d446-704b3519ab.zip/node_modules/cross-fetch/",\
           "packageDependencies": [\
-            ["cross-fetch", "npm:3.1.5"],\
-            ["node-fetch", "virtual:e414995db9c779306e687c7a7c66965e66d0cd7270f6b9fc4f00cc9772c5d50b305ab83e142e0e21dbf10968f7437cbdfcb170d05f4bde68707ac7d0082c9cca#npm:2.6.7"]\
+            ["cross-fetch", "npm:3.1.6"],\
+            ["node-fetch", "virtual:cdb982d44661592ebbafe07217ec5667306fff17f8dbc22b1882f154f5441ce269c7f262b8dec39e8a578c85f617449d9637bdc205e5c7921787c7268959c215#npm:2.6.12"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -12847,11 +12847,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next-http-backend", [\
-        ["npm:2.1.0", {\
-          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.1.0-53cfc6f2d8-6cc31203c0.zip/node_modules/i18next-http-backend/",\
+        ["npm:2.2.1", {\
+          "packageLocation": "./.yarn/cache/i18next-http-backend-npm-2.2.1-f14f9b500b-a3f33b4555.zip/node_modules/i18next-http-backend/",\
           "packageDependencies": [\
-            ["i18next-http-backend", "npm:2.1.0"],\
-            ["cross-fetch", "npm:3.1.5"]\
+            ["i18next-http-backend", "npm:2.2.1"],\
+            ["cross-fetch", "npm:3.1.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15549,7 +15549,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["inquirer", "npm:8.2.5"],\
             ["is-node-process", "npm:1.2.0"],\
             ["js-levenshtein", "npm:1.1.6"],\
-            ["node-fetch", "virtual:364b54c09ea4ec76dfe139e23e9e28b848c973f2d30c860630a580a11765822f31e738af517ca3a5cf81394158604ef4d7616a853aa702a3be26352305d8bec0#npm:2.6.9"],\
+            ["node-fetch", "virtual:cdb982d44661592ebbafe07217ec5667306fff17f8dbc22b1882f154f5441ce269c7f262b8dec39e8a578c85f617449d9637bdc205e5c7921787c7268959c215#npm:2.6.12"],\
             ["outvariant", "npm:1.4.0"],\
             ["path-to-regexp", "npm:6.2.1"],\
             ["strict-event-emitter", "npm:0.4.6"],\
@@ -15653,38 +15653,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["node-fetch", [\
-        ["npm:2.6.7", {\
-          "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.7-777aa2a6df-8d816ffd1e.zip/node_modules/node-fetch/",\
+        ["npm:2.6.12", {\
+          "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.12-48619ce9d6-3bc1655203.zip/node_modules/node-fetch/",\
           "packageDependencies": [\
-            ["node-fetch", "npm:2.6.7"]\
+            ["node-fetch", "npm:2.6.12"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["npm:2.6.9", {\
-          "packageLocation": "./.yarn/cache/node-fetch-npm-2.6.9-9fc9a54529-acb04f9ce7.zip/node_modules/node-fetch/",\
+        ["virtual:cdb982d44661592ebbafe07217ec5667306fff17f8dbc22b1882f154f5441ce269c7f262b8dec39e8a578c85f617449d9637bdc205e5c7921787c7268959c215#npm:2.6.12", {\
+          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-464d8c13cb/0/cache/node-fetch-npm-2.6.12-48619ce9d6-3bc1655203.zip/node_modules/node-fetch/",\
           "packageDependencies": [\
-            ["node-fetch", "npm:2.6.9"]\
-          ],\
-          "linkType": "SOFT"\
-        }],\
-        ["virtual:364b54c09ea4ec76dfe139e23e9e28b848c973f2d30c860630a580a11765822f31e738af517ca3a5cf81394158604ef4d7616a853aa702a3be26352305d8bec0#npm:2.6.9", {\
-          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-dd7372115d/0/cache/node-fetch-npm-2.6.9-9fc9a54529-acb04f9ce7.zip/node_modules/node-fetch/",\
-          "packageDependencies": [\
-            ["node-fetch", "virtual:364b54c09ea4ec76dfe139e23e9e28b848c973f2d30c860630a580a11765822f31e738af517ca3a5cf81394158604ef4d7616a853aa702a3be26352305d8bec0#npm:2.6.9"],\
-            ["@types/encoding", null],\
-            ["encoding", null],\
-            ["whatwg-url", "npm:5.0.0"]\
-          ],\
-          "packagePeers": [\
-            "@types/encoding",\
-            "encoding"\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["virtual:e414995db9c779306e687c7a7c66965e66d0cd7270f6b9fc4f00cc9772c5d50b305ab83e142e0e21dbf10968f7437cbdfcb170d05f4bde68707ac7d0082c9cca#npm:2.6.7", {\
-          "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-10f4bc17d9/0/cache/node-fetch-npm-2.6.7-777aa2a6df-8d816ffd1e.zip/node_modules/node-fetch/",\
-          "packageDependencies": [\
-            ["node-fetch", "virtual:e414995db9c779306e687c7a7c66965e66d0cd7270f6b9fc4f00cc9772c5d50b305ab83e142e0e21dbf10968f7437cbdfcb170d05f4bde68707ac7d0082c9cca#npm:2.6.7"],\
+            ["node-fetch", "virtual:cdb982d44661592ebbafe07217ec5667306fff17f8dbc22b1882f154f5441ce269c7f262b8dec39e8a578c85f617449d9637bdc205e5c7921787c7268959c215#npm:2.6.12"],\
             ["@types/encoding", null],\
             ["encoding", null],\
             ["whatwg-url", "npm:5.0.0"]\
@@ -16082,7 +16061,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:22.5.1"],\
             ["i18next-browser-languagedetector", "npm:7.0.0"],\
-            ["i18next-http-backend", "npm:2.1.0"],\
+            ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
