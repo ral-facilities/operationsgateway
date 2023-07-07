@@ -4,8 +4,7 @@
 // in cases like main OG window tabbed out, or minimized etc)
 import 'hacktimer';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import ReactDOMClient from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as log from 'loglevel';
@@ -14,8 +13,7 @@ import axios from 'axios';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
-import { store } from './state/store';
-import { Provider } from 'react-redux';
+
 import './index.css';
 
 export const pluginName = 'operationsgateway';
@@ -24,12 +22,10 @@ const render = (): void => {
   const el = document.getElementById(pluginName);
   if (!el) throw new Error(`${pluginName} div missing in index.html`);
 
-  const root = createRoot(el);
+  const root = ReactDOMClient.createRoot(el);
   root.render(
     // <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
     // </React.StrictMode>
   );
 };
@@ -49,7 +45,7 @@ function domElementGetter(): HTMLElement {
 // May be worth investigating further
 const reactLifecycles = singleSpaReact({
   React,
-  ReactDOM,
+  ReactDOMClient,
   rootComponent: App,
   domElementGetter,
   errorBoundary: (error) => {

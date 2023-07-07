@@ -2,7 +2,12 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
-import { Channel, isChannelScalar, Record } from '../app.types';
+import {
+  Channel,
+  ExperimentParams,
+  isChannelScalar,
+  Record,
+} from '../app.types';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -27,11 +32,144 @@ export const handlers = [
   rest.get('/experiments', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(experimentsJson));
   }),
+  rest.get('*/experiments', async (req, res, ctx) => {
+    const originalResponse = await ctx.fetch(req);
+    // Retrieve the original response data
+    const originalData = await originalResponse.json();
+    const adjustDates = (
+      dictList: ExperimentParams[],
+      rangeStart: Date,
+      rangeEnd: Date
+    ): ExperimentParams[] => {
+      const sortedList = [...dictList].sort(
+        (a, b) =>
+          new Date(a.start_date).getTime() - new Date(b.start_date).getTime()
+      );
+
+      const experimentRange =
+        (rangeEnd.getTime() - rangeStart.getTime()) / dictList.length;
+
+      let currentStartDate = rangeStart;
+
+      for (const experiment of sortedList) {
+        const startDate = currentStartDate.toISOString();
+        const endDate = new Date(
+          currentStartDate.getTime() + experimentRange
+        ).toISOString();
+
+        experiment.start_date = startDate;
+        experiment.end_date = endDate;
+
+        currentStartDate = new Date(
+          currentStartDate.getTime() + experimentRange
+        );
+      }
+
+      return sortedList;
+    };
+    // The start and end dates are derived from the
+    // operations gateway api data
+    const startDate = new Date('2022-04-07 14:16:16');
+    const endDate = new Date('2022-04-08 09:44:01');
+
+    return res(
+      ctx.status(200),
+      ctx.json(
+        adjustDates(originalData as ExperimentParams[], startDate, endDate)
+      )
+    );
+  }),
   rest.get('/records', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson));
   }),
   rest.get('/records/count', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recordsJson.length));
+  }),
+  rest.get('/records/range_converter', (req, res, ctx) => {
+    const searchParams = new URLSearchParams(req.url.search);
+    const shotnumRange = searchParams.get('shotnum_range');
+    const dateRange = searchParams.get('date_range');
+
+    if (shotnumRange) {
+      const { min, max } = JSON.parse(decodeURIComponent(shotnumRange));
+      const shotnumMin = Number(min);
+      const shotnumMax = Number(max);
+
+      const shotnumRangeRecord = recordsJson.filter((record) => {
+        return (
+          record.metadata.shotnum >= shotnumMin &&
+          record.metadata.shotnum <= shotnumMax
+        );
+      });
+
+      const { shotnumMaxRecord, shotnumMinRecord } = shotnumRangeRecord.reduce(
+        (acc, record) => {
+          if (record.metadata.shotnum > acc.shotnumMaxRecord.metadata.shotnum) {
+            acc.shotnumMaxRecord = record;
+          }
+
+          if (record.metadata.shotnum < acc.shotnumMinRecord.metadata.shotnum) {
+            acc.shotnumMinRecord = record;
+          }
+
+          return acc;
+        },
+        {
+          shotnumMaxRecord: shotnumRangeRecord[0],
+          shotnumMinRecord: shotnumRangeRecord[0],
+        }
+      );
+
+      const reponseData = {
+        from: shotnumMinRecord.metadata.timestamp,
+        to: shotnumMaxRecord.metadata.timestamp,
+      };
+
+      return res(ctx.status(200), ctx.json(reponseData));
+    } else if (dateRange) {
+      const { from: fromDate, to: toDate } = JSON.parse(
+        decodeURIComponent(dateRange)
+      );
+
+      const dateRangeRecord = recordsJson.filter((record) => {
+        return (
+          new Date(record.metadata.timestamp) >= new Date(fromDate) &&
+          new Date(record.metadata.timestamp) <= new Date(toDate)
+        );
+      });
+
+      const { fromDateRecord, toDateRecord } = dateRangeRecord.reduce(
+        (acc, record) => {
+          if (
+            new Date(record.metadata.timestamp) >
+            new Date(acc.fromDateRecord.metadata.timestamp)
+          ) {
+            acc.toDateRecord = record;
+          }
+
+          if (
+            new Date(record.metadata.timestamp) <
+            new Date(acc.toDateRecord.metadata.timestamp)
+          ) {
+            acc.fromDateRecord = record;
+          }
+
+          return acc;
+        },
+        {
+          fromDateRecord: dateRangeRecord[0],
+          toDateRecord: dateRangeRecord[0],
+        }
+      );
+
+      const reponseData = {
+        min: fromDateRecord.metadata.shotnum,
+        max: toDateRecord.metadata.shotnum,
+      };
+      return res(ctx.status(200), ctx.json(reponseData));
+    } else {
+      return res(ctx.status(500), ctx.json(undefined));
+    }
   }),
   rest.get('/channels/summary/:channelName', (req, res, ctx) => {
     const { channelName } = req.params;

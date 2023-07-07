@@ -6,6 +6,9 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
+import { ExperimentParams } from '../../app.types';
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { styled } from '@mui/material/styles';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {
@@ -14,6 +17,78 @@ export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
     return true;
   }
   return date1 !== null && date2 !== null && isEqual(date1, date2);
+};
+
+interface CustomPickerDayProps extends PickersDayProps<Date> {
+  dayIsBetween: boolean;
+  isFirstDay: boolean;
+  isLastDay: boolean;
+}
+
+export const CustomPickersDay = styled(PickersDay, {
+  shouldForwardProp: (prop) =>
+    prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
+})<CustomPickerDayProps>(({ theme, dayIsBetween, isFirstDay, isLastDay }) => ({
+  ...(dayIsBetween && {
+    borderRadius: 0,
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    '&:hover, &:focus': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  }),
+  ...(isFirstDay && {
+    borderTopLeftRadius: '50%',
+    borderBottomLeftRadius: '50%',
+  }),
+  ...(isLastDay && {
+    borderTopRightRadius: '50%',
+    borderBottomRightRadius: '50%',
+  }),
+})) as React.ComponentType<CustomPickerDayProps>;
+
+export const renderExperimentPickerDay = (
+  selectedDate: Date | null,
+  experiments: ExperimentParams[],
+  isDateTimeInExperiment: (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ) => boolean,
+  date: Date,
+  selectedDates: Array<Date | null>,
+  pickersDayProps: PickersDayProps<Date>
+): React.ReactElement => {
+  if (!selectedDate) {
+    return <PickersDay {...pickersDayProps} />;
+  }
+
+  selectedDate.setSeconds(0);
+
+  const experimentRange = experiments.find((experiment) =>
+    isDateTimeInExperiment(selectedDate, experiment)
+  );
+
+  if (!experimentRange) {
+    return <PickersDay {...pickersDayProps} />;
+  }
+
+  const start = new Date(experimentRange.start_date);
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(experimentRange.end_date);
+  const currentDate = new Date(date);
+  const dayIsBetween = date >= start && date <= end;
+  const isFirstDay = currentDate.getDate() === start.getDate();
+  const isLastDay = currentDate.getDate() === end.getDate();
+
+  return (
+    <CustomPickersDay
+      {...pickersDayProps}
+      disableMargin
+      dayIsBetween={dayIsBetween}
+      isFirstDay={isFirstDay}
+      isLastDay={isLastDay}
+    />
+  );
 };
 
 export interface VerifyAndUpdateDateParams {
@@ -52,6 +127,16 @@ export interface DateTimeSearchProps {
   changeSearchParameterToDate: (toDate: Date | null) => void;
   resetTimeframe: () => void;
   timeframeRange: TimeframeRange | null;
+  resetExperimentTimeframe: () => void;
+  searchParameterExperiment: ExperimentParams | null;
+  experiments: ExperimentParams[];
+  resetShotnumberRange: () => void;
+  isShotnumToDate: boolean;
+  isDateTimeInExperiment: (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ) => boolean;
+  invalidDateRange: boolean;
 }
 
 /**
@@ -80,6 +165,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     changeSearchParameterToDate,
     resetTimeframe,
     timeframeRange,
+    resetExperimentTimeframe,
+    searchParameterExperiment,
+    experiments,
+    resetShotnumberRange,
+    isShotnumToDate,
+    isDateTimeInExperiment,
+    invalidDateRange,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -98,11 +190,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   const [datePickerToDateError, setDatePickerToDateError] =
     React.useState<boolean>(false);
 
-  const invalidDateRange =
-    datePickerFromDate &&
-    datePickerToDate &&
-    isBefore(datePickerToDate, datePickerFromDate);
-
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
   const [flashAnimationPlaying, setFlashAnimationPlaying] =
@@ -112,13 +199,17 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   // (use setTimeout 0 to make it happen on next browser cycle - needed to restart animation)
   // this uses different method to others as the datetime can be quickly changed via the timeframe component
   React.useLayoutEffect(() => {
-    if (!!timeframeRange) {
+    if (
+      !!timeframeRange ||
+      (!!searchParameterExperiment && !isShotnumToDate) ||
+      (isShotnumToDate && !searchParameterExperiment)
+    ) {
       setFlashAnimationPlaying(false);
       setTimeout(() => {
         setFlashAnimationPlaying(true);
       }, 0);
     }
-  }, [timeframeRange]);
+  }, [timeframeRange, searchParameterExperiment, isShotnumToDate]);
 
   return (
     <Box
@@ -156,6 +247,17 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
+
+                resetShotnumberRange();
+
+                if (searchParameterExperiment && date) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
+                    resetExperimentTimeframe();
+                  }
+                }
+
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date,
@@ -169,6 +271,14 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
+                resetShotnumberRange();
+                if (searchParameterExperiment && date) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
+                    resetExperimentTimeframe();
+                  }
+                }
                 verifyAndUpdateDate({
                   date: date,
                   prevDate: searchParameterFromDate,
@@ -185,6 +295,16 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'from, date-time picker',
               }}
+              renderDay={(date, selectedDates, pickersDayProps) =>
+                renderExperimentPickerDay(
+                  datePickerToDate,
+                  experiments,
+                  isDateTimeInExperiment,
+                  date,
+                  selectedDates,
+                  pickersDayProps
+                )
+              }
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
@@ -201,7 +321,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                       placeholder: 'From...',
                       'aria-label': 'from, date-time input',
                       sx: {
-                        fontSize: 12,
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
                       },
                     }}
                     variant="standard"
@@ -231,11 +352,19 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
               componentsProps={{
-                actionBar: { actions: ['clear'] },
+                actionBar: { actions: ['clear', 'today'] },
               }}
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetShotnumberRange();
+                if (searchParameterExperiment && date) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
+                    resetExperimentTimeframe();
+                  }
+                }
                 if (!popupOpen) {
                   verifyAndUpdateDate({
                     date: date as Date,
@@ -249,6 +378,14 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                resetShotnumberRange();
+                if (searchParameterExperiment && date) {
+                  if (
+                    !isDateTimeInExperiment(date, searchParameterExperiment)
+                  ) {
+                    resetExperimentTimeframe();
+                  }
+                }
                 verifyAndUpdateDate({
                   date: date as Date,
                   prevDate: searchParameterToDate,
@@ -265,6 +402,16 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 size: 'small',
                 'aria-label': 'to, date-time picker',
               }}
+              renderDay={(date, selectedDates, pickersDayProps) =>
+                renderExperimentPickerDay(
+                  datePickerFromDate,
+                  experiments,
+                  isDateTimeInExperiment,
+                  date,
+                  selectedDates,
+                  pickersDayProps
+                )
+              }
               renderInput={(renderProps) => {
                 const error =
                   (renderProps.error || invalidDateRange) ?? undefined;
@@ -281,7 +428,8 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                       placeholder: 'To...',
                       'aria-label': 'to, date-time input',
                       sx: {
-                        fontSize: 12,
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
                       },
                     }}
                     variant="standard"

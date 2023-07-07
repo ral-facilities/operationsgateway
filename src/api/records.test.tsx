@@ -20,6 +20,8 @@ import {
   useIncomingRecordCount,
   useRecordsPaginated,
   useThumbnails,
+  useShotnumToDateConverter,
+  useDateToShotnumConverter,
 } from './records';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
@@ -101,7 +103,7 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -130,7 +132,7 @@ describe('records api functions', () => {
       const request = await pendingRequest;
 
       // We should have made one call to /records/count
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
       expect(incomingRecordCountResult.current.data).toEqual(
         recordsJson.length
       );
@@ -166,6 +168,60 @@ describe('records api functions', () => {
 
     it.todo(
       'sends axios request to fetch record count and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useShotnumToDateConverter', () => {
+    it('send a request to fetch date using ShotnumToDateConverter and returns a succesful response', async () => {
+      const expectedReponse = {
+        from: '2022-01-04T00:00:00',
+        to: '2022-01-18T00:00:00',
+        min: 4,
+        max: 19,
+      };
+
+      const { result } = renderHook(
+        () =>
+          useShotnumToDateConverter(expectedReponse.min, expectedReponse.max),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useDateToShotnumConverter', () => {
+    it('send a request to fetch date usingDateToShotnumConverter and returns a succesful response', async () => {
+      const expectedReponse = {
+        from: '2021-12-01T00:00:00',
+        to: '2022-01-19T00:00:00',
+        min: 1,
+        max: 18,
+      };
+
+      const { result } = renderHook(
+        () =>
+          useDateToShotnumConverter(expectedReponse.from, expectedReponse.to),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+    it.todo(
+      'sends axios request to fetch records and throws an appropriate error on failure'
     );
   });
 
@@ -226,7 +282,7 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -273,7 +329,7 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -305,7 +361,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
 
       expect(result.current.data).toMatchSnapshot();
     });
@@ -361,7 +417,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
   });
 
@@ -411,7 +467,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '50');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
 
       const expectedData: PlotDataset[] = [
         {
@@ -481,7 +537,7 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '1000');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
 
       const expectedData: PlotDataset[] = [
         {
@@ -535,7 +591,7 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
   });
 
@@ -568,7 +624,7 @@ describe('records api functions', () => {
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
 
       expect(result.current.data).toEqual(recordsJson);
     });
@@ -626,7 +682,7 @@ describe('records api functions', () => {
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
 
-      expect(request.url.searchParams).toEqual(params);
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
   });
 

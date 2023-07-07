@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import WindowPortal from './windowPortal.component';
+import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
 import type { WindowPortalProps } from './windowPortal.component';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;
@@ -11,8 +12,8 @@ describe('Window portal component', () => {
   const mockAddEventListener = jest.fn();
   const mockRemoveEventListener = jest.fn();
   const mockWindowClose = jest.fn();
-  const newDocument =
-    global.window.document.implementation.createHTMLDocument();
+  let newDocument: Document;
+  const theme = createTheme({ palette: { mode: 'dark' } });
 
   Object.defineProperty(window, 'open', {
     value: () => {
@@ -27,12 +28,14 @@ describe('Window portal component', () => {
 
   const createView = () =>
     render(
-      <WindowPortal {...props}>
+      <WindowPortal {...props} theme={theme}>
         <TestComponent />
       </WindowPortal>
     );
 
   beforeEach(() => {
+    newDocument = global.window.document.implementation.createHTMLDocument();
+
     props = {
       title: 'test title',
       onClose,
@@ -68,7 +71,7 @@ describe('Window portal component', () => {
     const { rerender } = createView();
 
     rerender(
-      <WindowPortal {...props} title="new test title">
+      <WindowPortal {...props} title="new test title" theme={theme}>
         <TestComponent />
       </WindowPortal>
     );
@@ -84,7 +87,7 @@ describe('Window portal component', () => {
     const newMockOnClose = jest.fn();
 
     rerender(
-      <WindowPortal {...props} onClose={newMockOnClose}>
+      <WindowPortal {...props} onClose={newMockOnClose} theme={theme}>
         <TestComponent />
       </WindowPortal>
     );
@@ -97,5 +100,38 @@ describe('Window portal component', () => {
       'beforeunload',
       newMockOnClose
     );
+  });
+
+  it('changes colour theme on theme prop change', () => {
+    const { rerender } = createView();
+
+    const newTheme = createTheme({
+      palette: {
+        mode: 'light',
+      },
+    });
+
+    rerender(
+      <WindowPortal {...props} theme={newTheme}>
+        <TestComponent />
+      </WindowPortal>
+    );
+
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(newDocument.getElementById('themeElement')?.dataset.mode).toEqual(
+      'light'
+    );
+  });
+
+  it('renders with theme inherited from ThemeProvider', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <WindowPortalWithTheme {...props}>
+          <TestComponent />
+        </WindowPortalWithTheme>
+      </ThemeProvider>
+    );
+
+    expect(newDocument.body).toMatchSnapshot();
   });
 });

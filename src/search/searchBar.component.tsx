@@ -6,6 +6,8 @@ import Timeframe, {
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
 import MaxShots from './components/maxShots.component';
+import { isBefore } from 'date-fns';
+import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import {
   Grid,
   Button,
@@ -30,7 +32,11 @@ import {
   formatDateTimeForApi,
 } from '../state/slices/searchSlice';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
-import { useIncomingRecordCount } from '../api/records';
+import {
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
+  useShotnumToDateConverter,
+} from '../api/records';
 import { useQueryClient } from '@tanstack/react-query';
 import { selectQueryFilters } from '../state/slices/filterSlice';
 import { useExperiment } from '../api/experiment';
@@ -83,6 +89,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate.setSeconds(59);
   }
 
+  const setDateRange = React.useCallback(
+    (fromDate: Date | null, toDate: Date | null) => {
+      setSearchParameterFromDate(fromDate);
+      setSearchParameterToDate(toDate);
+    },
+    []
+  );
+
   // ########################
   // TIMEFRAME
   // ########################
@@ -128,6 +142,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
     React.useState<number | undefined>(shotnumRange.max ?? undefined);
 
+  const setShotnumberRange = React.useCallback(
+    (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
+      setSearchParameterShotnumMin(shotnumMin);
+      setSearchParameterShotnumMax(shotnumMax);
+    },
+    []
+  );
+
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
 
@@ -138,6 +160,130 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const { data: experiments } = useExperiment();
   const [searchParameterExperiment, setSearchParameterExperiment] =
     React.useState<ExperimentParams | null>(experimentID);
+
+  const calculateExperimentDateRange = (
+    experiment: ExperimentParams
+  ): { from: Date; to: Date } => {
+    const to = new Date(experiment.end_date);
+    const from = new Date(experiment.start_date);
+
+    return { from, to };
+  };
+
+  const setExperimentTimeframe = React.useCallback(
+    (experiment: ExperimentParams | null) => {
+      if (experiment == null) {
+        setSearchParameterExperiment(null);
+        return;
+      }
+      const { from, to } = calculateExperimentDateRange(experiment);
+      setSearchParameterExperiment(experiment);
+      setSearchParameterFromDate(from);
+      setSearchParameterToDate(to);
+    },
+    []
+  );
+
+  const isDateTimeInExperiment = (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ): boolean => {
+    const startDate = new Date(experiment.start_date);
+    const endDate = new Date(experiment.end_date);
+    return dateTime >= startDate && dateTime <= endDate;
+  };
+  // Date range to shot number range converter
+  const { data: dateToShotnum } = useDateToShotnumConverter(
+    searchParameterFromDate
+      ? formatDateTimeForApi(searchParameterFromDate)
+      : undefined,
+    searchParameterToDate
+      ? formatDateTimeForApi(searchParameterToDate)
+      : undefined
+  );
+
+  // Shot number range to date range converter
+  const { data: shotnumToDate } = useShotnumToDateConverter(
+    searchParameterShotnumMin,
+    searchParameterShotnumMax
+  );
+
+  // Checks for changes to shot number range and date range
+  // This is for the animation in date time box and shotnum box
+
+  const [isShotnumToDate, setIsShotnumToDate] = React.useState<boolean>(false);
+  const [isDateToShotnum, setIsDateToShotnum] = React.useState<boolean>(false);
+
+  // handles the date range to shot number conversion
+  React.useEffect(() => {
+    setIsShotnumToDate(!dateToShotnum && !!shotnumToDate);
+    setIsDateToShotnum(!!dateToShotnum && !shotnumToDate);
+    // Sets the date range when the shot number range is selected.
+    // Additionally if the new shot number range is not within
+    // the current experiment id time frame it clears the experiment id
+    // and if a time frame range exist it clears the time frame range
+    if (!dateToShotnum && !!shotnumToDate) {
+      if (shotnumToDate.from && shotnumToDate.to) {
+        const shotnumToDateFromDate = new Date(shotnumToDate.from);
+        const shotnumToDateToDate = new Date(shotnumToDate.to);
+        setSearchParameterFromDate(shotnumToDateFromDate);
+        setSearchParameterToDate(shotnumToDateToDate);
+        if (timeframeRange) {
+          setTimeframeRange(null);
+        }
+        if (searchParameterExperiment) {
+          if (
+            !(
+              isDateTimeInExperiment(
+                shotnumToDateFromDate,
+                searchParameterExperiment
+              ) &&
+              isDateTimeInExperiment(
+                shotnumToDateToDate,
+                searchParameterExperiment
+              )
+            )
+          ) {
+            setExperimentTimeframe(null);
+          }
+        }
+      }
+      // Sets the shot number range when the date Range is selected.
+      // the logic for the timeframes and experiment timeframe is done
+      // in the dateTime component
+    } else if (!!dateToShotnum && !shotnumToDate) {
+      setSearchParameterShotnumMin(dateToShotnum.min);
+      setSearchParameterShotnumMax(dateToShotnum.max);
+    }
+  }, [
+    dateToShotnum,
+    searchParameterExperiment,
+    setExperimentTimeframe,
+    shotnumToDate,
+    timeframeRange,
+  ]);
+
+  // ##################################################
+  // Check for vaild Date Ranges and Shot Number Ranges
+  // ##################################################
+
+  const invalidDateRange =
+    (searchParameterFromDate !== null &&
+      searchParameterToDate !== null &&
+      searchParameterFromDate &&
+      searchParameterToDate &&
+      isBefore(searchParameterToDate, searchParameterFromDate)) ||
+    (!searchParameterFromDate && searchParameterToDate !== null) ||
+    (searchParameterFromDate !== null && !searchParameterToDate);
+
+  const invalidShotNumberRange =
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax !== undefined &&
+      searchParameterShotnumMin > searchParameterShotnumMax) ||
+    (searchParameterShotnumMin === undefined &&
+      searchParameterShotnumMax !== undefined) ||
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax === undefined);
 
   React.useEffect(() => {
     setParamsUpdated(true);
@@ -277,6 +423,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
   const refreshData = () => {
+    setExperimentTimeframe(searchParameterExperiment);
     setRelativeTimeframe(timeframeRange);
     setRefreshingData(true);
   };
@@ -304,12 +451,25 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   changeSearchParameterToDate={setSearchParameterToDate}
                   resetTimeframe={() => setRelativeTimeframe(null)}
                   timeframeRange={timeframeRange}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  searchParameterExperiment={searchParameterExperiment}
+                  experiments={experiments ?? []}
+                  resetShotnumberRange={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
+                  isShotnumToDate={isShotnumToDate}
+                  isDateTimeInExperiment={isDateTimeInExperiment}
+                  invalidDateRange={invalidDateRange}
                 />
               </Grid>
               <Grid item xs={2}>
                 <Timeframe
                   timeframe={timeframeRange}
                   changeTimeframe={setRelativeTimeframe}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  resetShotnumber={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
                 />
               </Grid>
               <Grid item xs={2}>
@@ -317,6 +477,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   experiments={experiments ?? []}
                   onExperimentChange={setSearchParameterExperiment}
                   experiment={searchParameterExperiment}
+                  resetTimeframe={() => setRelativeTimeframe(null)}
+                  changeExperimentTimeframe={setExperimentTimeframe}
+                  resetShotnumber={() =>
+                    setShotnumberRange(undefined, undefined)
+                  }
                 />
               </Grid>
               <Grid item xs={2}>
@@ -325,6 +490,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParameterShotnumMax={searchParameterShotnumMax}
                   changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
                   changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
+                  resetDateRange={() => setDateRange(null, null)}
+                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                  isDateToShotnum={isDateToShotnum}
+                  invalidShotNumberRange={invalidShotNumberRange}
                 />
               </Grid>
               <Grid item xs={1}>
@@ -371,6 +540,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                       variant={paramsUpdated ? 'contained' : 'outlined'}
                       sx={{ height: '100%' }}
                       onClick={handleSearch}
+                      disabled={invalidDateRange || invalidShotNumberRange}
                     >
                       Search
                     </Button>
@@ -380,6 +550,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                     variant={paramsUpdated ? 'contained' : 'outlined'}
                     sx={{ height: '100%' }}
                     onClick={handleSearch}
+                    disabled={invalidDateRange || invalidShotNumberRange}
                   >
                     Search
                   </Button>
@@ -387,7 +558,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid container direction="row">
+          <Grid container direction="row" columnGap={5}>
             <Grid item>
               <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
             </Grid>
@@ -395,6 +566,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               <DataRefresh
                 timeframeSet={!!timeframeRange}
                 refreshData={refreshData}
+              />
+            </Grid>
+            <Grid item>
+              <AutoRefreshToggle
+                enabled={Boolean(timeframeRange)}
+                onRequestRefresh={refreshData}
               />
             </Grid>
           </Grid>

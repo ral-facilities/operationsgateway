@@ -7,7 +7,7 @@ exports[`shotNumber search renders correctly 1`] = `
   >
     <div
       aria-label="close shot number search box"
-      class="MuiBox-root css-o3ftni"
+      class="MuiBox-root css-1mjwt1c"
     >
       <svg
         aria-hidden="true"
@@ -38,7 +38,7 @@ exports[`shotNumber search renders correctly 1`] = `
       role="dialog"
     >
       <div
-        style="padding-top: 5px; padding-left: 5px;"
+        class="MuiBox-root css-ha9sb9"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"

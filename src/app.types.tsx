@@ -141,6 +141,13 @@ export interface DateRange {
   toDate?: string;
 }
 
+export interface DateRangetoShotnumConverter {
+  from?: string;
+  to?: string;
+  min?: number;
+  max?: number;
+}
+
 export interface ShotnumRange {
   min?: number;
   max?: number;
@@ -203,6 +210,7 @@ export type PlotDataset = {
 
 export type SelectedPlotChannel = {
   name: string;
+  units: string;
   displayName?: string;
   options: {
     visible: boolean;

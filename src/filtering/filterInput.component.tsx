@@ -62,8 +62,71 @@ const FilterInput = (props: FilterInputProps) => {
         setError('');
         setInputIndex((prevIndex) => prevIndex + -1);
       }
+      // allow selecting operators, channels, strings
+      // and numbers with Space key down
+      if (e.key === ' ') {
+        const operatorExactMatch = operators.find(
+          (opt) => opt.value === inputValue
+        );
+        const channel = channels.filter((channel) =>
+          channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+        const operatorListMatch = operators.filter((opt) =>
+          opt.value.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+
+        const newValue = [...value];
+        let newToken;
+
+        switch (true) {
+          case channel.length === 1:
+            newToken = channel[0];
+            break;
+
+          case operatorExactMatch !== undefined:
+            newToken = operatorExactMatch;
+            break;
+
+          case operatorListMatch.length === 1:
+            newToken = operatorListMatch[0];
+            break;
+
+          case !Number.isNaN(Number(inputValue)) &&
+            inputValue.trim().length > 0:
+            newToken = {
+              type: 'number',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
+
+          case (inputValue[0] === '"' &&
+            inputValue[inputValue.length - 1] === '"') ||
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'"):
+            newToken = {
+              type: 'string',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
+
+          default:
+            break;
+        }
+
+        if (typeof newToken !== 'undefined') {
+          e.preventDefault();
+          e.stopPropagation();
+          newValue.splice(inputIndex, 0, newToken as Token);
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
+      }
     },
-    [inputIndex, value, inputValue, setError, setValue]
+    [inputValue, value, setValue, setError, inputIndex, channels]
   );
 
   const clickHandler = React.useCallback<(e: React.MouseEvent) => void>(
@@ -166,7 +229,7 @@ const FilterInput = (props: FilterInputProps) => {
           const newTerm = newValue.find((v) => typeof v === 'string') as string;
           const newTermIndex = newValue.indexOf(newTerm);
           // new term is a valid number so allow it to be added
-          if (!Number.isNaN(Number(newTerm))) {
+          if (!Number.isNaN(Number(newTerm)) && inputValue.trim().length > 0) {
             newValue[newTermIndex] = {
               type: 'number',
               value: newTerm,
