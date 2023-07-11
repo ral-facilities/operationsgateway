@@ -3,9 +3,12 @@ import { screen, type RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
 import { renderComponentWithProviders } from '../setupTests';
+import SessionsListJSON from '../mocks/sessionsList.json';
 
 describe('session Drawer', () => {
   const openSessionSave = jest.fn();
+  const openSessionEdit = jest.fn();
+  const openSessionDelete = jest.fn();
   const onChangeSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
@@ -16,8 +19,11 @@ describe('session Drawer', () => {
     user = userEvent.setup();
     props = {
       openSessionSave: openSessionSave,
-      sessionId: undefined,
-      onChangeSessionId: onChangeSessionId,
+      openSessionEdit: openSessionEdit,
+      openSessionDelete: openSessionDelete,
+      selectedSessionId: undefined,
+      onChangeSelectedSessionId: onChangeSessionId,
+      sessionsList: SessionsListJSON,
     };
   });
   afterEach(() => {
@@ -53,5 +59,27 @@ describe('session Drawer', () => {
 
     expect(session1).toHaveStyle('background-color: background.paper');
     expect(session1).toHaveStyle('color: inherit');
+  });
+
+  it('a user can open the edit session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const editButtons = screen.getAllByTestId('edit-session-button');
+    await user.click(editButtons[0]);
+    expect(openSessionEdit).toHaveBeenCalled();
+  });
+
+  it('a user can open the delete session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const deleteButtons = screen.getAllByTestId('delete-session-button');
+    await user.click(deleteButtons[0]);
+    expect(openSessionDelete).toHaveBeenCalled();
   });
 });

@@ -28,6 +28,10 @@ export const handlers = [
     );
   }),
   rest.post('/sessions', async (req, res, ctx) => {
+    const sessionID = { session_id: '1' };
+    return res(ctx.status(200), ctx.json(sessionID));
+  }),
+  rest.patch('/sessions/:id', async (req, res, ctx) => {
     const sessionsParams = new URLSearchParams(req.url.search);
     const sessionName = sessionsParams.get('name');
 
@@ -37,9 +41,15 @@ export const handlers = [
     const sessionID = { session_id: '1' };
     return res(ctx.status(200), ctx.json(sessionID));
   }),
+  rest.delete('/sessions/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+
+    const validId = [1, 2, 3, 4];
+    if (validId.includes(Number(id))) {
+      return res(ctx.status(200), ctx.json(''));
+    } else res(ctx.status(422), ctx.json(''));
+  }),
   rest.get('/sessions/list', async (req, res, ctx) => {
-    // const sessionData = sessionsJson.find((session) => session._id === '1');
-    // console.log(sessionData?.session_data);
     return res(ctx.status(200), ctx.json(sessionsJson));
   }),
   rest.get('/sessions/:id', async (req, res, ctx) => {

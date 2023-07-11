@@ -1,7 +1,7 @@
 import React from 'react';
 import ViewTabs from './viewTabs.component';
 import { renderComponentWithProviders } from '../setupTests';
-import { screen, within } from '@testing-library/react';
+import { screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('View Tabs', () => {
@@ -86,5 +86,56 @@ describe('View Tabs', () => {
 
     expect(sessionNameInput).toHaveValue('Test Session');
     expect(sessionSummaryInput).toHaveValue('Test Summary');
+  });
+
+  it('opens the delete session dialogue', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+
+    const deleteButtons = screen.getAllByTestId('delete-session-button');
+
+    await user.click(deleteButtons[0]);
+
+    const deleteDialog = screen.getByRole('dialog');
+
+    expect(deleteDialog).toBeVisible();
+    expect(
+      within(deleteDialog).getByTestId('delete-session-name')
+    ).toHaveTextContent('Session 1');
+
+    const closeButton = screen.getByRole('button', { name: 'Close' });
+    user.click(closeButton);
+    await waitFor(() => {
+      expect(deleteDialog).not.toBeInTheDocument();
+    });
+  });
+
+  it('opens the edit session dialogue', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+
+    const editButtons = screen.getAllByTestId('edit-session-button');
+
+    await user.click(editButtons[0]);
+
+    const editDialog = screen.getByRole('dialog');
+
+    expect(editDialog).toBeVisible();
+    expect(
+      within(editDialog).getByDisplayValue('Session 1')
+    ).toBeInTheDocument();
+    expect(
+      within(editDialog).getByDisplayValue('This is the summary for Session 1')
+    ).toBeInTheDocument();
+
+    const closeButton = screen.getByRole('button', { name: 'Close' });
+    user.click(closeButton);
+    await waitFor(() => {
+      expect(editDialog).not.toBeInTheDocument();
+    });
   });
 });

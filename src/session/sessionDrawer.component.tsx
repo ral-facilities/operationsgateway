@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useSession, useSessionList } from '../api/sessions';
+import { useSession } from '../api/sessions';
 import { SessionList } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
@@ -23,19 +23,30 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
-  sessionId: string | undefined;
-  onChangeSessionId: (sessionId: string | undefined) => void;
+  openSessionEdit: (sessionData: SessionList) => void;
+  openSessionDelete: (sessionData: SessionList) => void;
+  sessionsList: SessionList[] | undefined;
+  selectedSessionId: string | undefined;
+  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionList {
   handleImport: (sessionId: string) => void;
   selected: boolean;
+  openSessionEdit: (sessionData: SessionList) => void;
+  openSessionDelete: (sessionData: SessionList) => void;
 }
 
 const SessionListElement = (
   props: SessionListElementProps
 ): React.ReactElement => {
-  const { selected, handleImport, ...session } = props;
+  const {
+    openSessionDelete,
+    openSessionEdit,
+    selected,
+    handleImport,
+    ...session
+  } = props;
 
   return (
     <Box
@@ -69,10 +80,22 @@ const SessionListElement = (
           {session.name}
         </Typography>
         <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
-          <IconButton>
+          <IconButton
+            onClick={(event) => {
+              event.stopPropagation();
+              openSessionEdit(session);
+            }}
+            data-testid="edit-session-button"
+          >
             <EditIcon sx={{ fontSize: '1em' }} />
           </IconButton>
-          <IconButton>
+          <IconButton
+            onClick={(event) => {
+              event.stopPropagation();
+              openSessionDelete(session);
+            }}
+            data-testid="delete-session-button"
+          >
             <DeleteIcon sx={{ fontSize: '1em' }} />
           </IconButton>
         </Box>
@@ -82,10 +105,16 @@ const SessionListElement = (
 };
 
 const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
-  const { openSessionSave, sessionId, onChangeSessionId } = props;
-  const { data: sessionsList } = useSessionList();
-  const { data: sessionData, isLoading: sessionDataLoading } =
-    useSession(sessionId);
+  const {
+    openSessionSave,
+    openSessionDelete,
+    openSessionEdit,
+    sessionsList,
+    selectedSessionId,
+    onChangeSelectedSessionId,
+  } = props;
+
+  const { data: sessionData } = useSession(selectedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -93,7 +122,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        margin: '6px',
+        margin: '3.75px',
       }}
     >
       <Typography
@@ -117,11 +146,11 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     if (sessionData) {
       dispatch(importSession(JSON.parse(sessionData.session_data)));
     }
-  }, [dispatch, sessionData, sessionDataLoading]);
+  }, [dispatch, sessionData]);
 
   const handleSessionClick = (sessionId: string) => {
-    onChangeSessionId(undefined);
-    onChangeSessionId(sessionId);
+    onChangeSelectedSessionId(undefined);
+    onChangeSelectedSessionId(sessionId);
   };
 
   return (
@@ -150,7 +179,9 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                 <SessionListElement
                   {...item}
                   handleImport={handleSessionClick}
-                  selected={sessionId === item._id}
+                  selected={selectedSessionId === item._id}
+                  openSessionDelete={openSessionDelete}
+                  openSessionEdit={openSessionEdit}
                 />
               </ListItem>
             ))}

@@ -6,8 +6,11 @@ import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
 import SessionSaveButtons from '../session/sessionSaveButtons.component';
-import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
+import { useSession, useSessionList } from '../api/sessions';
+import { SessionList } from '../app.types';
+import SessionDialogue from '../session/sessionDialogue.component';
+import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -53,16 +56,45 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
+  const [sessionId, setSessionId] = React.useState<string | undefined>(
+    undefined
+  );
+
+  const [selectedSessionId, setSelectedSessionId] = React.useState<
+    string | undefined
+  >(sessionId);
+
+  const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
+
+  const { data: sessionData } = useSession(sessionId);
+
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
+  const [sessionEditOpen, setSessionEditOpen] = React.useState<boolean>(false);
+  const [sessionDeleteOpen, setSessionDeleteOpen] =
+    React.useState<boolean>(false);
 
   const [sessionName, setSessionName] = React.useState<string | undefined>(
     undefined
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
-  const [sessionId, setSessionId] = React.useState<string | undefined>(
-    undefined
-  );
 
+  const onSessionEditOpen = (sessionData: SessionList) => {
+    setSessionEditOpen(true);
+    setSessionName(sessionData.name);
+    setSessionSummary(sessionData.summary);
+    setSessionId(sessionData._id);
+  };
+
+  const onSessionDeleteOpen = (sessionData: SessionList) => {
+    setSessionDeleteOpen(true);
+    setSessionId(sessionData._id);
+  };
+  React.useEffect(() => {
+    if (!sessionEditOpen) {
+      setSessionName(undefined);
+      setSessionSummary('');
+    }
+  }, [sessionEditOpen]);
   return (
     <Box
       sx={{
@@ -76,8 +108,11 @@ const ViewTabs = () => {
         openSessionSave={() => {
           setSessionSaveOpen(true);
         }}
-        sessionId={sessionId}
-        onChangeSessionId={setSessionId}
+        openSessionEdit={onSessionEditOpen}
+        openSessionDelete={onSessionDeleteOpen}
+        sessionsList={sessionsList}
+        selectedSessionId={selectedSessionId}
+        onChangeSelectedSessionId={setSelectedSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -105,13 +140,34 @@ const ViewTabs = () => {
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
         </TabPanel>
-        <SaveSessionDialogue
+        <SessionDialogue
+          open={sessionEditOpen}
+          onClose={() => setSessionEditOpen(false)}
+          sessionName={sessionName}
+          sessionSummary={sessionSummary}
+          onChangeSessionName={setSessionName}
+          onChangeSessionSummary={setSessionSummary}
+          requestType="edit"
+          sessionData={sessionData}
+          onChangeSelectedSessionId={setSelectedSessionId}
+          refetchSessionsList={refetchSessionsList}
+        />
+        <SessionDialogue
           open={sessionSaveOpen}
           onClose={() => setSessionSaveOpen(false)}
           sessionName={sessionName}
           sessionSummary={sessionSummary}
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
+          onChangeSelectedSessionId={setSelectedSessionId}
+          requestType="create"
+          refetchSessionsList={refetchSessionsList}
+        />
+        <DeleteSessionDialogue
+          open={sessionDeleteOpen}
+          onClose={() => setSessionDeleteOpen(false)}
+          sessionData={sessionData}
+          refetchSessionsList={refetchSessionsList}
         />
       </Box>
     </Box>
