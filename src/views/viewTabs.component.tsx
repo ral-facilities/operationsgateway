@@ -135,7 +135,7 @@ const ViewTabs = () => {
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView sessionId={sessionId} />
+          <DataView sessionId={selectedSessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
