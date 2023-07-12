@@ -71,6 +71,7 @@ exports[`session Drawer renders correctly 1`] = `
               </button>
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                data-testid="edit-session-button"
                 tabindex="0"
                 type="button"
               >
@@ -91,6 +92,7 @@ exports[`session Drawer renders correctly 1`] = `
               </button>
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                data-testid="delete-session-button"
                 tabindex="0"
                 type="button"
               >
@@ -137,6 +139,7 @@ exports[`session Drawer renders correctly 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              data-testid="edit-session-button"
               tabindex="0"
               type="button"
             >
@@ -157,6 +160,7 @@ exports[`session Drawer renders correctly 1`] = `
             </button>
             <button
               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              data-testid="delete-session-button"
               tabindex="0"
               type="button"
             >
@@ -203,6 +207,7 @@ exports[`session Drawer renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+            data-testid="edit-session-button"
             tabindex="0"
             type="button"
           >
@@ -223,6 +228,7 @@ exports[`session Drawer renders correctly 1`] = `
           </button>
           <button
             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+            data-testid="delete-session-button"
             tabindex="0"
             type="button"
           >
@@ -269,6 +275,7 @@ exports[`session Drawer renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="edit-session-button"
           tabindex="0"
           type="button"
         >
@@ -289,6 +296,7 @@ exports[`session Drawer renders correctly 1`] = `
         </button>
         <button
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="delete-session-button"
           tabindex="0"
           type="button"
         >
