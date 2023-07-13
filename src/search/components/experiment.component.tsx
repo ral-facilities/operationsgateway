@@ -13,15 +13,26 @@ import {
 import { ExperimentParams } from '../../app.types';
 import { ScienceOutlined } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export interface ExperimentProps {
   experiments: ExperimentParams[];
   onExperimentChange: (experiment: ExperimentParams | null) => void;
   experiment: ExperimentParams | null;
+  resetTimeframe: () => void;
+  changeExperimentTimeframe: (value: ExperimentParams) => void;
+  resetShotnumber: () => void;
 }
 
 const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
-  const { experiments, onExperimentChange, experiment } = props;
+  const {
+    experiments,
+    onExperimentChange,
+    experiment,
+    resetTimeframe,
+    changeExperimentTimeframe,
+    resetShotnumber,
+  } = props;
 
   const [value, setValue] = React.useState<ExperimentParams | null>(null);
   const [inputValue, setInputValue] = React.useState(
@@ -34,7 +45,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
   ) => {
     return (
       <li {...props} key={option._id}>
-        {option.experiment_id}
+        {`${option.experiment_id} (part ${option.part})`}
       </li>
     );
   };
@@ -65,7 +76,13 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             getOptionLabel={(option) => option.experiment_id}
             blurOnSelect
             onChange={(event: unknown, newValue: ExperimentParams | null) => {
-              if (newValue) onExperimentChange(newValue);
+              resetTimeframe();
+
+              if (newValue) {
+                resetShotnumber();
+                changeExperimentTimeframe(newValue);
+                onExperimentChange(newValue);
+              }
               setValue(newValue);
             }}
             renderOption={renderOptions}
@@ -100,6 +117,23 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (props.experiment === null) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [props.experiment]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
@@ -111,8 +145,12 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
           display: 'flex',
           flexDirection: 'row',
           paddingRight: 5,
+          paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >
@@ -120,7 +158,9 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
         <div>
           <Typography noWrap>Experiment</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            {experiment ? `ID ${experiment.experiment_id}` : 'Select'}
+            {experiment
+              ? `ID ${experiment.experiment_id} (part ${experiment.part})`
+              : 'Select'}
           </Typography>
         </div>
       </Box>
