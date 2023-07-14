@@ -155,9 +155,6 @@ test('user can change the false colour parameters of an image', async ({
   // blur to avoid focus tooltip appearing in snapshot
   await ulSlider.blur();
 
-  // wait for new image to have loaded
-  await image.click();
-
   expect(
     await image.screenshot({
       type: 'png',
