@@ -143,7 +143,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   );
 
   React.useEffect(() => {
-    if (sessionData) {
+    if (sessionData && sessionData.session_data) {
       dispatch(importSession(JSON.parse(sessionData.session_data)));
     }
   }, [dispatch, sessionData]);

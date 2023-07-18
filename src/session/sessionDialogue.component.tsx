@@ -90,7 +90,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName && sessionData) {
       const session = {
         name: sessionName,
-        session_data: sessionData.session_data,
         summary: sessionSummary,
         auto_saved: false,
         _id: sessionData._id,

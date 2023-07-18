@@ -240,7 +240,7 @@ export interface Session {
   name: string;
   summary: string;
   auto_saved: boolean;
-  session_data: string;
+  session_data?: string;
   _id: string;
 }
 
