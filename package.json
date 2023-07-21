@@ -102,7 +102,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.22.5",
     "@craco/craco": "7.1.0",
-    "@playwright/test": "1.35.1",
+    "@playwright/test": "1.36.1",
     "@testing-library/cypress": "8.0.7",
     "@testing-library/dom": "9.3.1",
     "@testing-library/jest-dom": "5.16.4",
