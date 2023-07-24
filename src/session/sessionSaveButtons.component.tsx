@@ -100,10 +100,14 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     const day = date.getDate();
     const month = date.toLocaleString('default', { month: 'short' });
     const year = date.getFullYear();
-    const hour = date.getHours();
+    const hour = date.getUTCHours();
     const minute = date.getMinutes();
 
     timestamp = `${day} ${month} ${year} ${hour}:${minute}`;
+    console.log(day);
+    console.log(hour);
+    console.log(timestamp);
+    console.log(selectedSessionTimestamp.timestamp);
   }
   return (
     <Box

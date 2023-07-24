@@ -171,7 +171,7 @@ describe('session buttons', () => {
     props = {
       ...props,
       selectedSessionTimestamp: {
-        timestamp: '2023-06-29T14:45:00Z',
+        timestamp: '2023-06-29T15:45:00Z',
         autoSaved: false,
       },
     };
@@ -188,7 +188,7 @@ describe('session buttons', () => {
     props = {
       ...props,
       selectedSessionTimestamp: {
-        timestamp: '2023-06-29T14:45:00Z',
+        timestamp: '2023-06-29T15:45:00Z',
         autoSaved: true,
       },
     };

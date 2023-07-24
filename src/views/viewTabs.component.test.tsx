@@ -149,7 +149,7 @@ describe('View Tabs', () => {
     const element = screen.getByTestId('session-save-buttons-timestamp');
 
     expect(element).toHaveTextContent(
-      'Session last autosaved: 29 Jun 2023 11:30'
+      'Session last autosaved: 29 Jun 2023 10:30'
     );
 
     const saveAsButton = screen.getByRole('button', { name: 'Save as' });
