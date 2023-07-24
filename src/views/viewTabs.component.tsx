@@ -64,9 +64,16 @@ const ViewTabs = () => {
     string | undefined
   >(sessionId);
 
+  const [selectedSessionTimestamp, setSelectedSessionTimestamp] =
+    React.useState<{
+      timestamp: string | undefined;
+      autoSaved: boolean | undefined;
+    }>({ timestamp: undefined, autoSaved: undefined });
+
   const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
 
   const { data: sessionData } = useSession(sessionId);
+  const { data: selectedSessionData } = useSession(selectedSessionId);
 
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
   const [sessionEditOpen, setSessionEditOpen] = React.useState<boolean>(false);
@@ -89,12 +96,28 @@ const ViewTabs = () => {
     setSessionDeleteOpen(true);
     setSessionId(sessionData._id);
   };
+
+  const onSaveAsSessionClick = () => {
+    setSessionSaveOpen(true);
+    if (selectedSessionData) {
+      setSessionName(`${selectedSessionData.name}_copy`);
+      setSessionSummary(selectedSessionData.summary ?? '');
+    }
+  };
+  const onChangeSelectedSessionTimestamp = (
+    timestamp: string | undefined,
+    autoSaved: boolean | undefined
+  ) => {
+    setSelectedSessionTimestamp({ timestamp, autoSaved });
+  };
+
   React.useEffect(() => {
     if (!sessionEditOpen) {
       setSessionName(undefined);
       setSessionSummary('');
     }
   }, [sessionEditOpen]);
+
   return (
     <Box
       sx={{
@@ -113,6 +136,7 @@ const ViewTabs = () => {
         sessionsList={sessionsList}
         selectedSessionId={selectedSessionId}
         onChangeSelectedSessionId={setSelectedSessionId}
+        onChangeSelectedSessionTimestamp={onChangeSelectedSessionTimestamp}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -131,7 +155,13 @@ const ViewTabs = () => {
             <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
           </Tabs>
           <Box marginLeft="auto">
-            <SessionSaveButtons />
+            <SessionSaveButtons
+              sessionId={selectedSessionId}
+              onSaveAsSessionClick={onSaveAsSessionClick}
+              selectedSessionData={selectedSessionData}
+              selectedSessionTimestamp={selectedSessionTimestamp}
+              refetchSessionsList={refetchSessionsList}
+            />
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>

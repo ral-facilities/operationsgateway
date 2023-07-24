@@ -154,6 +154,55 @@ describe('Sessions', () => {
     });
   });
 
+  it('sends a patch request when a user saves their current session', () => {
+    cy.findByText('Session 2').click();
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Save' }).click();
+
+    cy.findBrowserMockedRequests({
+      method: 'PATCH',
+      url: '/sessions/:id',
+    }).should((patchRequests) => {
+      expect(patchRequests.length).equal(1);
+      const request = patchRequests[0];
+
+      expect(request.url.toString()).to.contain('2');
+      expect(request.url.toString()).to.contain('auto_saved=');
+
+      const paramMap: Map<string, string> = getParamsFromUrl(
+        request.url.toString()
+      );
+
+      expect(paramMap.get('auto_saved')).equal('false');
+    });
+  });
+
+  it('opens the save session dialog if a user session is not selected and user click the save or save as button', () => {
+    cy.findByRole('button', { name: 'Save' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+    cy.findByRole('button', { name: 'Close' }).click();
+    cy.findByRole('button', { name: 'Save as' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+  });
+
+  it('loads in the summary and name (with _copy) when save as is clicked and a user session is selected', () => {
+    cy.findByText('Session 2').click();
+    cy.findByRole('button', { name: 'Save as' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+
+    cy.findByLabelText('Name*').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('Session 2_copy');
+    });
+
+    cy.findByLabelText('Summary').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('This is the summary for Session 2');
+    });
+  });
+
   it('sends a delete request when a user deletes a session', () => {
     cy.findAllByTestId('delete-session-button').first().click();
     cy.findByText('Delete Session');

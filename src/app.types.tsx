@@ -237,11 +237,11 @@ export interface SaveSession {
 }
 
 export interface Session {
-  name: string;
-  summary: string;
+  name?: string;
+  summary?: string;
   auto_saved: boolean;
   session_data?: string;
-  _id: string;
+  _id?: string;
 }
 
 export interface SaveSessionResponse {

@@ -28,6 +28,10 @@ export interface SessionDrawerProps {
   sessionsList: SessionList[] | undefined;
   selectedSessionId: string | undefined;
   onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  onChangeSelectedSessionTimestamp: (
+    timestamp: string | undefined,
+    autoSaved: boolean | undefined
+  ) => void;
 }
 
 interface SessionListElementProps extends SessionList {
@@ -35,6 +39,10 @@ interface SessionListElementProps extends SessionList {
   selected: boolean;
   openSessionEdit: (sessionData: SessionList) => void;
   openSessionDelete: (sessionData: SessionList) => void;
+  onChangeSelectedSessionTimestamp: (
+    timestamp: string | undefined,
+    autoSaved: boolean | undefined
+  ) => void;
 }
 
 const SessionListElement = (
@@ -45,9 +53,27 @@ const SessionListElement = (
     openSessionEdit,
     selected,
     handleImport,
+    onChangeSelectedSessionTimestamp,
     ...session
   } = props;
+  const prevTimestampRef = React.useRef<string | undefined>(undefined);
+  const prevAutoSavedRef = React.useRef<boolean | undefined>(undefined);
+  React.useEffect(() => {
+    if (selected) {
+      // Check if the timestamp and auto_saved values have changed
+      if (
+        session.timestamp !== prevTimestampRef.current ||
+        session.auto_saved !== prevAutoSavedRef.current
+      ) {
+        // Update the previous values with the current ones
+        prevTimestampRef.current = session.timestamp;
+        prevAutoSavedRef.current = session.auto_saved;
 
+        // Call the onChangeSelectedSessionTimestamp function
+        onChangeSelectedSessionTimestamp(session.timestamp, session.auto_saved);
+      }
+    }
+  }, [onChangeSelectedSessionTimestamp, selected, session]);
   return (
     <Box
       sx={{
@@ -112,6 +138,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     sessionsList,
     selectedSessionId,
     onChangeSelectedSessionId,
+    onChangeSelectedSessionTimestamp,
   } = props;
 
   const { data: sessionData } = useSession(selectedSessionId);
@@ -182,6 +209,9 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                   selected={selectedSessionId === item._id}
                   openSessionDelete={openSessionDelete}
                   openSessionEdit={openSessionEdit}
+                  onChangeSelectedSessionTimestamp={
+                    onChangeSelectedSessionTimestamp
+                  }
                 />
               </ListItem>
             ))}

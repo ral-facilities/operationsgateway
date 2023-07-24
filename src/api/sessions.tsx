@@ -52,8 +52,13 @@ const editSession = (
   session: Session
 ): Promise<SaveSessionResponse> => {
   const queryParams = new URLSearchParams();
-  queryParams.append('name', session.name);
-  queryParams.append('summary', session.summary);
+
+  if (session.name) {
+    queryParams.append('name', session.name);
+  }
+  if (session.summary) {
+    queryParams.append('summary', session.summary);
+  }
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios

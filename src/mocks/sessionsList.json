@@ -28,7 +28,7 @@
     "summary": "This is the summary for Session 4",
     "auto_saved": false,
     "name": "Session 4",
-    "timestamp": "2023-06-30T09:15:00Z",
+    "timestamp": "2023-07-30T09:15:00Z",
     "session_data": "{\"table\":{\"columnStates\":{},\"selectedColumnIds\":[\"timestamp\",\"CHANNEL_BCDEF\",\"CHANNEL_FGHIJ\",\"shotnum\"],\"page\":0,\"resultsPerPage\":25,\"sort\":{}},\"search\":{\"searchParams\":{\"dateRange\":{\"fromDate\":\"2022-01-15T13:00:00\",\"toDate\":\"2022-01-18T12:00:59\"},\"shotnumRange\":{\"min\":16,\"max\":18},\"maxShots\":50,\"experimentID\":{\"_id\":\"22110007-2\",\"end_date\":\"2022-01-18T12:00:00\",\"experiment_id\":\"22110007\",\"part\":2,\"start_date\":\"2022-01-15T13:00:00\"}}},\"plots\":{},\"filter\":{\"appliedFilters\":[[]]},\"windows\":{}}"
   }
 ]

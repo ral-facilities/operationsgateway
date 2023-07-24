@@ -138,4 +138,31 @@ describe('View Tabs', () => {
       expect(editDialog).not.toBeInTheDocument();
     });
   });
+
+  it('selects a user session and opens the save as session dialog', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const session1 = screen.getByRole('button', { name: 'Session 1' });
+    await user.click(session1);
+    const element = screen.getByTestId('session-save-buttons-timestamp');
+
+    expect(element).toHaveTextContent(
+      'Session last autosaved: 29 Jun 2023 11:30'
+    );
+
+    const saveAsButton = screen.getByRole('button', { name: 'Save as' });
+    await user.click(saveAsButton);
+
+    const dialog = screen.getByRole('dialog');
+
+    const summaryTextarea = within(dialog).getByLabelText('Summary');
+    const nameInput = within(dialog).getByLabelText('Name*');
+
+    expect(summaryTextarea).toHaveTextContent(
+      'This is the summary for Session 1'
+    );
+    expect(nameInput.value).toBe('Session 1_copy');
+  });
 });
