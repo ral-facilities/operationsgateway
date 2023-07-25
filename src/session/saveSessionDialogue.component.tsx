@@ -46,7 +46,7 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const session = {
         name: sessionName,
-        session_data: JSON.stringify(state),
+        session_data: state,
         summary: sessionSummary,
         auto_saved: false,
       };
