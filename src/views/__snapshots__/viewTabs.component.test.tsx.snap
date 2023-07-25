@@ -7,16 +7,16 @@ exports[`View Tabs renders correctly 1`] = `
   >
     <div>
       <div
-        class="MuiDrawer-root MuiDrawer-docked css-1korx6p-MuiDrawer-docked"
+        class="MuiDrawer-root MuiDrawer-docked css-thgegd-MuiDrawer-docked"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-14kuwsc-MuiPaper-root-MuiDrawer-paper"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1imhn6c-MuiPaper-root-MuiDrawer-paper"
         >
           <div
             class="MuiBox-root css-1gsv261"
           >
             <div
-              class="MuiBox-root css-169vqz6"
+              class="MuiBox-root css-upq6er"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-rfi1dl-MuiTypography-root"
@@ -27,7 +27,7 @@ exports[`View Tabs renders correctly 1`] = `
                 class="MuiBox-root css-zdpt2t"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
                   tabindex="0"
                   type="button"
                 >
