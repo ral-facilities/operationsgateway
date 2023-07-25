@@ -16,8 +16,9 @@ import plotReducer from './slices/plotSlice';
 import filterReducer from './slices/filterSlice';
 import windowsReducer from './slices/windowSlice';
 
-export const importSession =
-  createAction<Omit<RootState, 'config'>>('IMPORT_SESSION');
+export const importSession = createAction<ImportSessionType>('IMPORT_SESSION');
+
+export type ImportSessionType = Omit<RootState, 'config'>;
 
 const sliceReducer = combineReducers({
   config: configReducer,

@@ -5,27 +5,19 @@ import {
   useQuery,
   UseQueryResult,
 } from '@tanstack/react-query';
-import {
-  SaveSession,
-  SaveSessionResponse,
-  Session,
-  SessionList,
-} from '../app.types';
+import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
 
-const saveSession = (
-  apiUrl: string,
-  session: SaveSession
-): Promise<SaveSessionResponse> => {
+const saveSession = (apiUrl: string, session: Session): Promise<string> => {
   const queryParams = new URLSearchParams();
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios
-    .post<SaveSessionResponse>(`${apiUrl}/sessions`, session.session_data, {
+    .post<string>(`${apiUrl}/sessions`, session.session_data, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
@@ -35,43 +27,36 @@ const saveSession = (
 };
 
 export const useSaveSession = (): UseMutationResult<
-  SaveSessionResponse,
+  string,
   AxiosError,
-  SaveSession
+  Session
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
-  return useMutation((session: SaveSession) => saveSession(apiUrl, session), {
+  return useMutation((session: Session) => saveSession(apiUrl, session), {
     onError: (error) => {
       console.log('Got error ' + error.message);
     },
   });
 };
 
-const editSession = (
-  apiUrl: string,
-  session: Session
-): Promise<SaveSessionResponse> => {
+const editSession = (apiUrl: string, session: Session): Promise<string> => {
   const queryParams = new URLSearchParams();
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios
-    .patch<SaveSessionResponse>(
-      `${apiUrl}/sessions/${session._id}`,
-      session.session_data,
-      {
-        params: queryParams,
-        headers: {
-          Authorization: `Bearer ${readSciGatewayToken()}`,
-        },
-      }
-    )
+    .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session_data, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
     .then((response) => response.data);
 };
 
 export const useEditSession = (): UseMutationResult<
-  SaveSessionResponse,
+  string,
   AxiosError,
   Session
 > => {
@@ -106,7 +91,7 @@ export const useDeleteSession = (): UseMutationResult<
   });
 };
 
-const fetchSessionList = (apiUrl: string): Promise<SessionList[]> => {
+const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
   return axios
     .get(`${apiUrl}/sessions/list`, {
       headers: {
@@ -118,7 +103,10 @@ const fetchSessionList = (apiUrl: string): Promise<SessionList[]> => {
     });
 };
 
-export const useSessionList = (): UseQueryResult<SessionList[], AxiosError> => {
+export const useSessionList = (): UseQueryResult<
+  SessionListItem[],
+  AxiosError
+> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(
@@ -137,7 +125,7 @@ export const useSessionList = (): UseQueryResult<SessionList[], AxiosError> => {
 const fetchSession = (
   apiUrl: string,
   sessionId: string | undefined
-): Promise<Session> => {
+): Promise<SessionResponse> => {
   return axios
     .get(`${apiUrl}/sessions/${sessionId}`, {
       headers: {
@@ -151,7 +139,7 @@ const fetchSession = (
 
 export const useSession = (
   session_id: string | undefined
-): UseQueryResult<Session, AxiosError> => {
+): UseQueryResult<SessionResponse, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(

@@ -30,7 +30,7 @@ describe('Sessions', () => {
       (patchRequests) => {
         expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
-        expect(request.body.toString()).equal(
+        expect(JSON.stringify(request.body)).equal(
           '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{}}'
         );
 

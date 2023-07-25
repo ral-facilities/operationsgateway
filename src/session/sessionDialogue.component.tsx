@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
-import { SaveSessionResponse, Session } from '../app.types';
+import { Session } from '../app.types';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -57,14 +57,14 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const session = {
         name: sessionName,
-        session_data: JSON.stringify(state),
+        session_data: state,
         summary: sessionSummary,
         auto_saved: false,
       };
       saveSession(session)
-        .then((response: SaveSessionResponse) => {
+        .then((response) => {
           refetchSessionsList();
-          onChangeSelectedSessionId(response.session_id);
+          onChangeSelectedSessionId(response);
           handleClose();
         })
         .catch((error) => {
