@@ -8,6 +8,7 @@ import PlotList from '../plotting/plotList.component';
 import SessionSaveButtons from '../session/sessionSaveButtons.component';
 import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
+import { useSessionList } from '../api/sessions';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -53,15 +54,18 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
+  const [selectedSessionId, setSelectedSessionId] = React.useState<
+    string | undefined
+  >(undefined);
+
+  const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
+
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
 
   const [sessionName, setSessionName] = React.useState<string | undefined>(
     undefined
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
-  const [sessionId, setSessionId] = React.useState<string | undefined>(
-    undefined
-  );
 
   return (
     <Box
@@ -76,8 +80,9 @@ const ViewTabs = () => {
         openSessionSave={() => {
           setSessionSaveOpen(true);
         }}
-        sessionId={sessionId}
-        onChangeSessionId={setSessionId}
+        sessionsList={sessionsList}
+        selectedSessionId={selectedSessionId}
+        onChangeSelectedSessionId={setSelectedSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -100,7 +105,7 @@ const ViewTabs = () => {
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView sessionId={sessionId} />
+          <DataView sessionId={selectedSessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
@@ -112,6 +117,8 @@ const ViewTabs = () => {
           sessionSummary={sessionSummary}
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
+          onChangeSelectedSessionId={setSelectedSessionId}
+          refetchSessionsList={refetchSessionsList}
         />
       </Box>
     </Box>

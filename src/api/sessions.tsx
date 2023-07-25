@@ -5,7 +5,7 @@ import {
   useQuery,
   UseQueryResult,
 } from '@tanstack/react-query';
-import { Session, SessionList } from '../app.types';
+import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
@@ -39,7 +39,7 @@ export const useSaveSession = (): UseMutationResult<
   });
 };
 
-const fetchSessionList = (apiUrl: string): Promise<SessionList[]> => {
+const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
   return axios
     .get(`${apiUrl}/sessions/list`, {
       headers: {
@@ -51,7 +51,10 @@ const fetchSessionList = (apiUrl: string): Promise<SessionList[]> => {
     });
 };
 
-export const useSessionList = (): UseQueryResult<SessionList[], AxiosError> => {
+export const useSessionList = (): UseQueryResult<
+  SessionListItem[],
+  AxiosError
+> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(
@@ -70,7 +73,7 @@ export const useSessionList = (): UseQueryResult<SessionList[], AxiosError> => {
 const fetchSession = (
   apiUrl: string,
   sessionId: string | undefined
-): Promise<Session> => {
+): Promise<SessionResponse> => {
   return axios
     .get(`${apiUrl}/sessions/${sessionId}`, {
       headers: {
@@ -84,7 +87,7 @@ const fetchSession = (
 
 export const useSession = (
   session_id: string | undefined
-): UseQueryResult<Session, AxiosError> => {
+): UseQueryResult<SessionResponse, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery(

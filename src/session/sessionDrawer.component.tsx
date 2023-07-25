@@ -12,8 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useSession, useSessionList } from '../api/sessions';
-import { SessionList } from '../app.types';
+import { useSession } from '../api/sessions';
+import { SessionListItem } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
 
@@ -23,11 +23,12 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
-  sessionId: string | undefined;
-  onChangeSessionId: (sessionId: string | undefined) => void;
+  sessionsList: SessionListItem[] | undefined;
+  selectedSessionId: string | undefined;
+  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
 }
 
-interface SessionListElementProps extends SessionList {
+interface SessionListElementProps extends SessionListItem {
   handleImport: (sessionId: string) => void;
   selected: boolean;
 }
@@ -82,10 +83,14 @@ const SessionListElement = (
 };
 
 const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
-  const { openSessionSave, sessionId, onChangeSessionId } = props;
-  const { data: sessionsList } = useSessionList();
-  const { data: sessionData, isLoading: sessionDataLoading } =
-    useSession(sessionId);
+  const {
+    openSessionSave,
+    selectedSessionId,
+    onChangeSelectedSessionId,
+    sessionsList,
+  } = props;
+
+  const { data: sessionData } = useSession(selectedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -115,13 +120,13 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
 
   React.useEffect(() => {
     if (sessionData) {
-      dispatch(importSession(sessionData.session_data));
+      dispatch(importSession(sessionData.session));
     }
-  }, [dispatch, sessionData, sessionDataLoading]);
+  }, [dispatch, sessionData]);
 
   const handleSessionClick = (sessionId: string) => {
-    onChangeSessionId(undefined);
-    onChangeSessionId(sessionId);
+    onChangeSelectedSessionId(undefined);
+    onChangeSelectedSessionId(sessionId);
   };
 
   return (
@@ -150,7 +155,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                 <SessionListElement
                   {...item}
                   handleImport={handleSessionClick}
-                  selected={sessionId === item._id}
+                  selected={selectedSessionId === item._id}
                 />
               </ListItem>
             ))}

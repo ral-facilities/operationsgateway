@@ -17,6 +17,8 @@ export interface SessionDialogueProps {
   sessionSummary: string;
   onChangeSessionName: (sessionName: string | undefined) => void;
   onChangeSessionSummary: (sessionSummary: string) => void;
+  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  refetchSessionsList: () => void;
 }
 
 const SaveSessionDialogue = (props: SessionDialogueProps) => {
@@ -27,6 +29,8 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     sessionSummary,
     onChangeSessionName,
     onChangeSessionSummary,
+    onChangeSelectedSessionId,
+    refetchSessionsList,
   } = props;
 
   const state = useAppSelector(({ config, ...state }) => state);
@@ -51,7 +55,11 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
         auto_saved: false,
       };
       saveSession(session)
-        .then((response) => handleClose())
+        .then((response) => {
+          refetchSessionsList();
+          onChangeSelectedSessionId(response);
+          handleClose();
+        })
         .catch((error) => {
           setError(true);
           console.log(error.message);
@@ -61,7 +69,15 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
       setError(true);
       setErrorMessage('Please enter a name');
     }
-  }, [handleClose, saveSession, sessionName, sessionSummary, state]);
+  }, [
+    handleClose,
+    onChangeSelectedSessionId,
+    refetchSessionsList,
+    saveSession,
+    sessionName,
+    sessionSummary,
+    state,
+  ]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">
