@@ -93,7 +93,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        margin: '6px',
+        margin: '3.75px',
       }}
     >
       <Typography
@@ -115,7 +115,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
 
   React.useEffect(() => {
     if (sessionData) {
-      dispatch(importSession(JSON.parse(sessionData.session_data)));
+      dispatch(importSession(sessionData.session_data));
     }
   }, [dispatch, sessionData, sessionDataLoading]);
 

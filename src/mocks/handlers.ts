@@ -34,7 +34,7 @@ export const handlers = [
     if (sessionName === 'test_dup') {
       return res(ctx.status(409), ctx.json(''));
     }
-    const sessionID = { session_id: '1' };
+    const sessionID = '1';
     return res(ctx.status(200), ctx.json(sessionID));
   }),
   rest.get('/sessions/list', async (req, res, ctx) => {

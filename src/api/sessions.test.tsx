@@ -30,11 +30,11 @@ describe('session api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual({ session_id: '1' });
+      expect(result.current.data).toEqual('1');
     });
 
     it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
+      'sends axios request to add a user session and throws an appropriate error on failure'
     );
   });
 });

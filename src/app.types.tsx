@@ -1,5 +1,6 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 import type { CartesianScaleTypeRegistry } from 'chart.js';
+import { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -233,11 +234,7 @@ export interface Session {
   name: string;
   summary: string;
   auto_saved: boolean;
-  session_data: string;
-}
-
-export interface SaveSessionResponse {
-  session_id: string;
+  session_data: ImportSessionType;
 }
 
 export interface SessionList {
