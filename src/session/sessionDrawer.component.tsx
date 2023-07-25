@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Button, Theme, Typography } from '@mui/material';
+import { Box, IconButton, Theme, Typography } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -19,7 +19,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        margin: '6px',
+        margin: '3.75px',
       }}
     >
       <Typography
@@ -32,9 +32,9 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         Workspaces
       </Typography>
       <Box sx={{ marginLeft: 'auto' }}>
-        <Button onClick={openSessionSave}>
+        <IconButton onClick={openSessionSave}>
           <AddCircleIcon />
-        </Button>
+        </IconButton>
       </Box>
     </Box>
   );
@@ -42,10 +42,10 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     <div>
       <StyledDrawer
         sx={{
-          width: '200px',
+          width: '220px',
           flexShrink: 0,
         }}
-        PaperProps={{ sx: (theme: Theme) => ({ width: '200px' }) }}
+        PaperProps={{ sx: (theme: Theme) => ({ width: '220px' }) }}
         variant="permanent"
         anchor="left"
       >
