@@ -39,14 +39,17 @@ export const useSaveSession = (): UseMutationResult<
   });
 };
 
-const editSession = (apiUrl: string, session: Session): Promise<string> => {
+const editSession = (
+  apiUrl: string,
+  session: SessionResponse
+): Promise<string> => {
   const queryParams = new URLSearchParams();
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios
-    .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session_data, {
+    .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
@@ -58,17 +61,23 @@ const editSession = (apiUrl: string, session: Session): Promise<string> => {
 export const useEditSession = (): UseMutationResult<
   string,
   AxiosError,
-  Session
+  SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
-  return useMutation((session: Session) => editSession(apiUrl, session), {
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
-  });
+  return useMutation(
+    (session: SessionResponse) => editSession(apiUrl, session),
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
 };
 
-const deleteSession = (apiUrl: string, session: Session): Promise<void> => {
+const deleteSession = (
+  apiUrl: string,
+  session: SessionResponse
+): Promise<void> => {
   return axios
     .delete(`${apiUrl}/sessions/${session._id}`, {
       headers: {
@@ -81,14 +90,17 @@ const deleteSession = (apiUrl: string, session: Session): Promise<void> => {
 export const useDeleteSession = (): UseMutationResult<
   void,
   AxiosError,
-  Session
+  SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
-  return useMutation((session: Session) => deleteSession(apiUrl, session), {
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
-  });
+  return useMutation(
+    (session: SessionResponse) => deleteSession(apiUrl, session),
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
 };
 
 const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {

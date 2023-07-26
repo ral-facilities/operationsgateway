@@ -230,18 +230,11 @@ export const columnIconMappings = new Map()
   .set('activeArea', <Place />)
   .set('activeExperiment', <Science />);
 
-export interface SaveSession {
-  name: string;
-  summary: string;
-  auto_saved: boolean;
-  session_data: ImportSessionType;
-}
-
 export interface Session {
   name: string;
   summary: string;
   auto_saved: boolean;
-  session_data?: ImportSessionType;
+  session_data: ImportSessionType;
   _id?: string;
 }
 

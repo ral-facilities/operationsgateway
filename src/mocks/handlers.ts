@@ -28,7 +28,7 @@ export const handlers = [
     );
   }),
   rest.post('/sessions', async (req, res, ctx) => {
-    const sessionID = { session_id: '1' };
+    const sessionID = '1';
     return res(ctx.status(200), ctx.json(sessionID));
   }),
   rest.patch('/sessions/:id', async (req, res, ctx) => {
