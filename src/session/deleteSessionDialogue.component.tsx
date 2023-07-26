@@ -7,13 +7,13 @@ import {
   FormHelperText,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { Session } from '../app.types';
+import { SessionResponse } from '../app.types';
 import { useDeleteSession } from '../api/sessions';
 
 export interface DeleteSessionDialogueProps {
   open: boolean;
   onClose: () => void;
-  sessionData: Session | undefined;
+  sessionData: SessionResponse | undefined;
   refetchSessionsList: () => void;
 }
 

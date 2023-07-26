@@ -8,7 +8,7 @@ import PlotList from '../plotting/plotList.component';
 import SessionSaveButtons from '../session/sessionSaveButtons.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
 import { useSession, useSessionList } from '../api/sessions';
-import { SessionList } from '../app.types';
+import { SessionListItem } from '../app.types';
 import SessionDialogue from '../session/sessionDialogue.component';
 import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
 
@@ -72,7 +72,16 @@ const ViewTabs = () => {
 
   const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
 
-  const { data: sessionData } = useSession(sessionId);
+  const { data: sessionData, refetch: refetchSessionData } =
+    useSession(sessionId);
+
+  const onChangeRefetchSessionData = React.useCallback(
+    (sessionId: string) => {
+      setSessionId(sessionId);
+      refetchSessionData();
+    },
+    [refetchSessionData]
+  );
   const { data: selectedSessionData } = useSession(selectedSessionId);
 
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
@@ -85,14 +94,14 @@ const ViewTabs = () => {
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
 
-  const onSessionEditOpen = (sessionData: SessionList) => {
+  const onSessionEditOpen = (sessionData: SessionListItem) => {
     setSessionEditOpen(true);
     setSessionName(sessionData.name);
     setSessionSummary(sessionData.summary);
     setSessionId(sessionData._id);
   };
 
-  const onSessionDeleteOpen = (sessionData: SessionList) => {
+  const onSessionDeleteOpen = (sessionData: SessionListItem) => {
     setSessionDeleteOpen(true);
     setSessionId(sessionData._id);
   };
@@ -137,6 +146,8 @@ const ViewTabs = () => {
         selectedSessionId={selectedSessionId}
         onChangeSelectedSessionId={setSelectedSessionId}
         onChangeSelectedSessionTimestamp={onChangeSelectedSessionTimestamp}
+        refetchSessionsData={onChangeRefetchSessionData}
+        refetchSessionsList={refetchSessionsList}
       />
 
       <Box sx={{ width: '100%' }}>

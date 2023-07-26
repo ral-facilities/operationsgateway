@@ -1,14 +1,15 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Button, Typography } from '@mui/material';
-import { Session } from '../app.types';
+import { SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { useEditSession } from '../api/sessions';
+import { format, parseISO } from 'date-fns';
 
 export interface SessionsSaveButtonsProps {
   sessionId: string | undefined;
   onSaveAsSessionClick: () => void;
-  selectedSessionData: Session | undefined;
+  selectedSessionData: SessionResponse | undefined;
   selectedSessionTimestamp: {
     timestamp: string | undefined;
     autoSaved: boolean | undefined;
@@ -37,9 +38,12 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   const handleSaveSession = React.useCallback(() => {
     if (selectedSessionData) {
       const session = {
-        session_data: JSON.stringify(state),
+        session: state,
         auto_saved: false,
         _id: selectedSessionData._id,
+        summary: selectedSessionData.summary,
+        timestamp: selectedSessionData.timestamp,
+        name: selectedSessionData.name,
       };
       editSession(session).then((response) => {
         refetchSessionsList();
@@ -65,9 +69,12 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     if (selectedSessionData) {
       autoSaveTimer = setInterval(() => {
         const session = {
-          session_data: JSON.stringify(state),
+          session: state,
           auto_saved: true,
           _id: selectedSessionData._id,
+          summary: selectedSessionData.summary,
+          timestamp: selectedSessionData.timestamp,
+          name: selectedSessionData.name,
         };
         editSession(session).then((response) => {
           refetchSessionsList();
@@ -95,19 +102,14 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   let timestamp;
   timestamp = undefined;
 
-  if (selectedSessionTimestamp.timestamp) {
-    const date = new Date(selectedSessionTimestamp.timestamp);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'short' });
-    const year = date.getFullYear();
-    const hour = date.getUTCHours();
-    const minute = date.getMinutes();
+  const formatDate = (inputDate: string) => {
+    const date = parseISO(inputDate);
+    const formattedDate = format(date, 'dd MMM yyyy HH:mm');
+    return formattedDate;
+  };
 
-    timestamp = `${day} ${month} ${year} ${hour}:${minute}`;
-    console.log(day);
-    console.log(hour);
-    console.log(timestamp);
-    console.log(selectedSessionTimestamp.timestamp);
+  if (selectedSessionTimestamp.timestamp) {
+    timestamp = formatDate(selectedSessionTimestamp.timestamp);
   }
   return (
     <Box

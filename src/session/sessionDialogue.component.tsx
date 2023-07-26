@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
-import { SaveSessionResponse, Session } from '../app.types';
+import { SessionResponse } from '../app.types';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -21,7 +21,7 @@ export interface SessionDialogueProps {
   requestType: 'edit' | 'create';
   onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
-  sessionData?: Session;
+  sessionData?: SessionResponse;
 }
 
 const SessionDialogue = (props: SessionDialogueProps) => {
@@ -57,14 +57,14 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const session = {
         name: sessionName,
-        session_data: JSON.stringify(state),
+        session_data: state,
         summary: sessionSummary,
         auto_saved: false,
       };
       saveSession(session)
-        .then((response: SaveSessionResponse) => {
+        .then((response) => {
           refetchSessionsList();
-          onChangeSelectedSessionId(response.session_id);
+          onChangeSelectedSessionId(response);
           handleClose();
         })
         .catch((error) => {
@@ -93,7 +93,10 @@ const SessionDialogue = (props: SessionDialogueProps) => {
         summary: sessionSummary,
         auto_saved: false,
         _id: sessionData._id,
+        session: sessionData.session,
+        timestamp: sessionData.timestamp,
       };
+
       editSession(session)
         .then((response) => {
           refetchSessionsList();

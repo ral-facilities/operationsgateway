@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useSession } from '../api/sessions';
-import { SessionList } from '../app.types';
+import { SessionListItem } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
 
@@ -23,26 +23,30 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
-  openSessionEdit: (sessionData: SessionList) => void;
-  openSessionDelete: (sessionData: SessionList) => void;
-  sessionsList: SessionList[] | undefined;
+  openSessionEdit: (sessionData: SessionListItem) => void;
+  openSessionDelete: (sessionData: SessionListItem) => void;
+  sessionsList: SessionListItem[] | undefined;
   selectedSessionId: string | undefined;
   onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
   onChangeSelectedSessionTimestamp: (
     timestamp: string | undefined,
     autoSaved: boolean | undefined
   ) => void;
+  refetchSessionsData: (sessionId: string) => void;
+  refetchSessionsList: () => void;
 }
 
-interface SessionListElementProps extends SessionList {
+interface SessionListElementProps extends SessionListItem {
   handleImport: (sessionId: string) => void;
   selected: boolean;
-  openSessionEdit: (sessionData: SessionList) => void;
-  openSessionDelete: (sessionData: SessionList) => void;
+  openSessionEdit: (sessionData: SessionListItem) => void;
+  openSessionDelete: (sessionData: SessionListItem) => void;
   onChangeSelectedSessionTimestamp: (
     timestamp: string | undefined,
     autoSaved: boolean | undefined
   ) => void;
+  refetchSessionsData: (sessionId: string) => void;
+  refetchSessionsList: () => void;
 }
 
 const SessionListElement = (
@@ -54,6 +58,8 @@ const SessionListElement = (
     selected,
     handleImport,
     onChangeSelectedSessionTimestamp,
+    refetchSessionsData,
+    refetchSessionsList,
     ...session
   } = props;
   const prevTimestampRef = React.useRef<string | undefined>(undefined);
@@ -93,6 +99,12 @@ const SessionListElement = (
           color: selected ? 'white' : 'inherit',
         }}
         onClick={() => {
+          refetchSessionsData(session._id);
+          refetchSessionsList();
+          onChangeSelectedSessionTimestamp(
+            session.timestamp,
+            session.auto_saved
+          );
           handleImport(session._id);
         }}
       >
@@ -139,6 +151,8 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     selectedSessionId,
     onChangeSelectedSessionId,
     onChangeSelectedSessionTimestamp,
+    refetchSessionsData,
+    refetchSessionsList,
   } = props;
 
   const { data: sessionData } = useSession(selectedSessionId);
@@ -170,8 +184,8 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   );
 
   React.useEffect(() => {
-    if (sessionData && sessionData.session_data) {
-      dispatch(importSession(JSON.parse(sessionData.session_data)));
+    if (sessionData) {
+      dispatch(importSession(sessionData.session));
     }
   }, [dispatch, sessionData]);
 
@@ -212,6 +226,8 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                   onChangeSelectedSessionTimestamp={
                     onChangeSelectedSessionTimestamp
                   }
+                  refetchSessionsData={refetchSessionsData}
+                  refetchSessionsList={refetchSessionsList}
                 />
               </ListItem>
             ))}

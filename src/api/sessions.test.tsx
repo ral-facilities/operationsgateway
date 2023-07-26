@@ -6,7 +6,7 @@ import {
   useSession,
   useSessionList,
 } from './sessions';
-import { Session, SessionList } from '../app.types';
+import { Session, SessionListItem } from '../app.types';
 import { hooksWrapperWithProviders } from '../setupTests';
 import sessionsListJSON from '../mocks/sessionsList.json';
 
@@ -16,7 +16,7 @@ describe('session api functions', () => {
     mockData = {
       name: 'test',
       summary: 'test',
-      session_data: '{}',
+      session_data: {},
       auto_saved: false,
       _id: '1',
     };
@@ -38,7 +38,7 @@ describe('session api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual({ session_id: '1' });
+      expect(result.current.data).toEqual('1');
     });
 
     it.todo(
@@ -59,7 +59,7 @@ describe('session api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual({ session_id: '1' });
+      expect(result.current.data).toEqual('1');
     });
 
     it.todo(
@@ -97,7 +97,7 @@ describe('session api functions', () => {
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
       });
-      const expected: SessionList[] = sessionsListJSON;
+      const expected: SessionListItem[] = sessionsListJSON;
       expect(result.current.data).toEqual(expected);
     });
 
@@ -115,7 +115,7 @@ describe('session api functions', () => {
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
       });
-      const expected: SessionList[] = sessionsListJSON;
+      const expected: SessionListItem[] = sessionsListJSON;
       expect(result.current.data).toEqual(expected[0]);
     });
 
