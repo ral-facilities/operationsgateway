@@ -147,7 +147,6 @@ const ViewTabs = () => {
         onChangeSelectedSessionId={setSelectedSessionId}
         onChangeSelectedSessionTimestamp={onChangeSelectedSessionTimestamp}
         refetchSessionsData={onChangeRefetchSessionData}
-        refetchSessionsList={refetchSessionsList}
       />
 
       <Box sx={{ width: '100%' }}>

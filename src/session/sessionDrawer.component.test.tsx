@@ -11,6 +11,7 @@ describe('session Drawer', () => {
   const openSessionDelete = jest.fn();
   const onChangeSelectedSessionId = jest.fn();
   const onChangeSelectedSessionTimestamp = jest.fn();
+  const refetchSessionsData = jest.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
@@ -26,6 +27,7 @@ describe('session Drawer', () => {
       onChangeSelectedSessionId: onChangeSelectedSessionId,
       sessionsList: SessionsListJSON,
       onChangeSelectedSessionTimestamp: onChangeSelectedSessionTimestamp,
+      refetchSessionsData: refetchSessionsData,
     };
   });
   afterEach(() => {
@@ -64,9 +66,10 @@ describe('session Drawer', () => {
     });
 
     expect(onChangeSelectedSessionTimestamp).toHaveBeenCalledWith(
-      '2023-06-29T10:30:00Z',
+      '2023-06-29T10:30:00:00',
       true
     );
+    expect(refetchSessionsData).toHaveBeenCalledWith('1');
   });
 
   it('a user can open the edit session dialogue', async () => {

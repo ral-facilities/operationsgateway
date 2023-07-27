@@ -33,7 +33,6 @@ export interface SessionDrawerProps {
     autoSaved: boolean | undefined
   ) => void;
   refetchSessionsData: (sessionId: string) => void;
-  refetchSessionsList: () => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
@@ -46,7 +45,6 @@ interface SessionListElementProps extends SessionListItem {
     autoSaved: boolean | undefined
   ) => void;
   refetchSessionsData: (sessionId: string) => void;
-  refetchSessionsList: () => void;
 }
 
 const SessionListElement = (
@@ -59,7 +57,6 @@ const SessionListElement = (
     handleImport,
     onChangeSelectedSessionTimestamp,
     refetchSessionsData,
-    refetchSessionsList,
     ...session
   } = props;
   const prevTimestampRef = React.useRef<string | undefined>(undefined);
@@ -100,7 +97,6 @@ const SessionListElement = (
         }}
         onClick={() => {
           refetchSessionsData(session._id);
-          refetchSessionsList();
           onChangeSelectedSessionTimestamp(
             session.timestamp,
             session.auto_saved
@@ -152,7 +148,6 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     onChangeSelectedSessionId,
     onChangeSelectedSessionTimestamp,
     refetchSessionsData,
-    refetchSessionsList,
   } = props;
 
   const { data: sessionData } = useSession(selectedSessionId);
@@ -227,7 +222,6 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                     onChangeSelectedSessionTimestamp
                   }
                   refetchSessionsData={refetchSessionsData}
-                  refetchSessionsList={refetchSessionsList}
                 />
               </ListItem>
             ))}

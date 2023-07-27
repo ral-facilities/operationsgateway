@@ -18,11 +18,8 @@ jest.mock('../api/sessions', () => ({
   useEditSession: jest.fn(),
 }));
 
-// jest.setTimeout(100000);
-
 describe('session buttons', () => {
   let props: SessionsSaveButtonsProps;
-  // let user: ReturnType<typeof userEvent.setup>;
   const onSaveAsSessionClick = jest.fn();
   const refetchSessionsList = jest.fn();
   const createView = (): RenderResult => {
@@ -38,8 +35,6 @@ describe('session buttons', () => {
       refetchSessionsList: refetchSessionsList,
     };
     jest.useFakeTimers();
-
-    // user = userEvent.setup();
 
     // Mock the return value of useEditSession hook
     useEditSession.mockReturnValue({
@@ -62,8 +57,9 @@ describe('session buttons', () => {
       name: 'test',
       summary: 'test',
       auto_saved: false,
-      session_data: '{}',
+      session: {},
       _id: '1',
+      timestamp: '',
     };
     props.sessionId = '1';
     const { rerender } = createView();
@@ -76,16 +72,38 @@ describe('session buttons', () => {
     expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
       _id: '1',
       auto_saved: true,
-      session_data:
-        '{"table":{"columnStates":{},"selectedColumnIds":[],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{}}',
+      name: 'test',
+      summary: 'test',
+      timestamp: '',
+      session: {
+        table: {
+          columnStates: {},
+          selectedColumnIds: [],
+          page: 0,
+          resultsPerPage: 25,
+          sort: {},
+        },
+        search: {
+          searchParams: {
+            dateRange: {},
+            shotnumRange: {},
+            maxShots: 50,
+            experimentID: null,
+          },
+        },
+        plots: {},
+        filter: { appliedFilters: [[]] },
+        windows: {},
+      },
     });
 
     props.selectedSessionData = {
       name: 'test 2',
       summary: 'test 2',
       auto_saved: false,
-      session_data: '{}',
+      session: {},
       _id: '2',
+      timestamp: '',
     };
     props.sessionId = '2';
     rerender(<SessionSaveButtons {...props} />);
@@ -98,8 +116,29 @@ describe('session buttons', () => {
     expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
       _id: '2',
       auto_saved: true,
-      session_data:
-        '{"table":{"columnStates":{},"selectedColumnIds":[],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{}}',
+      name: 'test 2',
+      summary: 'test 2',
+      timestamp: '',
+      session: {
+        table: {
+          columnStates: {},
+          selectedColumnIds: [],
+          page: 0,
+          resultsPerPage: 25,
+          sort: {},
+        },
+        search: {
+          searchParams: {
+            dateRange: {},
+            shotnumRange: {},
+            maxShots: 50,
+            experimentID: null,
+          },
+        },
+        plots: {},
+        filter: { appliedFilters: [[]] },
+        windows: {},
+      },
     });
 
     act(() => {
@@ -110,8 +149,29 @@ describe('session buttons', () => {
     expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
       _id: '2',
       auto_saved: true,
-      session_data:
-        '{"table":{"columnStates":{},"selectedColumnIds":[],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{}}',
+      name: 'test 2',
+      summary: 'test 2',
+      timestamp: '',
+      session: {
+        table: {
+          columnStates: {},
+          selectedColumnIds: [],
+          page: 0,
+          resultsPerPage: 25,
+          sort: {},
+        },
+        search: {
+          searchParams: {
+            dateRange: {},
+            shotnumRange: {},
+            maxShots: 50,
+            experimentID: null,
+          },
+        },
+        plots: {},
+        filter: { appliedFilters: [[]] },
+        windows: {},
+      },
     });
   });
 
@@ -171,7 +231,7 @@ describe('session buttons', () => {
     props = {
       ...props,
       selectedSessionTimestamp: {
-        timestamp: '2023-06-29T15:45:00Z',
+        timestamp: '2023-06-29T15:45:00',
         autoSaved: false,
       },
     };
@@ -188,7 +248,7 @@ describe('session buttons', () => {
     props = {
       ...props,
       selectedSessionTimestamp: {
-        timestamp: '2023-06-29T15:45:00Z',
+        timestamp: '2023-06-29T15:45:00',
         autoSaved: true,
       },
     };
