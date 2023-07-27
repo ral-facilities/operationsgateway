@@ -17,7 +17,7 @@ jobs:
           node-version: '16.x'
 
       - name: Build Playwright environment
-        run: docker build --tag playwright-test --file ./Dockerfile.playwright
+        run: docker build --tag playwright-test --file Dockerfile.playwright .
 
       - name: Run playwright tests
         run: docker run --volume ./playwright-report:/app/playwright-report playwright-test
