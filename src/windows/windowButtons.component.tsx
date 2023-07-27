@@ -5,6 +5,7 @@ import {
   XAxisScale,
   timeChannelName,
   Waveform,
+  SelectedPlotChannel,
 } from '../app.types';
 import { format } from 'date-fns';
 
@@ -70,10 +71,24 @@ type DataRow = {
 
 export const constructDataRows = (
   XAxis: string,
-  plots: PlotDataset[]
+  plots: PlotDataset[],
+  selectedPlotChannels: SelectedPlotChannel[]
 ): (string | number)[][] => {
   // First row of file, i.e. the column names
   const headerRow = [XAxis].concat(plots.map((plot) => plot.name));
+  // First row of file with units, i.e. the column names
+  const headerRowWithUnits = [XAxis].concat(
+    plots.map((plot) => {
+      const channel = selectedPlotChannels.find(
+        (channel) => channel.name === plot.name
+      );
+      const channelColumnNames = channel
+        ? `${channel.displayName ?? ''}/${channel.name}/${channel.units}`
+        : 'Unknown Channel';
+
+      return channelColumnNames;
+    })
+  );
 
   const dataRows: DataRow[] = [];
 
@@ -134,7 +149,7 @@ export const constructDataRows = (
     });
   });
 
-  return [headerRow, ...finalCsvRows];
+  return [headerRowWithUnits, ...finalCsvRows];
 };
 
 /**
@@ -168,10 +183,17 @@ function createAndDownloadCSV(csvArray: unknown[][], filename: string) {
 function exportPlotData(
   title: string,
   XAxis?: string,
-  plots?: PlotDataset[]
+  plots?: PlotDataset[],
+  selectedPlotChannels?: SelectedPlotChannel[]
 ): void {
-  if (XAxis && plots && plots.length > 0) {
-    const csvArray = constructDataRows(XAxis, plots);
+  if (
+    XAxis &&
+    plots &&
+    plots.length > 0 &&
+    selectedPlotChannels &&
+    selectedPlotChannels.length > 0
+  ) {
+    const csvArray = constructDataRows(XAxis, plots, selectedPlotChannels);
 
     createAndDownloadCSV(csvArray, title);
   }
@@ -208,6 +230,7 @@ export interface PlotButtonsProps extends CommonButtonsProps {
   toggleAxesLabelsVisibility: () => void;
   resetView: () => void;
   savePlot: () => void;
+  selectedPlotChannels: SelectedPlotChannel[];
 }
 
 export const PlotButtons = (props: PlotButtonsProps) => {
@@ -222,6 +245,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
     toggleAxesLabelsVisibility,
     resetView,
     savePlot,
+    selectedPlotChannels,
   } = props;
 
   return (
@@ -237,7 +261,9 @@ export const PlotButtons = (props: PlotButtonsProps) => {
       <Button onClick={() => exportChart(canvasRef.current, title)}>
         Export Plot
       </Button>
-      <Button onClick={() => exportPlotData(title, XAxis, data)}>
+      <Button
+        onClick={() => exportPlotData(title, XAxis, data, selectedPlotChannels)}
+      >
         Export Plot Data
       </Button>
     </ButtonGroup>

@@ -1,5 +1,7 @@
 import React from 'react';
-import WindowPortal from '../windows/windowPortal.component';
+import WindowPortal, {
+  WindowPortal as WindowPortalClass,
+} from '../windows/windowPortal.component';
 import { useWaveform } from '../api/waveforms';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import { Grid, Backdrop, CircularProgress } from '@mui/material';
@@ -39,7 +41,7 @@ const TraceWindow = (props: TraceWindowProps) => {
     channelName
   );
 
-  const traceWindowRef = React.createRef<WindowPortal>();
+  const traceWindowRef = React.createRef<WindowPortalClass>();
 
   const updateTraceConfig = React.useCallback(
     (newRecordId?: string) => {

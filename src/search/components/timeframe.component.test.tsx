@@ -12,6 +12,8 @@ describe('timeframe search', () => {
   let props: TimeframeProps;
   let user;
   const changeTimeframe = jest.fn();
+  const resetExperimentTimeframe = jest.fn();
+  const resetShotnumber = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<Timeframe {...props} />);
@@ -21,6 +23,8 @@ describe('timeframe search', () => {
     props = {
       timeframe: null,
       changeTimeframe,
+      resetExperimentTimeframe,
+      resetShotnumber,
     };
     user = userEvent.setup();
   });
@@ -80,6 +84,8 @@ describe('timeframe search', () => {
         value: 10,
         timescale: 'minutes',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 24 hours', async () => {
@@ -95,6 +101,8 @@ describe('timeframe search', () => {
         value: 24,
         timescale: 'hours',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 7 days', async () => {
@@ -110,6 +118,8 @@ describe('timeframe search', () => {
         value: 7,
         timescale: 'days',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -131,6 +141,8 @@ describe('timeframe search', () => {
         value: 5,
         timescale: 'minutes',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 18 hours', async () => {
@@ -150,6 +162,8 @@ describe('timeframe search', () => {
         value: 18,
         timescale: 'hours',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('last 21 days', async () => {
@@ -169,6 +183,8 @@ describe('timeframe search', () => {
         value: 21,
         timescale: 'days',
       });
+      expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
+      expect(resetShotnumber).toHaveBeenCalledTimes(1);
     });
 
     it('buttons do not respond if working timeframe is zero', async () => {
@@ -188,6 +204,8 @@ describe('timeframe search', () => {
       );
 
       expect(changeTimeframe).not.toHaveBeenCalled();
+      expect(resetExperimentTimeframe).not.toHaveBeenCalled();
+      expect(resetShotnumber).not.toHaveBeenCalled();
     });
   });
 });
