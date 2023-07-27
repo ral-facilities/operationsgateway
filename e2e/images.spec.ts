@@ -116,7 +116,7 @@ test('user can change the false colour parameters of an image', async ({
 
     await popup.getByLabel('Colour Map').click();
 
-    await popup.getByRole('option', { name: 'colourmap_2' }).click();
+    await popup.getByRole('option', { name: 'cividis' }).click();
 
     const slider = await popup.getByRole('slider', {
       name: 'Level Range',
@@ -157,8 +157,9 @@ test('user can change the false colour parameters of an image', async ({
         y: sliderDims?.height ? sliderDims.height / 2 : 0,
       },
     });
+
     // eslint-disable-next-line jest/no-conditional-expect
-    expect(await slider.nth(1).getAttribute('value')).toBe(`${0.6 * 255}`);
+    expect(await slider.nth(1).getAttribute('value')).toBe('152');
 
     // blur to avoid focus tooltip appearing in snapshot
     await slider.nth(0).blur();
@@ -198,7 +199,7 @@ test('user can change the false colour to use reverse', async ({ page }) => {
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'colourmap_2' }).click();
+  await popup.getByRole('option', { name: 'cividis' }).click();
 
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
   // wait for new image to have loaded
@@ -238,7 +239,7 @@ test('user can change the false colour to colourmap in extended list', async ({
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'colourmap_10' }).click();
+  await popup.getByRole('option', { name: 'afmhot' }).click();
 
   // wait for new image to have loaded
   await image.click();
