@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { flushPromises, renderComponentWithProviders } from '../setupTests';
@@ -12,7 +12,7 @@ describe('False colour panel component', () => {
 
   beforeEach(() => {
     props = {
-      colourMap: 'colourmap_1',
+      colourMap: 'cividis',
       lowerLevel: 0,
       upperLevel: 255,
       changeColourMap,
@@ -47,17 +47,19 @@ describe('False colour panel component', () => {
     // "load" requests
     await flushPromises();
 
+    await waitFor(() => {
+      screen.getByLabelText('Colour Map');
+    });
+
     const select = screen.getByLabelText('Colour Map');
     await user.click(select);
 
     let dropdown = screen.getByRole('listbox', {
       name: 'Colour Map',
     });
-    await user.click(
-      within(dropdown).getByRole('option', { name: 'colourmap_2' })
-    );
+    await user.click(within(dropdown).getByRole('option', { name: 'cividis' }));
 
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2');
+    expect(changeColourMap).toHaveBeenCalledWith('cividis');
 
     jest.clearAllMocks();
 
@@ -128,27 +130,34 @@ describe('False colour panel component', () => {
     expect(changeUpperLevel).toHaveBeenCalledWith(255);
 
     // check that it can restore a selected colourmap as well
+
+    await waitFor(() => {
+      screen.getByLabelText('Colour Map');
+    });
+
     const select = screen.getByLabelText('Colour Map');
     await user.click(select);
 
     const dropdown = screen.getByRole('listbox', {
       name: 'Colour Map',
     });
-    await user.click(
-      within(dropdown).getByRole('option', { name: 'colourmap_2' })
-    );
+    await user.click(within(dropdown).getByRole('option', { name: 'cividis' }));
 
     await user.click(falseColourSwitch);
     jest.clearAllMocks();
     await user.click(falseColourSwitch);
 
     expect(falseColourSwitch).toBeChecked();
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2');
+    expect(changeColourMap).toHaveBeenCalledWith('cividis');
   });
 
   it('reverse the colour map if a reverse colour map exist for a given colour map', async () => {
     const user = userEvent.setup();
     createView();
+
+    await waitFor(() => {
+      screen.getByLabelText('Colour Map');
+    });
 
     const select = screen.getByLabelText('Colour Map');
     await user.click(select);
@@ -156,11 +165,9 @@ describe('False colour panel component', () => {
     const dropdown = screen.getByRole('listbox', {
       name: 'Colour Map',
     });
-    await user.click(
-      within(dropdown).getByRole('option', { name: 'colourmap_1' })
-    );
+    await user.click(within(dropdown).getByRole('option', { name: 'inferno' }));
 
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1');
+    expect(changeColourMap).toHaveBeenCalledWith('inferno');
 
     const reverseColourSwitch = screen.getByRole('checkbox', {
       name: 'Reverse Colour',
@@ -173,7 +180,7 @@ describe('False colour panel component', () => {
 
     expect(reverseColourSwitch).toBeEnabled();
     expect(reverseColourSwitch).toBeChecked();
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_1_r');
+    expect(changeColourMap).toHaveBeenCalledWith('inferno_r');
 
     jest.clearAllMocks();
 
@@ -187,15 +194,15 @@ describe('False colour panel component', () => {
     await user.click(select2);
 
     await user.click(
-      within(dropdown2).getByRole('option', { name: 'colourmap_2' })
+      within(dropdown2).getByRole('option', { name: 'cividis' })
     );
 
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2_r');
+    expect(changeColourMap).toHaveBeenCalledWith('cividis_r');
 
     jest.clearAllMocks();
 
     await user.click(reverseColourSwitch);
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_2');
+    expect(changeColourMap).toHaveBeenCalledWith('cividis');
 
     await user.click(reverseColourSwitch);
 
@@ -219,10 +226,10 @@ describe('False colour panel component', () => {
     });
 
     await user.click(
-      within(extendedDropdown).getByRole('option', { name: 'colourmap_10' })
+      within(extendedDropdown).getByRole('option', { name: 'afmhot' })
     );
 
-    expect(changeColourMap).toHaveBeenCalledWith('colourmap_10');
+    expect(changeColourMap).toHaveBeenCalledWith('afmhot');
     expect(reverseColourSwitch).toBeDisabled();
   });
 });

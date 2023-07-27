@@ -41,41 +41,49 @@ export const browserHandlers = [
             // draw color
             if (originalImage) context.fillStyle = '#000';
             if (colourmap) {
-              switch (colourmap.split('_')[1]) {
-                case '1':
+              switch (
+                colourmap.includes('_') ? colourmap.split('_')[1] : colourmap
+              ) {
+                case 'hsv':
                   context.fillStyle = '#f00';
                   break;
-                case '2':
+                case 'twilight':
                   context.fillStyle = '#0f0';
                   break;
-                case '3':
+                case 'BrBG':
                   context.fillStyle = '#00f';
                   break;
-                case '4':
+                case 'bwr':
                   context.fillStyle = '#ff0';
                   break;
-                case '5':
+                case 'brg':
                   context.fillStyle = '#f0f';
                   break;
-                case '6':
+                case 'CMRmap':
                   context.fillStyle = '#0ff';
                   break;
-                case '7':
+                case 'cividis':
                   context.fillStyle = '#f80';
                   break;
-                case '8':
+                case 'inferno':
                   context.fillStyle = '#f50';
                   break;
-                case '9':
+                case 'Accent':
                   context.fillStyle = '#a0f';
                   break;
-                case '10':
+                case 'Dark2':
                   context.fillStyle = '#4f6';
                   break;
-                case '11':
+                case 'Blues':
                   context.fillStyle = '#e80';
                   break;
-                case '12':
+                case 'BuGn':
+                  context.fillStyle = '#0af';
+                  break;
+                case 'afmhot':
+                  context.fillStyle = '#e80';
+                  break;
+                case 'autumn':
                   context.fillStyle = '#0af';
                   break;
                 default:
@@ -153,41 +161,49 @@ export const browserHandlers = [
 
             // draw color
             if (colourmap) {
-              switch (colourmap.split('_')[1]) {
-                case '1':
+              switch (
+                colourmap.includes('_') ? colourmap.split('_')[1] : colourmap
+              ) {
+                case 'hsv':
                   context.fillStyle = '#f00';
                   break;
-                case '2':
+                case 'twilight':
                   context.fillStyle = '#0f0';
                   break;
-                case '3':
+                case 'BrBG':
                   context.fillStyle = '#00f';
                   break;
-                case '4':
+                case 'bwr':
                   context.fillStyle = '#ff0';
                   break;
-                case '5':
+                case 'brg':
                   context.fillStyle = '#f0f';
                   break;
-                case '6':
+                case 'CMRmap':
                   context.fillStyle = '#0ff';
                   break;
-                case '7':
+                case 'cividis':
                   context.fillStyle = '#f80';
                   break;
-                case '8':
+                case 'inferno':
                   context.fillStyle = '#f50';
                   break;
-                case '9':
+                case 'Accent':
                   context.fillStyle = '#a0f';
                   break;
-                case '10':
+                case 'Dark2':
                   context.fillStyle = '#4f6';
                   break;
-                case '11':
+                case 'Blues':
                   context.fillStyle = '#e80';
                   break;
-                case '12':
+                case 'BuGn':
+                  context.fillStyle = '#0af';
+                  break;
+                case 'afmhot':
+                  context.fillStyle = '#e80';
+                  break;
+                case 'autumn':
                   context.fillStyle = '#0af';
                   break;
                 default:

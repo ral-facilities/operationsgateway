@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
+import colourMapsJson from './colourMaps.json';
 import {
   Channel,
   ExperimentParams,
@@ -220,33 +221,7 @@ export const handlers = [
     return res(
       ctx.status(200),
 
-      ctx.json({
-        main: [
-          'colourmap_1',
-          'colourmap_1_r',
-          'colourmap_2',
-          'colourmap_2_r',
-          'colourmap_3',
-          'colourmap_3_r',
-          'colourmap_4',
-          'colourmap_4_r',
-        ],
-        extended: [
-          'colourmap_5',
-          'colourmap_5_r',
-          'colourmap_6',
-          'colourmap_6_r',
-          'colourmap_7',
-          'colourmap_7_r',
-          'colourmap_8',
-          'colourmap_8_r',
-          'colourmap_9',
-          'colourmap_9_r',
-          'colourmap_10',
-          'colourmap_11',
-          'colourmap_12',
-        ],
-      })
+      ctx.json(colourMapsJson)
     );
   }),
 ];

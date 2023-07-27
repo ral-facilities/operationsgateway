@@ -2,6 +2,7 @@ import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react';
 import { hooksWrapperWithProviders, waitForRequest } from '../setupTests';
 import { useColourBar, useColourMaps, useImage } from './images';
+import colourMapsJson from '../mocks/colourMaps.json';
 
 describe('images api functions', () => {
   afterEach(() => {
@@ -138,33 +139,7 @@ describe('images api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual({
-        extended: [
-          'colourmap_5',
-          'colourmap_5_r',
-          'colourmap_6',
-          'colourmap_6_r',
-          'colourmap_7',
-          'colourmap_7_r',
-          'colourmap_8',
-          'colourmap_8_r',
-          'colourmap_9',
-          'colourmap_9_r',
-          'colourmap_10',
-          'colourmap_11',
-          'colourmap_12',
-        ],
-        main: [
-          'colourmap_1',
-          'colourmap_1_r',
-          'colourmap_2',
-          'colourmap_2_r',
-          'colourmap_3',
-          'colourmap_3_r',
-          'colourmap_4',
-          'colourmap_4_r',
-        ],
-      });
+      expect(result.current.data).toEqual(colourMapsJson);
     });
 
     it.todo(

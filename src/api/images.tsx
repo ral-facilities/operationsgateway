@@ -11,8 +11,7 @@ export interface FalseColourParams {
 }
 
 export interface ColourMapsParams {
-  main: string[];
-  extended: string[];
+  [category: string]: string[];
 }
 
 export const fetchImage = async (
