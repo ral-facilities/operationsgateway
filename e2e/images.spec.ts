@@ -152,8 +152,9 @@ test('user can change the false colour parameters of an image', async ({
   });
 
   expect(await ulSlider.getAttribute('value')).toBe(`${0.8 * 255}`);
-  // blur to avoid focus tooltip appearing in snapshot
-  await popup.keyboard.press('Escape');
+
+  // click outside to dismiss tooltip
+  await image.click();
 
   expect(
     await image.screenshot({
