@@ -235,6 +235,7 @@ test('user can change the false colour to colourmap in extended list', async ({
   await popup
     .getByRole('checkbox', { name: 'Show extended colourmap options' })
     .click();
+
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
