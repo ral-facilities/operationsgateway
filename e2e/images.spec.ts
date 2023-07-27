@@ -152,6 +152,8 @@ test('user can change the false colour parameters of an image', async ({
   });
 
   expect(await ulSlider.getAttribute('value')).toBe(`${0.8 * 255}`);
+  await ulSlider.blur();
+  await ulSliderRoot.blur();
 
   // click outside to dismiss tooltip
   await image.click();
