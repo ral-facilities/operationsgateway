@@ -95,7 +95,7 @@ describe('Sessions', () => {
 
     cy.findByTestId('session-save-buttons-timestamp').should(
       'have.text',
-      'Session last saved: 29 Jun 2023 15:45'
+      'Session last saved: 29 Jun 2023 14:45'
     );
 
     cy.findByText('Session 3').click();
