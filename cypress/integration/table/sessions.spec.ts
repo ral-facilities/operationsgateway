@@ -117,7 +117,7 @@ describe('Sessions', () => {
 
     cy.findByTestId('session-save-buttons-timestamp').should(
       'have.text',
-      'Session last autosaved: 30 Jun 2023 10:15'
+      'Session last autosaved: 30 Jun 2023 09:15'
     );
   });
 
