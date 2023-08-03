@@ -18,7 +18,7 @@ describe('Sessions', () => {
     cy.visit('/');
 
     cy.findByTestId('AddCircleIcon').click();
-    cy.findByLabelText('Name*').type('Session');
+    cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
 
     cy.startSnoopingBrowserMockedRequest();

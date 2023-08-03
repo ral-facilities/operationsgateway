@@ -68,7 +68,8 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
       <DialogTitle>Save Session</DialogTitle>
       <DialogContent>
         <TextField
-          label="Name*"
+          label="Name"
+          required={true}
           sx={{ width: '100%', margin: '4px' }}
           value={sessionName}
           error={nameError}
