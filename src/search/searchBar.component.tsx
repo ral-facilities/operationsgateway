@@ -263,6 +263,26 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     timeframeRange,
   ]);
 
+  // Updates the search fields when a session is loaded
+  React.useEffect(() => {
+    if (shotnumRange) {
+      setSearchParameterShotnumMax(shotnumRange.max);
+      setSearchParameterShotnumMin(shotnumRange.min);
+    }
+    if (experimentID) {
+      setSearchParameterExperiment(experimentID);
+    }
+
+    if (dateRange.fromDate && dateRange.toDate) {
+      const reduxSessionFromDate = new Date(dateRange.fromDate);
+      const reduxSessionToDate = new Date(dateRange.toDate);
+      setSearchParameterFromDate(reduxSessionFromDate);
+      setSearchParameterToDate(reduxSessionToDate);
+    }
+    if (maxShotsParam) {
+      setMaxShots(maxShotsParam);
+    }
+  }, [dateRange, experimentID, maxShotsParam, shotnumRange]);
   // ##################################################
   // Check for vaild Date Ranges and Shot Number Ranges
   // ##################################################
