@@ -57,6 +57,7 @@
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
+    "test:playwright": "docker build --tag operations-gateway-playwright-test --file Dockerfile.playwright . && docker run --volume ./playwright-report:/app/playwright-report --publish 9323:9323 operations-gateway-playwright-test",
     "eject": "react-scripts eject",
     "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
     "e2e-test-server": "node ./server/e2e-test-server.js",
