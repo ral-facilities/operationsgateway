@@ -13,7 +13,6 @@ import {
   Switch,
   FormGroup,
   ListSubheader,
-  ListSubheaderProps,
 } from '@mui/material';
 import {
   ColourMapsParams,
@@ -63,17 +62,29 @@ interface FalseColourPanelProps extends FalseColourParams {
   changeUpperLevel: (value: number | undefined) => void;
 }
 
-function MyListSubheader(props: ListSubheaderProps) {
-  return <ListSubheader {...props} />;
+function filterNamesWithSuffixR(
+  colorMaps: ColourMapsParams | undefined
+): ColourMapsParams {
+  const filteredColorMaps: ColourMapsParams = {};
+
+  for (const category in colorMaps) {
+    const originalList = colorMaps[category];
+    const filteredList = originalList.filter(
+      (colourmap) => !colourmap.endsWith('_r')
+    );
+    filteredColorMaps[category] = filteredList;
+  }
+
+  return filteredColorMaps;
 }
 
-const ColourMapSelectMain = (
+const ColourMapSelect = (
   colourMap: string,
   handleColourMapChange: (event: SelectChangeEvent) => void,
-  mainColourMap: ColourMapsParams
+  colourMaps: ColourMapsParams
 ) => {
-  const mainColourMapTypeName = Object.keys(mainColourMap)[0];
-  const mainColourMapNames = Object.values(mainColourMap)[0];
+  const colourMapTypeNames = Object.keys(colourMaps);
+  const colourMapNames = Object.values(colourMaps);
 
   return (
     <Select
@@ -87,83 +98,16 @@ const ColourMapSelectMain = (
         <em>Default</em>
       </MenuItem>
 
-      <MyListSubheader>{mainColourMapTypeName}</MyListSubheader>
-      {mainColourMapNames.map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-    </Select>
-  );
-};
-
-const ColourMapSelectExtended = (
-  colourMap: string,
-  handleColourMapChange: (event: SelectChangeEvent) => void,
-  extendedColourMapNames: ColourMapsParams
-) => {
-  const mainColourMapTypeNames = Object.keys(extendedColourMapNames);
-  const mainColourMapNames = Object.values(extendedColourMapNames);
-  return (
-    <Select
-      labelId="colour-map-select-label"
-      id="colour-map-select"
-      value={colourMap}
-      label="Colour Map"
-      onChange={handleColourMapChange}
-    >
-      <MenuItem value="">
-        <em>Default</em>
-      </MenuItem>
-
-      <MyListSubheader>{mainColourMapTypeNames[0]}</MyListSubheader>
-      {mainColourMapNames[0].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[1]}</MyListSubheader>
-      {mainColourMapNames[1].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[2]}</MyListSubheader>
-      {mainColourMapNames[2].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[3]}</MyListSubheader>
-      {mainColourMapNames[3].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[4]}</MyListSubheader>
-      {mainColourMapNames[4].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[5]}</MyListSubheader>
-      {mainColourMapNames[5].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
-
-      <MyListSubheader>{mainColourMapTypeNames[6]}</MyListSubheader>
-      {mainColourMapNames[6].map((colourMap) => (
-        <MenuItem key={colourMap} value={colourMap}>
-          {colourMap}
-        </MenuItem>
-      ))}
+      {colourMapNames.map((mapNames, index) => {
+        return [
+          <ListSubheader>{colourMapTypeNames[index]}</ListSubheader>,
+          mapNames.map((colourMap) => (
+            <MenuItem key={colourMap} value={colourMap}>
+              {colourMap}
+            </MenuItem>
+          )),
+        ];
+      })}
     </Select>
   );
 };
@@ -221,21 +165,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     }
     setReverseColour(checked);
   };
-  function filterNamesWithSuffixR(
-    colorMaps: ColourMapsParams | undefined
-  ): ColourMapsParams {
-    const filteredColorMaps: ColourMapsParams = {};
 
-    for (const category in colorMaps) {
-      const originalList = colorMaps[category];
-      const filteredList = originalList.filter(
-        (colourmap) => !colourmap.endsWith('_r')
-      );
-      filteredColorMaps[category] = filteredList;
-    }
-
-    return filteredColorMaps;
-  }
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
   const mainColourMap = 'Perceptually Uniform Sequential';
   const filteredColourMapsMain = {
@@ -313,18 +243,10 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
         <FormControl disabled={!enabled}>
           <InputLabel id="colour-map-select-label">Colour Map</InputLabel>
           {colourMaps &&
-            extendedColourMap &&
-            ColourMapSelectExtended(
+            ColourMapSelect(
               selectColourMap,
               handleColourMapChange,
-              filteredColourMaps
-            )}
-          {colourMaps &&
-            !extendedColourMap &&
-            ColourMapSelectMain(
-              selectColourMap,
-              handleColourMapChange,
-              filteredColourMapsMain
+              extendedColourMap ? filteredColourMaps : filteredColourMapsMain
             )}
         </FormControl>
         <FormControl disabled={!enabled}>
@@ -337,7 +259,6 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             value={[sliderLowerLevel, sliderUpperLevel]}
             valueLabelDisplay="auto"
             marks={marks}
-            track={false}
             onChange={(event, newValue) => {
               if (Array.isArray(newValue)) {
                 const [lower, upper] = newValue;
@@ -354,26 +275,6 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             }}
             min={0}
             max={255}
-            sx={{
-              '& .MuiSlider-rail:before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                height: '100%',
-                width: `${(sliderLowerLevel / 255) * 100}%`,
-                backgroundColor: 'grey.400',
-              },
-              '& .MuiSlider-rail:after': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                height: '100%',
-                width: `${100 - (sliderUpperLevel / 255) * 100}%`,
-                backgroundColor: 'grey.400',
-              },
-            }}
           />
         </FormControl>
         <img src={colourBar} alt="Colour bar" />

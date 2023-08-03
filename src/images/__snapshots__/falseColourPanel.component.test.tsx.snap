@@ -124,13 +124,13 @@ exports[`False colour panel component renders correctly 1`] = `
           Level Range
         </label>
         <span
-          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked MuiSlider-trackFalse css-14rswqv-MuiSlider-root"
+          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked css-1aznpnh-MuiSlider-root"
         >
           <span
             class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
           />
           <span
-            class="MuiSlider-track css-pm1ix7-MuiSlider-track"
+            class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
             style="left: 0%; width: 100%;"
           />
           <span
@@ -147,61 +147,61 @@ exports[`False colour panel component renders correctly 1`] = `
             0
           </span>
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="1"
             style="left: 12.156862745098039%;"
           />
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="2"
             style="left: 24.705882352941178%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="2"
             style="left: 24.705882352941178%;"
           >
             63
           </span>
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="3"
             style="left: 37.254901960784316%;"
           />
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="4"
             style="left: 49.80392156862745%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="4"
             style="left: 49.80392156862745%;"
           >
             127
           </span>
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="5"
             style="left: 62.35294117647059%;"
           />
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="6"
             style="left: 74.90196078431373%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel css-yafthl-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="6"
             style="left: 74.90196078431373%;"
           >
             191
           </span>
           <span
-            class="MuiSlider-mark css-1tfve6q-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
             data-index="7"
             style="left: 87.45098039215686%;"
           />
