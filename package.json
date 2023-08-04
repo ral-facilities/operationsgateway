@@ -43,7 +43,7 @@
     "react-table": "7.8.0",
     "single-spa-react": "5.0.1",
     "typescript": "5.1.6",
-    "web-vitals": "3.3.1"
+    "web-vitals": "3.4.0"
   },
   "resolutions": {
     "@typescript-eslint/eslint-plugin": "5.61.0",
@@ -57,6 +57,7 @@
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
+    "test:playwright": "docker build --tag operations-gateway-playwright-test --file Dockerfile.playwright . && docker run --volume ./playwright-report:/app/playwright-report --publish 9323:9323 operations-gateway-playwright-test",
     "eject": "react-scripts eject",
     "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
     "e2e-test-server": "node ./server/e2e-test-server.js",
@@ -102,7 +103,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.22.5",
     "@craco/craco": "7.1.0",
-    "@playwright/test": "1.30.0",
+    "@playwright/test": "1.36.1",
     "@testing-library/cypress": "8.0.7",
     "@testing-library/dom": "9.3.1",
     "@testing-library/jest-dom": "5.16.4",

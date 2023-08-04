@@ -5,6 +5,9 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
+import SessionButtons from '../session/sessionButtons.component';
+import SaveSessionDialogue from '../session/saveSessionDialogue.component';
+import SessionsDrawer from '../session/sessionDrawer.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -50,20 +53,62 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
+  const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
+
+  const [sessionName, setSessionName] = React.useState<string | undefined>(
+    undefined
+  );
+  const [sessionSummary, setSessionSummary] = React.useState<string>('');
+
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="view tabs">
-          <StyledTab value="Data" label="Data" {...a11yProps('Data')} />
-          <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
-        </Tabs>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: '100%',
+      }}
+    >
+      <SessionsDrawer
+        openSessionSave={() => {
+          setSessionSaveOpen(true);
+        }}
+      />
+
+      <Box sx={{ width: '100%' }}>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}
+        >
+          <Tabs value={value} onChange={handleChange} aria-label="view tabs">
+            <StyledTab value="Data" label="Data" {...a11yProps('Data')} />
+            <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
+          </Tabs>
+          <Box marginLeft="auto">
+            <SessionButtons />
+          </Box>
+        </Box>
+        <TabPanel value={value} label={'Data'}>
+          <DataView />
+        </TabPanel>
+        <TabPanel value={value} label={'Plots'}>
+          <PlotList />
+        </TabPanel>
+        <SaveSessionDialogue
+          open={sessionSaveOpen}
+          onClose={() => setSessionSaveOpen(false)}
+          sessionName={sessionName}
+          sessionSummary={sessionSummary}
+          onChangeSessionName={setSessionName}
+          onChangeSessionSummary={setSessionSummary}
+        />
       </Box>
-      <TabPanel value={value} label={'Data'}>
-        <DataView />
-      </TabPanel>
-      <TabPanel value={value} label={'Plots'}>
-        <PlotList />
-      </TabPanel>
     </Box>
   );
 };
