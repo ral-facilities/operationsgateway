@@ -13,7 +13,7 @@ describe('save session dialogue', () => {
   const onClose = jest.fn();
   const onChangeSessionName = jest.fn();
   const onChangeSessionSummary = jest.fn();
-  const onChangeSelectedSessionId = jest.fn();
+  const onChangeLoadedSessionId = jest.fn();
   const refetchSessionsList = jest.fn();
 
   const createView = (): RenderResult => {
@@ -28,7 +28,7 @@ describe('save session dialogue', () => {
       sessionSummary: '',
       onChangeSessionName: onChangeSessionName,
       onChangeSessionSummary: onChangeSessionSummary,
-      onChangeSelectedSessionId: onChangeSelectedSessionId,
+      onChangeLoadedSessionId: onChangeLoadedSessionId,
       refetchSessionsList: refetchSessionsList,
     };
 
@@ -106,7 +106,7 @@ describe('save session dialogue', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
     });
-    expect(onChangeSelectedSessionId).toHaveBeenCalledWith('1');
+    expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
     expect(refetchSessionsList).toHaveBeenCalled();
   });
 });

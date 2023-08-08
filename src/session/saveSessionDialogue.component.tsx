@@ -17,7 +17,7 @@ export interface SessionDialogueProps {
   sessionSummary: string;
   onChangeSessionName: (sessionName: string | undefined) => void;
   onChangeSessionSummary: (sessionSummary: string) => void;
-  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
 }
 
@@ -29,7 +29,7 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     sessionSummary,
     onChangeSessionName,
     onChangeSessionSummary,
-    onChangeSelectedSessionId,
+    onChangeLoadedSessionId,
     refetchSessionsList,
   } = props;
 
@@ -57,7 +57,7 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
       saveSession(session)
         .then((response) => {
           refetchSessionsList();
-          onChangeSelectedSessionId(response);
+          onChangeLoadedSessionId(response);
           handleClose();
         })
         .catch((error) => {
@@ -71,7 +71,7 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     }
   }, [
     handleClose,
-    onChangeSelectedSessionId,
+    onChangeLoadedSessionId,
     refetchSessionsList,
     saveSession,
     sessionName,

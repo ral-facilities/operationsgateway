@@ -54,7 +54,8 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
-  const [selectedSessionId, setSelectedSessionId] = React.useState<
+  // This useState manages the current loaded session id
+  const [loadedSessionId, setLoadedSessionId] = React.useState<
     string | undefined
   >(undefined);
 
@@ -81,8 +82,8 @@ const ViewTabs = () => {
           setSessionSaveOpen(true);
         }}
         sessionsList={sessionsList}
-        selectedSessionId={selectedSessionId}
-        onChangeSelectedSessionId={setSelectedSessionId}
+        loadedSessionId={loadedSessionId}
+        onChangeLoadedSessionId={setLoadedSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -105,7 +106,7 @@ const ViewTabs = () => {
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView sessionId={selectedSessionId} />
+          <DataView sessionId={loadedSessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
@@ -117,7 +118,7 @@ const ViewTabs = () => {
           sessionSummary={sessionSummary}
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
-          onChangeSelectedSessionId={setSelectedSessionId}
+          onChangeLoadedSessionId={setLoadedSessionId}
           refetchSessionsList={refetchSessionsList}
         />
       </Box>

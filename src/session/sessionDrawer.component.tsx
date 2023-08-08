@@ -24,8 +24,8 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 export interface SessionDrawerProps {
   openSessionSave: () => void;
   sessionsList: SessionListItem[] | undefined;
-  selectedSessionId: string | undefined;
-  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  loadedSessionId: string | undefined;
+  onChangeLoadedSessionId: (selectedSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
@@ -44,6 +44,7 @@ const SessionListElement = (
         display: 'flex',
         width: '100%',
         backgroundColor: selected ? 'primary.main' : 'background.paper',
+        padding: 0,
       }}
     >
       <Button
@@ -52,7 +53,6 @@ const SessionListElement = (
           display: 'flex',
           backgroundColor: selected ? 'primary.main' : 'background.paper',
           width: '100%',
-          margin: '1px',
           textDecoration: 'none',
           color: selected ? 'white' : 'inherit',
         }}
@@ -65,16 +65,17 @@ const SessionListElement = (
           sx={{
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            overflowWrap: 'break-word',
           }}
         >
           {session.name}
         </Typography>
         <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
-          <IconButton>
-            <EditIcon sx={{ fontSize: '1em' }} />
+          <IconButton size="small">
+            <EditIcon />
           </IconButton>
-          <IconButton>
-            <DeleteIcon sx={{ fontSize: '1em' }} />
+          <IconButton size="small">
+            <DeleteIcon />
           </IconButton>
         </Box>
       </Button>
@@ -85,12 +86,12 @@ const SessionListElement = (
 const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   const {
     openSessionSave,
-    selectedSessionId,
-    onChangeSelectedSessionId,
+    loadedSessionId,
+    onChangeLoadedSessionId,
     sessionsList,
   } = props;
 
-  const { data: sessionData } = useSession(selectedSessionId);
+  const { data: sessionData } = useSession(loadedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -125,8 +126,8 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   }, [dispatch, sessionData]);
 
   const handleSessionClick = (sessionId: string) => {
-    onChangeSelectedSessionId(undefined);
-    onChangeSelectedSessionId(sessionId);
+    onChangeLoadedSessionId(undefined);
+    onChangeLoadedSessionId(sessionId);
   };
 
   return (
@@ -151,11 +152,15 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         <Box>
           {sessionsList &&
             sessionsList.map((item, index) => (
-              <ListItem key={item._id} alignItems="flex-start">
+              <ListItem
+                sx={{ padding: 0 }}
+                key={item._id}
+                alignItems="flex-start"
+              >
                 <SessionListElement
                   {...item}
                   handleImport={handleSessionClick}
-                  selected={selectedSessionId === item._id}
+                  selected={loadedSessionId === item._id}
                 />
               </ListItem>
             ))}
