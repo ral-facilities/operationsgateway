@@ -19,7 +19,7 @@ export interface SessionDialogueProps {
   onChangeSessionName: (sessionName: string | undefined) => void;
   onChangeSessionSummary: (sessionSummary: string) => void;
   requestType: 'edit' | 'create';
-  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
   sessionData?: SessionResponse;
 }
@@ -34,7 +34,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     onChangeSessionSummary,
     requestType,
     sessionData,
-    onChangeSelectedSessionId,
+    onChangeLoadedSessionId,
     refetchSessionsList,
   } = props;
 
@@ -64,7 +64,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       saveSession(session)
         .then((response) => {
           refetchSessionsList();
-          onChangeSelectedSessionId(response);
+          onChangeLoadedSessionId(response);
           handleClose();
         })
         .catch((error) => {
@@ -78,7 +78,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     }
   }, [
     handleClose,
-    onChangeSelectedSessionId,
+    onChangeLoadedSessionId,
     refetchSessionsList,
     saveSession,
     sessionName,
@@ -121,7 +121,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
   ]);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg">
+    <Dialog open={open} onClose={handleClose} maxWidth="lg">
       <DialogTitle>
         {requestType === 'create' ? 'Save Session' : 'Edit Session'}
       </DialogTitle>

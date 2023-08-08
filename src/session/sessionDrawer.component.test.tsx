@@ -9,7 +9,7 @@ describe('session Drawer', () => {
   const openSessionSave = jest.fn();
   const openSessionEdit = jest.fn();
   const openSessionDelete = jest.fn();
-  const onChangeSelectedSessionId = jest.fn();
+  const onChangeLoadedSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
@@ -21,8 +21,8 @@ describe('session Drawer', () => {
       openSessionSave: openSessionSave,
       openSessionEdit: openSessionEdit,
       openSessionDelete: openSessionDelete,
-      selectedSessionId: undefined,
-      onChangeSelectedSessionId: onChangeSelectedSessionId,
+      loadedSessionId: undefined,
+      onChangeLoadedSessionId: onChangeLoadedSessionId,
       sessionsList: SessionsListJSON,
     };
   });
@@ -55,7 +55,7 @@ describe('session Drawer', () => {
     expect(screen.getByText('Session 3')).toBeInTheDocument();
     const session1 = screen.getByText('Session 1');
     await user.click(session1);
-    expect(onChangeSelectedSessionId).toHaveBeenCalledWith('1');
+    expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
 
     await waitFor(() => {
       expect(session1).toHaveStyle('background-color: primary.main');

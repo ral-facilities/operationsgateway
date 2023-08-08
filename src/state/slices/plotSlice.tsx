@@ -72,7 +72,6 @@ export const plotSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     closePlot: (state, action: PayloadAction<string>) => {
-      // state[action.payload].open = false;
       const plotId = action.payload;
       if (state[plotId]) {
         state[plotId].open = false;

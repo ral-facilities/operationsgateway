@@ -56,17 +56,19 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
-  const [sessionId, setSessionId] = React.useState<string | undefined>(
-    undefined
-  );
-
+  // This useState manges the selected session id used for deleting and editing a session
   const [selectedSessionId, setSelectedSessionId] = React.useState<
     string | undefined
-  >(sessionId);
+  >(undefined);
+
+  // This useState manages the current loaded session id
+  const [loadedSessionId, setLoadedSessionId] = React.useState<
+    string | undefined
+  >(selectedSessionId);
 
   const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
 
-  const { data: sessionData } = useSession(sessionId);
+  const { data: sessionData } = useSession(selectedSessionId);
 
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
   const [sessionEditOpen, setSessionEditOpen] = React.useState<boolean>(false);
@@ -82,19 +84,14 @@ const ViewTabs = () => {
     setSessionEditOpen(true);
     setSessionName(sessionData.name);
     setSessionSummary(sessionData.summary);
-    setSessionId(sessionData._id);
+    setSelectedSessionId(sessionData._id);
   };
 
   const onSessionDeleteOpen = (sessionData: SessionListItem) => {
     setSessionDeleteOpen(true);
-    setSessionId(sessionData._id);
+    setSelectedSessionId(sessionData._id);
   };
-  React.useEffect(() => {
-    if (!sessionEditOpen) {
-      setSessionName(undefined);
-      setSessionSummary('');
-    }
-  }, [sessionEditOpen]);
+
   return (
     <Box
       sx={{
@@ -111,8 +108,8 @@ const ViewTabs = () => {
         openSessionEdit={onSessionEditOpen}
         openSessionDelete={onSessionDeleteOpen}
         sessionsList={sessionsList}
-        selectedSessionId={selectedSessionId}
-        onChangeSelectedSessionId={setSelectedSessionId}
+        loadedSessionId={loadedSessionId}
+        onChangeLoadedSessionId={setLoadedSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -135,7 +132,7 @@ const ViewTabs = () => {
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView sessionId={selectedSessionId} />
+          <DataView sessionId={loadedSessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
@@ -149,7 +146,7 @@ const ViewTabs = () => {
           onChangeSessionSummary={setSessionSummary}
           requestType="edit"
           sessionData={sessionData}
-          onChangeSelectedSessionId={setSelectedSessionId}
+          onChangeLoadedSessionId={setLoadedSessionId}
           refetchSessionsList={refetchSessionsList}
         />
         <SessionDialogue
@@ -159,7 +156,7 @@ const ViewTabs = () => {
           sessionSummary={sessionSummary}
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
-          onChangeSelectedSessionId={setSelectedSessionId}
+          onChangeLoadedSessionId={setLoadedSessionId}
           requestType="create"
           refetchSessionsList={refetchSessionsList}
         />
@@ -168,6 +165,8 @@ const ViewTabs = () => {
           onClose={() => setSessionDeleteOpen(false)}
           sessionData={sessionData}
           refetchSessionsList={refetchSessionsList}
+          loadedSessionId={loadedSessionId}
+          onChangeLoadedSessionId={setLoadedSessionId}
         />
       </Box>
     </Box>

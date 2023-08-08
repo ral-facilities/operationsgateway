@@ -26,8 +26,8 @@ export interface SessionDrawerProps {
   openSessionEdit: (sessionData: SessionListItem) => void;
   openSessionDelete: (sessionData: SessionListItem) => void;
   sessionsList: SessionListItem[] | undefined;
-  selectedSessionId: string | undefined;
-  onChangeSelectedSessionId: (selectedSessionId: string | undefined) => void;
+  loadedSessionId: string | undefined;
+  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
@@ -54,6 +54,7 @@ const SessionListElement = (
         display: 'flex',
         width: '100%',
         backgroundColor: selected ? 'primary.main' : 'background.paper',
+        padding: 0,
       }}
     >
       <Button
@@ -62,7 +63,6 @@ const SessionListElement = (
           display: 'flex',
           backgroundColor: selected ? 'primary.main' : 'background.paper',
           width: '100%',
-          margin: '1px',
           textDecoration: 'none',
           color: selected ? 'white' : 'inherit',
         }}
@@ -75,28 +75,31 @@ const SessionListElement = (
           sx={{
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            overflowWrap: 'break-word',
           }}
         >
           {session.name}
         </Typography>
         <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
           <IconButton
+            size="small"
             onClick={(event) => {
               event.stopPropagation();
               openSessionEdit(session);
             }}
             data-testid="edit-session-button"
           >
-            <EditIcon sx={{ fontSize: '1em' }} />
+            <EditIcon />
           </IconButton>
           <IconButton
+            size="small"
             onClick={(event) => {
               event.stopPropagation();
               openSessionDelete(session);
             }}
             data-testid="delete-session-button"
           >
-            <DeleteIcon sx={{ fontSize: '1em' }} />
+            <DeleteIcon />
           </IconButton>
         </Box>
       </Button>
@@ -110,11 +113,11 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     openSessionDelete,
     openSessionEdit,
     sessionsList,
-    selectedSessionId,
-    onChangeSelectedSessionId,
+    loadedSessionId,
+    onChangeLoadedSessionId,
   } = props;
 
-  const { data: sessionData } = useSession(selectedSessionId);
+  const { data: sessionData } = useSession(loadedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -149,8 +152,8 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   }, [dispatch, sessionData]);
 
   const handleSessionClick = (sessionId: string) => {
-    onChangeSelectedSessionId(undefined);
-    onChangeSelectedSessionId(sessionId);
+    onChangeLoadedSessionId(undefined);
+    onChangeLoadedSessionId(sessionId);
   };
 
   return (
@@ -175,11 +178,15 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         <Box>
           {sessionsList &&
             sessionsList.map((item, index) => (
-              <ListItem key={item._id} alignItems="flex-start">
+              <ListItem
+                sx={{ padding: 0 }}
+                key={item._id}
+                alignItems="flex-start"
+              >
                 <SessionListElement
                   {...item}
                   handleImport={handleSessionClick}
-                  selected={selectedSessionId === item._id}
+                  selected={loadedSessionId === item._id}
                   openSessionDelete={openSessionDelete}
                   openSessionEdit={openSessionEdit}
                 />

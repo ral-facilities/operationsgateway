@@ -15,10 +15,19 @@ export interface DeleteSessionDialogueProps {
   onClose: () => void;
   sessionData: SessionResponse | undefined;
   refetchSessionsList: () => void;
+  loadedSessionId: string | undefined;
+  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
 }
 
 const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
-  const { open, onClose, sessionData, refetchSessionsList } = props;
+  const {
+    open,
+    onClose,
+    sessionData,
+    refetchSessionsList,
+    loadedSessionId,
+    onChangeLoadedSessionId,
+  } = props;
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
@@ -32,6 +41,9 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
       deleteSession(sessionData)
         .then((response) => {
           refetchSessionsList();
+          if (loadedSessionId === sessionData._id) {
+            onChangeLoadedSessionId(undefined);
+          }
           onClose();
         })
         .catch((error) => {
@@ -42,7 +54,14 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
       setError(true);
       setErrorMessage('No data provided, Please refresh and try again');
     }
-  }, [deleteSession, onClose, refetchSessionsList, sessionData]);
+  }, [
+    deleteSession,
+    loadedSessionId,
+    onChangeLoadedSessionId,
+    onClose,
+    refetchSessionsList,
+    sessionData,
+  ]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg">

@@ -11,6 +11,7 @@ describe('delete session dialogue', () => {
   let user;
   const onClose = jest.fn();
   const refetchSessionsList = jest.fn();
+  const onChangeLoadedSessionId = jest.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<DeleteSessionDialogue {...props} />);
@@ -18,9 +19,10 @@ describe('delete session dialogue', () => {
   const sessionData = {
     name: 'test',
     summary: 'test',
-    session_data: '{}',
+    session: {},
     auto_saved: false,
     _id: '1',
+    timestamp: '',
   };
   beforeEach(() => {
     props = {
@@ -28,6 +30,8 @@ describe('delete session dialogue', () => {
       onClose: onClose,
       refetchSessionsList: refetchSessionsList,
       sessionData: sessionData,
+      onChangeLoadedSessionId: onChangeLoadedSessionId,
+      loadedSessionId: undefined,
     };
     user = userEvent; // Assigning userEvent to 'user'
   });
@@ -74,5 +78,18 @@ describe('delete session dialogue', () => {
       expect(onClose).toHaveBeenCalled();
     });
     expect(refetchSessionsList).toHaveBeenCalled();
+  });
+
+  it('calls handleDeleteSession when continue button is clicked with a valid session name and clears loaded session id', async () => {
+    props = { ...props, loadedSessionId: '1' };
+    createView();
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    user.click(continueButton);
+
+    await waitFor(() => {
+      expect(onClose).toHaveBeenCalled();
+    });
+    expect(refetchSessionsList).toHaveBeenCalled();
+    expect(onChangeLoadedSessionId).toHaveBeenCalledWith(undefined);
   });
 });
