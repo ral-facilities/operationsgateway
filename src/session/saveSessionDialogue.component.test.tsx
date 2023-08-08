@@ -13,6 +13,8 @@ describe('save session dialogue', () => {
   const onClose = jest.fn();
   const onChangeSessionName = jest.fn();
   const onChangeSessionSummary = jest.fn();
+  const onChangeLoadedSessionId = jest.fn();
+  const refetchSessionsList = jest.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SaveSessionDialogue {...props} />);
@@ -26,9 +28,11 @@ describe('save session dialogue', () => {
       sessionSummary: '',
       onChangeSessionName: onChangeSessionName,
       onChangeSessionSummary: onChangeSessionSummary,
+      onChangeLoadedSessionId: onChangeLoadedSessionId,
+      refetchSessionsList: refetchSessionsList,
     };
 
-    user = userEvent; // Assigning userEvent to 'user'
+    user = userEvent.setup();
   });
 
   afterEach(() => {
@@ -91,12 +95,9 @@ describe('save session dialogue', () => {
 
   it('calls handleExportSession when Save button is clicked with a valid session name', async () => {
     props = {
-      open: true,
-      onClose: onClose,
+      ...props,
       sessionName: 'Test Session',
       sessionSummary: 'Test Summary',
-      onChangeSessionName: onChangeSessionName,
-      onChangeSessionSummary: onChangeSessionSummary,
     };
     createView();
     const saveButton = screen.getByRole('button', { name: 'Save' });
@@ -105,5 +106,7 @@ describe('save session dialogue', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
     });
+    expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
+    expect(refetchSessionsList).toHaveBeenCalled();
   });
 });

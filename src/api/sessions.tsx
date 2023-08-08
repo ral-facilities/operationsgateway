@@ -1,6 +1,11 @@
 import axios, { AxiosError } from 'axios';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { Session } from '../app.types';
+import {
+  useMutation,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
@@ -32,4 +37,68 @@ export const useSaveSession = (): UseMutationResult<
       console.log('Got error ' + error.message);
     },
   });
+};
+
+const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
+  return axios
+    .get(`${apiUrl}/sessions/list`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const useSessionList = (): UseQueryResult<
+  SessionListItem[],
+  AxiosError
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
+    ['sessionList'],
+    (params) => {
+      return fetchSessionList(apiUrl);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
+
+const fetchSession = (
+  apiUrl: string,
+  sessionId: string | undefined
+): Promise<SessionResponse> => {
+  return axios
+    .get(`${apiUrl}/sessions/${sessionId}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const useSession = (
+  session_id: string | undefined
+): UseQueryResult<SessionResponse, AxiosError> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery(
+    ['session', session_id],
+    (params) => {
+      return fetchSession(apiUrl, session_id);
+    },
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
 };

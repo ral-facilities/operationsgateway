@@ -172,7 +172,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   // display the warning message or update the applied filters
   React.useEffect(() => {
     // check incomingCount isn't undefined so we don't run on initial render
-    if (typeof incomingCount !== 'undefined') {
+    // also make sure the dialogue is open to not run in the background
+    if (typeof incomingCount !== 'undefined' && open) {
       if (
         !displayingWarningMessage &&
         overRecordLimit() &&

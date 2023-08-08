@@ -14,6 +14,7 @@ describe('shotNumber search', () => {
   const changeSearchParameterShotnumMax = jest.fn();
   const resetDateRange = jest.fn();
   const resetExperimentTimeframe = jest.fn();
+  const searchParamsUpdated = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -28,6 +29,7 @@ describe('shotNumber search', () => {
       resetExperimentTimeframe,
       isDateToShotnum: false,
       invalidShotNumberRange: false,
+      searchParamsUpdated: searchParamsUpdated,
     };
 
     user = userEvent.setup();
@@ -75,6 +77,7 @@ describe('shotNumber search', () => {
     expect(changeSearchParameterShotnumMin).toHaveBeenCalledWith(1);
     expect(changeSearchParameterShotnumMax).toHaveBeenCalledWith(2);
     expect(resetDateRange).toHaveBeenCalled();
+    expect(searchParamsUpdated).toHaveBeenCalled();
     const helperTexts = within(shotnumPopup).queryAllByText('Invalid range');
     expect(helperTexts.length).toEqual(0);
   });
@@ -106,6 +109,7 @@ describe('shotNumber search', () => {
     await user.clear(minInput);
     await user.clear(maxInput);
     expect(resetExperimentTimeframe).toHaveBeenCalled();
+    expect(searchParamsUpdated).toHaveBeenCalled();
   });
 
   describe('displays the currently selected shot number range', () => {

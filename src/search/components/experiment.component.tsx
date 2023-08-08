@@ -22,6 +22,7 @@ export interface ExperimentProps {
   resetTimeframe: () => void;
   changeExperimentTimeframe: (value: ExperimentParams) => void;
   resetShotnumber: () => void;
+  searchParamsUpdated: () => void;
 }
 
 const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
@@ -32,6 +33,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
     resetTimeframe,
     changeExperimentTimeframe,
     resetShotnumber,
+    searchParamsUpdated,
   } = props;
 
   const [value, setValue] = React.useState<ExperimentParams | null>(null);
@@ -77,6 +79,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             blurOnSelect
             onChange={(event: unknown, newValue: ExperimentParams | null) => {
               resetTimeframe();
+              searchParamsUpdated();
 
               if (newValue) {
                 resetShotnumber();
