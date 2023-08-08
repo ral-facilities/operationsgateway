@@ -236,3 +236,20 @@ export interface Session {
   auto_saved: boolean;
   session_data: ImportSessionType;
 }
+
+export interface SessionResponse {
+  _id: string;
+  name: string;
+  summary: string;
+  timestamp: string;
+  auto_saved: boolean;
+  session: ImportSessionType;
+}
+
+export interface SessionListItem {
+  name: string;
+  summary: string;
+  auto_saved: boolean;
+  timestamp: string;
+  _id: string;
+}

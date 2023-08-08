@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
-const SessionsButtons = () => {
+const SessionsSaveButtons = () => {
   return (
     <Box
       sx={{
@@ -18,4 +18,4 @@ const SessionsButtons = () => {
   );
 };
 
-export default SessionsButtons;
+export default SessionsSaveButtons;

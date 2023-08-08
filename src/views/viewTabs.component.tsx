@@ -5,9 +5,10 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
-import SessionButtons from '../session/sessionButtons.component';
+import SessionSaveButtons from '../session/sessionSaveButtons.component';
 import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
+import { useSessionList } from '../api/sessions';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -53,6 +54,13 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
+  // This useState manages the current loaded session id
+  const [loadedSessionId, setLoadedSessionId] = React.useState<
+    string | undefined
+  >(undefined);
+
+  const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
+
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
 
   const [sessionName, setSessionName] = React.useState<string | undefined>(
@@ -73,6 +81,9 @@ const ViewTabs = () => {
         openSessionSave={() => {
           setSessionSaveOpen(true);
         }}
+        sessionsList={sessionsList}
+        loadedSessionId={loadedSessionId}
+        onChangeLoadedSessionId={setLoadedSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -91,11 +102,11 @@ const ViewTabs = () => {
             <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
           </Tabs>
           <Box marginLeft="auto">
-            <SessionButtons />
+            <SessionSaveButtons />
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>
-          <DataView />
+          <DataView sessionId={loadedSessionId} />
         </TabPanel>
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
@@ -107,6 +118,8 @@ const ViewTabs = () => {
           sessionSummary={sessionSummary}
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
+          onChangeLoadedSessionId={setLoadedSessionId}
+          refetchSessionsList={refetchSessionsList}
         />
       </Box>
     </Box>

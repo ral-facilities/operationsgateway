@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, type RenderResult } from '@testing-library/react';
-import SessionsButtons from './sessionButtons.component';
+import SessionsButtons from './sessionSaveButtons.component';
 
 describe('session buttons', () => {
   const createView = (): RenderResult => {

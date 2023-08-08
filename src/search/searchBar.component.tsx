@@ -5,7 +5,7 @@ import Timeframe, {
 } from './components/timeframe.component';
 import Experiment from './components/experiment.component';
 import ShotNumber from './components/shotNumber.component';
-import MaxShots from './components/maxShots.component';
+import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import { isBefore } from 'date-fns';
 import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import {
@@ -48,10 +48,12 @@ export type TimeframeDates = {
 
 interface SearchBarProps {
   expanded: boolean;
+  sessionId: string | undefined;
 }
 
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
+  const { expanded, sessionId } = props;
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const {
@@ -265,24 +267,37 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   // Updates the search fields when a session is loaded
   React.useEffect(() => {
-    if (shotnumRange) {
-      setSearchParameterShotnumMax(shotnumRange.max);
-      setSearchParameterShotnumMin(shotnumRange.min);
+    if (dateRange.fromDate) {
+      setSearchParameterFromDate(new Date(dateRange.fromDate));
     }
+    if (dateRange.toDate) {
+      setSearchParameterToDate(new Date(dateRange.toDate));
+    }
+
     if (experimentID) {
       setSearchParameterExperiment(experimentID);
     }
 
-    if (dateRange.fromDate && dateRange.toDate) {
-      const reduxSessionFromDate = new Date(dateRange.fromDate);
-      const reduxSessionToDate = new Date(dateRange.toDate);
-      setSearchParameterFromDate(reduxSessionFromDate);
-      setSearchParameterToDate(reduxSessionToDate);
-    }
-    if (maxShotsParam) {
-      setMaxShots(maxShotsParam);
-    }
-  }, [dateRange, experimentID, maxShotsParam, shotnumRange]);
+    setMaxShots(maxShotsParam);
+    setParamsUpdated(false);
+  }, [dateRange, experimentID, maxShotsParam]);
+
+  const firstUpdate = React.useRef(true);
+  // we need to keep track of a session ID change so that we can skip the useEffect
+  // that's supposed to activate after handleSearch is clicked & incomingCount is updated
+  const sessionIdChange = React.useRef(false);
+  // removes all the search fields when a session is loaded
+  React.useEffect(() => {
+    if (!firstUpdate.current && sessionId) {
+      setSearchParameterExperiment(null);
+      setSearchParameterFromDate(null);
+      setSearchParameterToDate(null);
+      setSearchParameterShotnumMin(undefined);
+      setSearchParameterShotnumMax(undefined);
+      setMaxShots(MAX_SHOTS_VALUES[0]);
+      sessionIdChange.current = true;
+    } else firstUpdate.current = false;
+  }, [sessionId]);
   // ##################################################
   // Check for vaild Date Ranges and Shot Number Ranges
   // ##################################################
@@ -305,17 +320,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     (searchParameterShotnumMin !== undefined &&
       searchParameterShotnumMax === undefined);
 
-  React.useEffect(() => {
+  const searchParamsUpdated = () => {
     setParamsUpdated(true);
     // reset warning message when search params change
     setDisplayingWarningMessage(false);
-  }, [
-    searchParameterFromDate,
-    searchParameterToDate,
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
-    maxShots,
-  ]);
+  };
 
   // ########################
   // RECORD LIMIT WARNING
@@ -415,24 +424,28 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   React.useEffect(() => {
     // check incomingCount isn't undefined so we don't run on initial render
     if (typeof incomingCount !== 'undefined') {
-      if (
-        !displayingWarningMessage &&
-        overRecordLimit() &&
-        // search for if we have previously made a search with these params
-        // use exact: false to ignore things like sort, pagination etc.
-        queryClient.getQueriesData({
-          exact: false,
-          queryKey: [
-            'records',
-            { filters: filters, searchParams: incomingParams },
-          ],
-        }).length === 0
-      ) {
-        setDisplayingWarningMessage(true);
+      if (!sessionIdChange.current) {
+        if (
+          !displayingWarningMessage &&
+          overRecordLimit() &&
+          // search for if we have previously made a search with these params
+          // use exact: false to ignore things like sort, pagination etc.
+          queryClient.getQueriesData({
+            exact: false,
+            queryKey: [
+              'records',
+              { filters: filters, searchParams: incomingParams },
+            ],
+          }).length === 0
+        ) {
+          setDisplayingWarningMessage(true);
+        } else {
+          setDisplayingWarningMessage(false);
+          dispatch(changeSearchParams(incomingParams));
+          setParamsUpdated(false);
+        }
       } else {
-        setDisplayingWarningMessage(false);
-        dispatch(changeSearchParams(incomingParams));
-        setParamsUpdated(false);
+        sessionIdChange.current = false;
       }
     }
     // deliberately only want this use effect to be called when incomingCount or incomingParams changes
@@ -454,8 +467,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setRefreshingData(false);
     }
   }, [handleSearch, refreshingData]);
-
-  const { expanded } = props;
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -480,6 +491,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   isShotnumToDate={isShotnumToDate}
                   isDateTimeInExperiment={isDateTimeInExperiment}
                   invalidDateRange={invalidDateRange}
+                  searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -490,6 +502,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetShotnumber={() =>
                     setShotnumberRange(undefined, undefined)
                   }
+                  searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -502,6 +515,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetShotnumber={() =>
                     setShotnumberRange(undefined, undefined)
                   }
+                  searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
               <Grid item xs={2}>
@@ -514,6 +528,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   resetExperimentTimeframe={() => setExperimentTimeframe(null)}
                   isDateToShotnum={isDateToShotnum}
                   invalidShotNumberRange={invalidShotNumberRange}
+                  searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
               <Grid item xs={1}>
@@ -580,7 +595,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           </Grid>
           <Grid container direction="row" columnGap={5}>
             <Grid item>
-              <MaxShots maxShots={maxShots} changeMaxShots={setMaxShots} />
+              <MaxShots
+                maxShots={maxShots}
+                changeMaxShots={setMaxShots}
+                searchParamsUpdated={searchParamsUpdated}
+              />
             </Grid>
             <Grid item>
               <DataRefresh

@@ -36,6 +36,7 @@ describe('searchBar component', () => {
     user = userEvent.setup();
     props = {
       expanded: true,
+      sessionId: '1',
     };
   });
 
@@ -598,7 +599,16 @@ describe('searchBar component', () => {
         recordLimitWarning: 30, // lower than the returned count of 31
       },
     };
-    const { store } = createView(state, testQueryClient);
+    const { store, rerender } = createView(state, testQueryClient);
+
+    props = {
+      ...props,
+      sessionId: '2',
+    };
+    rerender(<SearchBar {...props} />, {
+      preloadedState: state,
+      testQueryClient,
+    });
 
     // Try and search by the previously cached search params
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
