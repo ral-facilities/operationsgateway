@@ -78,7 +78,7 @@ describe('View Tabs', () => {
 
     expect(screen.getByRole('dialog')).toBeVisible();
 
-    const sessionNameInput = screen.getByLabelText('Name*');
+    const sessionNameInput = screen.getByLabelText('Name *');
     const sessionSummaryInput = screen.getByLabelText('Summary');
 
     await user.type(sessionNameInput, 'Test Session');

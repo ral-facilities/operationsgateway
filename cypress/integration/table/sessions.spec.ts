@@ -19,7 +19,7 @@ describe('Sessions', () => {
   });
   it('sends a posts a request when a user session is created', () => {
     cy.findByTestId('AddCircleIcon').click();
-    cy.findByLabelText('Name*').type('Session');
+    cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
 
     cy.startSnoopingBrowserMockedRequest();
