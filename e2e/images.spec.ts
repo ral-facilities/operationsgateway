@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
 
-test('user can zoom and pan the image', async ({ page }) => {
+test('user can zoom and pan the image', async ({ page, browserName }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
@@ -86,54 +86,56 @@ test('user can zoom and pan the image', async ({ page }) => {
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
-  await popup.locator('text=Reset View').click();
-
-  expect(
-    await imageDiv.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
-});
-test('user can change the false colour parameters of an image', async ({
-  browserName,
-  page,
-}) => {
+  // TODO: Remove webkit check when reset view works correctly again in Playwright.
+  //       Currently there's an issue on WebKit where upon resetting the view the image disappears, causing snapshots to fail
   if (browserName !== 'webkit') {
-    // open up popup
-    const [popup] = await Promise.all([
-      page.waitForEvent('popup'),
-      page
-        .getByAltText('Channel_BCDEF image', { exact: false })
-        .first()
-        .click(),
-    ]);
-
-    const title = await popup.title();
-    const imgAltText = title.split(' - ')[1];
-
-    const image = await popup.getByAltText(imgAltText);
-    const colourbar = await popup.getByAltText('Colour bar');
-
-    await popup.getByLabel('Colour Map').click();
-
-    await popup.getByRole('option', { name: 'cividis' }).click();
-
-    const slider = await popup.getByRole('slider', {
-      name: 'Level Range',
-    });
-
-    const SliderRoot = await popup.locator('.MuiSlider-root', {
-      has: slider,
-    });
-
-    const llSliderThumb = await popup
-      .locator('.MuiSlider-thumb', {
-        has: slider,
+    await popup.locator('text=Reset View').click();
+    // eslint-disable-next-line jest/no-conditional-expect
+    expect(
+      await imageDiv.screenshot({
+        type: 'png',
       })
-      .nth(0);
+    ).toMatchSnapshot({ maxDiffPixels: 150 });
+  }
+});
 
-    const sliderDims = await SliderRoot.boundingBox();
+test('user can change the false colour parameters of an image', async ({
+  page,
+  browserName,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
 
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'cividis' }).click();
+
+  const slider = await popup.getByRole('slider', {
+    name: 'Level Range',
+  });
+
+  const SliderRoot = await popup.locator('.MuiSlider-root', {
+    has: slider,
+  });
+
+  const llSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(0);
+
+  const sliderDims = await SliderRoot.boundingBox();
+
+  if (browserName !== 'webkit') {
     await llSliderThumb.dragTo(SliderRoot, {
       targetPosition: {
         // moving the slider to the target value in %
@@ -144,44 +146,44 @@ test('user can change the false colour parameters of an image', async ({
 
     // eslint-disable-next-line jest/no-conditional-expect
     expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
-
-    const ulSliderThumb = await popup
-      .locator('.MuiSlider-thumb', {
-        has: slider,
-      })
-      .nth(1);
-    await ulSliderThumb.dragTo(SliderRoot, {
-      targetPosition: {
-        // moving the slider to the target value in %
-        x: (sliderDims?.width ?? 0) * 0.6,
-        y: sliderDims?.height ? sliderDims.height / 2 : 0,
-      },
-    });
-
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(await slider.nth(1).getAttribute('value')).toBe('152');
-
-    // blur to avoid focus tooltip appearing in snapshot
-    await slider.nth(0).blur();
-    await slider.nth(1).blur();
-
-    // wait for new image to have loaded
-    await image.click();
-
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await image.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot({ maxDiffPixels: 150 });
-
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await colourbar.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot();
   }
+
+  const ulSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(1);
+  await ulSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
+      x: (sliderDims?.width ?? 0) * 0.8,
+      y: sliderDims?.height ? sliderDims.height / 2 : 0,
+    },
+  });
+
+  // eslint-disable-next-line jest/no-conditional-expect
+  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
+
+  // blur to avoid focus tooltip appearing in snapshot
+  await slider.nth(0).blur();
+  await slider.nth(1).blur();
+
+  // wait for new image to have loaded
+  await image.click();
+
+  // eslint-disable-next-line jest/no-conditional-expect
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // eslint-disable-next-line jest/no-conditional-expect
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
 });
 
 test('user can change the false colour to use reverse', async ({ page }) => {
@@ -201,7 +203,13 @@ test('user can change the false colour to use reverse', async ({ page }) => {
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
+  expect(
+    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).toBeChecked();
   // wait for new image to have loaded
   await image.click();
 
@@ -242,7 +250,7 @@ test('user can change the false colour to colourmap in extended list', async ({
 
   await popup.getByRole('option', { name: 'afmhot' }).click();
 
-  // wait for new image to have loaded
+  // click outside to dismiss tooltip
   await image.click();
 
   expect(
