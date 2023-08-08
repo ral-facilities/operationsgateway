@@ -320,14 +320,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     (searchParameterShotnumMin !== undefined &&
       searchParameterShotnumMax === undefined);
 
-  // React.useEffect(() => {
-  //   if (!sessionIdChange.current) {
-  //     setParamsUpdated(true);
-  //     // reset warning message when search params change
-  //     setDisplayingWarningMessage(false);
-  //   }
-  // }, [sessionId]);
-
   const searchParamsUpdated = () => {
     setParamsUpdated(true);
     // reset warning message when search params change

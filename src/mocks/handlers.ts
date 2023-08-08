@@ -38,8 +38,6 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(sessionID));
   }),
   rest.get('/sessions/list', async (req, res, ctx) => {
-    // const sessionData = sessionsJson.find((session) => session._id === '1');
-    // console.log(sessionData?.session_data);
     return res(ctx.status(200), ctx.json(sessionsJson));
   }),
   rest.get('/sessions/:id', async (req, res, ctx) => {
