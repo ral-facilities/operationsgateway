@@ -53,7 +53,7 @@ describe('session dialogue', () => {
     it('calls setSessionName when input value changes', async () => {
       createView();
 
-      const nameInput = screen.getByLabelText('Name*');
+      const nameInput = screen.getByLabelText('Name *');
       user.type(nameInput, 'Test Session');
 
       await waitFor(() => {
