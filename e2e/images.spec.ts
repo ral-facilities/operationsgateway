@@ -113,6 +113,7 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
@@ -161,7 +162,6 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  // eslint-disable-next-line jest/no-conditional-expect
   expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
 
   // blur to avoid focus tooltip appearing in snapshot
@@ -169,16 +169,17 @@ test('user can change the false colour parameters of an image', async ({
   await slider.nth(1).blur();
 
   // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
   await image.click();
 
-  // eslint-disable-next-line jest/no-conditional-expect
   expect(
     await image.screenshot({
       type: 'png',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
-  // eslint-disable-next-line jest/no-conditional-expect
   expect(
     await colourbar.screenshot({
       type: 'png',
@@ -197,6 +198,7 @@ test('user can change the false colour to use reverse', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
@@ -211,6 +213,9 @@ test('user can change the false colour to use reverse', async ({ page }) => {
     await popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).toBeChecked();
   // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
   await image.click();
 
   expect(
@@ -239,6 +244,7 @@ test('user can change the false colour to colourmap in extended list', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
 
   await popup
     .getByRole('checkbox', { name: 'Show extended colourmap options' })
@@ -250,7 +256,10 @@ test('user can change the false colour to colourmap in extended list', async ({
 
   await popup.getByRole('option', { name: 'afmhot' }).click();
 
-  // click outside to dismiss tooltip
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
   await image.click();
 
   expect(
@@ -277,10 +286,21 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
 
+  expect(
+    await popup.getByRole('checkbox', { name: 'False colour' })
+  ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'False colour' })
+  ).not.toBeChecked();
 
   // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+
   await image.click();
 
   expect(
@@ -361,16 +381,23 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
+  const oldImageSrc = await popup
+    .getByAltText((await popup.title()).split(' - ')[1])
+    .getAttribute('src');
+
   await popup
     .getByAltText('Channel_BCDEF image', { exact: false })
     .last()
     .click();
 
-  // wait until the new image loads i.e. backdrop disappears & thus image is interactive
-  const title = await popup.title();
-  const imgAltText = title.split(' - ')[1];
+  // wait until the new image loads i.e. url changes, backdrop disappears & thus image is interactive
+  const image = await popup.getByAltText((await popup.title()).split(' - ')[1]);
 
-  await popup.getByAltText(imgAltText).click();
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+
+  await image.click();
 
   expect(
     await canvas.screenshot({
