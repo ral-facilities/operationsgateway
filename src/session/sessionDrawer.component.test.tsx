@@ -66,7 +66,7 @@ describe('session Drawer', () => {
     });
 
     expect(onChangeSelectedSessionTimestamp).toHaveBeenCalledWith(
-      '2023-06-29T10:30:00Z',
+      '2023-06-29T10:30:00',
       true
     );
     expect(refetchSessionsData).toHaveBeenCalledWith('1');
