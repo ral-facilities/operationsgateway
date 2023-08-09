@@ -158,7 +158,7 @@ describe('View Tabs', () => {
     const dialog = screen.getByRole('dialog');
 
     const summaryTextarea = within(dialog).getByLabelText('Summary');
-    const nameInput = within(dialog).getByLabelText('Name*');
+    const nameInput = within(dialog).getByLabelText('Name *');
 
     expect(summaryTextarea).toHaveTextContent(
       'This is the summary for Session 1'

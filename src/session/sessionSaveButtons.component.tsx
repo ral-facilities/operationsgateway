@@ -103,9 +103,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   timestamp = undefined;
 
   const formatDate = (inputDate: string) => {
-    console.log(inputDate);
     const date = parseISO(inputDate);
-    console.log(date);
     const formattedDate = format(date, 'dd MMM yyyy HH:mm');
     return formattedDate;
   };

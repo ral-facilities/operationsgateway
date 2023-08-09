@@ -190,8 +190,9 @@ describe('session buttons', () => {
       name: 'test',
       summary: 'test',
       auto_saved: false,
-      session_data: '{}',
+      session: {},
       _id: '1',
+      timestamp: '',
     };
     createView();
     const saveButton = screen.getByRole('button', { name: 'Save' });

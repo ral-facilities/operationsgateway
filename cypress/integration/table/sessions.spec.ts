@@ -210,7 +210,7 @@ describe('Sessions', () => {
     cy.findByRole('button', { name: 'Save as' }).click();
     cy.findByLabelText('Save Session').should('exist');
 
-    cy.findByLabelText('Name*').should(($input) => {
+    cy.findByLabelText('Name *').should(($input) => {
       const value = $input.val();
       expect(value).to.equal('Session 2_copy');
     });
