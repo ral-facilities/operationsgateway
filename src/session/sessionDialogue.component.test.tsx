@@ -12,7 +12,7 @@ describe('session dialogue', () => {
   const onClose = jest.fn();
   const onChangeSessionName = jest.fn();
   const onChangeSessionSummary = jest.fn();
-  const onChangeSelectedSessionId = jest.fn();
+  const onChangeLoadedSessionId = jest.fn();
   const refetchSessionsList = jest.fn();
 
   const createView = (): RenderResult => {
@@ -29,7 +29,7 @@ describe('session dialogue', () => {
         onChangeSessionName: onChangeSessionName,
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'create',
-        onChangeSelectedSessionId: onChangeSelectedSessionId,
+        onChangeLoadedSessionId: onChangeLoadedSessionId,
         refetchSessionsList: refetchSessionsList,
       };
 
@@ -53,7 +53,7 @@ describe('session dialogue', () => {
     it('calls setSessionName when input value changes', async () => {
       createView();
 
-      const nameInput = screen.getByLabelText('Name*');
+      const nameInput = screen.getByLabelText('Name *');
       user.type(nameInput, 'Test Session');
 
       await waitFor(() => {
@@ -96,7 +96,7 @@ describe('session dialogue', () => {
         expect(onClose).toHaveBeenCalled();
       });
       expect(refetchSessionsList).toHaveBeenCalled();
-      expect(onChangeSelectedSessionId).toHaveBeenCalledWith('1');
+      expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
     });
   });
 
@@ -104,9 +104,10 @@ describe('session dialogue', () => {
     const sessionData = {
       name: 'edit name',
       summary: 'edit summary',
-      session_data: '{}',
+      session: {},
       auto_saved: false,
       _id: '1',
+      timestamp: '',
     };
     beforeEach(() => {
       props = {
@@ -117,7 +118,7 @@ describe('session dialogue', () => {
         onChangeSessionName: onChangeSessionName,
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'edit',
-        onChangeSelectedSessionId: onChangeSelectedSessionId,
+        onChangeLoadedSessionId: onChangeLoadedSessionId,
         refetchSessionsList: refetchSessionsList,
         sessionData: sessionData,
       };

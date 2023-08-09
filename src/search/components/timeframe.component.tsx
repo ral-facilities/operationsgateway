@@ -21,10 +21,16 @@ export interface TimeframeProps {
   changeTimeframe: (value: TimeframeRange) => void;
   resetExperimentTimeframe: () => void;
   resetShotnumber: () => void;
+  searchParamsUpdated: () => void;
 }
 
 const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
-  const { changeTimeframe, resetExperimentTimeframe, resetShotnumber } = props;
+  const {
+    changeTimeframe,
+    resetExperimentTimeframe,
+    resetShotnumber,
+    searchParamsUpdated,
+  } = props;
 
   const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
 
@@ -50,6 +56,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             onClick={() => {
               resetExperimentTimeframe();
               resetShotnumber();
+              searchParamsUpdated();
               changeTimeframe({ value: 10, timescale: 'minutes' });
             }}
           >
@@ -64,6 +71,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             onClick={() => {
               resetExperimentTimeframe();
               resetShotnumber();
+              searchParamsUpdated();
               changeTimeframe({ value: 24, timescale: 'hours' });
             }}
           >
@@ -78,6 +86,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             onClick={() => {
               resetExperimentTimeframe();
               resetShotnumber();
+              searchParamsUpdated();
               changeTimeframe({ value: 7, timescale: 'days' });
             }}
           >
@@ -94,9 +103,10 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
-              setWorkingTimeframe(Number(event.target.value))
-            }
+            onChange={(event) => {
+              setWorkingTimeframe(Number(event.target.value));
+              searchParamsUpdated();
+            }}
           />
         </Grid>
         <Grid container spacing={1} item xs={8}>
@@ -109,6 +119,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
                   resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'minutes',
@@ -128,6 +139,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
                   resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'hours',
@@ -147,6 +159,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
                 if (workingTimeframe > 0) {
                   resetExperimentTimeframe();
                   resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'days',

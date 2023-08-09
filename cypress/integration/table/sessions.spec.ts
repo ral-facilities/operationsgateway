@@ -19,7 +19,7 @@ describe('Sessions', () => {
   });
   it('sends a posts a request when a user session is created', () => {
     cy.findByTestId('AddCircleIcon').click();
-    cy.findByLabelText('Name*').type('Session');
+    cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
 
     cy.startSnoopingBrowserMockedRequest();
@@ -123,7 +123,7 @@ describe('Sessions', () => {
 
   it('sends a patch request when a user edits a session', () => {
     cy.findAllByTestId('edit-session-button').first().click();
-    cy.findByLabelText('Name*').should(($input) => {
+    cy.findByLabelText('Name *').should(($input) => {
       const value = $input.val();
       expect(value).to.equal('Session 1');
     });
@@ -132,10 +132,10 @@ describe('Sessions', () => {
       const value = $input.val();
       expect(value).to.equal('This is the summary for Session 1');
     });
-    cy.findByLabelText('Name*').clear();
+    cy.findByLabelText('Name *').clear();
     cy.findByLabelText('Summary').clear();
 
-    cy.findByLabelText('Name*').type('Session');
+    cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
 
     cy.startSnoopingBrowserMockedRequest();
