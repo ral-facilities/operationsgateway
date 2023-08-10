@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
+import colourMapsJson from './colourMaps.json';
 import sessionsJson from './sessionsList.json';
 import {
   Channel,
@@ -244,15 +245,8 @@ export const handlers = [
   rest.get('/images/colourmap_names', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json([
-        'colourmap_1',
-        'colourmap_2',
-        'colourmap_3',
-        'colourmap_4',
-        'colourmap_5',
-        'colourmap_6',
-        'colourmap_7',
-      ])
+
+      ctx.json(colourMapsJson)
     );
   }),
 ];

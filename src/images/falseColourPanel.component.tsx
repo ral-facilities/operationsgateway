@@ -11,8 +11,15 @@ import {
   Slider,
   Stack,
   Switch,
+  FormGroup,
+  ListSubheader,
 } from '@mui/material';
-import { FalseColourParams, useColourBar, useColourMaps } from '../api/images';
+import {
+  ColourMapsParams,
+  FalseColourParams,
+  useColourBar,
+  useColourMaps,
+} from '../api/images';
 
 const marks = [
   {
@@ -55,6 +62,56 @@ interface FalseColourPanelProps extends FalseColourParams {
   changeUpperLevel: (value: number | undefined) => void;
 }
 
+function filterNamesWithSuffixR(
+  colorMaps: ColourMapsParams | undefined
+): ColourMapsParams {
+  const filteredColorMaps: ColourMapsParams = {};
+
+  for (const category in colorMaps) {
+    const originalList = colorMaps[category];
+    const filteredList = originalList.filter(
+      (colourmap) => !colourmap.endsWith('_r')
+    );
+    filteredColorMaps[category] = filteredList;
+  }
+
+  return filteredColorMaps;
+}
+
+const ColourMapSelect = (
+  colourMap: string,
+  handleColourMapChange: (event: SelectChangeEvent) => void,
+  colourMaps: ColourMapsParams
+) => {
+  const colourMapTypeNames = Object.keys(colourMaps);
+  const colourMapNames = Object.values(colourMaps);
+
+  return (
+    <Select
+      labelId="colour-map-select-label"
+      id="colour-map-select"
+      value={colourMap}
+      label="Colour Map"
+      onChange={handleColourMapChange}
+    >
+      <MenuItem value="">
+        <em>Default</em>
+      </MenuItem>
+
+      {colourMapNames.map((mapNames, index) => {
+        return [
+          <ListSubheader>{colourMapTypeNames[index]}</ListSubheader>,
+          mapNames.map((colourMap) => (
+            <MenuItem key={colourMap} value={colourMap}>
+              {colourMap}
+            </MenuItem>
+          )),
+        ];
+      })}
+    </Select>
+  );
+};
+
 const FalseColourPanel = (props: FalseColourPanelProps) => {
   const {
     colourMap,
@@ -64,12 +121,6 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     changeLowerLevel,
     changeUpperLevel,
   } = props;
-
-  const handleColourMapChange = (event: SelectChangeEvent) => {
-    const newValue = event.target.value as string;
-    setSelectColourMap(newValue);
-    changeColourMap(newValue !== '' ? newValue : undefined);
-  };
 
   const { data: colourMaps } = useColourMaps();
   const { data: colourBar } = useColourBar({
@@ -82,6 +133,8 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   const [sliderLowerLevel, setSliderLowerLevel] = React.useState(0);
   const [sliderUpperLevel, setSliderUpperLevel] = React.useState(255);
   const [selectColourMap, setSelectColourMap] = React.useState('');
+  const [reverseColour, setReverseColour] = React.useState(false);
+  const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
   const handleEnabledChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -99,127 +152,132 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     }
     setEnabled(checked);
   };
+  const handleReverseColour = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    if (selectColourMap !== '') {
+      if (!checked) {
+        changeColourMap(selectColourMap);
+      } else {
+        changeColourMap(`${selectColourMap}_r`);
+      }
+    }
+    setReverseColour(checked);
+  };
+
+  const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
+  const mainColourMap = 'Perceptually Uniform Sequential';
+  const filteredColourMapsMain = {
+    [mainColourMap]: filteredColourMaps[mainColourMap],
+  };
+
+  const colourMapsList = extendedColourMap
+    ? Object.values(colourMaps ?? {}).flat()
+    : colourMaps?.[mainColourMap];
+
+  const handlExtendColourMaps = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    setExtendedColourMap(checked);
+  };
+
+  const handleColourMapChange = (event: SelectChangeEvent) => {
+    const newValue = event.target.value as string;
+    setSelectColourMap(newValue);
+    changeColourMap(
+      newValue !== ''
+        ? !reverseColour
+          ? newValue
+          : colourMapsList?.includes(`${newValue}_r`)
+          ? `${newValue}_r`
+          : newValue
+        : undefined
+    );
+  };
+
+  const colourMapsNames = colourMapsList?.filter(
+    (colourmap) => !colourmap.endsWith('_r')
+  );
+
+  const colourMapsReverseNames = colourMapsList
+    ?.filter((colourmap) => colourmap.endsWith('_r'))
+    .map((colourmap) => colourmap.replace('_r', ''));
+
+  const colourMapsWithReverse = colourMapsNames?.filter((value) =>
+    colourMapsReverseNames?.includes(value)
+  );
 
   return (
     <Paper>
       <Stack direction="column" sx={{ width: 300 }} spacing={1} padding={2}>
-        <FormControlLabel
-          control={<Switch checked={enabled} onChange={handleEnabledChange} />}
-          label="False Colour"
-        />
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch checked={enabled} onChange={handleEnabledChange} />
+            }
+            label="False Colour"
+          />
+          <FormControlLabel
+            disabled={
+              !colourMapsWithReverse?.includes(selectColourMap) || !enabled
+            }
+            control={
+              <Switch checked={reverseColour} onChange={handleReverseColour} />
+            }
+            label="Reverse Colour"
+          />
+          <FormControlLabel
+            disabled={!enabled}
+            control={
+              <Switch
+                checked={extendedColourMap}
+                onChange={handlExtendColourMaps}
+              />
+            }
+            label="Show extended colourmap options"
+          />
+        </FormGroup>
+
         <FormControl disabled={!enabled}>
           <InputLabel id="colour-map-select-label">Colour Map</InputLabel>
-          <Select
-            labelId="colour-map-select-label"
-            id="colour-map-select"
-            value={selectColourMap}
-            label="Colour Map"
-            onChange={handleColourMapChange}
-          >
-            <MenuItem value="">
-              <em>Default</em>
-            </MenuItem>
-            {colourMaps?.map((colourMap) => (
-              <MenuItem key={colourMap} value={colourMap}>
-                {colourMap}
-              </MenuItem>
-            ))}
-          </Select>
+          {colourMaps &&
+            ColourMapSelect(
+              selectColourMap,
+              handleColourMapChange,
+              extendedColourMap ? filteredColourMaps : filteredColourMapsMain
+            )}
         </FormControl>
-        {/* TODO: is it better UX for these to be separate sliders or one range slider? */}
         <FormControl disabled={!enabled}>
-          <FormLabel id="lower-level-label" sx={{ margin: 'auto' }}>
-            Lower Level (LL)
+          <FormLabel id="range-slider-label" sx={{ margin: 'auto' }}>
+            Level Range
           </FormLabel>
           <Slider
             disabled={!enabled}
-            aria-labelledby="lower-level-label"
-            value={sliderLowerLevel}
+            aria-labelledby="range-slider-label"
+            value={[sliderLowerLevel, sliderUpperLevel]}
             valueLabelDisplay="auto"
             marks={marks}
-            track={false}
-            onChange={(event, value) => {
-              if (typeof value === 'number') {
-                if (value > sliderUpperLevel) {
-                  // have to set it to the min as onChange isn't called for every number
-                  setSliderLowerLevel(sliderUpperLevel);
-                } else {
-                  setSliderLowerLevel(value);
-                }
+            onChange={(event, newValue) => {
+              if (Array.isArray(newValue)) {
+                const [lower, upper] = newValue;
+                setSliderLowerLevel(lower);
+                setSliderUpperLevel(upper);
               }
             }}
-            onChangeCommitted={(event, value) => {
-              if (typeof value === 'number') {
-                if (value > sliderUpperLevel) {
-                  // have to set it to the min as onChange isn't called for every number
-                  changeLowerLevel(sliderUpperLevel);
-                } else {
-                  changeLowerLevel(value);
-                }
+            onChangeCommitted={(event, newValue) => {
+              if (Array.isArray(newValue)) {
+                const [lower, upper] = newValue;
+                changeLowerLevel(lower);
+                changeUpperLevel(upper);
               }
             }}
             min={0}
             max={255}
-            sx={{
-              '& .MuiSlider-rail:after': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                height: '100%',
-                width: `${100 - (sliderUpperLevel / 255) * 100}%`,
-                backgroundColor: 'grey.400',
-              },
-            }}
           />
         </FormControl>
         <img src={colourBar} alt="Colour bar" />
-        <FormControl disabled={!enabled}>
-          <Slider
-            disabled={!enabled}
-            aria-labelledby="upper-level-label"
-            value={sliderUpperLevel}
-            valueLabelDisplay="auto"
-            marks={marks}
-            track={false}
-            onChange={(event, value) => {
-              if (typeof value === 'number') {
-                if (value < sliderLowerLevel) {
-                  // have to set it to the min as onChange isn't called for every number
-                  setSliderUpperLevel(sliderLowerLevel);
-                } else {
-                  setSliderUpperLevel(value);
-                }
-              }
-            }}
-            onChangeCommitted={(event, value) => {
-              if (typeof value === 'number') {
-                if (value < sliderLowerLevel) {
-                  // have to set it to the min as onChange isn't called for every number
-                  changeUpperLevel(sliderLowerLevel);
-                } else {
-                  changeUpperLevel(value);
-                }
-              }
-            }}
-            min={0}
-            max={255}
-            sx={{
-              '& .MuiSlider-rail:before': {
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                height: '100%',
-                width: `${(sliderLowerLevel / 255) * 100}%`,
-                backgroundColor: 'grey.400',
-              },
-            }}
-          />
-          <FormLabel id="upper-level-label" sx={{ margin: 'auto' }}>
-            Upper Level (UL)
-          </FormLabel>
-        </FormControl>
       </Stack>
     </Paper>
   );
