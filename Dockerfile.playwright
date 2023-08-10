@@ -10,4 +10,4 @@ COPY . .
 RUN yarn
 RUN yarn playwright install --with-deps
 
-ENTRYPOINT ["yarn", "playwright", "test"]
+CMD ["yarn", "playwright", "test"]
