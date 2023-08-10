@@ -49,8 +49,8 @@ exports[`View Tabs renders correctly 1`] = `
               </div>
             </div>
           </div>
-          <div
-            class="MuiBox-root css-0"
+          <ul
+            class="MuiList-root css-1mk9mw3-MuiList-root"
           />
         </div>
       </div>

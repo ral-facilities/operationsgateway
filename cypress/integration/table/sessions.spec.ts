@@ -122,7 +122,7 @@ describe('Sessions', () => {
   });
 
   it('sends a patch request when a user edits a session', () => {
-    cy.findAllByTestId('edit-session-button').first().click();
+    cy.findByRole('button', { name: 'edit Session 1 session' }).click();
     cy.findByLabelText('Name *').should(($input) => {
       const value = $input.val();
       expect(value).to.equal('Session 1');
@@ -222,7 +222,7 @@ describe('Sessions', () => {
   });
 
   it('sends a delete request when a user deletes a session', () => {
-    cy.findAllByTestId('delete-session-button').first().click();
+    cy.findByRole('button', { name: 'delete Session 1 session' }).click();
     cy.findByText('Delete Session');
 
     cy.findAllByTestId('delete-session-name').should('have.text', 'Session 1');

@@ -94,9 +94,11 @@ describe('View Tabs', () => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
     });
 
-    const deleteButtons = screen.getAllByTestId('delete-session-button');
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete Session 1 session',
+    });
 
-    await user.click(deleteButtons[0]);
+    await user.click(deleteButton);
 
     const deleteDialog = screen.getByRole('dialog');
 
@@ -118,9 +120,11 @@ describe('View Tabs', () => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
     });
 
-    const editButtons = screen.getAllByTestId('edit-session-button');
+    const editButton = screen.getByRole('button', {
+      name: 'edit Session 1 session',
+    });
 
-    await user.click(editButtons[0]);
+    await user.click(editButton);
 
     const editDialog = screen.getByRole('dialog');
 

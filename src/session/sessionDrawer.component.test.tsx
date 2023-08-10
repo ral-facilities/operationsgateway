@@ -78,8 +78,10 @@ describe('session Drawer', () => {
     await waitFor(() => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
     });
-    const editButtons = screen.getAllByTestId('edit-session-button');
-    await user.click(editButtons[0]);
+    const editButton = screen.getByRole('button', {
+      name: 'edit Session 1 session',
+    });
+    await user.click(editButton);
     expect(openSessionEdit).toHaveBeenCalled();
   });
 
@@ -89,8 +91,10 @@ describe('session Drawer', () => {
     await waitFor(() => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
     });
-    const deleteButtons = screen.getAllByTestId('delete-session-button');
-    await user.click(deleteButtons[0]);
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete Session 1 session',
+    });
+    await user.click(deleteButton);
     expect(openSessionDelete).toHaveBeenCalled();
   });
 });
