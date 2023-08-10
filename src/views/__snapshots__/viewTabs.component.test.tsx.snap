@@ -27,6 +27,7 @@ exports[`View Tabs renders correctly 1`] = `
                 class="MuiBox-root css-zdpt2t"
               >
                 <button
+                  aria-label="add user session"
                   class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
                   tabindex="0"
                   type="button"
