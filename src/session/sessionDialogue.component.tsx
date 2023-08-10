@@ -8,7 +8,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
-import { useSaveSession } from '../api/sessions';
+import { useEditSession, useSaveSession } from '../api/sessions';
+import { SessionResponse } from '../app.types';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -17,11 +18,13 @@ export interface SessionDialogueProps {
   sessionSummary: string;
   onChangeSessionName: (sessionName: string | undefined) => void;
   onChangeSessionSummary: (sessionSummary: string) => void;
+  requestType: 'edit' | 'create';
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
+  sessionData?: SessionResponse;
 }
 
-const SaveSessionDialogue = (props: SessionDialogueProps) => {
+const SessionDialogue = (props: SessionDialogueProps) => {
   const {
     open,
     onClose,
@@ -29,24 +32,28 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     sessionSummary,
     onChangeSessionName,
     onChangeSessionSummary,
+    requestType,
+    sessionData,
     onChangeLoadedSessionId,
     refetchSessionsList,
   } = props;
 
   const state = useAppSelector(({ config, ...state }) => state);
-  const { mutateAsync: saveSession } = useSaveSession();
 
-  const [nameError, setError] = useState(false);
+  const { mutateAsync: saveSession } = useSaveSession();
+  const { mutateAsync: editSession } = useEditSession();
+
+  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
     undefined
   );
   const handleClose = React.useCallback(() => {
-    onClose();
     onChangeSessionName(undefined);
     onChangeSessionSummary('');
-  }, [onClose, onChangeSessionName, onChangeSessionSummary]);
+    onClose();
+  }, [onChangeSessionName, onChangeSessionSummary, onClose]);
 
-  const handleExportSession = React.useCallback(() => {
+  const handleExportCreateSession = React.useCallback(() => {
     if (sessionName) {
       const session = {
         name: sessionName,
@@ -79,17 +86,53 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     state,
   ]);
 
+  const handleExportEditSession = React.useCallback(() => {
+    if (sessionName && sessionData) {
+      const session = {
+        name: sessionName,
+        summary: sessionSummary,
+        auto_saved: false,
+        _id: sessionData._id,
+        session: sessionData.session,
+        timestamp: sessionData.timestamp,
+      };
+
+      editSession(session)
+        .then((response) => {
+          refetchSessionsList();
+          handleClose();
+        })
+        .catch((error) => {
+          setError(true);
+          console.log(error.message);
+          setErrorMessage(error.message);
+        });
+    } else {
+      setError(true);
+      setErrorMessage('Please enter a name');
+    }
+  }, [
+    sessionName,
+    sessionData,
+    sessionSummary,
+    editSession,
+    refetchSessionsList,
+    handleClose,
+  ]);
+
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg">
-      <DialogTitle>Save Session</DialogTitle>
+    <Dialog open={open} onClose={handleClose} maxWidth="lg">
+      <DialogTitle>
+        {requestType === 'create' ? 'Save Session' : 'Edit Session'}
+      </DialogTitle>
       <DialogContent>
         <TextField
           label="Name"
           required={true}
           sx={{ width: '100%', margin: '4px' }}
           value={sessionName}
-          error={nameError}
-          helperText={nameError && errorMessage}
+          error={error}
+          helperText={error && errorMessage}
           onChange={(event) => {
             onChangeSessionName(
               event.target.value ? event.target.value : undefined
@@ -110,11 +153,19 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-        <Button onClick={handleExportSession}>Save</Button>
+        <Button onClick={handleClose}>Close</Button>
+        <Button
+          onClick={
+            requestType === 'create'
+              ? handleExportCreateSession
+              : handleExportEditSession
+          }
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default SaveSessionDialogue;
+export default SessionDialogue;

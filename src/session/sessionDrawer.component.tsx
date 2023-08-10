@@ -2,11 +2,13 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import {
   Box,
-  Button,
   Theme,
   Typography,
+  List,
   ListItem,
   IconButton,
+  ListItemButton,
+  ListItemText,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,72 +25,88 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
+  openSessionEdit: (sessionData: SessionListItem) => void;
+  openSessionDelete: (sessionData: SessionListItem) => void;
   sessionsList: SessionListItem[] | undefined;
   loadedSessionId: string | undefined;
-  onChangeLoadedSessionId: (selectedSessionId: string | undefined) => void;
+  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
   handleImport: (sessionId: string) => void;
   selected: boolean;
+  openSessionEdit: (sessionData: SessionListItem) => void;
+  openSessionDelete: (sessionData: SessionListItem) => void;
 }
 
 const SessionListElement = (
   props: SessionListElementProps
 ): React.ReactElement => {
-  const { selected, handleImport, ...session } = props;
+  const {
+    openSessionDelete,
+    openSessionEdit,
+    selected,
+    handleImport,
+    ...session
+  } = props;
 
   return (
-    <Box
+    <ListItemButton
+      selected={selected}
       sx={{
-        display: 'flex',
-        width: '100%',
-        backgroundColor: selected ? 'primary.main' : 'background.paper',
-        padding: 0,
+        textDecoration: 'none',
+        padding: 1,
+      }}
+      onClick={() => {
+        handleImport(session._id);
       }}
     >
-      <Button
-        fullWidth
-        sx={{
-          display: 'flex',
-          backgroundColor: selected ? 'primary.main' : 'background.paper',
-          width: '100%',
-          textDecoration: 'none',
-          color: selected ? 'white' : 'inherit',
-        }}
-        onClick={() => {
-          handleImport(session._id);
-        }}
-      >
-        <Typography
-          variant="button"
-          sx={{
+      <ListItemText
+        primaryTypographyProps={{
+          variant: 'button',
+          sx: {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             overflowWrap: 'break-word',
+          },
+        }}
+      >
+        {session.name}
+      </ListItemText>
+      <Box>
+        <IconButton
+          size="small"
+          onClick={(event) => {
+            event.stopPropagation();
+            openSessionEdit(session);
           }}
+          aria-label={`edit ${session.name} session`}
         >
-          {session.name}
-        </Typography>
-        <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
-          <IconButton size="small">
-            <EditIcon />
-          </IconButton>
-          <IconButton size="small">
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      </Button>
-    </Box>
+          <EditIcon />
+        </IconButton>
+        <IconButton
+          size="small"
+          onClick={(event) => {
+            event.stopPropagation();
+            openSessionDelete(session);
+          }}
+          aria-label={`delete ${session.name} session`}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Box>
+    </ListItemButton>
   );
 };
 
 const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   const {
     openSessionSave,
+    openSessionDelete,
+    openSessionEdit,
+    sessionsList,
     loadedSessionId,
     onChangeLoadedSessionId,
-    sessionsList,
   } = props;
 
   const { data: sessionData } = useSession(loadedSessionId);
@@ -149,22 +167,20 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         >
           {drawer}
         </Box>
-        <Box>
+        <List disablePadding>
           {sessionsList &&
             sessionsList.map((item, index) => (
-              <ListItem
-                sx={{ padding: 0 }}
-                key={item._id}
-                alignItems="flex-start"
-              >
+              <ListItem key={item._id} disablePadding>
                 <SessionListElement
                   {...item}
                   handleImport={handleSessionClick}
                   selected={loadedSessionId === item._id}
+                  openSessionDelete={openSessionDelete}
+                  openSessionEdit={openSessionEdit}
                 />
               </ListItem>
             ))}
-        </Box>
+        </List>
       </StyledDrawer>
     </div>
   );

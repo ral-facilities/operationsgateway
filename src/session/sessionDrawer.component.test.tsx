@@ -7,6 +7,8 @@ import SessionsListJSON from '../mocks/sessionsList.json';
 
 describe('session Drawer', () => {
   const openSessionSave = jest.fn();
+  const openSessionEdit = jest.fn();
+  const openSessionDelete = jest.fn();
   const onChangeLoadedSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
@@ -17,6 +19,8 @@ describe('session Drawer', () => {
     user = userEvent.setup();
     props = {
       openSessionSave: openSessionSave,
+      openSessionEdit: openSessionEdit,
+      openSessionDelete: openSessionDelete,
       loadedSessionId: undefined,
       onChangeLoadedSessionId: onChangeLoadedSessionId,
       sessionsList: SessionsListJSON,
@@ -56,5 +60,31 @@ describe('session Drawer', () => {
     await waitFor(() => {
       expect(session1).toHaveStyle('background-color: primary.main');
     });
+  });
+
+  it('a user can open the edit session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const editButton = screen.getByRole('button', {
+      name: 'edit Session 1 session',
+    });
+    await user.click(editButton);
+    expect(openSessionEdit).toHaveBeenCalled();
+  });
+
+  it('a user can open the delete session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete Session 1 session',
+    });
+    await user.click(deleteButton);
+    expect(openSessionDelete).toHaveBeenCalled();
   });
 });

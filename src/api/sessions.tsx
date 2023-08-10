@@ -39,6 +39,70 @@ export const useSaveSession = (): UseMutationResult<
   });
 };
 
+const editSession = (
+  apiUrl: string,
+  session: SessionResponse
+): Promise<string> => {
+  const queryParams = new URLSearchParams();
+  queryParams.append('name', session.name);
+  queryParams.append('summary', session.summary);
+  queryParams.append('auto_saved', session.auto_saved.toString());
+
+  return axios
+    .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session, {
+      params: queryParams,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useEditSession = (): UseMutationResult<
+  string,
+  AxiosError,
+  SessionResponse
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  return useMutation(
+    (session: SessionResponse) => editSession(apiUrl, session),
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
+
+const deleteSession = (
+  apiUrl: string,
+  session: SessionResponse
+): Promise<void> => {
+  return axios
+    .delete(`${apiUrl}/sessions/${session._id}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useDeleteSession = (): UseMutationResult<
+  void,
+  AxiosError,
+  SessionResponse
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  return useMutation(
+    (session: SessionResponse) => deleteSession(apiUrl, session),
+    {
+      onError: (error) => {
+        console.log('Got error ' + error.message);
+      },
+    }
+  );
+};
+
 const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
   return axios
     .get(`${apiUrl}/sessions/list`, {

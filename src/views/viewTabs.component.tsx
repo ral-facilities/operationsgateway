@@ -6,9 +6,11 @@ import Box from '@mui/material/Box';
 import DataView from './dataView.component';
 import PlotList from '../plotting/plotList.component';
 import SessionSaveButtons from '../session/sessionSaveButtons.component';
-import SaveSessionDialogue from '../session/saveSessionDialogue.component';
 import SessionsDrawer from '../session/sessionDrawer.component';
-import { useSessionList } from '../api/sessions';
+import { useSession, useSessionList } from '../api/sessions';
+import { SessionListItem } from '../app.types';
+import SessionDialogue from '../session/sessionDialogue.component';
+import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -54,19 +56,41 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
-  // This useState manages the current loaded session id
-  const [loadedSessionId, setLoadedSessionId] = React.useState<
+  // This useState manges the selected session id used for deleting and editing a session
+  const [selectedSessionId, setSelectedSessionId] = React.useState<
     string | undefined
   >(undefined);
 
+  // This useState manages the current loaded session id
+  const [loadedSessionId, setLoadedSessionId] = React.useState<
+    string | undefined
+  >(selectedSessionId);
+
   const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
 
+  const { data: sessionData } = useSession(selectedSessionId);
+
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
+  const [sessionEditOpen, setSessionEditOpen] = React.useState<boolean>(false);
+  const [sessionDeleteOpen, setSessionDeleteOpen] =
+    React.useState<boolean>(false);
 
   const [sessionName, setSessionName] = React.useState<string | undefined>(
     undefined
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
+
+  const onSessionEditOpen = (sessionData: SessionListItem) => {
+    setSessionEditOpen(true);
+    setSessionName(sessionData.name);
+    setSessionSummary(sessionData.summary);
+    setSelectedSessionId(sessionData._id);
+  };
+
+  const onSessionDeleteOpen = (sessionData: SessionListItem) => {
+    setSessionDeleteOpen(true);
+    setSelectedSessionId(sessionData._id);
+  };
 
   return (
     <Box
@@ -81,6 +105,8 @@ const ViewTabs = () => {
         openSessionSave={() => {
           setSessionSaveOpen(true);
         }}
+        openSessionEdit={onSessionEditOpen}
+        openSessionDelete={onSessionDeleteOpen}
         sessionsList={sessionsList}
         loadedSessionId={loadedSessionId}
         onChangeLoadedSessionId={setLoadedSessionId}
@@ -111,7 +137,19 @@ const ViewTabs = () => {
         <TabPanel value={value} label={'Plots'}>
           <PlotList />
         </TabPanel>
-        <SaveSessionDialogue
+        <SessionDialogue
+          open={sessionEditOpen}
+          onClose={() => setSessionEditOpen(false)}
+          sessionName={sessionName}
+          sessionSummary={sessionSummary}
+          onChangeSessionName={setSessionName}
+          onChangeSessionSummary={setSessionSummary}
+          requestType="edit"
+          sessionData={sessionData}
+          onChangeLoadedSessionId={setLoadedSessionId}
+          refetchSessionsList={refetchSessionsList}
+        />
+        <SessionDialogue
           open={sessionSaveOpen}
           onClose={() => setSessionSaveOpen(false)}
           sessionName={sessionName}
@@ -119,7 +157,16 @@ const ViewTabs = () => {
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
           onChangeLoadedSessionId={setLoadedSessionId}
+          requestType="create"
           refetchSessionsList={refetchSessionsList}
+        />
+        <DeleteSessionDialogue
+          open={sessionDeleteOpen}
+          onClose={() => setSessionDeleteOpen(false)}
+          sessionData={sessionData}
+          refetchSessionsList={refetchSessionsList}
+          loadedSessionId={loadedSessionId}
+          onChangeLoadedSessionId={setLoadedSessionId}
         />
       </Box>
     </Box>
