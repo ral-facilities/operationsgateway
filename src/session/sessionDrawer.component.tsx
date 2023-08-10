@@ -163,7 +163,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         Workspaces
       </Typography>
       <Box sx={{ marginLeft: 'auto' }}>
-        <IconButton onClick={openSessionSave}>
+        <IconButton aria-label="add user session" onClick={openSessionSave}>
           <AddCircleIcon />
         </IconButton>
       </Box>
