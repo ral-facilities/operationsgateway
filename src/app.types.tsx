@@ -1,5 +1,6 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 import type { CartesianScaleTypeRegistry } from 'chart.js';
+import { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -228,3 +229,10 @@ export const columnIconMappings = new Map()
   .set('shotnum', <Numbers />)
   .set('activeArea', <Place />)
   .set('activeExperiment', <Science />);
+
+export interface Session {
+  name: string;
+  summary: string;
+  auto_saved: boolean;
+  session_data: ImportSessionType;
+}
