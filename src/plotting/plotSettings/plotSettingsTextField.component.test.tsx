@@ -22,17 +22,13 @@ describe('PlotSettingsTextField', () => {
     const user = userEvent.setup();
     // this is adapted from the recommended way of testing controlled inputs with testing-library
     // https://github.com/testing-library/user-event/issues/549
-    let onChange: jest.Mocked<(value: string) => void>;
     function TestEnv() {
       const [value, setValue] = React.useState('initial value');
-
-      onChange = jest.fn((value) => setValue(value));
-
       return (
         <PlotSettingsTextField
           label="test field"
           value={value}
-          onChange={onChange}
+          onChange={setValue}
         />
       );
     }
@@ -40,7 +36,6 @@ describe('PlotSettingsTextField', () => {
     render(<TestEnv />);
 
     const field = screen.getByRole('textbox', { name: 'test field' });
-
     expect(field).toHaveValue('initial value');
 
     await user.clear(field);
