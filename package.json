@@ -59,7 +59,7 @@
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
     "playwright:test": "yarn build:playwright-docker && docker run --env LOCAL_DOCKER=true --volume ./playwright-report:/app/playwright-report --publish 9323:9323 operations-gateway-playwright-test",
-    "playwright:update-snapshot": "yarn build:playwright-docker && docker run --env LOCAL_DOCKER=true --volume .:/app --publish 9323:9323 operations-gateway-playwright-test",
+    "playwright:update-snapshot": "yarn build:playwright-docker && docker run --env LOCAL_DOCKER=true --volume .:/app --publish 9323:9323 operations-gateway-playwright-test --update-snapshots",
     "eject": "react-scripts eject",
     "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
     "e2e-test-server": "node ./server/e2e-test-server.js",
