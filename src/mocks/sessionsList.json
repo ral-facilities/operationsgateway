@@ -1,0 +1,211 @@
+[
+  {
+    "_id": "1",
+    "name": "Session 1",
+    "summary": "This is the summary for Session 1",
+    "auto_saved": true,
+    "timestamp": "2023-06-29T10:30:00Z",
+    "session": {
+      "table": {
+        "columnStates": {},
+        "selectedColumnIds": ["timestamp", "CHANNEL_DEFGH", "CHANNEL_EFGHI"],
+        "page": 0,
+        "resultsPerPage": 25,
+        "sort": {}
+      },
+      "search": {
+        "searchParams": {
+          "dateRange": {},
+          "shotnumRange": {},
+          "maxShots": 50,
+          "experimentID": null
+        }
+      },
+      "plots": {
+        "eacfedb8-35eb-4fdc-84be-9190b05449cc": {
+          "id": "eacfedb8-35eb-4fdc-84be-9190b05449cc",
+          "open": true,
+          "title": "Untitled 1",
+          "plotType": "scatter",
+          "XAxis": "timestamp",
+          "XAxisScale": "time",
+          "selectedPlotChannels": [],
+          "leftYAxisScale": "linear",
+          "rightYAxisScale": "linear",
+          "gridVisible": true,
+          "axesLabelsVisible": true,
+          "selectedColours": [],
+          "remainingColours": [
+            "#008000",
+            "#0000ff",
+            "#ff00ff",
+            "#00ffff",
+            "#008080",
+            "#800000",
+            "#00ff00",
+            "#000080",
+            "#7f8000",
+            "#80007f"
+          ],
+          "outerWidth": 600,
+          "outerHeight": 400,
+          "screenX": 200,
+          "screenY": 200
+        }
+      },
+      "filter": { "appliedFilters": [[]] },
+      "windows": {
+        "31bd407c-7be8-4c34-8419-47b38e705442": {
+          "id": "31bd407c-7be8-4c34-8419-47b38e705442",
+          "open": true,
+          "type": "image",
+          "recordId": "13",
+          "channelName": "CHANNEL_EFGHI",
+          "title": "Image CHANNEL_EFGHI 13",
+          "outerWidth": 600,
+          "outerHeight": 400,
+          "screenX": 200,
+          "screenY": 200
+        },
+        "ded7cb59-bde7-4322-a9f0-11f811679925": {
+          "id": "ded7cb59-bde7-4322-a9f0-11f811679925",
+          "open": true,
+          "type": "image",
+          "recordId": "14",
+          "channelName": "CHANNEL_EFGHI",
+          "title": "Image CHANNEL_EFGHI 14",
+          "outerWidth": 600,
+          "outerHeight": 400,
+          "screenX": 200,
+          "screenY": 200
+        }
+      }
+    }
+  },
+  {
+    "_id": "2",
+    "name": "Session 2",
+    "summary": "This is the summary for Session 2",
+    "auto_saved": false,
+    "timestamp": "2023-06-29T14:45:00Z",
+    "session": {
+      "table": {
+        "columnStates": {},
+        "selectedColumnIds": [
+          "timestamp",
+          "CHANNEL_EFGHI",
+          "CHANNEL_FGHIJ",
+          "shotnum"
+        ],
+        "page": 0,
+        "resultsPerPage": 25,
+        "sort": {}
+      },
+      "search": {
+        "searchParams": {
+          "dateRange": {
+            "fromDate": "2022-01-06T13:00:00",
+            "toDate": "2022-01-09T12:00:59"
+          },
+          "shotnumRange": { "min": 7, "max": 9 },
+          "maxShots": 50,
+          "experimentID": {
+            "_id": "19210012-1",
+            "end_date": "2022-01-09T12:00:00",
+            "experiment_id": "19210012",
+            "part": 1,
+            "start_date": "2022-01-06T13:00:00"
+          }
+        }
+      },
+      "plots": {},
+      "filter": {
+        "appliedFilters": [
+          [
+            { "type": "channel", "value": "shotnum", "label": "Shot Number" },
+            { "type": "compop", "value": ">", "label": ">" },
+            { "type": "number", "value": "7", "label": "7" }
+          ]
+        ]
+      },
+      "windows": {}
+    }
+  },
+  {
+    "_id": "3",
+    "name": "Session 3",
+    "summary": "This is the summary for Session 3",
+    "auto_saved": true,
+    "timestamp": "2023-06-30T09:15:00Z",
+    "session": {
+      "table": {
+        "columnStates": {},
+        "selectedColumnIds": ["timestamp", "activeArea", "CHANNEL_ABCDE"],
+        "page": 0,
+        "resultsPerPage": 25,
+        "sort": {
+          "CHANNEL_ABCDE": "asc"
+        }
+      },
+      "search": {
+        "searchParams": {
+          "dateRange": {},
+          "shotnumRange": {},
+          "maxShots": 50,
+          "experimentID": null
+        }
+      },
+      "plots": {},
+      "filter": {
+        "appliedFilters": [[]]
+      },
+      "windows": {}
+    }
+  },
+  {
+    "_id": "4",
+    "summary": "This is the summary for Session 4",
+    "auto_saved": false,
+    "name": "Session 4",
+    "timestamp": "2023-06-30T09:15:00Z",
+    "session": {
+      "table": {
+        "columnStates": {},
+        "selectedColumnIds": [
+          "timestamp",
+          "CHANNEL_BCDEF",
+          "CHANNEL_FGHIJ",
+          "shotnum"
+        ],
+        "page": 0,
+        "resultsPerPage": 25,
+        "sort": {}
+      },
+      "search": {
+        "searchParams": {
+          "dateRange": {
+            "fromDate": "2022-01-15T13:00:00",
+            "toDate": "2022-01-18T12:00:59"
+          },
+          "shotnumRange": {
+            "min": 16,
+            "max": 18
+          },
+          "maxShots": 50,
+          "experimentID": {
+            "_id": "22110007-2",
+            "end_date": "2022-01-18T12:00:00",
+            "experiment_id": "22110007",
+            "part": 2,
+            "start_date": "2022-01-15T13:00:00"
+          }
+        }
+      },
+      "plots": {},
+      "filter": {
+        "appliedFilters": [[]]
+      },
+      "windows": {}
+    }
+  }
+]

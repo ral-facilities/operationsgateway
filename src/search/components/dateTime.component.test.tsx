@@ -274,6 +274,7 @@ describe('DateTime tests', () => {
   const resetExperimentTimeframe = jest.fn();
   const resetShotnumberRange = jest.fn();
   const isDateTimeInExperiment = jest.fn();
+  const searchParamsUpdated = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);
@@ -296,6 +297,7 @@ describe('DateTime tests', () => {
       isShotnumToDate: false,
       isDateTimeInExperiment,
       invalidDateRange: false,
+      searchParamsUpdated,
     };
   });
 
@@ -363,6 +365,7 @@ describe('DateTime tests', () => {
     expect(resetTimeframe).toHaveBeenCalled();
     expect(resetExperimentTimeframe).toHaveBeenCalled();
     expect(resetShotnumberRange).toHaveBeenCalled();
+    expect(searchParamsUpdated).toHaveBeenCalled();
 
     await userEvent.clear(dateFilterFromDate);
     expect(changeSearchParameterFromDate).toHaveBeenCalledWith(null);
@@ -414,6 +417,7 @@ describe('DateTime tests', () => {
 
     expect(resetTimeframe).toHaveBeenCalled();
     expect(resetShotnumberRange).toHaveBeenCalled();
+    expect(searchParamsUpdated).toHaveBeenCalled();
 
     await userEvent.clear(dateFilterFromDate);
     expect(changeSearchParameterFromDate).toHaveBeenCalledWith(null);

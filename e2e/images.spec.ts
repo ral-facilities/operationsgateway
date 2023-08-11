@@ -113,23 +113,31 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'colourmap_2' }).click();
+  await popup.getByRole('option', { name: 'cividis' }).click();
 
-  const llSlider = await popup.getByRole('slider', {
-    name: 'Lower Level (LL)',
-  });
-  const llSliderRoot = await popup.locator('.MuiSlider-root', {
-    has: llSlider,
+  const slider = await popup.getByRole('slider', {
+    name: 'Level Range',
   });
 
-  const sliderDims = await llSliderRoot.boundingBox();
+  const SliderRoot = await popup.locator('.MuiSlider-root', {
+    has: slider,
+  });
+
+  const llSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(0);
+
+  const sliderDims = await SliderRoot.boundingBox();
 
   if (browserName !== 'webkit') {
-    await llSliderRoot.dragTo(llSliderRoot, {
+    await llSliderThumb.dragTo(SliderRoot, {
       targetPosition: {
         // moving the slider to the target value in %
         x: (sliderDims?.width ?? 0) * 0.4,
@@ -138,28 +146,120 @@ test('user can change the false colour parameters of an image', async ({
     });
 
     // eslint-disable-next-line jest/no-conditional-expect
-    expect(await llSlider.getAttribute('value')).toBe(`${0.4 * 255}`);
+    expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
   }
 
-  const ulSlider = await popup.getByRole('slider', {
-    name: 'Upper Level (UL)',
-  });
-  const ulSliderRoot = await popup.locator('.MuiSlider-root', {
-    has: ulSlider,
-  });
-
-  await ulSliderRoot.click({
-    position: {
+  const ulSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(1);
+  await ulSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
       x: (sliderDims?.width ?? 0) * 0.8,
       y: sliderDims?.height ? sliderDims.height / 2 : 0,
     },
   });
 
-  expect(await ulSlider.getAttribute('value')).toBe(`${0.8 * 255}`);
-  await ulSlider.blur();
-  await ulSliderRoot.blur();
+  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
 
-  // click outside to dismiss tooltip
+  // blur to avoid focus tooltip appearing in snapshot
+  await slider.nth(0).blur();
+  await slider.nth(1).blur();
+
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+  await image.click();
+
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+});
+
+test('user can change the false colour to use reverse', async ({ page }) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'cividis' }).click();
+
+  expect(
+    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).toBeChecked();
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+  await image.click();
+
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot();
+});
+
+test('user can change the false colour to colourmap in extended list', async ({
+  page,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
+
+  await popup
+    .getByRole('checkbox', { name: 'Show extended colourmap options' })
+    .click();
+
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'afmhot' }).click();
+
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
   await image.click();
 
   expect(
@@ -186,10 +286,21 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  const oldImageSrc = await image.getAttribute('src');
 
+  expect(
+    await popup.getByRole('checkbox', { name: 'False colour' })
+  ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'False colour' })
+  ).not.toBeChecked();
 
   // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+
   await image.click();
 
   expect(
@@ -270,16 +381,23 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
+  const oldImageSrc = await popup
+    .getByAltText((await popup.title()).split(' - ')[1])
+    .getAttribute('src');
+
   await popup
     .getByAltText('Channel_BCDEF image', { exact: false })
     .last()
     .click();
 
-  // wait until the new image loads i.e. backdrop disappears & thus image is interactive
-  const title = await popup.title();
-  const imgAltText = title.split(' - ')[1];
+  // wait until the new image loads i.e. url changes, backdrop disappears & thus image is interactive
+  const image = await popup.getByAltText((await popup.title()).split(' - ')[1]);
 
-  await popup.getByAltText(imgAltText).click();
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+
+  await image.click();
 
   expect(
     await canvas.screenshot({

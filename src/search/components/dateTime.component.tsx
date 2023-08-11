@@ -137,6 +137,7 @@ export interface DateTimeSearchProps {
     experiment: ExperimentParams
   ) => boolean;
   invalidDateRange: boolean;
+  searchParamsUpdated: () => void;
 }
 
 /**
@@ -172,6 +173,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     isShotnumToDate,
     isDateTimeInExperiment,
     invalidDateRange,
+    searchParamsUpdated,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -247,6 +249,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
+                searchParamsUpdated();
 
                 resetShotnumberRange();
 
@@ -271,6 +274,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
+                searchParamsUpdated();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   if (
@@ -357,6 +361,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                searchParamsUpdated();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   if (
@@ -378,6 +383,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onAccept={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
+                searchParamsUpdated();
                 resetShotnumberRange();
                 if (searchParameterExperiment && date) {
                   if (

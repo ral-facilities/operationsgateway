@@ -15,6 +15,7 @@ describe('Experiment search', () => {
   const resetTimeFrame = jest.fn();
   const changeExperimentTimeframe = jest.fn();
   const resetShotnumber = jest.fn();
+  const searchParamsUpdated = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -29,6 +30,7 @@ describe('Experiment search', () => {
       resetTimeframe: resetTimeFrame,
       changeExperimentTimeframe,
       resetShotnumber: resetShotnumber,
+      searchParamsUpdated: searchParamsUpdated,
     };
 
     user = userEvent.setup();
@@ -94,6 +96,7 @@ describe('Experiment search', () => {
     expect(onExperimentChange).toHaveBeenCalledWith(expectedExperiment);
     expect(resetTimeFrame).toHaveBeenCalledTimes(1);
     expect(resetShotnumber).toHaveBeenCalledTimes(1);
+    expect(searchParamsUpdated).toHaveBeenCalled();
     expect(changeExperimentTimeframe).toHaveBeenCalledWith(expectedExperiment);
     expect(experimentPopup).toHaveValue('22110007');
   });

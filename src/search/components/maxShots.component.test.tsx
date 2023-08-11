@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 describe('maxShots search', () => {
   let props: MaxShotsProps;
   const changeMaxShots = jest.fn();
+  const searchParamsUpdated = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<MaxShots {...props} />);
@@ -24,6 +25,7 @@ describe('maxShots search', () => {
     props = {
       maxShots: 50,
       changeMaxShots,
+      searchParamsUpdated,
     };
 
     const { asFragment } = createView();
@@ -46,6 +48,7 @@ describe('maxShots search', () => {
       props = {
         maxShots: 100,
         changeMaxShots,
+        searchParamsUpdated,
       };
       createView();
 
@@ -56,12 +59,14 @@ describe('maxShots search', () => {
         within(maxShotsRadioGroup).getByLabelText('Select 50 max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(50);
+      expect(searchParamsUpdated).toHaveBeenCalled();
     });
 
     it('1000 shots', async () => {
       props = {
         maxShots: 50,
         changeMaxShots,
+        searchParamsUpdated,
       };
       createView();
 
@@ -72,12 +77,14 @@ describe('maxShots search', () => {
         within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(1000);
+      expect(searchParamsUpdated).toHaveBeenCalled();
     });
 
     it('unlimited', async () => {
       props = {
         maxShots: 50,
         changeMaxShots,
+        searchParamsUpdated,
       };
       createView();
 
@@ -88,6 +95,7 @@ describe('maxShots search', () => {
         within(maxShotsRadioGroup).getByLabelText('Select unlimited max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(Infinity);
+      expect(searchParamsUpdated).toHaveBeenCalled();
     });
   });
 });

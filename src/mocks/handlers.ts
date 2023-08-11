@@ -2,6 +2,8 @@ import { rest } from 'msw';
 import recordsJson from './records.json';
 import channelsJson from './channels.json';
 import experimentsJson from './experiments.json';
+import colourMapsJson from './colourMaps.json';
+import sessionsJson from './sessionsList.json';
 import {
   Channel,
   ExperimentParams,
@@ -27,6 +29,10 @@ export const handlers = [
     );
   }),
   rest.post('/sessions', async (req, res, ctx) => {
+    const sessionID = '1';
+    return res(ctx.status(200), ctx.json(sessionID));
+  }),
+  rest.patch('/sessions/:id', async (req, res, ctx) => {
     const sessionsParams = new URLSearchParams(req.url.search);
     const sessionName = sessionsParams.get('name');
 
@@ -35,6 +41,28 @@ export const handlers = [
     }
     const sessionID = '1';
     return res(ctx.status(200), ctx.json(sessionID));
+  }),
+  rest.delete('/sessions/:id', async (req, res, ctx) => {
+    const { id } = req.params;
+
+    const validId = [1, 2, 3, 4];
+    if (validId.includes(Number(id))) {
+      return res(ctx.status(200), ctx.json(''));
+    } else res(ctx.status(422), ctx.json(''));
+  }),
+  rest.get('/sessions/list', async (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(sessionsJson));
+  }),
+  rest.get('/sessions/:id', async (req, res, ctx) => {
+    const session_id = req.url.pathname.replace('/sessions/', '');
+    const sessionData = sessionsJson.find(
+      (session) => session._id === session_id
+    );
+    if (sessionData) {
+      return res(ctx.status(200), ctx.json(sessionData));
+    } else {
+      return res(ctx.status(400), ctx.json(''));
+    }
   }),
   rest.get('/channels', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(channelsJson));
@@ -229,15 +257,8 @@ export const handlers = [
   rest.get('/images/colourmap_names', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json([
-        'colourmap_1',
-        'colourmap_2',
-        'colourmap_3',
-        'colourmap_4',
-        'colourmap_5',
-        'colourmap_6',
-        'colourmap_7',
-      ])
+
+      ctx.json(colourMapsJson)
     );
   }),
 ];
