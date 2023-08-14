@@ -48,7 +48,6 @@ const editSession = (
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
-  console.log(session);
 
   return axios
     .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session, {

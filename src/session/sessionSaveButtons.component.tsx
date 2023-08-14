@@ -19,6 +19,12 @@ export interface SessionsSaveButtonsProps {
 
 export const AUTO_SAVE_INTERVAL_MS = 5 * 60 * 1000;
 
+const formatDate = (inputDate: string) => {
+  const date = parseISO(inputDate);
+  const formattedDate = format(date, 'dd MMM yyyy HH:mm');
+  return formattedDate;
+};
+
 const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   const {
     onSaveAsSessionClick,
@@ -90,27 +96,15 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
         clearInterval(autoSaveTimer);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     editSession,
     handleSaveSession,
     refetchSessionsList,
     selectedSessionData,
     sessionId,
-    state,
   ]);
 
-  let timestamp;
-  timestamp = undefined;
-
-  const formatDate = (inputDate: string) => {
-    const date = parseISO(inputDate);
-    const formattedDate = format(date, 'dd MMM yyyy HH:mm');
-    return formattedDate;
-  };
-
-  if (selectedSessionTimestamp.timestamp) {
-    timestamp = formatDate(selectedSessionTimestamp.timestamp);
-  }
   return (
     <Box
       sx={{
@@ -131,13 +125,23 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
               : 'Session last saved: '
             : ''}
           <span style={{ fontWeight: 'bold' }}>
-            {timestamp !== undefined ? timestamp : ''}
+            {selectedSessionTimestamp.timestamp !== undefined
+              ? formatDate(selectedSessionTimestamp.timestamp)
+              : ''}
           </span>
         </Typography>
-        <Button onClick={handleSaveSession} variant="outlined">
+        <Button
+          sx={{ mx: '4px' }}
+          onClick={handleSaveSession}
+          variant="outlined"
+        >
           Save
         </Button>
-        <Button onClick={onSaveAsSessionClick} variant="outlined">
+        <Button
+          sx={{ mx: '4px' }}
+          onClick={onSaveAsSessionClick}
+          variant="outlined"
+        >
           Save as
         </Button>
       </Box>
