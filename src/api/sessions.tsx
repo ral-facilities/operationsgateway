@@ -17,7 +17,7 @@ const saveSession = (apiUrl: string, session: Session): Promise<string> => {
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios
-    .post<string>(`${apiUrl}/sessions`, session.session_data, {
+    .post<string>(`${apiUrl}/sessions`, session.session, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,

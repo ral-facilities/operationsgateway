@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { Button, Typography } from '@mui/material';
 import { SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
-import { useEditSession } from '../api/sessions';
+import { useEditSession, useSaveSession } from '../api/sessions';
 import { format, parseISO } from 'date-fns';
 
 export interface SessionsSaveButtonsProps {
@@ -14,6 +14,8 @@ export interface SessionsSaveButtonsProps {
     timestamp: string | undefined;
     autoSaved: boolean | undefined;
   };
+  autoSaveSessionId: string | undefined;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
 }
 
@@ -32,9 +34,12 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     selectedSessionTimestamp,
     refetchSessionsList,
     sessionId,
+    autoSaveSessionId,
+    onChangeAutoSaveSessionId,
   } = props;
 
   const { mutateAsync: editSession } = useEditSession();
+  const { mutateAsync: saveSession } = useSaveSession();
 
   const autoSaveTimeout = React.useRef<ReturnType<typeof setInterval> | null>(
     null
@@ -74,17 +79,26 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
 
     if (selectedSessionData) {
       autoSaveTimer = setInterval(() => {
-        const session = {
+        const sessionData = {
+          name: `${selectedSessionData.name} (autosaved)`,
           session: state,
-          auto_saved: true,
-          _id: selectedSessionData._id,
           summary: selectedSessionData.summary,
-          timestamp: selectedSessionData.timestamp,
-          name: selectedSessionData.name,
+          auto_saved: true,
         };
-        editSession(session).then((response) => {
-          refetchSessionsList();
-        });
+        if (!autoSaveSessionId) {
+          saveSession(sessionData).then((repsonse) => {
+            onChangeAutoSaveSessionId(repsonse);
+            refetchSessionsList();
+          });
+        } else {
+          editSession({
+            _id: autoSaveSessionId,
+            timestamp: selectedSessionData.timestamp,
+            ...sessionData,
+          }).then((repsonse) => {
+            refetchSessionsList();
+          });
+        }
       }, AUTO_SAVE_INTERVAL_MS);
     }
 

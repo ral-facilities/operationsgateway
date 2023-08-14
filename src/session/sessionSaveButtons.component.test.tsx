@@ -11,17 +11,19 @@ import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
 } from './sessionSaveButtons.component';
 import { renderComponentWithProviders } from '../setupTests';
-import { useEditSession } from '../api/sessions';
+import { useEditSession, useSaveSession } from '../api/sessions';
 
 // Mock the useEditSession hook
 jest.mock('../api/sessions', () => ({
   useEditSession: jest.fn(),
+  useSaveSession: jest.fn(),
 }));
 
 describe('session buttons', () => {
   let props: SessionsSaveButtonsProps;
   const onSaveAsSessionClick = jest.fn();
   const refetchSessionsList = jest.fn();
+  const onChangeAutoSaveSessionId = jest.fn();
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionSaveButtons {...props} />);
   };
@@ -33,11 +35,16 @@ describe('session buttons', () => {
       selectedSessionData: undefined,
       selectedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       refetchSessionsList: refetchSessionsList,
+      onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
+      autoSaveSessionId: undefined,
     };
     jest.useFakeTimers();
 
     // Mock the return value of useEditSession hook
     useEditSession.mockReturnValue({
+      mutateAsync: jest.fn().mockResolvedValue({}),
+    });
+    useSaveSession.mockReturnValue({
       mutateAsync: jest.fn().mockResolvedValue({}),
     });
   });
@@ -52,17 +59,110 @@ describe('session buttons', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should enable auto save if an user session is selected', () => {
-    props.selectedSessionData = {
-      name: 'test',
-      summary: 'test',
-      auto_saved: false,
-      session: {},
-      _id: '1',
-      timestamp: '',
+  it('should be able to create an autosaved session from the current state of session', () => {
+    props = {
+      ...props,
+      selectedSessionData: {
+        name: 'test',
+        summary: 'test',
+        auto_saved: false,
+        session: {},
+        _id: '1',
+        timestamp: '',
+      },
+      sessionId: '1',
     };
-    props.sessionId = '1';
     const { rerender } = createView();
+
+    act(() => {
+      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+    });
+
+    expect(useSaveSession().mutateAsync).toHaveBeenCalledTimes(1);
+    expect(useSaveSession().mutateAsync).toHaveBeenCalledWith({
+      auto_saved: true,
+      name: 'test (autosaved)',
+      summary: 'test',
+      session: {
+        table: {
+          columnStates: {},
+          selectedColumnIds: [],
+          page: 0,
+          resultsPerPage: 25,
+          sort: {},
+        },
+        search: {
+          searchParams: {
+            dateRange: {},
+            shotnumRange: {},
+            maxShots: 50,
+            experimentID: null,
+          },
+        },
+        plots: {},
+        filter: { appliedFilters: [[]] },
+        windows: {},
+      },
+    });
+
+    props = {
+      ...props,
+      selectedSessionData: {
+        name: 'test',
+        summary: 'test',
+        auto_saved: false,
+        session: {},
+        _id: '2',
+        timestamp: '',
+      },
+      sessionId: '2',
+    };
+
+    rerender(<SessionSaveButtons {...props} />);
+
+    expect(useSaveSession().mutateAsync).toHaveBeenCalledTimes(1);
+    expect(useSaveSession().mutateAsync).toHaveBeenCalledWith({
+      auto_saved: true,
+      name: 'test (autosaved)',
+      summary: 'test',
+      session: {
+        table: {
+          columnStates: {},
+          selectedColumnIds: [],
+          page: 0,
+          resultsPerPage: 25,
+          sort: {},
+        },
+        search: {
+          searchParams: {
+            dateRange: {},
+            shotnumRange: {},
+            maxShots: 50,
+            experimentID: null,
+          },
+        },
+        plots: {},
+        filter: { appliedFilters: [[]] },
+        windows: {},
+      },
+    });
+  });
+
+  it('should update autosave session when autoSavedSessionId exist', () => {
+    props = {
+      ...props,
+      selectedSessionData: {
+        name: 'test',
+        summary: 'test',
+        auto_saved: false,
+        session: {},
+        _id: '1',
+        timestamp: '',
+      },
+      sessionId: '1',
+      autoSaveSessionId: '5',
+    };
+    createView();
 
     act(() => {
       jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
@@ -70,11 +170,10 @@ describe('session buttons', () => {
 
     expect(useEditSession().mutateAsync).toHaveBeenCalledTimes(1);
     expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
-      _id: '1',
+      _id: '5',
       auto_saved: true,
-      name: 'test',
+      name: 'test (autosaved)',
       summary: 'test',
-      timestamp: '',
       session: {
         table: {
           columnStates: {},
@@ -95,83 +194,7 @@ describe('session buttons', () => {
         filter: { appliedFilters: [[]] },
         windows: {},
       },
-    });
-
-    props.selectedSessionData = {
-      name: 'test 2',
-      summary: 'test 2',
-      auto_saved: false,
-      session: {},
-      _id: '2',
       timestamp: '',
-    };
-    props.sessionId = '2';
-    rerender(<SessionSaveButtons {...props} />);
-
-    act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
-    });
-
-    expect(useEditSession().mutateAsync).toHaveBeenCalledTimes(2);
-    expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
-      _id: '2',
-      auto_saved: true,
-      name: 'test 2',
-      summary: 'test 2',
-      timestamp: '',
-      session: {
-        table: {
-          columnStates: {},
-          selectedColumnIds: [],
-          page: 0,
-          resultsPerPage: 25,
-          sort: {},
-        },
-        search: {
-          searchParams: {
-            dateRange: {},
-            shotnumRange: {},
-            maxShots: 50,
-            experimentID: null,
-          },
-        },
-        plots: {},
-        filter: { appliedFilters: [[]] },
-        windows: {},
-      },
-    });
-
-    act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
-    });
-
-    expect(useEditSession().mutateAsync).toHaveBeenCalledTimes(3);
-    expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
-      _id: '2',
-      auto_saved: true,
-      name: 'test 2',
-      summary: 'test 2',
-      timestamp: '',
-      session: {
-        table: {
-          columnStates: {},
-          selectedColumnIds: [],
-          page: 0,
-          resultsPerPage: 25,
-          sort: {},
-        },
-        search: {
-          searchParams: {
-            dateRange: {},
-            shotnumRange: {},
-            maxShots: 50,
-            experimentID: null,
-          },
-        },
-        plots: {},
-        filter: { appliedFilters: [[]] },
-        windows: {},
-      },
     });
   });
 

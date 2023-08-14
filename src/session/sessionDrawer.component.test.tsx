@@ -12,6 +12,7 @@ describe('session Drawer', () => {
   const onChangeLoadedSessionId = jest.fn();
   const onChangeSelectedSessionTimestamp = jest.fn();
   const refetchSessionsData = jest.fn();
+  const onChangeAutoSaveSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
@@ -28,6 +29,7 @@ describe('session Drawer', () => {
       sessionsList: SessionsListJSON,
       onChangeSelectedSessionTimestamp: onChangeSelectedSessionTimestamp,
       refetchSessionsData: refetchSessionsData,
+      onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
     };
   });
   afterEach(() => {
@@ -50,7 +52,7 @@ describe('session Drawer', () => {
   });
 
   it('loads a user session', async () => {
-    props.selectedSessionId = '1';
+    props.loadedSessionId = '1';
     createView();
     await waitFor(() => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
@@ -70,6 +72,7 @@ describe('session Drawer', () => {
       true
     );
     expect(refetchSessionsData).toHaveBeenCalledWith('1');
+    expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
   });
 
   it('a user can open the edit session dialogue', async () => {

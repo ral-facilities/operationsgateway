@@ -21,6 +21,7 @@ export interface SessionDialogueProps {
   requestType: 'edit' | 'create';
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   sessionData?: SessionResponse;
 }
 
@@ -36,6 +37,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     sessionData,
     onChangeLoadedSessionId,
     refetchSessionsList,
+    onChangeAutoSaveSessionId,
   } = props;
 
   const state = useAppSelector(({ config, ...state }) => state);
@@ -57,13 +59,14 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const session = {
         name: sessionName,
-        session_data: state,
+        session: state,
         summary: sessionSummary,
         auto_saved: false,
       };
       saveSession(session)
         .then((response) => {
           refetchSessionsList();
+          onChangeAutoSaveSessionId(undefined);
           onChangeLoadedSessionId(response);
           handleClose();
         })
@@ -78,6 +81,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     }
   }, [
     handleClose,
+    onChangeAutoSaveSessionId,
     onChangeLoadedSessionId,
     refetchSessionsList,
     saveSession,
@@ -100,6 +104,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       editSession(session)
         .then((response) => {
           refetchSessionsList();
+          onChangeAutoSaveSessionId(undefined);
           handleClose();
         })
         .catch((error) => {
@@ -117,6 +122,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     sessionSummary,
     editSession,
     refetchSessionsList,
+    onChangeAutoSaveSessionId,
     handleClose,
   ]);
 

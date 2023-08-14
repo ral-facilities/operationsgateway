@@ -234,7 +234,7 @@ export interface Session {
   name: string;
   summary: string;
   auto_saved: boolean;
-  session_data: ImportSessionType;
+  session: ImportSessionType;
 }
 
 export interface SessionResponse {

@@ -35,6 +35,7 @@ export interface SessionDrawerProps {
     autoSaved: boolean | undefined
   ) => void;
   refetchSessionsData: (sessionId: string) => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
@@ -47,6 +48,16 @@ interface SessionListElementProps extends SessionListItem {
     autoSaved: boolean | undefined
   ) => void;
   refetchSessionsData: (sessionId: string) => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
+}
+
+function compareSessions(a: SessionListItem, b: SessionListItem): number {
+  if (a.auto_saved === b.auto_saved) {
+    // If auto_saved is the same, sort by timestamp (you can adjust the sorting criteria)
+    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+  }
+  // Sort auto_saved=true sessions above auto_saved=false sessions
+  return b.auto_saved ? 1 : -1;
 }
 
 const SessionListElement = (
@@ -59,6 +70,7 @@ const SessionListElement = (
     handleImport,
     onChangeSelectedSessionTimestamp,
     refetchSessionsData,
+    onChangeAutoSaveSessionId,
     ...session
   } = props;
   const prevTimestampRef = React.useRef<string | undefined>(undefined);
@@ -88,6 +100,7 @@ const SessionListElement = (
       }}
       onClick={() => {
         refetchSessionsData(session._id);
+        onChangeAutoSaveSessionId(undefined);
         onChangeSelectedSessionTimestamp(session.timestamp, session.auto_saved);
         handleImport(session._id);
       }}
@@ -140,6 +153,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     onChangeLoadedSessionId,
     onChangeSelectedSessionTimestamp,
     refetchSessionsData,
+    onChangeAutoSaveSessionId,
   } = props;
 
   const { data: sessionData } = useSession(loadedSessionId);
@@ -202,7 +216,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         </Box>
         <List disablePadding>
           {sessionsList &&
-            sessionsList.map((item, index) => (
+            sessionsList.sort(compareSessions).map((item, index) => (
               <ListItem key={item._id} disablePadding>
                 <SessionListElement
                   {...item}
@@ -214,6 +228,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                     onChangeSelectedSessionTimestamp
                   }
                   refetchSessionsData={refetchSessionsData}
+                  onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
                 />
               </ListItem>
             ))}

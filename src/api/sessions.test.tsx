@@ -16,7 +16,7 @@ describe('session api functions', () => {
     mockData = {
       name: 'test',
       summary: 'test',
-      session_data: {},
+      session: {},
       auto_saved: false,
       _id: '1',
     };

@@ -56,6 +56,10 @@ const ViewTabs = () => {
     setValue(newValue);
   };
 
+  const [autoSaveSessionId, setAutoSaveSessionId] = React.useState<
+    string | undefined
+  >(undefined);
+
   // This useState manges the selected session id used for deleting and editing a session
   const [selectedSessionId, setSelectedSessionId] = React.useState<
     string | undefined
@@ -122,6 +126,15 @@ const ViewTabs = () => {
     setSelectedSessionTimestamp({ timestamp, autoSaved });
   };
 
+  const onDeleteLoadedsession = () => {
+    setLoadedSessionId(undefined);
+    setSelectedSessionId(undefined);
+    setSelectedSessionTimestamp({
+      timestamp: undefined,
+      autoSaved: undefined,
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -142,6 +155,7 @@ const ViewTabs = () => {
         onChangeLoadedSessionId={setLoadedSessionId}
         onChangeSelectedSessionTimestamp={onChangeSelectedSessionTimestamp}
         refetchSessionsData={onChangeRefetchSessionData}
+        onChangeAutoSaveSessionId={setAutoSaveSessionId}
       />
 
       <Box sx={{ width: '100%' }}>
@@ -166,6 +180,8 @@ const ViewTabs = () => {
               selectedSessionData={selectedSessionData}
               selectedSessionTimestamp={selectedSessionTimestamp}
               refetchSessionsList={refetchSessionsList}
+              autoSaveSessionId={autoSaveSessionId}
+              onChangeAutoSaveSessionId={setAutoSaveSessionId}
             />
           </Box>
         </Box>
@@ -186,6 +202,7 @@ const ViewTabs = () => {
           sessionData={sessionData}
           onChangeLoadedSessionId={setLoadedSessionId}
           refetchSessionsList={refetchSessionsList}
+          onChangeAutoSaveSessionId={setAutoSaveSessionId}
         />
         <SessionDialogue
           open={sessionSaveOpen}
@@ -197,6 +214,7 @@ const ViewTabs = () => {
           onChangeLoadedSessionId={setLoadedSessionId}
           requestType="create"
           refetchSessionsList={refetchSessionsList}
+          onChangeAutoSaveSessionId={setAutoSaveSessionId}
         />
         <DeleteSessionDialogue
           open={sessionDeleteOpen}
@@ -204,7 +222,7 @@ const ViewTabs = () => {
           sessionData={sessionData}
           refetchSessionsList={refetchSessionsList}
           loadedSessionId={loadedSessionId}
-          onChangeLoadedSessionId={setLoadedSessionId}
+          onDeleteLoadedsession={onDeleteLoadedsession}
         />
       </Box>
     </Box>

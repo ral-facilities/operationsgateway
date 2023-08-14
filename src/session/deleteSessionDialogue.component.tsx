@@ -16,7 +16,7 @@ export interface DeleteSessionDialogueProps {
   sessionData: SessionResponse | undefined;
   refetchSessionsList: () => void;
   loadedSessionId: string | undefined;
-  onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
+  onDeleteLoadedsession: () => void;
 }
 
 const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
@@ -26,7 +26,7 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
     sessionData,
     refetchSessionsList,
     loadedSessionId,
-    onChangeLoadedSessionId,
+    onDeleteLoadedsession,
   } = props;
 
   const [error, setError] = useState(false);
@@ -42,7 +42,7 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
         .then((response) => {
           refetchSessionsList();
           if (loadedSessionId === sessionData._id) {
-            onChangeLoadedSessionId(undefined);
+            onDeleteLoadedsession();
           }
           onClose();
         })
@@ -57,8 +57,8 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
   }, [
     deleteSession,
     loadedSessionId,
-    onChangeLoadedSessionId,
     onClose,
+    onDeleteLoadedsession,
     refetchSessionsList,
     sessionData,
   ]);
