@@ -9,6 +9,8 @@ import {
 import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { useSaveSession } from '../api/sessions';
+import { RootState } from '../state/store';
+import { createSelector } from '@reduxjs/toolkit';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -20,6 +22,12 @@ export interface SessionDialogueProps {
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   refetchSessionsList: () => void;
 }
+
+const everythingButConfigSelector = ({ config, ...state }: RootState) => state;
+const sessionSelector = createSelector(
+  everythingButConfigSelector,
+  (state) => state
+);
 
 const SaveSessionDialogue = (props: SessionDialogueProps) => {
   const {
@@ -33,7 +41,7 @@ const SaveSessionDialogue = (props: SessionDialogueProps) => {
     refetchSessionsList,
   } = props;
 
-  const state = useAppSelector(({ config, ...state }) => state);
+  const state = useAppSelector(sessionSelector);
   const { mutateAsync: saveSession } = useSaveSession();
 
   const [nameError, setError] = useState(false);

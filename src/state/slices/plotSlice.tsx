@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   DEFAULT_WINDOW_VARS,
   PlotType,
@@ -96,9 +96,10 @@ export const { createPlot, closePlot, openPlot, savePlot, deletePlot } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectPlots = (state: RootState) => state.plots;
-export const selectOpenPlots = (state: RootState) =>
+export const selectOpenPlots = createSelector(selectPlots, (plots) =>
   Object.fromEntries(
-    Object.entries(state.plots).filter(([plotTitle, plot]) => plot.open)
-  );
+    Object.entries(plots).filter(([plotTitle, plot]) => plot.open)
+  )
+);
 
 export default plotSlice.reducer;
