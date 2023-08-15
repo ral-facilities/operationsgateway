@@ -126,12 +126,13 @@ const PlotWindow = (props: PlotWindowProps) => {
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
+  const channelsNullChecked = React.useMemo(() => channels ?? [], [channels]);
   const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
     useAppSelector((state) =>
-      selectSelectedChannels(state, channels ?? [])
+      selectSelectedChannels(state, channelsNullChecked)
     ) as FullScalarChannelMetadata[];
 
-  const XAxisDisplayName = channels?.find(
+  const XAxisDisplayName = channelsNullChecked.find(
     (channel) => channel.systemName === XAxis
   )?.name;
 
@@ -261,7 +262,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               </Box>
               <PlotSettingsController
                 selectedRecordTableChannels={selectedScalarRecordTableChannels}
-                allChannels={channels ?? []}
+                allChannels={channelsNullChecked}
                 plotTitle={plotTitle}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}

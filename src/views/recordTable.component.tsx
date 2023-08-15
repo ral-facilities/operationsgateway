@@ -60,9 +60,14 @@ const RecordTable = React.memo(
     const { data: availableColumns, isLoading: columnsLoading } =
       useAvailableColumns();
 
+    const availableColumnsNullChecked = React.useMemo(
+      () => availableColumns ?? [],
+      [availableColumns]
+    );
+
     const columnStates = useAppSelector(selectColumnStates);
     const columnVisibility = useAppSelector((state) =>
-      selectColumnVisibility(state, availableColumns ?? [])
+      selectColumnVisibility(state, availableColumnsNullChecked)
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
@@ -124,7 +129,7 @@ const RecordTable = React.memo(
       <Table
         tableHeight={tableHeight}
         data={data ?? []}
-        availableColumns={availableColumns ?? []}
+        availableColumns={availableColumnsNullChecked}
         columnStates={columnStates}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}

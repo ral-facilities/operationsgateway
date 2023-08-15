@@ -37,22 +37,15 @@ export interface TreeNode {
 
 /**
  * @returns A selector for a tree representing the channel hierarchy,
- * which is used by components in the channels folder
- * @params state - redux state - isn't actually used! (means we get nice memoisation from reselect)
+ * which is used by components in the channels folder (means we get nice memoisation from reselect)
  * @params availableChannels - array of all the channels the user can select
  * @params selectedIds - array of all the channels currently selected
  */
 export const selectChannelTree = createSelector(
-  (
-    state: unknown,
-    availableChannels: FullChannelMetadata[],
-    selectedIds: string[]
-  ) => availableChannels,
-  (
-    state: unknown,
-    availableChannels: FullChannelMetadata[],
-    selectedIds: string[]
-  ) => selectedIds,
+  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+    availableChannels,
+  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+    selectedIds,
   (availableChannels, selectedIds) => {
     const tree: TreeNode = { name: '/', children: {} };
     availableChannels.forEach((channel) => {
@@ -100,9 +93,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
 
   const { data: channels } = useChannels();
 
-  const appliedSelectedIds = useAppSelector((state) =>
-    selectSelectedIds(state)
-  );
+  const appliedSelectedIds = useAppSelector(selectSelectedIds);
 
   const [selectedIds, setSelectedIds] = React.useState(appliedSelectedIds);
 
@@ -110,9 +101,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
     setSelectedIds(appliedSelectedIds);
   }, [appliedSelectedIds]);
 
-  const channelTree = useAppSelector((state) =>
-    selectChannelTree(state, channels ?? [], selectedIds)
-  );
+  const channelTree = selectChannelTree(channels ?? [], selectedIds);
 
   const dispatch = useAppDispatch();
 
