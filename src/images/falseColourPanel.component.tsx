@@ -70,7 +70,7 @@ export function filterNamesWithSuffixR(
 
   for (const category in colorMaps) {
     const originalList = colorMaps[category];
-    const filteredList = originalList.filter(
+    const filteredList = originalList?.filter(
       (colourmap) => !colourmap.endsWith('_r')
     );
     filteredColorMaps[category] = filteredList;
@@ -107,7 +107,7 @@ export const ColourMapSelect = (
       {colourMapNames.map((mapNames, index) => {
         return [
           <ListSubheader>{colourMapTypeNames[index]}</ListSubheader>,
-          mapNames.map((colourMap) => (
+          mapNames?.map((colourMap) => (
             <MenuItem key={colourMap} value={colourMap}>
               {colourMap}
             </MenuItem>
@@ -204,12 +204,12 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   };
 
   const colourMapsNames = colourMapsList?.filter(
-    (colourmap) => !colourmap.endsWith('_r')
+    (colourmap) => !colourmap?.endsWith('_r')
   );
 
   const colourMapsReverseNames = colourMapsList
-    ?.filter((colourmap) => colourmap.endsWith('_r'))
-    .map((colourmap) => colourmap.replace('_r', ''));
+    ?.filter((colourmap) => colourmap?.endsWith('_r'))
+    .map((colourmap) => colourmap?.replace('_r', ''));
 
   const colourMapsWithReverse = colourMapsNames?.filter((value) =>
     colourMapsReverseNames?.includes(value)

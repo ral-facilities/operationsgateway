@@ -15,33 +15,57 @@ import {
   filterNamesWithSuffixR,
 } from './images/falseColourPanel.component';
 import { useColourMaps } from './api/images';
+import {
+  useUpdateUserPreference,
+  useUserPreference,
+} from './api/userPreferences';
+
+export const DEFAULT_COLOUR_MAP_PREFERENCE_NAME = 'default_colour_map';
 
 const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
-  const [selectColourMap, setSelectColourMap] = React.useState('');
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
   const { data: colourMaps } = useColourMaps();
 
+  const { data: preferredColourMap } = useUserPreference<string | undefined>(
+    DEFAULT_COLOUR_MAP_PREFERENCE_NAME
+  );
+
+  const selectColourMap = preferredColourMap?.replace('_r', '') ?? '';
+
+  const { mutateAsync: changePreferredColourMap } = useUpdateUserPreference<
+    string | undefined
+  >(DEFAULT_COLOUR_MAP_PREFERENCE_NAME);
+
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
   const mainColourMap = 'Perceptually Uniform Sequential';
+  // we want to allow the user to see their selected colour map even in the "main"
+  // colourmap options if they've selected an extended colourmap
+  const selectedColourMapCategory = Object.entries(filteredColourMaps)?.find(
+    (colourMap) => colourMap?.[1]?.includes(selectColourMap)
+  )?.[0];
   const filteredColourMapsMain = {
     [mainColourMap]: filteredColourMaps[mainColourMap],
+    ...(selectedColourMapCategory &&
+      selectedColourMapCategory !== mainColourMap && {
+        [selectedColourMapCategory]: [selectColourMap],
+      }),
   };
 
   const colourMapsList = extendedColourMap
     ? Object.values(colourMaps ?? {}).flat()
-    : colourMaps?.[mainColourMap];
+    : colourMaps?.[mainColourMap] ?? [];
 
   const colourMapsNames = colourMapsList?.filter(
-    (colourmap) => !colourmap.endsWith('_r')
+    (colourmap) => !colourmap?.endsWith('_r')
   );
 
   const colourMapsReverseNames = colourMapsList
-    ?.filter((colourmap) => colourmap.endsWith('_r'))
-    .map((colourmap) => colourmap.replace('_r', ''));
+    ?.filter((colourmap) => colourmap?.endsWith('_r'))
+    .map((colourmap) => colourmap?.replace('_r', ''));
 
   const colourMapsWithReverse = colourMapsNames?.filter((value) =>
     colourMapsReverseNames?.includes(value)
@@ -49,17 +73,16 @@ const SettingsMenuItems = () => {
 
   const handleColourMapChange = (event: SelectChangeEvent<unknown>) => {
     const newValue = event.target.value as string;
-    setSelectColourMap(newValue);
-    // TODO: request to set default colourmap
-    // changeColourMap(
-    //   newValue !== ''
-    //     ? !reverseColour
-    //       ? newValue
-    //       : colourMapsList?.includes(`${newValue}_r`)
-    //       ? `${newValue}_r`
-    //       : newValue
-    //     : undefined
-    // );
+    changePreferredColourMap({
+      value:
+        newValue !== ''
+          ? !reverseColour
+            ? newValue
+            : colourMapsList?.includes(`${newValue}_r`)
+            ? `${newValue}_r`
+            : newValue
+          : undefined,
+    });
   };
 
   const handleExtendColourMaps = (
@@ -75,9 +98,13 @@ const SettingsMenuItems = () => {
   ) => {
     if (selectColourMap !== '') {
       if (!checked) {
-        // changeColourMap(selectColourMap);
+        changePreferredColourMap({
+          value: selectColourMap,
+        });
       } else {
-        // changeColourMap(`${selectColourMap}_r`);
+        changePreferredColourMap({
+          value: `${selectColourMap}_r`,
+        });
       }
     }
     setReverseColour(checked);
@@ -123,7 +150,7 @@ const SettingsMenuItems = () => {
         >
           <FormGroup>
             <FormControl>
-              <InputLabel id="colour-map-select-label">
+              <InputLabel id="default-colour-map-select-label">
                 Default Colour Map
               </InputLabel>
               <ColourMapSelect

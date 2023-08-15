@@ -10,6 +10,8 @@ import {
   isChannelScalar,
   Record,
 } from '../app.types';
+import { DEFAULT_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
+import { ColourMapsParams } from '../api/images';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -17,6 +19,14 @@ type RecordsJSONType = (Omit<Record, 'channels'> & {
     [channel: string]: Channel | undefined;
   };
 })[];
+const getRandomColourMap = function (colourMaps: ColourMapsParams) {
+  const categoryKeys = Object.keys(colourMaps);
+  const randomCategory =
+    colourMaps[categoryKeys[(categoryKeys.length * Math.random()) << 0]];
+  return randomCategory?.[Math.floor(Math.random() * randomCategory?.length)];
+};
+
+let preferredColourMap = getRandomColourMap(colourMapsJson);
 
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
@@ -248,5 +258,19 @@ export const handlers = [
 
       ctx.json(colourMapsJson)
     );
+  }),
+  rest.get(
+    `/user_preferences/${DEFAULT_COLOUR_MAP_PREFERENCE_NAME}`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+
+        ctx.json(preferredColourMap)
+      );
+    }
+  ),
+  rest.post('/user_preferences', async (req, res, ctx) => {
+    preferredColourMap = (await req.json()).value;
+    return res(ctx.status(200), ctx.json(preferredColourMap));
   }),
 ];
