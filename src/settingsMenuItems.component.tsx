@@ -16,11 +16,7 @@ import {
 } from './images/falseColourPanel.component';
 import { useColourMaps } from './api/images';
 
-type SettingsMenuItemsProps = {
-  lol?: string;
-};
-
-const SettingsMenuItems = (props: SettingsMenuItemsProps) => {
+const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const [selectColourMap, setSelectColourMap] = React.useState('');

@@ -1,13 +1,5 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  Theme,
-  Typography,
-  ListItem,
-  IconButton,
-} from '@mui/material';
+import { Box, Button, Typography, ListItem, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
@@ -16,10 +8,6 @@ import { useSession } from '../api/sessions';
 import { SessionListItem } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
-
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  height: '100%',
-}));
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
@@ -131,42 +119,46 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   };
 
   return (
-    <div>
-      <StyledDrawer
-        sx={{
+    <Drawer
+      sx={{
+        width: '220px',
+        position: 'relative',
+      }}
+      hideBackdrop
+      PaperProps={{
+        sx: {
           width: '220px',
-          flexShrink: 0,
+          position: 'absolute',
+        },
+      }}
+      variant="permanent"
+      anchor="left"
+    >
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
         }}
-        PaperProps={{ sx: (theme: Theme) => ({ width: '220px' }) }}
-        variant="permanent"
-        anchor="left"
       >
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: 'divider',
-          }}
-        >
-          {drawer}
-        </Box>
-        <Box>
-          {sessionsList &&
-            sessionsList.map((item, index) => (
-              <ListItem
-                sx={{ padding: 0 }}
-                key={item._id}
-                alignItems="flex-start"
-              >
-                <SessionListElement
-                  {...item}
-                  handleImport={handleSessionClick}
-                  selected={loadedSessionId === item._id}
-                />
-              </ListItem>
-            ))}
-        </Box>
-      </StyledDrawer>
-    </div>
+        {drawer}
+      </Box>
+      <Box>
+        {sessionsList &&
+          sessionsList.map((item, index) => (
+            <ListItem
+              sx={{ padding: 0 }}
+              key={item._id}
+              alignItems="flex-start"
+            >
+              <SessionListElement
+                {...item}
+                handleImport={handleSessionClick}
+                selected={loadedSessionId === item._id}
+              />
+            </ListItem>
+          ))}
+      </Box>
+    </Drawer>
   );
 };
 

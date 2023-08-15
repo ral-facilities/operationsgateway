@@ -176,9 +176,12 @@ const settings = fetchSettings();
 setSettings(settings);
 
 function prepare() {
-  return import('./mocks/browser').then(({ worker }) => {
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { worker } = require('./mocks/browser');
     return worker.start();
-  });
+  }
+  return Promise.resolve();
 }
 
 if (
