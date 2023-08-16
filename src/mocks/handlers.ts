@@ -253,20 +253,23 @@ export const handlers = [
     );
   }),
   rest.get('/images/colourmap_names', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-
-      ctx.json(colourMapsJson)
-    );
+    return res(ctx.status(200), ctx.json(colourMapsJson));
   }),
   rest.get(
     `/user_preferences/${DEFAULT_COLOUR_MAP_PREFERENCE_NAME}`,
     (req, res, ctx) => {
-      return res(
-        ctx.status(200),
-
-        ctx.json(preferredColourMap)
-      );
+      if (typeof preferredColourMap === 'undefined') {
+        return res(ctx.status(404), ctx.json({ msg: 'TODO ERROR MSG' }));
+      } else {
+        return res(ctx.status(200), ctx.json(preferredColourMap));
+      }
+    }
+  ),
+  rest.delete(
+    `/user_preferences/${DEFAULT_COLOUR_MAP_PREFERENCE_NAME}`,
+    (req, res, ctx) => {
+      preferredColourMap = undefined;
+      return res(ctx.status(200), ctx.json(preferredColourMap));
     }
   ),
   rest.post('/user_preferences', async (req, res, ctx) => {

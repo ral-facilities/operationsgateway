@@ -5,7 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, isAxiosError } from 'axios';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
@@ -15,7 +15,7 @@ import { selectUrls } from '../state/slices/configSlice';
 export const fetchUserPreference = async <T,>(
   apiUrl: string,
   name: string
-): Promise<T> => {
+): Promise<T | null> => {
   return axios
     .get(`${apiUrl}/user_preferences/${name}`, {
       headers: {
@@ -24,18 +24,26 @@ export const fetchUserPreference = async <T,>(
     })
     .then((response) => {
       return response.data;
+    })
+    .catch((error) => {
+      // 404 means no preference is set - so interpret this as null
+      if (isAxiosError(error) && error.response?.status === 404) {
+        return null;
+      } else {
+        throw error;
+      }
     });
 };
 
 export const useUserPreference = <T,>(
   name: string
-): UseQueryResult<T, AxiosError> => {
+): UseQueryResult<T | null, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<T, AxiosError, T, [string, string]>(
+  return useQuery(
     ['userPreference', name],
     (params) => {
-      return fetchUserPreference(apiUrl, name);
+      return fetchUserPreference<T>(apiUrl, name);
     },
     {
       onError: (error) => {
@@ -49,30 +57,43 @@ export const updateUserPreference = async <T,>(
   apiUrl: string,
   name: string,
   value: T
-): Promise<T> => {
-  return axios
-    .post(
-      `${apiUrl}/user_preferences`,
-      { name, value },
-      {
-        headers: {
-          Authorization: `Bearer ${readSciGatewayToken()}`,
-        },
-      }
-    )
-    .then((response) => {
-      return response.data;
-    });
+): Promise<void> => {
+  return axios.post(
+    `${apiUrl}/user_preferences`,
+    { name, value },
+    {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    }
+  );
+};
+
+export const deleteUserPreference = async (
+  apiUrl: string,
+  name: string
+): Promise<void> => {
+  return axios.delete(`${apiUrl}/user_preferences/${name}`, {
+    headers: {
+      Authorization: `Bearer ${readSciGatewayToken()}`,
+    },
+  });
 };
 
 export const useUpdateUserPreference = <T,>(
   name: string
-): UseMutationResult<T, AxiosError, { value: T }> => {
+): UseMutationResult<void, AxiosError, { value: T }> => {
   const queryClient = useQueryClient();
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useMutation(
-    ({ value }: { value: T }) => updateUserPreference(apiUrl, name, value),
+    ({ value }: { value: T }) => {
+      if (value !== null) {
+        return updateUserPreference(apiUrl, name, value);
+      } else {
+        return deleteUserPreference(apiUrl, name);
+      }
+    },
     {
       onError: (error) => {
         console.log('Got error ' + error.message);

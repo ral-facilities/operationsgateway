@@ -30,14 +30,14 @@ const SettingsMenuItems = () => {
 
   const { data: colourMaps } = useColourMaps();
 
-  const { data: preferredColourMap } = useUserPreference<string | undefined>(
+  const { data: preferredColourMap } = useUserPreference<string>(
     DEFAULT_COLOUR_MAP_PREFERENCE_NAME
   );
 
   const selectColourMap = preferredColourMap?.replace('_r', '') ?? '';
 
   const { mutateAsync: changePreferredColourMap } = useUpdateUserPreference<
-    string | undefined
+    string | null
   >(DEFAULT_COLOUR_MAP_PREFERENCE_NAME);
 
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
@@ -81,7 +81,7 @@ const SettingsMenuItems = () => {
             : colourMapsList?.includes(`${newValue}_r`)
             ? `${newValue}_r`
             : newValue
-          : undefined,
+          : null,
     });
   };
 
