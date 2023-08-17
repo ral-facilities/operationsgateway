@@ -14,8 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useSession } from '../api/sessions';
-import { SessionListItem } from '../app.types';
+import { SessionListItem, SessionResponse } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
 
@@ -29,12 +28,12 @@ export interface SessionDrawerProps {
   openSessionDelete: (sessionData: SessionListItem) => void;
   sessionsList: SessionListItem[] | undefined;
   loadedSessionId: string | undefined;
+  loadedSessionData: SessionResponse | undefined;
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
-  onChangeSelectedSessionTimestamp: (
+  onChangeLoadedSessionTimestamp: (
     timestamp: string | undefined,
     autoSaved: boolean | undefined
   ) => void;
-  refetchSessionsData: (sessionId: string) => void;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
@@ -43,11 +42,10 @@ interface SessionListElementProps extends SessionListItem {
   selected: boolean;
   openSessionEdit: (sessionData: SessionListItem) => void;
   openSessionDelete: (sessionData: SessionListItem) => void;
-  onChangeSelectedSessionTimestamp: (
+  onChangeLoadedSessionTimestamp: (
     timestamp: string | undefined,
     autoSaved: boolean | undefined
   ) => void;
-  refetchSessionsData: (sessionId: string) => void;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
@@ -68,8 +66,7 @@ const SessionListElement = (
     openSessionEdit,
     selected,
     handleImport,
-    onChangeSelectedSessionTimestamp,
-    refetchSessionsData,
+    onChangeLoadedSessionTimestamp,
     onChangeAutoSaveSessionId,
     ...session
   } = props;
@@ -87,10 +84,10 @@ const SessionListElement = (
         prevAutoSavedRef.current = session.auto_saved;
 
         // Call the onChangeSelectedSessionTimestamp function
-        onChangeSelectedSessionTimestamp(session.timestamp, session.auto_saved);
+        onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
       }
     }
-  }, [onChangeSelectedSessionTimestamp, selected, session]);
+  }, [onChangeLoadedSessionTimestamp, selected, session]);
   return (
     <ListItemButton
       selected={selected}
@@ -99,9 +96,8 @@ const SessionListElement = (
         padding: 1,
       }}
       onClick={() => {
-        refetchSessionsData(session._id);
         onChangeAutoSaveSessionId(undefined);
-        onChangeSelectedSessionTimestamp(session.timestamp, session.auto_saved);
+        onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
         handleImport(session._id);
       }}
     >
@@ -117,7 +113,7 @@ const SessionListElement = (
       >
         {session.name}
       </ListItemText>
-      <Box>
+      <Box sx={{ whiteSpace: 'nowrap' }}>
         <IconButton
           size="small"
           onClick={(event) => {
@@ -151,12 +147,11 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     sessionsList,
     loadedSessionId,
     onChangeLoadedSessionId,
-    onChangeSelectedSessionTimestamp,
-    refetchSessionsData,
+    onChangeLoadedSessionTimestamp,
     onChangeAutoSaveSessionId,
+    loadedSessionData,
   } = props;
 
-  const { data: sessionData } = useSession(loadedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -185,10 +180,10 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   );
 
   React.useEffect(() => {
-    if (sessionData) {
-      dispatch(importSession(sessionData.session));
+    if (loadedSessionData) {
+      dispatch(importSession(loadedSessionData.session));
     }
-  }, [dispatch, sessionData]);
+  }, [dispatch, loadedSessionData]);
 
   const handleSessionClick = (sessionId: string) => {
     onChangeLoadedSessionId(undefined);
@@ -224,10 +219,9 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                   selected={loadedSessionId === item._id}
                   openSessionDelete={openSessionDelete}
                   openSessionEdit={openSessionEdit}
-                  onChangeSelectedSessionTimestamp={
-                    onChangeSelectedSessionTimestamp
+                  onChangeLoadedSessionTimestamp={
+                    onChangeLoadedSessionTimestamp
                   }
-                  refetchSessionsData={refetchSessionsData}
                   onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
                 />
               </ListItem>

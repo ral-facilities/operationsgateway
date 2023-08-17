@@ -5,18 +5,17 @@ import { SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { format, parseISO } from 'date-fns';
+import { ImportSessionType } from '../state/store';
 
 export interface SessionsSaveButtonsProps {
-  sessionId: string | undefined;
   onSaveAsSessionClick: () => void;
-  selectedSessionData: SessionResponse | undefined;
-  selectedSessionTimestamp: {
+  loadedSessionData: SessionResponse | undefined;
+  loadedSessionTimestamp: {
     timestamp: string | undefined;
     autoSaved: boolean | undefined;
   };
   autoSaveSessionId: string | undefined;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
-  refetchSessionsList: () => void;
 }
 
 export const AUTO_SAVE_INTERVAL_MS = 5 * 60 * 1000;
@@ -30,15 +29,13 @@ const formatDate = (inputDate: string) => {
 const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   const {
     onSaveAsSessionClick,
-    selectedSessionData,
-    selectedSessionTimestamp,
-    refetchSessionsList,
-    sessionId,
+    loadedSessionData,
+    loadedSessionTimestamp,
     autoSaveSessionId,
     onChangeAutoSaveSessionId,
   } = props;
 
-  const { mutateAsync: editSession } = useEditSession();
+  const { mutate: editSession } = useEditSession();
   const { mutateAsync: saveSession } = useSaveSession();
 
   const autoSaveTimeout = React.useRef<ReturnType<typeof setInterval> | null>(
@@ -46,29 +43,29 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   );
 
   const state = useAppSelector(({ config, ...state }) => state);
+
+  const prevReduxState = React.useRef<ImportSessionType | null>(null); // Initialize with null
+
+  // Update the previous state when the state changes
+  React.useEffect(() => {
+    prevReduxState.current = state;
+  }, [state]);
+
   const handleSaveSession = React.useCallback(() => {
-    if (selectedSessionData) {
+    if (loadedSessionData) {
       const session = {
         session: state,
         auto_saved: false,
-        _id: selectedSessionData._id,
-        summary: selectedSessionData.summary,
-        timestamp: selectedSessionData.timestamp,
-        name: selectedSessionData.name,
+        _id: loadedSessionData._id,
+        summary: loadedSessionData.summary,
+        timestamp: loadedSessionData.timestamp,
+        name: loadedSessionData.name,
       };
-      editSession(session).then((response) => {
-        refetchSessionsList();
-      });
+      editSession(session);
     } else {
       onSaveAsSessionClick();
     }
-  }, [
-    editSession,
-    onSaveAsSessionClick,
-    refetchSessionsList,
-    selectedSessionData,
-    state,
-  ]);
+  }, [loadedSessionData, state, editSession, onSaveAsSessionClick]);
 
   React.useEffect(() => {
     let autoSaveTimer: ReturnType<typeof setInterval> | null;
@@ -77,26 +74,23 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
       clearInterval(autoSaveTimeout.current);
     }
 
-    if (selectedSessionData) {
+    if (loadedSessionData && !loadedSessionData.auto_saved) {
       autoSaveTimer = setInterval(() => {
         const sessionData = {
-          name: `${selectedSessionData.name} (autosaved)`,
-          session: state,
-          summary: selectedSessionData.summary,
+          name: `${loadedSessionData.name} (autosaved)`,
+          session: prevReduxState.current ?? state,
+          summary: loadedSessionData.summary,
           auto_saved: true,
         };
         if (!autoSaveSessionId) {
           saveSession(sessionData).then((repsonse) => {
             onChangeAutoSaveSessionId(repsonse);
-            refetchSessionsList();
           });
         } else {
           editSession({
             _id: autoSaveSessionId,
-            timestamp: selectedSessionData.timestamp,
+            timestamp: loadedSessionData.timestamp,
             ...sessionData,
-          }).then((repsonse) => {
-            refetchSessionsList();
           });
         }
       }, AUTO_SAVE_INTERVAL_MS);
@@ -111,13 +105,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    editSession,
-    handleSaveSession,
-    refetchSessionsList,
-    selectedSessionData,
-    sessionId,
-  ]);
+  }, [autoSaveSessionId, loadedSessionData]);
 
   return (
     <Box
@@ -133,14 +121,14 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
           data-testid="session-save-buttons-timestamp"
           style={{ fontSize: 'small', margin: '8px' }}
         >
-          {selectedSessionTimestamp.autoSaved !== undefined
-            ? selectedSessionTimestamp.autoSaved
+          {loadedSessionTimestamp.autoSaved !== undefined
+            ? loadedSessionTimestamp.autoSaved
               ? 'Session last autosaved: '
               : 'Session last saved: '
             : ''}
           <span style={{ fontWeight: 'bold' }}>
-            {selectedSessionTimestamp.timestamp !== undefined
-              ? formatDate(selectedSessionTimestamp.timestamp)
+            {loadedSessionTimestamp.timestamp !== undefined
+              ? formatDate(loadedSessionTimestamp.timestamp)
               : ''}
           </span>
         </Typography>

@@ -13,7 +13,6 @@ describe('session dialogue', () => {
   const onChangeSessionName = jest.fn();
   const onChangeSessionSummary = jest.fn();
   const onChangeLoadedSessionId = jest.fn();
-  const refetchSessionsList = jest.fn();
   const onChangeAutoSaveSessionId = jest.fn();
 
   const createView = (): RenderResult => {
@@ -31,7 +30,6 @@ describe('session dialogue', () => {
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'create',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
-        refetchSessionsList: refetchSessionsList,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
 
@@ -97,7 +95,6 @@ describe('session dialogue', () => {
       await waitFor(() => {
         expect(onClose).toHaveBeenCalled();
       });
-      expect(refetchSessionsList).toHaveBeenCalled();
       expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
       expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
     });
@@ -122,7 +119,6 @@ describe('session dialogue', () => {
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'edit',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
-        refetchSessionsList: refetchSessionsList,
         sessionData: sessionData,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
@@ -161,8 +157,6 @@ describe('session dialogue', () => {
       await waitFor(() => {
         expect(onClose).toHaveBeenCalled();
       });
-      expect(refetchSessionsList).toHaveBeenCalled();
-      expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
     });
   });
 });

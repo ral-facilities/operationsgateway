@@ -114,6 +114,35 @@ describe('View Tabs', () => {
     });
   });
 
+  it('deletes currently loaded user session', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+
+    const session1 = screen.getByText('Session 1');
+    await user.click(session1);
+
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete Session 1 session',
+    });
+
+    await user.click(deleteButton);
+
+    const deleteDialog = screen.getByRole('dialog');
+
+    expect(deleteDialog).toBeVisible();
+    expect(
+      within(deleteDialog).getByTestId('delete-session-name')
+    ).toHaveTextContent('Session 1');
+
+    const contniueButton = screen.getByRole('button', { name: 'Continue' });
+    user.click(contniueButton);
+    await waitFor(() => {
+      expect(deleteDialog).not.toBeInTheDocument();
+    });
+  });
+
   it('opens the edit session dialogue', async () => {
     createView();
     await waitFor(() => {

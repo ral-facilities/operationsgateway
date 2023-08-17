@@ -4,6 +4,7 @@ import {
   UseMutationResult,
   useQuery,
   UseQueryResult,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
@@ -32,9 +33,13 @@ export const useSaveSession = (): UseMutationResult<
   Session
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation((session: Session) => saveSession(apiUrl, session), {
     onError: (error) => {
       console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };
@@ -65,11 +70,16 @@ export const useEditSession = (): UseMutationResult<
   SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation(
     (session: SessionResponse) => editSession(apiUrl, session),
     {
       onError: (error) => {
         console.log('Got error ' + error.message);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+        queryClient.invalidateQueries({ queryKey: ['session'] });
       },
     }
   );
@@ -94,11 +104,15 @@ export const useDeleteSession = (): UseMutationResult<
   SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation(
     (session: SessionResponse) => deleteSession(apiUrl, session),
     {
       onError: (error) => {
         console.log('Got error ' + error.message);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
       },
     }
   );

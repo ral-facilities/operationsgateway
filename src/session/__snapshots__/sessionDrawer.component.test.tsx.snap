@@ -68,7 +68,7 @@ exports[`session Drawer renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="MuiBox-root css-0"
+                class="MuiBox-root css-epvm6"
               >
                 <button
                   aria-label="edit Session 3 session"
@@ -136,7 +136,7 @@ exports[`session Drawer renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="MuiBox-root css-0"
+                class="MuiBox-root css-epvm6"
               >
                 <button
                   aria-label="edit Session 1 session"
@@ -204,7 +204,7 @@ exports[`session Drawer renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="MuiBox-root css-0"
+                class="MuiBox-root css-epvm6"
               >
                 <button
                   aria-label="edit Session 4 session"
@@ -272,7 +272,7 @@ exports[`session Drawer renders correctly 1`] = `
                 </span>
               </div>
               <div
-                class="MuiBox-root css-0"
+                class="MuiBox-root css-epvm6"
               >
                 <button
                   aria-label="edit Session 2 session"

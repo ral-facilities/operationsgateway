@@ -70,24 +70,15 @@ const ViewTabs = () => {
     string | undefined
   >(selectedSessionId);
 
-  const [selectedSessionTimestamp, setSelectedSessionTimestamp] =
-    React.useState<{
-      timestamp: string | undefined;
-      autoSaved: boolean | undefined;
-    }>({ timestamp: undefined, autoSaved: undefined });
+  const [loadedSessionTimestamp, setLoadedSessionTimestamp] = React.useState<{
+    timestamp: string | undefined;
+    autoSaved: boolean | undefined;
+  }>({ timestamp: undefined, autoSaved: undefined });
 
-  const { data: sessionsList, refetch: refetchSessionsList } = useSessionList();
+  const { data: sessionsList } = useSessionList();
 
-  const { data: sessionData, refetch: refetchSessionData } =
-    useSession(selectedSessionId);
+  const { data: loadedSessionData } = useSession(loadedSessionId);
 
-  const onChangeRefetchSessionData = React.useCallback(
-    (sessionId: string) => {
-      setSelectedSessionId(sessionId);
-      refetchSessionData();
-    },
-    [refetchSessionData]
-  );
   const { data: selectedSessionData } = useSession(selectedSessionId);
 
   const [sessionSaveOpen, setSessionSaveOpen] = React.useState<boolean>(false);
@@ -114,22 +105,23 @@ const ViewTabs = () => {
 
   const onSaveAsSessionClick = () => {
     setSessionSaveOpen(true);
-    if (selectedSessionData) {
-      setSessionName(`${selectedSessionData.name}_copy`);
-      setSessionSummary(selectedSessionData.summary ?? '');
+    if (loadedSessionData) {
+      setSessionName(`${loadedSessionData.name}_copy`);
+      setSessionSummary(loadedSessionData.summary ?? '');
     }
   };
-  const onChangeSelectedSessionTimestamp = (
+  const onChangeLoadedSessionTimestamp = (
     timestamp: string | undefined,
     autoSaved: boolean | undefined
   ) => {
-    setSelectedSessionTimestamp({ timestamp, autoSaved });
+    setLoadedSessionTimestamp({ timestamp, autoSaved });
   };
 
   const onDeleteLoadedsession = () => {
     setLoadedSessionId(undefined);
     setSelectedSessionId(undefined);
-    setSelectedSessionTimestamp({
+    setAutoSaveSessionId(undefined);
+    setLoadedSessionTimestamp({
       timestamp: undefined,
       autoSaved: undefined,
     });
@@ -152,9 +144,9 @@ const ViewTabs = () => {
         openSessionDelete={onSessionDeleteOpen}
         sessionsList={sessionsList}
         loadedSessionId={loadedSessionId}
+        loadedSessionData={loadedSessionData}
         onChangeLoadedSessionId={setLoadedSessionId}
-        onChangeSelectedSessionTimestamp={onChangeSelectedSessionTimestamp}
-        refetchSessionsData={onChangeRefetchSessionData}
+        onChangeLoadedSessionTimestamp={onChangeLoadedSessionTimestamp}
         onChangeAutoSaveSessionId={setAutoSaveSessionId}
       />
 
@@ -175,11 +167,9 @@ const ViewTabs = () => {
           </Tabs>
           <Box marginLeft="auto">
             <SessionSaveButtons
-              sessionId={selectedSessionId}
               onSaveAsSessionClick={onSaveAsSessionClick}
-              selectedSessionData={selectedSessionData}
-              selectedSessionTimestamp={selectedSessionTimestamp}
-              refetchSessionsList={refetchSessionsList}
+              loadedSessionData={loadedSessionData}
+              loadedSessionTimestamp={loadedSessionTimestamp}
               autoSaveSessionId={autoSaveSessionId}
               onChangeAutoSaveSessionId={setAutoSaveSessionId}
             />
@@ -199,9 +189,8 @@ const ViewTabs = () => {
           onChangeSessionName={setSessionName}
           onChangeSessionSummary={setSessionSummary}
           requestType="edit"
-          sessionData={sessionData}
+          sessionData={selectedSessionData}
           onChangeLoadedSessionId={setLoadedSessionId}
-          refetchSessionsList={refetchSessionsList}
           onChangeAutoSaveSessionId={setAutoSaveSessionId}
         />
         <SessionDialogue
@@ -213,14 +202,12 @@ const ViewTabs = () => {
           onChangeSessionSummary={setSessionSummary}
           onChangeLoadedSessionId={setLoadedSessionId}
           requestType="create"
-          refetchSessionsList={refetchSessionsList}
           onChangeAutoSaveSessionId={setAutoSaveSessionId}
         />
         <DeleteSessionDialogue
           open={sessionDeleteOpen}
           onClose={() => setSessionDeleteOpen(false)}
-          sessionData={sessionData}
-          refetchSessionsList={refetchSessionsList}
+          sessionData={selectedSessionData}
           loadedSessionId={loadedSessionId}
           onDeleteLoadedsession={onDeleteLoadedsession}
         />

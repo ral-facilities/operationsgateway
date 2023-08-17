@@ -22,7 +22,6 @@ jest.mock('../api/sessions', () => ({
 describe('session buttons', () => {
   let props: SessionsSaveButtonsProps;
   const onSaveAsSessionClick = jest.fn();
-  const refetchSessionsList = jest.fn();
   const onChangeAutoSaveSessionId = jest.fn();
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionSaveButtons {...props} />);
@@ -30,11 +29,16 @@ describe('session buttons', () => {
 
   beforeEach(() => {
     props = {
-      sessionId: undefined,
       onSaveAsSessionClick: onSaveAsSessionClick,
-      selectedSessionData: undefined,
-      selectedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
-      refetchSessionsList: refetchSessionsList,
+      loadedSessionData: {
+        _id: '',
+        auto_saved: false,
+        name: 'test',
+        summary: 'test',
+        session: {},
+        timestamp: '',
+      },
+      loadedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
     };
@@ -42,7 +46,7 @@ describe('session buttons', () => {
 
     // Mock the return value of useEditSession hook
     useEditSession.mockReturnValue({
-      mutateAsync: jest.fn().mockResolvedValue({}),
+      mutate: jest.fn().mockResolvedValue({}),
     });
     useSaveSession.mockReturnValue({
       mutateAsync: jest.fn().mockResolvedValue({}),
@@ -62,7 +66,7 @@ describe('session buttons', () => {
   it('should be able to create an autosaved session from the current state of session', () => {
     props = {
       ...props,
-      selectedSessionData: {
+      loadedSessionData: {
         name: 'test',
         summary: 'test',
         auto_saved: false,
@@ -70,7 +74,6 @@ describe('session buttons', () => {
         _id: '1',
         timestamp: '',
       },
-      sessionId: '1',
     };
     const { rerender } = createView();
 
@@ -107,7 +110,7 @@ describe('session buttons', () => {
 
     props = {
       ...props,
-      selectedSessionData: {
+      loadedSessionData: {
         name: 'test',
         summary: 'test',
         auto_saved: false,
@@ -115,7 +118,6 @@ describe('session buttons', () => {
         _id: '2',
         timestamp: '',
       },
-      sessionId: '2',
     };
 
     rerender(<SessionSaveButtons {...props} />);
@@ -151,7 +153,7 @@ describe('session buttons', () => {
   it('should update autosave session when autoSavedSessionId exist', () => {
     props = {
       ...props,
-      selectedSessionData: {
+      loadedSessionData: {
         name: 'test',
         summary: 'test',
         auto_saved: false,
@@ -159,7 +161,6 @@ describe('session buttons', () => {
         _id: '1',
         timestamp: '',
       },
-      sessionId: '1',
       autoSaveSessionId: '5',
     };
     createView();
@@ -168,8 +169,8 @@ describe('session buttons', () => {
       jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
-    expect(useEditSession().mutateAsync).toHaveBeenCalledTimes(1);
-    expect(useEditSession().mutateAsync).toHaveBeenCalledWith({
+    expect(useEditSession().mutate).toHaveBeenCalledTimes(1);
+    expect(useEditSession().mutate).toHaveBeenCalledWith({
       _id: '5',
       auto_saved: true,
       name: 'test (autosaved)',
@@ -205,11 +206,11 @@ describe('session buttons', () => {
       jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
-    expect(useEditSession().mutateAsync).not.toHaveBeenCalledTimes(1);
+    expect(useEditSession().mutate).not.toHaveBeenCalledTimes(1);
   });
 
   it('save a user session', async () => {
-    props.selectedSessionData = {
+    props.loadedSessionData = {
       name: 'test',
       summary: 'test',
       auto_saved: false,
@@ -224,11 +225,12 @@ describe('session buttons', () => {
     await fireEvent.click(saveButton);
 
     await waitFor(() => {
-      expect(useEditSession().mutateAsync).toHaveBeenCalledTimes(1);
+      expect(useEditSession().mutate).toHaveBeenCalledTimes(1);
     });
   });
 
   it('opens the save dialog when there is not a user session selected', async () => {
+    props.loadedSessionData = undefined;
     createView();
     const saveAsButton = screen.getByRole('button', { name: 'Save' });
     expect(saveAsButton).toBeInTheDocument();
@@ -254,7 +256,7 @@ describe('session buttons', () => {
   it('shows the last time a selected user session was saved', async () => {
     props = {
       ...props,
-      selectedSessionTimestamp: {
+      loadedSessionTimestamp: {
         timestamp: '2023-06-29T15:45:00',
         autoSaved: false,
       },
@@ -271,7 +273,7 @@ describe('session buttons', () => {
   it('shows the last time a selected user session was auto saved', async () => {
     props = {
       ...props,
-      selectedSessionTimestamp: {
+      loadedSessionTimestamp: {
         timestamp: '2023-06-29T15:45:00',
         autoSaved: true,
       },

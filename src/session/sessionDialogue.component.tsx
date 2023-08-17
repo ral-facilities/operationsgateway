@@ -20,7 +20,6 @@ export interface SessionDialogueProps {
   onChangeSessionSummary: (sessionSummary: string) => void;
   requestType: 'edit' | 'create';
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
-  refetchSessionsList: () => void;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   sessionData?: SessionResponse;
 }
@@ -36,7 +35,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     requestType,
     sessionData,
     onChangeLoadedSessionId,
-    refetchSessionsList,
     onChangeAutoSaveSessionId,
   } = props;
 
@@ -65,7 +63,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       };
       saveSession(session)
         .then((response) => {
-          refetchSessionsList();
           onChangeAutoSaveSessionId(undefined);
           onChangeLoadedSessionId(response);
           handleClose();
@@ -83,7 +80,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     handleClose,
     onChangeAutoSaveSessionId,
     onChangeLoadedSessionId,
-    refetchSessionsList,
     saveSession,
     sessionName,
     sessionSummary,
@@ -103,8 +99,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
 
       editSession(session)
         .then((response) => {
-          refetchSessionsList();
-          onChangeAutoSaveSessionId(undefined);
           handleClose();
         })
         .catch((error) => {
@@ -116,15 +110,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       setError(true);
       setErrorMessage('Please enter a name');
     }
-  }, [
-    sessionName,
-    sessionData,
-    sessionSummary,
-    editSession,
-    refetchSessionsList,
-    onChangeAutoSaveSessionId,
-    handleClose,
-  ]);
+  }, [sessionName, sessionData, sessionSummary, editSession, handleClose]);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg">

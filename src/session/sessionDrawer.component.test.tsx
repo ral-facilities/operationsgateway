@@ -10,8 +10,7 @@ describe('session Drawer', () => {
   const openSessionEdit = jest.fn();
   const openSessionDelete = jest.fn();
   const onChangeLoadedSessionId = jest.fn();
-  const onChangeSelectedSessionTimestamp = jest.fn();
-  const refetchSessionsData = jest.fn();
+  const onChangeLoadedSessionTimestamp = jest.fn();
   const onChangeAutoSaveSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
@@ -25,10 +24,10 @@ describe('session Drawer', () => {
       openSessionEdit: openSessionEdit,
       openSessionDelete: openSessionDelete,
       loadedSessionId: undefined,
+      loadedSessionData: undefined,
       onChangeLoadedSessionId: onChangeLoadedSessionId,
       sessionsList: SessionsListJSON,
-      onChangeSelectedSessionTimestamp: onChangeSelectedSessionTimestamp,
-      refetchSessionsData: refetchSessionsData,
+      onChangeLoadedSessionTimestamp: onChangeLoadedSessionTimestamp,
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
     };
   });
@@ -67,11 +66,11 @@ describe('session Drawer', () => {
       expect(session1).toHaveStyle('background-color: primary.main');
     });
 
-    expect(onChangeSelectedSessionTimestamp).toHaveBeenCalledWith(
+    expect(onChangeLoadedSessionTimestamp).toHaveBeenCalledWith(
       '2023-06-29T10:30:00',
       true
     );
-    expect(refetchSessionsData).toHaveBeenCalledWith('1');
+
     expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
   });
 
