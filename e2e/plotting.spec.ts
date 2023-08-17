@@ -528,10 +528,57 @@ test('user can plot channels on the right y axis', async ({ page }) => {
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can customize y axis labels', async ({
+test('user can customize left y axis label', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize right y axis label', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.getByRole('button', { name: 'Right' }).click();
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize both left and right y axis labels', async ({
   page,
-  context,
-  browserName,
 }) => {
   await page.goto('/');
 
@@ -544,10 +591,14 @@ test('user can customize y axis labels', async ({
   ]);
 
   await popup.locator('label:has-text("Search")').fill('Shot Num');
-
   await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
   await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
+
   await popup.getByRole('button', { name: 'Right' }).click();
+  await popup.locator('label:has-text("Search")').fill('DEFGH');
+  await popup
+    .getByRole('option', { name: 'Channel_DEFGH', exact: true })
+    .click();
   await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
 
   const chart = await popup.locator('#my-chart');
