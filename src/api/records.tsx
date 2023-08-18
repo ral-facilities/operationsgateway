@@ -274,7 +274,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort: SortType;
         searchParams: SearchParams;
         filters: string[];
-      }
+      },
     ]
   >(
     ['records', { page, resultsPerPage, sort, searchParams, filters }],
@@ -456,7 +456,7 @@ export const useThumbnails = (
         sort: SortType;
         searchParams: SearchParams;
         filters: string[];
-      }
+      },
     ]
   >(
     [
