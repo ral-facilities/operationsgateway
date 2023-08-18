@@ -24,6 +24,8 @@ export interface PlotConfig extends WindowConfig {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];

@@ -9,7 +9,7 @@ import {
   timeChannelName,
 } from '../../app.types';
 import ChartTypeButtons from './chartTypeButtons.component';
-import PlotTitleField from './plotTitleField.component';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 import XAxisTab from './xAxisTab.component';
 import YAxisTab from './yAxisTab.component';
 
@@ -76,12 +76,16 @@ export interface PlotSettingsControllerProps {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
   changeLeftYAxisMinimum: (value: number | undefined) => void;
   changeLeftYAxisMaximum: (value: number | undefined) => void;
   changeRightYAxisMinimum: (value: number | undefined) => void;
   changeRightYAxisMaximum: (value: number | undefined) => void;
+  changeLeftYAxisLabel: (newLabel: string) => void;
+  changeRightYAxisLabel: (newLabel: string) => void;
   selectedColours: string[];
   remainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
@@ -112,12 +116,16 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     leftYAxisMaximum,
     rightYAxisMinimum,
     rightYAxisMaximum,
+    leftYAxisLabel,
+    rightYAxisLabel,
     changeXMinimum,
     changeXMaximum,
     changeLeftYAxisMinimum,
     changeLeftYAxisMaximum,
     changeRightYAxisMinimum,
     changeRightYAxisMaximum,
+    changeLeftYAxisLabel,
+    changeRightYAxisLabel,
     selectedColours,
     remainingColours,
     changeSelectedColours,
@@ -165,6 +173,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
       changeLeftYAxisScale={changeLeftYAxisScale}
       rightYAxisScale={rightYAxisScale}
       changeRightYAxisScale={changeRightYAxisScale}
+      leftYAxisLabel={leftYAxisLabel}
+      changeLeftYAxisLabel={changeLeftYAxisLabel}
+      rightYAxisLabel={rightYAxisLabel}
+      changeRightYAxisLabel={changeRightYAxisLabel}
       initialSelectedColours={selectedColours}
       initialRemainingColours={remainingColours}
       changeSelectedColours={changeSelectedColours}
@@ -189,9 +201,10 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
-        <PlotTitleField
-          plotTitle={plotTitle}
-          changePlotTitle={changePlotTitle}
+        <PlotSettingsTextField
+          label="Title"
+          value={plotTitle}
+          onChange={changePlotTitle}
         />
       </Grid>
       <Grid item>
