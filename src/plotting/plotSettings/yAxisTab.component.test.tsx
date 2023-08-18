@@ -11,7 +11,7 @@ import { staticChannels } from '../../api/channels';
 
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
-  let user;
+  let user: ReturnType<typeof userEvent.setup>;
   const changeLeftYAxisScale = jest.fn();
   const changeRightYAxisScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
@@ -21,6 +21,8 @@ describe('y-axis tab', () => {
   const changeRightYAxisMaximum = jest.fn();
   const changeSelectedColours = jest.fn();
   const changeRemainingColours = jest.fn();
+  const changeRightYAxisLabel = jest.fn();
+  const changeLeftYAxisLabel = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<YAxisTab {...props} />);
@@ -46,6 +48,8 @@ describe('y-axis tab', () => {
       initialRemainingColours: COLOUR_ORDER.map((colour) => colour),
       changeSelectedColours,
       changeRemainingColours,
+      changeRightYAxisLabel,
+      changeLeftYAxisLabel,
     };
 
     user = userEvent.setup({ delay: null });
@@ -361,5 +365,47 @@ describe('y-axis tab', () => {
       const maxField = screen.getByLabelText('Max');
       expect(maxField).toHaveValue('0');
     });
+  });
+
+  it('allows customization of left y-axis label', async () => {
+    function TestEnv() {
+      const [leftYAxisLabel, setLeftYAxisLabel] = React.useState('');
+      return (
+        <YAxisTab
+          {...props}
+          leftYAxisLabel={leftYAxisLabel}
+          changeLeftYAxisLabel={setLeftYAxisLabel}
+        />
+      );
+    }
+
+    render(<TestEnv />);
+
+    const axisLabelTextBox = screen.getByRole('textbox', { name: 'Label' });
+    expect(axisLabelTextBox).toHaveValue('');
+
+    await user.type(axisLabelTextBox, 'Left axis');
+    expect(axisLabelTextBox).toHaveValue('Left axis');
+  });
+
+  it('allows customization of right y-axis label', async () => {
+    function TestEnv() {
+      const [rightYAxisLabel, setRightYAxisLabel] = React.useState('');
+      return (
+        <YAxisTab
+          {...props}
+          leftYAxisLabel={rightYAxisLabel}
+          changeLeftYAxisLabel={setRightYAxisLabel}
+        />
+      );
+    }
+
+    render(<TestEnv />);
+
+    const axisLabelTextBox = screen.getByRole('textbox', { name: 'Label' });
+    expect(axisLabelTextBox).toHaveValue('');
+
+    await user.type(axisLabelTextBox, 'Right axis');
+    expect(axisLabelTextBox).toHaveValue('Right axis');
   });
 });

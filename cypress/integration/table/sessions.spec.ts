@@ -11,12 +11,13 @@ function getParamsFromUrl(url: string) {
 }
 
 describe('Sessions', () => {
+  beforeEach(() => {
+    cy.visit('/');
+  });
   afterEach(() => {
     cy.clearMocks();
   });
   it('sends a posts a request when a user session is created', () => {
-    cy.visit('/');
-
     cy.findByTestId('AddCircleIcon').click();
     cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
@@ -46,5 +47,131 @@ describe('Sessions', () => {
         expect(paramMap.get('auto_saved')).equal('false');
       }
     );
+  });
+  it('can load a user session', () => {
+    cy.findByText('Session 1').should('exist');
+    cy.findByText('Session 2').should('exist');
+    cy.findByText('Session 3').should('exist');
+
+    cy.findByText('Session 2').click();
+    // wait for search to initiate and finish
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
+    cy.findByLabelText('open experiment search box')
+      .contains('ID 19210012')
+      .should('exist');
+    cy.findByLabelText('from, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('2022-01-06 13:00');
+    });
+
+    cy.findByLabelText('to, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('2022-01-09 12:00');
+    });
+  });
+
+  it('can clear the search parameters when navigating from one to another session', () => {
+    cy.findByText('Session 1').should('exist');
+    cy.findByText('Session 2').should('exist');
+    cy.findByText('Session 3').should('exist');
+
+    cy.findByText('Session 2').click();
+    // wait for search to initiate and finish
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
+    cy.findByLabelText('open experiment search box')
+      .contains('ID 19210012')
+      .should('exist');
+    cy.findByLabelText('from, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('2022-01-06 13:00');
+    });
+
+    cy.findByLabelText('to, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('2022-01-09 12:00');
+    });
+
+    cy.findByText('Session 3').click();
+    // wait for search to initiate and finish
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
+    cy.findByLabelText('open experiment search box')
+      .contains('ID 19210012')
+      .should('not.exist');
+    cy.findByLabelText('from, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('');
+    });
+
+    cy.findByLabelText('to, date-time input').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('');
+    });
+  });
+
+  it('sends a patch request when a user edits a session', () => {
+    cy.findByRole('button', { name: 'edit Session 1 session' }).click();
+    cy.findByLabelText('Name *').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('Session 1');
+    });
+
+    cy.findByLabelText('Summary').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('This is the summary for Session 1');
+    });
+    cy.findByLabelText('Name *').clear();
+    cy.findByLabelText('Summary').clear();
+
+    cy.findByLabelText('Name *').type('Session');
+    cy.findByLabelText('Summary').type('Summary');
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Save' }).click();
+
+    cy.findBrowserMockedRequests({
+      method: 'PATCH',
+      url: '/sessions/:id',
+    }).should((patchRequests) => {
+      expect(patchRequests.length).equal(1);
+      const request = patchRequests[0];
+
+      expect(request.url.toString()).to.contain('1');
+      expect(request.url.toString()).to.contain('name=');
+      expect(request.url.toString()).to.contain('summary=');
+      expect(request.url.toString()).to.contain('auto_saved=');
+
+      const paramMap: Map<string, string> = getParamsFromUrl(
+        request.url.toString()
+      );
+
+      expect(paramMap.get('name')).equal('Session');
+      expect(paramMap.get('summary')).equal('Summary');
+      expect(paramMap.get('auto_saved')).equal('false');
+    });
+  });
+
+  it('sends a delete request when a user deletes a session', () => {
+    cy.findByRole('button', { name: 'delete Session 1 session' }).click();
+    cy.findByText('Delete Session');
+
+    cy.findAllByTestId('delete-session-name').should('have.text', 'Session 1');
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Continue' }).click();
+
+    cy.findBrowserMockedRequests({
+      method: 'DELETE',
+      url: '/sessions/:id',
+    }).should((patchRequests) => {
+      expect(patchRequests.length).equal(1);
+      const request = patchRequests[0];
+
+      expect(request.url.toString()).to.contain('1');
+    });
   });
 });

@@ -13,6 +13,7 @@ export interface ShotNumberProps {
   resetExperimentTimeframe: () => void;
   isDateToShotnum: boolean;
   invalidShotNumberRange: boolean;
+  searchParamsUpdated: () => void;
 }
 
 const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
@@ -24,6 +25,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
     invalidShotNumberRange,
     resetDateRange,
     resetExperimentTimeframe,
+    searchParamsUpdated,
   } = props;
 
   return (
@@ -59,6 +61,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
                 event.target.value ? Number(event.target.value) : undefined
               );
               resetDateRange();
+              searchParamsUpdated();
               if (!event.target.value && !max) resetExperimentTimeframe();
             }}
             error={invalidShotNumberRange}
@@ -81,6 +84,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
                 event.target.value ? Number(event.target.value) : undefined
               );
               resetDateRange();
+              searchParamsUpdated();
               if (!event.target.value && !min) resetExperimentTimeframe();
             }}
             error={invalidShotNumberRange}

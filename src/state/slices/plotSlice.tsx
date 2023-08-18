@@ -24,6 +24,8 @@ export interface PlotConfig extends WindowConfig {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];
@@ -72,7 +74,10 @@ export const plotSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     closePlot: (state, action: PayloadAction<string>) => {
-      state[action.payload].open = false;
+      const plotId = action.payload;
+      if (state[plotId]) {
+        state[plotId].open = false;
+      }
     },
     openPlot: (state, action: PayloadAction<string>) => {
       state[action.payload].open = true;

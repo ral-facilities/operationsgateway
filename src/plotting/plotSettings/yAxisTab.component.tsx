@@ -28,6 +28,7 @@ import {
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 export interface YAxisTabProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
@@ -52,6 +53,10 @@ export interface YAxisTabProps {
   initialRemainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
   changeRemainingColours: (remaining: string[]) => void;
+  leftYAxisLabel?: string;
+  changeLeftYAxisLabel: (newLabel: string) => void;
+  rightYAxisLabel?: string;
+  changeRightYAxisLabel: (newLabel: string) => void;
 }
 
 const YAxisTab = (props: YAxisTabProps) => {
@@ -72,6 +77,10 @@ const YAxisTab = (props: YAxisTabProps) => {
     changeLeftYAxisScale,
     rightYAxisScale,
     changeRightYAxisScale,
+    leftYAxisLabel,
+    changeLeftYAxisLabel,
+    rightYAxisLabel,
+    changeRightYAxisLabel,
     initialSelectedColours,
     initialRemainingColours,
     changeSelectedColours,
@@ -118,8 +127,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   }, [axis]);
 
   const handleChangeYMinimum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMinimum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMinimum : changeLeftYAxisMinimum;
@@ -134,8 +142,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const handleChangeYMaximum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMaximum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMaximum : changeLeftYAxisMaximum;
@@ -231,6 +238,23 @@ const YAxisTab = (props: YAxisTabProps) => {
     ]
   );
 
+  const changeAxisLabel = React.useCallback(
+    (newLabel: string) => {
+      switch (axis) {
+        case 'left':
+          changeLeftYAxisLabel(newLabel);
+          break;
+
+        case 'right':
+          changeRightYAxisLabel(newLabel);
+          break;
+      }
+    },
+    [axis, changeLeftYAxisLabel, changeRightYAxisLabel]
+  );
+
+  const currentAxisLabel = axis === 'left' ? leftYAxisLabel : rightYAxisLabel;
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid item>
@@ -260,15 +284,17 @@ const YAxisTab = (props: YAxisTabProps) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
+      <Grid container item>
+        <PlotSettingsTextField
+          label="Label"
+          value={currentAxisLabel ?? ''}
+          onChange={changeAxisLabel}
+        />
+      </Grid>
       <Grid container item spacing={1}>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Min"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMinimum}
@@ -276,13 +302,8 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Max"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMaximum}
