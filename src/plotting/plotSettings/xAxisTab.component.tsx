@@ -174,21 +174,14 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm"
+                format="yyyy-MM-dd HH:mm"
                 mask="____-__-__ __:__"
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
-                componentsProps={{
-                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
-                }}
                 onChange={(date) => {
                   setFromDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                OpenPickerButtonProps={{
-                  size: 'small',
-                  'aria-label': 'from, date-time picker',
-                }}
                 renderInput={(renderProps) => {
                   const error =
                     // eslint-disable-next-line react/prop-types
@@ -217,6 +210,14 @@ const XAxisTab = (props: XAxisTabProps) => {
                     />
                   );
                 }}
+                componentsProps={{
+                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
+
+                  openPickerButton: {
+                    size: 'small',
+                    'aria-label': 'from, date-time picker',
+                  },
+                }}
               />
             </LocalizationProvider>
           ) : (
@@ -240,21 +241,14 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm"
+                format="yyyy-MM-dd HH:mm"
                 mask="____-__-__ __:__"
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
-                componentsProps={{
-                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
-                }}
                 onChange={(date) => {
                   setToDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                OpenPickerButtonProps={{
-                  size: 'small',
-                  'aria-label': 'to, date-time picker',
-                }}
                 renderInput={(renderProps) => {
                   const error =
                     // eslint-disable-next-line react/prop-types
@@ -282,6 +276,14 @@ const XAxisTab = (props: XAxisTabProps) => {
                       {...(error && { helperText: helperText })}
                     />
                   );
+                }}
+                componentsProps={{
+                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
+
+                  openPickerButton: {
+                    size: 'small',
+                    'aria-label': 'to, date-time picker',
+                  },
                 }}
               />
             </LocalizationProvider>

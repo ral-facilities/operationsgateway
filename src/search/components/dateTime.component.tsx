@@ -239,13 +239,10 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
           </Grid>
           <Grid item>
             <DateTimePicker
-              inputFormat="yyyy-MM-dd HH:mm"
+              format="yyyy-MM-dd HH:mm"
               mask="____-__-__ __:__"
               value={datePickerFromDate}
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
-              componentsProps={{
-                actionBar: { actions: ['clear'] },
-              }}
               onChange={(date) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
@@ -295,10 +292,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerFromDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
-              OpenPickerButtonProps={{
-                size: 'small',
-                'aria-label': 'from, date-time picker',
-              }}
               renderDay={(date, selectedDates, pickersDayProps) =>
                 renderExperimentPickerDay(
                   datePickerToDate,
@@ -335,6 +328,14 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   />
                 );
               }}
+              componentsProps={{
+                actionBar: { actions: ['clear'] },
+
+                openPickerButton: {
+                  size: 'small',
+                  'aria-label': 'from, date-time picker',
+                },
+              }}
             />
           </Grid>
         </Grid>
@@ -349,15 +350,12 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
           </Grid>
           <Grid item>
             <DateTimePicker
-              inputFormat="yyyy-MM-dd HH:mm"
+              format="yyyy-MM-dd HH:mm"
               mask="____-__-__ __:__"
               value={datePickerToDate}
               minDateTime={
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
-              componentsProps={{
-                actionBar: { actions: ['clear', 'today'] },
-              }}
               onChange={(date) => {
                 setDatePickerToDate(date as Date);
                 resetTimeframe();
@@ -404,10 +402,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onClose={() => setPopupOpen(false)}
               onError={(error) => setDatePickerToDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
-              OpenPickerButtonProps={{
-                size: 'small',
-                'aria-label': 'to, date-time picker',
-              }}
               renderDay={(date, selectedDates, pickersDayProps) =>
                 renderExperimentPickerDay(
                   datePickerFromDate,
@@ -443,6 +437,14 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                     {...(error && { helperText: helperText })}
                   />
                 );
+              }}
+              componentsProps={{
+                actionBar: { actions: ['clear', 'today'] },
+
+                openPickerButton: {
+                  size: 'small',
+                  'aria-label': 'to, date-time picker',
+                },
               }}
             />
           </Grid>
