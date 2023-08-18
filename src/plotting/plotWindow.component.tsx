@@ -71,8 +71,12 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxisScale>(
     plotConfig.rightYAxisScale
   );
-  const [leftYAxisLabel, setLeftYAxisLabel] = React.useState('');
-  const [rightYAxisLabel, setRightYAxisLabel] = React.useState('');
+  const [leftYAxisLabel, setLeftYAxisLabel] = React.useState(
+    plotConfig.leftYAxisLabel
+  );
+  const [rightYAxisLabel, setRightYAxisLabel] = React.useState(
+    plotConfig.rightYAxisLabel
+  );
 
   const [XAxis, setXAxis] = React.useState<string | undefined>(
     plotConfig.XAxis
