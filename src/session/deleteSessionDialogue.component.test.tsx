@@ -10,8 +10,7 @@ describe('delete session dialogue', () => {
   let props: DeleteSessionDialogueProps;
   let user;
   const onClose = jest.fn();
-  const refetchSessionsList = jest.fn();
-  const onChangeLoadedSessionId = jest.fn();
+  const onDeleteLoadedsession = jest.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<DeleteSessionDialogue {...props} />);
@@ -28,9 +27,8 @@ describe('delete session dialogue', () => {
     props = {
       open: true,
       onClose: onClose,
-      refetchSessionsList: refetchSessionsList,
       sessionData: sessionData,
-      onChangeLoadedSessionId: onChangeLoadedSessionId,
+      onDeleteLoadedsession: onDeleteLoadedsession,
       loadedSessionId: undefined,
     };
     user = userEvent; // Assigning userEvent to 'user'
@@ -77,7 +75,6 @@ describe('delete session dialogue', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
     });
-    expect(refetchSessionsList).toHaveBeenCalled();
   });
 
   it('calls handleDeleteSession when continue button is clicked with a valid session name and clears loaded session id', async () => {
@@ -89,7 +86,6 @@ describe('delete session dialogue', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
     });
-    expect(refetchSessionsList).toHaveBeenCalled();
-    expect(onChangeLoadedSessionId).toHaveBeenCalledWith(undefined);
+    expect(onDeleteLoadedsession).toHaveBeenCalled();
   });
 });
