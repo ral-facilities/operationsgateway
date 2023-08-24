@@ -7,7 +7,7 @@ import {
   changePage,
   changeResultsPerPage,
   selectColumnStates,
-  selectHiddenColumns,
+  selectColumnVisibility,
   selectSelectedIds,
   deselectColumn,
   reorderColumn,
@@ -61,8 +61,8 @@ const RecordTable = React.memo(
       useAvailableColumns();
 
     const columnStates = useAppSelector(selectColumnStates);
-    const hiddenColumns = useAppSelector((state) =>
-      selectHiddenColumns(state, availableColumns ?? [])
+    const columnVisibility = useAppSelector((state) =>
+      selectColumnVisibility(state, availableColumns ?? [])
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
@@ -126,7 +126,7 @@ const RecordTable = React.memo(
         data={data ?? []}
         availableColumns={availableColumns ?? []}
         columnStates={columnStates}
-        hiddenColumns={hiddenColumns}
+        columnVisibility={columnVisibility}
         columnOrder={columnOrder}
         totalDataCount={count ?? 0}
         maxShots={maxShots}

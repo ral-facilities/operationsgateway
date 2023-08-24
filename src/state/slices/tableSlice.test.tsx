@@ -4,7 +4,7 @@ import ColumnsReducer, {
   initialState,
   reorderColumn,
   selectColumn,
-  selectHiddenColumns,
+  selectColumnVisibility,
 } from './tableSlice';
 
 describe('tableSlice', () => {
@@ -108,16 +108,16 @@ describe('tableSlice', () => {
 
     /**
      * Test that the memoization of selectSelectedIdsIgnoreOrder works and that
-     * reordering columns does not cause updates to selectHiddenColumns (which
+     * reordering columns does not cause updates to selectColumnVisibility (which
      * saves on rerenders)
      */
-    it('hidden columns selector ignores order of selectedColumnIds', () => {
+    it('column visibility selector ignores order of selectedColumnIds', () => {
       const availableColumns = [
-        { accessor: '1' },
-        { accessor: '2' },
-        { accessor: '3' },
-        { accessor: '4' },
-        { accessor: '5' },
+        { id: '1' },
+        { id: '2' },
+        { id: '3' },
+        { id: '4' },
+        { id: '5' },
       ];
       state = {
         table: {
@@ -125,10 +125,13 @@ describe('tableSlice', () => {
           selectedColumnIds: ['1', '2', '3'],
         },
       };
-      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
-        '4',
-        '5',
-      ]);
+      expect(selectColumnVisibility(state, availableColumns)).toStrictEqual({
+        1: true,
+        2: true,
+        3: true,
+        4: false,
+        5: false,
+      });
 
       // Swap
       let draggedColumn = {
@@ -143,12 +146,15 @@ describe('tableSlice', () => {
         table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
-        '4',
-        '5',
-      ]);
+      expect(selectColumnVisibility(state, availableColumns)).toStrictEqual({
+        1: true,
+        2: true,
+        3: true,
+        4: false,
+        5: false,
+      });
 
-      expect(selectHiddenColumns.recomputations()).toBe(1);
+      expect(selectColumnVisibility.recomputations()).toBe(1);
 
       // Swap
       draggedColumn = {
@@ -163,12 +169,15 @@ describe('tableSlice', () => {
         table: ColumnsReducer(state.table, reorderColumn(draggedColumn)),
       };
 
-      expect(selectHiddenColumns(state, availableColumns)).toStrictEqual([
-        '4',
-        '5',
-      ]);
+      expect(selectColumnVisibility(state, availableColumns)).toStrictEqual({
+        1: true,
+        2: true,
+        3: true,
+        4: false,
+        5: false,
+      });
 
-      expect(selectHiddenColumns.recomputations()).toBe(1);
+      expect(selectColumnVisibility.recomputations()).toBe(1);
     });
   });
 });

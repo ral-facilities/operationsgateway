@@ -18,6 +18,7 @@ describe('Data Header', () => {
   const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
   const openFilters = jest.fn();
+  const resizeHandler = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -46,7 +47,7 @@ describe('Data Header', () => {
       onSort,
       onClose,
       label: 'Test',
-      resizerProps: {},
+      resizeHandler,
       index: 0,
       channelInfo: {
         systemName: 'Test',
@@ -183,22 +184,6 @@ describe('Data Header', () => {
         await flushPromises();
       });
       expect(onSort).toHaveBeenCalledWith('test', null);
-    });
-  });
-
-  describe('calls the onSort method when default sort is specified', () => {
-    it('sets asc order', () => {
-      props.defaultSort = 'asc';
-
-      createView();
-      expect(onSort).toHaveBeenCalledWith('test', 'asc');
-    });
-
-    it('sets desc order', () => {
-      props.defaultSort = 'desc';
-
-      createView();
-      expect(onSort).toHaveBeenCalledWith('test', 'desc');
     });
   });
 

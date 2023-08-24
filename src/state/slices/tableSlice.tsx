@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Column } from 'react-table';
+import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
 import {
@@ -8,6 +8,7 @@ import {
   Order,
   FullChannelMetadata,
   timeChannelName,
+  RecordRow,
 } from '../../app.types';
 
 export const resultsPerPage = 25;
@@ -121,7 +122,7 @@ export const selectColumnStates = (state: RootState) =>
   state.table.columnStates;
 export const selectAvailableColumns = (
   state: RootState,
-  availableColumns: Column[]
+  availableColumns: ColumnDef<RecordRow>[]
 ) => availableColumns;
 export const selectAvailableChannels = (
   state: RootState,
@@ -180,20 +181,19 @@ export const selectSelectedChannels = createSelector(
 );
 
 /**
- * @returns A selector for an array of Column objects which are currently ___not___ selected,
+ * @returns A selector for an {@type VisibilityState} object which details which columns are visible,
  * which only changes when a column is selected/deselected and not when columns are reordered
  * @params state - the current redux state
  * @params availableColumns - array of all the columns the user can select
  */
-export const selectHiddenColumns = createSelector(
+export const selectColumnVisibility = createSelector(
   selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
   (availableColumns, selectedIds) => {
-    return availableColumns
-      .filter((col) => {
-        return !selectedIds.includes(col.accessor?.toString() ?? '');
-      })
-      .map((col) => col.accessor?.toString() ?? '');
+    return availableColumns.reduce((prev, curr) => {
+      if (curr.id) prev[curr.id] = selectedIds.includes(curr.id ?? '');
+      return prev;
+    }, {} as VisibilityState);
   }
 );
 
