@@ -175,44 +175,44 @@ const XAxisTab = (props: XAxisTabProps) => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 format="yyyy-MM-dd HH:mm"
-                mask="____-__-__ __:__"
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 onChange={(date) => {
                   setFromDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                renderInput={(renderProps) => {
-                  const error =
-                    // eslint-disable-next-line react/prop-types
-                    (renderProps.error ||
-                      invalidDateRange ||
-                      (fromDate && !isValid(fromDate))) ??
-                    undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
+                slots={{
+                  textField: (renderProps) => {
+                    const error =
+                      (renderProps.error ||
+                        invalidDateRange ||
+                        (fromDate && !isValid(fromDate))) ??
+                      undefined;
+                    let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+                    if (invalidDateRange)
+                      helperText = 'Invalid date-time range';
 
-                  return (
-                    <TextField
-                      {...renderProps}
-                      id="from date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        style: {
-                          fontSize: 10,
-                        },
-                        placeholder: 'From...',
-                        'aria-label': 'from, date-time input',
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
+                    return (
+                      <TextField
+                        {...renderProps}
+                        id="from date-time"
+                        inputProps={{
+                          ...renderProps.inputProps,
+                          style: {
+                            fontSize: 10,
+                          },
+                          placeholder: 'From...',
+                          'aria-label': 'from, date-time input',
+                        }}
+                        variant="standard"
+                        error={error}
+                        {...(error && { helperText: helperText })}
+                      />
+                    );
+                  },
                 }}
-                componentsProps={{
+                slotProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
-
                   openPickerButton: {
                     size: 'small',
                     'aria-label': 'from, date-time picker',
@@ -242,44 +242,44 @@ const XAxisTab = (props: XAxisTabProps) => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 format="yyyy-MM-dd HH:mm"
-                mask="____-__-__ __:__"
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 onChange={(date) => {
                   setToDate(date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                renderInput={(renderProps) => {
-                  const error =
-                    // eslint-disable-next-line react/prop-types
-                    (renderProps.error ||
-                      invalidDateRange ||
-                      (toDate && !isValid(toDate))) ??
-                    undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
+                slots={{
+                  textField: (renderProps) => {
+                    const error =
+                      (renderProps.error ||
+                        invalidDateRange ||
+                        (toDate && !isValid(toDate))) ??
+                      undefined;
+                    let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+                    if (invalidDateRange)
+                      helperText = 'Invalid date-time range';
 
-                  return (
-                    <TextField
-                      {...renderProps}
-                      id="to date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        style: {
-                          fontSize: 10,
-                        },
-                        placeholder: 'To...',
-                        'aria-label': 'to, date-time input',
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
+                    return (
+                      <TextField
+                        {...renderProps}
+                        id="to date-time"
+                        inputProps={{
+                          ...renderProps.inputProps,
+                          style: {
+                            fontSize: 10,
+                          },
+                          placeholder: 'To...',
+                          'aria-label': 'to, date-time input',
+                        }}
+                        variant="standard"
+                        error={error}
+                        {...(error && { helperText: helperText })}
+                      />
+                    );
+                  },
                 }}
-                componentsProps={{
+                slotProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
-
                   openPickerButton: {
                     size: 'small',
                     'aria-label': 'to, date-time picker',
