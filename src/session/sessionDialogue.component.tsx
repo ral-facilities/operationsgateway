@@ -122,7 +122,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           label="Name"
           required={true}
           sx={{ width: '100%', margin: '4px' }}
-          value={sessionName}
+          value={sessionName ?? ''}
           error={error}
           helperText={error && errorMessage}
           onChange={(event) => {

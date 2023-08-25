@@ -759,17 +759,20 @@ exports[`View Tabs renders correctly 1`] = `
               >
                 <table
                   class="MuiTable-root css-rqglhn-MuiTable-root"
-                  role="table"
-                  style="min-width: 0px;"
                 >
                   <thead
                     class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
-                  />
+                  >
+                    <tr
+                      class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
+                      data-rbd-droppable-context-id="0"
+                      data-rbd-droppable-id="columns"
+                    />
+                  </thead>
                   <tbody
                     aria-busy="true"
                     aria-describedby="table-loading-indicator"
                     class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-                    role="rowgroup"
                   >
                     <tr
                       aria-hidden="false"

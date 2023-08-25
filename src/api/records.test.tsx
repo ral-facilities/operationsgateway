@@ -193,6 +193,18 @@ describe('records api functions', () => {
 
       expect(result.current.data).toEqual(expectedReponse);
     });
+    it('does not send a request to fetch date using ShotnumToDateConverter when query set to disabled', async () => {
+      const { result } = renderHook(
+        () => useShotnumToDateConverter(undefined, undefined, false),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      expect(result.current.data).toEqual(undefined);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.fetchStatus).toBe('idle');
+    });
     it.todo(
       'sends axios request to fetch records and throws an appropriate error on failure'
     );
@@ -219,6 +231,18 @@ describe('records api functions', () => {
       });
 
       expect(result.current.data).toEqual(expectedReponse);
+    });
+    it('does not send a request to fetch date usingDateToShotnumConverter when query set to disabled', async () => {
+      const { result } = renderHook(
+        () => useDateToShotnumConverter(undefined, undefined, false),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      expect(result.current.data).toEqual(undefined);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.fetchStatus).toBe('idle');
     });
     it.todo(
       'sends axios request to fetch records and throws an appropriate error on failure'

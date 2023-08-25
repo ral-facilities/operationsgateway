@@ -197,16 +197,12 @@ export const fetchRangeRecordConverterQuery = (
 
 export const useDateToShotnumConverter = (
   fromDate: string | undefined,
-  toDate: string | undefined
+  toDate: string | undefined,
+  enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<
-    DateRangetoShotnumConverter,
-    AxiosError,
-    DateRangetoShotnumConverter,
-    [string, { fromDate: string | undefined; toDate: string | undefined }]
-  >(
+  return useQuery(
     ['dateToShotnumConverter', { fromDate, toDate }],
     (params) => {
       return fetchRangeRecordConverterQuery(
@@ -221,22 +217,19 @@ export const useDateToShotnumConverter = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled,
     }
   );
 };
 
 export const useShotnumToDateConverter = (
   shotnumMin: number | undefined,
-  shotnumMax: number | undefined
+  shotnumMax: number | undefined,
+  enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<
-    DateRangetoShotnumConverter,
-    AxiosError,
-    DateRangetoShotnumConverter,
-    [string, { shotnumMin: number | undefined; shotnumMax: number | undefined }]
-  >(
+  return useQuery(
     ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
     (params) => {
       return fetchRangeRecordConverterQuery(
@@ -251,6 +244,7 @@ export const useShotnumToDateConverter = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled,
     }
   );
 };

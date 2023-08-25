@@ -178,6 +178,7 @@ export const useSession = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled: typeof session_id !== 'undefined',
     }
   );
 };
