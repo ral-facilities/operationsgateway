@@ -172,7 +172,11 @@ describe('Record Table', () => {
     });
 
     let columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(4);
+
+    await waitFor(() => {
+      columns = screen.getAllByRole('columnheader');
+      expect(columns.length).toEqual(4);
+    });
     expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Area');
@@ -183,8 +187,10 @@ describe('Record Table', () => {
       store.dispatch(deselectColumn('activeArea'));
     });
 
-    columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(3);
+    await waitFor(() => {
+      columns = screen.getAllByRole('columnheader');
+      expect(columns.length).toEqual(3);
+    });
     expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Experiment');
@@ -194,8 +200,10 @@ describe('Record Table', () => {
     });
 
     // Should expect the column previously in the middle to now be on the end
-    columns = screen.getAllByRole('columnheader');
-    expect(columns.length).toEqual(4);
+    await waitFor(() => {
+      columns = screen.getAllByRole('columnheader');
+      expect(columns.length).toEqual(4);
+    });
     expect(columns[0]).toHaveTextContent('Time');
     expect(columns[1]).toHaveTextContent('Shot Number');
     expect(columns[2]).toHaveTextContent('Active Experiment');
@@ -270,9 +278,11 @@ describe('Record Table', () => {
     });
 
     await user.click(
-      screen.getAllByAltText('Channel_CDEFG waveform', {
-        exact: false,
-      })[0]
+      (
+        await screen.findAllByAltText('Channel_CDEFG waveform', {
+          exact: false,
+        })
+      )[0]
     );
 
     expect(store.getState().windows).toEqual({

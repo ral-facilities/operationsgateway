@@ -17,9 +17,9 @@ describe('tableSlice', () => {
 
     it('selectColumn adds new columns in the correct order', () => {
       state = ColumnsReducer(state, selectColumn('shotnum'));
-      expect(state.selectedColumnIds).toEqual(['shotnum']);
+      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
 
-      state = ColumnsReducer(state, selectColumn('timestamp'));
+      state = ColumnsReducer(state, selectColumn('shotnum'));
       expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
 
       state = ColumnsReducer(state, selectColumn('activeArea'));
@@ -41,6 +41,14 @@ describe('tableSlice', () => {
         ],
       };
       state = ColumnsReducer(state, deselectColumn('activeArea'));
+      expect(state.selectedColumnIds).toEqual([
+        'timestamp',
+        'shotnum',
+        'activeExperiment',
+      ]);
+
+      // shouldn't be able to deselect timestamp
+      state = ColumnsReducer(state, deselectColumn('timestamp'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
         'shotnum',

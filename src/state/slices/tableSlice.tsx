@@ -31,7 +31,8 @@ interface TableState {
 // Define the initial state using that type
 export const initialState: TableState = {
   columnStates: {},
-  selectedColumnIds: [],
+  // Ensure the timestamp column is opened automatically on table load
+  selectedColumnIds: [timeChannelName],
   page: 0,
   resultsPerPage: resultsPerPage,
   sort: {},
@@ -48,20 +49,23 @@ export const tableSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
-      // if it's the timestamp column, add to the beginning of the array
-      if (action.payload === timeChannelName) {
-        state.selectedColumnIds.unshift(action.payload);
-      } else {
+      if (!state.selectedColumnIds.includes(action.payload)) {
         state.selectedColumnIds.push(action.payload);
       }
     },
     deselectColumn: (state, action: PayloadAction<string>) => {
-      delete state.sort[action.payload];
+      if (action.payload === timeChannelName) {
+        // don't allow time column to be deselected (should be prevented by other
+        // code as well - just might as well do it here too)
+        return;
+      } else {
+        delete state.sort[action.payload];
 
-      const newSelectedColumnsIds = state.selectedColumnIds.filter(
-        (colId) => colId !== action.payload
-      );
-      state.selectedColumnIds = newSelectedColumnsIds;
+        const newSelectedColumnsIds = state.selectedColumnIds.filter(
+          (colId) => colId !== action.payload
+        );
+        state.selectedColumnIds = newSelectedColumnsIds;
+      }
     },
     reorderColumn: (state, action: PayloadAction<DropResult>) => {
       const result = action.payload;
