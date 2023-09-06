@@ -14,13 +14,14 @@ import {
   ColourMapSelect,
   filterNamesWithSuffixR,
 } from './images/falseColourPanel.component';
-import { useColourMaps } from './api/images';
+import { FalseColourParams, useColourMaps } from './api/images';
 import {
   useUpdateUserPreference,
   useUserPreference,
 } from './api/userPreferences';
+import { useQueryClient } from '@tanstack/react-query';
 
-export const DEFAULT_COLOUR_MAP_PREFERENCE_NAME = 'default_colour_map';
+export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
 
 const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -31,14 +32,14 @@ const SettingsMenuItems = () => {
   const { data: colourMaps } = useColourMaps();
 
   const { data: preferredColourMap } = useUserPreference<string>(
-    DEFAULT_COLOUR_MAP_PREFERENCE_NAME
+    PREFERRED_COLOUR_MAP_PREFERENCE_NAME
   );
 
   const selectColourMap = preferredColourMap?.replace('_r', '') ?? '';
 
-  const { mutateAsync: changePreferredColourMap } = useUpdateUserPreference<
+  const { mutateAsync: mutatePreferredColourMap } = useUpdateUserPreference<
     string | null
-  >(DEFAULT_COLOUR_MAP_PREFERENCE_NAME);
+  >(PREFERRED_COLOUR_MAP_PREFERENCE_NAME);
 
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
   const mainColourMap = 'Perceptually Uniform Sequential';
@@ -70,6 +71,38 @@ const SettingsMenuItems = () => {
   const colourMapsWithReverse = colourMapsNames?.filter((value) =>
     colourMapsReverseNames?.includes(value)
   );
+
+  const queryClient = useQueryClient();
+
+  const changePreferredColourMap = (
+    ...params: Parameters<typeof mutatePreferredColourMap>
+  ): Promise<void> => {
+    return mutatePreferredColourMap(...params).then(() => {
+      queryClient.invalidateQueries({
+        predicate: (query) => {
+          return (
+            // technically, we only need to invalidate records queries where there is an image channel in the projection
+            // but I think passing that info into the query is more effort than just invalidating everything
+            (query.queryKey[0] === 'records' &&
+              // need to check for page to only invalidate table queries and not plot queries
+              'page' in (query.queryKey[1] as object)) ||
+            query.queryKey[0] === 'thumbnails' ||
+            query.queryKey[0] === 'channelSummary' ||
+            // we only need to invalidate the following queries if they didn't
+            // manually select a colour map
+            (query.queryKey[0] === 'images' &&
+              (typeof query.queryKey[3] === 'undefined' ||
+                typeof (query.queryKey[3] as FalseColourParams).colourMap ===
+                  'undefined')) ||
+            (query.queryKey[0] === 'colourbar' &&
+              (typeof query.queryKey[1] === 'undefined' ||
+                typeof (query.queryKey[1] as FalseColourParams).colourMap ===
+                  'undefined'))
+          );
+        },
+      });
+    });
+  };
 
   const handleColourMapChange = (event: SelectChangeEvent<unknown>) => {
     const newValue = event.target.value as string;

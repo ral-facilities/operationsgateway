@@ -10,7 +10,7 @@ import {
   isChannelScalar,
   Record,
 } from '../app.types';
-import { DEFAULT_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import { ColourMapsParams } from '../api/images';
 
 // have to add undefined here due to how TS JSON parsing works
@@ -256,7 +256,7 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(colourMapsJson));
   }),
   rest.get(
-    `/user_preferences/${DEFAULT_COLOUR_MAP_PREFERENCE_NAME}`,
+    `/user_preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
     (req, res, ctx) => {
       if (typeof preferredColourMap === 'undefined') {
         return res(ctx.status(404), ctx.json({ msg: 'TODO ERROR MSG' }));
@@ -266,7 +266,7 @@ export const handlers = [
     }
   ),
   rest.delete(
-    `/user_preferences/${DEFAULT_COLOUR_MAP_PREFERENCE_NAME}`,
+    `/user_preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
     (req, res, ctx) => {
       preferredColourMap = undefined;
       return res(ctx.status(200), ctx.json(preferredColourMap));
