@@ -5,6 +5,7 @@ import {
   ScalarChannel,
   SearchParams,
   SelectedPlotChannel,
+  timeChannelName,
 } from '../app.types';
 import {
   hooksWrapperWithProviders,
@@ -390,12 +391,13 @@ describe('records api functions', () => {
       expect(result.current.data).toMatchSnapshot();
     });
 
-    it('can send sort, date range and filter parameters as part of request', async () => {
+    it('can send sort, date range, projection and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {
           ...getInitialState().table,
           sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
+          selectedColumnIds: [timeChannelName, 'CHANNEL_1'],
         },
         search: {
           ...getInitialState().search,
@@ -440,6 +442,8 @@ describe('records api functions', () => {
       );
       params.append('skip', '0');
       params.append('limit', '25');
+      params.append('projection', `metadata.${timeChannelName}`);
+      params.append('projection', 'channels.CHANNEL_1');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
@@ -490,6 +494,12 @@ describe('records api functions', () => {
       // searchParams.maxShots defaults to 50
       params.append('skip', '0');
       params.append('limit', '50');
+
+      // correct projections added
+      params.append('projection', `metadata.${timeChannelName}`);
+      testSelectedPlotChannels.forEach((channel) => {
+        params.append('projection', `channels.${channel.name}`);
+      });
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -560,6 +570,10 @@ describe('records api functions', () => {
       );
       params.append('skip', '0');
       params.append('limit', '1000');
+      params.append('projection', 'metadata.shotnum');
+      testSelectedPlotChannels.forEach((channel) => {
+        params.append('projection', `channels.${channel.name}`);
+      });
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -614,6 +628,10 @@ describe('records api functions', () => {
       const request = await pendingRequest;
 
       params.append('order', 'metadata.timestamp asc');
+      params.append('projection', `metadata.${timeChannelName}`);
+      testSelectedPlotChannels.forEach((channel) => {
+        params.append('projection', `channels.${channel.name}`);
+      });
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
