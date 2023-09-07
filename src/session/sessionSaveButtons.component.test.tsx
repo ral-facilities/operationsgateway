@@ -12,6 +12,7 @@ import SessionSaveButtons, {
 } from './sessionSaveButtons.component';
 import { renderComponentWithProviders } from '../setupTests';
 import { useEditSession, useSaveSession } from '../api/sessions';
+import { timeChannelName } from '../app.types';
 
 // Mock the useEditSession hook
 jest.mock('../api/sessions', () => ({
@@ -89,7 +90,7 @@ describe('session buttons', () => {
       session: {
         table: {
           columnStates: {},
-          selectedColumnIds: [],
+          selectedColumnIds: [timeChannelName],
           page: 0,
           resultsPerPage: 25,
           sort: {},
@@ -130,7 +131,7 @@ describe('session buttons', () => {
       session: {
         table: {
           columnStates: {},
-          selectedColumnIds: [],
+          selectedColumnIds: [timeChannelName],
           page: 0,
           resultsPerPage: 25,
           sort: {},
@@ -178,7 +179,7 @@ describe('session buttons', () => {
       session: {
         table: {
           columnStates: {},
-          selectedColumnIds: [],
+          selectedColumnIds: [timeChannelName],
           page: 0,
           resultsPerPage: 25,
           sort: {},

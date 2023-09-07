@@ -385,6 +385,7 @@ describe('records api functions', () => {
 
       params.append('skip', '0');
       params.append('limit', '25');
+      params.append('projection', `metadata.${timeChannelName}`);
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
