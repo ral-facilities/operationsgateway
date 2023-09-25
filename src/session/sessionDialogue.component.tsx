@@ -7,7 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { useAppSelector } from '../state/hooks';
+import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
 
@@ -38,7 +38,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     onChangeAutoSaveSessionId,
   } = props;
 
-  const state = useAppSelector(({ config, ...state }) => state);
+  const state = useAppSelector(sessionSelector);
 
   const { mutateAsync: saveSession } = useSaveSession();
   const { mutateAsync: editSession } = useEditSession();
@@ -122,7 +122,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           label="Name"
           required={true}
           sx={{ width: '100%', margin: '4px' }}
-          value={sessionName}
+          value={sessionName ?? ''}
           error={error}
           helperText={error && errorMessage}
           onChange={(event) => {

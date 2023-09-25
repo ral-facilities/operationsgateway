@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Button, Typography } from '@mui/material';
 import { SessionResponse } from '../app.types';
-import { useAppSelector } from '../state/hooks';
+import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { format, parseISO } from 'date-fns';
 import { ImportSessionType } from '../state/store';
@@ -42,7 +42,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     null
   );
 
-  const state = useAppSelector(({ config, ...state }) => state);
+  const state = useAppSelector(sessionSelector);
 
   const prevReduxState = React.useRef<ImportSessionType | null>(null); // Initialize with null
 

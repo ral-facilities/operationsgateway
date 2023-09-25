@@ -44,32 +44,34 @@ describe('channels api functions', () => {
 
       expect(data).not.toBeUndefined();
 
-      const timestampCol = data!.find(
-        (col) => col.accessor === timeChannelName
-      );
+      const timestampCol = data!.find((col) => col.id === timeChannelName);
 
       // assert it converts a static channel correctly
       expect(timestampCol).toEqual({
-        accessor: 'timestamp',
-        Header: expect.any(Function),
-        Cell: expect.any(Function),
-        channelInfo: staticChannels['timestamp'],
+        id: 'timestamp',
+        accessorKey: 'timestamp',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: { channelInfo: staticChannels['timestamp'] },
       });
 
-      const channelCol = data!.find((col) => col.accessor === 'CHANNEL_DEFGH');
+      const channelCol = data!.find((col) => col.id === 'CHANNEL_DEFGH');
 
       // assert it converts a normal channel correctly
       expect(channelCol).toEqual({
-        accessor: 'CHANNEL_DEFGH',
-        Header: expect.any(Function),
-        Cell: expect.any(Function),
-        channelInfo: {
-          type: 'scalar',
-          name: 'Channel_DEFGH',
-          notation: 'scientific',
-          precision: 2,
-          systemName: 'CHANNEL_DEFGH',
-          path: '/Channels/2',
+        id: 'CHANNEL_DEFGH',
+        accessorKey: 'CHANNEL_DEFGH',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: {
+          channelInfo: {
+            type: 'scalar',
+            name: 'Channel_DEFGH',
+            notation: 'scientific',
+            precision: 2,
+            systemName: 'CHANNEL_DEFGH',
+            path: '/Channels/2',
+          },
         },
       });
     });

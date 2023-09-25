@@ -177,7 +177,16 @@ setSettings(settings);
 
 function prepare() {
   return import('./mocks/browser').then(({ worker }) => {
-    return worker.start();
+    return worker.start({
+      onUnhandledRequest(request, print) {
+        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+        if (request.url.hostname !== 'localhost') {
+          return;
+        }
+
+        print.warning();
+      },
+    });
   });
 }
 

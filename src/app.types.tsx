@@ -9,7 +9,10 @@ export const timeChannelName = 'timestamp';
 export interface Record {
   _id: string;
   metadata: RecordMetadata;
-  channels: { [channel: string]: Channel | undefined };
+  // channels can be undefined when the user only has metadata channels selected
+  // as with projection the channels object isn't returned
+  // whereas we always query for timestamp and so metadata is always defined
+  channels?: { [channel: string]: Channel | undefined };
 }
 
 export interface RecordRow {

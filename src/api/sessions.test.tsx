@@ -119,6 +119,16 @@ describe('session api functions', () => {
       expect(result.current.data).toEqual(expected[0]);
     });
 
+    it('does not send request to fetch session when session is undefined', async () => {
+      const { result } = renderHook(() => useSession(undefined), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      expect(result.current.data).toEqual(undefined);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.fetchStatus).toBe('idle');
+    });
+
     it.todo(
       'sends axios request to fetch sessions and throws an appropriate error on failure'
     );

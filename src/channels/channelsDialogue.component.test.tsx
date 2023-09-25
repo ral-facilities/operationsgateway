@@ -18,7 +18,7 @@ import { staticChannels } from '../api/channels';
 describe('selectChannelTree', () => {
   it('transforms channel list with selection info into TreeNode', () => {
     const selectedIds = [...Object.keys(staticChannels), 'CHANNEL_ABCDE'];
-    const channelTree = selectChannelTree({}, testChannels, selectedIds);
+    const channelTree = selectChannelTree(testChannels, selectedIds);
 
     const expectedTree: TreeNode = {
       name: '/',

@@ -8,13 +8,14 @@ import {
   timeChannelName,
 } from '../app.types';
 import {
-  useTable,
-  useFlexLayout,
-  useResizeColumns,
-  useColumnOrder,
-  ColumnInstance,
-  Column,
-} from 'react-table';
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  ColumnOrderState,
+  flexRender,
+  ColumnDef,
+  VisibilityState,
+} from '@tanstack/react-table';
 import {
   Backdrop,
   TableContainer as MuiTableContainer,
@@ -47,10 +48,10 @@ const stickyColumnStyles: SxProps<Theme> = {
 export interface TableProps {
   tableHeight: string;
   data: RecordRow[];
-  availableColumns: Column[];
+  availableColumns: ColumnDef<RecordRow>[];
   columnStates: { [id: string]: ColumnState };
-  hiddenColumns: string[];
-  columnOrder: string[];
+  columnVisibility: VisibilityState;
+  columnOrder: ColumnOrderState;
   totalDataCount: number;
   maxShots: SearchParams['maxShots'];
   page: number;
@@ -74,7 +75,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     data,
     availableColumns,
     columnStates,
-    hiddenColumns,
+    columnVisibility,
     columnOrder,
     totalDataCount,
     maxShots,
@@ -92,57 +93,27 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     filteredChannelNames,
   } = props;
 
-  /*
-   ** A note about the columns used in this file:
-   ** availableColumns - this represent all columns that can currently be added to the
-   **                    display based on data received from the backend
-   ** columnStates     - this represents the user defined column states from redux (e.g. wordWrap state)
-   ** hiddenColumns    - these are the columns the user has *not* selected to appear in the table
-   **                    These are used to tell react-table which columns to show
-   ** visibleColumns   - these are the columns that React Table says are currently in the
-   **                    display. It contains all information about the displayed columns,
-   **                    including column width, columnResizing boolean, etc. selectedColumns
-   **                    does NOT contain this info and is defined by the user, not React Table
-   */
-
-  const defaultColumn = React.useMemo(
+  const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
-      minWidth: 33,
-      width: 150 + additionalHeaderSpace,
+      minSize: 33,
+      size: 150 + additionalHeaderSpace,
     }),
     []
   );
 
-  const tableInstance = useTable(
-    {
-      columns: availableColumns,
-      data,
-      defaultColumn,
-      initialState: {
-        columnOrder,
-        hiddenColumns,
-      },
-      autoResetResize: false,
-      useControlledState: (state) => {
-        return React.useMemo(
-          () => ({
-            ...state,
-            columnOrder: columnOrder,
-            hiddenColumns: hiddenColumns,
-          }),
-          // eslint complains that we don't need these deps when we really do
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          [state, columnOrder, hiddenColumns]
-        );
-      },
+  const tableInstance = useReactTable({
+    columns: availableColumns,
+    data,
+    defaultColumn,
+    state: {
+      columnOrder,
+      columnVisibility,
     },
-    useResizeColumns,
-    useFlexLayout,
-    useColumnOrder
-  );
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    enableColumnResizing: true,
+    columnResizeMode: 'onChange',
+  });
 
   return (
     <div>
@@ -163,7 +134,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
           maxHeight: tableHeight,
         }}
       >
-        <MuiTable {...getTableProps()}>
+        <MuiTable>
           <MuiTableHead
             sx={{
               position: 'sticky',
@@ -172,30 +143,24 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               zIndex: 1,
             }}
           >
-            {headerGroups.map((headerGroup) => {
-              const { key, ...otherHeaderGroupProps } =
-                headerGroup.getHeaderGroupProps();
+            {tableInstance.getHeaderGroups().map((headerGroup) => {
               return (
-                <DragDropContext key={key} onDragEnd={onDragEnd}>
+                <DragDropContext key={headerGroup.id} onDragEnd={onDragEnd}>
                   <Droppable droppableId="columns" direction="horizontal">
                     {(provided) => {
                       return (
                         <MuiTableRow
-                          {...otherHeaderGroupProps}
                           {...provided.droppableProps}
                           ref={provided.innerRef}
+                          sx={{ display: 'flex', flexDirection: 'row' }}
                         >
-                          {headerGroup.headers.map((column, index) => {
-                            const { key, ...otherHeaderProps } =
-                              column.getHeaderProps();
-
+                          {headerGroup.headers.map((header, index) => {
+                            const { column } = header;
                             const dataKey = column.id;
                             const isTimestampColumn =
                               dataKey === timeChannelName;
                             let columnStyles: SxProps<Theme> = {
-                              minWidth: column.minWidth,
-                              width: column.width,
-                              maxWidth: column.maxWidth,
+                              width: column.getSize(),
                               paddingTop: '0px',
                               paddingBottom: '0px',
                               paddingRight: '0px',
@@ -210,18 +175,21 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   ...stickyColumnStyles,
                                 }
                               : columnStyles;
-                            const { channelInfo } = column as ColumnInstance;
+                            const channelInfo =
+                              column.columnDef.meta?.channelInfo;
 
                             return (
                               <DataHeader
-                                key={key}
-                                {...otherHeaderProps}
+                                key={header.id}
                                 sx={columnStyles}
-                                resizerProps={column.getResizerProps()}
+                                resizeHandler={header.getResizeHandler()}
                                 dataKey={dataKey}
                                 sort={sort}
                                 onSort={onSort}
-                                label={column.render('Header')}
+                                label={flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
                                 onClose={onColumnClose}
                                 index={index}
                                 icon={columnIconMappings.get(column.id)}
@@ -247,26 +215,22 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
           </MuiTableHead>
           <MuiTableBody
-            {...getTableBodyProps()}
             sx={{ position: 'relative' }}
             aria-describedby="table-loading-indicator"
             aria-busy={!loadedData}
           >
-            {rows.map((row) => {
-              prepareRow(row);
-              const { key, ...otherRowProps } = row.getRowProps();
+            {tableInstance.getRowModel().rows.map((row) => {
               return (
-                <MuiTableRow key={key} {...otherRowProps}>
-                  {row.cells.map((cell) => {
-                    const { key, ...otherCellProps } = cell.getCellProps();
-
+                <MuiTableRow
+                  key={row.id}
+                  sx={{ display: 'flex', flexDirection: 'row' }}
+                >
+                  {row.getVisibleCells().map((cell) => {
                     const dataKey = cell.column.id;
                     const isTimestampColumn = dataKey === timeChannelName;
 
                     let columnStyles: SxProps<Theme> = {
-                      minWidth: cell.column.minWidth,
-                      width: cell.column.width,
-                      maxWidth: cell.column.maxWidth,
+                      width: cell.column.getSize(),
                       paddingTop: '0px',
                       paddingBottom: '0px',
                       paddingRight: '0px',
@@ -285,10 +249,12 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     return (
                       <DataCell
                         sx={columnStyles}
-                        key={key}
-                        {...otherCellProps}
+                        key={cell.id}
                         dataKey={cell.column.id}
-                        rowData={cell.render('Cell')}
+                        rowData={flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       />
                     );
                   })}

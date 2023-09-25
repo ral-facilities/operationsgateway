@@ -70,7 +70,7 @@ describe('delete session dialogue', () => {
   it('calls handleDeleteSession when continue button is clicked with a valid session name', async () => {
     createView();
     const continueButton = screen.getByRole('button', { name: 'Continue' });
-    user.click(continueButton);
+    await user.click(continueButton);
 
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
@@ -81,7 +81,7 @@ describe('delete session dialogue', () => {
     props = { ...props, loadedSessionId: '1' };
     createView();
     const continueButton = screen.getByRole('button', { name: 'Continue' });
-    user.click(continueButton);
+    await user.click(continueButton);
 
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();

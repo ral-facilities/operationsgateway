@@ -108,7 +108,7 @@ describe('View Tabs', () => {
     ).toHaveTextContent('Session 1');
 
     const closeButton = screen.getByRole('button', { name: 'Close' });
-    user.click(closeButton);
+    await user.click(closeButton);
     await waitFor(() => {
       expect(deleteDialog).not.toBeInTheDocument();
     });
@@ -137,7 +137,7 @@ describe('View Tabs', () => {
     ).toHaveTextContent('Session 1');
 
     const contniueButton = screen.getByRole('button', { name: 'Continue' });
-    user.click(contniueButton);
+    await user.click(contniueButton);
     await waitFor(() => {
       expect(deleteDialog).not.toBeInTheDocument();
     });
@@ -166,7 +166,7 @@ describe('View Tabs', () => {
     ).toBeInTheDocument();
 
     const closeButton = screen.getByRole('button', { name: 'Close' });
-    user.click(closeButton);
+    await user.click(closeButton);
     await waitFor(() => {
       expect(editDialog).not.toBeInTheDocument();
     });

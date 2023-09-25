@@ -1,6 +1,6 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Column } from 'react-table';
+import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import { DropResult } from 'react-beautiful-dnd';
 import { RootState } from '../store';
 import {
@@ -8,6 +8,7 @@ import {
   Order,
   FullChannelMetadata,
   timeChannelName,
+  RecordRow,
 } from '../../app.types';
 
 export const resultsPerPage = 25;
@@ -30,7 +31,8 @@ interface TableState {
 // Define the initial state using that type
 export const initialState: TableState = {
   columnStates: {},
-  selectedColumnIds: [],
+  // Ensure the timestamp column is opened automatically on table load
+  selectedColumnIds: [timeChannelName],
   page: 0,
   resultsPerPage: resultsPerPage,
   sort: {},
@@ -47,20 +49,23 @@ export const tableSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     selectColumn: (state, action: PayloadAction<string>) => {
-      // if it's the timestamp column, add to the beginning of the array
-      if (action.payload === timeChannelName) {
-        state.selectedColumnIds.unshift(action.payload);
-      } else {
+      if (!state.selectedColumnIds.includes(action.payload)) {
         state.selectedColumnIds.push(action.payload);
       }
     },
     deselectColumn: (state, action: PayloadAction<string>) => {
-      delete state.sort[action.payload];
+      if (action.payload === timeChannelName) {
+        // don't allow time column to be deselected (should be prevented by other
+        // code as well - just might as well do it here too)
+        return;
+      } else {
+        delete state.sort[action.payload];
 
-      const newSelectedColumnsIds = state.selectedColumnIds.filter(
-        (colId) => colId !== action.payload
-      );
-      state.selectedColumnIds = newSelectedColumnsIds;
+        const newSelectedColumnsIds = state.selectedColumnIds.filter(
+          (colId) => colId !== action.payload
+        );
+        state.selectedColumnIds = newSelectedColumnsIds;
+      }
     },
     reorderColumn: (state, action: PayloadAction<DropResult>) => {
       const result = action.payload;
@@ -121,7 +126,7 @@ export const selectColumnStates = (state: RootState) =>
   state.table.columnStates;
 export const selectAvailableColumns = (
   state: RootState,
-  availableColumns: Column[]
+  availableColumns: ColumnDef<RecordRow>[]
 ) => availableColumns;
 export const selectAvailableChannels = (
   state: RootState,
@@ -180,20 +185,19 @@ export const selectSelectedChannels = createSelector(
 );
 
 /**
- * @returns A selector for an array of Column objects which are currently ___not___ selected,
+ * @returns A selector for an {@type VisibilityState} object which details which columns are visible,
  * which only changes when a column is selected/deselected and not when columns are reordered
  * @params state - the current redux state
  * @params availableColumns - array of all the columns the user can select
  */
-export const selectHiddenColumns = createSelector(
+export const selectColumnVisibility = createSelector(
   selectAvailableColumns,
   selectSelectedIdsIgnoreOrder,
   (availableColumns, selectedIds) => {
-    return availableColumns
-      .filter((col) => {
-        return !selectedIds.includes(col.accessor?.toString() ?? '');
-      })
-      .map((col) => col.accessor?.toString() ?? '');
+    return availableColumns.reduce((prev, curr) => {
+      if (curr.id) prev[curr.id] = selectedIds.includes(curr.id ?? '');
+      return prev;
+    }, {} as VisibilityState);
   }
 );
 
