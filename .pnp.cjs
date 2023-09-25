@@ -99,7 +99,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["serve", "npm:14.2.0"],\
             ["serve-static", "npm:1.15.0"],\
-            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
+            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4"],\
             ["start-server-and-test", "npm:2.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["web-vitals", "npm:3.4.0"]\
@@ -16120,7 +16120,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-scripts", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
             ["serve", "npm:14.2.0"],\
             ["serve-static", "npm:1.15.0"],\
-            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
+            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4"],\
             ["start-server-and-test", "npm:2.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
             ["web-vitals", "npm:3.4.0"]\
@@ -20075,17 +20075,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["single-spa-react", [\
-        ["npm:5.0.1", {\
-          "packageLocation": "./.yarn/cache/single-spa-react-npm-5.0.1-cb23a8bae8-fb0669e9c4.zip/node_modules/single-spa-react/",\
+        ["npm:5.1.4", {\
+          "packageLocation": "./.yarn/cache/single-spa-react-npm-5.1.4-3d5227d2a6-20a9c33c1a.zip/node_modules/single-spa-react/",\
           "packageDependencies": [\
-            ["single-spa-react", "npm:5.0.1"]\
+            ["single-spa-react", "npm:5.1.4"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1", {\
-          "packageLocation": "./.yarn/__virtual__/single-spa-react-virtual-22a27e4275/0/cache/single-spa-react-npm-5.0.1-cb23a8bae8-fb0669e9c4.zip/node_modules/single-spa-react/",\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4", {\
+          "packageLocation": "./.yarn/__virtual__/single-spa-react-virtual-00c59cb4b6/0/cache/single-spa-react-npm-5.1.4-3d5227d2a6-20a9c33c1a.zip/node_modules/single-spa-react/",\
           "packageDependencies": [\
-            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.0.1"],\
+            ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4"],\
             ["@types/react", "npm:18.2.14"],\
             ["@types/react-dom", "npm:18.2.6"],\
             ["browserslist-config-single-spa", "npm:1.0.1"],\
