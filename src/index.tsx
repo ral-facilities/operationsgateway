@@ -46,7 +46,7 @@ function domElementGetter(): HTMLElement {
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOMClient,
-  rootComponent: App,
+  rootComponent: () => document.getElementById(pluginName) ? <App /> : null,
   domElementGetter,
   errorBoundary: (error) => {
     log.error(`${pluginName} failed with error: ${error}`);
