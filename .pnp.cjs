@@ -12379,10 +12379,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["graphql", [\
-        ["npm:16.6.0", {\
-          "packageLocation": "./.yarn/cache/graphql-npm-16.6.0-301c470966-bf1d9e3c19.zip/node_modules/graphql/",\
+        ["npm:16.8.1", {\
+          "packageLocation": "./.yarn/cache/graphql-npm-16.8.1-c2cd08b4c0-8d304b7b6f.zip/node_modules/graphql/",\
           "packageDependencies": [\
-            ["graphql", "npm:16.6.0"]\
+            ["graphql", "npm:16.8.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15583,7 +15583,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:4.1.1"],\
             ["chokidar", "npm:3.5.3"],\
             ["cookie", "npm:0.4.2"],\
-            ["graphql", "npm:16.6.0"],\
+            ["graphql", "npm:16.8.1"],\
             ["headers-polyfill", "npm:3.1.2"],\
             ["inquirer", "npm:8.2.5"],\
             ["is-node-process", "npm:1.2.0"],\
