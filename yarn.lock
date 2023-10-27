@@ -2780,6 +2780,54 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.11.1#./.yarn/patches/@mui-x-date-pickers-npm-6.11.1-1d7715e78a.patch::locator=operationsgateway%40workspace%3A.":
+  version: 6.11.1
+  resolution: "@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.11.1#./.yarn/patches/@mui-x-date-pickers-npm-6.11.1-1d7715e78a.patch::version=6.11.1&hash=e9463e&locator=operationsgateway%40workspace%3A."
+  dependencies:
+    "@babel/runtime": ^7.22.6
+    "@mui/utils": ^5.14.3
+    "@types/react-transition-group": ^4.4.6
+    clsx: ^2.0.0
+    prop-types: ^15.8.1
+    react-transition-group: ^4.4.5
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/base": ^5.0.0-alpha.87
+    "@mui/material": ^5.8.6
+    "@mui/system": ^5.8.0
+    date-fns: ^2.25.0
+    date-fns-jalali: ^2.13.0-0
+    dayjs: ^1.10.7
+    luxon: ^3.0.2
+    moment: ^2.29.4
+    moment-hijri: ^2.1.2
+    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    date-fns:
+      optional: true
+    date-fns-jalali:
+      optional: true
+    dayjs:
+      optional: true
+    luxon:
+      optional: true
+    moment:
+      optional: true
+    moment-hijri:
+      optional: true
+    moment-jalaali:
+      optional: true
+  checksum: 807e3e36cf36b925bf207f496200a3992a55b28a1d994261d73c7f39dcddaf49c2a371478b26a0050a6b1fdc6caff52ba02d314cf73105072f3392cae4f5f914
+  languageName: node
+  linkType: hard
+
 "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1":
   version: 5.1.1-v1
   resolution: "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1"
