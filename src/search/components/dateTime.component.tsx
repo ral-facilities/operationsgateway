@@ -1,7 +1,14 @@
 import React from 'react';
 import { isValid, isEqual, isBefore, isAfter } from 'date-fns';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { TextField, Divider, Typography, Box, Grid } from '@mui/material';
+import {
+  TextField,
+  TextFieldProps,
+  Divider,
+  Typography,
+  Box,
+  Grid,
+} from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
@@ -140,6 +147,31 @@ export interface DateTimeSearchProps {
   searchParamsUpdated: () => void;
 }
 
+const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
+  const { invalidDateRange, id, ...inputProps } = renderProps.inputProps ?? {};
+  const error = (renderProps.error || invalidDateRange) ?? undefined;
+  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+  if (invalidDateRange) helperText = 'Invalid date-time range';
+
+  return (
+    <TextField
+      {...renderProps}
+      fullWidth
+      id={id}
+      inputProps={{
+        ...inputProps,
+        sx: {
+          fontSize: '1rem',
+          fontWeight: 'bold',
+        },
+      }}
+      variant="standard"
+      error={error}
+      {...(error && { helperText: helperText })}
+    />
+  );
+};
+
 /**
  * The date-time fields are determined through the following variables:
  *
@@ -242,7 +274,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               format="yyyy-MM-dd HH:mm"
               value={datePickerFromDate}
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
-              onChange={(date) => {
+              onChange={(date: Date | null) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
                 searchParamsUpdated();
@@ -267,7 +299,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   });
                 }
               }}
-              onAccept={(date) => {
+              onAccept={(date: Date | null) => {
                 setDatePickerFromDate(date);
                 resetTimeframe();
                 searchParamsUpdated();
@@ -292,38 +324,21 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onError={(error) => setDatePickerFromDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
-                textField: (renderProps) => {
-                  const error =
-                    (renderProps.error || invalidDateRange) ?? undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
-
-                  return (
-                    <TextField
-                      {...renderProps}
-                      fullWidth
-                      id="from date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        placeholder: 'From...',
-                        'aria-label': 'from, date-time input',
-                        sx: {
-                          fontSize: '1rem',
-                          fontWeight: 'bold',
-                        },
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
-                },
+                textField: CustomTextField,
               }}
               slotProps={{
                 actionBar: { actions: ['clear'] },
                 openPickerButton: {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
+                },
+                textField: {
+                  inputProps: {
+                    invalidDateRange: invalidDateRange,
+                    id: 'from date-time',
+                    placeholder: 'From...',
+                    'aria-label': 'from, date-time input',
+                  },
                 },
               }}
             />
@@ -400,38 +415,21 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                     pickersDayProps
                   ),
 
-                textField: (renderProps) => {
-                  const error =
-                    (renderProps.error || invalidDateRange) ?? undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
-
-                  return (
-                    <TextField
-                      {...renderProps}
-                      fullWidth
-                      id="to date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        placeholder: 'To...',
-                        'aria-label': 'to, date-time input',
-                        sx: {
-                          fontSize: '1rem',
-                          fontWeight: 'bold',
-                        },
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
-                },
+                textField: CustomTextField,
               }}
               slotProps={{
                 actionBar: { actions: ['clear', 'today'] },
                 openPickerButton: {
                   size: 'small',
                   'aria-label': 'to, date-time picker',
+                },
+                textField: {
+                  inputProps: {
+                    invalidDateRange: invalidDateRange,
+                    id: 'to date-time',
+                    placeholder: 'To...',
+                    'aria-label': 'to, date-time input',
+                  },
                 },
               }}
             />

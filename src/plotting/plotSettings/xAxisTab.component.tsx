@@ -9,10 +9,11 @@ import {
   InputAdornment,
   Radio,
   RadioGroup,
-  styled,
   TextField,
+  TextFieldProps,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Search, Close } from '@mui/icons-material';
 import {
   XAxisScale,
@@ -42,6 +43,31 @@ export interface XAxisTabProps {
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
 }
+
+const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
+  const { invalidDateRange, id, date, ...inputProps } =
+    renderProps.inputProps ?? {};
+  const error =
+    (renderProps.error || invalidDateRange || (date && !isValid(date))) ??
+    undefined;
+  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+  if (invalidDateRange) helperText = 'Invalid date-time range';
+  return (
+    <TextField
+      {...renderProps}
+      id={id}
+      inputProps={{
+        ...inputProps,
+        sx: {
+          fontSize: 10,
+        },
+      }}
+      variant="standard"
+      error={error}
+      {...(error && { helperText: helperText })}
+    />
+  );
+};
 
 // if XAxis === "timestamp", only render min/max config
 const XAxisTab = (props: XAxisTabProps) => {
@@ -178,44 +204,26 @@ const XAxisTab = (props: XAxisTabProps) => {
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 onChange={(date) => {
-                  setFromDate(date);
+                  setFromDate(date as Date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
                 slots={{
-                  textField: (renderProps) => {
-                    const error =
-                      (renderProps.error ||
-                        invalidDateRange ||
-                        (fromDate && !isValid(fromDate))) ??
-                      undefined;
-                    let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                    if (invalidDateRange)
-                      helperText = 'Invalid date-time range';
-
-                    return (
-                      <TextField
-                        {...renderProps}
-                        id="from date-time"
-                        inputProps={{
-                          ...renderProps.inputProps,
-                          style: {
-                            fontSize: 10,
-                          },
-                          placeholder: 'From...',
-                          'aria-label': 'from, date-time input',
-                        }}
-                        variant="standard"
-                        error={error}
-                        {...(error && { helperText: helperText })}
-                      />
-                    );
-                  },
+                  textField: CustomTextField,
                 }}
                 slotProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                   openPickerButton: {
                     size: 'small',
                     'aria-label': 'from, date-time picker',
+                  },
+                  textField: {
+                    inputProps: {
+                      invalidDateRange: invalidDateRange,
+                      id: 'from date-time',
+                      placeholder: 'From...',
+                      'aria-label': 'from, date-time input',
+                      date: fromDate,
+                    },
                   },
                 }}
               />
@@ -245,44 +253,26 @@ const XAxisTab = (props: XAxisTabProps) => {
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 onChange={(date) => {
-                  setToDate(date);
+                  setToDate(date as Date);
                 }}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
                 slots={{
-                  textField: (renderProps) => {
-                    const error =
-                      (renderProps.error ||
-                        invalidDateRange ||
-                        (toDate && !isValid(toDate))) ??
-                      undefined;
-                    let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                    if (invalidDateRange)
-                      helperText = 'Invalid date-time range';
-
-                    return (
-                      <TextField
-                        {...renderProps}
-                        id="to date-time"
-                        inputProps={{
-                          ...renderProps.inputProps,
-                          style: {
-                            fontSize: 10,
-                          },
-                          placeholder: 'To...',
-                          'aria-label': 'to, date-time input',
-                        }}
-                        variant="standard"
-                        error={error}
-                        {...(error && { helperText: helperText })}
-                      />
-                    );
-                  },
+                  textField: CustomTextField,
                 }}
                 slotProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                   openPickerButton: {
                     size: 'small',
                     'aria-label': 'to, date-time picker',
+                  },
+                  textField: {
+                    inputProps: {
+                      invalidDateRange: invalidDateRange,
+                      id: 'to date-time',
+                      placeholder: 'To...',
+                      'aria-label': 'to, date-time input',
+                      date: toDate,
+                    },
                   },
                 }}
               />
