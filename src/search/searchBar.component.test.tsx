@@ -61,11 +61,20 @@ describe('searchBar component', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.clear(dateFilterFromDate);
-    await user.clear(dateFilterToDate);
 
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
-    await user.type(dateFilterToDate, '2022-01-02 00:00');
+    // .clear doesn't work for some reason with datepickers in v6
+    await user.click(dateFilterFromDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterFromDate);
+
+    await user.click(dateFilterToDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterToDate);
+
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
+    await user.type(dateFilterToDate, '2022-01-02_00:00');
 
     // Max shots
 
@@ -288,8 +297,8 @@ describe('searchBar component', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
-    await user.type(dateFilterToDate, '2022-01-02 00:00');
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
+    await user.type(dateFilterToDate, '2022-01-02_00:00');
 
     // Initiate search
 
@@ -349,10 +358,18 @@ describe('searchBar component', () => {
 
     // only the From date is defined
 
-    await user.clear(dateFilterFromDate);
-    await user.clear(dateFilterToDate);
+    // .clear doesn't work for some reason with datepickers in v6
+    await user.click(dateFilterFromDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterFromDate);
 
-    await user.type(dateFilterFromDate, '2023-01-01 00:00');
+    await user.click(dateFilterToDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterToDate);
+
+    await user.type(dateFilterFromDate, '2023-01-01_00:00');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
@@ -361,10 +378,17 @@ describe('searchBar component', () => {
 
     // only the To date is defined
 
-    await user.clear(dateFilterFromDate);
-    await user.clear(dateFilterToDate);
+    await user.click(dateFilterFromDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterFromDate);
 
-    await user.type(dateFilterToDate, '2023-01-01 00:00');
+    await user.click(dateFilterToDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterToDate);
+
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
@@ -442,10 +466,10 @@ describe('searchBar component', () => {
 
     // Input some test data for the search
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterToDate, '2023-01-01 00:00');
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -503,10 +527,10 @@ describe('searchBar component', () => {
 
     // Input some test data for the search
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterToDate, '2023-01-01 00:00');
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     // Try and search
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -527,10 +551,10 @@ describe('searchBar component', () => {
     createView(state);
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterToDate, '2023-01-01 00:00');
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -545,8 +569,12 @@ describe('searchBar component', () => {
       })
     );
 
-    await user.clear(dateFilterFromDate);
-    await user.type(dateFilterFromDate, '2022-01-02 00:00');
+    // .clear doesn't work for some reason with datepickers in v6
+    await user.click(dateFilterFromDate);
+    await user.keyboard('{Control>}a{/Control}');
+    await user.keyboard('{Delete}');
+    // await user.clear(dateFilterFromDate);
+    await user.type(dateFilterFromDate, '2022-01-02_00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -612,10 +640,10 @@ describe('searchBar component', () => {
 
     // Try and search by the previously cached search params
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await user.type(dateFilterFromDate, '2022-01-01 00:00');
+    await user.type(dateFilterFromDate, '2022-01-01_00:00');
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await user.type(dateFilterToDate, '2023-01-01 00:00');
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 

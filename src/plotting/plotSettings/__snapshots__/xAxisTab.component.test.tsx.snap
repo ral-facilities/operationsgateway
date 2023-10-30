@@ -356,11 +356,12 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
             <input
               aria-invalid="false"
               aria-label="from, date-time input"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              autocomplete="off"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1pd62rs-MuiInputBase-input-MuiInput-input"
               id="from date-time"
+              inputmode="text"
               placeholder="From..."
-              style="font-size: 10px;"
-              type="tel"
+              type="text"
               value=""
             />
             <div
@@ -403,11 +404,12 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
             <input
               aria-invalid="false"
               aria-label="to, date-time input"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              autocomplete="off"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1pd62rs-MuiInputBase-input-MuiInput-input"
               id="to date-time"
+              inputmode="text"
               placeholder="To..."
-              style="font-size: 10px;"
-              type="tel"
+              type="text"
               value=""
             />
             <div

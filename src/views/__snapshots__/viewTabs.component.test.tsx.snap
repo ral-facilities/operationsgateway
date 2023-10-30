@@ -212,10 +212,12 @@ exports[`View Tabs renders correctly 1`] = `
                                       <input
                                         aria-invalid="false"
                                         aria-label="from, date-time input"
+                                        autocomplete="off"
                                         class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
                                         id="from date-time"
+                                        inputmode="text"
                                         placeholder="From..."
-                                        type="tel"
+                                        type="text"
                                         value=""
                                       />
                                       <div
@@ -274,10 +276,12 @@ exports[`View Tabs renders correctly 1`] = `
                                       <input
                                         aria-invalid="false"
                                         aria-label="to, date-time input"
+                                        autocomplete="off"
                                         class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
                                         id="to date-time"
+                                        inputmode="text"
                                         placeholder="To..."
-                                        type="tel"
+                                        type="text"
                                         value=""
                                       />
                                       <div
@@ -802,7 +806,7 @@ exports[`View Tabs renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":r6:"
+                    id=":r8:"
                   >
                     Rows per page:
                   </p>
@@ -812,9 +816,9 @@ exports[`View Tabs renders correctly 1`] = `
                     <div
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r6: :r5:"
+                      aria-labelledby=":r8: :r7:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":r5:"
+                      id=":r7:"
                       role="button"
                       tabindex="0"
                     >

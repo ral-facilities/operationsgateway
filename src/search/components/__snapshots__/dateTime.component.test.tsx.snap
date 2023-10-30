@@ -4,7 +4,7 @@ exports[`CustomPickersDay function renders the CustomPickerDay correctly 1`] = `
 <body>
   <div>
     <div
-      class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-rvy3vs-MuiPickersDay-root"
+      class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-lzd2po-MuiPickersDay-root"
     />
   </div>
 </body>
@@ -51,10 +51,12 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
             <input
               aria-invalid="false"
               aria-label="from, date-time input"
+              autocomplete="off"
               class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
               id="from date-time"
+              inputmode="text"
               placeholder="From..."
-              type="tel"
+              type="text"
               value="2021-01-01 00:00"
             />
             <div
@@ -113,10 +115,12 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
             <input
               aria-invalid="false"
               aria-label="to, date-time input"
+              autocomplete="off"
               class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
               id="to date-time"
+              inputmode="text"
               placeholder="To..."
-              type="tel"
+              type="text"
               value="2021-01-02 00:00"
             />
             <div
@@ -193,10 +197,12 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
             <input
               aria-invalid="false"
               aria-label="from, date-time input"
+              autocomplete="off"
               class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
               id="from date-time"
+              inputmode="text"
               placeholder="From..."
-              type="tel"
+              type="text"
               value=""
             />
             <div
@@ -255,10 +261,12 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
             <input
               aria-invalid="false"
               aria-label="to, date-time input"
+              autocomplete="off"
               class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
               id="to date-time"
+              inputmode="text"
               placeholder="To..."
-              type="tel"
+              type="text"
               value=""
             />
             <div
@@ -294,54 +302,15 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
 </DocumentFragment>
 `;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is not with an experiment 1`] = `
-<Memo
-  autoFocus={false}
-  day={2022-02-05T00:00:00.000Z}
-  disabled={false}
-  isAnimating={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onkeydown={[MockFunction]}
-  outsideCurrentMonth={true}
-  selected={false}
-  today={false}
-/>
-`;
+exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is not with an experiment 1`] = `<Memo />`;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is null 1`] = `
-<Memo
-  autoFocus={false}
-  day={2022-02-05T00:00:00.000Z}
-  disabled={false}
-  isAnimating={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onkeydown={[MockFunction]}
-  outsideCurrentMonth={true}
-  selected={false}
-  today={false}
-/>
-`;
+exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is null 1`] = `<Memo />`;
 
 exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is with an experiment 1`] = `
 <Styled(memo)
-  autoFocus={false}
-  day={2022-02-05T00:00:00.000Z}
   dayIsBetween={false}
   disableMargin={true}
-  disabled={false}
-  isAnimating={false}
   isFirstDay={false}
   isLastDay={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onkeydown={[MockFunction]}
-  outsideCurrentMonth={true}
-  selected={false}
-  today={false}
 />
 `;
