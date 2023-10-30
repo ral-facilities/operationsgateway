@@ -3916,15 +3916,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-table@npm:7.7.12":
-  version: 7.7.12
-  resolution: "@types/react-table@npm:7.7.12"
-  dependencies:
-    "@types/react": "*"
-  checksum: 287ea68e75b56c2e70e6d6491cd172348c7302b032789047eb2dca1b25b240684e48a60f58140575828b790f95724b9f3ec4d3adce82fc1c05d994def1449009
-  languageName: node
-  linkType: hard
-
 "@types/react-transition-group@npm:^4.4.5, @types/react-transition-group@npm:^4.4.6":
   version: 4.4.6
   resolution: "@types/react-transition-group@npm:4.4.6"
