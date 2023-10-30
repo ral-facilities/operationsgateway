@@ -7,7 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { useAppSelector } from '../state/hooks';
+import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
 
@@ -20,7 +20,7 @@ export interface SessionDialogueProps {
   onChangeSessionSummary: (sessionSummary: string) => void;
   requestType: 'edit' | 'create';
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
-  refetchSessionsList: () => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   sessionData?: SessionResponse;
 }
 
@@ -35,10 +35,10 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     requestType,
     sessionData,
     onChangeLoadedSessionId,
-    refetchSessionsList,
+    onChangeAutoSaveSessionId,
   } = props;
 
-  const state = useAppSelector(({ config, ...state }) => state);
+  const state = useAppSelector(sessionSelector);
 
   const { mutateAsync: saveSession } = useSaveSession();
   const { mutateAsync: editSession } = useEditSession();
@@ -57,13 +57,13 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const session = {
         name: sessionName,
-        session_data: state,
+        session: state,
         summary: sessionSummary,
         auto_saved: false,
       };
       saveSession(session)
         .then((response) => {
-          refetchSessionsList();
+          onChangeAutoSaveSessionId(undefined);
           onChangeLoadedSessionId(response);
           handleClose();
         })
@@ -78,8 +78,8 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     }
   }, [
     handleClose,
+    onChangeAutoSaveSessionId,
     onChangeLoadedSessionId,
-    refetchSessionsList,
     saveSession,
     sessionName,
     sessionSummary,
@@ -99,7 +99,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
 
       editSession(session)
         .then((response) => {
-          refetchSessionsList();
           handleClose();
         })
         .catch((error) => {
@@ -111,14 +110,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       setError(true);
       setErrorMessage('Please enter a name');
     }
-  }, [
-    sessionName,
-    sessionData,
-    sessionSummary,
-    editSession,
-    refetchSessionsList,
-    handleClose,
-  ]);
+  }, [sessionName, sessionData, sessionSummary, editSession, handleClose]);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg">
@@ -130,7 +122,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           label="Name"
           required={true}
           sx={{ width: '100%', margin: '4px' }}
-          value={sessionName}
+          value={sessionName ?? ''}
           error={error}
           helperText={error && errorMessage}
           onChange={(event) => {

@@ -54,7 +54,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
         }}
       >
         {thumbnails?.map((thumbnailRecord) => {
-          const channelData = thumbnailRecord.channels[channelName];
+          const channelData = thumbnailRecord.channels?.[channelName];
 
           if (typeof channelData === 'undefined') return null;
 

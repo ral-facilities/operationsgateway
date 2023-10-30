@@ -34,6 +34,7 @@ interface PlotWindowProps {
   onClose: () => void;
   plotConfig: PlotConfig;
 }
+
 const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
@@ -69,6 +70,12 @@ const PlotWindow = (props: PlotWindowProps) => {
   );
   const [rightYAxisScale, setRightYAxisScale] = React.useState<YAxisScale>(
     plotConfig.rightYAxisScale
+  );
+  const [leftYAxisLabel, setLeftYAxisLabel] = React.useState(
+    plotConfig.leftYAxisLabel
+  );
+  const [rightYAxisLabel, setRightYAxisLabel] = React.useState(
+    plotConfig.rightYAxisLabel
   );
 
   const [XAxis, setXAxis] = React.useState<string | undefined>(
@@ -119,12 +126,13 @@ const PlotWindow = (props: PlotWindowProps) => {
   );
   const { data: channels, isLoading: channelsLoading } = useScalarChannels();
 
+  const channelsNullChecked = React.useMemo(() => channels ?? [], [channels]);
   const selectedScalarRecordTableChannels: FullScalarChannelMetadata[] =
     useAppSelector((state) =>
-      selectSelectedChannels(state, channels ?? [])
+      selectSelectedChannels(state, channelsNullChecked)
     ) as FullScalarChannelMetadata[];
 
-  const XAxisDisplayName = channels?.find(
+  const XAxisDisplayName = channelsNullChecked.find(
     (channel) => channel.systemName === XAxis
   )?.name;
 
@@ -156,8 +164,10 @@ const PlotWindow = (props: PlotWindowProps) => {
       selectedPlotChannels,
       leftYAxisScale,
       rightYAxisScale,
+      leftYAxisLabel,
       leftYAxisMinimum,
       leftYAxisMaximum,
+      rightYAxisLabel,
       rightYAxisMinimum,
       rightYAxisMaximum,
       gridVisible,
@@ -182,8 +192,10 @@ const PlotWindow = (props: PlotWindowProps) => {
     selectedPlotChannels,
     leftYAxisScale,
     rightYAxisScale,
+    leftYAxisLabel,
     leftYAxisMinimum,
     leftYAxisMaximum,
+    rightYAxisLabel,
     rightYAxisMinimum,
     rightYAxisMaximum,
     gridVisible,
@@ -250,7 +262,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               </Box>
               <PlotSettingsController
                 selectedRecordTableChannels={selectedScalarRecordTableChannels}
-                allChannels={channels ?? []}
+                allChannels={channelsNullChecked}
                 plotTitle={plotTitle}
                 changePlotTitle={setPlotTitle}
                 plotType={plotType}
@@ -271,12 +283,16 @@ const PlotWindow = (props: PlotWindowProps) => {
                 leftYAxisMaximum={leftYAxisMaximum}
                 rightYAxisMinimum={rightYAxisMinimum}
                 rightYAxisMaximum={rightYAxisMaximum}
+                leftYAxisLabel={leftYAxisLabel}
+                rightYAxisLabel={rightYAxisLabel}
                 changeXMinimum={setXMinimum}
                 changeXMaximum={setXMaximum}
                 changeLeftYAxisMinimum={setLeftYAxisMinimum}
                 changeLeftYAxisMaximum={setLeftYAxisMaximum}
                 changeRightYAxisMinimum={setRightYAxisMinimum}
                 changeRightYAxisMaximum={setRightYAxisMaximum}
+                changeLeftYAxisLabel={setLeftYAxisLabel}
+                changeRightYAxisLabel={setRightYAxisLabel}
                 selectedColours={selectedColours}
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
@@ -361,6 +377,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             leftYAxisMaximum={leftYAxisMaximum}
             rightYAxisMinimum={rightYAxisMinimum}
             rightYAxisMaximum={rightYAxisMaximum}
+            leftYAxisLabel={leftYAxisLabel}
+            rightYAxisLabel={rightYAxisLabel}
             viewReset={viewFlag}
           />
         </Grid>

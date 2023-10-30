@@ -13,7 +13,7 @@ describe('session dialogue', () => {
   const onChangeSessionName = jest.fn();
   const onChangeSessionSummary = jest.fn();
   const onChangeLoadedSessionId = jest.fn();
-  const refetchSessionsList = jest.fn();
+  const onChangeAutoSaveSessionId = jest.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionDialogue {...props} />);
@@ -30,7 +30,7 @@ describe('session dialogue', () => {
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'create',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
-        refetchSessionsList: refetchSessionsList,
+        onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
 
       user = userEvent; // Assigning userEvent to 'user'
@@ -54,17 +54,17 @@ describe('session dialogue', () => {
       createView();
 
       const nameInput = screen.getByLabelText('Name *');
-      user.type(nameInput, 'Test Session');
+      await user.type(nameInput, 'T');
 
       await waitFor(() => {
-        expect(onChangeSessionName).toHaveBeenCalledWith('Test Session');
+        expect(onChangeSessionName).toHaveBeenCalledWith('T');
       });
     });
 
     it('calls setSessionSummary when input value changes', async () => {
       createView();
       const summaryTextarea = screen.getByLabelText('Summary');
-      user.type(summaryTextarea, 'Test Summary');
+      await user.type(summaryTextarea, 'Test Summary');
       await waitFor(() => {
         expect(onChangeSessionSummary).toHaveBeenCalled();
       });
@@ -73,7 +73,7 @@ describe('session dialogue', () => {
     it('calls onClose when Close button is clicked', async () => {
       createView();
       const closeButton = screen.getByRole('button', { name: 'Close' });
-      user.click(closeButton);
+      await user.click(closeButton);
 
       await waitFor(() => {
         expect(onClose).toHaveBeenCalled();
@@ -90,13 +90,13 @@ describe('session dialogue', () => {
       createView();
       expect(screen.getByText('Save Session')).toBeInTheDocument();
       const saveButton = screen.getByRole('button', { name: 'Save' });
-      user.click(saveButton);
+      await user.click(saveButton);
 
       await waitFor(() => {
         expect(onClose).toHaveBeenCalled();
       });
-      expect(refetchSessionsList).toHaveBeenCalled();
       expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
+      expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
     });
   });
 
@@ -119,8 +119,8 @@ describe('session dialogue', () => {
         onChangeSessionSummary: onChangeSessionSummary,
         requestType: 'edit',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
-        refetchSessionsList: refetchSessionsList,
         sessionData: sessionData,
+        onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
 
       user = userEvent; // Assigning userEvent to 'user'
@@ -152,12 +152,11 @@ describe('session dialogue', () => {
     it('calls handleExportSession when Save button is clicked with a valid session name', async () => {
       createView();
       const saveButton = screen.getByRole('button', { name: 'Save' });
-      user.click(saveButton);
+      await user.click(saveButton);
 
       await waitFor(() => {
         expect(onClose).toHaveBeenCalled();
       });
-      expect(refetchSessionsList).toHaveBeenCalled();
     });
   });
 });

@@ -11,17 +11,23 @@ const verifyColumnOrder = (columns: string[]): void => {
 
 describe('Table Component', () => {
   beforeEach(() => {
-    cy.visit('/');
-  });
-
-  it('initialises with a time column', () => {
-    cy.get('[aria-describedby="table-loading-indicator"]').should(
-      'have.attr',
-      'aria-busy',
-      'false'
-    );
-
-    verifyColumnOrder(['Time']);
+    cy.visit('/', {
+      // need these to ensure Date picker media queries pass
+      // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+      onBeforeLoad: (win) => {
+        cy.stub(win, 'matchMedia')
+          .withArgs('(pointer: fine)')
+          .returns({
+            matches: true,
+            addListener: () => {
+              // no-op
+            },
+            removeListener: () => {
+              // no-op
+            },
+          });
+      },
+    });
   });
 
   it('adds columns in the order they are selected', () => {
@@ -30,6 +36,9 @@ describe('Table Component', () => {
       'aria-busy',
       'false'
     );
+
+    // check initialised with time column
+    verifyColumnOrder(['Time']);
 
     addInitialSystemChannels(['Shot Number']);
 
@@ -45,13 +54,13 @@ describe('Table Component', () => {
   });
 
   it('moves a column left', () => {
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
-
-    addInitialSystemChannels(['Shot Number', 'Active Area']);
 
     cy.get(getHandleSelector())
       .first()
@@ -71,13 +80,13 @@ describe('Table Component', () => {
   });
 
   it('moves a column right', () => {
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
-
-    addInitialSystemChannels(['Shot Number', 'Active Area']);
 
     cy.get(getHandleSelector())
       .first()
@@ -176,12 +185,6 @@ describe('Table Component', () => {
   });
 
   it('column headers overflow when word wrap is enabled', () => {
-    cy.get('[aria-describedby="table-loading-indicator"]').should(
-      'have.attr',
-      'aria-busy',
-      'false'
-    );
-
     cy.contains('Data Channels').click();
     const channelName = 'CHANNEL_ABCDE';
 
@@ -192,6 +195,12 @@ describe('Table Component', () => {
     cy.findByRole('checkbox', { name: new RegExp(channelName, 'i') }).check();
 
     cy.contains('Add Channels').click();
+
+    cy.get('[aria-describedby="table-loading-indicator"]').should(
+      'have.attr',
+      'aria-busy',
+      'false'
+    );
 
     cy.get('[data-testid^="sort timestamp"] p')
       .invoke('css', 'height')
@@ -215,81 +224,6 @@ describe('Table Component', () => {
           .then((height) => +height.replace('px', ''))
           .should('be.gt', singleLineHeight);
       });
-  });
-
-  describe.skip('should be able to sort by', () => {
-    it('ascending order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[aria-sort="ascending"]').should('exist');
-      cy.get('.MuiTableSortLabel-iconDirectionAsc').should('be.visible');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
-      });
-    });
-
-    it('descending order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      cy.get('[aria-sort="descending"]').should('exist');
-      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('be.visible');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
-      });
-    });
-
-    it('no order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[aria-sort="ascending"]').should('not.exist');
-      cy.get('[aria-sort="descending"]').should('not.exist');
-      cy.get('.MuiTableSortLabel-iconDirectionAsc').should(
-        'have.css',
-        'opacity',
-        '0'
-      );
-      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('not.exist');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
-      });
-    });
-
-    it('multiple columns', () => {
-      addInitialSystemChannels(['Shot Number']);
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort shotnum"]').click().wait('@getRecords');
-
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').eq(0).contains('2022-01-01 00:00:00');
-            cy.get('td').eq(1).contains('1');
-          });
-      });
-    });
   });
 
   describe('should be able to search by', () => {

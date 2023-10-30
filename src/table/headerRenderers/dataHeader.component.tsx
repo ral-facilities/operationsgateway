@@ -28,7 +28,6 @@ import {
   Order,
   timeChannelName,
 } from '../../app.types';
-import { TableResizerProps } from 'react-table';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
 export interface DataHeaderProps {
@@ -37,10 +36,9 @@ export interface DataHeaderProps {
   sort: { [column: string]: Order };
   sx?: SxProps<Theme>;
   onSort: (column: string, order: Order | null) => void;
-  defaultSort?: Order;
   label?: React.ReactNode;
   icon?: React.ReactNode;
-  resizerProps: TableResizerProps;
+  resizeHandler: (event: unknown) => void;
   onClose: (column: string) => void;
   onToggleWordWrap: (column: string) => void;
   index: number;
@@ -130,9 +128,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     dataKey,
     sort,
     onSort,
-    defaultSort,
     label,
-    resizerProps,
+    resizeHandler,
     onClose,
     index,
     channelInfo,
@@ -145,14 +142,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   // TODO currently, when sort is empty, API returns sort by timestamp ASC
   // Factor this in by detecting this and applying the MUI asc sort icon on timestamp header
   const currSortDirection = sort[dataKey];
-
-  //Apply default sort on page load (but only if not already defined in URL params)
-  //This will apply them in the order of the column definitions given to a table
-  React.useEffect(() => {
-    if (defaultSort !== undefined && currSortDirection === undefined)
-      onSort(dataKey, defaultSort);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   let nextSortDirection: Order | null = null;
   switch (currSortDirection) {
@@ -282,7 +271,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             onToggleWordWrap={onToggleWordWrap}
           />
           <Divider
-            {...resizerProps}
+            onMouseDown={resizeHandler}
+            onTouchStart={resizeHandler}
             // contentEditable makes it so that react-beautiful-dnd won't listen to drag
             // events from this component. Also need to add tabIndex -1 to make it not
             // focusable as it looks like a text editor if focused on!
