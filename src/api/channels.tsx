@@ -14,7 +14,7 @@ import {
   UseQueryResult,
   UseQueryOptions,
 } from '@tanstack/react-query';
-import { Column } from 'react-table';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import {
   roundNumber,
   TraceOrImageThumbnail,
@@ -146,15 +146,17 @@ export const useChannelSummary = (
   );
 };
 
-export const constructColumns = (
+export const constructColumnDefs = (
   channels: FullChannelMetadata[],
   dispatch: AppDispatch
-): Column[] => {
-  const myColumns: Column[] = [];
+): ColumnDef<RecordRow>[] => {
+  const columnHelper = createColumnHelper<RecordRow>();
+  const myColumnDefs: ColumnDef<RecordRow>[] = [];
 
   channels.forEach((channel: FullChannelMetadata) => {
-    const newColumn: Column = {
-      Header: () => {
+    const newColumnDef = columnHelper.accessor(channel.systemName, {
+      id: channel.systemName,
+      header: () => {
         const headerName = channel.name ? channel.name : channel.systemName;
         // Provide an actual header here when we have it
         // TODO: do we need to split on things other than underscore?
@@ -167,57 +169,65 @@ export const constructColumns = (
         );
         return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
       },
-      accessor: channel.systemName,
-      // TODO: get these from data channel info
-      channelInfo: channel,
-    };
-    if (isChannelMetadataScalar(channel)) {
-      newColumn.Cell = ({ value }) =>
-        typeof value === 'number' && typeof channel.precision === 'number' ? (
-          <React.Fragment>
-            {roundNumber(value, channel.precision, channel.notation)}
-          </React.Fragment>
-        ) : (
-          <React.Fragment>{String(value ?? '')}</React.Fragment>
-        );
-    } else if (isChannelMetadataWaveform(channel)) {
-      newColumn.Cell = ({ row, value }) => (
-        <TraceOrImageThumbnail
-          base64Data={value}
-          alt={`${channel.name ?? channel.systemName} ${
-            channel.type
-          } for timestamp ${row.values[timeChannelName]}`}
-          onClick={() =>
-            dispatch(
-              openTraceWindow({
-                recordId: (row.original as RecordRow)['_id'],
-                channelName: channel.systemName,
-              })
-            )
+      meta: { channelInfo: channel },
+      cell: isChannelMetadataScalar(channel)
+        ? ({ getValue }) => {
+            const value = getValue();
+            return typeof value === 'number' &&
+              typeof channel.precision === 'number' ? (
+              <React.Fragment>
+                {roundNumber(value, channel.precision, channel.notation)}
+              </React.Fragment>
+            ) : (
+              <React.Fragment>{String(value ?? '')}</React.Fragment>
+            );
           }
-        />
-      );
-    } else if (isChannelMetadataImage(channel)) {
-      newColumn.Cell = ({ row, value }) => (
-        <TraceOrImageThumbnail
-          base64Data={value}
-          alt={`${channel.name ?? channel.systemName} ${
-            channel.type
-          } for timestamp ${row.values[timeChannelName]}`}
-          onClick={() =>
-            dispatch(
-              openImageWindow({
-                recordId: (row.original as RecordRow)['_id'],
-                channelName: channel.systemName,
-              })
-            )
+        : isChannelMetadataWaveform(channel)
+        ? ({ row, getValue }) => {
+            const value = getValue<string>();
+            return (
+              <TraceOrImageThumbnail
+                base64Data={value}
+                alt={`${channel.name ?? channel.systemName} ${
+                  channel.type
+                } for timestamp ${row.getValue(timeChannelName)}`}
+                onClick={() =>
+                  dispatch(
+                    openTraceWindow({
+                      recordId: (row.original as RecordRow)['_id'],
+                      channelName: channel.systemName,
+                    })
+                  )
+                }
+              />
+            );
           }
-        />
-      );
-    }
-    myColumns.push(newColumn);
+        : isChannelMetadataImage(channel)
+        ? ({ row, getValue }) => {
+            const value = getValue<string>();
+            return (
+              <TraceOrImageThumbnail
+                base64Data={value}
+                alt={`${channel.name ?? channel.systemName} ${
+                  channel.type
+                } for timestamp ${row.getValue(timeChannelName)}`}
+                onClick={() =>
+                  dispatch(
+                    openImageWindow({
+                      recordId: (row.original as RecordRow)['_id'],
+                      channelName: channel.systemName,
+                    })
+                  )
+                }
+              />
+            );
+          }
+        : undefined,
+    });
+
+    myColumnDefs.push(newColumnDef);
   });
-  return myColumns;
+  return myColumnDefs;
 };
 
 export const getScalarChannels = (
@@ -239,10 +249,13 @@ export const useScalarChannels = (): UseQueryResult<
   return useChannels(useScalarChannelsOptions);
 };
 
-export const useAvailableColumns = (): UseQueryResult<Column[], AxiosError> => {
+export const useAvailableColumns = (): UseQueryResult<
+  ColumnDef<RecordRow>[],
+  AxiosError
+> => {
   const dispatch = useAppDispatch();
   const selectFn = React.useCallback(
-    (data: FullChannelMetadata[]) => constructColumns(data, dispatch),
+    (data: FullChannelMetadata[]) => constructColumnDefs(data, dispatch),
     [dispatch]
   );
   return useChannels({ select: selectFn });

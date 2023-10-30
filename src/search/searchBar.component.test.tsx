@@ -671,7 +671,7 @@ describe('searchBar component', () => {
 
     beforeEach(() => {
       // Mock the Date constructor to allow for accurate comparison between expected and actual dates
-      const testDate = new Date('2022-01-11 12:00');
+      const testDate = new Date('2022-01-11 00:05');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
@@ -696,8 +696,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
       );
-      const expectedToDate = new Date('2022-01-11 12:00:59');
-      const expectedFromDate = new Date('2022-01-11 11:50:00');
+      const expectedToDate = new Date('2022-01-11 00:05:59');
+      const expectedFromDate = new Date('2022-01-10 23:55:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -725,8 +725,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
       );
-      const expectedToDate = new Date('2022-01-11 12:00:59');
-      const expectedFromDate = new Date('2022-01-10 12:00:00');
+      const expectedToDate = new Date('2022-01-11 00:05:59');
+      const expectedFromDate = new Date('2022-01-10 00:05:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -754,8 +754,8 @@ describe('searchBar component', () => {
       await user.click(
         within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
       );
-      const expectedToDate = new Date('2022-01-11 12:00:59');
-      const expectedFromDate = new Date('2022-01-04 12:00:00');
+      const expectedToDate = new Date('2022-01-11 00:05:59');
+      const expectedFromDate = new Date('2022-01-04 00:05:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -837,8 +837,8 @@ describe('searchBar component', () => {
           name: 'Last 10 mins',
         })
       );
-      const expectedToDate = new Date('2022-01-11 12:00:59');
-      const expectedFromDate = new Date('2022-01-11 11:50:00');
+      const expectedToDate = new Date('2022-01-11 00:05:59');
+      const expectedFromDate = new Date('2022-01-10 23:55:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
@@ -854,7 +854,7 @@ describe('searchBar component', () => {
 
       // Mock a new date constructor to simulate time moving forward a minute
 
-      const testDate = new Date('2022-01-11 12:01');
+      const testDate = new Date('2022-01-11 00:06');
       realDate = Date;
       global.Date = class extends Date {
         constructor(date) {
@@ -866,8 +866,8 @@ describe('searchBar component', () => {
       };
 
       await user.click(screen.getByRole('button', { name: 'Refresh data' }));
-      const newExpectedToDate = new Date('2022-01-11 12:01:59');
-      const newExpectedFromDate = new Date('2022-01-11 11:51:00');
+      const newExpectedToDate = new Date('2022-01-11 00:06:59');
+      const newExpectedFromDate = new Date('2022-01-10 23:56:00');
 
       const newActualFromDate =
         store.getState().search.searchParams.dateRange.fromDate;

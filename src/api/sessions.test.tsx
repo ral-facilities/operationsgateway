@@ -16,7 +16,7 @@ describe('session api functions', () => {
     mockData = {
       name: 'test',
       summary: 'test',
-      session_data: {},
+      session: {},
       auto_saved: false,
       _id: '1',
     };
@@ -117,6 +117,16 @@ describe('session api functions', () => {
       });
       const expected: SessionListItem[] = sessionsListJSON;
       expect(result.current.data).toEqual(expected[0]);
+    });
+
+    it('does not send request to fetch session when session is undefined', async () => {
+      const { result } = renderHook(() => useSession(undefined), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      expect(result.current.data).toEqual(undefined);
+      expect(result.current.isLoading).toBe(true);
+      expect(result.current.fetchStatus).toBe('idle');
     });
 
     it.todo(

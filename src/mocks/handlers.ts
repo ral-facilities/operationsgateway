@@ -124,9 +124,8 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(recordsJson.length));
   }),
   rest.get('/records/range_converter', (req, res, ctx) => {
-    const searchParams = new URLSearchParams(req.url.search);
-    const shotnumRange = searchParams.get('shotnum_range');
-    const dateRange = searchParams.get('date_range');
+    const shotnumRange = req.url.searchParams.get('shotnum_range');
+    const dateRange = req.url.searchParams.get('date_range');
 
     if (shotnumRange) {
       const { min, max } = JSON.parse(decodeURIComponent(shotnumRange));
