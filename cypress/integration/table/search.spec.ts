@@ -42,19 +42,19 @@ describe('Search', () => {
       cy.visit('/', {
         // need these to ensure Date picker media queries pass
         // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
-        onBeforeLoad: (win) => {
-          cy.stub(win, 'matchMedia')
-            .withArgs('(pointer: fine)')
-            .returns({
-              matches: true,
-              addListener: () => {
-                // no-op
-              },
-              removeListener: () => {
-                // no-op
-              },
-            });
-        },
+        // onBeforeLoad: (win) => {
+        //   cy.stub(win, 'matchMedia')
+        //     .withArgs('(pointer: fine)')
+        //     .returns({
+        //       matches: true,
+        //       addListener: () => {
+        //         // no-op
+        //       },
+        //       removeListener: () => {
+        //         // no-op
+        //       },
+        //     });
+        // },
       }).wait(['@getSettings']);
 
       cy.findByRole('progressbar').should('be.visible');
@@ -657,8 +657,8 @@ describe('Search', () => {
 
       // From Date is above the To Date
 
-      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
-      cy.findByLabelText('to, date-time input').type('2021-01-01 00:00');
+      cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
+      cy.findByLabelText('to, date-time input').type('2021-01-01_00:00');
 
       cy.findByLabelText('date-time search box').should(
         'have.css',
@@ -675,7 +675,7 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('to, date-time input').clear();
 
-      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
 
       cy.findByLabelText('date-time search box').should(
         'have.css',
@@ -692,7 +692,7 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('to, date-time input').clear();
 
-      cy.findByLabelText('to, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-01_00:00');
 
       cy.findByLabelText('date-time search box').should(
         'have.css',
@@ -864,8 +864,8 @@ describe('Search', () => {
     });
 
     it('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', () => {
-      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
-      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
+      cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02_00:00');
 
       const expectedToDate = new Date('2022-01-02 00:00:59');
       const expectedFromDate = new Date('2022-01-01 00:00:00');
@@ -935,7 +935,6 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time picker').click();
       cy.findByRole('dialog').contains(13).click();
       cy.findByLabelText('from, date-time picker').click();
-
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
         .should('exist');
@@ -943,7 +942,6 @@ describe('Search', () => {
       cy.findByLabelText('to, date-time picker').click();
       cy.findByRole('dialog').contains(14).click();
       cy.findByLabelText('to, date-time picker').click();
-
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
         .should('exist');
@@ -1129,8 +1127,8 @@ describe('Search', () => {
     });
 
     it('displays appropriate tooltips', () => {
-      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
-      cy.findByLabelText('to, date-time input').type('2023-01-01 00:00');
+      cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
+      cy.findByLabelText('to, date-time input').type('2023-01-01_00:00');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -1201,8 +1199,10 @@ describe('Search', () => {
         );
       });
 
-      cy.findByLabelText('from, date-time input').clear();
-      cy.findByLabelText('from, date-time input').type('2022-01-11 00:00');
+      // .clear doesn't work for some reason with datepickers in v6
+      // cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
+      cy.findByLabelText('from, date-time input').type('2022-01-11_00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -1213,8 +1213,10 @@ describe('Search', () => {
 
       cy.clearMocks();
 
-      cy.findByLabelText('from, date-time input').clear();
-      cy.findByLabelText('from, date-time input').type('2022-01-02 00:00');
+      // .clear doesn't work for some reason with datepickers in v6
+      // cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
+      cy.findByLabelText('from, date-time input').type('2022-01-02_00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -1267,8 +1269,10 @@ describe('Search', () => {
         expect(gte).equal('2022-01-02T00:00:00');
       });
 
-      cy.findByLabelText('from, date-time input').clear();
-      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      // .clear doesn't work for some reason with datepickers in v6
+      // cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
+      cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
 
       cy.contains('Search').click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
