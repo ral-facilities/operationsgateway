@@ -40,6 +40,8 @@ describe('Search', () => {
       }).as('getSettings');
 
       cy.visit('/', {
+        // For some reason this doesn't work with date pickers v6
+        // Commenting out for now
         // need these to ensure Date picker media queries pass
         // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
         // onBeforeLoad: (win) => {
@@ -1199,7 +1201,7 @@ describe('Search', () => {
         );
       });
 
-      // .clear doesn't work for some reason with datepickers in v6
+      // .clear doesn't work with datepickers in v6
       // cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-11_00:00');
@@ -1213,7 +1215,7 @@ describe('Search', () => {
 
       cy.clearMocks();
 
-      // .clear doesn't work for some reason with datepickers in v6
+      // .clear doesn't work with datepickers in v6
       // cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-02_00:00');
@@ -1269,7 +1271,7 @@ describe('Search', () => {
         expect(gte).equal('2022-01-02T00:00:00');
       });
 
-      // .clear doesn't work for some reason with datepickers in v6
+      // .clear doesn't work with datepickers in v6
       // cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');

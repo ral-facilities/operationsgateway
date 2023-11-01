@@ -62,7 +62,7 @@ describe('searchBar component', () => {
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
 
-    // .clear doesn't work for some reason with datepickers in v6
+    // .clear doesn't work with datepickers in v6
     await user.click(dateFilterFromDate);
     await user.keyboard('{Control>}a{/Control}');
     await user.keyboard('{Delete}');
@@ -358,7 +358,7 @@ describe('searchBar component', () => {
 
     // only the From date is defined
 
-    // .clear doesn't work for some reason with datepickers in v6
+    // .clear doesn't work with datepickers in v6
     await user.click(dateFilterFromDate);
     await user.keyboard('{Control>}a{/Control}');
     await user.keyboard('{Delete}');
@@ -569,7 +569,7 @@ describe('searchBar component', () => {
       })
     );
 
-    // .clear doesn't work for some reason with datepickers in v6
+    // .clear doesn't work with datepickers in v6
     await user.click(dateFilterFromDate);
     await user.keyboard('{Control>}a{/Control}');
     await user.keyboard('{Delete}');
