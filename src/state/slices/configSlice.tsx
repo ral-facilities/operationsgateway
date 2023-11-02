@@ -11,18 +11,20 @@ interface URLs {
 // Define a type for the slice state
 interface ConfigState {
   urls: URLs;
+  recordLimitWarning: number;
   pluginHost: string;
   settingsLoaded: boolean;
 }
 
 // Define the initial state using that type
-export const initialState = {
+export const initialState: ConfigState = {
   urls: {
     apiUrl: '',
   },
+  recordLimitWarning: -1,
   pluginHost: '',
   settingsLoaded: false,
-} as ConfigState;
+};
 
 export const configSlice = createSlice({
   name: 'config',
@@ -39,13 +41,22 @@ export const configSlice = createSlice({
     loadUrls: (state, action: PayloadAction<URLs>) => {
       state.urls = action.payload;
     },
+    loadRecordLimitWarningSetting: (state, action: PayloadAction<number>) => {
+      state.recordLimitWarning = action.payload;
+    },
   },
 });
 
-export const { settingsLoaded, loadPluginHostSetting, loadUrls } =
-  configSlice.actions;
+export const {
+  settingsLoaded,
+  loadPluginHostSetting,
+  loadUrls,
+  loadRecordLimitWarningSetting,
+} = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
+export const selectRecordLimitWarning = (state: RootState) =>
+  state.config.recordLimitWarning;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -57,7 +68,13 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       })
     );
 
-    if (settingsResult?.['pluginHost'] !== undefined) {
+    if (settingsResult['recordLimitWarning'] !== undefined) {
+      dispatch(
+        loadRecordLimitWarningSetting(settingsResult['recordLimitWarning'])
+      );
+    }
+
+    if (settingsResult['pluginHost'] !== undefined) {
       dispatch(loadPluginHostSetting(settingsResult['pluginHost']));
     }
 

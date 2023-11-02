@@ -1,0 +1,14 @@
+{
+  "Cyclic": ["hsv", "hsv_r", "twilight", "twilight_r"],
+  "Diverging": ["BrBG", "BrBG_r", "bwr", "bwr_r"],
+  "Miscellaneous": ["brg", "brg_r", "CMRmap", "CMRmap_r"],
+  "Perceptually Uniform Sequential": [
+    "cividis",
+    "cividis_r",
+    "inferno",
+    "inferno_r"
+  ],
+  "Qualitative": ["Accent", "Accent_r", "Dark2", "Dark2_r"],
+  "Sequential": ["Blues", "Blues_r", "BuGn", "BuGn_r"],
+  "Sequential (2)": ["afmhot", "autumn", "autumn_r"]
+}

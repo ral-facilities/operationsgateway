@@ -1,0 +1,13 @@
+FROM mcr.microsoft.com/playwright:v1.36.1-jammy
+
+# enable yarn
+RUN corepack enable
+RUN corepack prepare yarn@stable --activate
+
+WORKDIR /app
+COPY . .
+
+RUN yarn
+RUN yarn playwright install --with-deps
+
+ENTRYPOINT ["yarn", "playwright", "test"]

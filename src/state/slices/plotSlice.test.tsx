@@ -4,41 +4,52 @@ import PlotReducer, {
   closePlot,
   savePlot,
   PlotConfig,
-  DEFAULT_WINDOW_VARS,
 } from './plotSlice';
 import { testPlotConfigs } from '../../setupTests';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
+import { DEFAULT_WINDOW_VARS } from '../../app.types';
 
 describe('plotSlice', () => {
   describe('Reducer', () => {
     let state: typeof initialState;
+    let uuidCount = 0;
 
     beforeEach(() => {
       state = initialState;
+
+      jest
+        .spyOn(global.crypto, 'randomUUID')
+        .mockImplementation(() => `${++uuidCount}`);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
     it('createPlot handles assigning an untitled name correctly & creates a plot with the default options', () => {
       state = {
-        'Untitled 1': { ...testPlotConfigs[0], title: 'Untitled 1' },
-        'Custom plot name': {
+        [testPlotConfigs[0].id]: { ...testPlotConfigs[0], title: 'Untitled 1' },
+        [testPlotConfigs[1].id]: {
           ...testPlotConfigs[1],
           title: 'Custom plot name',
         },
-        'Untitled 3': { ...testPlotConfigs[2], title: 'Untitled 3' },
+        [testPlotConfigs[2].id]: { ...testPlotConfigs[2], title: 'Untitled 3' },
       };
       state = PlotReducer(state, createPlot());
       expect(state).toEqual({
-        'Untitled 1': { ...testPlotConfigs[0], title: 'Untitled 1' },
-        'Custom plot name': {
+        [testPlotConfigs[0].id]: { ...testPlotConfigs[0], title: 'Untitled 1' },
+        [testPlotConfigs[1].id]: {
           ...testPlotConfigs[1],
           title: 'Custom plot name',
         },
-        'Untitled 3': { ...testPlotConfigs[2], title: 'Untitled 3' },
-        'Untitled 2': {
+        [testPlotConfigs[2].id]: { ...testPlotConfigs[2], title: 'Untitled 3' },
+        [uuidCount]: {
+          id: `${uuidCount}`,
           open: true,
           title: 'Untitled 2',
           plotType: 'scatter',
-          XAxisScale: 'linear',
+          XAxis: 'timestamp',
+          XAxisScale: 'time',
           selectedPlotChannels: [],
           leftYAxisScale: 'linear',
           rightYAxisScale: 'linear',
@@ -47,45 +58,47 @@ describe('plotSlice', () => {
           selectedColours: [],
           remainingColours: COLOUR_ORDER.map((colour) => colour),
           ...DEFAULT_WINDOW_VARS,
-        } as PlotConfig,
+        } satisfies PlotConfig,
       });
     });
 
     it('closePlot sets the open property to false', () => {
       state = {
-        [testPlotConfigs[0].title]: testPlotConfigs[0],
+        [testPlotConfigs[0].id]: testPlotConfigs[0],
       };
-      state = PlotReducer(state, closePlot(testPlotConfigs[0].title));
+      state = PlotReducer(state, closePlot(testPlotConfigs[0].id));
       expect(state).toEqual({
-        [testPlotConfigs[0].title]: { ...testPlotConfigs[0], open: false },
+        [testPlotConfigs[0].id]: { ...testPlotConfigs[0], open: false },
       });
     });
 
     it('savePlot sets the config for a specified plot', () => {
       const copiedConfig = { ...testPlotConfigs[0] };
       state = {
-        [testPlotConfigs[0].title]: testPlotConfigs[0],
+        [testPlotConfigs[0].id]: testPlotConfigs[0],
       };
       state = PlotReducer(
         state,
         savePlot({ ...copiedConfig, plotType: 'line' })
       );
       expect(state).toEqual({
-        [testPlotConfigs[0].title]: { ...copiedConfig, plotType: 'line' },
+        [testPlotConfigs[0].id]: { ...copiedConfig, plotType: 'line' },
       });
     });
 
-    it('savePlot sets a new plot config for a renamed plot', () => {
+    it('savePlot updates existing config for a renamed plot', () => {
       state = {
-        [testPlotConfigs[0].title]: testPlotConfigs[0],
+        [testPlotConfigs[0].id]: testPlotConfigs[0],
       };
       state = PlotReducer(
         state,
         savePlot({ ...testPlotConfigs[0], title: 'My named plot' })
       );
       expect(state).toEqual({
-        [testPlotConfigs[0].title]: testPlotConfigs[0],
-        'My named plot': { ...testPlotConfigs[0], title: 'My named plot' },
+        [testPlotConfigs[0].id]: {
+          ...testPlotConfigs[0],
+          title: 'My named plot',
+        },
       });
     });
 

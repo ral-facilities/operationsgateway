@@ -21,8 +21,13 @@ import {
   FilterAlt,
 } from '@mui/icons-material';
 import React from 'react';
-import { FullChannelMetadata, Order } from '../../app.types';
-import { TableResizerProps } from 'react-table';
+import {
+  FullChannelMetadata,
+  isChannelMetadataScalar,
+  isChannelMetadataWaveform,
+  Order,
+  timeChannelName,
+} from '../../app.types';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
 export interface DataHeaderProps {
@@ -31,10 +36,9 @@ export interface DataHeaderProps {
   sort: { [column: string]: Order };
   sx?: SxProps<Theme>;
   onSort: (column: string, order: Order | null) => void;
-  defaultSort?: Order;
   label?: React.ReactNode;
   icon?: React.ReactNode;
-  resizerProps: TableResizerProps;
+  resizeHandler: (event: unknown) => void;
   onClose: (column: string) => void;
   onToggleWordWrap: (column: string) => void;
   index: number;
@@ -98,7 +102,7 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
           </ListItemIcon>
           <ListItemText>Turn word wrap {wordWrap ? 'off' : 'on'}</ListItemText>
         </MenuItem>
-        {dataKey.toUpperCase() !== 'TIMESTAMP' && (
+        {dataKey !== timeChannelName && (
           <MenuItem
             onClick={() => {
               onClose(dataKey);
@@ -124,9 +128,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     dataKey,
     sort,
     onSort,
-    defaultSort,
     label,
-    resizerProps,
+    resizeHandler,
     onClose,
     index,
     channelInfo,
@@ -139,14 +142,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   // TODO currently, when sort is empty, API returns sort by timestamp ASC
   // Factor this in by detecting this and applying the MUI asc sort icon on timestamp header
   const currSortDirection = sort[dataKey];
-
-  //Apply default sort on page load (but only if not already defined in URL params)
-  //This will apply them in the order of the column definitions given to a table
-  React.useEffect(() => {
-    if (defaultSort !== undefined && currSortDirection === undefined)
-      onSort(dataKey, defaultSort);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   let nextSortDirection: Order | null = null;
   switch (currSortDirection) {
@@ -203,7 +198,6 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
         sortDirection={currSortDirection}
       >
         <Box
-          aria-label={`${dataKey} header`}
           display="flex"
           sx={{
             // overflow: 'hidden',
@@ -212,7 +206,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
-            if (dataKey.toUpperCase() !== 'TIMESTAMP' && event.button === 1) {
+            if (dataKey !== timeChannelName && event.button === 1) {
               event.preventDefault();
               onClose(dataKey);
             }
@@ -224,13 +218,21 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             enterNextDelay={400}
             title={
               <div>
-                {channelInfo?.userFriendlyName && (
+                {channelInfo?.name && (
                   <Typography>
                     System Name: {channelInfo.systemName}{' '}
                   </Typography>
                 )}
                 <Typography>Description: {channelInfo?.description}</Typography>
-                <Typography>Units: {channelInfo?.units}</Typography>
+                {channelInfo && isChannelMetadataScalar(channelInfo) && (
+                  <Typography>Units: {channelInfo?.units}</Typography>
+                )}
+                {channelInfo && isChannelMetadataWaveform(channelInfo) && (
+                  <>
+                    <Typography>X Units: {channelInfo?.x_units}</Typography>
+                    <Typography>Y Units: {channelInfo?.y_units}</Typography>
+                  </>
+                )}
               </div>
             }
           >
@@ -269,7 +271,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             onToggleWordWrap={onToggleWordWrap}
           />
           <Divider
-            {...resizerProps}
+            onMouseDown={resizeHandler}
+            onTouchStart={resizeHandler}
             // contentEditable makes it so that react-beautiful-dnd won't listen to drag
             // events from this component. Also need to add tabIndex -1 to make it not
             // focusable as it looks like a text editor if focused on!
@@ -289,7 +292,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
   };
 
   // Timestamp column must not be reordered
-  return dataKey.toUpperCase() !== 'TIMESTAMP' ? (
+  return dataKey !== timeChannelName ? (
     <Draggable draggableId={dataKey} index={index}>
       {(provided) => <TableCellContent provided={provided} />}
     </Draggable>

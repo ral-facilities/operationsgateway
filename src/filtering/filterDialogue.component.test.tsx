@@ -3,32 +3,35 @@ import React from 'react';
 import FilterDialogue from './filterDialogue.component';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  getInitialState,
-  renderComponentWithProviders,
-  testRecords,
-} from '../setupTests';
+import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
-import axios from 'axios';
+import { QueryClient } from '@tanstack/react-query';
+import { server } from '../mocks/server';
+import { rest } from 'msw';
+import recordsJson from '../mocks/records.json';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
+  let user;
 
-  const createView = (initialState?: PreloadedState<RootState>) => {
+  const createView = (
+    initialState?: PreloadedState<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(<FilterDialogue {...props} />, {
       preloadedState: initialState,
+      queryClient,
     });
   };
 
   beforeEach(() => {
+    user = userEvent.setup();
     props = {
       open: true,
       onClose: jest.fn(),
     };
-
-    (axios.get as jest.Mock).mockResolvedValue({ data: testRecords });
   });
 
   afterEach(() => {
@@ -54,7 +57,6 @@ describe('Filter dialogue component', () => {
   });
 
   it('calls onClose when close button is clicked', async () => {
-    const user = userEvent.setup();
     createView();
 
     await user.click(screen.getByText('Close'));
@@ -78,7 +80,6 @@ describe('Filter dialogue component', () => {
         ] as Token[][],
       },
     };
-    const user = userEvent.setup();
 
     const { store } = createView(state);
 
@@ -112,7 +113,6 @@ describe('Filter dialogue component', () => {
         ] as Token[][],
       },
     };
-    const user = userEvent.setup();
 
     createView(state);
 
@@ -124,19 +124,21 @@ describe('Filter dialogue component', () => {
   });
 
   it('adds new filter when Add new filter button is clicked and renders multiple filters, and updates store with multiple filters when applied', async () => {
-    const user = userEvent.setup();
-
     const { store } = createView();
 
     await user.click(screen.getByText('Add new filter'));
 
-    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+    const filters = screen.getAllByRole('combobox', { name: 'Filter' });
+    expect(filters).toHaveLength(2);
 
-    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
-    const filter2 = screen.getAllByRole('combobox', { name: 'Filter' })[1];
+    const [filter1, filter2] = filters;
 
-    await user.type(filter1, 'Active exp{enter}is not null{enter}');
-    await user.type(filter2, 'shot{enter}is null{enter}');
+    await user.type(filter1, 'Act{enter}is{enter}', {
+      delay: null,
+    });
+    await user.type(filter2, 'sh{enter}={enter}1{enter}', {
+      delay: null,
+    });
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -146,17 +148,18 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeExperiment',
-          label: 'Active Experiment',
+          value: 'activeArea',
+          label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],
       [
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
-        operators.find((t) => t.value === 'is null')!,
+        operators.find((t) => t.value === '=')!,
+        { type: 'number', value: '1', label: '1' },
       ],
     ]);
-  }, 10000);
+  });
 
   it('deletes a filter when delete button is clicked', async () => {
     const state = {
@@ -175,7 +178,6 @@ describe('Filter dialogue component', () => {
         ] as Token[][],
       },
     };
-    const user = userEvent.setup();
 
     const { store } = createView(state);
 
@@ -210,8 +212,6 @@ describe('Filter dialogue component', () => {
       },
     };
 
-    const user = userEvent.setup();
-
     const { store } = createView(state);
 
     await user.click(screen.getByText('Add new filter'));
@@ -239,13 +239,208 @@ describe('Filter dialogue component', () => {
   });
 
   it("doesn't pass timestamp as a filterable channel", async () => {
-    const user = userEvent.setup();
-
     createView();
 
     const filter = screen.getByRole('combobox', { name: 'Filter' });
     await user.type(filter, 'time');
     // i.e. there's no suggestions in the autocomplete
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
+  it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
+      })
+    );
+
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 30, // lower than the returned count of 31
+      },
+    };
+    const { store } = createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should be present
+    await user.hover(screen.getByText('Apply'));
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+
+    // // Store should not be updated, indicating search is yet to initiate
+    expect(store.getState().filter.appliedFilters).toStrictEqual([[]]);
+
+    // Try search again
+    await user.click(screen.getByText('Apply'));
+
+    // Store should now be updated, indicating search initiated on second attempt
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        {
+          type: 'channel',
+          value: 'activeArea',
+          label: 'Active Area',
+        },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+    ]);
+  });
+
+  it('displays a warning tooltip if previous filter did not need one but the current one does', async () => {
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 30, // lower than the returned count of 31
+      },
+    };
+    createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByText('Apply'));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
+      })
+    );
+
+    await user.type(filter1, '{backspace}={enter}1{enter}');
+    await user.tab();
+
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should be present
+    await user.hover(screen.getByText('Apply'));
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+  });
+
+  it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(100));
+      })
+    );
+
+    const state = {
+      ...getInitialState(),
+      search: {
+        ...getInitialState().search,
+        maxShots: 50,
+      },
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 75, // lower than the returned count of 100
+      },
+    };
+    createView(state);
+
+    await user.click(screen.getByText('Add new filter'));
+
+    expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
+
+    const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Apply' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  });
+
+  it('does not show a warning tooltip for previous searches that already showed it', async () => {
+    // Mock the returned count query response
+    server.use(
+      rest.get('/records/count', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(31));
+      })
+    );
+
+    const testQueryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+          staleTime: 300000,
+        },
+      },
+    });
+    testQueryClient.setQueryData(
+      [
+        'records',
+        {
+          searchParams: {
+            dateRange: {},
+            maxShots: 50,
+            shotnumRange: {},
+            experimentID: null,
+          },
+          filters: ['{"metadata.activeArea":{"$ne":null}}'],
+        },
+      ],
+      () => {
+        return { data: [recordsJson[0], recordsJson[1]] };
+      }
+    );
+
+    const state = {
+      ...getInitialState(),
+      config: {
+        ...getInitialState().config,
+        recordLimitWarning: 30, // lower than the returned count of 31
+      },
+    };
+    const { store } = createView(state, testQueryClient);
+
+    const filter = screen.getByRole('combobox', { name: 'Filter' });
+    await user.type(filter, 'Act{enter}is{enter}');
+    await user.tab();
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    // Tooltip warning should not be present
+    await user.hover(screen.getByRole('button', { name: 'Apply' }));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+    // Store should now be updated, indicating search initiated on second attempt
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        {
+          type: 'channel',
+          value: 'activeArea',
+          label: 'Active Area',
+        },
+        operators.find((t) => t.value === 'is not null')!,
+      ],
+    ]);
   });
 });

@@ -2,6 +2,7 @@ import { PluginRoute } from './state/scigateway.actions';
 
 export interface OperationsGatewaySettings {
   apiUrl: string;
+  recordLimitWarning: number;
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;

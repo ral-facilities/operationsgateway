@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Open Windows component renders windows for each open window 1`] = `
+<DocumentFragment>
+  <mock-plotwindow
+    data-testid="mock-plotWindow"
+  >
+    plotConfig={
+  "id": "test-plot-id-0",
+  "open": true,
+  "title": "Plot 0",
+  "plotType": "scatter",
+  "XAxis": "timestamp",
+  "XAxisScale": "time",
+  "selectedPlotChannels": [],
+  "leftYAxisScale": "linear",
+  "rightYAxisScale": "logarithmic",
+  "gridVisible": true,
+  "axesLabelsVisible": false,
+  "selectedColours": [],
+  "remainingColours": [
+    "#008000",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#008080",
+    "#800000",
+    "#00ff00",
+    "#000080",
+    "#7f8000",
+    "#80007f"
+  ],
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-plotwindow>
+  <mock-plotwindow
+    data-testid="mock-plotWindow"
+  >
+    plotConfig={
+  "id": "test-plot-id-2",
+  "open": true,
+  "title": "Plot 2",
+  "plotType": "scatter",
+  "XAxisScale": "logarithmic",
+  "selectedPlotChannels": [],
+  "leftYAxisScale": "linear",
+  "rightYAxisScale": "logarithmic",
+  "gridVisible": true,
+  "axesLabelsVisible": false,
+  "selectedColours": [],
+  "remainingColours": [
+    "#008000",
+    "#0000ff",
+    "#ff00ff",
+    "#00ffff",
+    "#008080",
+    "#800000",
+    "#00ff00",
+    "#000080",
+    "#7f8000",
+    "#80007f"
+  ],
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-plotwindow>
+  <mock-tracewindow
+    data-testid="mock-traceWindow"
+  >
+    traceConfig={
+  "id": "trace_window",
+  "open": true,
+  "type": "trace",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Trace TEST 1",
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-tracewindow>
+  <mock-imagewindow
+    data-testid="mock-imageWindow"
+  >
+    imageConfig={
+  "id": "image_window",
+  "open": true,
+  "type": "image",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Image TEST 1",
+  "outerWidth": 600,
+  "outerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+
+  </mock-imagewindow>
+</DocumentFragment>
+`;

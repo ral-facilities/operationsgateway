@@ -21,6 +21,7 @@ export interface PlotProps {
   leftYAxisScale: YAxisScale;
   rightYAxisScale: YAxisScale;
   XAxis?: string;
+  XAxisDisplayName?: string;
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -30,6 +31,8 @@ export interface PlotProps {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   viewReset: boolean;
 }
 
@@ -43,6 +46,7 @@ const Plot = (props: PlotProps) => {
     leftYAxisScale,
     rightYAxisScale,
     XAxis,
+    XAxisDisplayName,
     canvasRef,
     gridVisible,
     axesLabelsVisible,
@@ -52,6 +56,8 @@ const Plot = (props: PlotProps) => {
     leftYAxisMaximum,
     rightYAxisMinimum,
     rightYAxisMaximum,
+    leftYAxisLabel,
+    rightYAxisLabel,
     viewReset,
   } = props;
 
@@ -78,13 +84,29 @@ const Plot = (props: PlotProps) => {
               enabled: true,
             },
             drag: {
-              enabled: false,
+              enabled: true,
+              threshold: 15,
             },
             mode: 'xy',
           },
           pan: {
             enabled: true,
             mode: 'xy',
+            modifierKey: 'shift',
+          },
+          limits: {
+            x: {
+              min: xMinimum ?? 'original',
+              max: xMaximum ?? 'original',
+            },
+            y: {
+              min: leftYAxisMinimum ?? 'original',
+              max: leftYAxisMaximum ?? 'original',
+            },
+            y2: {
+              min: rightYAxisMinimum ?? 'original',
+              max: rightYAxisMaximum ?? 'original',
+            },
           },
         },
       },
@@ -107,7 +129,7 @@ const Plot = (props: PlotProps) => {
           },
           title: {
             display: axesLabelsVisible,
-            text: XAxis,
+            text: XAxisDisplayName ?? XAxis,
           },
           grid: {
             display: gridVisible,
@@ -124,6 +146,10 @@ const Plot = (props: PlotProps) => {
           },
           min: leftYAxisMinimum,
           max: leftYAxisMaximum,
+          title: {
+            display: Boolean(leftYAxisLabel),
+            text: leftYAxisLabel,
+          },
         },
         y2: {
           type: rightYAxisScale,
@@ -136,9 +162,20 @@ const Plot = (props: PlotProps) => {
           },
           min: rightYAxisMinimum,
           max: rightYAxisMaximum,
+          title: {
+            display: Boolean(rightYAxisLabel),
+            text: rightYAxisLabel,
+          },
         },
       },
-    } as ChartOptions<PlotType>)
+      transitions: {
+        zoom: {
+          animation: {
+            duration: 250,
+          },
+        },
+      },
+    } satisfies ChartOptions<PlotType>)
   );
   const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
 
@@ -149,28 +186,56 @@ const Plot = (props: PlotProps) => {
       options?.plugins?.title && (options.plugins.title.text = title);
       options?.scales?.x && (options.scales.x.min = xMinimum);
       options?.scales?.x && (options.scales.x.max = xMaximum);
+      options?.plugins?.zoom?.limits?.x &&
+        (options.plugins.zoom.limits.x = {
+          min: xMinimum ?? 'original',
+          max: xMaximum ?? 'original',
+        });
       options?.scales?.x && (options.scales.x.type = XAxisScale);
       options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
       options?.scales?.x?.title &&
         (options.scales.x.title.display = axesLabelsVisible);
-      options?.scales?.x?.title && (options.scales.x.title.text = XAxis);
+      options?.scales?.x?.title &&
+        (options.scales.x.title.text = XAxisDisplayName ?? XAxis);
       options?.scales?.y && (options.scales.y.min = leftYAxisMinimum);
       options?.scales?.y && (options.scales.y.max = leftYAxisMaximum);
+      options?.plugins?.zoom?.limits?.y &&
+        (options.plugins.zoom.limits.y = {
+          min: leftYAxisMinimum ?? 'original',
+          max: leftYAxisMaximum ?? 'original',
+        });
       options?.scales?.y && (options.scales.y.type = leftYAxisScale);
       options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
       options?.scales?.y &&
         (options.scales.y.display = selectedPlotChannels.some(
-          (channel) => channel.options.yAxis === 'left'
+          (channel) =>
+            channel.options.yAxis === 'left' && channel.options.visible
         ));
+      options?.scales?.y &&
+        (options.scales.y.title = {
+          display: Boolean(leftYAxisLabel),
+          text: leftYAxisLabel,
+        });
       options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
       options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
+      options?.plugins?.zoom?.limits?.y2 &&
+        (options.plugins.zoom.limits.y2 = {
+          min: rightYAxisMinimum ?? 'original',
+          max: rightYAxisMaximum ?? 'original',
+        });
       options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
       options?.scales?.y2 &&
         (options.scales.y2.display = selectedPlotChannels.some(
-          (channel) => channel.options.yAxis === 'right'
+          (channel) =>
+            channel.options.yAxis === 'right' && channel.options.visible
         ));
       options?.scales?.y2?.grid &&
         (options.scales.y2.grid.display = gridVisible);
+      options?.scales?.y2 &&
+        (options.scales.y2.title = {
+          display: Boolean(rightYAxisLabel),
+          text: rightYAxisLabel,
+        });
       return JSON.stringify(options);
     });
   }, [
@@ -188,19 +253,29 @@ const Plot = (props: PlotProps) => {
     rightYAxisMinimum,
     rightYAxisMaximum,
     selectedPlotChannels,
+    XAxisDisplayName,
+    leftYAxisLabel,
+    rightYAxisLabel,
   ]);
 
   React.useEffect(() => {
     setDataString(
       JSON.stringify({
         datasets: datasets.map((dataset) => {
-          const channelConfig = selectedPlotChannels.find(
+          const {
+            options: channelConfig,
+            displayName,
+            units,
+          } = selectedPlotChannels.find(
             (channel) => channel.name === dataset.name
-          )?.options;
+          ) ?? {};
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
+          const displayNameWithUnits = units
+            ? `${displayName} (${units})`
+            : `${displayName}`;
 
           return {
-            label: dataset.name,
+            label: displayNameWithUnits ?? dataset.name,
             data: dataset.data,
             parsing: {
               yAxisKey: dataset.name,
@@ -224,7 +299,7 @@ const Plot = (props: PlotProps) => {
                 : undefined,
             pointRadius: lineStyle === 'dotted' ? 3 : undefined,
             borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
-          } as ChartDataset<PlotType, PlotDataset['data']>;
+          } satisfies ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })
     );
@@ -238,7 +313,7 @@ const Plot = (props: PlotProps) => {
         maxWidth: '100%',
       }}
     >
-      {/* This canvas is turned into a Chart.js plot via code in plotWindowPortal.component.tsx */}
+      {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
       <canvas
         id="my-chart"
         ref={canvasRef}

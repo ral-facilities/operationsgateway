@@ -2,27 +2,40 @@ import React from 'react';
 import { Box, Typography, Divider, Grid, TextField } from '@mui/material';
 import { Adjust } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export interface ShotNumberProps {
   searchParameterShotnumMin?: number;
   searchParameterShotnumMax?: number;
   changeSearchParameterShotnumMin: (min: number | undefined) => void;
   changeSearchParameterShotnumMax: (max: number | undefined) => void;
+  resetDateRange: () => void;
+  resetExperimentTimeframe: () => void;
+  isDateToShotnum: boolean;
+  invalidShotNumberRange: boolean;
+  searchParamsUpdated: () => void;
 }
 
-const ShotNumberPopup = (
-  props: ShotNumberProps & { invalidRange: boolean }
-): React.ReactElement => {
+const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
   const {
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
-    changeSearchParameterShotnumMin,
-    changeSearchParameterShotnumMax,
-    invalidRange,
+    searchParameterShotnumMin: min,
+    searchParameterShotnumMax: max,
+    changeSearchParameterShotnumMin: changeMin,
+    changeSearchParameterShotnumMax: changeMax,
+    invalidShotNumberRange,
+    resetDateRange,
+    resetExperimentTimeframe,
+    searchParamsUpdated,
   } = props;
 
   return (
-    <div style={{ paddingTop: 5, paddingLeft: 5 }}>
+    <Box
+      sx={{
+        paddingTop: '5px',
+        paddingLeft: '5px',
+        bgcolor: 'background.default',
+      }}
+    >
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your shot number
       </Typography>
@@ -39,17 +52,20 @@ const ShotNumberPopup = (
           <TextField
             name="shot number min"
             label="Min"
-            value={searchParameterShotnumMin}
+            value={min ?? ''}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
-              changeSearchParameterShotnumMin(
+            onChange={(event) => {
+              changeMin(
                 event.target.value ? Number(event.target.value) : undefined
-              )
-            }
-            error={invalidRange}
-            {...(invalidRange && { helperText: 'Invalid range' })}
+              );
+              resetDateRange();
+              searchParamsUpdated();
+              if (!event.target.value && !max) resetExperimentTimeframe();
+            }}
+            error={invalidShotNumberRange}
+            {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
         <Grid item xs={1}>
@@ -59,25 +75,35 @@ const ShotNumberPopup = (
           <TextField
             name="shot number max"
             label="Max"
-            value={searchParameterShotnumMax}
+            value={max ?? ''}
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
-              changeSearchParameterShotnumMax(
+            onChange={(event) => {
+              changeMax(
                 event.target.value ? Number(event.target.value) : undefined
-              )
-            }
-            error={invalidRange}
-            {...(invalidRange && { helperText: 'Invalid range' })}
+              );
+              resetDateRange();
+              searchParamsUpdated();
+              if (!event.target.value && !min) resetExperimentTimeframe();
+            }}
+            error={invalidShotNumberRange}
+            {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 
 const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
+  const {
+    searchParameterShotnumMin: min,
+    searchParameterShotnumMax: max,
+    isDateToShotnum,
+    invalidShotNumberRange,
+  } = props;
+
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
@@ -86,11 +112,31 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
-  const invalidRange =
-    props.searchParameterShotnumMin !== undefined &&
-    props.searchParameterShotnumMax !== undefined
-      ? props.searchParameterShotnumMin > props.searchParameterShotnumMax
-      : false;
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (
+      (typeof props.searchParameterShotnumMax === undefined &&
+        typeof props.searchParameterShotnumMin === undefined) ||
+      isDateToShotnum
+    ) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [
+    isDateToShotnum,
+    props.searchParameterShotnumMax,
+    props.searchParameterShotnumMin,
+  ]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
@@ -98,13 +144,17 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
         sx={{
           border: '1.5px solid',
-          borderColor: invalidRange ? 'rgb(214, 65, 65)' : undefined,
+          borderColor: invalidShotNumberRange ? 'rgb(214, 65, 65)' : undefined,
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
           paddingRight: 5,
+          paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >
@@ -112,7 +162,13 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         <div>
           <Typography noWrap>Shot Number</Typography>
           <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            Select
+            {min !== undefined && max === undefined
+              ? `Minimum: ${min}`
+              : min === undefined && max !== undefined
+              ? `Maximum: ${max}`
+              : min !== undefined && max !== undefined
+              ? `${min} to ${max}`
+              : 'Select'}
           </Typography>
         </div>
       </Box>
@@ -129,7 +185,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           }}
           ref={popover}
         >
-          <ShotNumberPopup {...props} invalidRange={invalidRange} />
+          <ShotNumberPopup {...props} />
         </Box>
       )}
     </Box>

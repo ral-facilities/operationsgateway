@@ -14,10 +14,15 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, Close } from '@mui/icons-material';
-import { XAxisScale, FullScalarChannelMetadata } from '../../app.types';
+import {
+  XAxisScale,
+  FullScalarChannelMetadata,
+  timeChannelName,
+} from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -31,7 +36,7 @@ export interface XAxisTabProps {
   allChannels: FullScalarChannelMetadata[];
   XAxisScale: XAxisScale;
   XAxis?: string;
-  changeXAxis: (value: string) => void;
+  changeXAxis: (value?: string) => void;
   changeXAxisScale: (value: XAxisScale) => void;
   initialXMinimum?: number;
   initialXMaximum?: number;
@@ -39,6 +44,7 @@ export interface XAxisTabProps {
   changeXMaximum: (value: number | undefined) => void;
 }
 
+// if XAxis === "timestamp", only render min/max config
 const XAxisTab = (props: XAxisTabProps) => {
   const {
     allChannels,
@@ -55,18 +61,35 @@ const XAxisTab = (props: XAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
-    initialXMinimum && XAxisScale !== 'time' ? '' + initialXMinimum : ''
+    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMinimum
+      : ''
   );
   const [xMaximum, setXMaximum] = React.useState<string>(
-    initialXMaximum && XAxisScale !== 'time' ? '' + initialXMaximum : ''
+    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'time'
+      ? '' + initialXMaximum
+      : ''
   );
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    initialXMinimum && XAxisScale === 'time' ? new Date(initialXMinimum) : null
+    typeof initialXMinimum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMinimum)
+      : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    initialXMaximum && XAxisScale === 'time' ? new Date(initialXMaximum) : null
+    typeof initialXMaximum !== 'undefined' && XAxisScale === 'time'
+      ? new Date(initialXMaximum)
+      : null
   );
+
+  // set seconds to 0 for fromDate
+  if (fromDate) {
+    fromDate.setSeconds(0);
+  }
+  // set seconds to 59 for toDate
+  if (toDate) {
+    toDate.setSeconds(59);
+  }
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
 
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
@@ -74,8 +97,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMinimum && parseFloat(xMinimum)) {
-        changeXMinimum(parseFloat(xMinimum));
+      const parsedXMinimum = parseFloat(xMinimum);
+      if (!Number.isNaN(parsedXMinimum)) {
+        changeXMinimum(parsedXMinimum);
       } else {
         changeXMinimum(undefined);
       }
@@ -84,8 +108,9 @@ const XAxisTab = (props: XAxisTabProps) => {
 
   React.useEffect(() => {
     if (XAxisScale !== 'time') {
-      if (xMaximum && parseFloat(xMaximum)) {
-        changeXMaximum(parseFloat(xMaximum));
+      const parsedXMaximum = parseFloat(xMaximum);
+      if (!Number.isNaN(parsedXMaximum)) {
+        changeXMaximum(parsedXMaximum);
       } else {
         changeXMaximum(undefined);
       }
@@ -96,7 +121,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (fromDate) {
         const unixTimestamp = fromDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
       } else {
         changeXMinimum(undefined);
       }
@@ -107,7 +132,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     if (XAxisScale === 'time') {
       if (toDate) {
         const unixTimestamp = toDate.getTime();
-        if (!isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
+        if (!Number.isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
       } else {
         changeXMaximum(undefined);
       }
@@ -126,9 +151,9 @@ const XAxisTab = (props: XAxisTabProps) => {
   );
 
   const handleXAxisChange = React.useCallback(
-    (value: string) => {
+    (value?: string) => {
       changeXAxis(value);
-      if (value === 'timestamp') {
+      if (value === timeChannelName) {
         handleChangeXScale('time');
       } else {
         handleChangeXScale('linear');
@@ -137,6 +162,12 @@ const XAxisTab = (props: XAxisTabProps) => {
     [changeXAxis, handleChangeXScale]
   );
 
+  const xAxisChannel = allChannels.find(
+    (channel) => channel.systemName === XAxis
+  );
+  const xAxisLabel =
+    xAxisChannel && xAxisChannel.name ? xAxisChannel.name : XAxis;
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid container item spacing={1}>
@@ -144,17 +175,17 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={fromDate}
                 maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
                 componentsProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setFromDate(date as Date);
+                  setFromDate(date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'from, date-time picker',
@@ -166,7 +197,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (fromDate && !isValid(fromDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (
@@ -190,19 +221,12 @@ const XAxisTab = (props: XAxisTabProps) => {
               />
             </LocalizationProvider>
           ) : (
-            <TextField
+            <PlotSettingsTextField
               label="Min"
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{ style: { fontSize: 12 } }}
-              InputLabelProps={{ style: { fontSize: 12 } }}
               error={invalidXRange}
               {...(invalidXRange && { helperText: 'Invalid range' })}
               value={xMinimum}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setXMinimum(event.target.value)
-              }
+              onChange={setXMinimum}
             />
           )}
         </Grid>
@@ -210,17 +234,17 @@ const XAxisTab = (props: XAxisTabProps) => {
           {XAxisScale === 'time' ? (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm:ss"
-                mask="____-__-__ __:__:__"
+                inputFormat="yyyy-MM-dd HH:mm"
+                mask="____-__-__ __:__"
                 value={toDate}
                 minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
                 componentsProps={{
                   actionBar: { actions: ['clear', 'cancel', 'accept'] },
                 }}
                 onChange={(date) => {
-                  setToDate(date as Date);
+                  setToDate(date);
                 }}
-                views={['year', 'month', 'day', 'hours', 'minutes', 'seconds']}
+                views={['year', 'month', 'day', 'hours', 'minutes']}
                 OpenPickerButtonProps={{
                   size: 'small',
                   'aria-label': 'to, date-time picker',
@@ -232,7 +256,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                       invalidDateRange ||
                       (toDate && !isValid(toDate))) ??
                     undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm:ss';
+                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
                   if (invalidDateRange) helperText = 'Invalid date-time range';
 
                   return (
@@ -273,80 +297,86 @@ const XAxisTab = (props: XAxisTabProps) => {
           )}
         </Grid>
       </Grid>
-      <Grid item>
-        <FormControl
-          disabled={XAxisScale === 'time'}
-          sx={{ flexDirection: 'row', alignItems: 'center' }}
-        >
-          <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
-            Scale
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="x-scale-group-label"
-            name="x scale radio buttons group"
-            value={XAxisScale}
-            onChange={(_, value) => handleChangeXScale(value)}
-          >
-            <FormControlLabel
-              value="linear"
-              control={<Radio />}
-              label="Linear"
-            />
-            <FormControlLabel
-              value="logarithmic"
-              control={<Radio />}
-              label="Log"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-      <Grid container item>
-        <Autocomplete
-          disablePortal
-          freeSolo
-          clearOnBlur
-          id="select x axis"
-          options={allChannels.map((channel) => channel.systemName)}
-          fullWidth
-          role="autocomplete"
-          onInputChange={(_, newInputValue, reason) => {
-            if (reason === 'input') {
-              setXAxisInputVal(newInputValue);
-            }
-          }}
-          inputValue={XAxisInputVal}
-          value={XAxisInputVal}
-          onChange={(_, newValue) => {
-            if (newValue) {
-              handleXAxisChange(newValue);
-            }
-            setXAxisInputVal('');
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search"
-              variant="outlined"
-              size="small"
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              InputProps={{
-                ...params.InputProps,
-                style: { fontSize: 12 },
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
+      {XAxis !== timeChannelName && (
+        <>
+          <Grid item>
+            <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
+              <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
+                Scale
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="x-scale-group-label"
+                name="x scale radio buttons group"
+                value={XAxisScale}
+                onChange={(_, value) => handleChangeXScale(value)}
+              >
+                <FormControlLabel
+                  value="linear"
+                  control={<Radio />}
+                  label="Linear"
+                />
+                <FormControlLabel
+                  value="logarithmic"
+                  control={<Radio />}
+                  label="Log"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid container item>
+            <Autocomplete
+              disablePortal
+              clearOnBlur
+              id="select x axis"
+              options={allChannels
+                // don't let the user select timestamp in an XY plot
+                .filter((channel) => channel.systemName !== timeChannelName)
+                .map((channel) => ({
+                  label: channel.name ?? channel.systemName,
+                  value: channel.systemName,
+                }))}
+              fullWidth
+              role="autocomplete"
+              onInputChange={(_, newInputValue, reason) => {
+                if (reason === 'input') {
+                  setXAxisInputVal(newInputValue);
+                }
               }}
+              inputValue={XAxisInputVal}
+              value={null}
+              onChange={(_, newValue) => {
+                if (newValue) {
+                  handleXAxisChange(newValue.value);
+                }
+                setXAxisInputVal('');
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Search"
+                  variant="outlined"
+                  size="small"
+                  InputLabelProps={{ style: { fontSize: 12 } }}
+                  InputProps={{
+                    ...params.InputProps,
+                    style: { fontSize: 12 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
-          )}
-        />
-      </Grid>
-      {XAxis && (
+          </Grid>
+        </>
+      )}
+      {XAxis && XAxis !== timeChannelName && (
         <Grid container item>
           <Box
-            aria-label={`${XAxis} label`}
+            aria-label={`${xAxisLabel} label`}
             sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -357,11 +387,11 @@ const XAxisTab = (props: XAxisTabProps) => {
             }}
           >
             <Typography maxWidth="240" noWrap>
-              {XAxis}
+              {xAxisLabel}
             </Typography>
             <StyledClose
-              aria-label={`Remove ${XAxis} from x-axis`}
-              onClick={() => handleXAxisChange('')}
+              aria-label={`Remove ${xAxisLabel} from x-axis`}
+              onClick={() => handleXAxisChange(undefined)}
             />
           </Box>
         </Grid>

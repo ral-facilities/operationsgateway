@@ -14,10 +14,11 @@ export const MAX_SHOTS_VALUES = [50, 1000, Infinity];
 export interface MaxShotsProps {
   maxShots: SearchParams['maxShots'];
   changeMaxShots: (maxShots: SearchParams['maxShots']) => void;
+  searchParamsUpdated: () => void;
 }
 
 const MaxShots = (props: MaxShotsProps): React.ReactElement => {
-  const { maxShots, changeMaxShots } = props;
+  const { maxShots, changeMaxShots, searchParamsUpdated } = props;
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -26,7 +27,6 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
-          paddingRight: 5,
           overflow: 'hidden',
         }}
       >
@@ -46,7 +46,10 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
             name="max shots group"
             aria-label="select max shots"
             value={maxShots}
-            onChange={(_, value) => changeMaxShots(Number(value))}
+            onChange={(_, value) => {
+              searchParamsUpdated();
+              changeMaxShots(Number(value));
+            }}
           >
             {MAX_SHOTS_VALUES.map((value, i) => (
               <FormControlLabel

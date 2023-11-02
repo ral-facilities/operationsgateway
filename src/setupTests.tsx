@@ -6,14 +6,11 @@ import '@testing-library/jest-dom';
 // need to mock <canvas> for plotting
 import 'jest-canvas-mock';
 import {
-  Channel,
   FullChannelMetadata,
-  ImageChannel,
   PlotDataset,
-  Record,
-  RecordRow,
-  ScalarChannel,
-  WaveformChannel,
+  timeChannelName,
+  FullScalarChannelMetadata,
+  DEFAULT_WINDOW_VARS,
 } from './app.types';
 import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
@@ -21,7 +18,6 @@ import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
 import {
-  DEFAULT_WINDOW_VARS,
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
@@ -29,9 +25,73 @@ import { initialState as initialFilterState } from './state/slices/filterSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { QueryClientProvider, QueryClient } from 'react-query';
-import { format, parseISO } from 'date-fns';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
+import { staticChannels } from './api/channels';
+import { server } from './mocks/server';
+import { matchRequestUrl, MockedRequest } from 'msw';
+import channelsJson from './mocks/channels.json';
+import crypto from 'crypto';
+
+jest.setTimeout(15000);
+
+// Establish API mocking before all tests.
+beforeAll(() => server.listen());
+
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests.
+afterEach(() => server.resetHandlers());
+
+// Clean up after the tests are finished.
+afterAll(() => server.close());
+
+/**
+ * Waits for msw request -
+ * @param method string representing the HTTP method
+ * @param url string representing the URL match for the route
+ * @returns a promise of the matching request
+ *  */
+export function waitForRequest(method: string, url: string) {
+  let requestId = '';
+
+  return new Promise<MockedRequest>((resolve, reject) => {
+    const onRequestStart = (req) => {
+      const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
+
+      const matchesUrl = matchRequestUrl(req.url, url).matches;
+
+      if (matchesMethod && matchesUrl) {
+        requestId = req.id;
+      }
+    };
+
+    const onRequestMatch = (req) => {
+      if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
+        resolve(req);
+      }
+    };
+
+    const onRequestUnhandled = (req) => {
+      if (req.id === requestId) {
+        server.events.removeListener('request:start', onRequestStart);
+        server.events.removeListener('request:match', onRequestMatch);
+        server.events.removeListener('request:unhandled', onRequestUnhandled);
+        reject(
+          new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
+        );
+      }
+    };
+
+    server.events.on('request:start', onRequestStart);
+
+    server.events.on('request:match', onRequestMatch);
+
+    server.events.on('request:unhandled', onRequestUnhandled);
+  });
+}
 
 // this is needed because of https://github.com/facebook/jest/issues/8987
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -68,11 +128,33 @@ export const dispatch = (
   }
 };
 
+if (typeof window.URL.createObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: () => 'testObjectUrl',
+  });
+}
+
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {
+      // no-op
+    },
+  });
+}
+
+// jest doesn't implement web crypto so set up nodejs crypto as a default
+Object.defineProperty(global, 'crypto', {
+  value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
+});
+
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
   store?: AppStore;
+  queryClient?: QueryClient;
 }
 
 export const createTestQueryClient = (): QueryClient =>
@@ -80,12 +162,21 @@ export const createTestQueryClient = (): QueryClient =>
     defaultOptions: {
       queries: {
         retry: false,
+        staleTime: 300000,
       },
+    },
+    logger: {
+      log: console.log,
+      warn: console.warn,
+      error: jest.fn(),
     },
   });
 
-export const hooksWrapperWithProviders = (state = {}) => {
-  const testQueryClient = createTestQueryClient();
+export const hooksWrapperWithProviders = (
+  state = {},
+  queryClient?: QueryClient
+) => {
+  const testQueryClient = queryClient ?? createTestQueryClient();
   const store = setupStore(state);
   const wrapper = ({ children }) => (
     <Provider store={store}>
@@ -103,16 +194,17 @@ export function renderComponentWithProviders(
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
     store = setupStore(preloadedState),
+    // Automatically create a query client instance if no query client was passed in
+    queryClient = createTestQueryClient(),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  const testQueryClient = createTestQueryClient();
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
     return (
       <Provider store={store}>
-        <QueryClientProvider client={testQueryClient}>
+        <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>
       </Provider>
@@ -120,7 +212,7 @@ export function renderComponentWithProviders(
   }
   return {
     store,
-    queryClient: testQueryClient,
+    queryClient,
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
   };
 }
@@ -173,159 +265,32 @@ export const cleanupDatePickerWorkaround = (): void => {
   delete window.matchMedia;
 };
 
-export const testChannels: FullChannelMetadata[] = [
-  {
-    systemName: 'timestamp',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Time',
-  },
-  {
-    systemName: 'shotnum',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Shot Number',
-  },
-  {
-    systemName: 'activeArea',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Active Area',
-  },
-  {
-    systemName: 'activeExperiment',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Active Experiment',
-  },
-  {
-    systemName: 'test_1',
-    channel_dtype: 'scalar',
-    userFriendlyName: 'Test 1',
-    significantFigures: 4,
-  },
-  {
-    systemName: 'test_2',
-    channel_dtype: 'scalar',
-    significantFigures: 2,
-    scientificNotation: false,
-  },
-  {
-    systemName: 'test_3',
-    channel_dtype: 'scalar',
-    significantFigures: 2,
-    scientificNotation: true,
-  },
+export const testChannels = [
+  ...Object.values(staticChannels),
+  ...Object.entries(channelsJson.channels).map(
+    ([systemName, channel]) =>
+      ({
+        systemName,
+        ...channel,
+      } as FullChannelMetadata)
+  ),
 ];
 
-export const generateRecord = (num: number): Record => {
-  const numStr = `${num}`;
-
-  let channel: Channel;
-
-  if (num % 3 === 0) {
-    channel = {
-      metadata: {
-        channel_dtype: 'scalar',
-        units: 'km',
-      },
-      data:
-        num < 10
-          ? parseFloat(`${num}${num}${num}.${num}`)
-          : parseFloat(
-              numStr[0] + numStr[1] + numStr[1] + numStr[1] + '.' + numStr[1]
-            ),
-    } as ScalarChannel;
-  } else if (num % 3 === 1) {
-    channel = {
-      metadata: {
-        channel_dtype: 'image',
-        horizontalPixels: num,
-        horizontalPixelUnits: numStr,
-        verticalPixels: num,
-        verticalPixelUnits: numStr,
-        cameraGain: num,
-        exposureTime: num,
-      },
-      imagePath: numStr,
-      thumbnail: numStr,
-    } as ImageChannel;
-  } else {
-    channel = {
-      metadata: {
-        channel_dtype: 'waveform',
-        xUnits: numStr,
-        yUnits: numStr,
-      },
-      waveformId: numStr,
-      thumbnail: numStr,
-    } as WaveformChannel;
-  }
-
-  return {
-    id: numStr,
-    metadata: {
-      dataVersion: numStr,
-      shotnum: num,
-      timestamp:
-        num < 10 ? `2022-01-0${num}T00:00:00` : `2022-01-${num}T00:00:00`,
-      activeArea: numStr,
-      activeExperiment: numStr,
-    },
-    channels: {
-      [`test_${num}`]: channel,
-    },
-  };
-};
-
-export const testRecords: Record[] = Array.from(Array(3), (_, i) =>
-  generateRecord(i + 1)
-);
-
-export const generateRecordRow = (num: number) => {
-  const record = generateRecord(num);
-
-  const recordRow: RecordRow = {
-    timestamp: format(
-      parseISO(record.metadata.timestamp),
-      'yyyy-MM-dd HH:mm:ss'
+export const testScalarChannels: FullScalarChannelMetadata[] = [
+  ...Object.values(staticChannels),
+  ...Object.entries(channelsJson.channels)
+    .filter(([systemName, channel]) => channel.type === 'scalar')
+    .map(
+      ([systemName, channel]) =>
+        ({
+          systemName,
+          ...channel,
+        } as FullScalarChannelMetadata)
     ),
-    shotnum: record.metadata.shotnum,
-    activeArea: record.metadata.activeArea,
-    activeExperiment: record.metadata.activeExperiment,
-  };
-
-  const keys = Object.keys(record.channels);
-  keys.forEach((key: string) => {
-    const channel: Channel = record.channels[key];
-    let channelData;
-    const channelDataType = channel.metadata.channel_dtype;
-
-    switch (channelDataType) {
-      case 'scalar':
-        channelData = (channel as ScalarChannel).data;
-        break;
-      case 'image':
-        channelData = (channel as ImageChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
-        break;
-      case 'waveform':
-        channelData = (channel as WaveformChannel).thumbnail;
-        channelData = (
-          <img src={`data:image/jpeg;base64,${channelData}`} alt={key} />
-        );
-    }
-
-    recordRow[key] = channelData;
-  });
-
-  return recordRow;
-};
-
-export const testRecordRows = Array.from(Array(3), (_, i) =>
-  generateRecordRow(i + 1)
-);
+];
 
 export const generatePlotDataset = (num: number) => {
-  const datasetName = testChannels[num].systemName;
+  const datasetName = testScalarChannels[num].systemName;
   const plotDataset: PlotDataset = {
     name: datasetName,
     data: [
@@ -354,9 +319,11 @@ export const generatePlotConfig = (num: number) => {
   const plotTitle = `Plot ${num}`;
 
   const plotConfig: PlotConfig = {
+    id: `test-plot-id-${num}`,
     open: num % 2 === 0,
     title: plotTitle,
     plotType: num % 2 === 0 ? 'scatter' : 'line',
+    XAxis: num % 3 === 0 ? timeChannelName : undefined,
     XAxisScale:
       num % 3 === 0 ? 'time' : num % 3 === 1 ? 'linear' : 'logarithmic',
     selectedPlotChannels: [],

@@ -18,6 +18,7 @@ describe('Data Header', () => {
   const onToggleWordWrap = jest.fn();
   const handleOnDragEnd = jest.fn();
   const openFilters = jest.fn();
+  const resizeHandler = jest.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -46,13 +47,14 @@ describe('Data Header', () => {
       onSort,
       onClose,
       label: 'Test',
-      resizerProps: {},
+      resizeHandler,
       index: 0,
       channelInfo: {
         systemName: 'Test',
-        channel_dtype: 'scalar',
+        type: 'scalar',
         units: 'm',
         description: 'test description',
+        path: '/test',
       },
       wordWrap: false,
       onToggleWordWrap,
@@ -142,7 +144,7 @@ describe('Data Header', () => {
 
   it('removes column from display when header is middle clicked', async () => {
     createView();
-    const header = screen.getByLabelText('test header');
+    const header = screen.getByText('Test');
     await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
     expect(onClose).toHaveBeenCalledWith('test');
   });
@@ -185,22 +187,6 @@ describe('Data Header', () => {
     });
   });
 
-  describe('calls the onSort method when default sort is specified', () => {
-    it('sets asc order', () => {
-      props.defaultSort = 'asc';
-
-      createView();
-      expect(onSort).toHaveBeenCalledWith('test', 'asc');
-    });
-
-    it('sets desc order', () => {
-      props.defaultSort = 'desc';
-
-      createView();
-      expect(onSort).toHaveBeenCalledWith('test', 'desc');
-    });
-  });
-
   it('displays tooltip when user hovers over column name', async () => {
     createView();
     const header = screen.getByText('Test');
@@ -222,7 +208,7 @@ describe('Data Header', () => {
   it('displays tooltip with system name when user hovers over friendly column name', async () => {
     props.label = 'Test Friendly Name';
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    props.channelInfo!.userFriendlyName = props.label as string;
+    props.channelInfo!.name = props.label as string;
     createView();
     const header = screen.getByText('Test Friendly Name');
 

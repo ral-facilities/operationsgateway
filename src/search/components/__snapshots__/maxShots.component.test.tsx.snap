@@ -7,7 +7,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
   >
     <div
       aria-label="select max shots to display"
-      class="MuiBox-root css-1hqcbhu"
+      class="MuiBox-root css-2sv9t8"
     >
       <div
         style="align-items: center; display: flex; justify-content: left; margin-right: 10px;"
@@ -31,7 +31,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
           >
             <span
               aria-label="Select 50 max shots"
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 checked=""
@@ -81,7 +81,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
           >
             <span
               aria-label="Select 1000 max shots"
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -130,7 +130,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
           >
             <span
               aria-label="Select unlimited max shots"
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"

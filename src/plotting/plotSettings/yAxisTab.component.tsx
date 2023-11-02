@@ -6,13 +6,13 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  styled,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -24,17 +24,11 @@ import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
+  timeChannelName,
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
-
-const StyledClose = styled(Close)(() => ({
-  cursor: 'pointer',
-  color: 'black',
-  '&:hover': {
-    color: 'red',
-  },
-}));
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 export interface YAxisTabProps {
   selectedRecordTableChannels: FullScalarChannelMetadata[];
@@ -59,6 +53,10 @@ export interface YAxisTabProps {
   initialRemainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
   changeRemainingColours: (remaining: string[]) => void;
+  leftYAxisLabel?: string;
+  changeLeftYAxisLabel: (newLabel: string) => void;
+  rightYAxisLabel?: string;
+  changeRightYAxisLabel: (newLabel: string) => void;
 }
 
 const YAxisTab = (props: YAxisTabProps) => {
@@ -79,6 +77,10 @@ const YAxisTab = (props: YAxisTabProps) => {
     changeLeftYAxisScale,
     rightYAxisScale,
     changeRightYAxisScale,
+    leftYAxisLabel,
+    changeLeftYAxisLabel,
+    rightYAxisLabel,
+    changeRightYAxisLabel,
     initialSelectedColours,
     initialRemainingColours,
     changeSelectedColours,
@@ -92,10 +94,14 @@ const YAxisTab = (props: YAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [yMinimum, setYMinimum] = React.useState<string>(
-    initialLeftYAxisMinimum ? '' + initialLeftYAxisMinimum : ''
+    typeof initialLeftYAxisMinimum !== 'undefined'
+      ? '' + initialLeftYAxisMinimum
+      : ''
   );
   const [yMaximum, setYMaximum] = React.useState<string>(
-    initialLeftYAxisMaximum ? '' + initialLeftYAxisMaximum : ''
+    typeof initialLeftYAxisMaximum !== 'undefined'
+      ? '' + initialLeftYAxisMaximum
+      : ''
   );
 
   const invalidYRange = parseFloat(yMinimum) > parseFloat(yMaximum);
@@ -111,19 +117,23 @@ const YAxisTab = (props: YAxisTabProps) => {
     const initialMaximum =
       axis === 'right' ? initialRightYAxisMaximum : initialLeftYAxisMaximum;
 
-    setYMinimum(initialMinimum ? '' + initialMinimum : '');
-    setYMaximum(initialMaximum ? '' + initialMaximum : '');
+    setYMinimum(
+      typeof initialMinimum !== 'undefined' ? '' + initialMinimum : ''
+    );
+    setYMaximum(
+      typeof initialMaximum !== 'undefined' ? '' + initialMaximum : ''
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [axis]);
 
   const handleChangeYMinimum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMinimum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMinimum : changeLeftYAxisMinimum;
-      if (newValue && parseFloat(newValue)) {
-        changeFn(parseFloat(newValue));
+      const parsedNewValue = parseFloat(newValue);
+      if (!Number.isNaN(parsedNewValue)) {
+        changeFn(parsedNewValue);
       } else {
         changeFn(undefined);
       }
@@ -132,13 +142,13 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const handleChangeYMaximum = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
+    (newValue: string) => {
       setYMaximum(newValue);
       const changeFn =
         axis === 'right' ? changeRightYAxisMaximum : changeLeftYAxisMaximum;
-      if (newValue && parseFloat(newValue)) {
-        changeFn(parseFloat(newValue));
+      const parsedNewValue = parseFloat(newValue);
+      if (!Number.isNaN(parsedNewValue)) {
+        changeFn(parsedNewValue);
       } else {
         changeFn(undefined);
       }
@@ -161,9 +171,11 @@ const YAxisTab = (props: YAxisTabProps) => {
   );
 
   const addPlotChannel = React.useCallback(
-    (channelName: string) => {
+    (newChannel: { label: string; value: string; units: string }) => {
       const newSelectedPlotChannel: SelectedPlotChannel = {
-        name: channelName,
+        name: newChannel.value,
+        units: newChannel.units,
+        displayName: newChannel.label,
         options: {
           visible: true,
           lineStyle: 'solid',
@@ -226,6 +238,23 @@ const YAxisTab = (props: YAxisTabProps) => {
     ]
   );
 
+  const changeAxisLabel = React.useCallback(
+    (newLabel: string) => {
+      switch (axis) {
+        case 'left':
+          changeLeftYAxisLabel(newLabel);
+          break;
+
+        case 'right':
+          changeRightYAxisLabel(newLabel);
+          break;
+      }
+    },
+    [axis, changeLeftYAxisLabel, changeRightYAxisLabel]
+  );
+
+  const currentAxisLabel = axis === 'left' ? leftYAxisLabel : rightYAxisLabel;
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid item>
@@ -255,15 +284,17 @@ const YAxisTab = (props: YAxisTabProps) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
+      <Grid container item>
+        <PlotSettingsTextField
+          label="Label"
+          value={currentAxisLabel ?? ''}
+          onChange={changeAxisLabel}
+        />
+      </Grid>
       <Grid container item spacing={1}>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Min"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMinimum}
@@ -271,13 +302,8 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          <PlotSettingsTextField
             label="Max"
-            variant="outlined"
-            size="small"
-            fullWidth
-            InputProps={{ style: { fontSize: 12 } }}
-            InputLabelProps={{ style: { fontSize: 12 } }}
             error={invalidYRange}
             {...(invalidYRange && { helperText: 'Invalid range' })}
             value={yMaximum}
@@ -316,24 +342,28 @@ const YAxisTab = (props: YAxisTabProps) => {
       </Grid>
       <Grid container item>
         <FormControl fullWidth>
-          <InputLabel sx={{ fontSize: 12 }}>
+          <InputLabel sx={{ fontSize: 12 }} id="table-channel-select-label">
             Displayed table channels
           </InputLabel>
           <Select
+            labelId="table-channel-select-label"
             label="Displayed table channels"
             value={selectValue}
             onChange={(event) => {
               const newValue = event.target.value;
-              addPlotChannel(newValue);
+              addPlotChannel(
+                JSON.parse(newValue) as {
+                  label: string;
+                  value: string;
+                  units: string;
+                }
+              );
               setSelectValue('');
             }}
             sx={{ fontSize: 12 }}
-            inputProps={{
-              'data-testid': 'select displayed table channels',
-            }}
           >
             {selectedRecordTableChannels
-              .filter((channel) => channel.systemName !== 'timestamp')
+              .filter((channel) => channel.systemName !== timeChannelName)
               .filter(
                 (selected) =>
                   !selectedPlotChannels
@@ -343,8 +373,14 @@ const YAxisTab = (props: YAxisTabProps) => {
               .map((channel) => {
                 const name = channel.systemName;
                 return (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                  <MenuItem
+                    key={name}
+                    value={JSON.stringify({
+                      label: channel.name ?? channel.systemName,
+                      value: name,
+                    })}
+                  >
+                    {channel.name ?? channel.systemName}
                   </MenuItem>
                 );
               })}
@@ -354,22 +390,25 @@ const YAxisTab = (props: YAxisTabProps) => {
       <Grid container item>
         <Autocomplete
           disablePortal
-          freeSolo
           clearOnBlur
           id="select data channels"
           options={allChannels
-            .map((channel) => channel.systemName)
             .filter(
-              (name) =>
-                name !== 'timestamp' &&
+              (channel) =>
+                channel.systemName !== timeChannelName &&
                 !selectedPlotChannels
                   .map((channel) => channel.name)
-                  .includes(name)
-            )}
+                  .includes(channel.systemName)
+            )
+            .map((channel) => ({
+              label: channel.name ?? channel.systemName,
+              units: channel.units ?? '',
+              value: channel.systemName,
+            }))}
           fullWidth
           role="autocomplete"
           inputValue={autocompleteValue}
-          value={autocompleteValue}
+          value={null}
           onInputChange={(_, newInputValue, reason) => {
             if (reason === 'input') {
               setAutocompleteValue(newInputValue);
@@ -406,7 +445,9 @@ const YAxisTab = (props: YAxisTabProps) => {
         .map((plotChannel) => (
           <Grid container item key={plotChannel.name}>
             <Box
-              aria-label={`${plotChannel.name} label`}
+              aria-label={`${
+                plotChannel.displayName ?? plotChannel.name
+              } label`}
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -417,13 +458,13 @@ const YAxisTab = (props: YAxisTabProps) => {
               }}
             >
               <Tooltip
-                title={plotChannel.name}
+                title={plotChannel.displayName ?? plotChannel.name}
                 arrow
                 placement="top"
                 leaveDelay={0}
               >
                 <Typography maxWidth="208" noWrap>
-                  {plotChannel.name}
+                  {plotChannel.displayName ?? plotChannel.name}
                 </Typography>
               </Tooltip>
               <Box
@@ -452,10 +493,22 @@ const YAxisTab = (props: YAxisTabProps) => {
                   enterDelay={0}
                   leaveDelay={0}
                 >
-                  <StyledClose
-                    aria-label={`Remove ${plotChannel.name} from plot`}
+                  <IconButton
+                    aria-label={`Remove ${
+                      plotChannel.displayName ?? plotChannel.name
+                    } from plot`}
+                    size="small"
+                    sx={{ padding: '1px', margin: '-1px 1px' }}
                     onClick={() => removePlotChannel(plotChannel.name)}
-                  />
+                  >
+                    <Close
+                      sx={{
+                        '&:hover': {
+                          color: 'red',
+                        },
+                      }}
+                    />
+                  </IconButton>
                 </Tooltip>
               </Box>
             </Box>

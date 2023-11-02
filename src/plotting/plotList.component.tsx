@@ -9,18 +9,18 @@ import {
   PlotConfig,
 } from '../state/slices/plotSlice';
 
-const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
+const PlotCard = (props: { plotConfig: PlotConfig }) => {
   const dispatch = useAppDispatch();
-  const { plotTitle } = props;
+  const { plotConfig } = props;
 
   return (
     <Card>
-      <CardContent>{plotTitle}</CardContent>
+      <CardContent>{plotConfig.title}</CardContent>
       <CardActions>
         <Button
           size="small"
           onClick={() => {
-            dispatch(openPlot(plotTitle));
+            dispatch(openPlot(plotConfig.id));
           }}
         >
           Edit
@@ -28,7 +28,7 @@ const PlotCard = (props: { plotTitle: string; plotConfig: PlotConfig }) => {
         <Button
           size="small"
           onClick={() => {
-            dispatch(deletePlot(plotTitle));
+            dispatch(deletePlot(plotConfig.id));
           }}
         >
           Delete
@@ -46,7 +46,14 @@ const PlotList = (props: PlotListProps) => {
   const plots = useAppSelector(selectPlots);
 
   return (
-    <Grid container direction="column" spacing={1} mt={0.5} ml={1}>
+    <Grid
+      container
+      direction="column"
+      spacing={1}
+      paddingTop={0.5}
+      paddingLeft={1}
+      paddingBottom={1}
+    >
       <Grid item>
         <Button
           onClick={() => {
@@ -56,13 +63,15 @@ const PlotList = (props: PlotListProps) => {
           Create a plot
         </Button>
       </Grid>
-      <Grid container item spacing={4}>
-        {Object.entries(plots).map(([plotTitle, plotConfig]) => (
-          <Grid item key={plotTitle}>
-            <PlotCard plotTitle={plotTitle} plotConfig={plotConfig} />
-          </Grid>
-        ))}
-      </Grid>
+      {Object.keys(plots).length > 0 && (
+        <Grid container item spacing={4}>
+          {Object.entries(plots).map(([plotId, plotConfig]) => (
+            <Grid item key={plotId}>
+              <PlotCard plotConfig={plotConfig} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Grid>
   );
 };

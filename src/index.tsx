@@ -1,6 +1,10 @@
+// hacktimer needs to be first import
+// it puts all timer functionality in a web worker to avoid browsers throttling
+// timers when main window is hidden (needed for popups to be more responsive
+// in cases like main OG window tabbed out, or minimized etc)
+import 'hacktimer';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import ReactDOMClient from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as log from 'loglevel';
@@ -9,8 +13,7 @@ import axios from 'axios';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
-import { store } from './state/store';
-import { Provider } from 'react-redux';
+
 import './index.css';
 
 export const pluginName = 'operationsgateway';
@@ -19,12 +22,10 @@ const render = (): void => {
   const el = document.getElementById(pluginName);
   if (!el) throw new Error(`${pluginName} div missing in index.html`);
 
-  const root = createRoot(el);
+  const root = ReactDOMClient.createRoot(el);
   root.render(
     // <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
     // </React.StrictMode>
   );
 };
@@ -44,8 +45,8 @@ function domElementGetter(): HTMLElement {
 // May be worth investigating further
 const reactLifecycles = singleSpaReact({
   React,
-  ReactDOM,
-  rootComponent: App,
+  ReactDOMClient,
+  rootComponent: () => document.getElementById(pluginName) ? <App /> : null,
   domElementGetter,
   errorBoundary: (error) => {
     log.error(`${pluginName} failed with error: ${error}`);
@@ -122,9 +123,13 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
         throw Error('Invalid format');
       }
 
-      // Ensure the facility name exists.
       if (!('apiUrl' in settings)) {
         throw new Error('apiUrl is undefined in settings');
+      }
+
+      // Ensure a limit on how many records can be requested before displaying a warning is present
+      if (!('recordLimitWarning' in settings)) {
+        throw new Error('recordLimitWarning is undefined in settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {
@@ -170,11 +175,26 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
 const settings = fetchSettings();
 setSettings(settings);
 
+function prepare() {
+  return import('./mocks/browser').then(({ worker }) => {
+    return worker.start({
+      onUnhandledRequest(request, print) {
+        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+        if (request.url.hostname !== 'localhost') {
+          return;
+        }
+
+        print.warning();
+      },
+    });
+  });
+}
+
 if (
   process.env.NODE_ENV === 'development' ||
   process.env.REACT_APP_E2E_TESTING
 ) {
-  render();
+  prepare().then(() => render());
   log.setDefaultLevel(log.levels.DEBUG);
 
   if (process.env.NODE_ENV === `development`) {

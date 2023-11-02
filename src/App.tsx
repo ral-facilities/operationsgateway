@@ -1,15 +1,14 @@
 import React from 'react';
 import ViewTabs from './views/viewTabs.component';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { configureApp } from './state/slices/configSlice';
 import { requestPluginRerender } from './state/scigateway.actions';
 import { MicroFrontendId } from './app.types';
-import { useAppDispatch } from './state/hooks';
 import OGThemeProvider from './ogThemeProvider.component';
-import OpenPlots from './plotting/openPlots.component';
-import { RootState } from './state/store';
-import { connect } from 'react-redux';
+import OpenWindows from './windows/openWindows.component';
+import { store, RootState } from './state/store';
+import { connect, Provider } from 'react-redux';
 import Preloader from './preloader/preloader.component';
 import './App.css';
 
@@ -31,7 +30,7 @@ function mapPreloaderStateToProps(state: RootState): { loading: boolean } {
 export const ConnectedPreloader = connect(mapPreloaderStateToProps)(Preloader);
 
 const App: React.FunctionComponent = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = store.dispatch;
   React.useEffect(() => {
     dispatch(configureApp());
   }, [dispatch]);
@@ -59,21 +58,25 @@ const App: React.FunctionComponent = () => {
 
   return (
     <div className="App">
-      <OGThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <ConnectedPreloader>
-            <React.Suspense
-              fallback={<Preloader loading={true}>Finished loading</Preloader>}
-            >
-              <ViewTabs />
-              {/* Open plots is it's own component so that the open plots are always mounted
+      <Provider store={store}>
+        <OGThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <ConnectedPreloader>
+              <React.Suspense
+                fallback={
+                  <Preloader loading={true}>Finished loading</Preloader>
+                }
+              >
+                <ViewTabs />
+                {/* Open windows is it's own component so that the open windows are always mounted
                   no matter which other components the user has mounted in ViewTabs etc. */}
-              <OpenPlots />
-            </React.Suspense>
-          </ConnectedPreloader>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </OGThemeProvider>
+                <OpenWindows />
+              </React.Suspense>
+            </ConnectedPreloader>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </OGThemeProvider>
+      </Provider>
     </div>
   );
 };

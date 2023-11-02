@@ -1,18 +1,24 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 import type { CartesianScaleTypeRegistry } from 'chart.js';
+import { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
+export const timeChannelName = 'timestamp';
 
 export interface Record {
-  id: string;
+  _id: string;
   metadata: RecordMetadata;
-  channels: { [channel: string]: Channel };
+  // channels can be undefined when the user only has metadata channels selected
+  // as with projection the channels object isn't returned
+  // whereas we always query for timestamp and so metadata is always defined
+  channels?: { [channel: string]: Channel | undefined };
 }
 
 export interface RecordRow {
+  _id: string;
   timestamp: string;
-  activeArea: string;
+  activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
 
@@ -26,24 +32,24 @@ export interface ScalarMetadata {
 
 export interface ImageMetadata {
   channel_dtype: 'image';
-  horizontalPixels: number;
-  horizontalPixelUnits: string;
-  verticalPixels: number;
-  verticalPixelUnits: string;
-  cameraGain: number;
-  exposureTime: number;
+  x_pixel_size: number;
+  x_pixel_units: string;
+  y_pixel_size: number;
+  y_pixel_units: string;
+  gain: number;
+  exposure_time_s: number;
 }
 
 export interface WaveformMetadata {
   channel_dtype: 'waveform';
-  xUnits: string;
-  yUnits: string;
+  x_units: string;
+  y_units: string;
 }
 
 export interface RecordMetadata {
-  dataVersion: string;
+  epac_ops_data_version: string;
   timestamp: string;
-  activeArea: string;
+  activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
 }
@@ -52,30 +58,45 @@ export type DataType = 'scalar' | 'image' | 'waveform';
 
 export interface FullCommonChannelMetadata {
   systemName: string;
-  channel_dtype: DataType;
-  userFriendlyName?: string;
+  type: DataType;
+  path: string;
+  name?: string;
   description?: string;
-  units?: string;
+  historical?: boolean;
 }
 
 export interface FullScalarChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'scalar';
-  significantFigures?: number;
-  scientificNotation?: boolean;
+  type: 'scalar';
+  precision?: number;
+  notation?: 'scientific' | 'normal';
+  units?: string;
 }
 
 export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'image';
+  type: 'image';
 }
 
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
-  channel_dtype: 'waveform';
+  type: 'waveform';
+  x_units?: string;
+  y_units?: string;
 }
 
 export type FullChannelMetadata =
   | FullScalarChannelMetadata
   | FullImageChannelMetadata
   | FullWaveformChannelMetadata;
+
+// Type guards because TS can't deal with nested discriminated unions
+export const isChannelMetadataScalar = (
+  c: FullChannelMetadata
+): c is FullScalarChannelMetadata => c.type === 'scalar';
+export const isChannelMetadataImage = (
+  c: FullChannelMetadata
+): c is FullImageChannelMetadata => c.type === 'image';
+export const isChannelMetadataWaveform = (
+  c: FullChannelMetadata
+): c is FullWaveformChannelMetadata => c.type === 'waveform';
 
 export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
 
@@ -86,25 +107,32 @@ export interface ScalarChannel {
 
 export interface ImageChannel {
   metadata: ImageMetadata;
-  imagePath: string;
+  image_path: string;
   thumbnail: string;
 }
 
 export interface WaveformChannel {
   metadata: WaveformMetadata;
-  waveformId: string;
+  waveform_id: string;
   thumbnail: string;
 }
 
 export type Channel = ScalarChannel | ImageChannel | WaveformChannel;
 
 // Type guards because TS can't deal with nested discriminated unions
-export const isChannelScalar = (c: Channel): c is ScalarChannel =>
+export const isChannelScalar = (c: Channel | undefined): c is ScalarChannel =>
   c?.metadata?.channel_dtype === 'scalar';
-export const isChannelImage = (c: Channel): c is ImageChannel =>
+export const isChannelImage = (c: Channel | undefined): c is ImageChannel =>
   c?.metadata?.channel_dtype === 'image';
-export const isChannelWaveform = (c: Channel): c is WaveformChannel =>
-  c?.metadata?.channel_dtype === 'waveform';
+export const isChannelWaveform = (
+  c: Channel | undefined
+): c is WaveformChannel => c?.metadata?.channel_dtype === 'waveform';
+
+export interface Waveform {
+  _id: string;
+  x: number[];
+  y: number[];
+}
 
 export type Order = 'asc' | 'desc';
 
@@ -117,19 +145,52 @@ export interface DateRange {
   toDate?: string;
 }
 
+export interface DateRangetoShotnumConverter {
+  from?: string;
+  to?: string;
+  min?: number;
+  max?: number;
+}
+
 export interface ShotnumRange {
   min?: number;
   max?: number;
+}
+
+export interface ExperimentParams {
+  _id: string;
+  end_date: string;
+  experiment_id: string;
+  part: number;
+  start_date: string;
 }
 
 export interface SearchParams {
   dateRange: DateRange;
   shotnumRange: ShotnumRange;
   maxShots: number;
+  experimentID: ExperimentParams | null;
 }
 
 export interface ColumnState {
   wordWrap?: boolean;
+}
+
+export const DEFAULT_WINDOW_VARS = {
+  outerWidth: 600,
+  outerHeight: 400,
+  screenX: 200,
+  screenY: 200,
+};
+
+export interface WindowConfig {
+  id: string;
+  open: boolean;
+  title: string;
+  outerWidth: number;
+  outerHeight: number;
+  screenX: number;
+  screenY: number;
 }
 
 export type PlotType = 'scatter' | 'line';
@@ -153,6 +214,8 @@ export type PlotDataset = {
 
 export type SelectedPlotChannel = {
   name: string;
+  units: string;
+  displayName?: string;
   options: {
     visible: boolean;
     lineStyle: LineStyle;
@@ -165,7 +228,31 @@ export type LineStyle = 'solid' | 'dashed' | 'dotted';
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()
-  .set('TIMESTAMP', <AccessTime />)
-  .set('SHOTNUM', <Numbers />)
-  .set('ACTIVEAREA', <Place />)
-  .set('ACTIVEEXPERIMENT', <Science />);
+  .set(timeChannelName, <AccessTime />)
+  .set('shotnum', <Numbers />)
+  .set('activeArea', <Place />)
+  .set('activeExperiment', <Science />);
+
+export interface Session {
+  name: string;
+  summary: string;
+  auto_saved: boolean;
+  session: ImportSessionType;
+}
+
+export interface SessionResponse {
+  _id: string;
+  name: string;
+  summary: string;
+  timestamp: string;
+  auto_saved: boolean;
+  session: ImportSessionType;
+}
+
+export interface SessionListItem {
+  name: string;
+  summary: string;
+  auto_saved: boolean;
+  timestamp: string;
+  _id: string;
+}

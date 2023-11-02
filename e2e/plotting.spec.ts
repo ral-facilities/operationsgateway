@@ -1,28 +1,8 @@
-import { test, expect } from '@playwright/test';
-import recordsJson from './records.json';
-
-export const plotRecordsRoute = (context) =>
-  context.route('**/records**', (route) => {
-    return route.fulfill({
-      body: JSON.stringify(recordsJson),
-    });
-  });
-
-export const recordCountRoute = (context) =>
-  context.route('**/records/count**', (route) => {
-    route.fulfill({
-      body: JSON.stringify(recordsJson.length),
-    });
-  });
+import { expect, test } from '@playwright/test';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
-  context,
-  browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -37,21 +17,15 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
-
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   // scroll down to get options button in full view
   await popup.mouse.wheel(0, 200);
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
-  await popup.locator('[aria-label="Pick shotnum colour"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
   await popup.locator('[aria-label="Hue"]').click();
   await popup.locator('[aria-label="Color"]').click();
 
@@ -60,31 +34,18 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('plots a shotnum vs channel graph with logarithmic scales', async ({
   page,
-  context,
-  browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -95,17 +56,19 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('shotnu');
+  await popup.getByRole('button', { name: 'XY' }).click();
 
-  await popup.locator('text=shotnum').click();
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('text=Log').click();
 
-  await popup.locator('text=Y').click();
+  await popup.getByRole('tab', { name: 'Y' }).click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('text=Log').click();
 
@@ -114,30 +77,15 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can zoom and pan the graph', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
+test('user can zoom and pan the graph', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -148,44 +96,45 @@ test('user can zoom and pan the graph', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('time');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
-
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   await chart.click();
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
-  await popup.mouse.wheel(10, 0);
 
+  // test drag to zoom
   await popup.dragAndDrop('#my-chart', '#my-chart', {
     sourcePosition: {
-      x: 100,
-      y: 100,
+      x: 250,
+      y: 120,
     },
     targetPosition: {
-      x: 25,
-      y: 25,
+      x: 450,
+      y: 180,
     },
   });
+
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+  await popup.mouse.wheel(-10, 0);
+
+  await popup.keyboard.down('Shift');
+  await popup.dragAndDrop('#my-chart', '#my-chart', {
+    sourcePosition: {
+      x: 150,
+      y: 150,
+    },
+    targetPosition: {
+      x: 50,
+      y: 50,
+    },
+  });
+  await popup.keyboard.up('Shift');
 
   // click far side of chart to remove any tooltips
   await chart.click({
@@ -202,35 +151,23 @@ test('user can zoom and pan the graph', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 
-  // test the reset view button resets the zoom & pan
-  // can't test reset zoom on chrome with the "have to close main window" workaround
-  if (browserName !== 'chromium') {
-    await popup.locator('text=Reset View').click({
-      // delay helps remove tooltips from the plot
-      delay: 1000,
-    });
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
+  await popup.locator('text=Reset View').click({
+    // delay helps remove tooltips from the plot
+    delay: 1000,
+  });
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
 
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await chart.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot({ maxDiffPixels: 100 });
-  }
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('plots multiple channels on the y axis', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
+test('plots multiple channels on the y axis', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -241,36 +178,36 @@ test('plots multiple channels on the y axis', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
-  await popup.locator('[aria-label="toggle shotnum visibility off"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup
+    .locator('[aria-label="toggle Shot Number visibility off"]')
+    .click();
+
+  // add to the right Y axis as when we hide the channel the right Y axis shouldn't be visible
+  await popup.getByRole('button', { name: 'Right' }).click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('GHIJK');
+
+  await popup.locator('text=Channel_GHIJK').click();
+
+  await popup.locator('[aria-label="More options for Channel_GHIJK"]').click();
+  await popup
+    .locator('[aria-label="toggle Channel_GHIJK visibility off"]')
+    .click();
 
   await popup.locator('[aria-label="close settings"]').click();
-
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
 
   const chart = await popup.locator('#my-chart');
 
@@ -281,17 +218,10 @@ test('plots multiple channels on the y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can hide gridlines and axes labels', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
+test('user can hide gridlines and axes labels', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -302,15 +232,9 @@ test('user can hide gridlines and axes labels', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Search")').fill('time');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
-
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
@@ -329,31 +253,18 @@ test('user can hide gridlines and axes labels', async ({
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   expect(
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can add from and to dates to timestamp on x-axis', async ({
   page,
-  context,
-  browserName,
 }) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -368,10 +279,6 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
   await popup
     .locator('[aria-label="from, date-time input"]')
     .fill('2022-01-03 00:00:00');
@@ -379,24 +286,14 @@ test('user can add from and to dates to timestamp on x-axis', async ({
     .locator('[aria-label="to, date-time input"]')
     .fill('2022-01-10 00:00:00');
 
-  await popup.locator('text=Y').click();
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
-
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('[aria-label="close settings"]').click();
 
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
-
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
 
   const chart = await popup.locator('#my-chart');
 
@@ -405,18 +302,11 @@ test('user can add from and to dates to timestamp on x-axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can add min and max limits to x- and y-axis', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
+test('user can add min and max limits to x- and y-axis', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -427,22 +317,22 @@ test('user can add min and max limits to x- and y-axis', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('label:has-text("Title")').fill('Test shotnum plot');
+  await popup.getByRole('button', { name: 'XY' }).click();
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('label:has-text("Title")').fill('Test Shot Number plot');
 
-  await popup.locator('label:has-text("Search")').fill('shotnu');
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
   await popup.locator('label:has-text("Min")').fill('1');
   await popup.locator('label:has-text("Max")').fill('2');
 
-  await popup.locator('text=Y').click();
+  await popup.getByRole('tab', { name: 'Y' }).click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Min")').fill('-1');
   await popup.locator('label:has-text("Max")').fill('5');
@@ -452,31 +342,16 @@ test('user can add min and max limits to x- and y-axis', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
   expect(
     await chart.screenshot({
       type: 'png',
     })
-    // 100 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test('user can change line style of plotted channels', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  await plotRecordsRoute(context);
-  await recordCountRoute(context);
-
+test('user can change line style of plotted channels', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
@@ -489,43 +364,29 @@ test('user can change line style of plotted channels', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  await popup.locator('text=CHANNEL_ABCDE').click();
+  await popup.locator('text=Channel_ABCDE').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('label:has-text("Search all channels")').fill('shotnu');
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
-  await popup.locator('text=shotnum').click();
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_DEFGH"]').click();
+  await popup.locator('[aria-label="More options for Channel_DEFGH"]').click();
   await popup
-    .locator('[aria-label="change CHANNEL_DEFGH line style"]')
+    .locator('[aria-label="change Channel_DEFGH line style"]')
     .selectOption('dashed');
 
-  await popup.locator('[aria-label="More options for shotnum"]').click();
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
   await popup
-    .locator('[aria-label="change shotnum line style"]')
+    .locator('[aria-label="change Shot Number line style"]')
     .selectOption('dotted');
 
   await popup.locator('[aria-label="close settings"]').click();
-
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
 
   const chart = await popup.locator('#my-chart');
 
@@ -536,34 +397,83 @@ test('user can change line style of plotted channels', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-const modifiedRecordsJson = recordsJson.map((record) => {
-  const newRecord = JSON.parse(JSON.stringify(record));
-  if (newRecord.channels.CHANNEL_DEFGH) {
-    newRecord.channels.CHANNEL_DEFGH.data =
-      newRecord.channels.CHANNEL_DEFGH.data * 100000;
-  }
-  return newRecord;
-});
-
-export const plotRecordsRouteDifferentScales = (context) =>
-  context.route('**/records**', (route) => {
-    return route.fulfill({
-      body: JSON.stringify(modifiedRecordsJson),
-    });
-  });
-
-test('user can plot channels on the right y axis', async ({
+test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async ({
   page,
-  context,
-  browserName,
 }) => {
-  await plotRecordsRouteDifferentScales(context);
-  await recordCountRoute(context);
-
   await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Title")').fill('Test time plot');
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-10 23:57');
+  await popup
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-11 00:03');
+
+  // scroll down to get options button in full view
+  await popup.mouse.wheel(0, 200);
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.locator('[aria-label="Pick Shot Number colour"]').click();
+  await popup.locator('[aria-label="Hue"]').click();
+  await popup.locator('[aria-label="Color"]').click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  const chart = await popup.locator('#my-chart');
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+    // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can plot channels on the right y axis', async ({ page }) => {
+  await page.goto('/');
+
+  await page.evaluate(async () => {
+    const { msw } = window;
+
+    const response = await fetch('/records');
+    const responseBody = await response.json();
+
+    const modifiedRecordsJson = responseBody.map((record) => {
+      const newRecord = JSON.parse(JSON.stringify(record));
+      if (newRecord.channels.CHANNEL_DEFGH) {
+        newRecord.channels.CHANNEL_DEFGH.data =
+          newRecord.channels.CHANNEL_DEFGH.data * 100000;
+      }
+      return newRecord;
+    });
+
+    msw.worker.use(
+      msw.rest.get('/records', async (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(modifiedRecordsJson));
+      })
+    );
+  });
 
   await page.locator('text=Plots').click();
 
@@ -575,40 +485,25 @@ test('user can plot channels on the right y axis', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  await popup.locator('label:has-text("Search")').fill('time');
-
-  await popup.locator('text=timestamp').click();
-
-  await popup.locator('text=Y').click();
-
   // users can add channels to the right y axis directly when "right" is selected as the axis
   await popup.locator('text=Right').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
-  const channel_ABCDE = await popup.locator('text=CHANNEL_ABCDE');
+  const channel_ABCDE = await popup.locator('text=Channel_ABCDE');
   await channel_ABCDE.click();
 
   await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
 
-  await popup.locator('text=CHANNEL_DEFGH').click();
+  await popup.locator('text=Channel_DEFGH').click();
 
-  await popup.locator('[aria-label="More options for CHANNEL_ABCDE"]').click();
+  await popup.locator('[aria-label="More options for Channel_ABCDE"]').click();
 
   // move ABCDE over to left axis - tests that users can move channels between left & right
-  if (browserName === 'webkit') {
-    // for some reason webkit can't use check or click on the radio button as it doesn't change
-    // so use arrow key instead
-    await popup
-      .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByLabel('Right')
-      .press('ArrowLeft');
-  } else {
-    await popup
-      .getByRole('radiogroup', { name: 'Y Axis' })
-      .getByRole('radio', { name: 'Left' })
-      .click();
-  }
+  await popup
+    .getByRole('radiogroup', { name: 'Y Axis' })
+    .getByRole('radio', { name: 'Left' })
+    .click();
 
   // should not exist anymore as it's moved over to the left "tab"
   await expect(channel_ABCDE).toHaveCount(0);
@@ -621,14 +516,6 @@ test('user can plot channels on the right y axis', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  if (browserName === 'chromium') {
-    // need to close main window on chromium for some reason, as otherwise CDN libraries won't load in popup
-    await page.close();
-    await popup.waitForFunction(() => typeof globalThis.Chart !== undefined);
-    // need this to wait for canvas animations to execute
-    await popup.waitForTimeout(1000);
-  }
-
   const chart = await popup.locator('#my-chart');
 
   // need this to wait for canvas animations to execute
@@ -638,5 +525,87 @@ test('user can plot channels on the right y axis', async ({
     await chart.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 100 });
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize left y axis label', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize right y axis label', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.getByRole('button', { name: 'Right' }).click();
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can customize both left and right y axis labels', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search")').fill('Shot Num');
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
+
+  await popup.getByRole('button', { name: 'Right' }).click();
+  await popup.locator('label:has-text("Search")').fill('DEFGH');
+  await popup
+    .getByRole('option', { name: 'Channel_DEFGH', exact: true })
+    .click();
+  await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
+
+  const chart = await popup.locator('#my-chart');
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

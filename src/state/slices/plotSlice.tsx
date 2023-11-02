@@ -1,23 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  DEFAULT_WINDOW_VARS,
   PlotType,
   SelectedPlotChannel,
+  timeChannelName,
+  WindowConfig,
   XAxisScale,
   YAxisScale,
 } from '../../app.types';
 import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
 
-export const DEFAULT_WINDOW_VARS = {
-  outerWidth: 600,
-  outerHeight: 400,
-  screenX: 200,
-  screenY: 200,
-};
-
-export interface PlotConfig {
-  open: boolean;
-  title: string;
+export interface PlotConfig extends WindowConfig {
   plotType: PlotType;
   XAxis?: string;
   XAxisScale: XAxisScale;
@@ -30,14 +24,12 @@ export interface PlotConfig {
   leftYAxisMaximum?: number;
   rightYAxisMinimum?: number;
   rightYAxisMaximum?: number;
+  leftYAxisLabel?: string;
+  rightYAxisLabel?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   selectedColours: string[];
   remainingColours: string[];
-  outerWidth: number;
-  outerHeight: number;
-  screenX: number;
-  screenY: number;
 }
 
 // Define a type for the slice state
@@ -46,7 +38,7 @@ interface PlotState {
 }
 
 // Define the initial state using that type
-export const initialState = {} as PlotState;
+export const initialState: PlotState = {};
 
 export const plotSlice = createSlice({
   name: 'plots',
@@ -54,7 +46,7 @@ export const plotSlice = createSlice({
   initialState,
   reducers: {
     createPlot: (state) => {
-      const plotTitles = Object.keys(state);
+      const plotTitles = Object.values(state).map((config) => config.title);
       let i = 1;
       let newPlotTitle = '';
       while (true) {
@@ -62,11 +54,14 @@ export const plotSlice = createSlice({
         if (!plotTitles.includes(newPlotTitle)) break;
         i++;
       }
-      state[newPlotTitle] = {
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
         open: true,
         title: newPlotTitle,
         plotType: 'scatter',
-        XAxisScale: 'linear',
+        XAxis: timeChannelName,
+        XAxisScale: 'time',
         selectedPlotChannels: [],
         leftYAxisScale: 'linear',
         rightYAxisScale: 'linear',
@@ -79,14 +74,17 @@ export const plotSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     closePlot: (state, action: PayloadAction<string>) => {
-      state[action.payload].open = false;
+      const plotId = action.payload;
+      if (state[plotId]) {
+        state[plotId].open = false;
+      }
     },
     openPlot: (state, action: PayloadAction<string>) => {
       state[action.payload].open = true;
     },
     savePlot: (state, action: PayloadAction<PlotConfig>) => {
       const plotConfig = action.payload;
-      state[plotConfig.title] = plotConfig;
+      state[plotConfig.id] = plotConfig;
     },
     deletePlot: (state, action: PayloadAction<string>) => {
       // TODO check here if the plot is open first. Otherwise, an error is printed in console
@@ -100,9 +98,10 @@ export const { createPlot, closePlot, openPlot, savePlot, deletePlot } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectPlots = (state: RootState) => state.plots;
-export const selectOpenPlots = (state: RootState) =>
+export const selectOpenPlots = createSelector(selectPlots, (plots) =>
   Object.fromEntries(
-    Object.entries(state.plots).filter(([plotTitle, plot]) => plot.open)
-  );
+    Object.entries(plots).filter(([plotTitle, plot]) => plot.open)
+  )
+);
 
 export default plotSlice.reducer;

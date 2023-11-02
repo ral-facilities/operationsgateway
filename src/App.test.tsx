@@ -3,8 +3,6 @@ import { act } from '@testing-library/react';
 import App from './App';
 import { createRoot } from 'react-dom/client';
 import { flushPromises } from './setupTests';
-import { Provider } from 'react-redux';
-import { store } from './state/store';
 
 jest.mock('loglevel');
 
@@ -17,9 +15,7 @@ describe('App', () => {
     await act(async () => {
       root.render(
         <React.StrictMode>
-          <Provider store={store}>
-            <App />
-          </Provider>
+          <App />
         </React.StrictMode>
       );
       await flushPromises();

@@ -9,20 +9,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Token, ParserError, operators, parseFilter } from './filterParser';
-import { keyframes } from '@emotion/react';
-
-// Flash animation
-// Highlights chips in the autocomplete
-// Used when the filter icon in a table data header is clicked to emphasise it when the dialog appears
-const flash = keyframes`
-  0% {
-    background-color: #67becc;
-  }
-  100% {
-    background-color: #ebebeb;
-  }
-`;
-const flashAnimationLength = 1500; // milliseconds
+import { FLASH_ANIMATION } from '../animation';
 
 interface FilterInputProps {
   channels: Token[];
@@ -75,8 +62,71 @@ const FilterInput = (props: FilterInputProps) => {
         setError('');
         setInputIndex((prevIndex) => prevIndex + -1);
       }
+      // allow selecting operators, channels, strings
+      // and numbers with Space key down
+      if (e.key === ' ') {
+        const operatorExactMatch = operators.find(
+          (opt) => opt.value === inputValue
+        );
+        const channel = channels.filter((channel) =>
+          channel.label.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+        const operatorListMatch = operators.filter((opt) =>
+          opt.value.toLowerCase().startsWith(inputValue.toLowerCase())
+        );
+
+        const newValue = [...value];
+        let newToken;
+
+        switch (true) {
+          case channel.length === 1:
+            newToken = channel[0];
+            break;
+
+          case operatorExactMatch !== undefined:
+            newToken = operatorExactMatch;
+            break;
+
+          case operatorListMatch.length === 1:
+            newToken = operatorListMatch[0];
+            break;
+
+          case !Number.isNaN(Number(inputValue)) &&
+            inputValue.trim().length > 0:
+            newToken = {
+              type: 'number',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
+
+          case (inputValue[0] === '"' &&
+            inputValue[inputValue.length - 1] === '"') ||
+            (inputValue[0] === "'" &&
+              inputValue[inputValue.length - 1] === "'"):
+            newToken = {
+              type: 'string',
+              value: inputValue,
+              label: inputValue,
+            };
+            break;
+
+          default:
+            break;
+        }
+
+        if (typeof newToken !== 'undefined') {
+          e.preventDefault();
+          e.stopPropagation();
+          newValue.splice(inputIndex, 0, newToken as Token);
+          setValue(newValue);
+          setInputValue('');
+          setError('');
+          setInputIndex((prevIndex) => prevIndex + 1);
+        }
+      }
     },
-    [inputIndex, value, inputValue, setError, setValue]
+    [inputValue, value, setValue, setError, inputIndex, channels]
   );
 
   const clickHandler = React.useCallback<(e: React.MouseEvent) => void>(
@@ -141,7 +191,7 @@ const FilterInput = (props: FilterInputProps) => {
   // This ensures the chip doesn't flash every time it is selected from the autocomplete
   setTimeout(() => {
     setFlashAnimationPlaying(false);
-  }, flashAnimationLength);
+  }, FLASH_ANIMATION.length);
 
   return (
     <Autocomplete
@@ -179,7 +229,7 @@ const FilterInput = (props: FilterInputProps) => {
           const newTerm = newValue.find((v) => typeof v === 'string') as string;
           const newTermIndex = newValue.indexOf(newTerm);
           // new term is a valid number so allow it to be added
-          if (!Number.isNaN(Number(newTerm))) {
+          if (!Number.isNaN(Number(newTerm)) && inputValue.trim().length > 0) {
             newValue[newTermIndex] = {
               type: 'number',
               value: newTerm,
@@ -234,7 +284,7 @@ const FilterInput = (props: FilterInputProps) => {
             sx={{
               ...(flashAnimationPlaying &&
                 flashingFilterValue === option.value && {
-                  animation: `${flash} ${flashAnimationLength}ms`,
+                  animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
                 }),
             }}
             {...getTagProps({ index })}
@@ -261,6 +311,13 @@ const FilterInput = (props: FilterInputProps) => {
             endAdornment: tags.slice(inputIndex),
           }}
         />
+      )}
+      renderOption={(props, option) => (
+        // ensure we use the value and not the label as the key
+        // as theoretically only value has to be unique
+        <li {...props} key={option.value}>
+          {option.label}
+        </li>
       )}
       // for some reason, it's not accepting the sx prop here even though it should
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

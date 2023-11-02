@@ -2,12 +2,16 @@ import { Stack } from '@mui/material';
 import React from 'react';
 import SearchBar from '../search/searchBar.component';
 import FilterDialogue from '../filtering/filterDialogue.component';
-import ColumnCheckboxes from '../table/columnCheckboxes.component';
 import RecordTable from './recordTable.component';
 import TableButtons from './tableButtons.component';
-
-const DataView = React.memo((): React.ReactElement => {
+import ChannelsDialogue from '../channels/channelsDialogue.component';
+export interface DataViewProps {
+  sessionId: string | undefined;
+}
+const DataView = React.memo((props: DataViewProps): React.ReactElement => {
+  const { sessionId } = props;
   const [filtersOpen, setFiltersOpen] = React.useState<boolean>(false);
+  const [channelsOpen, setChannelsOpen] = React.useState<boolean>(false);
   const [flashingFilterValue, setFlashingFilterValue] = React.useState<
     string | undefined
   >(undefined);
@@ -19,23 +23,35 @@ const DataView = React.memo((): React.ReactElement => {
     setFlashingFilterValue(headerName);
   }, []);
 
+  // SG header + SG footer + tabs + spacing + search + spacing + buttons + spacing + pagination
+  const tableHeight = `calc(100vh - (64px + 36px + 50px + 8px ${
+    searchExpanded ? '+ 96px + 8px' : ''
+  } + 32px + 8px + 52px))`;
+
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>
-      <SearchBar expanded={searchExpanded} />
+      <SearchBar expanded={searchExpanded} sessionId={sessionId} />
       <TableButtons
         searchExpanded={searchExpanded}
         toggleSearchExpanded={() =>
           setSearchExpanded((searchExpanded) => !searchExpanded)
         }
         openFilters={() => setFiltersOpen(true)}
+        openChannels={() => setChannelsOpen(true)}
       />
       <FilterDialogue
         open={filtersOpen}
         onClose={() => setFiltersOpen(false)}
         flashingFilterValue={flashingFilterValue}
       />
-      <RecordTable openFilters={openFiltersFromDataHeader} />
-      <ColumnCheckboxes />
+      <ChannelsDialogue
+        open={channelsOpen}
+        onClose={() => setChannelsOpen(false)}
+      />
+      <RecordTable
+        openFilters={openFiltersFromDataHeader}
+        tableHeight={tableHeight}
+      />
     </Stack>
   );
 });

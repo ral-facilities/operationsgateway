@@ -1,4 +1,7 @@
-import { getHandleSelector } from '../../support/util';
+import {
+  getHandleSelector,
+  addInitialSystemChannels,
+} from '../../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   for (let i = 0; i < columns.length; i++) {
@@ -8,28 +11,23 @@ const verifyColumnOrder = (columns: string[]): void => {
 
 describe('Table Component', () => {
   beforeEach(() => {
-    cy.intercept('**/records**', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'records.json',
-      });
-    }).as('getRecords');
-
-    cy.intercept('**/records/count**', (req) => {
-      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-    }).as('getRecordCount');
-
-    cy.visit('/').wait(['@getRecords', '@getRecordCount']);
-  });
-
-  it('initialises with a time column', () => {
-    cy.get('[aria-describedby="table-loading-indicator"]').should(
-      'have.attr',
-      'aria-busy',
-      'false'
-    );
-
-    verifyColumnOrder(['Time']);
+    cy.visit('/', {
+      // need these to ensure Date picker media queries pass
+      // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+      onBeforeLoad: (win) => {
+        cy.stub(win, 'matchMedia')
+          .withArgs('(pointer: fine)')
+          .returns({
+            matches: true,
+            addListener: () => {
+              // no-op
+            },
+            removeListener: () => {
+              // no-op
+            },
+          });
+      },
+    });
   });
 
   it('adds columns in the order they are selected', () => {
@@ -39,22 +37,30 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    // check initialised with time column
+    verifyColumnOrder(['Time']);
+
+    addInitialSystemChannels(['Shot Number']);
 
     verifyColumnOrder(['Time', 'Shot Number']);
-    cy.get('#activeArea').check();
+
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('checkbox', { name: 'Active Area' }).check();
+
+    cy.contains('Add Channels').click();
+
     verifyColumnOrder(['Time', 'Shot Number', 'Active Area']);
   });
 
   it('moves a column left', () => {
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
-
-    cy.get('#shotnum').check();
-    cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
       .first()
@@ -74,14 +80,13 @@ describe('Table Component', () => {
   });
 
   it('moves a column right', () => {
+    addInitialSystemChannels(['Shot Number', 'Active Area']);
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
-
-    cy.get('#shotnum').check();
-    cy.get('#activeArea').check();
 
     cy.get(getHandleSelector())
       .first()
@@ -107,7 +112,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
 
     cy.get('[role="columnheader"]').first().as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
@@ -136,7 +141,7 @@ describe('Table Component', () => {
       'false'
     );
 
-    cy.get('#shotnum').check();
+    addInitialSystemChannels(['Shot Number']);
     cy.get('[role="columnheader"]').should('be.visible');
 
     cy.get('[role="table-container"]').scrollTo('bottom');
@@ -150,125 +155,75 @@ describe('Table Component', () => {
       'false'
     );
 
-    // Add enough columns to require horizontal scroll bar
-    for (let i = 0; i < 7; i++) {
-      cy.get('[type="checkbox"').eq(i).check();
-    }
+    // // Add enough columns to require horizontal scroll bar
+    cy.contains('Data Channels').click();
+
+    cy.contains('system').click();
+
+    cy.findByRole('checkbox', { name: 'Shot Number' }).check();
+    cy.findByRole('checkbox', { name: 'Active Area' }).check();
+    cy.findByRole('checkbox', { name: 'Active Experiment' }).check();
+
+    cy.contains('All Channels').click();
+
+    cy.findByLabelText('Search data channels').type(
+      'Channel_A{downArrow}{enter}'
+    );
+
+    cy.findByRole('checkbox', { name: 'Channel_ABCDE' }).check();
+    cy.findByRole('checkbox', { name: 'Channel_BCDEF' }).check();
+    cy.findByRole('checkbox', { name: 'Channel_CDEFG' }).check();
+
+    cy.contains('Add Channels').click();
 
     cy.get('[role="table-container"]').scrollTo('right');
-    cy.get('[role="columnheader"]').first().should('be.visible');
+    cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
+    // double check that we have scrolled far enough to test sticky column
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should(
+      'not.be.visible'
+    );
   });
 
   it('column headers overflow when word wrap is enabled', () => {
+    cy.contains('Data Channels').click();
+    const channelName = 'CHANNEL_ABCDE';
+
+    cy.findByLabelText('Search data channels').type(
+      `${channelName}{downArrow}{enter}`
+    );
+
+    cy.findByRole('checkbox', { name: new RegExp(channelName, 'i') }).check();
+
+    cy.contains('Add Channels').click();
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
 
-    cy.get('[id^="CHANNEL_"]').first().as('channelCheckbox');
-    cy.get('@channelCheckbox').invoke('attr', 'id').as('channelName');
-    cy.get('@channelCheckbox').check();
+    cy.get('[data-testid^="sort timestamp"] p')
+      .invoke('css', 'height')
+      .then((height) => {
+        const singleLineHeight = +height.replace('px', '');
+        cy.get(`[data-testid^="sort ${channelName}"] p`)
+          .invoke('css', 'height')
+          .then((height) => +height.replace('px', ''))
+          .should('equal', singleLineHeight);
 
-    cy.get('@channelName').then((channelName) => {
-      cy.get('[data-testid^="sort timestamp"] p')
-        .invoke('css', 'height')
-        .then((height) => {
-          const singleLineHeight = +height.replace('px', '');
-          cy.get(`[data-testid^="sort ${channelName}"] p`)
-            .invoke('css', 'height')
-            .then((height) => +height.replace('px', ''))
-            .should('equal', singleLineHeight);
-
-          // can't use cypress to trigger the menu opening, so use native browser
-          cy.document().then(($doc) => {
-            const clickEvent = new Event('click', { bubbles: true });
-            $doc
-              .querySelector(`#${channelName}-menu-button`)
-              ?.dispatchEvent(clickEvent);
-          });
-          cy.contains('Turn word wrap on').click();
-          cy.get(`[data-testid^="sort ${channelName}"] p`)
-            .invoke('css', 'height')
-            .then((height) => +height.replace('px', ''))
-            .should('be.gt', singleLineHeight);
+        // can't use cypress to trigger the menu opening, so use native browser
+        cy.document().then(($doc) => {
+          const clickEvent = new Event('click', { bubbles: true });
+          $doc
+            .querySelector(`#${channelName}-menu-button`)
+            ?.dispatchEvent(clickEvent);
         });
-    });
-  });
-
-  describe.skip('should be able to sort by', () => {
-    it('ascending order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[aria-sort="ascending"]').should('exist');
-      cy.get('.MuiTableSortLabel-iconDirectionAsc').should('be.visible');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
+        cy.contains('Turn word wrap on').click();
+        cy.get(`[data-testid^="sort ${channelName}"] p`)
+          .invoke('css', 'height')
+          .then((height) => +height.replace('px', ''))
+          .should('be.gt', singleLineHeight);
       });
-    });
-
-    it('descending order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      cy.get('[aria-sort="descending"]').should('exist');
-      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('be.visible');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
-      });
-    });
-
-    it('no order', () => {
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[aria-sort="ascending"]').should('not.exist');
-      cy.get('[aria-sort="descending"]').should('not.exist');
-      cy.get('.MuiTableSortLabel-iconDirectionAsc').should(
-        'have.css',
-        'opacity',
-        '0'
-      );
-      cy.get('.MuiTableSortLabel-iconDirectionDesc').should('not.exist');
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
-          });
-      });
-    });
-
-    it('multiple columns', () => {
-      cy.get('#shotnum').check();
-      cy.get('[data-testid="sort timestamp"]').click().wait('@getRecords');
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(200);
-      cy.get('[data-testid="sort shotnum"]').click().wait('@getRecords');
-
-      cy.get('tbody').within(() => {
-        cy.get('tr')
-          .first()
-          .within(() => {
-            cy.get('td').eq(0).contains('2022-01-01 00:00:00');
-            cy.get('td').eq(1).contains('1');
-          });
-      });
-    });
   });
 
   describe('should be able to search by', () => {
@@ -312,36 +267,52 @@ describe('Table Component', () => {
 
   describe('can set max shots', () => {
     it('50 shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 50 });
-      }).as('getRecordCount');
-      cy.visit('/').wait(['@getRecordCount']);
+      cy.window().then((window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(50));
+          })
+        );
+      });
 
       cy.contains('1–25 of 50');
     });
 
     it('1000 shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 1000 });
-      }).as('getRecordCount');
+      cy.window().then(async (window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(1000));
+          })
+        );
+      });
 
       cy.get('span[aria-label="Select 1000 max shots"]').click();
       cy.contains('Search').click();
-      cy.wait('@getRecordCount').then(() => {
-        cy.contains('1–25 of 1000');
-      });
+      cy.contains('1–25 of 1000');
     });
 
     it('unlimited shots', () => {
-      cy.intercept('**/records/count**', (req) => {
-        req.reply({ statusCode: 200, body: 2500 }); // arbitrary number greater than 1000
-      }).as('getRecordCount');
+      cy.window().then((window) => {
+        // Reference global instances set in "src/mocks/browser.js".
+        const { worker, rest } = window.msw;
+
+        worker.use(
+          rest.get('/records/count', (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(2500)); //arbirary number greater than 1000
+          })
+        );
+      });
 
       cy.get('span[aria-label="Select unlimited max shots"]').click();
       cy.contains('Search').click();
-      cy.wait('@getRecordCount').then(() => {
-        cy.contains('1–25 of 2500');
-      });
+      cy.contains('1–25 of 2500');
     });
   });
 });

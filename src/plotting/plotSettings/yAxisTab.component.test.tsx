@@ -4,13 +4,14 @@ import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import YAxisTab from './yAxisTab.component';
 import type { YAxisTabProps } from './yAxisTab.component';
-import { testChannels } from '../../setupTests';
+import { testScalarChannels } from '../../setupTests';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { COLOUR_ORDER } from './colourGenerator';
+import { staticChannels } from '../../api/channels';
 
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
-  let user;
+  let user: ReturnType<typeof userEvent.setup>;
   const changeLeftYAxisScale = jest.fn();
   const changeRightYAxisScale = jest.fn();
   const changeSelectedPlotChannels = jest.fn();
@@ -20,6 +21,8 @@ describe('y-axis tab', () => {
   const changeRightYAxisMaximum = jest.fn();
   const changeSelectedColours = jest.fn();
   const changeRemainingColours = jest.fn();
+  const changeRightYAxisLabel = jest.fn();
+  const changeLeftYAxisLabel = jest.fn();
 
   const createView = (): RenderResult => {
     return render(<YAxisTab {...props} />);
@@ -28,13 +31,9 @@ describe('y-axis tab', () => {
   beforeEach(() => {
     props = {
       selectedRecordTableChannels: [
-        {
-          systemName: 'timestamp',
-          channel_dtype: 'scalar',
-          userFriendlyName: 'Time',
-        },
+        staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
-      allChannels: testChannels as FullScalarChannelMetadata[],
+      allChannels: testScalarChannels,
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeLeftYAxisMinimum,
@@ -49,6 +48,8 @@ describe('y-axis tab', () => {
       initialRemainingColours: COLOUR_ORDER.map((colour) => colour),
       changeSelectedColours,
       changeRemainingColours,
+      changeRightYAxisLabel,
+      changeLeftYAxisLabel,
     };
 
     user = userEvent.setup({ delay: null });
@@ -65,8 +66,9 @@ describe('y-axis tab', () => {
   });
 
   it('renders correctly with selected channels', () => {
-    props.selectedPlotChannels = testChannels.map((channel) => ({
+    props.selectedPlotChannels = testScalarChannels.map((channel) => ({
       name: channel.systemName,
+      displayName: channel.name,
       options: {
         visible: true,
         colour: '#ffffff',
@@ -78,13 +80,14 @@ describe('y-axis tab', () => {
     createView();
 
     props.selectedPlotChannels.forEach((channel) => {
-      const channelLabel = screen.getByLabelText(`${channel.name} label`);
-      expect(within(channelLabel).getByText(channel.name)).toBeInTheDocument();
+      const channelName = channel.displayName ?? channel.name;
+      const channelLabel = screen.getByLabelText(`${channelName} label`);
+      expect(within(channelLabel).getByText(channelName)).toBeInTheDocument();
       expect(
-        within(channelLabel).getByLabelText(`More options for ${channel.name}`)
+        within(channelLabel).getByLabelText(`More options for ${channelName}`)
       ).toBeInTheDocument();
       expect(
-        within(channelLabel).getByLabelText(`Remove ${channel.name} from plot`)
+        within(channelLabel).getByLabelText(`Remove ${channelName} from plot`)
       ).toBeInTheDocument();
     });
   });
@@ -127,14 +130,16 @@ describe('y-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
+    await user.type(input, 'Channel_');
     autocomplete.focus();
     fireEvent.keyDown(autocomplete, { key: 'ArrowDown' });
     fireEvent.keyDown(autocomplete, { key: 'Enter' });
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
+        displayName: 'Channel_ABCDE',
+        name: 'CHANNEL_ABCDE',
+        units: '',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -153,12 +158,14 @@ describe('y-axis tab', () => {
     const autocomplete = screen.getByRole('autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
-    await user.type(input, 'test_');
-    await user.click(screen.getByText('test_1'));
+    await user.type(input, 'Channel_');
+    await user.click(screen.getByText('Channel_DEFGH'));
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
+        displayName: 'Channel_DEFGH',
+        name: 'CHANNEL_DEFGH',
+        units: '',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -170,20 +177,25 @@ describe('y-axis tab', () => {
   });
 
   it('populates the displayed table channels dropdown and adds selection to the y-axis', async () => {
-    props.selectedRecordTableChannels = [
-      {
-        systemName: 'test_1',
-        channel_dtype: 'scalar',
-      },
-    ];
+    props.selectedRecordTableChannels = testScalarChannels.filter(
+      (channel) => channel.systemName === 'CHANNEL_ABCDE'
+    );
     createView();
 
-    const select = screen.getByTestId('select displayed table channels');
-    fireEvent.change(select, { target: { value: 'test_1' } });
+    const select = screen.getByLabelText('Displayed table channels');
+    await userEvent.click(select);
+
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Displayed table channels',
+    });
+    await userEvent.click(
+      within(dropdown).getByRole('option', { name: 'Channel_ABCDE' })
+    );
 
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith([
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: expect.anything(),
@@ -195,15 +207,13 @@ describe('y-axis tab', () => {
   });
 
   it('only populates the displayed table channels dropdown with options not already selected', async () => {
-    props.selectedRecordTableChannels = [
-      {
-        systemName: 'test_1',
-        channel_dtype: 'scalar',
-      },
-    ];
+    props.selectedRecordTableChannels = testScalarChannels.filter(
+      (channel) => channel.systemName === 'CHANNEL_ABCDE'
+    );
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -214,16 +224,20 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    const select = screen.getByTestId('select displayed table channels');
-    fireEvent.change(select, { target: { value: 'test_1' } });
+    const select = screen.getByLabelText('Displayed table channels');
+    await userEvent.click(select);
 
-    expect(changeSelectedPlotChannels).not.toHaveBeenCalled();
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Displayed table channels',
+    });
+    expect(within(dropdown).queryByRole('option')).not.toBeInTheDocument();
   });
 
   it('removes channel from display when we click Close on its label', async () => {
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -232,7 +246,8 @@ describe('y-axis tab', () => {
         },
       },
       {
-        name: 'test_2',
+        name: 'CHANNEL_DEFGH',
+        displayName: 'Channel_DEFGH',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -243,10 +258,11 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    await user.click(screen.getByLabelText('Remove test_1 from plot'));
+    await user.click(screen.getByLabelText('Remove Channel_ABCDE from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
-        name: 'test_2',
+        name: 'CHANNEL_DEFGH',
+        displayName: 'Channel_DEFGH',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -262,7 +278,8 @@ describe('y-axis tab', () => {
   it('removes channel from display when we click Close on its label and resets y-axis scale to linear if no selected channels remain', async () => {
     props.selectedPlotChannels = [
       {
-        name: 'test_1',
+        name: 'CHANNEL_ABCDE',
+        displayName: 'Channel_ABCDE',
         options: {
           visible: true,
           colour: '#ffffff',
@@ -273,7 +290,7 @@ describe('y-axis tab', () => {
     ];
     createView();
 
-    await user.click(screen.getByLabelText('Remove test_1 from plot'));
+    await user.click(screen.getByLabelText('Remove Channel_ABCDE from plot'));
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([]);
     expect(changeLeftYAxisScale).toHaveBeenCalledWith('linear');
     expect(changeRightYAxisScale).toHaveBeenCalledWith('linear');
@@ -284,8 +301,8 @@ describe('y-axis tab', () => {
       createView();
 
       const minField = screen.getByLabelText('Min');
-      await user.type(minField, '1');
-      expect(changeLeftYAxisMinimum).toHaveBeenCalledWith(1);
+      await user.type(minField, '0');
+      expect(changeLeftYAxisMinimum).toHaveBeenCalledWith(0);
     });
 
     it('lets user change the max field and calls relevant onchange method', async () => {
@@ -294,8 +311,8 @@ describe('y-axis tab', () => {
       await user.click(screen.getByRole('button', { name: 'Right' }));
 
       const maxField = screen.getByLabelText('Max');
-      await user.type(maxField, '1');
-      expect(changeRightYAxisMaximum).toHaveBeenCalledWith(1);
+      await user.type(maxField, '0');
+      expect(changeRightYAxisMaximum).toHaveBeenCalledWith(0);
     });
 
     it('sets minimum value to undefined if no float value is present', async () => {
@@ -336,5 +353,59 @@ describe('y-axis tab', () => {
       // One for each input box
       expect(screen.getAllByText('Invalid range').length).toEqual(2);
     });
+
+    it('initialises correctly with falsy values', async () => {
+      props.initialLeftYAxisMinimum = 0;
+      props.initialLeftYAxisMaximum = 0;
+      createView();
+
+      const minField = screen.getByLabelText('Min');
+      expect(minField).toHaveValue('0');
+
+      const maxField = screen.getByLabelText('Max');
+      expect(maxField).toHaveValue('0');
+    });
+  });
+
+  it('allows customization of left y-axis label', async () => {
+    function TestEnv() {
+      const [leftYAxisLabel, setLeftYAxisLabel] = React.useState('');
+      return (
+        <YAxisTab
+          {...props}
+          leftYAxisLabel={leftYAxisLabel}
+          changeLeftYAxisLabel={setLeftYAxisLabel}
+        />
+      );
+    }
+
+    render(<TestEnv />);
+
+    const axisLabelTextBox = screen.getByRole('textbox', { name: 'Label' });
+    expect(axisLabelTextBox).toHaveValue('');
+
+    await user.type(axisLabelTextBox, 'Left axis');
+    expect(axisLabelTextBox).toHaveValue('Left axis');
+  });
+
+  it('allows customization of right y-axis label', async () => {
+    function TestEnv() {
+      const [rightYAxisLabel, setRightYAxisLabel] = React.useState('');
+      return (
+        <YAxisTab
+          {...props}
+          leftYAxisLabel={rightYAxisLabel}
+          changeLeftYAxisLabel={setRightYAxisLabel}
+        />
+      );
+    }
+
+    render(<TestEnv />);
+
+    const axisLabelTextBox = screen.getByRole('textbox', { name: 'Label' });
+    expect(axisLabelTextBox).toHaveValue('');
+
+    await user.type(axisLabelTextBox, 'Right axis');
+    expect(axisLabelTextBox).toHaveValue('Right axis');
   });
 });

@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { Schedule } from '@mui/icons-material';
 import { useClickOutside } from '../../hooks';
+import { FLASH_ANIMATION } from '../../animation';
 
 export type TimeframeRange = {
   value: number;
@@ -18,15 +19,23 @@ export type TimeframeRange = {
 export interface TimeframeProps {
   timeframe: TimeframeRange | null;
   changeTimeframe: (value: TimeframeRange) => void;
+  resetExperimentTimeframe: () => void;
+  resetShotnumber: () => void;
+  searchParamsUpdated: () => void;
 }
 
 const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
-  const { changeTimeframe } = props;
+  const {
+    changeTimeframe,
+    resetExperimentTimeframe,
+    resetShotnumber,
+    searchParamsUpdated,
+  } = props;
 
   const [workingTimeframe, setWorkingTimeframe] = React.useState<number>(0);
 
   return (
-    <div style={{ padding: 5 }}>
+    <Box sx={{ padding: '5px', bgcolor: 'background.default' }}>
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your timeframe
       </Typography>
@@ -44,7 +53,12 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             size="small"
             variant="outlined"
             sx={{ height: '100%' }}
-            onClick={() => changeTimeframe({ value: 10, timescale: 'minutes' })}
+            onClick={() => {
+              resetExperimentTimeframe();
+              resetShotnumber();
+              searchParamsUpdated();
+              changeTimeframe({ value: 10, timescale: 'minutes' });
+            }}
           >
             Last 10 mins
           </Button>
@@ -54,7 +68,12 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             size="small"
             variant="outlined"
             sx={{ height: '100%' }}
-            onClick={() => changeTimeframe({ value: 24, timescale: 'hours' })}
+            onClick={() => {
+              resetExperimentTimeframe();
+              resetShotnumber();
+              searchParamsUpdated();
+              changeTimeframe({ value: 24, timescale: 'hours' });
+            }}
           >
             Last 24 hours
           </Button>
@@ -64,7 +83,12 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             size="small"
             variant="outlined"
             sx={{ height: '100%' }}
-            onClick={() => changeTimeframe({ value: 7, timescale: 'days' })}
+            onClick={() => {
+              resetExperimentTimeframe();
+              resetShotnumber();
+              searchParamsUpdated();
+              changeTimeframe({ value: 7, timescale: 'days' });
+            }}
           >
             Last 7 days
           </Button>
@@ -79,9 +103,10 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             type="number"
             size="small"
             inputProps={{ min: 0 }}
-            onChange={(event) =>
-              setWorkingTimeframe(Number(event.target.value))
-            }
+            onChange={(event) => {
+              setWorkingTimeframe(Number(event.target.value));
+              searchParamsUpdated();
+            }}
           />
         </Grid>
         <Grid container spacing={1} item xs={8}>
@@ -91,11 +116,15 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               variant="outlined"
               sx={{ height: '100%' }}
               onClick={() => {
-                if (workingTimeframe > 0)
+                if (workingTimeframe > 0) {
+                  resetExperimentTimeframe();
+                  resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'minutes',
                   });
+                }
               }}
             >
               Mins
@@ -107,11 +136,15 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               variant="outlined"
               sx={{ height: '100%' }}
               onClick={() => {
-                if (workingTimeframe > 0)
+                if (workingTimeframe > 0) {
+                  resetExperimentTimeframe();
+                  resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'hours',
                   });
+                }
               }}
             >
               Hours
@@ -123,11 +156,15 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               variant="outlined"
               sx={{ height: '100%' }}
               onClick={() => {
-                if (workingTimeframe > 0)
+                if (workingTimeframe > 0) {
+                  resetExperimentTimeframe();
+                  resetShotnumber();
+                  searchParamsUpdated();
                   changeTimeframe({
                     value: workingTimeframe,
                     timescale: 'days',
                   });
+                }
               }}
             >
               Days
@@ -135,7 +172,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 };
 
@@ -148,6 +185,24 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
   // use parent node which is always mounted to get the document to attach event listeners to
   useClickOutside(popover, close, parent.current?.ownerDocument);
 
+  const [flashAnimationPlaying, setFlashAnimationPlaying] =
+    React.useState<boolean>(false);
+
+  // Stop the flash animation from playing after 1500ms
+  React.useEffect(() => {
+    if (props.timeframe === null) {
+      setFlashAnimationPlaying(true);
+      setTimeout(() => {
+        setFlashAnimationPlaying(false);
+      }, FLASH_ANIMATION.length);
+    }
+  }, [props.timeframe]);
+
+  // Prevent the flash animation playing on mount
+  React.useEffect(() => {
+    setFlashAnimationPlaying(false);
+  }, []);
+
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
       <Box
@@ -158,8 +213,12 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
           display: 'flex',
           flexDirection: 'row',
           paddingRight: 5,
+          paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
+          ...(flashAnimationPlaying && {
+            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+          }),
         }}
         onClick={() => toggle(!isOpen)}
       >

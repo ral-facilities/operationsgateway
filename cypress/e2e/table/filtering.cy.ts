@@ -1,18 +1,15 @@
+import { addInitialSystemChannels } from '../../support/util';
+
 describe('Filtering Component', () => {
   beforeEach(() => {
-    cy.intercept('**/records**', (req) => {
-      req.reply({
-        statusCode: 200,
-        fixture: 'records.json',
-      });
-    }).as('getRecords');
+    cy.visit('/');
 
-    cy.intercept('**/records/count**', (req) => {
-      req.reply({ statusCode: 200, fixture: 'recordCount.json' });
-    }).as('getRecordCount');
+    cy.findByRole('progressbar').should('be.visible');
+    cy.findByRole('progressbar').should('not.exist');
+  });
 
-    // remove second @getRecords once we query channels properly
-    cy.visit('/').wait(['@getRecords', '@getRecords', '@getRecordCount']);
+  afterEach(() => {
+    cy.clearMocks();
   });
 
   it('opens dialogue when you click on main filters button and closes when you click close', () => {
@@ -28,19 +25,29 @@ describe('Filtering Component', () => {
   it('opens dialogue when you click the filters button in a filtered table column', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type(
-      'Shot Number{enter}is not null{enter}'
-    );
+    cy.get('input[role="combobox"]').type('Shot{enter}is no ');
     cy.contains('Apply').click();
     cy.get('[role="dialog"]').should('not.exist');
 
-    cy.wait('@getRecords');
-    cy.get('#shotnum').check();
-    cy.get('[role="columnheader"]')
-      .eq(1) // Shot Number column
-      .within(() => {
-        cy.get('[aria-label="open filters"]').click();
-      });
+    addInitialSystemChannels(['Shot Number']);
+    cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
+      cy.get('[aria-label="open filters"]').click();
+    });
+
+    cy.get('[role="dialog"]').contains('Filters').should('be.visible');
+  });
+
+  it('opens dialogue when you click the filters button in a filtered table column using space bar', () => {
+    cy.contains('Filter').click();
+
+    cy.get('input[role="combobox"]').type('Shot is not null ');
+    cy.contains('Apply').click();
+    cy.get('[role="dialog"]').should('not.exist');
+
+    addInitialSystemChannels(['Shot Number']);
+    cy.findByRole('columnheader', { name: 'Shot Number' }).within(() => {
+      cy.get('[aria-label="open filters"]').click();
+    });
 
     cy.get('[role="dialog"]').contains('Filters').should('be.visible');
   });
@@ -48,9 +55,7 @@ describe('Filtering Component', () => {
   it('lets a user create a filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type(
-      'Shot Number{enter}is not null{enter}'
-    );
+    cy.get('input[role="combobox"]').type('Shot{enter}is no ');
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -59,23 +64,85 @@ describe('Filtering Component', () => {
       .contains('[role="button"]', 'is not null')
       .should('be.visible');
 
+    cy.startSnoopingBrowserMockedRequest();
+
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
+  });
+
+  it('lets a user create a filter using space bar', () => {
+    cy.contains('Filter').click();
+
+    cy.get('input[role="combobox"]').type('Shot is no ');
+
+    cy.get('[data-id="Input"]')
+      .contains('[role="button"]', 'Shot Number')
+      .should('be.visible');
+    cy.get('[data-id="Input"]')
+      .contains('[role="button"]', 'is not null')
+      .should('be.visible');
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.contains('Apply').should('not.be.disabled');
+    cy.contains('Apply').click();
+
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"metadata.shotnum":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('stops a user from creating an invalid filter', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('Shot Number{enter}<{enter}').blur();
+    cy.get('input[role="combobox"]').type('Shot{enter}<{enter}');
+    cy.get('input[role="combobox"]').blur();
+
+    cy.get('[data-id="Input"]')
+      .contains('[role="button"]', 'Shot Number')
+      .should('be.visible');
+    cy.get('[data-id="Input"]')
+      .contains('[role="button"]', /^<$/)
+      .should('be.visible');
+
+    cy.get('[role="dialog"]').contains('Missing operand').should('be.visible');
+
+    cy.contains('Apply').should('be.disabled');
+  });
+
+  it('stops a user from creating an invalid filter using space bar', () => {
+    cy.contains('Filter').click();
+
+    cy.get('input[role="combobox"]').type('Shot < ');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .contains('[role="button"]', 'Shot Number')
@@ -97,13 +164,13 @@ describe('Filtering Component', () => {
     cy.get('input[role="combobox"]')
       .as('input')
       .type(
-        'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}Shot Numb{enter}>{enter}1{enter}'
-      )
-      .blur();
+        'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}Shot{enter}>{enter}1{enter}'
+      );
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
-      .contains('[role="button"]', 'CHANNEL_DEFGH')
+      .contains('[role="button"]', 'Channel_DEFGH')
       .should('be.visible');
     cy.get('@autoComplete')
       .contains('[role="button"]', /^"1"$/)
@@ -112,9 +179,11 @@ describe('Filtering Component', () => {
       .contains('[role="button"]', /^1$/)
       .should('be.visible');
 
-    cy.get('@input')
-      .type('{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}')
-      .blur();
+    cy.get('@input').type(
+      '{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}'
+    );
+
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^or$/)
@@ -122,9 +191,8 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').should('not.be.disabled');
 
-    cy.get('@input')
-      .type('{rightArrow}{rightArrow}{backspace}>={enter}')
-      .blur();
+    cy.get('@input').type('{rightArrow}{rightArrow}{backspace}>={enter}');
+    cy.get('@input').blur();
 
     cy.get('@autoComplete')
       .contains('[role="button"]', /^>=$/)
@@ -134,27 +202,115 @@ describe('Filtering Component', () => {
     // when the input is either empty (backspace) or the cursor in the input is
     // fully at the start (arrow left) or at the end (arrow right)
     cy.get('@input').type('{leftArrow}{leftArrow}'); // set correct cursor position (i.e. after conjunction, before start of second assertion)
-    cy.get('@input').type('not{backspace}').blur();
+    cy.get('@input').type('not{backspace}');
+    cy.get('@input').blur();
 
     cy.get('@input').should('have.value', 'no');
     // if backspace deleted the previous item, the expression wouldn't be valid
     cy.contains('Apply').should('not.be.disabled');
 
     cy.get('@input').type('t');
-    cy.get('@input').type('{leftArrow}{rightArrow}{enter}').blur();
+    cy.get('@input').type('{leftArrow}{rightArrow}{enter}');
+    cy.get('@input').blur();
+
+    cy.startSnoopingBrowserMockedRequest();
 
     // not would only be valid in it's current position, so no error means we didn't move
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
-        )}`
-      );
-    });
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
+          )}`
+        );
+      }
+    );
+  });
+
+  it('lets a user edit a filter using arrow keys using space bar', () => {
+    cy.contains('Filter').click();
+
+    // this is also testing autocomplete suggestions work (i.e. it selects the second channel)
+    // as well as inputting numbers and strings
+    cy.get('input[role="combobox"]')
+      .as('input')
+      .type('Channel{downArrow}{enter}!= "1" and Shot > 1 ');
+    cy.get('input[role="combobox"]').blur();
+
+    cy.get('[data-id="Input"]')
+      .as('autoComplete')
+      .contains('[role="button"]', 'Channel_DEFGH')
+      .should('be.visible');
+    cy.get('@autoComplete')
+      .contains('[role="button"]', /^"1"$/)
+      .should('be.visible');
+    cy.get('@autoComplete')
+      .contains('[role="button"]', /^1$/)
+      .should('be.visible');
+
+    cy.get('@input').type(
+      '{leftArrow}{leftArrow}{leftArrow}{backspace}or{enter}'
+    );
+    cy.get('@input').blur();
+
+    cy.get('@autoComplete')
+      .contains('[role="button"]', /^or$/)
+      .should('be.visible');
+
+    cy.contains('Apply').should('not.be.disabled');
+
+    cy.get('@input').type('{rightArrow}{rightArrow}{backspace}>={enter}');
+    cy.get('@input').blur();
+
+    cy.get('@autoComplete')
+      .contains('[role="button"]', /^>=$/)
+      .should('be.visible');
+
+    // test that arrow keys & backspace only have their "extra" functionality
+    // when the input is either empty (backspace) or the cursor in the input is
+    // fully at the start (arrow left) or at the end (arrow right)
+    cy.get('@input').type('{leftArrow}{leftArrow}'); // set correct cursor position (i.e. after conjunction, before start of second assertion)
+    cy.get('@input').type('not{backspace}');
+    cy.get('@input').blur();
+
+    cy.get('@input').should('have.value', 'no');
+    // if backspace deleted the previous item, the expression wouldn't be valid
+    cy.contains('Apply').should('not.be.disabled');
+
+    cy.get('@input').type('t');
+    cy.get('@input').type('{leftArrow}{rightArrow}{enter}');
+    cy.get('@input').blur();
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    // not would only be valid in it's current position, so no error means we didn't move
+    cy.contains('Apply').should('not.be.disabled');
+    cy.contains('Apply').click();
+
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"$or":[{"channels.CHANNEL_DEFGH.data":{"$ne":"1"}},{"metadata.shotnum":{"$not":{"$gte":1}}}]}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('lets a user edit a filter using mouse', () => {
@@ -163,9 +319,9 @@ describe('Filtering Component', () => {
     cy.get('input[role="combobox"]')
       .as('input')
       .type(
-        'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}not{enter}Shot Numb{enter}>{enter}1{enter}'
-      )
-      .blur();
+        'Channel{downArrow}{enter}!={enter}"1"{enter}and{enter}not{enter}Shot{enter}>{enter}1{enter}'
+      );
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('[data-id="Input"]')
       .as('autoComplete')
@@ -192,14 +348,15 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}or{enter}').blur();
+    cy.get('@input').type('{backspace}or{enter}');
+    cy.get('@input').blur();
 
     cy.contains('Apply').should('not.be.disabled');
 
     cy.get('@autoComplete').then((el) => {
       const inputPosition = el[0].getBoundingClientRect();
       cy.wrap(el)
-        .contains('[role="button"]', /^CHANNEL_/)
+        .contains('[role="button"]', /^Channel_/)
         .then((chipEl) => {
           const chipPosition = chipEl[0].getBoundingClientRect();
           cy.wrap(el).click(
@@ -209,7 +366,8 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}Channel{enter}').blur();
+    cy.get('@input').type('{backspace}Channel{enter}');
+    cy.get('@input').blur();
 
     cy.contains('Apply').should('not.be.disabled');
 
@@ -226,25 +384,36 @@ describe('Filtering Component', () => {
         });
     });
 
-    cy.get('@input').type('{backspace}>={enter}').blur();
+    cy.get('@input').type('{backspace}>={enter}');
+    cy.get('@input').blur();
+
+    cy.startSnoopingBrowserMockedRequest();
 
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
-        )}`
-      );
-    });
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"$or":[{"channels.CHANNEL_ABCDE.data":{"$ne":"1"}},{"metadata.shotnum":{"$gte":1}}]}]}'
+          )}`
+        );
+      }
+    );
   });
 
   it('stops a user from entering a random string', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type('INVALID{enter}').blur();
+    cy.get('input[role="combobox"]').type('INVALID{enter}');
+    cy.get('input[role="combobox"]').blur();
 
     cy.get('.MuiAutocomplete-tag').should('not.exist');
 
@@ -254,27 +423,34 @@ describe('Filtering Component', () => {
   it('lets a user create multiple filters and delete them', () => {
     cy.contains('Filter').click();
 
-    cy.get('input[role="combobox"]').type(
-      'Shot Number{enter}is not null{enter}'
-    );
+    cy.get('input[role="combobox"]').type('Shot{enter}is no {enter}');
 
     cy.contains('button', 'Add new filter').click();
 
-    cy.get('input[role="combobox"]')
-      .eq(1)
-      .type('Channel{enter}is not null{enter}');
+    cy.get('input[role="combobox"]').eq(1).type('Channel{enter}is no {enter}');
+
+    cy.startSnoopingBrowserMockedRequest();
 
     cy.contains('Apply').should('not.be.disabled');
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"metadata.shotnum":{"$ne":null}},{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
+
+    cy.clearMocks();
 
     cy.contains('Filter').click();
 
@@ -282,13 +458,20 @@ describe('Filtering Component', () => {
 
     cy.contains('Apply').click();
 
-    cy.wait('@getRecords').should(({ request }) => {
-      expect(request.url).to.contain('conditions=');
-      expect(request.url).to.contain(
-        `conditions=${encodeURIComponent(
-          '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
-        )}`
-      );
-    });
+    cy.findByRole('table').should('be.visible');
+
+    cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+      (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        expect(request.url.toString()).to.contain(
+          `conditions=${encodeURIComponent(
+            '{"$and":[{"channels.CHANNEL_ABCDE.data":{"$ne":null}}]}'
+          )}`
+        );
+      }
+    );
   });
 });

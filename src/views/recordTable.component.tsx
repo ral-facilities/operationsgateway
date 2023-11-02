@@ -7,11 +7,10 @@ import {
   changePage,
   changeResultsPerPage,
   selectColumnStates,
-  selectHiddenColumns,
+  selectColumnVisibility,
   selectSelectedIds,
   deselectColumn,
   reorderColumn,
-  selectColumn,
   toggleWordWrap,
 } from '../state/slices/tableSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -44,8 +43,9 @@ export const extractChannelsFromTokens = (
 const RecordTable = React.memo(
   (props: {
     openFilters: (headerName: string) => void;
+    tableHeight: string;
   }): React.ReactElement => {
-    const { openFilters } = props;
+    const { openFilters, tableHeight } = props;
 
     const dispatch = useAppDispatch();
 
@@ -59,9 +59,14 @@ const RecordTable = React.memo(
     const { data: availableColumns, isLoading: columnsLoading } =
       useAvailableColumns();
 
+    const availableColumnsNullChecked = React.useMemo(
+      () => availableColumns ?? [],
+      [availableColumns]
+    );
+
     const columnStates = useAppSelector(selectColumnStates);
-    const hiddenColumns = useAppSelector((state) =>
-      selectHiddenColumns(state, availableColumns ?? [])
+    const columnVisibility = useAppSelector((state) =>
+      selectColumnVisibility(state, availableColumnsNullChecked)
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
@@ -112,19 +117,13 @@ const RecordTable = React.memo(
       return extractChannelsFromTokens(appliedFilters);
     }, [appliedFilters]);
 
-    // Ensure the timestamp column is opened automatically on table load
-    React.useEffect(() => {
-      if (!dataLoading && !columnOrder.includes('timestamp')) {
-        dispatch(selectColumn('timestamp'));
-      }
-    }, [dataLoading, columnOrder, dispatch]);
-
     return (
       <Table
+        tableHeight={tableHeight}
         data={data ?? []}
-        availableColumns={availableColumns ?? []}
+        availableColumns={availableColumnsNullChecked}
         columnStates={columnStates}
-        hiddenColumns={hiddenColumns}
+        columnVisibility={columnVisibility}
         columnOrder={columnOrder}
         totalDataCount={count ?? 0}
         maxShots={maxShots}

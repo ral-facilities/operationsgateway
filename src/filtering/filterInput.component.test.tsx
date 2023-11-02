@@ -66,6 +66,36 @@ describe('Filter input component', () => {
     expect(props.setError).toHaveBeenCalledWith('');
   });
 
+  it('lets a user type operators in the filters and use the space bar for autocomplete when there is only one operator available', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'n');
+    await user.type(filter, ' ');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      operators.find((t) => t.value === 'not')!,
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
+  it('user can type in channels to the filter using space bar', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'Shot num');
+    await user.type(filter, ' ');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
   it('user can type numbers to the filter', async () => {
     const user = userEvent.setup();
     render(<FilterInput {...props} />);
@@ -74,6 +104,21 @@ describe('Filter input component', () => {
 
     await user.type(filter, '1');
     await user.type(filter, '{enter}');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      { type: 'number', value: '1', label: '1' },
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
+  it('user can type numbers to the filter using space bar', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, '1');
+    await user.type(filter, ' ');
 
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'number', value: '1', label: '1' },
@@ -96,6 +141,21 @@ describe('Filter input component', () => {
     expect(props.setError).toHaveBeenCalledWith('');
   });
 
+  it('user can type custom strings to the filter if they are wrapped in double quotes using space bar', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, '"test"');
+    await user.type(filter, ' ');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      { type: 'string', value: '"test"', label: '"test"' },
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
   it('user can type custom strings to the filter if they are wrapped in single quotes', async () => {
     const user = userEvent.setup();
     render(<FilterInput {...props} />);
@@ -104,6 +164,21 @@ describe('Filter input component', () => {
 
     await user.type(filter, "'test'");
     await user.type(filter, '{enter}');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      { type: 'string', value: "'test'", label: "'test'" },
+    ]);
+    expect(props.setError).toHaveBeenCalledWith('');
+  });
+
+  it('user can type custom strings to the filter if they are wrapped in single quotes using space bar', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, "'test'");
+    await user.type(filter, ' ');
 
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'string', value: "'test'", label: "'test'" },
@@ -123,6 +198,18 @@ describe('Filter input component', () => {
     expect(props.setValue).not.toHaveBeenCalled();
   });
 
+  it("user can't type custom strings to the filter if they aren't wrapped in quotes using space bar", async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'test');
+    await user.type(filter, ' ');
+
+    expect(props.setValue).not.toHaveBeenCalled();
+  });
+
   it('validates the value when the user stops focusing on the input and sets an error if invalid', async () => {
     const user = userEvent.setup();
     props.value = [
@@ -136,6 +223,28 @@ describe('Filter input component', () => {
 
     await user.type(filter, 'type');
     await user.type(filter, '{enter}');
+    (props.setError as jest.Mock).mockClear();
+    await user.tab();
+
+    expect(props.setError).toHaveBeenCalledWith(
+      // aka expect non-empty string
+      expect.not.stringMatching(/^$/)
+    );
+  });
+
+  it('validates the value when the user stops focusing on the input and sets an error if invalid using space bar', async () => {
+    const user = userEvent.setup();
+    props.value = [
+      { type: 'channel', value: 'type', label: 'type' },
+      operators.find((t) => t.value === 'is not null')!,
+      operators.find((t) => t.value === 'and')!,
+    ];
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'type');
+    await user.type(filter, ' ');
     (props.setError as jest.Mock).mockClear();
     await user.tab();
 
@@ -209,6 +318,64 @@ describe('Filter input component', () => {
 
     await user.type(filter, '2');
     await user.type(filter, '{enter}');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      { type: 'channel', value: 'shotnum', label: 'shotnum' },
+      operators.find((t) => t.value === '=')!,
+      { type: 'number', value: '2', label: '2' },
+    ]);
+  });
+
+  it('user can modify the filter using arrow keys using space bar', async () => {
+    const user = userEvent.setup();
+    props.value = [
+      { type: 'channel', value: 'shotnum', label: 'shotnum' },
+      operators.find((t) => t.value === '<')!,
+      { type: 'number', value: '1', label: '1' },
+    ];
+    const { rerender } = render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, '{arrowleft}');
+    await user.type(filter, '{backspace}');
+
+    const expectedValue1: Token[] = [
+      { type: 'channel', value: 'shotnum', label: 'shotnum' },
+      { type: 'number', value: '1', label: '1' },
+    ];
+    expect(props.setValue).toHaveBeenCalledWith(expectedValue1);
+
+    (props.setValue as jest.Mock).mockClear();
+    rerender(<FilterInput {...props} />);
+
+    await user.type(filter, '=');
+    await user.type(filter, ' ');
+
+    const expectedValue2: Token[] = [
+      { type: 'channel', value: 'shotnum', label: 'shotnum' },
+      operators.find((t) => t.value === '=')!,
+      { type: 'number', value: '1', label: '1' },
+    ];
+    expect(props.setValue).toHaveBeenCalledWith(expectedValue2);
+
+    (props.setValue as jest.Mock).mockClear();
+    rerender(<FilterInput {...props} />);
+
+    await user.type(filter, '{arrowright}');
+    await user.type(filter, '{backspace}');
+
+    const expectedValue3: Token[] = [
+      { type: 'channel', value: 'shotnum', label: 'shotnum' },
+      operators.find((t) => t.value === '=')!,
+    ];
+    expect(props.setValue).toHaveBeenCalledWith(expectedValue3);
+
+    (props.setValue as jest.Mock).mockClear();
+    rerender(<FilterInput {...props} />);
+
+    await user.type(filter, '2');
+    await user.type(filter, ' ');
 
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'channel', value: 'shotnum', label: 'shotnum' },

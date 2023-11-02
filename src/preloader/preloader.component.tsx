@@ -58,7 +58,10 @@ const Preloader: React.FC<PreloaderProps> = (props: PreloaderProps) => (
           justifyContent: 'center',
         }}
       >
-        <div style={{ boxSizing: 'border-box', padding: '10px 0' }}>
+        <div
+          role="progressbar"
+          style={{ boxSizing: 'border-box', padding: '10px 0' }}
+        >
           <div
             style={{
               display: 'block',
