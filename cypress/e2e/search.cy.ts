@@ -1,4 +1,4 @@
-import { formatDateTimeForApi } from '../../support/util';
+import { formatDateTimeForApi } from '../support/util';
 
 function getParamsFromUrl(url: string) {
   const paramsString = url.split('?')[1];

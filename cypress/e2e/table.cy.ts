@@ -1,7 +1,4 @@
-import {
-  getHandleSelector,
-  addInitialSystemChannels,
-} from '../../support/util';
+import { getHandleSelector, addInitialSystemChannels } from '../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   for (let i = 0; i < columns.length; i++) {
