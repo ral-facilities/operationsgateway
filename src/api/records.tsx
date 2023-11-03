@@ -24,6 +24,7 @@ import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
 import { staticChannels } from './channels';
+import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 
 const fetchRecords = async (
   apiUrl: string,
@@ -197,16 +198,12 @@ export const fetchRangeRecordConverterQuery = (
 
 export const useDateToShotnumConverter = (
   fromDate: string | undefined,
-  toDate: string | undefined
+  toDate: string | undefined,
+  enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<
-    DateRangetoShotnumConverter,
-    AxiosError,
-    DateRangetoShotnumConverter,
-    [string, { fromDate: string | undefined; toDate: string | undefined }]
-  >(
+  return useQuery(
     ['dateToShotnumConverter', { fromDate, toDate }],
     (params) => {
       return fetchRangeRecordConverterQuery(
@@ -221,22 +218,19 @@ export const useDateToShotnumConverter = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled,
     }
   );
 };
 
 export const useShotnumToDateConverter = (
   shotnumMin: number | undefined,
-  shotnumMax: number | undefined
+  shotnumMax: number | undefined,
+  enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<
-    DateRangetoShotnumConverter,
-    AxiosError,
-    DateRangetoShotnumConverter,
-    [string, { shotnumMin: number | undefined; shotnumMax: number | undefined }]
-  >(
+  return useQuery(
     ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
     (params) => {
       return fetchRangeRecordConverterQuery(
@@ -251,6 +245,7 @@ export const useShotnumToDateConverter = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled,
     }
   );
 };
@@ -261,6 +256,7 @@ export const useRecordsPaginated = (): UseQueryResult<
   const { searchParams, page, resultsPerPage, sort, filters } =
     useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
+  const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   return useQuery<
     Record[],
@@ -274,20 +270,38 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort: SortType;
         searchParams: SearchParams;
         filters: string[];
-      },
+        projection: string[];
+      }
     ]
   >(
-    ['records', { page, resultsPerPage, sort, searchParams, filters }],
+    [
+      'records',
+      {
+        page,
+        resultsPerPage,
+        sort,
+        searchParams,
+        filters,
+        projection,
+      },
+    ],
     (params) => {
       const { page, resultsPerPage, sort, searchParams, filters } =
         params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage;
-      return fetchRecords(apiUrl, sort, searchParams, filters, {
-        startIndex,
-        stopIndex,
-      });
+      return fetchRecords(
+        apiUrl,
+        sort,
+        searchParams,
+        filters,
+        {
+          startIndex,
+          stopIndex,
+        },
+        projection
+      );
     },
     {
       onError: (error) => {
@@ -305,9 +319,9 @@ export const useRecordsPaginated = (): UseQueryResult<
             activeExperiment: record.metadata.activeExperiment,
           };
 
-          const keys = Object.keys(record.channels);
+          const keys = Object.keys(record.channels ?? {});
           keys.forEach((key: string) => {
-            const channel = record.channels[key];
+            const channel = record.channels?.[key];
 
             if (channel) {
               let channelData;
@@ -355,7 +369,7 @@ export const getFormattedAxisData = (
         : NaN;
       break;
     default:
-      const channel = record.channels[axisName];
+      const channel = record.channels?.[axisName];
       if (isChannelScalar(channel)) {
         formattedData =
           typeof channel.data === 'number'
@@ -375,13 +389,29 @@ export const usePlotRecords = (
   const { searchParams, filters } = useAppSelector(selectQueryParams);
   const parsedXAxis = XAxis ?? timeChannelName;
 
+  const projection = [
+    parsedXAxis,
+    ...selectedPlotChannels.map((channel) => channel.name),
+  ];
+
   return useQuery<
     Record[],
     AxiosError,
     PlotDataset[],
-    [string, { sort: SortType; searchParams: SearchParams; filters: string[] }]
+    [
+      string,
+      {
+        sort: SortType;
+        searchParams: SearchParams;
+        filters: string[];
+        projection: string[];
+      }
+    ]
   >(
-    ['records', { sort: { [parsedXAxis]: 'asc' }, searchParams, filters }],
+    [
+      'records',
+      { sort: { [parsedXAxis]: 'asc' }, searchParams, filters, projection },
+    ],
     (params) => {
       const { sort, filters, searchParams } = params.queryKey[1];
       const { maxShots } = searchParams;
@@ -392,7 +422,14 @@ export const usePlotRecords = (
           stopIndex: maxShots,
         };
       }
-      return fetchRecords(apiUrl, sort, searchParams, filters, offsetParams);
+      return fetchRecords(
+        apiUrl,
+        sort,
+        searchParams,
+        filters,
+        offsetParams,
+        projection
+      );
     },
     {
       onError: (error) => {

@@ -93,6 +93,11 @@ describe('Sessions', () => {
       expect(value).to.equal('2022-01-09 12:00');
     });
 
+    cy.findByTestId('session-save-buttons-timestamp').should(
+      'have.text',
+      'Session last saved: 29 Jun 2023 14:45'
+    );
+
     cy.findByText('Session 3').click();
     // wait for search to initiate and finish
     cy.findByRole('progressbar').should('exist');
@@ -109,6 +114,11 @@ describe('Sessions', () => {
       const value = $input.val();
       expect(value).to.equal('');
     });
+
+    cy.findByTestId('session-save-buttons-timestamp').should(
+      'have.text',
+      'Session last autosaved: 30 Jun 2023 09:15'
+    );
   });
 
   it('sends a patch request when a user edits a session', () => {
@@ -151,6 +161,63 @@ describe('Sessions', () => {
       expect(paramMap.get('name')).equal('Session');
       expect(paramMap.get('summary')).equal('Summary');
       expect(paramMap.get('auto_saved')).equal('false');
+    });
+  });
+
+  it('sends a patch request when a user saves their current session', () => {
+    cy.findByText('Session 2').click();
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Save' }).click();
+
+    cy.findBrowserMockedRequests({
+      method: 'PATCH',
+      url: '/sessions/:id',
+    }).should((patchRequests) => {
+      expect(patchRequests.length).equal(1);
+      const request = patchRequests[0];
+      expect(JSON.stringify(request.body)).equal(
+        '{"table":{"columnStates":{},"selectedColumnIds":["timestamp","CHANNEL_EFGHI","CHANNEL_FGHIJ","shotnum"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"fromDate":"2022-01-06T13:00:00","toDate":"2022-01-09T12:00:59"},"shotnumRange":{"min":7,"max":9},"maxShots":50,"experimentID":{"_id":"19210012-1","end_date":"2022-01-09T12:00:00","experiment_id":"19210012","part":1,"start_date":"2022-01-06T13:00:00"}}},"plots":{},"filter":{"appliedFilters":[[{"type":"channel","value":"shotnum","label":"Shot Number"},{"type":"compop","value":">","label":">"},{"type":"number","value":"7","label":"7"}]]},"windows":{}}'
+      );
+      expect(request.url.toString()).to.contain('2');
+      expect(request.url.toString()).to.contain('name=');
+      expect(request.url.toString()).to.contain('summary=');
+      expect(request.url.toString()).to.contain('auto_saved=');
+
+      const paramMap: Map<string, string> = getParamsFromUrl(
+        request.url.toString()
+      );
+
+      expect(paramMap.get('name')).equal('Session+2');
+      expect(paramMap.get('summary')).equal(
+        'This+is+the+summary+for+Session+2'
+      );
+      expect(paramMap.get('auto_saved')).equal('false');
+    });
+  });
+
+  it('opens the save session dialog if a user session is not selected and user click the save or save as button', () => {
+    cy.findByRole('button', { name: 'Save' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+    cy.findByRole('button', { name: 'Close' }).click();
+    cy.findByRole('button', { name: 'Save as' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+  });
+
+  it('loads in the summary and name (with _copy) when save as is clicked and a user session is selected', () => {
+    cy.findByText('Session 2').click();
+    cy.findByRole('button', { name: 'Save as' }).click();
+    cy.findByLabelText('Save Session').should('exist');
+
+    cy.findByLabelText('Name *').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('Session 2_copy');
+    });
+
+    cy.findByLabelText('Summary').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('This is the summary for Session 2');
     });
   });
 

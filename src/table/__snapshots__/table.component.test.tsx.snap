@@ -9,21 +9,17 @@ exports[`Table renders correctly with all columns displayed 1`] = `
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
-        role="table"
-        style="min-width: 132px;"
       >
         <thead
           class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
             data-rbd-droppable-context-id="1"
             data-rbd-droppable-id="columns"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 132px;"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -108,16 +104,13 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="shotnum"
               data-rbd-draggable-context-id="1"
@@ -205,16 +198,13 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="activeArea"
               data-rbd-draggable-context-id="1"
@@ -302,16 +292,13 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1cfizp7-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="activeExperiment"
               data-rbd-draggable-context-id="1"
@@ -399,9 +386,6 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
@@ -412,15 +396,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
           aria-busy="false"
           aria-describedby="table-loading-indicator"
           class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-          role="rowgroup"
         >
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -440,7 +421,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -460,7 +441,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -480,7 +461,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -501,12 +482,10 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -526,7 +505,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -546,7 +525,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -566,7 +545,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -587,12 +566,10 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 132px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -612,7 +589,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -632,7 +609,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -652,7 +629,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1avnklt-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -817,21 +794,17 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
-        role="table"
-        style="min-width: 33px;"
       >
         <thead
           class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
             data-rbd-droppable-context-id="0"
             data-rbd-droppable-id="columns"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -916,9 +889,6 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
@@ -929,15 +899,12 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
           aria-busy="false"
           aria-describedby="table-loading-indicator"
           class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-          role="rowgroup"
         >
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -958,12 +925,10 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -984,12 +949,10 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"

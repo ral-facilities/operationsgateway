@@ -46,7 +46,7 @@ function domElementGetter(): HTMLElement {
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOMClient,
-  rootComponent: App,
+  rootComponent: () => (document.getElementById(pluginName) ? <App /> : null),
   domElementGetter,
   errorBoundary: (error) => {
     log.error(`${pluginName} failed with error: ${error}`);
@@ -177,7 +177,16 @@ setSettings(settings);
 
 function prepare() {
   return import('./mocks/browser').then(({ worker }) => {
-    return worker.start();
+    return worker.start({
+      onUnhandledRequest(request, print) {
+        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+        if (request.url.hostname !== 'localhost') {
+          return;
+        }
+
+        print.warning();
+      },
+    });
   });
 }
 

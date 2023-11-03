@@ -4,7 +4,7 @@
     "name": "Session 1",
     "summary": "This is the summary for Session 1",
     "auto_saved": true,
-    "timestamp": "2023-06-29T10:30:00Z",
+    "timestamp": "2023-06-29T10:30:00",
     "session": {
       "table": {
         "columnStates": {},
@@ -87,7 +87,7 @@
     "name": "Session 2",
     "summary": "This is the summary for Session 2",
     "auto_saved": false,
-    "timestamp": "2023-06-29T14:45:00Z",
+    "timestamp": "2023-06-29T14:45:00",
     "session": {
       "table": {
         "columnStates": {},
@@ -136,7 +136,7 @@
     "name": "Session 3",
     "summary": "This is the summary for Session 3",
     "auto_saved": true,
-    "timestamp": "2023-06-30T09:15:00Z",
+    "timestamp": "2023-06-30T09:15:00",
     "session": {
       "table": {
         "columnStates": {},
@@ -167,7 +167,7 @@
     "summary": "This is the summary for Session 4",
     "auto_saved": false,
     "name": "Session 4",
-    "timestamp": "2023-06-30T09:15:00Z",
+    "timestamp": "2023-06-30T09:15:00",
     "session": {
       "table": {
         "columnStates": {},

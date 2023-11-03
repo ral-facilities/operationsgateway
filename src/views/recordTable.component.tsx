@@ -7,18 +7,17 @@ import {
   changePage,
   changeResultsPerPage,
   selectColumnStates,
-  selectHiddenColumns,
+  selectColumnVisibility,
   selectSelectedIds,
   deselectColumn,
   reorderColumn,
-  selectColumn,
   toggleWordWrap,
 } from '../state/slices/tableSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
-import { Order, timeChannelName } from '../app.types';
+import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
 
 export const extractChannelsFromTokens = (
@@ -60,9 +59,14 @@ const RecordTable = React.memo(
     const { data: availableColumns, isLoading: columnsLoading } =
       useAvailableColumns();
 
+    const availableColumnsNullChecked = React.useMemo(
+      () => availableColumns ?? [],
+      [availableColumns]
+    );
+
     const columnStates = useAppSelector(selectColumnStates);
-    const hiddenColumns = useAppSelector((state) =>
-      selectHiddenColumns(state, availableColumns ?? [])
+    const columnVisibility = useAppSelector((state) =>
+      selectColumnVisibility(state, availableColumnsNullChecked)
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
@@ -113,20 +117,13 @@ const RecordTable = React.memo(
       return extractChannelsFromTokens(appliedFilters);
     }, [appliedFilters]);
 
-    // Ensure the timestamp column is opened automatically on table load
-    React.useEffect(() => {
-      if (!dataLoading && !columnOrder.includes(timeChannelName)) {
-        dispatch(selectColumn(timeChannelName));
-      }
-    }, [dataLoading, columnOrder, dispatch]);
-
     return (
       <Table
         tableHeight={tableHeight}
         data={data ?? []}
-        availableColumns={availableColumns ?? []}
+        availableColumns={availableColumnsNullChecked}
         columnStates={columnStates}
-        hiddenColumns={hiddenColumns}
+        columnVisibility={columnVisibility}
         columnOrder={columnOrder}
         totalDataCount={count ?? 0}
         maxShots={maxShots}

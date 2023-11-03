@@ -4,6 +4,7 @@ import {
   UseMutationResult,
   useQuery,
   UseQueryResult,
+  useQueryClient,
 } from '@tanstack/react-query';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { useAppSelector } from '../state/hooks';
@@ -17,7 +18,7 @@ const saveSession = (apiUrl: string, session: Session): Promise<string> => {
   queryParams.append('auto_saved', session.auto_saved.toString());
 
   return axios
-    .post<string>(`${apiUrl}/sessions`, session.session_data, {
+    .post<string>(`${apiUrl}/sessions`, session.session, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
@@ -32,9 +33,13 @@ export const useSaveSession = (): UseMutationResult<
   Session
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation((session: Session) => saveSession(apiUrl, session), {
     onError: (error) => {
       console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };
@@ -44,6 +49,7 @@ const editSession = (
   session: SessionResponse
 ): Promise<string> => {
   const queryParams = new URLSearchParams();
+
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
@@ -64,11 +70,16 @@ export const useEditSession = (): UseMutationResult<
   SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation(
     (session: SessionResponse) => editSession(apiUrl, session),
     {
       onError: (error) => {
         console.log('Got error ' + error.message);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+        queryClient.invalidateQueries({ queryKey: ['session'] });
       },
     }
   );
@@ -93,11 +104,15 @@ export const useDeleteSession = (): UseMutationResult<
   SessionResponse
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
   return useMutation(
     (session: SessionResponse) => deleteSession(apiUrl, session),
     {
       onError: (error) => {
         console.log('Got error ' + error.message);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
       },
     }
   );
@@ -163,6 +178,7 @@ export const useSession = (
       onError: (error) => {
         console.log('Got error ' + error.message);
       },
+      enabled: typeof session_id !== 'undefined',
     }
   );
 };

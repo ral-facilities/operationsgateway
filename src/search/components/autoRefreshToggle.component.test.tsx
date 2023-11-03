@@ -1,9 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { act, render, screen } from '@testing-library/react';
 import AutoRefreshToggle, {
   AUTO_REFRESH_INTERVAL_MS,
 } from './autoRefreshToggle.component';
 import userEvent from '@testing-library/user-event';
-// import userEvent from '@testing-library/user-event';
 
 describe('AutoRefreshToggle', () => {
   beforeEach(() => {
@@ -63,7 +63,9 @@ describe('AutoRefreshToggle', () => {
     expect(toggle).not.toBeChecked();
 
     // wait for another interval to make sure the callback is not called again
-    jest.advanceTimersByTime(AUTO_REFRESH_INTERVAL_MS);
+    act(() => {
+      jest.advanceTimersByTime(AUTO_REFRESH_INTERVAL_MS);
+    });
 
     expect(onRequestRefresh).toBeCalledTimes(1);
   });

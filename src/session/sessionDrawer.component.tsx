@@ -14,8 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useSession } from '../api/sessions';
-import { SessionListItem } from '../app.types';
+import { SessionListItem, SessionResponse } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
 
@@ -29,7 +28,13 @@ export interface SessionDrawerProps {
   openSessionDelete: (sessionData: SessionListItem) => void;
   sessionsList: SessionListItem[] | undefined;
   loadedSessionId: string | undefined;
+  loadedSessionData: SessionResponse | undefined;
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
+  onChangeLoadedSessionTimestamp: (
+    timestamp: string | undefined,
+    autoSaved: boolean | undefined
+  ) => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
 interface SessionListElementProps extends SessionListItem {
@@ -37,6 +42,20 @@ interface SessionListElementProps extends SessionListItem {
   selected: boolean;
   openSessionEdit: (sessionData: SessionListItem) => void;
   openSessionDelete: (sessionData: SessionListItem) => void;
+  onChangeLoadedSessionTimestamp: (
+    timestamp: string | undefined,
+    autoSaved: boolean | undefined
+  ) => void;
+  onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
+}
+
+function compareSessions(a: SessionListItem, b: SessionListItem): number {
+  if (a.auto_saved === b.auto_saved) {
+    // If auto_saved is the same, sort by timestamp (you can adjust the sorting criteria)
+    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+  }
+  // Sort auto_saved=true sessions above auto_saved=false sessions
+  return b.auto_saved ? 1 : -1;
 }
 
 const SessionListElement = (
@@ -47,9 +66,28 @@ const SessionListElement = (
     openSessionEdit,
     selected,
     handleImport,
+    onChangeLoadedSessionTimestamp,
+    onChangeAutoSaveSessionId,
     ...session
   } = props;
+  const prevTimestampRef = React.useRef<string | undefined>(undefined);
+  const prevAutoSavedRef = React.useRef<boolean | undefined>(undefined);
+  React.useEffect(() => {
+    if (selected) {
+      // Check if the timestamp and auto_saved values have changed
+      if (
+        session.timestamp !== prevTimestampRef.current ||
+        session.auto_saved !== prevAutoSavedRef.current
+      ) {
+        // Update the previous values with the current ones
+        prevTimestampRef.current = session.timestamp;
+        prevAutoSavedRef.current = session.auto_saved;
 
+        // Call the onChangeSelectedSessionTimestamp function
+        onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
+      }
+    }
+  }, [onChangeLoadedSessionTimestamp, selected, session]);
   return (
     <ListItemButton
       selected={selected}
@@ -58,6 +96,8 @@ const SessionListElement = (
         padding: 1,
       }}
       onClick={() => {
+        onChangeAutoSaveSessionId(undefined);
+        onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
         handleImport(session._id);
       }}
     >
@@ -73,7 +113,7 @@ const SessionListElement = (
       >
         {session.name}
       </ListItemText>
-      <Box>
+      <Box sx={{ whiteSpace: 'nowrap' }}>
         <IconButton
           size="small"
           onClick={(event) => {
@@ -107,9 +147,11 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
     sessionsList,
     loadedSessionId,
     onChangeLoadedSessionId,
+    onChangeLoadedSessionTimestamp,
+    onChangeAutoSaveSessionId,
+    loadedSessionData,
   } = props;
 
-  const { data: sessionData } = useSession(loadedSessionId);
   const dispatch = useAppDispatch();
 
   const drawer = (
@@ -130,7 +172,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         Workspaces
       </Typography>
       <Box sx={{ marginLeft: 'auto' }}>
-        <IconButton onClick={openSessionSave}>
+        <IconButton aria-label="add user session" onClick={openSessionSave}>
           <AddCircleIcon />
         </IconButton>
       </Box>
@@ -138,10 +180,10 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   );
 
   React.useEffect(() => {
-    if (sessionData) {
-      dispatch(importSession(sessionData.session));
+    if (loadedSessionData) {
+      dispatch(importSession(loadedSessionData.session));
     }
-  }, [dispatch, sessionData]);
+  }, [dispatch, loadedSessionData]);
 
   const handleSessionClick = (sessionId: string) => {
     onChangeLoadedSessionId(undefined);
@@ -169,7 +211,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         </Box>
         <List disablePadding>
           {sessionsList &&
-            sessionsList.map((item, index) => (
+            sessionsList.sort(compareSessions).map((item, index) => (
               <ListItem key={item._id} disablePadding>
                 <SessionListElement
                   {...item}
@@ -177,6 +219,10 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                   selected={loadedSessionId === item._id}
                   openSessionDelete={openSessionDelete}
                   openSessionEdit={openSessionEdit}
+                  onChangeLoadedSessionTimestamp={
+                    onChangeLoadedSessionTimestamp
+                  }
+                  onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
                 />
               </ListItem>
             ))}
