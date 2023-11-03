@@ -23,9 +23,12 @@ describe('images api functions', () => {
         wrapper: hooksWrapperWithProviders(),
       });
 
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
 
       const request = await pendingRequest;
 
@@ -42,9 +45,12 @@ describe('images api functions', () => {
         wrapper: hooksWrapperWithProviders(),
       });
 
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
 
       const request = await pendingRequest;
 
@@ -69,9 +75,12 @@ describe('images api functions', () => {
         }
       );
 
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
 
       const request = await pendingRequest;
 

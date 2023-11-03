@@ -1,4 +1,4 @@
-import { addInitialSystemChannels } from '../../support/util';
+import { addInitialSystemChannels } from '../support/util';
 
 describe('Filtering Component', () => {
   beforeEach(() => {

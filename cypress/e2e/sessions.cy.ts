@@ -18,6 +18,19 @@ describe('Sessions', () => {
     cy.clearMocks();
   });
   it('sends a posts a request when a user session is created', () => {
+    cy.window().then((window) => {
+      // Reference global instances set in "src/mocks/browser.js".
+      const { worker, rest } = window.msw;
+
+      worker.use(
+        rest.post('/sessions', async (req, res, ctx) => {
+          // return a session without popups
+          const sessionID = '2';
+          return res(ctx.status(200), ctx.json(sessionID));
+        })
+      );
+    });
+
     cy.findByTestId('AddCircleIcon').click();
     cy.findByLabelText('Name *').type('Session');
     cy.findByLabelText('Summary').type('Summary');
