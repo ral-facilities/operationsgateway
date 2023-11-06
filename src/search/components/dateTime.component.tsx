@@ -324,6 +324,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               onError={(error) => setDatePickerFromDateError(!!error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
+                day: (pickersDayProps) =>
+                  renderExperimentPickerDay(
+                    datePickerToDate,
+                    experiments,
+                    isDateTimeInExperiment,
+                    pickersDayProps
+                  ),
                 textField: CustomTextField,
               }}
               slotProps={{
