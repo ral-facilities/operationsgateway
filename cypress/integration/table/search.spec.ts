@@ -39,25 +39,7 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      cy.visit('/', {
-        // For some reason this doesn't work with date pickers v6
-        // Commenting out for now
-        // need these to ensure Date picker media queries pass
-        // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
-        // onBeforeLoad: (win) => {
-        //   cy.stub(win, 'matchMedia')
-        //     .withArgs('(pointer: fine)')
-        //     .returns({
-        //       matches: true,
-        //       addListener: () => {
-        //         // no-op
-        //       },
-        //       removeListener: () => {
-        //         // no-op
-        //       },
-        //     });
-        // },
-      }).wait(['@getSettings']);
+      cy.visit('/').wait(['@getSettings']);
 
       cy.findByRole('progressbar').should('be.visible');
       cy.findByRole('progressbar').should('not.exist');

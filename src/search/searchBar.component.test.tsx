@@ -358,16 +358,11 @@ describe('searchBar component', () => {
 
     // only the From date is defined
 
-    // .clear doesn't work with datepickers in v6
     await user.click(dateFilterFromDate);
-    await user.keyboard('{Control>}a{/Control}');
-    await user.keyboard('{Delete}');
-    // await user.clear(dateFilterFromDate);
+    await user.clear(dateFilterFromDate);
 
     await user.click(dateFilterToDate);
-    await user.keyboard('{Control>}a{/Control}');
-    await user.keyboard('{Delete}');
-    // await user.clear(dateFilterToDate);
+    await user.clear(dateFilterToDate);
 
     await user.type(dateFilterFromDate, '2023-01-01_00:00');
 
