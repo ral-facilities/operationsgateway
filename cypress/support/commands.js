@@ -47,27 +47,25 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
         .first()
         .then((subject) => {
           const coordsDrag = subject[0].getBoundingClientRect();
-          cy.wrap(subject)
-            .trigger('mousedown', {
-              button: BUTTON_INDEX,
-              clientX: coordsDrag.x,
-              clientY: coordsDrag.y,
-              force: true,
-            })
-            .trigger('mousemove', {
-              button: BUTTON_INDEX,
-              clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,
-              clientY: coordsDrag.y,
-              force: true,
-            });
-          cy.get('body')
-            .trigger('mousemove', {
-              button: BUTTON_INDEX,
-              clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
-              clientY: coordsDrop.y + SLOPPY_CLICK_THRESHOLD,
-              force: true,
-            })
-            .trigger('mouseup');
+          cy.wrap(subject).trigger('mousedown', {
+            button: BUTTON_INDEX,
+            clientX: coordsDrag.x,
+            clientY: coordsDrag.y,
+            force: true,
+          });
+          cy.wrap(subject).trigger('mousemove', {
+            button: BUTTON_INDEX,
+            clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,
+            clientY: coordsDrag.y,
+            force: true,
+          });
+          cy.get('body').trigger('mousemove', {
+            button: BUTTON_INDEX,
+            clientX: coordsDrop.x + SLOPPY_CLICK_THRESHOLD,
+            clientY: coordsDrop.y + SLOPPY_CLICK_THRESHOLD,
+            force: true,
+          });
+          cy.get('body').trigger('mouseup');
         });
     });
 });
