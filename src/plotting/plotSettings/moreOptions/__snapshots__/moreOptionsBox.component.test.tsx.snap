@@ -51,7 +51,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Line style
         </p>
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-vb6qyb-MuiInputBase-root-MuiInput-root"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-iozudq-MuiInputBase-root-MuiInput-root"
         >
           <select
             aria-label="change activeArea line style"
@@ -129,7 +129,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
               class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fcbanr-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-wwfpj-MuiButtonBase-root-MuiRadio-root"
+                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-wwfpj-MuiButtonBase-root-MuiRadio-root"
               >
                 <input
                   checked=""
@@ -178,7 +178,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
               class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fcbanr-MuiFormControlLabel-root"
             >
               <span
-                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-wwfpj-MuiButtonBase-root-MuiRadio-root"
+                class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-wwfpj-MuiButtonBase-root-MuiRadio-root"
               >
                 <input
                   class="PrivateSwitchBase-input css-1m9pwf3"

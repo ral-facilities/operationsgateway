@@ -23,7 +23,7 @@ exports[`Channel Metadata Panel should render correctly for no channel selected 
 exports[`Channel Metadata Panel should render correctly for scalar channel with units selected 1`] = `
 <DocumentFragment>
   <div
-    class="css-3y1137-MuiStack-root"
+    class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
       class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
@@ -183,7 +183,7 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
 exports[`Channel Metadata Panel should render correctly for system channel 1`] = `
 <DocumentFragment>
   <div
-    class="css-3y1137-MuiStack-root"
+    class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
       class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
@@ -232,7 +232,7 @@ exports[`Channel Metadata Panel should render correctly for system channel 1`] =
 exports[`Channel Metadata Panel should render correctly for waveform channel with units selected 1`] = `
 <DocumentFragment>
   <div
-    class="css-3y1137-MuiStack-root"
+    class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
       class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
