@@ -146,8 +146,8 @@ describe('Record Table', () => {
 
     screen.getByText(`11–${recordsJson.length} of ${recordsJson.length}`);
 
-    const resultsPerPage = screen.getByRole('button', {
-      name: /Rows per page/i,
+    const resultsPerPage = screen.getByRole('combobox', {
+      name: 'Rows per page:',
     });
     await user.click(resultsPerPage);
 

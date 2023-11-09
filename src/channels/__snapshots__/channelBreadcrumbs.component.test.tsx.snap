@@ -13,7 +13,7 @@ exports[`Channel Breadcrumbs should render correctly for path 1`] = `
         class="MuiBreadcrumbs-li"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
           href="#"
         >
           All Channels
@@ -39,7 +39,7 @@ exports[`Channel Breadcrumbs should render correctly for path 1`] = `
         class="MuiBreadcrumbs-li"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1ps4owl-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-1xylxj1-MuiTypography-root-MuiLink-root"
           href="#"
         >
           test
