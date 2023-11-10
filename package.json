@@ -67,7 +67,7 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "postinstall": "husky install && yarn sdks"
+    "postinstall": "husky install && yarn dlx @yarnpkg/sdks"
   },
   "lint-staged": {
     "src/**/*.{tsx,ts,js,jsx}": [
@@ -115,7 +115,6 @@
     "@typescript-eslint/eslint-plugin": "6.2.1",
     "@typescript-eslint/parser": "6.2.1",
     "@typescript-eslint/typescript-estree": "6.2.1",
-    "@yarnpkg/sdks": "3.0.0-rc.33",
     "chart.js": "4.3.0",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
@@ -132,7 +131,7 @@
     "jest-canvas-mock": "2.5.0",
     "lint-staged": "13.2.2",
     "msw": "1.2.1",
-    "prettier": "3.0.1",
+    "prettier": "3.0.3",
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.2.0",
     "serve-static": "1.15.0",

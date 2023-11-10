@@ -272,7 +272,7 @@ export const testChannels = [
       ({
         systemName,
         ...channel,
-      } as FullChannelMetadata)
+      }) as FullChannelMetadata
   ),
 ];
 
@@ -285,7 +285,7 @@ export const testScalarChannels: FullScalarChannelMetadata[] = [
         ({
           systemName,
           ...channel,
-        } as FullScalarChannelMetadata)
+        }) as FullScalarChannelMetadata
     ),
 ];
 
