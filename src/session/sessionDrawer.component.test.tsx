@@ -7,7 +7,11 @@ import SessionsListJSON from '../mocks/sessionsList.json';
 
 describe('session Drawer', () => {
   const openSessionSave = jest.fn();
+  const openSessionEdit = jest.fn();
+  const openSessionDelete = jest.fn();
   const onChangeLoadedSessionId = jest.fn();
+  const onChangeLoadedSessionTimestamp = jest.fn();
+  const onChangeAutoSaveSessionId = jest.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
@@ -17,9 +21,14 @@ describe('session Drawer', () => {
     user = userEvent.setup();
     props = {
       openSessionSave: openSessionSave,
+      openSessionEdit: openSessionEdit,
+      openSessionDelete: openSessionDelete,
       loadedSessionId: undefined,
+      loadedSessionData: undefined,
       onChangeLoadedSessionId: onChangeLoadedSessionId,
       sessionsList: SessionsListJSON,
+      onChangeLoadedSessionTimestamp: onChangeLoadedSessionTimestamp,
+      onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
     };
   });
   afterEach(() => {
@@ -42,8 +51,8 @@ describe('session Drawer', () => {
   });
 
   it('loads a user session', async () => {
+    props.loadedSessionId = '1';
     createView();
-
     await waitFor(() => {
       expect(screen.getByText('Session 1')).toBeInTheDocument();
     });
@@ -56,5 +65,38 @@ describe('session Drawer', () => {
     await waitFor(() => {
       expect(session1).toHaveStyle('background-color: primary.main');
     });
+
+    expect(onChangeLoadedSessionTimestamp).toHaveBeenCalledWith(
+      '2023-06-29T10:30:00',
+      true
+    );
+
+    expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
+  });
+
+  it('a user can open the edit session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const editButton = screen.getByRole('button', {
+      name: 'edit Session 1 session',
+    });
+    await user.click(editButton);
+    expect(openSessionEdit).toHaveBeenCalled();
+  });
+
+  it('a user can open the delete session dialogue', async () => {
+    createView();
+
+    await waitFor(() => {
+      expect(screen.getByText('Session 1')).toBeInTheDocument();
+    });
+    const deleteButton = screen.getByRole('button', {
+      name: 'delete Session 1 session',
+    });
+    await user.click(deleteButton);
+    expect(openSessionDelete).toHaveBeenCalled();
   });
 });

@@ -76,7 +76,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               type: 'channel',
               value: channel.systemName,
               label: channel?.name ?? channel.systemName,
-            } as Token)
+            }) as Token
         );
     },
   });

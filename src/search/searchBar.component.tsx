@@ -194,6 +194,29 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     const endDate = new Date(experiment.end_date);
     return dateTime >= startDate && dateTime <= endDate;
   };
+
+  // ##################################################
+  // Check for vaild Date Ranges and Shot Number Ranges
+  // ##################################################
+
+  const invalidDateRange =
+    (searchParameterFromDate !== null &&
+      searchParameterToDate !== null &&
+      searchParameterFromDate &&
+      searchParameterToDate &&
+      isBefore(searchParameterToDate, searchParameterFromDate)) ||
+    (!searchParameterFromDate && searchParameterToDate !== null) ||
+    (searchParameterFromDate !== null && !searchParameterToDate);
+
+  const invalidShotNumberRange =
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax !== undefined &&
+      searchParameterShotnumMin > searchParameterShotnumMax) ||
+    (searchParameterShotnumMin === undefined &&
+      searchParameterShotnumMax !== undefined) ||
+    (searchParameterShotnumMin !== undefined &&
+      searchParameterShotnumMax === undefined);
+
   // Date range to shot number range converter
   const { data: dateToShotnum } = useDateToShotnumConverter(
     searchParameterFromDate
@@ -201,13 +224,22 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       : undefined,
     searchParameterToDate
       ? formatDateTimeForApi(searchParameterToDate)
-      : undefined
+      : undefined,
+    // only enable query when dates are not null and the range is valid
+    !invalidDateRange &&
+      !(searchParameterFromDate === null && searchParameterToDate === null)
   );
 
   // Shot number range to date range converter
   const { data: shotnumToDate } = useShotnumToDateConverter(
     searchParameterShotnumMin,
-    searchParameterShotnumMax
+    searchParameterShotnumMax,
+    // only enable query when shot numbers are not undefined and the range is valid
+    !invalidShotNumberRange &&
+      !(
+        typeof searchParameterShotnumMin === 'undefined' &&
+        typeof searchParameterShotnumMax === 'undefined'
+      )
   );
 
   // Checks for changes to shot number range and date range
@@ -298,27 +330,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       sessionIdChange.current = true;
     } else firstUpdate.current = false;
   }, [sessionId]);
-  // ##################################################
-  // Check for vaild Date Ranges and Shot Number Ranges
-  // ##################################################
-
-  const invalidDateRange =
-    (searchParameterFromDate !== null &&
-      searchParameterToDate !== null &&
-      searchParameterFromDate &&
-      searchParameterToDate &&
-      isBefore(searchParameterToDate, searchParameterFromDate)) ||
-    (!searchParameterFromDate && searchParameterToDate !== null) ||
-    (searchParameterFromDate !== null && !searchParameterToDate);
-
-  const invalidShotNumberRange =
-    (searchParameterShotnumMin !== undefined &&
-      searchParameterShotnumMax !== undefined &&
-      searchParameterShotnumMin > searchParameterShotnumMax) ||
-    (searchParameterShotnumMin === undefined &&
-      searchParameterShotnumMax !== undefined) ||
-    (searchParameterShotnumMin !== undefined &&
-      searchParameterShotnumMax === undefined);
 
   const searchParamsUpdated = () => {
     setParamsUpdated(true);

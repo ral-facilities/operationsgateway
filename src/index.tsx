@@ -15,6 +15,7 @@ import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
 
 import './index.css';
+import { SetupWorker } from 'msw';
 
 export const pluginName = 'operationsgateway';
 
@@ -46,7 +47,7 @@ function domElementGetter(): HTMLElement {
 const reactLifecycles = singleSpaReact({
   React,
   ReactDOMClient,
-  rootComponent: App,
+  rootComponent: () => (document.getElementById(pluginName) ? <App /> : null),
   domElementGetter,
   errorBoundary: (error) => {
     log.error(`${pluginName} failed with error: ${error}`);
@@ -179,7 +180,16 @@ function prepare() {
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { worker } = require('./mocks/browser');
-    return worker.start();
+    return (worker as SetupWorker).start({
+      onUnhandledRequest(request, print) {
+        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+        if (request.url.hostname !== 'localhost') {
+          return;
+        }
+
+        print.warning();
+      },
+    });
   }
   return Promise.resolve();
 }

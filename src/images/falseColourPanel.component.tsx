@@ -211,8 +211,8 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     ?.filter((colourmap) => colourmap?.endsWith('_r'))
     .map((colourmap) => colourmap?.replace('_r', ''));
 
-  const colourMapsWithReverse = colourMapsNames?.filter((value) =>
-    colourMapsReverseNames?.includes(value)
+  const colourMapsWithReverse = colourMapsNames?.filter(
+    (value) => colourMapsReverseNames?.includes(value)
   );
 
   return (

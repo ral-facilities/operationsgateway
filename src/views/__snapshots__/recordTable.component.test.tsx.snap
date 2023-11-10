@@ -9,21 +9,17 @@ exports[`Record Table renders correctly 1`] = `
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
-        role="table"
-        style="min-width: 33px;"
       >
         <thead
           class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
             data-rbd-droppable-context-id="0"
             data-rbd-droppable-id="columns"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -108,9 +104,6 @@ exports[`Record Table renders correctly 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
@@ -121,15 +114,12 @@ exports[`Record Table renders correctly 1`] = `
           aria-busy="false"
           aria-describedby="table-loading-indicator"
           class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-          role="rowgroup"
         >
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -150,12 +140,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -176,12 +164,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -202,12 +188,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -228,12 +212,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -254,12 +236,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -280,12 +260,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -306,12 +284,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -332,12 +308,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -358,12 +332,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -384,12 +356,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -410,12 +380,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -436,12 +404,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -462,12 +428,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -488,12 +452,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -514,12 +476,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -540,12 +500,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -566,12 +524,10 @@ exports[`Record Table renders correctly 1`] = `
             </td>
           </tr>
           <tr
-            class="MuiTableRow-root css-1q1u3t4-MuiTableRow-root"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
+            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-fxb4ad-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -641,21 +597,23 @@ exports[`Record Table renders correctly 1`] = `
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
+            aria-controls=":r2:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1: :r0:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
             id=":r0:"
-            role="button"
+            role="combobox"
             tabindex="0"
           >
             25
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
@@ -746,21 +704,17 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
-        role="table"
-        style="min-width: 33px;"
       >
         <thead
           class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
-            data-rbd-droppable-context-id="1"
+            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
+            data-rbd-droppable-context-id="2"
             data-rbd-droppable-id="columns"
-            role="row"
-            style="display: flex; flex: 1 0 auto; min-width: 33px;"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1d9k6v2-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -845,9 +799,6 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
                 <hr
                   class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
                   contenteditable="true"
-                  draggable="false"
-                  role="separator"
-                  style="cursor: col-resize;"
                   tabindex="-1"
                 />
               </div>
@@ -858,7 +809,6 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
           aria-busy="false"
           aria-describedby="table-loading-indicator"
           class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-          role="rowgroup"
         >
           <tr
             aria-hidden="false"
@@ -905,26 +855,28 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r6:"
+          id=":r9:"
         >
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
+            aria-controls=":ra:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r6: :r5:"
+            aria-labelledby=":r9: :r8:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r5:"
-            role="button"
+            id=":r8:"
+            role="combobox"
             tabindex="0"
           >
             25
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
@@ -1005,17 +957,20 @@ exports[`Record Table renders correctly while loading 1`] = `
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
-        role="table"
-        style="min-width: 0px;"
       >
         <thead
           class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
-        />
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
+            data-rbd-droppable-context-id="1"
+            data-rbd-droppable-id="columns"
+          />
+        </thead>
         <tbody
           aria-busy="true"
           aria-describedby="table-loading-indicator"
           class="MuiTableBody-root css-29nbga-MuiTableBody-root"
-          role="rowgroup"
         >
           <tr
             aria-hidden="false"
@@ -1062,26 +1017,28 @@ exports[`Record Table renders correctly while loading 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r4:"
+          id=":r6:"
         >
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
+            aria-controls=":r7:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r4: :r3:"
+            aria-labelledby=":r6: :r5:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r3:"
-            role="button"
+            id=":r5:"
+            role="combobox"
             tabindex="0"
           >
             25
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"

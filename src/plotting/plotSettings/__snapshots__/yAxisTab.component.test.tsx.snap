@@ -40,6 +40,47 @@ exports[`y-axis tab renders correctly 1`] = `
       </div>
     </div>
     <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for=":r0:"
+          id=":r0:-label"
+          style="font-size: 12px;"
+        >
+          Label
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+          style="font-size: 12px;"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+            id=":r0:"
+            type="text"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-yjsfm1"
+            >
+              <span>
+                Label
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
       class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
     >
       <div
@@ -51,8 +92,8 @@ exports[`y-axis tab renders correctly 1`] = `
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
-            for=":r0:"
-            id=":r0:-label"
+            for=":r1:"
+            id=":r1:-label"
             style="font-size: 12px;"
           >
             Min
@@ -64,7 +105,7 @@ exports[`y-axis tab renders correctly 1`] = `
             <input
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-              id=":r0:"
+              id=":r1:"
               type="text"
               value=""
             />
@@ -92,8 +133,8 @@ exports[`y-axis tab renders correctly 1`] = `
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1pysi21-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
-            for=":r1:"
-            id=":r1:-label"
+            for=":r2:"
+            id=":r2:-label"
             style="font-size: 12px;"
           >
             Max
@@ -105,7 +146,7 @@ exports[`y-axis tab renders correctly 1`] = `
             <input
               aria-invalid="false"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-              id=":r1:"
+              id=":r2:"
               type="text"
               value=""
             />
@@ -249,7 +290,7 @@ exports[`y-axis tab renders correctly 1`] = `
         class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-1pddimr-MuiFormLabel-root-MuiInputLabel-root"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1pddimr-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="false"
           id="table-channel-select-label"
         >
@@ -259,11 +300,12 @@ exports[`y-axis tab renders correctly 1`] = `
           class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl  css-i06ziq-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
         >
           <div
+            aria-controls=":r4:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby="table-channel-select-label"
             class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-            role="button"
+            role="combobox"
             tabindex="0"
           >
             <span
@@ -274,6 +316,7 @@ exports[`y-axis tab renders correctly 1`] = `
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value=""
@@ -308,14 +351,14 @@ exports[`y-axis tab renders correctly 1`] = `
       class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
     >
       <div
-        class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-qm9mjt-MuiAutocomplete-root"
+        class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-1kkal6p-MuiAutocomplete-root"
         role="autocomplete"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
             for="select data channels"
             id="select data channels-label"

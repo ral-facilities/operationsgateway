@@ -63,7 +63,7 @@ describe('Thumbnail selector component', () => {
 
     expect(screen.getByText('1–18 of 18')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Page size 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Page size' }));
     await user.click(screen.getByRole('option', { name: '10' }));
 
     expect(screen.getByText('1–10 of 18')).toBeInTheDocument();
@@ -99,7 +99,7 @@ describe('Thumbnail selector component', () => {
     });
     await screen.findAllByRole('img');
 
-    await user.click(screen.getByRole('button', { name: 'Page size 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Page size' }));
     expect(screen.getByRole('option', { name: '100' })).toBeInTheDocument();
   });
 

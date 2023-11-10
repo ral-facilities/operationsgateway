@@ -2,7 +2,7 @@ import React from 'react';
 import Table, { TableProps } from './table.component';
 import { screen, render } from '@testing-library/react';
 import { RecordRow } from '../app.types';
-import { Column } from 'react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import userEvent from '@testing-library/user-event';
 
 describe('Table', () => {
@@ -19,26 +19,26 @@ describe('Table', () => {
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
     generateRow(i + 1)
   );
-  const availableColumns: Column[] = [
+  const availableColumns: ColumnDef<RecordRow>[] = [
     {
-      Header: 'Timestamp',
+      header: 'Timestamp',
       id: 'timestamp',
-      accessor: 'timestamp',
+      accessorKey: 'timestamp',
     },
     {
-      Header: 'Shot Number',
+      header: 'Shot Number',
       id: 'shotnum',
-      accessor: 'shotnum',
+      accessorKey: 'shotnum',
     },
     {
-      Header: 'Active Area',
+      header: 'Active Area',
       id: 'activeArea',
-      accessor: 'activeArea',
+      accessorKey: 'activeArea',
     },
     {
-      Header: 'Active Experiment',
+      header: 'Active Experiment',
       id: 'activeExperiment',
-      accessor: 'activeExperiment',
+      accessorKey: 'activeExperiment',
     },
   ];
   const onPageChange = jest.fn();
@@ -59,7 +59,11 @@ describe('Table', () => {
       data: recordRows,
       availableColumns,
       columnStates: {},
-      hiddenColumns: ['shotnum', 'activeArea', 'activeExperiment'],
+      columnVisibility: {
+        shotnum: false,
+        activeArea: false,
+        activeExperiment: false,
+      },
       columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
       maxShots: 50,
@@ -89,7 +93,7 @@ describe('Table', () => {
   });
 
   it('renders correctly with all columns displayed', async () => {
-    props.hiddenColumns = [];
+    props.columnVisibility = {};
     props.columnOrder = [
       'timestamp',
       'shotnum',
@@ -135,7 +139,7 @@ describe('Table', () => {
       totalDataCount: 0,
       loadedData: false,
       loadedCount: false,
-      hiddenColumns: [],
+      columnVisibility: {},
       columnOrder: [],
     };
     createView();
@@ -180,7 +184,7 @@ describe('Table', () => {
     };
     createView();
 
-    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Rows per page:' }));
 
     // expect 100 to not exist as maxShots is 50
     expect(
@@ -199,7 +203,7 @@ describe('Table', () => {
     };
     createView();
 
-    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Rows per page:' }));
 
     expect(screen.getByRole('option', { name: '100' })).toBeInTheDocument();
   });
