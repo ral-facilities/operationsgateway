@@ -177,7 +177,11 @@ const settings = fetchSettings();
 setSettings(settings);
 
 function prepare() {
-  if (process.env.NODE_ENV === 'development') {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.REACT_APP_E2E_TESTING === 'true'
+  ) {
+    // need to use require instead of import as import breaks when loaded in SG
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { worker } = require('./mocks/browser');
     return (worker as SetupWorker).start({
@@ -196,7 +200,7 @@ function prepare() {
 
 if (
   process.env.NODE_ENV === 'development' ||
-  process.env.REACT_APP_E2E_TESTING
+  process.env.REACT_APP_E2E_TESTING === 'true'
 ) {
   prepare().then(() => render());
   log.setDefaultLevel(log.levels.DEBUG);
