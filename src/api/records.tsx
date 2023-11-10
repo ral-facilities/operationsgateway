@@ -68,8 +68,42 @@ const fetchRecords = async (
 
   searchObj.push(...filtersObj);
 
-  if (searchObj.length > 0) {
-    queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
+  const conditions: { [x: string]: { $exists: boolean } }[] = [];
+
+  projection?.forEach((channel) => {
+    // API recognises projection values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const key =
+      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+    queryParams.append('projection', key);
+
+    if (!(channel in staticChannels)) {
+      conditions.push({ [key]: { $exists: true } });
+    }
+  });
+
+  // if (conditions.length > 0 && searchObj.length > 0) {
+  //   queryParams.append(
+  //     'conditions',
+  //     JSON.stringify({ $and: searchObj, $or: conditions })
+  //   );
+  // } else if (conditions.length > 0) {
+  //   queryParams.append('conditions', JSON.stringify({ $or: conditions }));
+  // } else {
+  //   queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
+  // }
+
+  if (conditions.length > 0 || searchObj.length > 0) {
+    queryParams.append(
+      'conditions',
+      JSON.stringify(
+        conditions.length > 0 && searchObj.length > 0
+          ? { $and: searchObj, $or: conditions }
+          : conditions.length > 0
+          ? { $or: conditions }
+          : { $and: searchObj }
+      )
+    );
   }
 
   if (offsetParams) {
@@ -79,14 +113,6 @@ const fetchRecords = async (
       JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
-
-  projection?.forEach((channel) => {
-    // API recognises projection values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const key =
-      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
-    queryParams.append('projection', key);
-  });
 
   return axios
     .get(`${apiUrl}/records`, {
