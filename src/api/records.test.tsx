@@ -383,9 +383,9 @@ describe('records api functions', () => {
 
       const request = await pendingRequest;
 
+      params.append('projection', `metadata.${timeChannelName}`);
       params.append('skip', '0');
       params.append('limit', '25');
-      params.append('projection', `metadata.${timeChannelName}`);
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -437,14 +437,14 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('order', 'channels.CHANNEL_1 desc');
+      params.append('projection', `metadata.${timeChannelName}`);
+      params.append('projection', 'channels.CHANNEL_1');
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
-      params.append('projection', `metadata.${timeChannelName}`);
-      params.append('projection', 'channels.CHANNEL_1');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
@@ -492,15 +492,21 @@ describe('records api functions', () => {
       // Default params for usePlotRecords
       params.append('order', 'metadata.timestamp asc'); // Assume the user is plotting time-series graph
 
-      // searchParams.maxShots defaults to 50
-      params.append('skip', '0');
-      params.append('limit', '50');
-
       // correct projections added
       params.append('projection', `metadata.${timeChannelName}`);
       testSelectedPlotChannels.forEach((channel) => {
         params.append('projection', `channels.${channel.name}`);
       });
+
+      // correct conditions added
+      params.append(
+        'conditions',
+        '{"$or":[{"channels.CHANNEL_ABCDE":{"$exists":true}}]}'
+      );
+
+      // searchParams.maxShots defaults to 50
+      params.append('skip', '0');
+      params.append('limit', '50');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -565,16 +571,24 @@ describe('records api functions', () => {
       const request = await pendingRequest;
 
       params.append('order', 'metadata.shotnum asc');
-      params.append(
-        'conditions',
-        '{"$and":[{"metadata.shotnum":{"$gt":300}}]}'
-      );
-      params.append('skip', '0');
-      params.append('limit', '1000');
       params.append('projection', 'metadata.shotnum');
+
+      const conditions: { [x: string]: { $exists: boolean } }[] = [];
+
       testSelectedPlotChannels.forEach((channel) => {
         params.append('projection', `channels.${channel.name}`);
+        conditions.push({ [`channels.${channel.name}`]: { $exists: true } });
       });
+
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.shotnum":{"$gt":300}}],"$or":' +
+          JSON.stringify(conditions) +
+          '}'
+      );
+
+      params.append('skip', '0');
+      params.append('limit', '1000');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -630,9 +644,13 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('projection', `metadata.${timeChannelName}`);
+      const conditions: { [x: string]: { $exists: boolean } }[] = [];
       testSelectedPlotChannels.forEach((channel) => {
         params.append('projection', `channels.${channel.name}`);
+        conditions.push({ [`channels.${channel.name}`]: { $exists: true } });
       });
+
+      params.append('conditions', '{"$or":' + JSON.stringify(conditions) + '}');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
@@ -662,10 +680,16 @@ describe('records api functions', () => {
 
       const request = await pendingRequest;
 
-      params.append('skip', '25');
-      params.append('limit', '25');
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
+
+      params.append(
+        'conditions',
+        '{"$or":[{"channels.TEST":{"$exists":true}}]}'
+      );
+
+      params.append('skip', '25');
+      params.append('limit', '25');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -716,14 +740,14 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('order', 'channels.CHANNEL_1 desc');
+      params.append('projection', 'channels.TEST');
+      params.append('projection', 'metadata.timestamp');
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
-      params.append('projection', 'channels.TEST');
-      params.append('projection', 'metadata.timestamp');
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });

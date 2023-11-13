@@ -82,28 +82,15 @@ const fetchRecords = async (
     }
   });
 
-  // if (conditions.length > 0 && searchObj.length > 0) {
-  //   queryParams.append(
-  //     'conditions',
-  //     JSON.stringify({ $and: searchObj, $or: conditions })
-  //   );
-  // } else if (conditions.length > 0) {
-  //   queryParams.append('conditions', JSON.stringify({ $or: conditions }));
-  // } else {
-  //   queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
-  // }
-
   if (conditions.length > 0 || searchObj.length > 0) {
-    queryParams.append(
-      'conditions',
-      JSON.stringify(
-        conditions.length > 0 && searchObj.length > 0
-          ? { $and: searchObj, $or: conditions }
-          : conditions.length > 0
-          ? { $or: conditions }
-          : { $and: searchObj }
-      )
-    );
+    const query =
+      conditions.length > 0 && searchObj.length > 0
+        ? { $and: searchObj, $or: conditions }
+        : conditions.length > 0
+        ? { $or: conditions }
+        : { $and: searchObj };
+
+    queryParams.append('conditions', JSON.stringify(query));
   }
 
   if (offsetParams) {
