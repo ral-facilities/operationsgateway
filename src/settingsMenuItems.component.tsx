@@ -24,7 +24,9 @@ import { useQueryClient } from '@tanstack/react-query';
 export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
 
 const SettingsMenuItems = () => {
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(
+    document.body.querySelector('#settings ul') !== null
+  );
 
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
@@ -196,6 +198,7 @@ const SettingsMenuItems = () => {
                 }
                 fullWidth
                 label={'Default Colour Map'}
+                labelId="default-colour-map-select-label"
               />
             </FormControl>
             <FormControlLabel
@@ -230,7 +233,7 @@ const SettingsMenuItems = () => {
       </>,
       // we know this is not null from the mutation observer
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      document.querySelector('#settings ul')!
+      document.body.querySelector('#settings ul')!
     );
   }
 };

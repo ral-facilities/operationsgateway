@@ -93,7 +93,7 @@ export const ColourMapSelect = (
 
   return (
     <Select
-      labelId="colour-map-select-label"
+      labelId={props.labelId}
       id="colour-map-select"
       label="Colour Map"
       {...selectProps}
@@ -255,6 +255,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
               colourMaps={
                 extendedColourMap ? filteredColourMaps : filteredColourMapsMain
               }
+              labelId="colour-map-select-label"
             />
           )}
         </FormControl>
