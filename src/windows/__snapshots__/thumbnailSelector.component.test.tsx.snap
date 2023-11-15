@@ -20,26 +20,28 @@ exports[`Thumbnail selector component renders correctly when loading 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r6:"
+          id=":r7:"
         >
           Page size
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
+            aria-controls=":r8:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r6: :r5:"
+            aria-labelledby=":r7: :r6:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r5:"
-            role="button"
+            id=":r6:"
+            role="combobox"
             tabindex="0"
           >
             25
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
@@ -190,21 +192,23 @@ exports[`Thumbnail selector component renders list of thumbnails and pagination 
           Page size
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
+            aria-controls=":r2:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1: :r0:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
             id=":r0:"
-            role="button"
+            role="combobox"
             tabindex="0"
           >
             25
           </div>
           <input
             aria-hidden="true"
+            aria-invalid="false"
             class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"

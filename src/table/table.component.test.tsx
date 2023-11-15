@@ -184,7 +184,7 @@ describe('Table', () => {
     };
     createView();
 
-    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Rows per page:' }));
 
     // expect 100 to not exist as maxShots is 50
     expect(
@@ -203,7 +203,7 @@ describe('Table', () => {
     };
     createView();
 
-    await user.click(screen.getByRole('button', { name: 'Rows per page: 25' }));
+    await user.click(screen.getByRole('combobox', { name: 'Rows per page:' }));
 
     expect(screen.getByRole('option', { name: '100' })).toBeInTheDocument();
   });

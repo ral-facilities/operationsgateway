@@ -778,8 +778,10 @@ describe('Search', () => {
       // the shot number, timeframe and experiment id
 
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -909,8 +911,10 @@ describe('Search', () => {
 
     it('searches within an experiment timeframe without the experiment id clearing', () => {
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -933,8 +937,10 @@ describe('Search', () => {
 
     it('clears experiment id when it searches outside the given experiment id experiment timeframe', () => {
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -949,8 +955,10 @@ describe('Search', () => {
         .should('not.exist');
 
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -967,8 +975,10 @@ describe('Search', () => {
 
     it('searches within an experiment shot number range without the experiment id clearing', () => {
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -1011,8 +1021,10 @@ describe('Search', () => {
 
     it('clears experiment id when it searches outside the given experiment id shot number range', () => {
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
@@ -1036,8 +1048,10 @@ describe('Search', () => {
         .should('not.exist');
 
       cy.findByLabelText('open experiment search box').click();
-      cy.findByRole('combobox').type('221');
-      cy.findByRole('combobox').type('{downArrow}{enter}');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
+      cy.findByRole('combobox', { name: 'Select your experiment' }).type(
+        '{downArrow}{enter}'
+      );
       cy.findByLabelText('close experiment search box').click();
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')

@@ -6,7 +6,7 @@ exports[`False colour panel component renders correctly 1`] = `
     class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-1ps6pg7-MuiPaper-root"
   >
     <div
-      class="css-d34ffb-MuiStack-root"
+      class="MuiStack-root css-1x7gm5i-MuiStack-root"
     >
       <div
         class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
@@ -107,7 +107,7 @@ exports[`False colour panel component renders correctly 1`] = `
         class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
       >
         <label
-          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
           data-shrink="false"
           id="colour-map-select-label"
         >
@@ -124,7 +124,7 @@ exports[`False colour panel component renders correctly 1`] = `
           Level Range
         </label>
         <span
-          class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeMedium MuiSlider-marked css-1aznpnh-MuiSlider-root"
+          class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-1aznpnh-MuiSlider-root"
         >
           <span
             class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -140,7 +140,7 @@ exports[`False colour panel component renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="0"
             style="left: 0%;"
           >
@@ -158,7 +158,7 @@ exports[`False colour panel component renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="2"
             style="left: 24.705882352941178%;"
           >
@@ -176,7 +176,7 @@ exports[`False colour panel component renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="4"
             style="left: 49.80392156862745%;"
           >
@@ -194,7 +194,7 @@ exports[`False colour panel component renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="6"
             style="left: 74.90196078431373%;"
           >
@@ -212,15 +212,14 @@ exports[`False colour panel component renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
             data-index="8"
             style="left: 100%;"
           >
             255
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-            data-focusvisible="false"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
             data-index="0"
             style="left: 0%;"
           >
@@ -254,8 +253,7 @@ exports[`False colour panel component renders correctly 1`] = `
             </span>
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeMedium css-eg0mwd-MuiSlider-thumb"
-            data-focusvisible="false"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
             data-index="1"
             style="left: 100%;"
           >
