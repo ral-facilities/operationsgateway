@@ -68,7 +68,7 @@ const fetchRecords = async (
 
   searchObj.push(...filtersObj);
 
-  const conditions: { [x: string]: { $exists: boolean } }[] = [];
+  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
   projection?.forEach((channel) => {
     // API recognises projection values as metadata.key or channel.key
@@ -78,16 +78,16 @@ const fetchRecords = async (
     queryParams.append('projection', key);
 
     if (!(channel in staticChannels)) {
-      conditions.push({ [key]: { $exists: true } });
+      existsConditions.push({ [key]: { $exists: true } });
     }
   });
 
-  if (conditions.length > 0 || searchObj.length > 0) {
+  if (existsConditions.length > 0 || searchObj.length > 0) {
     const query =
-      conditions.length > 0 && searchObj.length > 0
-        ? { $and: searchObj, $or: conditions }
-        : conditions.length > 0
-        ? { $or: conditions }
+      existsConditions.length > 0 && searchObj.length > 0
+        ? { $and: searchObj, $or: existsConditions }
+        : existsConditions.length > 0
+        ? { $or: existsConditions }
         : { $and: searchObj };
 
     queryParams.append('conditions', JSON.stringify(query));

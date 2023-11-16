@@ -573,17 +573,19 @@ describe('records api functions', () => {
       params.append('order', 'metadata.shotnum asc');
       params.append('projection', 'metadata.shotnum');
 
-      const conditions: { [x: string]: { $exists: boolean } }[] = [];
+      const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
       testSelectedPlotChannels.forEach((channel) => {
         params.append('projection', `channels.${channel.name}`);
-        conditions.push({ [`channels.${channel.name}`]: { $exists: true } });
+        existsConditions.push({
+          [`channels.${channel.name}`]: { $exists: true },
+        });
       });
 
       params.append(
         'conditions',
         '{"$and":[{"metadata.shotnum":{"$gt":300}}],"$or":' +
-          JSON.stringify(conditions) +
+          JSON.stringify(existsConditions) +
           '}'
       );
 
@@ -644,13 +646,18 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('projection', `metadata.${timeChannelName}`);
-      const conditions: { [x: string]: { $exists: boolean } }[] = [];
+      const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
       testSelectedPlotChannels.forEach((channel) => {
         params.append('projection', `channels.${channel.name}`);
-        conditions.push({ [`channels.${channel.name}`]: { $exists: true } });
+        existsConditions.push({
+          [`channels.${channel.name}`]: { $exists: true },
+        });
       });
 
-      params.append('conditions', '{"$or":' + JSON.stringify(conditions) + '}');
+      params.append(
+        'conditions',
+        '{"$or":' + JSON.stringify(existsConditions) + '}'
+      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
