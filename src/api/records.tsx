@@ -117,7 +117,8 @@ const fetchRecords = async (
 const fetchRecordCountQuery = (
   apiUrl: string,
   searchParams: SearchParams,
-  filters: string[]
+  filters: string[],
+  projection?: string[]
 ): Promise<number> => {
   const queryParams = new URLSearchParams();
 
@@ -142,8 +143,28 @@ const fetchRecordCountQuery = (
 
   searchObj.push(...filtersObj);
 
-  if (searchObj.length > 0) {
-    queryParams.append('conditions', JSON.stringify({ $and: searchObj }));
+  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
+
+  projection?.forEach((channel) => {
+    // API recognises projection values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const key =
+      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+
+    if (!(channel in staticChannels)) {
+      existsConditions.push({ [key]: { $exists: true } });
+    }
+  });
+
+  if (existsConditions.length > 0 || searchObj.length > 0) {
+    const query =
+      existsConditions.length > 0 && searchObj.length > 0
+        ? { $and: searchObj, $or: existsConditions }
+        : existsConditions.length > 0
+        ? { $or: existsConditions }
+        : { $and: searchObj };
+
+    queryParams.append('conditions', JSON.stringify(query));
   }
 
   return axios
@@ -544,17 +565,21 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters } = useAppSelector(selectQueryParams);
   const queryClient = useQueryClient();
+  const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   return useQuery<
     number,
     AxiosError,
     number,
-    [string, { searchParams: SearchParams; filters: string[] }]
+    [
+      string,
+      { searchParams: SearchParams; filters: string[]; projection: string[] }
+    ]
   >(
-    ['recordCount', { searchParams, filters }],
+    ['recordCount', { searchParams, filters, projection }],
     (params) => {
-      const { searchParams, filters } = params.queryKey[1];
-      return fetchRecordCountQuery(apiUrl, searchParams, filters);
+      const { searchParams, filters, projection } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, searchParams, filters, projection);
     },
     {
       onError: (error) => {
@@ -566,6 +591,7 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
           {
             searchParams,
             filters,
+            projection,
           },
         ]),
     }
@@ -579,6 +605,7 @@ export const useIncomingRecordCount = (
   const { apiUrl } = useAppSelector(selectUrls);
   const { filters: storeFilters, searchParams: storeSearchParams } =
     useAppSelector(selectQueryParams);
+  const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   let finalisedFilters: string[];
   if (filters) {
@@ -598,15 +625,22 @@ export const useIncomingRecordCount = (
     number,
     AxiosError,
     number,
-    [string, { searchParams: SearchParams; filters: string[] }]
+    [
+      string,
+      { searchParams: SearchParams; filters: string[]; projection: string[] }
+    ]
   >(
     [
       'incomingRecordCount',
-      { searchParams: finalisedSearchParams, filters: finalisedFilters },
+      {
+        searchParams: finalisedSearchParams,
+        filters: finalisedFilters,
+        projection,
+      },
     ],
     (params) => {
-      const { searchParams, filters } = params.queryKey[1];
-      return fetchRecordCountQuery(apiUrl, searchParams, filters);
+      const { searchParams, filters, projection } = params.queryKey[1];
+      return fetchRecordCountQuery(apiUrl, searchParams, filters, projection);
     },
     {
       onError: (error) => {
