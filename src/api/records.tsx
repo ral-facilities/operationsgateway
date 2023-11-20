@@ -305,7 +305,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         searchParams: SearchParams;
         filters: string[];
         projection: string[];
-      }
+      },
     ]
   >(
     [
@@ -439,7 +439,7 @@ export const usePlotRecords = (
         searchParams: SearchParams;
         filters: string[];
         projection: string[];
-      }
+      },
     ]
   >(
     [
@@ -527,7 +527,7 @@ export const useThumbnails = (
         sort: SortType;
         searchParams: SearchParams;
         filters: string[];
-      }
+      },
     ]
   >(
     [

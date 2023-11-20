@@ -21,7 +21,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+      class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
@@ -66,13 +66,13 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
                 >
                   <div
-                    class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-12szb0g-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-f34qqq-MuiAutocomplete-root"
                   >
                     <div
                       class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                     >
                       <label
-                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1sumxir-MuiFormLabel-root-MuiInputLabel-root"
+                        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                         data-shrink="true"
                         for=":r1:"
                         id=":r1:-label"
@@ -202,7 +202,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
           </div>
         </div>
         <div
-          class="MuiDialogActions-root MuiDialogActions-spacing css-hlj6pa-MuiDialogActions-root"
+          class="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
         >
           <button
             class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"

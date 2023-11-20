@@ -181,9 +181,8 @@ class TokenInput {
           return this.tokens[this.pos++];
         } else {
           throw new ParserError(
-            `Expected token from types [${types}] at token ${
-              this.peek(0)?.value
-            }` // TODO: better error message?
+            `Expected token from types [${types}] at token ${this.peek(0)
+              ?.value}` // TODO: better error message?
           );
         }
       } else {
