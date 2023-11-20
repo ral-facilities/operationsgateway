@@ -573,7 +573,7 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
     number,
     [
       string,
-      { searchParams: SearchParams; filters: string[]; projection: string[] }
+      { searchParams: SearchParams; filters: string[]; projection: string[] },
     ]
   >(
     ['recordCount', { searchParams, filters, projection }],
@@ -627,7 +627,7 @@ export const useIncomingRecordCount = (
     number,
     [
       string,
-      { searchParams: SearchParams; filters: string[]; projection: string[] }
+      { searchParams: SearchParams; filters: string[]; projection: string[] },
     ]
   >(
     [
