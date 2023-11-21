@@ -226,7 +226,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                     textField: CustomTextField,
                   }}
                   slotProps={{
-                    actionBar: { actions: ['clear'] },
+                    actionBar: { actions: ['clear', 'today'] },
                     openPickerButton: {
                       onClick: () => setFromOpen(!fromOpen),
                       size: 'small',

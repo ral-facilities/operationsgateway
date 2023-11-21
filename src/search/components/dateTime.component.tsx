@@ -334,7 +334,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 textField: CustomTextField,
               }}
               slotProps={{
-                actionBar: { actions: ['clear'] },
+                actionBar: { actions: ['clear', 'today'] },
                 openPickerButton: {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
