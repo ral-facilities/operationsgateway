@@ -8,23 +8,24 @@ const verifyColumnOrder = (columns: string[]): void => {
 
 describe('Table Component', () => {
   beforeEach(() => {
-    cy.visit('/', {
-      // need these to ensure Date picker media queries pass
-      // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
-      onBeforeLoad: (win) => {
-        cy.stub(win, 'matchMedia')
-          .withArgs('(pointer: fine)')
-          .returns({
-            matches: true,
-            addListener: () => {
-              // no-op
-            },
-            removeListener: () => {
-              // no-op
-            },
-          });
-      },
-    });
+    // cy.visit('/', {
+    //   // need these to ensure Date picker media queries pass
+    //   // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+    //   onBeforeLoad: (win) => {
+    //     cy.stub(win, 'matchMedia')
+    //       .withArgs('(pointer: fine)')
+    //       .returns({
+    //         matches: true,
+    //         addListener: () => {
+    //           // no-op
+    //         },
+    //         removeListener: () => {
+    //           // no-op
+    //         },
+    //       });
+    //   },
+    // });
+    cy.visit('/');
   });
 
   it('adds columns in the order they are selected', () => {

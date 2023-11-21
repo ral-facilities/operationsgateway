@@ -673,7 +673,8 @@ describe('Search', () => {
 
       // Only the To date is defined
 
-      cy.findByLabelText('from, date-time input').clear();
+      // cy.findByLabelText('from, date-time input').clear();
+      cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('to, date-time input').clear();
 
       cy.findByLabelText('to, date-time input').type('2022-01-01_00:00');
@@ -1105,23 +1106,7 @@ describe('Search', () => {
         });
       }).as('getSettings');
 
-      cy.visit('/', {
-        // need these to ensure Date picker media queries pass
-        // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
-        onBeforeLoad: (win) => {
-          cy.stub(win, 'matchMedia')
-            .withArgs('(pointer: fine)')
-            .returns({
-              matches: true,
-              addListener: () => {
-                // no-op
-              },
-              removeListener: () => {
-                // no-op
-              },
-            });
-        },
-      }).wait(['@getSettings']);
+      cy.visit('/').wait(['@getSettings']);
     });
 
     it('displays appropriate tooltips', () => {
