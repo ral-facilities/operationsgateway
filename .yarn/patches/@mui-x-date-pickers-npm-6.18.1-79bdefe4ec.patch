@@ -1,17 +1,17 @@
 diff --git a/internals/hooks/useField/useField.js b/internals/hooks/useField/useField.js
-index 683308eb3ef54eec1aa68af907681d61bafb92b5..505be6f20a05301aa6a6479bbc2489317f95d8ce 100644
+index 10a6c2874e2acdf072cd05de26711d704332ada1..30499fd39c69812775a48d8aa3d4ba6812eeb9c3 100644
 --- a/internals/hooks/useField/useField.js
 +++ b/internals/hooks/useField/useField.js
-@@ -315,7 +315,7 @@ export const useField = params => {
+@@ -333,7 +333,7 @@ export const useField = params => {
        // On multi input range pickers we want to update selection range only for the active input
-       // This helps avoiding the focus jumping on Safari https://github.com/mui/mui-x/issues/9003
+       // This helps to avoid the focus jumping on Safari https://github.com/mui/mui-x/issues/9003
        // because WebKit implements the `setSelectionRange` based on the spec: https://bugs.webkit.org/show_bug.cgi?id=224425
 -      if (inputRef.current === getActiveElement(document)) {
 +      if (inputRef.current === getActiveElement(inputRef.current.ownerDocument)) {
          inputRef.current.setSelectionRange(selectionStart, selectionEnd);
        }
        // Even reading this variable seems to do the trick, but also setting it just to make use of it
-@@ -342,7 +342,7 @@ export const useField = params => {
+@@ -360,7 +360,7 @@ export const useField = params => {
  
    React.useEffect(() => {
      // Select the right section when focused on mount (`autoFocus = true` on the input)
@@ -20,12 +20,12 @@ index 683308eb3ef54eec1aa68af907681d61bafb92b5..505be6f20a05301aa6a6479bbc248931
        setSelectedSections('all');
      }
      return () => window.clearTimeout(focusTimeoutRef.current);
-@@ -372,7 +372,7 @@ export const useField = params => {
+@@ -390,7 +390,7 @@ export const useField = params => {
      }
      return 'numeric';
    }, [selectedSectionIndexes, state.sections]);
 -  const inputHasFocus = inputRef.current && inputRef.current === getActiveElement(document);
 +  const inputHasFocus = inputRef.current && inputRef.current === getActiveElement(inputRef.current.ownerDocument);
-   const shouldShowPlaceholder = !inputHasFocus && valueManager.areValuesEqual(utils, state.value, valueManager.emptyValue);
+   const areAllSectionsEmpty = valueManager.areValuesEqual(utils, state.value, valueManager.emptyValue);
+   const shouldShowPlaceholder = !inputHasFocus && areAllSectionsEmpty;
    React.useImperativeHandle(unstableFieldRef, () => ({
-     getSections: () => state.sections,
