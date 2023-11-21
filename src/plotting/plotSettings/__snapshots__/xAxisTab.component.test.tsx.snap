@@ -348,7 +348,7 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiTextField-root css-z3c6am-MuiFormControl-root-MuiTextField-root"
         >
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
@@ -356,11 +356,12 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
             <input
               aria-invalid="false"
               aria-label="from, date-time input"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              autocomplete="off"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1pd62rs-MuiInputBase-input-MuiInput-input"
               id="from date-time"
+              inputmode="text"
               placeholder="From..."
-              style="font-size: 10px;"
-              type="tel"
+              type="text"
               value=""
             />
             <div
@@ -395,7 +396,7 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiTextField-root css-z3c6am-MuiFormControl-root-MuiTextField-root"
         >
           <div
             class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-v4u5dn-MuiInputBase-root-MuiInput-root"
@@ -403,11 +404,12 @@ exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
             <input
               aria-invalid="false"
               aria-label="to, date-time input"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+              autocomplete="off"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1pd62rs-MuiInputBase-input-MuiInput-input"
               id="to date-time"
+              inputmode="text"
               placeholder="To..."
-              style="font-size: 10px;"
-              type="tel"
+              type="text"
               value=""
             />
             <div

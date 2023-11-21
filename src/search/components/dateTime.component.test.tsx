@@ -404,13 +404,13 @@ describe('DateTime tests', () => {
     createView();
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
-    await userEvent.type(dateFilterFromDate, '2019-01-07 11:00:00');
+    await userEvent.type(dateFilterFromDate, '2019-01-07_11:00:00');
     expect(changeSearchParameterFromDate).toHaveBeenCalledWith(
       new Date('2019-01-07 11:00:00')
     );
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
-    await userEvent.type(dateFilterToDate, '2019-01-20 17:00:00');
+    await userEvent.type(dateFilterToDate, '2019-01-20_17:00:00');
     expect(changeSearchParameterToDate).toHaveBeenCalledWith(
       new Date('2019-01-20 17:00:00')
     );
