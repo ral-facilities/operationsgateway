@@ -17,6 +17,9 @@ jobs:
           node-version: 20
           cache: 'yarn'
 
+      - name: Install dependencies
+        run: yarn --immutable
+
       - name: Run playwright tests
         run: yarn e2e:playwright
 
