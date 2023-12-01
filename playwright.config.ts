@@ -32,18 +32,16 @@ const config: PlaywrightTestConfig = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // use 0.0.0.0 loopback address when running the tests in a local docker container
   // so that the report URL is accessible via host localhost:9323.
-  reporter: process.env.LOCAL_DOCKER
-    ? [
-        [
-          'html',
-          {
-            open: 'never',
-            host: '0.0.0.0',
-            port: 9323,
-          },
-        ],
-      ]
-    : 'html',
+  reporter: [
+    [
+      'html',
+      {
+        open: 'never',
+        host: '0.0.0.0',
+        port: 9323,
+      },
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
