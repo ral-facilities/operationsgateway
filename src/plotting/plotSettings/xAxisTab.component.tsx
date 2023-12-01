@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import {
   Autocomplete,
   Box,
@@ -9,10 +10,11 @@ import {
   InputAdornment,
   Radio,
   RadioGroup,
-  styled,
   TextField,
+  TextFieldProps,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Search, Close } from '@mui/icons-material';
 import {
   XAxisScale,
@@ -23,6 +25,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isBefore, isValid } from 'date-fns';
 import PlotSettingsTextField from './plotSettingsTextField.component';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -43,6 +46,31 @@ export interface XAxisTabProps {
   changeXMinimum: (value: number | undefined) => void;
   changeXMaximum: (value: number | undefined) => void;
 }
+
+const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
+  const { invalidDateRange, id, date, ...inputProps } =
+    renderProps.inputProps ?? {};
+  const error =
+    (renderProps.error || invalidDateRange || (date && !isValid(date))) ??
+    undefined;
+  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+  if (invalidDateRange) helperText = 'Invalid date-time range';
+  return (
+    <TextField
+      {...renderProps}
+      id={id}
+      inputProps={{
+        ...inputProps,
+        sx: {
+          fontSize: 10,
+        },
+      }}
+      variant="standard"
+      error={error}
+      {...(error && { helperText: helperText })}
+    />
+  );
+};
 
 // if XAxis === "timestamp", only render min/max config
 const XAxisTab = (props: XAxisTabProps) => {
@@ -168,134 +196,125 @@ const XAxisTab = (props: XAxisTabProps) => {
   const xAxisLabel =
     xAxisChannel && xAxisChannel.name ? xAxisChannel.name : XAxis;
 
+  const [fromOpen, setFromOpen] = useState(false);
+  const [toOpen, setToOpen] = useState(false);
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid container item spacing={1}>
-        <Grid item xs={6}>
-          {XAxisScale === 'time' ? (
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm"
-                mask="____-__-__ __:__"
-                value={fromDate}
-                maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
-                componentsProps={{
-                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
-                }}
-                onChange={(date) => {
-                  setFromDate(date);
-                }}
-                views={['year', 'month', 'day', 'hours', 'minutes']}
-                OpenPickerButtonProps={{
-                  size: 'small',
-                  'aria-label': 'from, date-time picker',
-                }}
-                renderInput={(renderProps) => {
-                  const error =
-                    // eslint-disable-next-line react/prop-types
-                    (renderProps.error ||
-                      invalidDateRange ||
-                      (fromDate && !isValid(fromDate))) ??
-                    undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
-
-                  return (
-                    <TextField
-                      {...renderProps}
-                      id="from date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        style: {
-                          fontSize: 10,
-                        },
+        <ClickAwayListener
+          onClickAway={() => setFromOpen(false)}
+          mouseEvent="onMouseDown"
+        >
+          <Grid item xs={6}>
+            {XAxisScale === 'time' ? (
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  format="yyyy-MM-dd HH:mm"
+                  value={fromDate}
+                  maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
+                  onChange={(date) => {
+                    setFromDate(date as Date);
+                  }}
+                  open={fromOpen}
+                  onOpen={() => setFromOpen(true)}
+                  onAccept={() => setFromOpen(false)}
+                  onClose={() => setFromOpen(false)}
+                  closeOnSelect={true}
+                  views={['year', 'month', 'day', 'hours', 'minutes']}
+                  slots={{
+                    textField: CustomTextField,
+                  }}
+                  slotProps={{
+                    actionBar: { actions: ['clear', 'today'] },
+                    openPickerButton: {
+                      onClick: () => setFromOpen(!fromOpen),
+                      size: 'small',
+                      'aria-label': 'from, date-time picker',
+                    },
+                    textField: {
+                      inputProps: {
+                        invalidDateRange: invalidDateRange,
+                        id: 'from date-time',
                         placeholder: 'From...',
                         'aria-label': 'from, date-time input',
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
-                }}
+                        date: fromDate,
+                      },
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            ) : (
+              <PlotSettingsTextField
+                label="Min"
+                error={invalidXRange}
+                {...(invalidXRange && { helperText: 'Invalid range' })}
+                value={xMinimum}
+                onChange={setXMinimum}
               />
-            </LocalizationProvider>
-          ) : (
-            <PlotSettingsTextField
-              label="Min"
-              error={invalidXRange}
-              {...(invalidXRange && { helperText: 'Invalid range' })}
-              value={xMinimum}
-              onChange={setXMinimum}
-            />
-          )}
-        </Grid>
-        <Grid item xs={6}>
-          {XAxisScale === 'time' ? (
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                inputFormat="yyyy-MM-dd HH:mm"
-                mask="____-__-__ __:__"
-                value={toDate}
-                minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
-                componentsProps={{
-                  actionBar: { actions: ['clear', 'cancel', 'accept'] },
-                }}
-                onChange={(date) => {
-                  setToDate(date);
-                }}
-                views={['year', 'month', 'day', 'hours', 'minutes']}
-                OpenPickerButtonProps={{
-                  size: 'small',
-                  'aria-label': 'to, date-time picker',
-                }}
-                renderInput={(renderProps) => {
-                  const error =
-                    // eslint-disable-next-line react/prop-types
-                    (renderProps.error ||
-                      invalidDateRange ||
-                      (toDate && !isValid(toDate))) ??
-                    undefined;
-                  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
-                  if (invalidDateRange) helperText = 'Invalid date-time range';
-
-                  return (
-                    <TextField
-                      {...renderProps}
-                      id="to date-time"
-                      inputProps={{
-                        ...renderProps.inputProps,
-                        style: {
-                          fontSize: 10,
-                        },
+            )}
+          </Grid>
+        </ClickAwayListener>
+        <ClickAwayListener
+          onClickAway={() => setToOpen(false)}
+          mouseEvent="onMouseDown"
+        >
+          <Grid item xs={6}>
+            {XAxisScale === 'time' ? (
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DateTimePicker
+                  format="yyyy-MM-dd HH:mm"
+                  value={toDate}
+                  minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
+                  onChange={(date) => {
+                    setToDate(date as Date);
+                  }}
+                  open={toOpen}
+                  onOpen={() => setToOpen(true)}
+                  onAccept={() => setToOpen(false)}
+                  onClose={() => setToOpen(false)}
+                  closeOnSelect={true}
+                  views={['year', 'month', 'day', 'hours', 'minutes']}
+                  slots={{
+                    textField: CustomTextField,
+                  }}
+                  slotProps={{
+                    actionBar: { actions: ['clear', 'today'] },
+                    openPickerButton: {
+                      onClick: () => setToOpen(!toOpen),
+                      size: 'small',
+                      'aria-label': 'to, date-time picker',
+                    },
+                    textField: {
+                      inputProps: {
+                        invalidDateRange: invalidDateRange,
+                        id: 'to date-time',
                         placeholder: 'To...',
                         'aria-label': 'to, date-time input',
-                      }}
-                      variant="standard"
-                      error={error}
-                      {...(error && { helperText: helperText })}
-                    />
-                  );
-                }}
+                        date: toDate,
+                      },
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            ) : (
+              <TextField
+                label="Max"
+                variant="outlined"
+                size="small"
+                fullWidth
+                InputProps={{ style: { fontSize: 12 } }}
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                error={invalidXRange}
+                {...(invalidXRange && { helperText: 'Invalid range' })}
+                value={xMaximum}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setXMaximum(event.target.value)
+                }
               />
-            </LocalizationProvider>
-          ) : (
-            <TextField
-              label="Max"
-              variant="outlined"
-              size="small"
-              fullWidth
-              InputProps={{ style: { fontSize: 12 } }}
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              error={invalidXRange}
-              {...(invalidXRange && { helperText: 'Invalid range' })}
-              value={xMaximum}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setXMaximum(event.target.value)
-              }
-            />
-          )}
-        </Grid>
+            )}
+          </Grid>
+        </ClickAwayListener>
       </Grid>
       {XAxis !== timeChannelName && (
         <>

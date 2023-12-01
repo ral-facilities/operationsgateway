@@ -218,7 +218,7 @@ exports[`View Tabs renders correctly 1`] = `
                                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-n5zogd-MuiFormControl-root-MuiTextField-root"
                                   >
                                     <div
                                       class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-l4u8b9-MuiInputBase-root-MuiInput-root"
@@ -226,10 +226,12 @@ exports[`View Tabs renders correctly 1`] = `
                                       <input
                                         aria-invalid="false"
                                         aria-label="from, date-time input"
+                                        autocomplete="off"
                                         class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
                                         id="from date-time"
+                                        inputmode="text"
                                         placeholder="From..."
-                                        type="tel"
+                                        type="text"
                                         value=""
                                       />
                                       <div
@@ -280,7 +282,7 @@ exports[`View Tabs renders correctly 1`] = `
                                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                                 >
                                   <div
-                                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-n5zogd-MuiFormControl-root-MuiTextField-root"
                                   >
                                     <div
                                       class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-l4u8b9-MuiInputBase-root-MuiInput-root"
@@ -288,10 +290,12 @@ exports[`View Tabs renders correctly 1`] = `
                                       <input
                                         aria-invalid="false"
                                         aria-label="to, date-time input"
+                                        autocomplete="off"
                                         class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
                                         id="to date-time"
+                                        inputmode="text"
                                         placeholder="To..."
-                                        type="tel"
+                                        type="text"
                                         value=""
                                       />
                                       <div
@@ -819,7 +823,7 @@ exports[`View Tabs renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":r6:"
+                    id=":r8:"
                   >
                     Rows per page:
                   </p>
@@ -827,12 +831,12 @@ exports[`View Tabs renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":r7:"
+                      aria-controls=":r9:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r6: :r5:"
+                      aria-labelledby=":r8: :r7:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":r5:"
+                      id=":r7:"
                       role="combobox"
                       tabindex="0"
                     >
