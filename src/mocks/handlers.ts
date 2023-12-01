@@ -26,7 +26,10 @@ const getRandomColourMap = function (colourMaps: ColourMapsParams) {
   return randomCategory?.[Math.floor(Math.random() * randomCategory?.length)];
 };
 
-let preferredColourMap = getRandomColourMap(colourMapsJson);
+export let preferredColourMap =
+  process.env.REACT_APP_E2E_TESTING === 'true'
+    ? undefined
+    : getRandomColourMap(colourMapsJson);
 
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
