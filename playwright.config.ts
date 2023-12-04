@@ -122,7 +122,7 @@ const config: PlaywrightTestConfig = {
     url: 'http://localhost:3000',
     timeout: 180 * 1000,
     // this option means that we can serve our server ourselves and Playwright will reuse it during development
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 };
 
