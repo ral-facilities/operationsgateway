@@ -82,6 +82,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
+            ["jest-fail-on-console", "npm:3.1.1"],\
             ["lint-staged", "npm:13.2.2"],\
             ["loglevel", "npm:1.8.0"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
@@ -13988,6 +13989,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["jest-fail-on-console", [\
+        ["npm:3.1.1", {\
+          "packageLocation": "./.yarn/cache/jest-fail-on-console-npm-3.1.1-9bf938b5f6-dbc244766f.zip/node_modules/jest-fail-on-console/",\
+          "packageDependencies": [\
+            ["jest-fail-on-console", "npm:3.1.1"],\
+            ["chalk", "npm:4.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["jest-get-type", [\
         ["npm:27.5.1", {\
           "packageLocation": "./.yarn/cache/jest-get-type-npm-27.5.1-980fbf7a43-63064ab701.zip/node_modules/jest-get-type/",\
@@ -16097,6 +16108,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
+            ["jest-fail-on-console", "npm:3.1.1"],\
             ["lint-staged", "npm:13.2.2"],\
             ["loglevel", "npm:1.8.0"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\

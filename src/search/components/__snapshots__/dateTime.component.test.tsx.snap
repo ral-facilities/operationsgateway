@@ -302,15 +302,60 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
 </DocumentFragment>
 `;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is not with an experiment 1`] = `<Memo />`;
+exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is not with an experiment 1`] = `
+<Memo
+  autoFocus={false}
+  day={2022-02-05T00:00:00.000Z}
+  disabled={false}
+  isAnimating={false}
+  isFirstVisibleCell={false}
+  isLastVisibleCell={false}
+  onBlur={[MockFunction]}
+  onDaySelect={[MockFunction]}
+  onFocus={[MockFunction]}
+  onKeyDown={[MockFunction]}
+  outsideCurrentMonth={true}
+  selected={false}
+  today={false}
+/>
+`;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is null 1`] = `<Memo />`;
+exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is null 1`] = `
+<Memo
+  autoFocus={false}
+  day={2022-02-05T00:00:00.000Z}
+  disabled={false}
+  isAnimating={false}
+  isFirstVisibleCell={false}
+  isLastVisibleCell={false}
+  onBlur={[MockFunction]}
+  onDaySelect={[MockFunction]}
+  onFocus={[MockFunction]}
+  onKeyDown={[MockFunction]}
+  outsideCurrentMonth={true}
+  selected={false}
+  today={false}
+/>
+`;
 
 exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is with an experiment 1`] = `
 <Styled(memo)
+  autoFocus={false}
+  day={2022-02-05T00:00:00.000Z}
   dayIsBetween={false}
   disableMargin={true}
+  disabled={false}
+  isAnimating={false}
   isFirstDay={false}
+  isFirstVisibleCell={false}
   isLastDay={false}
+  isLastVisibleCell={false}
+  onBlur={[MockFunction]}
+  onDaySelect={[MockFunction]}
+  onFocus={[MockFunction]}
+  onKeyDown={[MockFunction]}
+  outsideCurrentMonth={true}
+  selected={false}
+  today={false}
 />
 `;
