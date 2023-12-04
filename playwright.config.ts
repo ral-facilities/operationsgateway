@@ -121,6 +121,7 @@ const config: PlaywrightTestConfig = {
     command: 'yarn e2e:serve',
     url: 'http://localhost:3000',
     timeout: 180 * 1000,
+    stdout: 'pipe',
     // this option means that we can serve our server ourselves and Playwright will reuse it during development
     reuseExistingServer: true,
   },
