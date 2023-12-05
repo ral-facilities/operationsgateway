@@ -58,7 +58,6 @@
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
-    "e2e:playwright": "start-server-and-test e2e:serve http://localhost:3000 playwright:test",
     "playwright:test": "docker run -v $PWD:/test -w=/test -e CI $(node -e \"if(process.env.CI !== 'true'){console.log('-it -u pwuser')}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
     "eject": "react-scripts eject",
     "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
