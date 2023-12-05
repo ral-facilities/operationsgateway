@@ -36,11 +36,11 @@ const config: PlaywrightTestConfig = {
     [
       'html',
       {
-        open: 'never',
         host: '0.0.0.0',
         port: 9323,
       },
     ],
+    process.env.CI ? ['github'] : ['line'],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
