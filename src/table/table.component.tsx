@@ -93,6 +93,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     filteredChannelNames,
   } = props;
 
+  const count = maxShots > totalDataCount ? totalDataCount : maxShots;
+  const pageToUse = count > page * resultsPerPage ? page : 0;
+  if (page !== pageToUse) onPageChange(pageToUse);
+
   const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
       minSize: 33,
@@ -280,9 +284,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       </MuiTableContainer>
       <MuiTablePagination
         component="div"
-        count={maxShots > totalDataCount ? totalDataCount : maxShots}
+        count={count}
         onPageChange={(e, page) => onPageChange(page)}
-        page={page}
+        page={pageToUse}
         rowsPerPage={resultsPerPage}
         rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}
         onRowsPerPageChange={(event) =>
