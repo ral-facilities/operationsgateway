@@ -69,6 +69,25 @@ describe('Settings Menu Items component', () => {
         screen.queryByLabelText('Default Colour Map')
       ).not.toBeInTheDocument()
     );
+
+    // check it works for the alternate selector as well
+    settings.id = 'mobile-overflow-menu';
+
+    act(() => {
+      document.body.appendChild(settings);
+    });
+
+    await screen.findByLabelText('Default Colour Map');
+
+    act(() => {
+      document.body.removeChild(settings);
+    });
+
+    await waitFor(() =>
+      expect(
+        screen.queryByLabelText('Default Colour Map')
+      ).not.toBeInTheDocument()
+    );
   });
 
   it('lets user select a new default colourmap from the dropdown', async () => {
