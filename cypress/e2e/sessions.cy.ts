@@ -18,6 +18,7 @@ describe('Sessions', () => {
     cy.clearMocks();
   });
   it('sends a posts a request when a user session is created', () => {
+    cy.findByTestId('AddCircleIcon').should('exist');
     cy.window().then((window) => {
       // Reference global instances set in "src/mocks/browser.js".
       const { worker, rest } = window.msw;

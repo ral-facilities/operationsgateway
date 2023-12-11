@@ -248,6 +248,8 @@ describe('Table Component', () => {
 
   describe('can set max shots', () => {
     it('50 shots', () => {
+      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
         const { worker, rest } = window.msw;
@@ -263,6 +265,8 @@ describe('Table Component', () => {
     });
 
     it('1000 shots', () => {
+      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+
       cy.window().then(async (window) => {
         // Reference global instances set in "src/mocks/browser.js".
         const { worker, rest } = window.msw;
@@ -280,6 +284,8 @@ describe('Table Component', () => {
     });
 
     it('unlimited shots', () => {
+      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
         const { worker, rest } = window.msw;
