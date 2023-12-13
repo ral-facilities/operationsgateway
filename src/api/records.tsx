@@ -605,7 +605,6 @@ export const useIncomingRecordCount = (
   const { apiUrl } = useAppSelector(selectUrls);
   const { filters: storeFilters, searchParams: storeSearchParams } =
     useAppSelector(selectQueryParams);
-  const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   let finalisedFilters: string[];
   if (filters) {
@@ -635,7 +634,7 @@ export const useIncomingRecordCount = (
       {
         searchParams: finalisedSearchParams,
         filters: finalisedFilters,
-        projection,
+        projection: [timeChannelName],
       },
     ],
     (params) => {
