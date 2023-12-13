@@ -591,7 +591,7 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
           {
             searchParams,
             filters,
-            projection,
+            projection: [timeChannelName],
           },
         ]),
     }
