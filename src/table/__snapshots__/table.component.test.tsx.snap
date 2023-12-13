@@ -19,7 +19,36 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              scope="col"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select all rows"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-lr2k8t-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -27,7 +56,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiBox-root css-914c56"
               >
                 <div
-                  class="MuiBox-root css-12z0wuy"
+                  class="MuiBox-root css-k6zrdb"
                 >
                   <svg
                     aria-hidden="true"
@@ -74,7 +103,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-2luut9"
+                class="MuiBox-root css-hwtij1"
               >
                 <div>
                   <button
@@ -110,7 +139,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="shotnum"
               data-rbd-draggable-context-id="1"
@@ -124,7 +153,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiBox-root css-914c56"
               >
                 <div
-                  class="MuiBox-root css-12z0wuy"
+                  class="MuiBox-root css-k6zrdb"
                 >
                   <svg
                     aria-hidden="true"
@@ -168,7 +197,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-2luut9"
+                class="MuiBox-root css-hwtij1"
               >
                 <div>
                   <button
@@ -204,7 +233,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="activeArea"
               data-rbd-draggable-context-id="1"
@@ -218,7 +247,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiBox-root css-914c56"
               >
                 <div
-                  class="MuiBox-root css-12z0wuy"
+                  class="MuiBox-root css-k6zrdb"
                 >
                   <svg
                     aria-hidden="true"
@@ -262,7 +291,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-2luut9"
+                class="MuiBox-root css-hwtij1"
               >
                 <div>
                   <button
@@ -298,7 +327,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </th>
             <th
               aria-describedby="rbd-hidden-text-1-hidden-text-2"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-149m6wj-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rbd-drag-handle-context-id="1"
               data-rbd-drag-handle-draggable-id="activeExperiment"
               data-rbd-draggable-context-id="1"
@@ -312,7 +341,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiBox-root css-914c56"
               >
                 <div
-                  class="MuiBox-root css-12z0wuy"
+                  class="MuiBox-root css-k6zrdb"
                 >
                   <svg
                     aria-hidden="true"
@@ -356,7 +385,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-2luut9"
+                class="MuiBox-root css-hwtij1"
               >
                 <div>
                   <button
@@ -395,19 +424,48 @@ exports[`Table renders correctly with all columns displayed 1`] = `
         <tbody
           aria-busy="false"
           aria-describedby="table-loading-indicator"
-          class="MuiTableBody-root css-29nbga-MuiTableBody-root"
+          class="MuiTableBody-root css-1iufabm-MuiTableBody-root"
         >
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -427,7 +485,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -447,7 +505,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -467,7 +525,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -482,16 +540,45 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </td>
           </tr>
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -511,7 +598,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -531,7 +618,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -551,7 +638,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -566,16 +653,45 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             </td>
           </tr>
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -595,7 +711,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -615,7 +731,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -635,7 +751,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -806,7 +922,36 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-3u36tj-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              scope="col"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select all rows"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-lr2k8t-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -814,7 +959,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                 class="MuiBox-root css-914c56"
               >
                 <div
-                  class="MuiBox-root css-12z0wuy"
+                  class="MuiBox-root css-k6zrdb"
                 >
                   <svg
                     aria-hidden="true"
@@ -861,7 +1006,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
                 </div>
               </div>
               <div
-                class="MuiBox-root css-2luut9"
+                class="MuiBox-root css-hwtij1"
               >
                 <div>
                   <button
@@ -900,19 +1045,48 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
         <tbody
           aria-busy="false"
           aria-describedby="table-loading-indicator"
-          class="MuiTableBody-root css-29nbga-MuiTableBody-root"
+          class="MuiTableBody-root css-1iufabm-MuiTableBody-root"
         >
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -927,16 +1101,45 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             </td>
           </tr>
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
@@ -951,16 +1154,45 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             </td>
           </tr>
           <tr
+            aria-checked="false"
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-k4s3vg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-ftaozh-MuiTableCell-root"
+            >
+              <span
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+              >
+                <input
+                  aria-label="select row"
+                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  data-indeterminate="false"
+                  type="checkbox"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CheckBoxOutlineBlankIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </span>
+            </td>
+            <td
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-100wy9x-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
