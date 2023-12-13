@@ -20,7 +20,11 @@ const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
   return (
     <TableCell size="small" component="td" sx={sx} variant="body">
       <Grid container>
-        <Grid item xs sx={{ overflow: 'hidden' }}>
+        <Grid
+          item
+          xs
+          sx={{ overflow: 'hidden', display: 'flex', 'align-items': 'center' }}
+        >
           <Typography variant="body2" noWrap>
             {rowData}
           </Typography>

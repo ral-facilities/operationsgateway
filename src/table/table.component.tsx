@@ -24,6 +24,8 @@ import {
   TableBody as MuiTableBody,
   TableRow as MuiTableRow,
   TablePagination as MuiTablePagination,
+  TableCell as MuiTableCell,
+  Checkbox,
   Paper,
   SxProps,
   Theme,
@@ -41,7 +43,8 @@ const additionalHeaderSpace = 24 + 4.8;
 const stickyColumnStyles: SxProps<Theme> = {
   position: 'sticky',
   left: 0,
-  backgroundColor: (theme) => theme.palette.background.default,
+  // TODO: see if it is necessary to set the background color here
+  // backgroundColor: (theme) => theme.palette.background.default,
   zIndex: 2,
 };
 
@@ -93,6 +96,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     filteredChannelNames,
   } = props;
 
+  const [rowSelection, setRowSelection] = React.useState({});
+
   const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
       minSize: 33,
@@ -108,10 +113,14 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     state: {
       columnOrder,
       columnVisibility,
+      rowSelection,
     },
+    enableRowSelection: true,
+    enableColumnResizing: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    enableColumnResizing: true,
+    getRowId: (row) => row._id,
+    onRowSelectionChange: setRowSelection,
     columnResizeMode: 'onChange',
   });
 
@@ -154,6 +163,19 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           ref={provided.innerRef}
                           sx={{ display: 'flex', flexDirection: 'row' }}
                         >
+                          <MuiTableCell
+                            padding="checkbox"
+                            sx={{ width: '48px' }}
+                          >
+                            <Checkbox
+                              inputProps={{ 'aria-label': 'select all rows' }}
+                              color="primary"
+                              checked={tableInstance.getIsAllPageRowsSelected()}
+                              indeterminate={tableInstance.getIsSomePageRowsSelected()}
+                              // toggle all rows on current page
+                              onChange={tableInstance.getToggleAllPageRowsSelectedHandler()}
+                            />
+                          </MuiTableCell>
                           {headerGroup.headers.map((header, index) => {
                             const { column } = header;
                             const dataKey = column.id;
@@ -167,6 +189,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               display: 'flex',
                               flexDirection: 'row',
                               overflow: 'hidden',
+                              'align-items': 'center',
                             };
 
                             columnStyles = isTimestampColumn
@@ -215,16 +238,31 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
           </MuiTableHead>
           <MuiTableBody
-            sx={{ position: 'relative' }}
+            sx={{ position: 'relative', zIndex: 0 }}
             aria-describedby="table-loading-indicator"
             aria-busy={!loadedData}
           >
             {tableInstance.getRowModel().rows.map((row) => {
               return (
                 <MuiTableRow
-                  key={row.id}
+                  key={row.original._id}
                   sx={{ display: 'flex', flexDirection: 'row' }}
+                  selected={row.getIsSelected()}
+                  aria-checked={row.getIsSelected()}
                 >
+                  <MuiTableCell
+                    padding="checkbox"
+                    sx={{ width: '48px' }}
+                    scope="row"
+                  >
+                    <Checkbox
+                      inputProps={{ 'aria-label': 'select row' }}
+                      checked={row.getIsSelected()}
+                      disabled={!row.getCanSelect()}
+                      onChange={row.getToggleSelectedHandler()}
+                    />
+                  </MuiTableCell>
+
                   {row.getVisibleCells().map((cell) => {
                     const dataKey = cell.column.id;
                     const isTimestampColumn = dataKey === timeChannelName;
