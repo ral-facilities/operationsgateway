@@ -94,8 +94,13 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   } = props;
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
-  const pageToUse = count > page * resultsPerPage ? page : 0;
-  if (page !== pageToUse) onPageChange(pageToUse);
+
+  React.useEffect(() => {
+    console.log('page', page);
+    if (count < page * resultsPerPage) {
+      onPageChange(0);
+    }
+  }, [count, page, resultsPerPage, onPageChange, data]);
 
   const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
@@ -286,7 +291,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         component="div"
         count={count}
         onPageChange={(e, page) => onPageChange(page)}
-        page={pageToUse}
+        page={count > page * resultsPerPage ? page : 0}
         rowsPerPage={resultsPerPage}
         rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}
         onRowsPerPageChange={(event) =>
