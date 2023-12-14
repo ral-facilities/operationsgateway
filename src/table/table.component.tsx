@@ -97,7 +97,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   React.useEffect(() => {
     console.log('page', page);
-    if (count < page * resultsPerPage) {
+    if (count <= page * resultsPerPage) {
       onPageChange(0);
     }
   }, [count, page, resultsPerPage, onPageChange, data]);
