@@ -41,7 +41,7 @@ describe('Search', () => {
 
       cy.visit('/').wait(['@getSettings']);
 
-      cy.findByRole('progressbar').should('be.visible');
+      cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
       cy.findByRole('progressbar').should('not.exist');
     });
 
