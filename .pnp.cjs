@@ -62,7 +62,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.14.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.33"],\
             ["axios", "npm:1.6.0"],\
-            ["chart.js", "npm:4.3.0"],\
+            ["chart.js", "npm:4.4.1"],\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:12.17.3"],\
@@ -85,7 +85,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
             ["loglevel", "npm:1.8.0"],\
-            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2"],\
             ["prettier", "npm:3.0.1"],\
             ["prop-types", "npm:15.8.1"],\
             ["react", "npm:18.2.0"],\
@@ -4244,15 +4244,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@mswjs/interceptors", [\
-        ["npm:0.17.9", {\
-          "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.17.9-209f8a4795-4df726cbee.zip/node_modules/@mswjs/interceptors/",\
+        ["npm:0.17.10", {\
+          "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.17.10-c1199a9424-0e6d32f399.zip/node_modules/@mswjs/interceptors/",\
           "packageDependencies": [\
-            ["@mswjs/interceptors", "npm:0.17.9"],\
+            ["@mswjs/interceptors", "npm:0.17.10"],\
             ["@open-draft/until", "npm:1.0.3"],\
             ["@types/debug", "npm:4.1.7"],\
             ["@xmldom/xmldom", "npm:0.8.7"],\
             ["debug", "virtual:ac3d8e680759ce54399273724d44e041d6c9b73454d191d411a8c44bb27e22f02aaf6ed9d3ad0ac1c298eac4833cff369c9c7b84c573016112c4f84be2cd8543#npm:4.3.4"],\
-            ["headers-polyfill", "npm:3.1.2"],\
+            ["headers-polyfill", "npm:3.2.5"],\
             ["outvariant", "npm:1.4.0"],\
             ["strict-event-emitter", "npm:0.2.8"],\
             ["web-encoding", "npm:1.1.5"]\
@@ -8582,15 +8582,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["npm:4.1.1", {\
-          "packageLocation": "./.yarn/cache/chalk-npm-4.1.1-f1ce6bae57-036e973e66.zip/node_modules/chalk/",\
-          "packageDependencies": [\
-            ["chalk", "npm:4.1.1"],\
-            ["ansi-styles", "npm:4.3.0"],\
-            ["supports-color", "npm:7.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
         ["npm:4.1.2", {\
           "packageLocation": "./.yarn/cache/chalk-npm-4.1.2-ba8b67ab80-fe75c9d5c7.zip/node_modules/chalk/",\
           "packageDependencies": [\
@@ -8651,10 +8642,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["chart.js", [\
-        ["npm:4.3.0", {\
-          "packageLocation": "./.yarn/cache/chart.js-npm-4.3.0-8c27842bcb-157ceaa381.zip/node_modules/chart.js/",\
+        ["npm:4.4.1", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-4.4.1-bea8f3ff67-8c108f1378.zip/node_modules/chart.js/",\
           "packageDependencies": [\
-            ["chart.js", "npm:4.3.0"],\
+            ["chart.js", "npm:4.4.1"],\
             ["@kurkle/color", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
@@ -8673,7 +8664,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["@types/chart.js", null],\
-            ["chart.js", "npm:4.3.0"],\
+            ["chart.js", "npm:4.4.1"],\
             ["hammerjs", "npm:2.0.8"]\
           ],\
           "packagePeers": [\
@@ -12689,10 +12680,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["headers-polyfill", [\
-        ["npm:3.1.2", {\
-          "packageLocation": "./.yarn/cache/headers-polyfill-npm-3.1.2-da04988de4-510ca9637e.zip/node_modules/headers-polyfill/",\
+        ["npm:3.2.5", {\
+          "packageLocation": "./.yarn/cache/headers-polyfill-npm-3.2.5-5873ac13a0-a3c4bdd661.zip/node_modules/headers-polyfill/",\
           "packageDependencies": [\
-            ["headers-polyfill", "npm:3.1.2"]\
+            ["headers-polyfill", "npm:3.2.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15735,28 +15726,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["msw", [\
-        ["npm:1.2.1", {\
-          "packageLocation": "./.yarn/unplugged/msw-virtual-364b54c09e/node_modules/msw/",\
+        ["npm:1.3.2", {\
+          "packageLocation": "./.yarn/unplugged/msw-virtual-77ebf26679/node_modules/msw/",\
           "packageDependencies": [\
-            ["msw", "npm:1.2.1"]\
+            ["msw", "npm:1.3.2"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1", {\
-          "packageLocation": "./.yarn/unplugged/msw-virtual-364b54c09e/node_modules/msw/",\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2", {\
+          "packageLocation": "./.yarn/unplugged/msw-virtual-77ebf26679/node_modules/msw/",\
           "packageDependencies": [\
-            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2"],\
             ["@mswjs/cookies", "npm:0.2.2"],\
-            ["@mswjs/interceptors", "npm:0.17.9"],\
+            ["@mswjs/interceptors", "npm:0.17.10"],\
             ["@open-draft/until", "npm:1.0.3"],\
             ["@types/cookie", "npm:0.4.1"],\
             ["@types/js-levenshtein", "npm:1.1.1"],\
             ["@types/typescript", null],\
-            ["chalk", "npm:4.1.1"],\
+            ["chalk", "npm:4.1.2"],\
             ["chokidar", "npm:3.5.3"],\
             ["cookie", "npm:0.4.2"],\
             ["graphql", "npm:16.8.1"],\
-            ["headers-polyfill", "npm:3.1.2"],\
+            ["headers-polyfill", "npm:3.2.5"],\
             ["inquirer", "npm:8.2.5"],\
             ["is-node-process", "npm:1.2.0"],\
             ["js-levenshtein", "npm:1.1.6"],\
@@ -16257,7 +16248,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@typescript-eslint/typescript-estree", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:6.14.0"],\
             ["@yarnpkg/sdks", "npm:3.0.0-rc.33"],\
             ["axios", "npm:1.6.0"],\
-            ["chart.js", "npm:4.3.0"],\
+            ["chart.js", "npm:4.4.1"],\
             ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:12.17.3"],\
@@ -16280,7 +16271,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["lint-staged", "npm:13.2.2"],\
             ["loglevel", "npm:1.8.0"],\
-            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.2.1"],\
+            ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2"],\
             ["prettier", "npm:3.0.1"],\
             ["prop-types", "npm:15.8.1"],\
             ["react", "npm:18.2.0"],\
