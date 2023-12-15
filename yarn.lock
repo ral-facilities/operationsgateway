@@ -5945,12 +5945,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:4.3.0":
-  version: 4.3.0
-  resolution: "chart.js@npm:4.3.0"
+"chart.js@npm:4.4.1":
+  version: 4.4.1
+  resolution: "chart.js@npm:4.4.1"
   dependencies:
     "@kurkle/color": ^0.3.0
-  checksum: 157ceaa3815665163cb30ccc221a5af40834dca940faa6ec02cb95406bf3e83c15c5f36ad950a1716c9d199e87f7b9be953227c4d9d445d593536175b47bbab8
+  checksum: 8c108f137824ea0e3d79914708b409298c12ed7d16da99a40ca3cab51466ef7b0068ad82ac0addeb288b938fe0621d3e5a6a913b60e72a729aa42aa96705fcad
   languageName: node
   linkType: hard
 
@@ -12394,7 +12394,7 @@ __metadata:
     "@typescript-eslint/typescript-estree": 6.14.0
     "@yarnpkg/sdks": 3.0.0-rc.33
     axios: 1.6.0
-    chart.js: 4.3.0
+    chart.js: 4.4.1
     chartjs-plugin-zoom: 2.0.0
     cross-env: 7.0.3
     cypress: 12.17.3
