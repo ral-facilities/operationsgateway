@@ -134,7 +134,7 @@
     "jest-canvas-mock": "2.5.0",
     "lint-staged": "13.2.2",
     "msw": "1.2.1",
-    "prettier": "3.0.1",
+    "prettier": "3.0.3",
     "react-beautiful-dnd-test-utils": "4.1.1",
     "serve": "14.2.0",
     "serve-static": "1.15.0",
