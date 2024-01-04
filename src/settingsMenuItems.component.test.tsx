@@ -2,12 +2,9 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import { renderComponentWithProviders } from './setupTests';
-import SettingsMenuItems, {
-  PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
-} from './settingsMenuItems.component';
-import { rest } from 'msw';
-import { server } from './mocks/server';
+import SettingsMenuItems from './settingsMenuItems.component';
 import { RootState } from './state/store';
+import { setMockedPreferredColourMap } from './mocks/handlers';
 
 describe('Settings Menu Items component', () => {
   let settings;
@@ -24,14 +21,7 @@ describe('Settings Menu Items component', () => {
     user = userEvent.setup();
 
     // override to ensure we have the same starting colourmap
-    server.use(
-      rest.get(
-        `/user_preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
-        (req, res, ctx) => {
-          return res.once(ctx.status(200), ctx.json('cividis'));
-        }
-      )
-    );
+    setMockedPreferredColourMap('cividis');
   });
 
   afterEach(() => {

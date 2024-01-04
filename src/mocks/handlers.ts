@@ -31,6 +31,10 @@ export let preferredColourMap =
     ? undefined
     : getRandomColourMap(colourMapsJson);
 
+export const setMockedPreferredColourMap = (value?: string) => {
+  preferredColourMap = value;
+};
+
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
     return res(
@@ -270,23 +274,26 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(colourMapsJson));
   }),
   rest.get(
-    `/user_preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
+    `/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
     (req, res, ctx) => {
       if (typeof preferredColourMap === 'undefined') {
-        return res(ctx.status(404), ctx.json({ msg: 'TODO ERROR MSG' }));
+        return res(
+          ctx.status(404),
+          ctx.json({ detail: 'No such attribute in database' })
+        );
       } else {
         return res(ctx.status(200), ctx.json(preferredColourMap));
       }
     }
   ),
   rest.delete(
-    `/user_preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
+    `/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
     (req, res, ctx) => {
       preferredColourMap = undefined;
       return res(ctx.status(200), ctx.json(preferredColourMap));
     }
   ),
-  rest.post('/user_preferences', async (req, res, ctx) => {
+  rest.post('/users/preferences', async (req, res, ctx) => {
     preferredColourMap = (await req.json()).value;
     return res(ctx.status(200), ctx.json(preferredColourMap));
   }),
