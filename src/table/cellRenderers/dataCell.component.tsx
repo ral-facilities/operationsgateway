@@ -23,7 +23,7 @@ const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
         <Grid
           item
           xs
-          sx={{ overflow: 'hidden', display: 'flex', 'align-items': 'center' }}
+          sx={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }}
         >
           <Typography variant="body2" noWrap>
             {rowData}

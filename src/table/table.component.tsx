@@ -189,7 +189,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               display: 'flex',
                               flexDirection: 'row',
                               overflow: 'hidden',
-                              'align-items': 'center',
+                              alignItems: 'center',
                             };
 
                             columnStyles = isTimestampColumn
