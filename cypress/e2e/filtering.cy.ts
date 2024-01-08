@@ -4,7 +4,7 @@ describe('Filtering Component', () => {
   beforeEach(() => {
     cy.visit('/');
 
-    cy.findByRole('progressbar').should('be.visible');
+    cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
     cy.findByRole('progressbar').should('not.exist');
   });
 
