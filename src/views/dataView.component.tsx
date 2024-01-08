@@ -24,8 +24,8 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
   }, []);
 
   // SG header + SG footer + tabs + spacing + search + spacing + buttons + spacing + pagination
-  const tableHeight = `calc(100vh - (64px + 36px + 50px + 8px ${
-    searchExpanded ? '+ 96px + 8px' : ''
+  const tableHeight = `calc(100vh - (64px + 32px + 49px + 8px ${
+    searchExpanded ? '+ 100px + 8px' : ''
   } + 32px + 8px + 52px))`;
 
   return (

@@ -13,6 +13,7 @@ import {
   Switch,
   FormGroup,
   ListSubheader,
+  SelectProps,
 } from '@mui/material';
 import {
   ColourMapsParams,
@@ -62,14 +63,14 @@ interface FalseColourPanelProps extends FalseColourParams {
   changeUpperLevel: (value: number | undefined) => void;
 }
 
-function filterNamesWithSuffixR(
+export function filterNamesWithSuffixR(
   colorMaps: ColourMapsParams | undefined
 ): ColourMapsParams {
   const filteredColorMaps: ColourMapsParams = {};
 
   for (const category in colorMaps) {
     const originalList = colorMaps[category];
-    const filteredList = originalList.filter(
+    const filteredList = originalList?.filter(
       (colourmap) => !colourmap.endsWith('_r')
     );
     filteredColorMaps[category] = filteredList;
@@ -78,20 +79,25 @@ function filterNamesWithSuffixR(
   return filteredColorMaps;
 }
 
-const ColourMapSelect = (
-  colourMap: string,
-  handleColourMapChange: (event: SelectChangeEvent) => void,
-  colourMaps: ColourMapsParams
+export const ColourMapSelect = (
+  props: {
+    colourMap: string;
+    handleColourMapChange: (event: SelectChangeEvent<unknown>) => void;
+    colourMaps: ColourMapsParams;
+  } & SelectProps
 ) => {
+  const { colourMap, handleColourMapChange, colourMaps, ...selectProps } =
+    props;
   const colourMapTypeNames = Object.keys(colourMaps);
   const colourMapNames = Object.values(colourMaps);
 
   return (
     <Select
-      labelId="colour-map-select-label"
+      labelId={props.labelId}
       id="colour-map-select"
-      value={colourMap}
       label="Colour Map"
+      {...selectProps}
+      value={colourMap}
       onChange={handleColourMapChange}
     >
       <MenuItem value="">
@@ -101,7 +107,7 @@ const ColourMapSelect = (
       {colourMapNames.map((mapNames, index) => {
         return [
           <ListSubheader>{colourMapTypeNames[index]}</ListSubheader>,
-          mapNames.map((colourMap) => (
+          mapNames?.map((colourMap) => (
             <MenuItem key={colourMap} value={colourMap}>
               {colourMap}
             </MenuItem>
@@ -176,14 +182,14 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     ? Object.values(colourMaps ?? {}).flat()
     : colourMaps?.[mainColourMap];
 
-  const handlExtendColourMaps = (
+  const handleExtendColourMaps = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     setExtendedColourMap(checked);
   };
 
-  const handleColourMapChange = (event: SelectChangeEvent) => {
+  const handleColourMapChange = (event: SelectChangeEvent<unknown>) => {
     const newValue = event.target.value as string;
     setSelectColourMap(newValue);
     changeColourMap(
@@ -198,12 +204,12 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   };
 
   const colourMapsNames = colourMapsList?.filter(
-    (colourmap) => !colourmap.endsWith('_r')
+    (colourmap) => !colourmap?.endsWith('_r')
   );
 
   const colourMapsReverseNames = colourMapsList
-    ?.filter((colourmap) => colourmap.endsWith('_r'))
-    .map((colourmap) => colourmap.replace('_r', ''));
+    ?.filter((colourmap) => colourmap?.endsWith('_r'))
+    .map((colourmap) => colourmap?.replace('_r', ''));
 
   const colourMapsWithReverse = colourMapsNames?.filter(
     (value) => colourMapsReverseNames?.includes(value)
@@ -233,7 +239,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             control={
               <Switch
                 checked={extendedColourMap}
-                onChange={handlExtendColourMaps}
+                onChange={handleExtendColourMaps}
               />
             }
             label="Show extended colourmap options"
@@ -242,12 +248,16 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
 
         <FormControl disabled={!enabled}>
           <InputLabel id="colour-map-select-label">Colour Map</InputLabel>
-          {colourMaps &&
-            ColourMapSelect(
-              selectColourMap,
-              handleColourMapChange,
-              extendedColourMap ? filteredColourMaps : filteredColourMapsMain
-            )}
+          {colourMaps && (
+            <ColourMapSelect
+              colourMap={selectColourMap}
+              handleColourMapChange={handleColourMapChange}
+              colourMaps={
+                extendedColourMap ? filteredColourMaps : filteredColourMapsMain
+              }
+              labelId="colour-map-select-label"
+            />
+          )}
         </FormControl>
         <FormControl disabled={!enabled}>
           <FormLabel id="range-slider-label" sx={{ margin: 'auto' }}>

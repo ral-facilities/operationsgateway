@@ -17,11 +17,11 @@ jobs:
           node-version: 20
           cache: 'yarn'
 
-      - name: Build Playwright environment
-        run: docker build --tag playwright-test --file Dockerfile.playwright .
+      - name: Install dependencies
+        run: yarn --immutable
 
       - name: Run playwright tests
-        run: docker run --env CI=true --volume $PWD/playwright-report:/app/playwright-report playwright-test
+        run: yarn playwright:test
 
       - name: Upload test report
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3
@@ -29,4 +29,4 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 30
+          retention-days: 10

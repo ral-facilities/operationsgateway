@@ -55,12 +55,10 @@
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
     "start": "craco start",
     "build": "craco build",
-    "build:playwright-docker": "docker build --tag operations-gateway-playwright-test --file Dockerfile.playwright .",
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
-    "playwright:test": "yarn build:playwright-docker && docker run --env LOCAL_DOCKER=true --volume ./playwright-report:/app/playwright-report --publish 9323:9323 operations-gateway-playwright-test",
-    "playwright:update-snapshot": "yarn build:playwright-docker && docker run --env LOCAL_DOCKER=true --volume .:/app --publish 9323:9323 operations-gateway-playwright-test --update-snapshots",
+    "playwright:test": "docker run -v $PWD:/test -w=/test -e CI $(node -e \"if(process.env.CI !== 'true'){console.log('-it -u pwuser')}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
     "eject": "react-scripts eject",
     "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
     "e2e-test-server": "node ./server/e2e-test-server.js",
@@ -69,7 +67,7 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "postinstall": "husky install & yarn dlx @yarnpkg/sdks"
+    "postinstall": "husky install && yarn dlx @yarnpkg/sdks"
   },
   "lint-staged": {
     "src/**/*.{tsx,ts,js,jsx}": [
@@ -131,6 +129,7 @@
     "express": "4.18.1",
     "husky": "8.0.1",
     "jest-canvas-mock": "2.5.0",
+    "jest-fail-on-console": "3.1.1",
     "lint-staged": "13.2.2",
     "msw": "1.3.2",
     "prettier": "3.0.3",

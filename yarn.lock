@@ -10166,6 +10166,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-fail-on-console@npm:3.1.1":
+  version: 3.1.1
+  resolution: "jest-fail-on-console@npm:3.1.1"
+  dependencies:
+    chalk: ^4.1.0
+  checksum: dbc244766fb78525b2d4a7e879678b91032acefa04694e17edb5917e325abf8ee356bdf728bc1c89058d67b9c8b3da4cd45515232eb9ab1b973a6b4f57bfb7af
+  languageName: node
+  linkType: hard
+
 "jest-get-type@npm:^27.5.1":
   version: 27.5.1
   resolution: "jest-get-type@npm:27.5.1"
@@ -12070,6 +12079,7 @@ __metadata:
     i18next-http-backend: 2.2.1
     immutability-helper: 3.1.1
     jest-canvas-mock: 2.5.0
+    jest-fail-on-console: 3.1.1
     lint-staged: 13.2.2
     loglevel: 1.8.0
     msw: 1.3.2
