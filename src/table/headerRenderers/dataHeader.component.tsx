@@ -216,7 +216,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             marginRight={1}
             sx={{
               display: 'flex',
-              'align-items': 'center',
+              alignItems: 'center',
             }}
           >
             {Icon ?? <Feed />}
@@ -255,7 +255,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             // 57 including the filter icon
             width: isFiltered ? 61 : 33,
             height: '100%',
-            'align-items': 'center',
+            alignItems: 'center',
             justifyContent: 'space-between',
             zIndex: 0,
             backgroundColor: (theme) => theme.palette.background.default,
