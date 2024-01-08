@@ -10,6 +10,8 @@ import {
   isChannelScalar,
   Record,
 } from '../app.types';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
+import { ColourMapsParams } from '../api/images';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -17,6 +19,21 @@ type RecordsJSONType = (Omit<Record, 'channels'> & {
     [channel: string]: Channel | undefined;
   };
 })[];
+const getRandomColourMap = function (colourMaps: ColourMapsParams) {
+  const categoryKeys = Object.keys(colourMaps);
+  const randomCategory =
+    colourMaps[categoryKeys[(categoryKeys.length * Math.random()) << 0]];
+  return randomCategory?.[Math.floor(Math.random() * randomCategory?.length)];
+};
+
+export let preferredColourMap =
+  process.env.REACT_APP_E2E_TESTING === 'true'
+    ? undefined
+    : getRandomColourMap(colourMapsJson);
+
+export const setMockedPreferredColourMap = (value?: string) => {
+  preferredColourMap = value;
+};
 
 export const handlers = [
   rest.post('/login', (req, res, ctx) => {
@@ -254,10 +271,30 @@ export const handlers = [
     );
   }),
   rest.get('/images/colourmap_names', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-
-      ctx.json(colourMapsJson)
-    );
+    return res(ctx.status(200), ctx.json(colourMapsJson));
+  }),
+  rest.get(
+    `/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
+    (req, res, ctx) => {
+      if (typeof preferredColourMap === 'undefined') {
+        return res(
+          ctx.status(404),
+          ctx.json({ detail: 'No such attribute in database' })
+        );
+      } else {
+        return res(ctx.status(200), ctx.json(preferredColourMap));
+      }
+    }
+  ),
+  rest.delete(
+    `/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
+    (req, res, ctx) => {
+      preferredColourMap = undefined;
+      return res(ctx.status(200), ctx.json(preferredColourMap));
+    }
+  ),
+  rest.post('/users/preferences', async (req, res, ctx) => {
+    preferredColourMap = (await req.json()).value;
+    return res(ctx.status(200), ctx.json(preferredColourMap));
   }),
 ];

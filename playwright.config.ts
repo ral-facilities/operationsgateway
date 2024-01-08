@@ -32,18 +32,15 @@ const config: PlaywrightTestConfig = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // use 0.0.0.0 loopback address when running the tests in a local docker container
   // so that the report URL is accessible via host localhost:9323.
-  reporter: process.env.LOCAL_DOCKER
-    ? [
-        [
-          'html',
-          {
-            open: 'never',
-            host: '0.0.0.0',
-            port: 9323,
-          },
-        ],
-      ]
-    : 'html',
+  reporter: [
+    [
+      'html',
+      {
+        host: '0.0.0.0',
+        port: 9323,
+      },
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
@@ -123,8 +120,9 @@ const config: PlaywrightTestConfig = {
     command: 'yarn e2e:serve',
     url: 'http://localhost:3000',
     timeout: 180 * 1000,
+    stdout: 'pipe',
     // this option means that we can serve our server ourselves and Playwright will reuse it during development
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: true,
   },
 };
 

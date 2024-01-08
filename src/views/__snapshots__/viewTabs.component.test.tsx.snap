@@ -3,57 +3,55 @@
 exports[`View Tabs renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root css-juxfli"
+    class="MuiBox-root css-kepn0o"
   >
-    <div>
+    <div
+      class="MuiDrawer-root MuiDrawer-docked css-srivv5-MuiDrawer-docked"
+    >
       <div
-        class="MuiDrawer-root MuiDrawer-docked css-thgegd-MuiDrawer-docked"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-16ukf1z-MuiPaper-root-MuiDrawer-paper"
       >
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-1imhn6c-MuiPaper-root-MuiDrawer-paper"
+          class="MuiBox-root css-1gsv261"
         >
           <div
-            class="MuiBox-root css-1gsv261"
+            class="MuiBox-root css-upq6er"
           >
-            <div
-              class="MuiBox-root css-upq6er"
+            <p
+              class="MuiTypography-root MuiTypography-body1 css-rfi1dl-MuiTypography-root"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-rfi1dl-MuiTypography-root"
+              Workspaces
+            </p>
+            <div
+              class="MuiBox-root css-zdpt2t"
+            >
+              <button
+                aria-label="add user session"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
               >
-                Workspaces
-              </p>
-              <div
-                class="MuiBox-root css-zdpt2t"
-              >
-                <button
-                  aria-label="add user session"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
-                  tabindex="0"
-                  type="button"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="AddCircleIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                    data-testid="AddCircleIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
-                    />
-                  </svg>
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"
                   />
-                </button>
-              </div>
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
             </div>
           </div>
-          <ul
-            class="MuiList-root css-1mk9mw3-MuiList-root"
-          />
         </div>
+        <ul
+          class="MuiList-root css-1mk9mw3-MuiList-root"
+        />
       </div>
     </div>
     <div
@@ -758,7 +756,7 @@ exports[`View Tabs renders correctly 1`] = `
             </div>
             <div>
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-166927w-MuiPaper-root-MuiTableContainer-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1dnh54p-MuiPaper-root-MuiTableContainer-root"
                 role="table-container"
               >
                 <table
