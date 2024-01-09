@@ -166,6 +166,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           <MuiTableCell
                             padding="checkbox"
                             sx={{ width: '48px' }}
+                            variant="head"
+                            role="columnheader"
+                            aria-label="Select all rows"
                           >
                             <Checkbox
                               inputProps={{ 'aria-label': 'select all rows' }}
@@ -200,7 +203,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               : columnStyles;
                             const channelInfo =
                               column.columnDef.meta?.channelInfo;
-
                             return (
                               <DataHeader
                                 key={header.id}

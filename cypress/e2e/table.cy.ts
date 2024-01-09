@@ -1,8 +1,16 @@
 import { getHandleSelector, addInitialSystemChannels } from '../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
-  for (let i = 0; i < columns.length; i++) {
-    cy.get('th').eq(i).should('contain', columns[i]);
+  // check if the first column contains the checkbox
+  cy.get('th')
+    .first()
+    .should('have.attr', 'aria-label', 'Select all rows')
+    .and('have.attr', 'role', 'columnheader');
+  // skip the first column as it is the checkbox column
+  for (let i = 1; i < columns.length; i++) {
+    cy.get('th')
+      .eq(i)
+      .should('contain', columns[i - 1]);
   }
 };
 
@@ -95,7 +103,7 @@ describe('Table Component', () => {
 
     addInitialSystemChannels(['Shot Number']);
 
-    cy.get('[role="columnheader"]').first().as('firstColumn');
+    cy.get('[role="columnheader"]').eq(1).as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
     cy.get('[role="columnheader"] hr').last().as('secondColumnResizeHandle');
 
@@ -215,7 +223,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
@@ -227,7 +235,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
@@ -240,7 +248,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
