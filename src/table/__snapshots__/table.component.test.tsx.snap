@@ -19,7 +19,9 @@ exports[`Table renders correctly with all columns displayed 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
+              aria-label="Select all rows"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              role="columnheader"
               scope="col"
             >
               <span
@@ -922,7 +924,9 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
+              aria-label="Select all rows"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              role="columnheader"
               scope="col"
             >
               <span

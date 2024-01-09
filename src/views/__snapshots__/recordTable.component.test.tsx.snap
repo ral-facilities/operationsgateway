@@ -19,7 +19,9 @@ exports[`Record Table renders correctly 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
+              aria-label="Select all rows"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              role="columnheader"
               scope="col"
             >
               <span
@@ -1265,7 +1267,9 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
+              aria-label="Select all rows"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              role="columnheader"
               scope="col"
             >
               <span
@@ -1547,7 +1551,9 @@ exports[`Record Table renders correctly while loading 1`] = `
             data-rbd-droppable-id="columns"
           >
             <th
+              aria-label="Select all rows"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+              role="columnheader"
               scope="col"
             >
               <span

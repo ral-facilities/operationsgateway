@@ -771,7 +771,9 @@ exports[`View Tabs renders correctly 1`] = `
                       data-rbd-droppable-id="columns"
                     >
                       <th
+                        aria-label="Select all rows"
                         class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingCheckbox MuiTableCell-sizeMedium css-mxgvxx-MuiTableCell-root"
+                        role="columnheader"
                         scope="col"
                       >
                         <span
