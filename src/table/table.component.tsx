@@ -96,7 +96,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
 
   React.useEffect(() => {
-    console.log('page', page);
     if (count <= page * resultsPerPage) {
       onPageChange(0);
     }
