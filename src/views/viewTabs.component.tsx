@@ -134,6 +134,8 @@ const ViewTabs = () => {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: '100%',
+        // SG header + SG footer
+        height: `calc(100vh - (64px + 32px))`,
       }}
     >
       <SessionsDrawer

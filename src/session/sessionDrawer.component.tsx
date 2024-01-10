@@ -1,12 +1,10 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
 import {
   Box,
-  Theme,
   Typography,
-  List,
   ListItem,
   IconButton,
+  List,
   ListItemButton,
   ListItemText,
 } from '@mui/material';
@@ -17,10 +15,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { SessionListItem, SessionResponse } from '../app.types';
 import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
-
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  height: '100%',
-}));
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
@@ -191,44 +185,46 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
   };
 
   return (
-    <div>
-      <StyledDrawer
-        sx={{
+    <Drawer
+      sx={{
+        width: '220px',
+        position: 'relative',
+      }}
+      hideBackdrop
+      PaperProps={{
+        sx: {
           width: '220px',
-          flexShrink: 0,
+          position: 'absolute',
+        },
+      }}
+      variant="permanent"
+      anchor="left"
+    >
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
         }}
-        PaperProps={{ sx: (theme: Theme) => ({ width: '220px' }) }}
-        variant="permanent"
-        anchor="left"
       >
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: 'divider',
-          }}
-        >
-          {drawer}
-        </Box>
-        <List disablePadding>
-          {sessionsList &&
-            sessionsList.sort(compareSessions).map((item, index) => (
-              <ListItem key={item._id} disablePadding>
-                <SessionListElement
-                  {...item}
-                  handleImport={handleSessionClick}
-                  selected={loadedSessionId === item._id}
-                  openSessionDelete={openSessionDelete}
-                  openSessionEdit={openSessionEdit}
-                  onChangeLoadedSessionTimestamp={
-                    onChangeLoadedSessionTimestamp
-                  }
-                  onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
-                />
-              </ListItem>
-            ))}
-        </List>
-      </StyledDrawer>
-    </div>
+        {drawer}
+      </Box>
+      <List disablePadding>
+        {sessionsList &&
+          sessionsList.sort(compareSessions).map((item, index) => (
+            <ListItem key={item._id} disablePadding>
+              <SessionListElement
+                {...item}
+                handleImport={handleSessionClick}
+                selected={loadedSessionId === item._id}
+                openSessionDelete={openSessionDelete}
+                openSessionEdit={openSessionEdit}
+                onChangeLoadedSessionTimestamp={onChangeLoadedSessionTimestamp}
+                onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
+              />
+            </ListItem>
+          ))}
+      </List>
+    </Drawer>
   );
 };
 

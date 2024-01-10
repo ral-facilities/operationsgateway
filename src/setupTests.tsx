@@ -32,6 +32,9 @@ import { server } from './mocks/server';
 import { matchRequestUrl, MockedRequest } from 'msw';
 import channelsJson from './mocks/channels.json';
 import crypto from 'crypto';
+import failOnConsole from 'jest-fail-on-console';
+
+failOnConsole();
 
 jest.setTimeout(15000);
 
@@ -272,7 +275,7 @@ export const testChannels = [
       ({
         systemName,
         ...channel,
-      } as FullChannelMetadata)
+      }) as FullChannelMetadata
   ),
 ];
 
@@ -285,7 +288,7 @@ export const testScalarChannels: FullScalarChannelMetadata[] = [
         ({
           systemName,
           ...channel,
-        } as FullScalarChannelMetadata)
+        }) as FullScalarChannelMetadata
     ),
 ];
 

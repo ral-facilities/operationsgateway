@@ -68,8 +68,7 @@ describe('CustomPickersDay function', () => {
     const dayIsBetween = true;
     const isFirstDay = true;
     const isLastDay = true;
-    const pickersDayProps = {
-      key: new Date('2022-02-05T00:00:00'),
+    const pickersDayProps: PickersDayProps<Date> = {
       day: new Date('2022-02-05T00:00:00'),
       isAnimating: false,
       disabled: false,
@@ -79,10 +78,12 @@ describe('CustomPickersDay function', () => {
       selected: false,
       disableHighlightToday: undefined,
       showDaysOutsideCurrentMonth: undefined,
+      isLastVisibleCell: false,
+      isFirstVisibleCell: false,
       onDaySelect: jest.fn(),
       onBlur: jest.fn(),
       onFocus: jest.fn(),
-      onkeydown: jest.fn(),
+      onKeyDown: jest.fn(),
     };
     const createView = (): RenderResult => {
       return render(
@@ -112,29 +113,28 @@ describe('renderExperimentPickerDay function', () => {
     );
   };
   let date: Date;
-  let selectedDates: Array<Date | null>;
   let pickersDayProps: PickersDayProps<Date>;
 
   beforeEach(() => {
     selectedDate = null;
     experiments = experimentsJSON;
     date = new Date('2022-02-05T00:00:00');
-    selectedDates = [new Date('2022-01-06T00:00:00')];
     pickersDayProps = {
-      key: date,
       day: date,
       isAnimating: false,
       disabled: false,
       autoFocus: false,
       today: false,
       outsideCurrentMonth: true,
+      isFirstVisibleCell: false,
+      isLastVisibleCell: false,
       selected: false,
       disableHighlightToday: undefined,
       showDaysOutsideCurrentMonth: undefined,
       onDaySelect: jest.fn(),
       onBlur: jest.fn(),
       onFocus: jest.fn(),
-      onkeydown: jest.fn(),
+      onKeyDown: jest.fn(),
     };
   });
 
@@ -149,8 +149,6 @@ describe('renderExperimentPickerDay function', () => {
       selectedDate,
       experiments,
       isDateTimeInExperiment,
-      date,
-      selectedDates,
       pickersDayProps
     );
 
@@ -163,8 +161,6 @@ describe('renderExperimentPickerDay function', () => {
       selectedDate,
       experiments,
       isDateTimeInExperiment,
-      date,
-      selectedDates,
       pickersDayProps
     );
 
@@ -176,8 +172,6 @@ describe('renderExperimentPickerDay function', () => {
       selectedDate,
       experiments,
       isDateTimeInExperiment,
-      date,
-      selectedDates,
       pickersDayProps
     );
 

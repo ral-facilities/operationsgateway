@@ -175,26 +175,33 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
 const settings = fetchSettings();
 setSettings(settings);
 
-function prepare() {
-  return import('./mocks/browser').then(({ worker }) => {
-    return worker.start({
-      onUnhandledRequest(request, print) {
-        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
-        if (request.url.hostname !== 'localhost') {
-          return;
-        }
-
-        print.warning();
-      },
-    });
-  });
+async function prepare() {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.REACT_APP_E2E_TESTING === 'true'
+  ) {
+    const settingsResult = await settings;
+    if (settingsResult?.apiUrl === '') {
+      // need to use require instead of import as import breaks when loaded in SG
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { worker } = require('./mocks/browser');
+      return worker.start();
+    } else return Promise.resolve();
+  }
+  return Promise.resolve();
 }
 
 if (
   process.env.NODE_ENV === 'development' ||
-  process.env.REACT_APP_E2E_TESTING
+  process.env.REACT_APP_E2E_TESTING === 'true'
 ) {
-  prepare().then(() => render());
+  prepare().then(() => {
+    // use this to detect if we're being loaded by SG
+    // if we're not, then we need to call render ourselves
+    if (!document.getElementById('scigateway')) {
+      render();
+    }
+  });
   log.setDefaultLevel(log.levels.DEBUG);
 
   if (process.env.NODE_ENV === `development`) {

@@ -11,6 +11,7 @@ import { store, RootState } from './state/store';
 import { connect, Provider } from 'react-redux';
 import Preloader from './preloader/preloader.component';
 import './App.css';
+import SettingsMenuItems from './settingsMenuItems.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,6 +72,7 @@ const App: React.FunctionComponent = () => {
                 {/* Open windows is it's own component so that the open windows are always mounted
                   no matter which other components the user has mounted in ViewTabs etc. */}
                 <OpenWindows />
+                <SettingsMenuItems />
               </React.Suspense>
             </ConnectedPreloader>
             <ReactQueryDevtools initialIsOpen={false} />

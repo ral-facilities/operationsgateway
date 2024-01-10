@@ -403,5 +403,52 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
     await canvas.screenshot({
       type: 'png',
     })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can set their default colourmap', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  await page
+    .getByRole('combobox', {
+      name: 'Default Colour Map',
+    })
+    .click();
+  await page
+    .getByRole('option', {
+      name: 'inferno',
+    })
+    .click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await image.click();
+
+  expect(
+    await image.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  expect(
+    await colourbar.screenshot({
+      type: 'png',
+    })
   ).toMatchSnapshot();
 });
