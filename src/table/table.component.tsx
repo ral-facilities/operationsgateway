@@ -94,12 +94,28 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
   } = props;
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
+  const prevDataRef = React.useRef<RecordRow[]>([]);
+  const prevPageRef = React.useRef<number>(0);
 
+  // Reset page to 0 if data changed or page is out of range
   React.useEffect(() => {
-    if (count <= page * resultsPerPage) {
+    const prevData = prevDataRef.current;
+    const prevPage = prevPageRef.current;
+
+    if (
+      count <= page * resultsPerPage ||
+      (JSON.stringify(prevData) !== JSON.stringify(data) &&
+        loadedData &&
+        page === prevPage)
+    ) {
       onPageChange(0);
     }
-  }, [count, page, resultsPerPage, onPageChange, data]);
+
+    if (loadedData) {
+      prevDataRef.current = data;
+      prevPageRef.current = page;
+    }
+  }, [count, page, resultsPerPage, onPageChange, data, loadedData]);
 
   const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
