@@ -310,4 +310,68 @@ describe('Table Component', () => {
       cy.contains('1–25 of 2500');
     });
   });
+
+  describe('should be able to select', () => {
+    it('one and multiple rows', () => {
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().click();
+          });
+      });
+
+      cy.get('tbody').within(() => {
+        cy.get('tr').first().should('have.attr', 'aria-checked', 'true');
+      });
+
+      // rest of the rows should be unchecked
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          if (index !== 0) {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'false');
+          }
+        });
+      });
+
+      // click on all checkboxes
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          cy.wrap($tr).within(() => {
+            cy.get('td').first().click();
+          });
+        });
+      });
+
+      // all rows but first should be selected
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          if (index !== 0) {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'true');
+          } else {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'false');
+          }
+        });
+      });
+    });
+
+    it('all rows on the page', () => {
+      cy.get('[aria-describedby="table-loading-indicator"]').should(
+        'have.attr',
+        'aria-busy',
+        'false'
+      );
+
+      cy.get('thead').within(() => {
+        cy.get('th').first().click();
+      });
+
+      // all rows on the page should be selected
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr) => {
+          cy.wrap($tr).should('have.attr', 'aria-checked', 'true');
+        });
+      });
+    });
+  });
 });
