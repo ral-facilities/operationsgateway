@@ -18,7 +18,7 @@
     "@tanstack/react-table": "8.10.7",
     "@tanstack/react-virtual": "beta",
     "@types/jest": "29.5.2",
-    "@types/node": "18.19.3",
+    "@types/node": "20.11.0",
     "@types/react": "18.2.14",
     "@types/react-beautiful-dnd": "13.1.2",
     "@types/react-dom": "18.2.6",
