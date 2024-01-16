@@ -98,6 +98,30 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   const [rowSelection, setRowSelection] = React.useState({});
 
+  const count = maxShots > totalDataCount ? totalDataCount : maxShots;
+  const prevDataRef = React.useRef<RecordRow[]>([]);
+  const prevPageRef = React.useRef<number>(0);
+
+  // Reset page to 0 if data changed or page is out of range
+  React.useEffect(() => {
+    const prevData = prevDataRef.current;
+    const prevPage = prevPageRef.current;
+
+    if (
+      count <= page * resultsPerPage ||
+      (JSON.stringify(prevData) !== JSON.stringify(data) &&
+        loadedData &&
+        page === prevPage)
+    ) {
+      onPageChange(0);
+    }
+
+    if (loadedData) {
+      prevDataRef.current = data;
+      prevPageRef.current = page;
+    }
+  }, [count, page, resultsPerPage, onPageChange, data, loadedData]);
+
   const defaultColumn: Partial<ColumnDef<RecordRow>> = React.useMemo(
     () => ({
       minSize: 33,
@@ -325,9 +349,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       </MuiTableContainer>
       <MuiTablePagination
         component="div"
-        count={maxShots > totalDataCount ? totalDataCount : maxShots}
+        count={count}
         onPageChange={(e, page) => onPageChange(page)}
-        page={page}
+        page={count > page * resultsPerPage ? page : 0}
         rowsPerPage={resultsPerPage}
         rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}
         onRowsPerPageChange={(event) =>
