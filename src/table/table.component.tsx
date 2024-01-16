@@ -164,14 +164,14 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           sx={{ display: 'flex', flexDirection: 'row' }}
                         >
                           <MuiTableCell
-                            padding="checkbox"
-                            sx={{ width: '48px' }}
+                            padding="none"
                             variant="head"
                             role="columnheader"
                             aria-label="Select all rows"
                           >
                             <Checkbox
                               inputProps={{ 'aria-label': 'select all rows' }}
+                              size="small"
                               color="primary"
                               checked={tableInstance.getIsAllPageRowsSelected()}
                               indeterminate={tableInstance.getIsSomePageRowsSelected()}
@@ -253,12 +253,17 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                   aria-checked={row.getIsSelected()}
                 >
                   <MuiTableCell
-                    padding="checkbox"
-                    sx={{ width: '48px' }}
                     scope="row"
+                    padding="none"
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                    }}
                   >
                     <Checkbox
+                      size="small"
                       inputProps={{ 'aria-label': 'select row' }}
+                      sx={{ paddingTop: '5px', paddingBottom: '5px' }}
                       checked={row.getIsSelected()}
                       disabled={!row.getCanSelect()}
                       onChange={row.getToggleSelectedHandler()}
