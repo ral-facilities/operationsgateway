@@ -43,7 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.9.0"],\
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.29.5"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.29.6"],\
-            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.7"],\
+            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.11.6"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.54"],\
             ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0"],\
             ["@testing-library/dom", "npm:9.3.1"],\
@@ -5278,18 +5278,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@tanstack/react-table", [\
-        ["npm:8.10.7", {\
-          "packageLocation": "./.yarn/cache/@tanstack-react-table-npm-8.10.7-eb51abe12e-f8f19ae3ad.zip/node_modules/@tanstack/react-table/",\
+        ["npm:8.11.6", {\
+          "packageLocation": "./.yarn/cache/@tanstack-react-table-npm-8.11.6-8d6eca8e43-8107e796b4.zip/node_modules/@tanstack/react-table/",\
           "packageDependencies": [\
-            ["@tanstack/react-table", "npm:8.10.7"]\
+            ["@tanstack/react-table", "npm:8.11.6"]\
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.7", {\
-          "packageLocation": "./.yarn/__virtual__/@tanstack-react-table-virtual-6877fef604/0/cache/@tanstack-react-table-npm-8.10.7-eb51abe12e-f8f19ae3ad.zip/node_modules/@tanstack/react-table/",\
+        ["virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.11.6", {\
+          "packageLocation": "./.yarn/__virtual__/@tanstack-react-table-virtual-a449f8d9a8/0/cache/@tanstack-react-table-npm-8.11.6-8d6eca8e43-8107e796b4.zip/node_modules/@tanstack/react-table/",\
           "packageDependencies": [\
-            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.7"],\
-            ["@tanstack/table-core", "npm:8.10.7"],\
+            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.11.6"],\
+            ["@tanstack/table-core", "npm:8.11.6"],\
             ["@types/react", "npm:18.2.14"],\
             ["@types/react-dom", "npm:18.2.6"],\
             ["react", "npm:18.2.0"],\
@@ -5328,10 +5328,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@tanstack/table-core", [\
-        ["npm:8.10.7", {\
-          "packageLocation": "./.yarn/cache/@tanstack-table-core-npm-8.10.7-d7a5636cda-2a364917e7.zip/node_modules/@tanstack/table-core/",\
+        ["npm:8.11.6", {\
+          "packageLocation": "./.yarn/cache/@tanstack-table-core-npm-8.11.6-d935b9c313-05c958980e.zip/node_modules/@tanstack/table-core/",\
           "packageDependencies": [\
-            ["@tanstack/table-core", "npm:8.10.7"]\
+            ["@tanstack/table-core", "npm:8.11.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -15925,7 +15925,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@reduxjs/toolkit", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.9.0"],\
             ["@tanstack/react-query", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.29.5"],\
             ["@tanstack/react-query-devtools", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:4.29.6"],\
-            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.7"],\
+            ["@tanstack/react-table", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.11.6"],\
             ["@tanstack/react-virtual", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0-beta.54"],\
             ["@testing-library/cypress", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.0.0"],\
             ["@testing-library/dom", "npm:9.3.1"],\
