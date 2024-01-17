@@ -9439,12 +9439,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:23.2.6":
-  version: 23.2.6
-  resolution: "i18next@npm:23.2.6"
+"i18next@npm:23.7.16":
+  version: 23.7.16
+  resolution: "i18next@npm:23.7.16"
   dependencies:
-    "@babel/runtime": ^7.22.5
-  checksum: 9a1f9d6b2233bb3b0f2d24fae620d532d437eb28768e7cd51bc3fed15148d683ca817b787c128b6d2c98e0eb43c8cd61c4d125db09386e54732c870b5469e371
+    "@babel/runtime": ^7.23.2
+  checksum: 907eb4429598a53780152a54e8f8edadb224b506dc419b8cc3130e74ace7445dfbaa03af8a173d5145834fa8b45c39310673420f825ace2002dc56bb5879add0
   languageName: node
   linkType: hard
 
@@ -12347,7 +12347,7 @@ __metadata:
     hacktimer: 1.1.3
     history: 5.3.0
     husky: 8.0.1
-    i18next: 23.2.6
+    i18next: 23.7.16
     i18next-browser-languagedetector: 7.1.0
     i18next-http-backend: 2.2.1
     immutability-helper: 3.1.1

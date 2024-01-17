@@ -77,7 +77,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:23.2.6"],\
+            ["i18next", "npm:23.7.16"],\
             ["i18next-browser-languagedetector", "npm:7.1.0"],\
             ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
@@ -12976,10 +12976,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next", [\
-        ["npm:23.2.6", {\
-          "packageLocation": "./.yarn/cache/i18next-npm-23.2.6-efdf508663-9a1f9d6b22.zip/node_modules/i18next/",\
+        ["npm:23.7.16", {\
+          "packageLocation": "./.yarn/cache/i18next-npm-23.7.16-0ae32b1e43-907eb44295.zip/node_modules/i18next/",\
           "packageDependencies": [\
-            ["i18next", "npm:23.2.6"],\
+            ["i18next", "npm:23.7.16"],\
             ["@babel/runtime", "npm:7.23.8"]\
           ],\
           "linkType": "HARD"\
@@ -16264,7 +16264,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
-            ["i18next", "npm:23.2.6"],\
+            ["i18next", "npm:23.7.16"],\
             ["i18next-browser-languagedetector", "npm:7.1.0"],\
             ["i18next-http-backend", "npm:2.2.1"],\
             ["immutability-helper", "npm:3.1.1"],\
@@ -19004,7 +19004,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.2.18"],\
             ["@types/react-native", null],\
             ["html-parse-stringify", "npm:3.0.1"],\
-            ["i18next", "npm:23.2.6"],\
+            ["i18next", "npm:23.7.16"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:18.2.0"],\
             ["react-native", null]\
