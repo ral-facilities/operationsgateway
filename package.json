@@ -100,7 +100,7 @@
       "node_modules/(?!axios)"
     ]
   },
-  "packageManager": "yarn@3.6.4",
+  "packageManager": "yarn@3.7.0",
   "devDependencies": {
     "@babel/eslint-parser": "7.23.3",
     "@craco/craco": "7.1.0",
