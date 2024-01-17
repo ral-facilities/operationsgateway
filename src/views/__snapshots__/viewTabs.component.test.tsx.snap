@@ -55,7 +55,7 @@ exports[`View Tabs renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiBox-root css-8atqhb"
+      class="MuiBox-root css-11nfj18"
     >
       <div
         class="MuiBox-root css-pbvbz0"
@@ -772,7 +772,7 @@ exports[`View Tabs renders correctly 1`] = `
                     >
                       <th
                         aria-label="Select all rows"
-                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-10dfkli-MuiTableCell-root"
+                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
                         role="columnheader"
                         scope="col"
                       >

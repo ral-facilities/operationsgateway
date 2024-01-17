@@ -20,7 +20,7 @@ exports[`Record Table renders correctly 1`] = `
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-10dfkli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -50,7 +50,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </th>
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-lr2k8t-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-102g90c-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -151,7 +151,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -179,7 +179,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -204,7 +204,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -232,7 +232,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -257,7 +257,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -285,7 +285,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -310,7 +310,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -338,7 +338,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -363,7 +363,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -391,7 +391,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -416,7 +416,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -444,7 +444,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -469,7 +469,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -497,7 +497,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -522,7 +522,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -550,7 +550,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -575,7 +575,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -603,7 +603,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -628,7 +628,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -656,7 +656,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -681,7 +681,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -709,7 +709,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -734,7 +734,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -762,7 +762,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -787,7 +787,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -815,7 +815,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -840,7 +840,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -868,7 +868,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -893,7 +893,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -921,7 +921,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -946,7 +946,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -974,7 +974,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -999,7 +999,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -1027,7 +1027,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1052,7 +1052,7 @@ exports[`Record Table renders correctly 1`] = `
             class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium css-fp05dx-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
             >
               <span
                 class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
@@ -1080,7 +1080,7 @@ exports[`Record Table renders correctly 1`] = `
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1sb55nv-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1268,7 +1268,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-10dfkli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -1298,7 +1298,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
               </span>
             </th>
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-lr2k8t-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-102g90c-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -1552,7 +1552,7 @@ exports[`Record Table renders correctly while loading 1`] = `
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-10dfkli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >

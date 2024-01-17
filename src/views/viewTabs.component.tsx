@@ -152,7 +152,12 @@ const ViewTabs = () => {
         onChangeAutoSaveSessionId={setAutoSaveSessionId}
       />
 
-      <Box sx={{ width: '100%' }}>
+      <Box
+        sx={{
+          // minus off the sidebar width
+          width: 'calc(100% - 220px)',
+        }}
+      >
         <Box
           sx={{
             borderBottom: 1,
