@@ -197,6 +197,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               inputProps={{ 'aria-label': 'select all rows' }}
                               size="small"
                               color="primary"
+                              sx={{ p: '5px', m: '4px' }}
                               checked={tableInstance.getIsAllPageRowsSelected()}
                               indeterminate={tableInstance.getIsSomePageRowsSelected()}
                               // toggle all rows on current page
@@ -287,7 +288,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     <Checkbox
                       size="small"
                       inputProps={{ 'aria-label': 'select row' }}
-                      sx={{ paddingTop: '5px', paddingBottom: '5px' }}
+                      sx={{ p: '5px', m: '0 4px' }}
                       checked={row.getIsSelected()}
                       disabled={!row.getCanSelect()}
                       onChange={row.getToggleSelectedHandler()}
