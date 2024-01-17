@@ -19,9 +19,9 @@
     "@tanstack/react-virtual": "beta",
     "@types/jest": "29.5.2",
     "@types/node": "20.11.0",
-    "@types/react": "18.2.14",
+    "@types/react": "18.2.48",
     "@types/react-beautiful-dnd": "13.1.2",
-    "@types/react-dom": "18.2.6",
+    "@types/react-dom": "18.2.18",
     "axios": "1.6.0",
     "date-fns": "2.30.0",
     "hacktimer": "1.1.3",
@@ -97,7 +97,7 @@
   "jest": {
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "node_modules/(?!axios)"
+      "node_modules/(?!copy-anything|axios|is-what)"
     ]
   },
   "packageManager": "yarn@3.7.0",
