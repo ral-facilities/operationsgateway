@@ -78,7 +78,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:23.7.16"],\
-            ["i18next-browser-languagedetector", "npm:7.1.0"],\
+            ["i18next-browser-languagedetector", "npm:7.2.0"],\
             ["i18next-http-backend", "npm:2.4.2"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
@@ -12986,10 +12986,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["i18next-browser-languagedetector", [\
-        ["npm:7.1.0", {\
-          "packageLocation": "./.yarn/cache/i18next-browser-languagedetector-npm-7.1.0-1a79fe5d7c-36981b9a99.zip/node_modules/i18next-browser-languagedetector/",\
+        ["npm:7.2.0", {\
+          "packageLocation": "./.yarn/cache/i18next-browser-languagedetector-npm-7.2.0-f82df21e00-757845c7ae.zip/node_modules/i18next-browser-languagedetector/",\
           "packageDependencies": [\
-            ["i18next-browser-languagedetector", "npm:7.1.0"],\
+            ["i18next-browser-languagedetector", "npm:7.2.0"],\
             ["@babel/runtime", "npm:7.23.8"]\
           ],\
           "linkType": "HARD"\
@@ -16265,7 +16265,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["history", "npm:5.3.0"],\
             ["husky", "npm:8.0.1"],\
             ["i18next", "npm:23.7.16"],\
-            ["i18next-browser-languagedetector", "npm:7.1.0"],\
+            ["i18next-browser-languagedetector", "npm:7.2.0"],\
             ["i18next-http-backend", "npm:2.4.2"],\
             ["immutability-helper", "npm:3.1.1"],\
             ["jest-canvas-mock", "npm:2.5.0"],\
