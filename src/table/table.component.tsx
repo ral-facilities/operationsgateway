@@ -24,6 +24,8 @@ import {
   TableBody as MuiTableBody,
   TableRow as MuiTableRow,
   TablePagination as MuiTablePagination,
+  TableCell as MuiTableCell,
+  Checkbox,
   Paper,
   SxProps,
   Theme,
@@ -40,10 +42,13 @@ const additionalHeaderSpace = 24 + 4.8;
 
 const stickyColumnStyles: SxProps<Theme> = {
   position: 'sticky',
-  left: 0,
   backgroundColor: (theme) => theme.palette.background.default,
   zIndex: 2,
 };
+
+const CHECKBOX_COLUMN_ID = 'CHECKBOX_COLUMN';
+
+const columnPinning = { left: [CHECKBOX_COLUMN_ID, timeChannelName] };
 
 export interface TableProps {
   tableHeight: string;
@@ -93,6 +98,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     filteredChannelNames,
   } = props;
 
+  const [rowSelection, setRowSelection] = React.useState({});
+
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
   const prevDataRef = React.useRef<RecordRow[]>([]);
   const prevPageRef = React.useRef<number>(0);
@@ -125,17 +132,94 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     []
   );
 
+  const columns = React.useMemo(
+    () => [
+      {
+        size: 38,
+        id: CHECKBOX_COLUMN_ID,
+        header: ({ header, table }) => {
+          return (
+            <MuiTableCell
+              padding="none"
+              variant="head"
+              role="columnheader"
+              aria-label="Select all rows"
+              sx={{
+                ...stickyColumnStyles,
+                left: header.getStart('left'),
+              }}
+            >
+              <Checkbox
+                inputProps={{
+                  'aria-label': 'select all rows',
+                }}
+                size="small"
+                color="primary"
+                sx={{ p: '5px', m: '4px' }}
+                checked={table.getIsAllPageRowsSelected()}
+                indeterminate={table.getIsSomePageRowsSelected()}
+                // toggle all rows on current page
+                onChange={table.getToggleAllPageRowsSelectedHandler()}
+              />
+            </MuiTableCell>
+          );
+        },
+        cell: (cell) => {
+          return (
+            <MuiTableCell
+              scope="row"
+              padding="none"
+              className="stickyCell"
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                ...stickyColumnStyles,
+                left: cell.column.getStart('left'),
+              }}
+            >
+              <Checkbox
+                size="small"
+                inputProps={{ 'aria-label': 'select row' }}
+                sx={{ p: '5px', m: '0 4px' }}
+                checked={cell.row.getIsSelected()}
+                disabled={!cell.row.getCanSelect()}
+                onChange={cell.row.getToggleSelectedHandler()}
+              />
+            </MuiTableCell>
+          );
+        },
+      },
+      ...availableColumns,
+    ],
+    [availableColumns]
+  );
+
+  const tableColumnOrder = React.useMemo(
+    () => [CHECKBOX_COLUMN_ID, ...columnOrder],
+    [columnOrder]
+  );
+
+  const tableColumnVisibility = React.useMemo(
+    () => ({ ...columnVisibility, [CHECKBOX_COLUMN_ID]: true }),
+    [columnVisibility]
+  );
+
   const tableInstance = useReactTable({
-    columns: availableColumns,
+    columns,
     data,
     defaultColumn,
     state: {
-      columnOrder,
-      columnVisibility,
+      columnOrder: tableColumnOrder,
+      columnVisibility: tableColumnVisibility,
+      rowSelection,
+      columnPinning,
     },
+    enableRowSelection: true,
+    enableColumnResizing: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    enableColumnResizing: true,
+    getRowId: (row) => row._id,
+    onRowSelectionChange: setRowSelection,
     columnResizeMode: 'onChange',
   });
 
@@ -181,6 +265,17 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                           {headerGroup.headers.map((header, index) => {
                             const { column } = header;
                             const dataKey = column.id;
+
+                            if (dataKey === CHECKBOX_COLUMN_ID) {
+                              return flexRender(
+                                header.column.columnDef.header,
+                                {
+                                  ...header.getContext(),
+                                  key: CHECKBOX_COLUMN_ID,
+                                }
+                              );
+                            }
+
                             const isTimestampColumn =
                               dataKey === timeChannelName;
                             let columnStyles: SxProps<Theme> = {
@@ -191,17 +286,18 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               display: 'flex',
                               flexDirection: 'row',
                               overflow: 'hidden',
+                              alignItems: 'center',
                             };
 
                             columnStyles = isTimestampColumn
                               ? {
                                   ...columnStyles,
                                   ...stickyColumnStyles,
+                                  left: header.getStart('left'),
                                 }
                               : columnStyles;
                             const channelInfo =
                               column.columnDef.meta?.channelInfo;
-
                             return (
                               <DataHeader
                                 key={header.id}
@@ -215,7 +311,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   header.getContext()
                                 )}
                                 onClose={onColumnClose}
-                                index={index}
+                                // index = index - 1 since we want to ignore the checkbox column for column ordering purposes
+                                index={index - 1}
                                 icon={columnIconMappings.get(column.id)}
                                 channelInfo={channelInfo}
                                 wordWrap={
@@ -239,18 +336,46 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
           </MuiTableHead>
           <MuiTableBody
-            sx={{ position: 'relative' }}
+            sx={{ position: 'relative', zIndex: 0 }}
             aria-describedby="table-loading-indicator"
             aria-busy={!loadedData}
           >
             {tableInstance.getRowModel().rows.map((row) => {
               return (
                 <MuiTableRow
-                  key={row.id}
-                  sx={{ display: 'flex', flexDirection: 'row' }}
+                  key={row.original._id}
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    ...(row.getIsSelected()
+                      ? {
+                          '&:hover td': {
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === 'dark'
+                                ? '#303E4A'
+                                : '#E3EEFA',
+                          },
+                          '& td': {
+                            backgroundColor: (theme) =>
+                              theme.palette.mode === 'dark'
+                                ? '#263037'
+                                : '#EDF4FC',
+                          },
+                        }
+                      : {}),
+                  }}
+                  selected={row.getIsSelected()}
+                  aria-checked={row.getIsSelected()}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const dataKey = cell.column.id;
+
+                    if (dataKey === CHECKBOX_COLUMN_ID) {
+                      return flexRender(cell.column.columnDef.cell, {
+                        ...cell.getContext(),
+                        key: CHECKBOX_COLUMN_ID,
+                      });
+                    }
                     const isTimestampColumn = dataKey === timeChannelName;
 
                     let columnStyles: SxProps<Theme> = {
@@ -266,6 +391,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                       ? {
                           ...columnStyles,
                           ...stickyColumnStyles,
+                          left: cell.column.getStart('left'),
                           zIndex: 0,
                         }
                       : columnStyles;

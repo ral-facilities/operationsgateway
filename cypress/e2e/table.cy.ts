@@ -1,8 +1,16 @@
 import { getHandleSelector, addInitialSystemChannels } from '../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
-  for (let i = 0; i < columns.length; i++) {
-    cy.get('th').eq(i).should('contain', columns[i]);
+  // check if the first column contains the checkbox
+  cy.get('th')
+    .first()
+    .should('have.attr', 'aria-label', 'Select all rows')
+    .and('have.attr', 'role', 'columnheader');
+  // skip the first column as it is the checkbox column
+  for (let i = 1; i < columns.length; i++) {
+    cy.get('th')
+      .eq(i)
+      .should('contain', columns[i - 1]);
   }
 };
 
@@ -95,7 +103,7 @@ describe('Table Component', () => {
 
     addInitialSystemChannels(['Shot Number']);
 
-    cy.get('[role="columnheader"]').first().as('firstColumn');
+    cy.get('[role="columnheader"]').eq(1).as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
     cy.get('[role="columnheader"] hr').last().as('secondColumnResizeHandle');
 
@@ -215,7 +223,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
@@ -227,7 +235,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
@@ -240,7 +248,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().contains('2022-01-01 00:00:00');
+            cy.get('td').eq(1).contains('2022-01-01 00:00:00');
           });
       });
     });
@@ -300,6 +308,70 @@ describe('Table Component', () => {
       cy.get('span[aria-label="Select unlimited max shots"]').click();
       cy.contains('Search').click();
       cy.contains('1–25 of 2500');
+    });
+  });
+
+  describe('should be able to select', () => {
+    it('one and multiple rows', () => {
+      cy.get('tbody').within(() => {
+        cy.get('tr')
+          .first()
+          .within(() => {
+            cy.get('td').first().click();
+          });
+      });
+
+      cy.get('tbody').within(() => {
+        cy.get('tr').first().should('have.attr', 'aria-checked', 'true');
+      });
+
+      // rest of the rows should be unchecked
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          if (index !== 0) {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'false');
+          }
+        });
+      });
+
+      // click on all checkboxes
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          cy.wrap($tr).within(() => {
+            cy.get('td').first().click();
+          });
+        });
+      });
+
+      // all rows but first should be selected
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+          if (index !== 0) {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'true');
+          } else {
+            cy.wrap($tr).should('have.attr', 'aria-checked', 'false');
+          }
+        });
+      });
+    });
+
+    it('all rows on the page', () => {
+      cy.get('[aria-describedby="table-loading-indicator"]').should(
+        'have.attr',
+        'aria-busy',
+        'false'
+      );
+
+      cy.get('thead').within(() => {
+        cy.get('th').first().click();
+      });
+
+      // all rows on the page should be selected
+      cy.get('tbody').within(() => {
+        cy.get('tr.MuiTableRow-root').each(($tr) => {
+          cy.wrap($tr).should('have.attr', 'aria-checked', 'true');
+        });
+      });
     });
   });
 });

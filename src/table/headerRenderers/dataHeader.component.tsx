@@ -212,7 +212,15 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             }
           }}
         >
-          <Box marginRight={1}>{Icon ?? <Feed />}</Box>
+          <Box
+            marginRight={1}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {Icon ?? <Feed />}
+          </Box>
           <Tooltip
             enterDelay={400}
             enterNextDelay={400}
@@ -246,6 +254,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             // 33 - enough space for menu icon + divider
             // 57 including the filter icon
             width: isFiltered ? 61 : 33,
+            height: '100%',
+            alignItems: 'center',
             justifyContent: 'space-between',
             zIndex: 0,
             backgroundColor: (theme) => theme.palette.background.default,

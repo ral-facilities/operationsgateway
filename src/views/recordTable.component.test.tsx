@@ -175,12 +175,13 @@ describe('Record Table', () => {
 
     await waitFor(() => {
       columns = screen.getAllByRole('columnheader');
-      expect(columns.length).toEqual(4);
+      expect(columns.length).toEqual(5);
     });
-    expect(columns[0]).toHaveTextContent('Time');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Area');
-    expect(columns[3]).toHaveTextContent('Active Experiment');
+
+    expect(columns[1]).toHaveTextContent('Time');
+    expect(columns[2]).toHaveTextContent('Shot Number');
+    expect(columns[3]).toHaveTextContent('Active Area');
+    expect(columns[4]).toHaveTextContent('Active Experiment');
 
     // Remove middle column
     act(() => {
@@ -189,11 +190,11 @@ describe('Record Table', () => {
 
     await waitFor(() => {
       columns = screen.getAllByRole('columnheader');
-      expect(columns.length).toEqual(3);
+      expect(columns.length).toEqual(4);
     });
-    expect(columns[0]).toHaveTextContent('Time');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Experiment');
+    expect(columns[1]).toHaveTextContent('Time');
+    expect(columns[2]).toHaveTextContent('Shot Number');
+    expect(columns[3]).toHaveTextContent('Active Experiment');
 
     act(() => {
       store.dispatch(selectColumn('activeArea'));
@@ -202,12 +203,12 @@ describe('Record Table', () => {
     // Should expect the column previously in the middle to now be on the end
     await waitFor(() => {
       columns = screen.getAllByRole('columnheader');
-      expect(columns.length).toEqual(4);
+      expect(columns.length).toEqual(5);
     });
-    expect(columns[0]).toHaveTextContent('Time');
-    expect(columns[1]).toHaveTextContent('Shot Number');
-    expect(columns[2]).toHaveTextContent('Active Experiment');
-    expect(columns[3]).toHaveTextContent('Active Area');
+    expect(columns[1]).toHaveTextContent('Time');
+    expect(columns[2]).toHaveTextContent('Shot Number');
+    expect(columns[3]).toHaveTextContent('Active Experiment');
+    expect(columns[4]).toHaveTextContent('Active Area');
   });
 
   it('rounds numbers correctly in scalar columns', async () => {

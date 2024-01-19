@@ -100,7 +100,7 @@ exports[`Data Header renders correctly 1`] = `
             class="MuiBox-root css-914c56"
           >
             <div
-              class="MuiBox-root css-12z0wuy"
+              class="MuiBox-root css-k6zrdb"
             >
               <svg
                 aria-hidden="true"
@@ -128,7 +128,7 @@ exports[`Data Header renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiBox-root css-2luut9"
+            class="MuiBox-root css-hwtij1"
           >
             <div>
               <button
