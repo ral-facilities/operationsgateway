@@ -12365,7 +12365,7 @@ __metadata:
     react-colorful: 5.6.1
     react-dom: 18.2.0
     react-draggable: 4.4.5
-    react-i18next: 13.0.1
+    react-i18next: 13.5.0
     react-redux: 8.1.1
     react-router-dom: 6.8.0
     react-scripts: 5.0.1
@@ -14041,9 +14041,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:13.0.1":
-  version: 13.0.1
-  resolution: "react-i18next@npm:13.0.1"
+"react-i18next@npm:13.5.0":
+  version: 13.5.0
+  resolution: "react-i18next@npm:13.5.0"
   dependencies:
     "@babel/runtime": ^7.22.5
     html-parse-stringify: ^3.0.1
@@ -14055,7 +14055,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: eac59c4517c07e4e4b182570140ad9b2f7a7920dac5dadd694107ea6359743fe855390192072464fac579d3de1370bf4656b987a8c9c77babeb5b60ff8f17d3c
+  checksum: 2f68ccd24daf72ddd2d11a526fb3c2b66c11ea4fcd2e24ac7aed42bf57ec7bffa7455ad1dc93679968ff629e9b1896465cdf6d1a61c29b92138ef88098e8dcba
   languageName: node
   linkType: hard
 
