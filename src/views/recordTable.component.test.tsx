@@ -22,7 +22,7 @@ import { RootState } from '../state/store';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 import { operators, type Token } from '../filtering/filterParser';
 import { server } from '../mocks/server';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import recordsJson from '../mocks/records.json';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 
@@ -67,14 +67,14 @@ describe('Record Table', () => {
   });
 
   it('renders correctly while loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/records/count', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/records/count', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     const view = createView();
@@ -83,11 +83,11 @@ describe('Record Table', () => {
 
   it('renders correctly while data count is zero', async () => {
     server.use(
-      rest.get('/records', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json([]));
+      http.get('/records', () => {
+        return HttpResponse.json([], { status: 200 });
       }),
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(0));
+      http.get('/records/count', () => {
+        return HttpResponse.json(0, { status: 200 });
       })
     );
 
@@ -224,8 +224,8 @@ describe('Record Table', () => {
       ...recordsJson.slice(recordToModifyIndex + 1),
     ];
     server.use(
-      rest.get('/records', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(modifiedRecords));
+      http.get('/records', () => {
+        return HttpResponse.json(modifiedRecords, { status: 200 });
       })
     );
 

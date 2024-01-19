@@ -10,13 +10,13 @@ import {
 import { PlotConfig } from '../state/slices/plotSlice';
 import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { server } from '../mocks/server';
 
 jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
+  return ReactMock.forwardRef(({ children }) => (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <mock-WindowPortal>{children}</mock-WindowPortal>
@@ -91,13 +91,13 @@ describe('Plot Window component', () => {
   });
 
   it('renders correctly while records and channels are loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     createView();

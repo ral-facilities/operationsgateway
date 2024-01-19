@@ -43,6 +43,7 @@
     "react-scripts": "5.0.1",
     "single-spa-react": "5.1.4",
     "typescript": "5.1.6",
+    "undici": "^6.3.0",
     "web-vitals": "3.4.0"
   },
   "resolutions": {
@@ -97,7 +98,7 @@
   "jest": {
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "node_modules/(?!axios)"
+      "node_modules/(?!(@bundled-es-modules)|axios)"
     ]
   },
   "packageManager": "yarn@3.6.4",

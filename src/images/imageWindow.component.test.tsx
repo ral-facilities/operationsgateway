@@ -3,7 +3,7 @@ import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import ImageWindow from './imageWindow.component';
 import userEvent from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../setupTests';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { server } from '../mocks/server';
 import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
@@ -11,7 +11,7 @@ import { DEFAULT_WINDOW_VARS } from '../app.types';
 jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
+  return ReactMock.forwardRef(({ children }) => (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <mock-WindowPortal>{children}</mock-WindowPortal>
@@ -56,11 +56,11 @@ describe('Image Window component', () => {
   });
 
   it('renders correctly while image is loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
-    server.use(rest.get('/images', loadingHandler));
+    server.use(http.get('/images', loadingHandler));
 
     createView();
     screen.getByLabelText('Image loading');

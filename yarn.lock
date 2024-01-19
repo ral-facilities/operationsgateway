@@ -2006,6 +2006,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/busboy@npm:^2.0.0":
+  version: 2.1.0
+  resolution: "@fastify/busboy@npm:2.1.0"
+  checksum: 3233abd10f73e50668cb4bb278a79b7b3fadd30215ac6458299b0e5a09a29c3586ec07597aae6bd93f5cbedfcef43a8aeea51829cd28fc13850cdbcd324c28d5
+  languageName: node
+  linkType: hard
+
 "@floating-ui/core@npm:^1.4.2":
   version: 1.5.0
   resolution: "@floating-ui/core@npm:1.5.0"
@@ -12182,6 +12189,7 @@ __metadata:
     single-spa-react: 5.1.4
     start-server-and-test: 2.0.0
     typescript: 5.1.6
+    undici: ^6.3.0
     web-vitals: 3.4.0
   languageName: unknown
   linkType: soft
@@ -16134,6 +16142,15 @@ __metadata:
   version: 5.26.5
   resolution: "undici-types@npm:5.26.5"
   checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
+  languageName: node
+  linkType: hard
+
+"undici@npm:^6.3.0":
+  version: 6.3.0
+  resolution: "undici@npm:6.3.0"
+  dependencies:
+    "@fastify/busboy": ^2.0.0
+  checksum: 4b058786dae05495facad110404591bafad17c1b77bc8e16e466196f538630d0563f5af8e136ce1edc9ffc7ef3fb9ec236b3c568e9a0c52c009c837aee912623
   languageName: node
   linkType: hard
 

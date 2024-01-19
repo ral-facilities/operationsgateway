@@ -282,7 +282,7 @@ export const testChannels = [
 export const testScalarChannels: FullScalarChannelMetadata[] = [
   ...Object.values(staticChannels),
   ...Object.entries(channelsJson.channels)
-    .filter(([systemName, channel]) => channel.type === 'scalar')
+    .filter(([, channel]) => channel.type === 'scalar')
     .map(
       ([systemName, channel]) =>
         ({

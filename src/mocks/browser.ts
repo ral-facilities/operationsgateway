@@ -1,6 +1,7 @@
-import { setupWorker, rest, matchRequestUrl } from 'msw';
+import { http, matchRequestUrl } from 'msw';
 import { handlers } from './handlers';
 import { browserHandlers } from './browserHandlers';
+import { setupWorker } from 'msw/browser';
 
 // This configures a Service Worker with the given request handlers.
 export const worker = setupWorker(...handlers, ...browserHandlers);
@@ -11,6 +12,6 @@ export const worker = setupWorker(...handlers, ...browserHandlers);
 // @ts-ignore
 window.msw = {
   worker,
-  rest,
+  http,
   matchRequestUrl,
 };

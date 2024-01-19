@@ -103,6 +103,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4"],\
             ["start-server-and-test", "npm:2.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
+            ["undici", "npm:6.3.0"],\
             ["web-vitals", "npm:3.4.0"]\
           ],\
           "linkType": "SOFT"\
@@ -3706,6 +3707,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@fastify/busboy", [\
+        ["npm:2.1.0", {\
+          "packageLocation": "./.yarn/cache/@fastify-busboy-npm-2.1.0-960844a007-3233abd10f.zip/node_modules/@fastify/busboy/",\
+          "packageDependencies": [\
+            ["@fastify/busboy", "npm:2.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@floating-ui/core", [\
         ["npm:1.5.0", {\
           "packageLocation": "./.yarn/cache/@floating-ui-core-npm-1.5.0-3cdde0a88b-54b4fe26b3.zip/node_modules/@floating-ui/core/",\
@@ -5077,7 +5087,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],\
       ["@surma/rollup-plugin-off-main-thread", [\
         ["npm:2.2.3", {\
-          "packageLocation": "./.yarn/unplugged/@surma-rollup-plugin-off-main-thread-npm-2.2.3-1f57d3eded/node_modules/@surma/rollup-plugin-off-main-thread/",\
+          "packageLocation": "./.yarn/cache/@surma-rollup-plugin-off-main-thread-npm-2.2.3-1f57d3eded-2c02134944.zip/node_modules/@surma/rollup-plugin-off-main-thread/",\
           "packageDependencies": [\
             ["@surma/rollup-plugin-off-main-thread", "npm:2.2.3"],\
             ["ejs", "npm:3.1.9"],\
@@ -15980,6 +15990,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["single-spa-react", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:5.1.4"],\
             ["start-server-and-test", "npm:2.0.0"],\
             ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"],\
+            ["undici", "npm:6.3.0"],\
             ["web-vitals", "npm:3.4.0"]\
           ],\
           "linkType": "SOFT"\
@@ -21331,6 +21342,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["has-bigints", "npm:1.0.2"],\
             ["has-symbols", "npm:1.0.3"],\
             ["which-boxed-primitive", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["undici", [\
+        ["npm:6.3.0", {\
+          "packageLocation": "./.yarn/cache/undici-npm-6.3.0-3653a9b474-4b058786da.zip/node_modules/undici/",\
+          "packageDependencies": [\
+            ["undici", "npm:6.3.0"],\
+            ["@fastify/busboy", "npm:2.1.0"]\
           ],\
           "linkType": "HARD"\
         }]\

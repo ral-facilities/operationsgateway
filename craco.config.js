@@ -30,4 +30,13 @@ module.exports = {
       return webpackConfig;
     },
   },
+
+  jest: {
+    configure: (jestConfig, { rootDir }) => {
+      return {
+        ...jestConfig,
+        setupFiles: [`${rootDir}/jest.polyfills.js`],
+      };
+    },
+  },
 };

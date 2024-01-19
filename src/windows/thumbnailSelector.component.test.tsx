@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import ThumbnailSelector from './thumbnailSelector.component';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 
@@ -41,14 +41,14 @@ describe('Thumbnail selector component', () => {
   });
 
   it('renders correctly when loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/records/count', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/records/count', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     const view = createView();
@@ -105,8 +105,8 @@ describe('Thumbnail selector component', () => {
 
   it('displays max shots as the max pagination when record count is more than it', async () => {
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(100));
+      http.get('/records/count', () => {
+        return HttpResponse.json(100, { status: 200 });
       })
     );
 
