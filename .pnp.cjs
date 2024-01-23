@@ -66,7 +66,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:12.17.3"],\
             ["cypress-failed-log", "npm:2.10.0"],\
-            ["date-fns", "npm:2.30.0"],\
+            ["date-fns", "npm:3.3.0"],\
             ["eslint", "npm:8.56.0"],\
             ["eslint-config-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.0"],\
             ["eslint-config-react-app", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.0.1"],\
@@ -3678,7 +3678,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@date-io/date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0"],\
             ["@date-io/core", "npm:3.0.0"],\
             ["@types/date-fns", null],\
-            ["date-fns", "npm:2.30.0"]\
+            ["date-fns", "npm:3.3.0"]\
           ],\
           "packagePeers": [\
             "@types/date-fns",\
@@ -4909,7 +4909,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.2.18"],\
             ["@types/react-transition-group", "npm:4.4.10"],\
             ["clsx", "npm:2.1.0"],\
-            ["date-fns", "npm:2.30.0"],\
+            ["date-fns", "npm:3.3.0"],\
             ["date-fns-jalali", null],\
             ["dayjs", null],\
             ["luxon", null],\
@@ -9895,11 +9895,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["date-fns", [\
-        ["npm:2.30.0", {\
-          "packageLocation": "./.yarn/cache/date-fns-npm-2.30.0-895c790e0f-f7be015232.zip/node_modules/date-fns/",\
+        ["npm:3.3.0", {\
+          "packageLocation": "./.yarn/cache/date-fns-npm-3.3.0-2e41595e23-ceaf3d93f1.zip/node_modules/date-fns/",\
           "packageDependencies": [\
-            ["date-fns", "npm:2.30.0"],\
-            ["@babel/runtime", "npm:7.23.8"]\
+            ["date-fns", "npm:3.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16255,7 +16254,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["cross-env", "npm:7.0.3"],\
             ["cypress", "npm:12.17.3"],\
             ["cypress-failed-log", "npm:2.10.0"],\
-            ["date-fns", "npm:2.30.0"],\
+            ["date-fns", "npm:3.3.0"],\
             ["eslint", "npm:8.56.0"],\
             ["eslint-config-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:8.10.0"],\
             ["eslint-config-react-app", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.0.1"],\
