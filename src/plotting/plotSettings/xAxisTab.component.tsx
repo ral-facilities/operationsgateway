@@ -22,7 +22,7 @@ import {
   timeChannelName,
 } from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { isBefore, isValid } from 'date-fns';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';

@@ -17,7 +17,7 @@ import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { ExperimentParams } from '../../app.types';
 import experimentsJSON from '../../mocks/experiments.json';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {

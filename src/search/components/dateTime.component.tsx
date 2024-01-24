@@ -1,6 +1,6 @@
 import React from 'react';
 import { isValid, isEqual, isBefore, isAfter } from 'date-fns';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import {
   TextField,
   TextFieldProps,

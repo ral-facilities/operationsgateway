@@ -2848,9 +2848,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:6.18.1":
-  version: 6.18.1
-  resolution: "@mui/x-date-pickers@npm:6.18.1"
+"@mui/x-date-pickers@npm:^6.19.0":
+  version: 6.19.0
+  resolution: "@mui/x-date-pickers@npm:6.19.0"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@mui/base": ^5.0.0-beta.22
@@ -2864,7 +2864,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@mui/material": ^5.8.6
     "@mui/system": ^5.8.0
-    date-fns: ^2.25.0
+    date-fns: ^2.25.0 || ^3.2.0
     date-fns-jalali: ^2.13.0-0
     dayjs: ^1.10.7
     luxon: ^3.0.2
@@ -2892,55 +2892,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: b536b3fcb498d5b0c4c3e710e19cfc368e91b74c7815350de6332b17bb0975e128474caf2253586820ab9257fc73943bb9494858d46b0528f18301bf74822fb8
-  languageName: node
-  linkType: hard
-
-"@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.18.1#./.yarn/patches/@mui-x-date-pickers-npm-6.18.1-79bdefe4ec.patch::locator=operationsgateway%40workspace%3A.":
-  version: 6.18.1
-  resolution: "@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.18.1#./.yarn/patches/@mui-x-date-pickers-npm-6.18.1-79bdefe4ec.patch::version=6.18.1&hash=520912&locator=operationsgateway%40workspace%3A."
-  dependencies:
-    "@babel/runtime": ^7.23.2
-    "@mui/base": ^5.0.0-beta.22
-    "@mui/utils": ^5.14.16
-    "@types/react-transition-group": ^4.4.8
-    clsx: ^2.0.0
-    prop-types: ^15.8.1
-    react-transition-group: ^4.4.5
-  peerDependencies:
-    "@emotion/react": ^11.9.0
-    "@emotion/styled": ^11.8.1
-    "@mui/material": ^5.8.6
-    "@mui/system": ^5.8.0
-    date-fns: ^2.25.0
-    date-fns-jalali: ^2.13.0-0
-    dayjs: ^1.10.7
-    luxon: ^3.0.2
-    moment: ^2.29.4
-    moment-hijri: ^2.1.2
-    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@emotion/react":
-      optional: true
-    "@emotion/styled":
-      optional: true
-    date-fns:
-      optional: true
-    date-fns-jalali:
-      optional: true
-    dayjs:
-      optional: true
-    luxon:
-      optional: true
-    moment:
-      optional: true
-    moment-hijri:
-      optional: true
-    moment-jalaali:
-      optional: true
-  checksum: d54028370783f1f6138d9c22cbd3ab54ee77e892bf68bbb3b68497014fc32c228b903259cb27cc0357e2ebb429ebce49fadd2165eb61f46f3751586e49817d8e
+  checksum: 65da961de3012c1453ce7589c836fac0808fdfe00aa90311d5e11b2a2197c2aa61930200fded61598e5ec86f6fef1c683951078a623e18ee5f4c129b5a760545
   languageName: node
   linkType: hard
 
@@ -12308,7 +12260,7 @@ __metadata:
     "@mui/icons-material": 5.14.16
     "@mui/material": 5.14.16
     "@mui/system": 5.14.16
-    "@mui/x-date-pickers": 6.18.1
+    "@mui/x-date-pickers": ^6.19.0
     "@playwright/test": 1.41.0
     "@reduxjs/toolkit": 1.9.0
     "@tanstack/react-query": 4.29.5
