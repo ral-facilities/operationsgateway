@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 export const prefix = 'data-rbd';
 export const dragHandle = (() => {
   const base = `${prefix}-drag-handle`;
@@ -59,10 +57,7 @@ export function getDraggableSelector(draggableId) {
 }
 
 export const formatDateTimeForApi = (datetime) => {
-  const dateString = format(datetime, 'yyyy-MM-dd');
-  const timeString = format(datetime, 'HH:mm:ss');
-
-  return `${dateString}T${timeString}`;
+  return datetime.toLocaleString('sv-SE').replace(' ', 'T');
 };
 
 export const addInitialSystemChannels = (channels) => {
