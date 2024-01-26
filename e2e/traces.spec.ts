@@ -143,8 +143,8 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
             ctx.status(200),
             ctx.json({
               _id: '2',
-              x: '[2, 4, 6, 8, 10, 12, 14, 16, 18, 20]',
-              y: '[8, 1, 10, 9, 4, 3, 5, 6, 2, 7]',
+              x: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
+              y: [8, 1, 10, 9, 4, 3, 5, 6, 2, 7],
             })
           );
         }

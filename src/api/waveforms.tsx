@@ -17,11 +17,7 @@ export const fetchWaveform = async (
       },
     })
     .then((response) => {
-      return {
-        ...response.data,
-        x: JSON.parse(response.data.x),
-        y: JSON.parse(response.data.y),
-      };
+      return response.data;
     });
 };
 
