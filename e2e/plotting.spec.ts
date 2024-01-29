@@ -279,19 +279,13 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
   await popup.locator('[aria-label="line chart"]').click();
 
-  // .fill doesn't work with date-pickers v6
-  // await popup
-  //   .locator('[aria-label="from, date-time input"]')
-  //   .fill('2022-01-03 00:00');
-  await popup.locator('[aria-label="to, date-time input"]').click();
-  await popup.keyboard.type('202201100000');
+  await popup
+    .locator('[aria-label="from, date-time input"]')
+    .fill('2022-01-03 00:00');
 
-  // .fill doesn't work with date-pickers v6
-  // await popup
-  //   .locator('[aria-label="to, date-time input"]')
-  //   .fill('2022-01-10 00:00');
-  await popup.locator('[aria-label="from, date-time input"]').click();
-  await popup.keyboard.type('202201030000');
+  await popup
+    .locator('[aria-label="to, date-time input"]')
+    .fill('2022-01-10 00:00');
 
   await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 

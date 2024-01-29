@@ -1594,7 +1594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.10, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.15.4, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.22.10, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.8, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.23.8
   resolution: "@babel/runtime@npm:7.23.8"
   dependencies:
@@ -2848,9 +2848,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:6.18.1":
-  version: 6.18.1
-  resolution: "@mui/x-date-pickers@npm:6.18.1"
+"@mui/x-date-pickers@npm:6.19.0":
+  version: 6.19.0
+  resolution: "@mui/x-date-pickers@npm:6.19.0"
   dependencies:
     "@babel/runtime": ^7.23.2
     "@mui/base": ^5.0.0-beta.22
@@ -2864,7 +2864,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@mui/material": ^5.8.6
     "@mui/system": ^5.8.0
-    date-fns: ^2.25.0
+    date-fns: ^2.25.0 || ^3.2.0
     date-fns-jalali: ^2.13.0-0
     dayjs: ^1.10.7
     luxon: ^3.0.2
@@ -2892,13 +2892,13 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: b536b3fcb498d5b0c4c3e710e19cfc368e91b74c7815350de6332b17bb0975e128474caf2253586820ab9257fc73943bb9494858d46b0528f18301bf74822fb8
+  checksum: 65da961de3012c1453ce7589c836fac0808fdfe00aa90311d5e11b2a2197c2aa61930200fded61598e5ec86f6fef1c683951078a623e18ee5f4c129b5a760545
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.18.1#./.yarn/patches/@mui-x-date-pickers-npm-6.18.1-79bdefe4ec.patch::locator=operationsgateway%40workspace%3A.":
-  version: 6.18.1
-  resolution: "@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.18.1#./.yarn/patches/@mui-x-date-pickers-npm-6.18.1-79bdefe4ec.patch::version=6.18.1&hash=520912&locator=operationsgateway%40workspace%3A."
+"@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch::locator=operationsgateway%40workspace%3A.":
+  version: 6.19.0
+  resolution: "@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch::version=6.19.0&hash=76320b&locator=operationsgateway%40workspace%3A."
   dependencies:
     "@babel/runtime": ^7.23.2
     "@mui/base": ^5.0.0-beta.22
@@ -2912,7 +2912,7 @@ __metadata:
     "@emotion/styled": ^11.8.1
     "@mui/material": ^5.8.6
     "@mui/system": ^5.8.0
-    date-fns: ^2.25.0
+    date-fns: ^2.25.0 || ^3.2.0
     date-fns-jalali: ^2.13.0-0
     dayjs: ^1.10.7
     luxon: ^3.0.2
@@ -2940,7 +2940,7 @@ __metadata:
       optional: true
     moment-jalaali:
       optional: true
-  checksum: d54028370783f1f6138d9c22cbd3ab54ee77e892bf68bbb3b68497014fc32c228b903259cb27cc0357e2ebb429ebce49fadd2165eb61f46f3751586e49817d8e
+  checksum: 0b0b2873ccd25a3288a57b8256eb32a2b299c859d88858fd0407737fc747e323d0677fa2257ae0155d932b6c7e71fabc088fbdd8a20fc507f7c3997a1e27164e
   languageName: node
   linkType: hard
 
@@ -6846,12 +6846,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:2.30.0":
-  version: 2.30.0
-  resolution: "date-fns@npm:2.30.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-  checksum: f7be01523282e9bb06c0cd2693d34f245247a29098527d4420628966a2d9aad154bd0e90a6b1cf66d37adcb769cd108cf8a7bd49d76db0fb119af5cdd13644f4
+"date-fns@npm:3.3.0":
+  version: 3.3.0
+  resolution: "date-fns@npm:3.3.0"
+  checksum: ceaf3d93f1d95cb3d946da946e84a303ec9729f62a88b3eb280e7ec9a955b236540fffd6ab707cca9128e6fb6f30c13d974992333266b77a6f59a512e70c57ea
   languageName: node
   linkType: hard
 
@@ -12324,7 +12322,7 @@ __metadata:
     "@mui/icons-material": 5.14.16
     "@mui/material": 5.14.16
     "@mui/system": 5.14.16
-    "@mui/x-date-pickers": 6.18.1
+    "@mui/x-date-pickers": ^6.19.0
     "@playwright/test": 1.41.0
     "@reduxjs/toolkit": 1.9.0
     "@tanstack/react-query": 4.29.5
@@ -12352,7 +12350,7 @@ __metadata:
     cross-env: 7.0.3
     cypress: 12.17.3
     cypress-failed-log: 2.10.0
-    date-fns: 2.30.0
+    date-fns: 3.3.0
     eslint: 8.56.0
     eslint-config-prettier: 8.10.0
     eslint-config-react-app: 7.0.1
