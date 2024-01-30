@@ -165,10 +165,10 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
             {min !== undefined && max === undefined
               ? `Minimum: ${min}`
               : min === undefined && max !== undefined
-              ? `Maximum: ${max}`
-              : min !== undefined && max !== undefined
-              ? `${min} to ${max}`
-              : 'Select'}
+                ? `Maximum: ${max}`
+                : min !== undefined && max !== undefined
+                  ? `${min} to ${max}`
+                  : 'Select'}
           </Typography>
         </div>
       </Box>

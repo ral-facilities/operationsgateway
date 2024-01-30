@@ -71,8 +71,8 @@ const SettingsMenuItems = () => {
     ?.filter((colourmap) => colourmap?.endsWith('_r'))
     .map((colourmap) => colourmap?.replace('_r', ''));
 
-  const colourMapsWithReverse = colourMapsNames?.filter(
-    (value) => colourMapsReverseNames?.includes(value)
+  const colourMapsWithReverse = colourMapsNames?.filter((value) =>
+    colourMapsReverseNames?.includes(value)
   );
 
   const queryClient = useQueryClient();
@@ -115,8 +115,8 @@ const SettingsMenuItems = () => {
           ? !reverseColour
             ? newValue
             : colourMapsList?.includes(`${newValue}_r`)
-            ? `${newValue}_r`
-            : newValue
+              ? `${newValue}_r`
+              : newValue
           : null,
     });
   };

@@ -197,8 +197,8 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
         ? !reverseColour
           ? newValue
           : colourMapsList?.includes(`${newValue}_r`)
-          ? `${newValue}_r`
-          : newValue
+            ? `${newValue}_r`
+            : newValue
         : undefined
     );
   };
@@ -211,8 +211,8 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     ?.filter((colourmap) => colourmap?.endsWith('_r'))
     .map((colourmap) => colourmap?.replace('_r', ''));
 
-  const colourMapsWithReverse = colourMapsNames?.filter(
-    (value) => colourMapsReverseNames?.includes(value)
+  const colourMapsWithReverse = colourMapsNames?.filter((value) =>
+    colourMapsReverseNames?.includes(value)
   );
 
   return (
