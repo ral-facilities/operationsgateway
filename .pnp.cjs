@@ -76,7 +76,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
-            ["husky", "npm:8.0.1"],\
+            ["husky", "npm:9.0.6"],\
             ["i18next", "npm:23.7.16"],\
             ["i18next-browser-languagedetector", "npm:7.2.0"],\
             ["i18next-http-backend", "npm:2.4.2"],\
@@ -12989,10 +12989,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["husky", [\
-        ["npm:8.0.1", {\
-          "packageLocation": "./.yarn/cache/husky-npm-8.0.1-85fede8470-943a73a13d.zip/node_modules/husky/",\
+        ["npm:9.0.6", {\
+          "packageLocation": "./.yarn/cache/husky-npm-9.0.6-8bf1af02c7-e198c90a59.zip/node_modules/husky/",\
           "packageDependencies": [\
-            ["husky", "npm:8.0.1"]\
+            ["husky", "npm:9.0.6"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16285,7 +16285,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["express", "npm:4.18.1"],\
             ["hacktimer", "npm:1.1.3"],\
             ["history", "npm:5.3.0"],\
-            ["husky", "npm:8.0.1"],\
+            ["husky", "npm:9.0.6"],\
             ["i18next", "npm:23.7.16"],\
             ["i18next-browser-languagedetector", "npm:7.2.0"],\
             ["i18next-http-backend", "npm:2.4.2"],\
