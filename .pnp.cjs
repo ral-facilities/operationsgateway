@@ -84,7 +84,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["jest-fail-on-console", "npm:3.1.1"],\
             ["lint-staged", "npm:15.2.0"],\
-            ["loglevel", "npm:1.8.0"],\
+            ["loglevel", "npm:1.9.1"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2"],\
             ["prettier", "npm:3.0.3"],\
             ["prop-types", "npm:15.8.1"],\
@@ -15257,10 +15257,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["loglevel", [\
-        ["npm:1.8.0", {\
-          "packageLocation": "./.yarn/cache/loglevel-npm-1.8.0-521cbfe852-41aeea17de.zip/node_modules/loglevel/",\
+        ["npm:1.9.1", {\
+          "packageLocation": "./.yarn/cache/loglevel-npm-1.9.1-73cb1bc891-e1c8586108.zip/node_modules/loglevel/",\
           "packageDependencies": [\
-            ["loglevel", "npm:1.8.0"]\
+            ["loglevel", "npm:1.9.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16293,7 +16293,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-canvas-mock", "npm:2.5.0"],\
             ["jest-fail-on-console", "npm:3.1.1"],\
             ["lint-staged", "npm:15.2.0"],\
-            ["loglevel", "npm:1.8.0"],\
+            ["loglevel", "npm:1.9.1"],\
             ["msw", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:1.3.2"],\
             ["prettier", "npm:3.0.3"],\
             ["prop-types", "npm:15.8.1"],\
