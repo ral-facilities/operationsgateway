@@ -12,7 +12,7 @@ import {
   FullScalarChannelMetadata,
   DEFAULT_WINDOW_VARS,
 } from './app.types';
-import { Action, PreloadedState, ThunkAction } from '@reduxjs/toolkit';
+import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
@@ -155,7 +155,7 @@ Object.defineProperty(global, 'crypto', {
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: RootState;
   store?: AppStore;
   queryClient?: QueryClient;
 }

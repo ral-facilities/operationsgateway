@@ -98,10 +98,18 @@ export const { createPlot, closePlot, openPlot, savePlot, deletePlot } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectPlots = (state: RootState) => state.plots;
-export const selectOpenPlots = createSelector(selectPlots, (plots) =>
-  Object.fromEntries(
-    Object.entries(plots).filter(([plotTitle, plot]) => plot.open)
-  )
+export const selectOpenPlots = createSelector(
+  selectPlots,
+  (plots) =>
+    Object.fromEntries(
+      Object.entries(plots).filter(([plotTitle, plot]) => plot.open)
+    ),
+  {
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
+  }
 );
 
 export default plotSlice.reducer;

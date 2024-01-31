@@ -5,7 +5,6 @@ import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { operators, Token } from './filterParser';
 import { QueryClient } from '@tanstack/react-query';
 import { server } from '../mocks/server';
@@ -16,10 +15,7 @@ describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
   let user;
 
-  const createView = (
-    initialState?: PreloadedState<RootState>,
-    queryClient?: QueryClient
-  ) => {
+  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
     return renderComponentWithProviders(<FilterDialogue {...props} />, {
       preloadedState: initialState,
       queryClient,

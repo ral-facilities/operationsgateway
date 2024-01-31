@@ -8,7 +8,7 @@ import {
   broadcastSignOut,
   sendThemeOptions,
 } from '../scigateway.actions';
-import { AnyAction } from '@reduxjs/toolkit';
+import { UnknownAction } from '@reduxjs/toolkit';
 
 // this sets up the mock store and returns some things to test
 const create = () => {
@@ -24,7 +24,7 @@ const create = () => {
 };
 
 describe('OperationsGateway Middleware', () => {
-  let events: CustomEvent<AnyAction>[];
+  let events: CustomEvent<UnknownAction>[];
   let handler: (event: Event) => void;
 
   const action = {
@@ -43,7 +43,7 @@ describe('OperationsGateway Middleware', () => {
     handler = () => undefined;
 
     document.dispatchEvent = (e: Event) => {
-      events.push(e as CustomEvent<AnyAction>);
+      events.push(e as CustomEvent<UnknownAction>);
       return true;
     };
 

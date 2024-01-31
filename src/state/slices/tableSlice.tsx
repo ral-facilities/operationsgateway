@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, lruMemoize } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import { DropResult } from 'react-beautiful-dnd';
@@ -164,7 +164,12 @@ export const selectSelectedIdsIgnoreOrder = createSelector(
   selectSelectedIds,
   (selectedIds) => selectedIds,
   {
+    memoize: lruMemoize,
     memoizeOptions: { equalityCheck: arrayEquals },
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
   }
 );
 
@@ -181,6 +186,12 @@ export const selectSelectedChannels = createSelector(
     return availableChannels.filter((channel: FullChannelMetadata) => {
       return selectedIds.includes(channel.systemName);
     });
+  },
+  {
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
   }
 );
 
@@ -198,6 +209,12 @@ export const selectColumnVisibility = createSelector(
       if (curr.id) prev[curr.id] = selectedIds.includes(curr.id ?? '');
       return prev;
     }, {} as VisibilityState);
+  },
+  {
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
   }
 );
 

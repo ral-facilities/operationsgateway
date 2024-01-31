@@ -17,7 +17,6 @@ import {
   renderComponentWithProviders,
 } from '../setupTests';
 import userEvent from '@testing-library/user-event';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 import { operators, type Token } from '../filtering/filterParser';
@@ -27,7 +26,7 @@ import recordsJson from '../mocks/records.json';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 
 describe('Record Table', () => {
-  let state: PreloadedState<RootState>;
+  let state: RootState;
   const openFilters = jest.fn();
 
   let uuidCount = 0;

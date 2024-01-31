@@ -10,5 +10,11 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 const everythingButConfigSelector = ({ config, ...state }: RootState) => state;
 export const sessionSelector = createSelector(
   everythingButConfigSelector,
-  (state) => state
+  (state) => state,
+  {
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
+  }
 );

@@ -10,7 +10,6 @@ import {
   testChannels,
   renderComponentWithProviders,
 } from '../setupTests';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { QueryClient } from '@tanstack/react-query';
 import { RootState } from '../state/store';
 import { staticChannels } from '../api/channels';
@@ -98,10 +97,7 @@ describe('Channels Dialogue', () => {
   let props: React.ComponentProps<typeof ChannelsDialogue>;
   let user;
 
-  const createView = (
-    initialState?: PreloadedState<RootState>,
-    queryClient?: QueryClient
-  ) => {
+  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
     return renderComponentWithProviders(<ChannelsDialogue {...props} />, {
       preloadedState: initialState,
       queryClient,

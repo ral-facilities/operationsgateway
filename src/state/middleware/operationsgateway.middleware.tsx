@@ -8,13 +8,13 @@ import {
 } from '../scigateway.actions';
 import { MicroFrontendId } from '../../app.types';
 import { AppDispatch, RootState } from '../store';
-import { AnyAction, Middleware } from '@reduxjs/toolkit';
+import { UnknownAction, Middleware, isAction } from '@reduxjs/toolkit';
 
-const broadcastMessage = (action: AnyAction): void => {
+const broadcastMessage = (action: UnknownAction): void => {
   document.dispatchEvent(new CustomEvent(MicroFrontendId, { detail: action }));
 };
 
-type microFrontendMessageType = CustomEvent<AnyAction>;
+type microFrontendMessageType = CustomEvent<UnknownAction>;
 
 export const listenToMessages = (dispatch: AppDispatch): void => {
   document.addEventListener(MicroFrontendId, (event) => {
@@ -51,9 +51,13 @@ export const listenToMessages = (dispatch: AppDispatch): void => {
 };
 
 const OperationsGatewayMiddleware: Middleware<unknown, RootState> =
-  () => (next) => (action: AnyAction) => {
-    if (action.payload && action.payload.broadcast) {
-      broadcastMessage(action);
+  () => (next) => (action: unknown) => {
+    if (isAction(action)) {
+      if (
+        (action as { payload?: { broadcast?: boolean } }).payload?.broadcast
+      ) {
+        broadcastMessage(action);
+      }
     }
 
     return next(action);

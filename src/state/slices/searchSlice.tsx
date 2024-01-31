@@ -59,7 +59,13 @@ export const selectQueryParams = createSelector(
     filters,
     page,
     resultsPerPage,
-  })
+  }),
+  {
+    devModeChecks: {
+      identityFunctionCheck: 'never',
+      inputStabilityCheck: 'never',
+    },
+  }
 );
 
 export default searchSlice.reducer;

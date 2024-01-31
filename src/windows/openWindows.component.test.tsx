@@ -5,7 +5,6 @@ import {
   renderComponentWithStore,
   testPlotConfigs,
 } from '../setupTests';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 
@@ -52,7 +51,7 @@ jest.mock('../images/imageWindow.component', () => (props) => (
 ));
 
 describe('Open Windows component', () => {
-  let state: PreloadedState<RootState>;
+  let state: RootState;
 
   const createView = (initialState = state) => {
     return renderComponentWithStore(<OpenWindows />, {
