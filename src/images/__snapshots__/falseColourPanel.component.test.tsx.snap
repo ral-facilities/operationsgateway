@@ -219,7 +219,7 @@ exports[`False colour panel component renders correctly 1`] = `
             255
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-jx1sa5-MuiSlider-thumb"
             data-index="0"
             style="left: 0%;"
           >
@@ -239,7 +239,7 @@ exports[`False colour panel component renders correctly 1`] = `
             />
             <span
               aria-hidden="true"
-              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+              class="MuiSlider-valueLabel css-7d61z1-MuiSlider-valueLabel"
             >
               <span
                 class="MuiSlider-valueLabelCircle"
@@ -253,7 +253,7 @@ exports[`False colour panel component renders correctly 1`] = `
             </span>
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-eg0mwd-MuiSlider-thumb"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-jx1sa5-MuiSlider-thumb"
             data-index="1"
             style="left: 100%;"
           >
@@ -273,7 +273,7 @@ exports[`False colour panel component renders correctly 1`] = `
             />
             <span
               aria-hidden="true"
-              class="MuiSlider-valueLabel css-nnid7-MuiSlider-valueLabel"
+              class="MuiSlider-valueLabel css-7d61z1-MuiSlider-valueLabel"
             >
               <span
                 class="MuiSlider-valueLabelCircle"

@@ -10,12 +10,12 @@ exports[`y-axis tab renders correctly 1`] = `
     >
       <div
         aria-label="y axis toggle"
-        class="MuiToggleButtonGroup-root css-1gjgmky-MuiToggleButtonGroup-root"
+        class="MuiToggleButtonGroup-root css-bghv3y-MuiToggleButtonGroup-root"
         role="group"
       >
         <button
           aria-pressed="true"
-          class="MuiButtonBase-root MuiToggleButton-root Mui-selected MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1d80cto-MuiButtonBase-root-MuiToggleButton-root"
+          class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root Mui-selected MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-firstButton css-1d80cto-MuiButtonBase-root-MuiToggleButton-root"
           tabindex="0"
           type="button"
           value="left"
@@ -27,7 +27,7 @@ exports[`y-axis tab renders correctly 1`] = `
         </button>
         <button
           aria-pressed="false"
-          class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-1d80cto-MuiButtonBase-root-MuiToggleButton-root"
+          class="MuiButtonBase-root MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButton-root MuiToggleButton-sizeSmall MuiToggleButton-standard MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal MuiToggleButtonGroup-lastButton css-1d80cto-MuiButtonBase-root-MuiToggleButton-root"
           tabindex="0"
           type="button"
           value="right"
@@ -386,7 +386,7 @@ exports[`y-axis tab renders correctly 1`] = `
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
                 />
               </svg>
             </div>

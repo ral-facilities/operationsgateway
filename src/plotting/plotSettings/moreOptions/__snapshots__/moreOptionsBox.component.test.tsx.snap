@@ -51,7 +51,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Line style
         </p>
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-iozudq-MuiInputBase-root-MuiInput-root"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1qk5dk6-MuiInputBase-root-MuiInput-root"
         >
           <select
             aria-label="change activeArea line style"
