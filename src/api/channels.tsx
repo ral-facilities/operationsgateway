@@ -183,46 +183,46 @@ export const constructColumnDefs = (
             );
           }
         : isChannelMetadataWaveform(channel)
-        ? ({ row, getValue }) => {
-            const value = getValue<string>();
-            return (
-              <TraceOrImageThumbnail
-                base64Data={value}
-                alt={`${channel.name ?? channel.systemName} ${
-                  channel.type
-                } for timestamp ${row.getValue(timeChannelName)}`}
-                onClick={() =>
-                  dispatch(
-                    openTraceWindow({
-                      recordId: (row.original as RecordRow)['_id'],
-                      channelName: channel.systemName,
-                    })
-                  )
-                }
-              />
-            );
-          }
-        : isChannelMetadataImage(channel)
-        ? ({ row, getValue }) => {
-            const value = getValue<string>();
-            return (
-              <TraceOrImageThumbnail
-                base64Data={value}
-                alt={`${channel.name ?? channel.systemName} ${
-                  channel.type
-                } for timestamp ${row.getValue(timeChannelName)}`}
-                onClick={() =>
-                  dispatch(
-                    openImageWindow({
-                      recordId: (row.original as RecordRow)['_id'],
-                      channelName: channel.systemName,
-                    })
-                  )
-                }
-              />
-            );
-          }
-        : undefined,
+          ? ({ row, getValue }) => {
+              const value = getValue<string>();
+              return (
+                <TraceOrImageThumbnail
+                  base64Data={value}
+                  alt={`${channel.name ?? channel.systemName} ${
+                    channel.type
+                  } for timestamp ${row.getValue(timeChannelName)}`}
+                  onClick={() =>
+                    dispatch(
+                      openTraceWindow({
+                        recordId: (row.original as RecordRow)['_id'],
+                        channelName: channel.systemName,
+                      })
+                    )
+                  }
+                />
+              );
+            }
+          : isChannelMetadataImage(channel)
+            ? ({ row, getValue }) => {
+                const value = getValue<string>();
+                return (
+                  <TraceOrImageThumbnail
+                    base64Data={value}
+                    alt={`${channel.name ?? channel.systemName} ${
+                      channel.type
+                    } for timestamp ${row.getValue(timeChannelName)}`}
+                    onClick={() =>
+                      dispatch(
+                        openImageWindow({
+                          recordId: (row.original as RecordRow)['_id'],
+                          channelName: channel.systemName,
+                        })
+                      )
+                    }
+                  />
+                );
+              }
+            : undefined,
     });
 
     myColumnDefs.push(newColumnDef);

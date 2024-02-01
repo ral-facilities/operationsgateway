@@ -295,8 +295,8 @@ const Plot = (props: PlotProps) => {
               lineStyle === 'dashed'
                 ? [5, 5]
                 : lineStyle === 'dotted'
-                ? [0, 5]
-                : undefined,
+                  ? [0, 5]
+                  : undefined,
             pointRadius: lineStyle === 'dotted' ? 3 : undefined,
             borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
           } satisfies ChartDataset<PlotType, PlotDataset['data']>;

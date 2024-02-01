@@ -87,8 +87,8 @@ const fetchRecords = async (
       existsConditions.length > 0 && searchObj.length > 0
         ? { $and: searchObj, $or: existsConditions }
         : existsConditions.length > 0
-        ? { $or: existsConditions }
-        : { $and: searchObj };
+          ? { $or: existsConditions }
+          : { $and: searchObj };
 
     queryParams.append('conditions', JSON.stringify(query));
   }
@@ -161,8 +161,8 @@ const fetchRecordCountQuery = (
       existsConditions.length > 0 && searchObj.length > 0
         ? { $and: searchObj, $or: existsConditions }
         : existsConditions.length > 0
-        ? { $or: existsConditions }
-        : { $and: searchObj };
+          ? { $or: existsConditions }
+          : { $and: searchObj };
 
     queryParams.append('conditions', JSON.stringify(query));
   }
