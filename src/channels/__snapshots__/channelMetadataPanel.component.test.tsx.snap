@@ -46,7 +46,7 @@ exports[`Channel Metadata Panel should render correctly for scalar channel with 
           viewBox="0 0 24 24"
         >
           <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
           />
         </svg>
       </span>
@@ -206,7 +206,7 @@ exports[`Channel Metadata Panel should render correctly for system channel 1`] =
           viewBox="0 0 24 24"
         >
           <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
           />
         </svg>
       </span>
@@ -255,7 +255,7 @@ exports[`Channel Metadata Panel should render correctly for waveform channel wit
           viewBox="0 0 24 24"
         >
           <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
           />
         </svg>
       </span>

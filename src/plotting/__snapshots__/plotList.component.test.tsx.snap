@@ -57,7 +57,7 @@ exports[`Plot List component renders plot grid correctly with some plots 1`] = `
             Plot 1
           </div>
           <div
-            class="MuiCardActions-root MuiCardActions-spacing css-1t6e9jv-MuiCardActions-root"
+            class="MuiCardActions-root MuiCardActions-spacing css-dnrpxu-MuiCardActions-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
@@ -94,7 +94,7 @@ exports[`Plot List component renders plot grid correctly with some plots 1`] = `
             Plot 2
           </div>
           <div
-            class="MuiCardActions-root MuiCardActions-spacing css-1t6e9jv-MuiCardActions-root"
+            class="MuiCardActions-root MuiCardActions-spacing css-dnrpxu-MuiCardActions-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
@@ -131,7 +131,7 @@ exports[`Plot List component renders plot grid correctly with some plots 1`] = `
             Plot 3
           </div>
           <div
-            class="MuiCardActions-root MuiCardActions-spacing css-1t6e9jv-MuiCardActions-root"
+            class="MuiCardActions-root MuiCardActions-spacing css-dnrpxu-MuiCardActions-root"
           >
             <button
               class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall css-1knaqv7-MuiButtonBase-root-MuiButton-root"
