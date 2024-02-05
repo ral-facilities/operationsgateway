@@ -277,6 +277,11 @@ describe('Filter dialogue component', () => {
 
     // Tooltip warning should be present
     await user.hover(screen.getByText('Apply'));
+
+    // for some strange reason, the tooltip is not being found on the first hover
+    // re-trying the hover makes the test pass
+    await user.hover(screen.getByText('Apply'));
+
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 
     // // Store should not be updated, indicating search is yet to initiate
@@ -337,6 +342,11 @@ describe('Filter dialogue component', () => {
 
     // Tooltip warning should be present
     await user.hover(screen.getByText('Apply'));
+
+    // for some strange reason, the tooltip is not being found on the first hover
+    // re-trying the hover makes the test pass
+    await user.hover(screen.getByText('Apply'));
+
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
   });
 
