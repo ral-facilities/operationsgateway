@@ -105,22 +105,21 @@ const fetchChannelSummary = (
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 export const useChannels = <T extends unknown = FullChannelMetadata[]>(
-  options?: UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>
+  options?: Omit<
+    UseQueryOptions<FullChannelMetadata[], AxiosError, T, string[]>,
+    'queryKey'
+  >
 ): UseQueryResult<T, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery(
-    ['channels'],
-    (params) => {
+  return useQuery({
+    queryKey: ['channels'],
+    queryFn: (params) => {
       return fetchChannels(apiUrl);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      ...(options ?? {}),
-    }
-  );
+
+    ...(options ?? {}),
+  });
 };
 
 export const useChannelSummary = (
@@ -132,18 +131,15 @@ export const useChannelSummary = (
       ? channel
       : '';
 
-  return useQuery(
-    ['channelSummary', dataChannel],
-    (params) => {
+  return useQuery({
+    queryKey: ['channelSummary', dataChannel],
+
+    queryFn: (params) => {
       return fetchChannelSummary(apiUrl, dataChannel);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      enabled: dataChannel.length !== 0,
-    }
-  );
+
+    enabled: dataChannel.length !== 0,
+  });
 };
 
 export const constructColumnDefs = (

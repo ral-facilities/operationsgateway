@@ -27,15 +27,11 @@ export const useWaveform = (
 ): UseQueryResult<Waveform, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<Waveform, AxiosError, Waveform, [string, string, string]>(
-    ['waveforms', recordId, channelName],
-    (params) => {
+  return useQuery({
+    queryKey: ['waveforms', recordId, channelName],
+
+    queryFn: (params) => {
       return fetchWaveform(apiUrl, recordId, channelName);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-    }
-  );
+  });
 };

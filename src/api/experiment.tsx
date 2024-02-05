@@ -23,15 +23,11 @@ export const useExperiment = (): UseQueryResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery(
-    ['experiments'],
-    (params) => {
+  return useQuery({
+    queryKey: ['experiments'],
+
+    queryFn: (params) => {
       return fetchExperiment(apiUrl);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-    }
-  );
+  });
 };

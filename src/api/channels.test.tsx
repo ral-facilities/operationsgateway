@@ -228,13 +228,13 @@ describe('channels api functions', () => {
       );
 
       expect(result.current.isFetching).toBeFalsy();
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.isPending).toBeTruthy();
       expect(requestSent).toBe(false);
 
       rerender('timestamp');
 
       expect(result.current.isFetching).toBeFalsy();
-      expect(result.current.isLoading).toBeTruthy();
+      expect(result.current.isPending).toBeTruthy();
       expect(requestSent).toBe(false);
     });
 
