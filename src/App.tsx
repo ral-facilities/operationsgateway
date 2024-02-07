@@ -1,6 +1,10 @@
 import React from 'react';
 import ViewTabs from './views/viewTabs.component';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryCache,
+} from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { configureApp } from './state/slices/configSlice';
 import { requestPluginRerender } from './state/scigateway.actions';
@@ -20,6 +24,11 @@ const queryClient = new QueryClient({
       staleTime: 300000,
     },
   },
+  queryCache: new QueryCache({
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+  }),
 });
 
 function mapPreloaderStateToProps(state: RootState): { loading: boolean } {
