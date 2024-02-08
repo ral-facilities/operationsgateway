@@ -219,12 +219,28 @@ export type SelectedPlotChannel = {
   options: {
     visible: boolean;
     lineStyle: LineStyle;
+    lineWidth?: number;
+    markerStyle?: MarkerStyle;
+    markerSize?: number;
     colour: string;
+    markerColour?: string | undefined;
     yAxis: 'left' | 'right';
   };
 };
 
 export type LineStyle = 'solid' | 'dashed' | 'dotted';
+export type MarkerStyle =
+  | 'circle'
+  | 'cross'
+  | 'crossRot'
+  | 'dash'
+  | 'line'
+  | 'rect'
+  | 'rectRounded'
+  | 'rectRot'
+  | 'star'
+  | 'triangle'
+  | false;
 
 // Update this whenever we have a new icon for a specific column
 export const columnIconMappings = new Map()

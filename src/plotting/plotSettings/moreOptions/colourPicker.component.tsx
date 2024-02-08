@@ -1,19 +1,22 @@
 import React from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Box } from '@mui/material';
+import { Box, Switch } from '@mui/material';
 import { useClickOutside } from '../../../hooks';
 
 type ColourPickerProps = {
   channelName: string;
   colour: string;
   changeColour: (colour: string) => void;
+  marker?: boolean;
+  sameAsLine?: boolean;
 };
 
 const ColourPicker = (props: ColourPickerProps) => {
-  const { channelName, colour, changeColour } = props;
+  const { channelName, colour, changeColour, marker, sameAsLine } = props;
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
+  const [lockColour, toggleLockColour] = React.useState(sameAsLine);
 
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
@@ -42,11 +45,12 @@ const ColourPicker = (props: ColourPickerProps) => {
         <Box
           role="dialog"
           sx={{
+            backgroundColor: '#fff',
             position: 'absolute',
             top: -95,
             right: 30,
             zIndex: 1,
-            borderRadius: 9,
+            borderRadius: 2,
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
             '& .react-colorful': {
               height: 125,
@@ -70,8 +74,33 @@ const ColourPicker = (props: ColourPickerProps) => {
             color={colour}
             onChange={(newColour: string) => {
               changeColour(newColour);
+              toggleLockColour(false);
             }}
           />
+          {marker && (
+            // checkbox asking if the colour should be the same as the line
+            <Box
+              sx={{
+                height: 24,
+                fontSize: 12,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Switch
+                size="small"
+                checked={lockColour}
+                aria-label={`toggle ${channelName} marker colour same as line`}
+                sx={{ marginLeft: 0 }}
+                onChange={() => {
+                  toggleLockColour(!lockColour);
+                  lockColour ? changeColour(colour) : changeColour('');
+                }}
+              />
+              Same as line
+            </Box>
+          )}
         </Box>
       )}
     </Box>
