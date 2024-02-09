@@ -37,7 +37,7 @@ const ColourPicker = (props: ColourPickerProps) => {
         }}
         component="button"
         onClick={() => toggle(!isOpen)}
-        aria-label={`Pick ${channelName} colour`}
+        aria-label={`Pick ${channelName}${marker ? ' marker' : ''} colour`}
         aria-haspopup="dialog"
       />
 

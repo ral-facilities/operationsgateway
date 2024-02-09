@@ -347,7 +347,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
         >
           <button
             aria-haspopup="dialog"
-            aria-label="Pick activeArea colour"
+            aria-label="Pick activeArea marker colour"
             class="MuiBox-root css-129yjn7"
           />
         </div>
