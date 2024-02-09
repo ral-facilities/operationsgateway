@@ -24,6 +24,54 @@ describe('ColourPicker component', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('renders marker colour picker when marker prop is true', async () => {
+    const user = userEvent.setup();
+    const view = render(<ColourPicker {...props} marker={true} />);
+
+    await user.click(
+      screen.getByLabelText(`Pick ${props.channelName} marker colour`)
+    );
+
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
+  it('toggles lockColour state when the Same as line switch is clicked', async () => {
+    const user = userEvent.setup();
+    render(<ColourPicker {...props} marker={true} />);
+
+    await user.click(
+      screen.getByLabelText(`Pick ${props.channelName} marker colour`)
+    );
+
+    const switchElement = screen.getByRole('checkbox');
+
+    await user.click(switchElement);
+
+    expect(switchElement).toHaveProperty('checked', true);
+
+    await user.click(switchElement);
+
+    expect(switchElement).toHaveProperty('checked', false);
+  });
+
+  it('calls changeColour with the same colour when Same as line switch is toggled', async () => {
+    const user = userEvent.setup();
+    render(<ColourPicker {...props} marker={true} sameAsLine={true} />);
+
+    await user.click(
+      screen.getByLabelText(`Pick ${props.channelName} marker colour`)
+    );
+
+    const switchElement = screen.getByRole('checkbox');
+    await user.click(switchElement);
+
+    expect(props.changeColour).toHaveBeenCalledWith(props.colour);
+
+    await user.click(switchElement);
+
+    expect(props.changeColour).toHaveBeenCalledWith('');
+  });
+
   it('calls changeColour when new colour is picked', async () => {
     const user = userEvent.setup();
     render(<ColourPicker {...props} />);

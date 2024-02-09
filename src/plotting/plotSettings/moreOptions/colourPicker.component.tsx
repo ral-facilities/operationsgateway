@@ -16,7 +16,7 @@ const ColourPicker = (props: ColourPickerProps) => {
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
-  const [lockColour, toggleLockColour] = React.useState(sameAsLine);
+  const [lockColour, toggleLockColour] = React.useState(sameAsLine ?? false);
 
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
