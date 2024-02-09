@@ -78,7 +78,6 @@ const ColourPicker = (props: ColourPickerProps) => {
             }}
           />
           {marker && (
-            // checkbox asking if the colour should be the same as the line
             <Box
               sx={{
                 height: 24,
