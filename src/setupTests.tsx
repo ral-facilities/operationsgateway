@@ -22,6 +22,7 @@ import {
   PlotConfig,
 } from './state/slices/plotSlice';
 import { initialState as initialFilterState } from './state/slices/filterSlice';
+import { initialState as initialWindowsState } from './state/slices/windowSlice';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -119,6 +120,7 @@ export const getInitialState = (): RootState => ({
   search: initialSearchState,
   plots: initialPlotState,
   filter: initialFilterState,
+  windows: initialWindowsState,
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
@@ -155,7 +157,7 @@ Object.defineProperty(global, 'crypto', {
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: RootState;
+  preloadedState?: Partial<RootState>;
   store?: AppStore;
   queryClient?: QueryClient;
 }

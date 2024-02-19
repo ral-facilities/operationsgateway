@@ -11,7 +11,10 @@ import userEvent from '@testing-library/user-event';
 describe('Channel Metadata Panel', () => {
   let displayedChannel: FullChannelMetadata | undefined;
 
-  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected={false}

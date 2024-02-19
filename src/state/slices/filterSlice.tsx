@@ -43,12 +43,6 @@ export const selectQueryFilters = createSelector(
         return '';
       }
     });
-  },
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
   }
 );
 

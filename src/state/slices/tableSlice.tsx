@@ -167,8 +167,8 @@ export const selectSelectedIdsIgnoreOrder = createSelector(
     memoize: lruMemoize,
     memoizeOptions: { equalityCheck: arrayEquals },
     devModeChecks: {
+      // we deliberately want to return the same info, just want to memoise it ignoring array order
       identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
     },
   }
 );
@@ -186,12 +186,6 @@ export const selectSelectedChannels = createSelector(
     return availableChannels.filter((channel: FullChannelMetadata) => {
       return selectedIds.includes(channel.systemName);
     });
-  },
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
   }
 );
 
@@ -209,12 +203,6 @@ export const selectColumnVisibility = createSelector(
       if (curr.id) prev[curr.id] = selectedIds.includes(curr.id ?? '');
       return prev;
     }, {} as VisibilityState);
-  },
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
   }
 );
 

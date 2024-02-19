@@ -20,7 +20,10 @@ describe('searchBar component', () => {
   let user: ReturnType<typeof userEvent.setup>;
   let props: React.ComponentProps<typeof SearchBar>;
 
-  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(<SearchBar {...props} />, {
       preloadedState: initialState,
       queryClient,

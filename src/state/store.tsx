@@ -37,7 +37,7 @@ const rootReducer: Reducer = (state: RootState, action: UnknownAction) => {
   }
 };
 
-export function setupStore(preloadedState?: RootState) {
+export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
     reducer: rootReducer,
     preloadedState,

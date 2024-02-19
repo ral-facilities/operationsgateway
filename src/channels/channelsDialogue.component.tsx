@@ -85,12 +85,6 @@ export const selectChannelTree = createSelector(
     });
 
     return tree;
-  },
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
   }
 );
 

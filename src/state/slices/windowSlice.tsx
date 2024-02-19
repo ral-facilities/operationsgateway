@@ -70,27 +70,11 @@ export const { openTraceWindow, openImageWindow, closeWindow, updateWindow } =
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectWindows = (state: RootState) => state.windows;
-export const selectTraceWindows = createSelector(
-  selectWindows,
-  (windows) =>
-    Object.values(windows).filter((windows) => windows.type === 'trace'),
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
-  }
+export const selectTraceWindows = createSelector(selectWindows, (windows) =>
+  Object.values(windows).filter((windows) => windows.type === 'trace')
 );
-export const selectImageWindows = createSelector(
-  selectWindows,
-  (windows) =>
-    Object.values(windows).filter((windows) => windows.type === 'image'),
-  {
-    devModeChecks: {
-      identityFunctionCheck: 'never',
-      inputStabilityCheck: 'never',
-    },
-  }
+export const selectImageWindows = createSelector(selectWindows, (windows) =>
+  Object.values(windows).filter((windows) => windows.type === 'image')
 );
 
 export default windowSlice.reducer;

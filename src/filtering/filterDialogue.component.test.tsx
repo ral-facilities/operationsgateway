@@ -15,7 +15,10 @@ describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
   let user;
 
-  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(<FilterDialogue {...props} />, {
       preloadedState: initialState,
       queryClient,

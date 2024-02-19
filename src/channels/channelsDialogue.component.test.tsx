@@ -97,7 +97,10 @@ describe('Channels Dialogue', () => {
   let props: React.ComponentProps<typeof ChannelsDialogue>;
   let user;
 
-  const createView = (initialState?: RootState, queryClient?: QueryClient) => {
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
     return renderComponentWithProviders(<ChannelsDialogue {...props} />, {
       preloadedState: initialState,
       queryClient,

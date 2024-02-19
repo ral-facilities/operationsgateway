@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
+import { shallowEqual } from 'react-redux';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -38,7 +39,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     onChangeAutoSaveSessionId,
   } = props;
 
-  const state = useAppSelector(sessionSelector);
+  const state = useAppSelector(sessionSelector, shallowEqual);
 
   const { mutateAsync: saveSession } = useSaveSession();
   const { mutateAsync: editSession } = useEditSession();

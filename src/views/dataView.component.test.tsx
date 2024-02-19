@@ -19,7 +19,7 @@ import { operators, Token } from '../filtering/filterParser';
 import { RootState } from '../state/store';
 
 describe('Data View', () => {
-  const createView = (initialState?: RootState): RenderResult => {
+  const createView = (initialState?: Partial<RootState>): RenderResult => {
     return renderComponentWithProviders(<DataView />, {
       preloadedState: initialState,
     });
