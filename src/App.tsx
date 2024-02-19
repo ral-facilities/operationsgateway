@@ -24,6 +24,7 @@ const queryClient = new QueryClient({
       staleTime: 300000,
     },
   },
+  // TODO: implement proper error handling
   queryCache: new QueryCache({
     onError: (error) => {
       console.log('Got error ' + error.message);

@@ -459,7 +459,6 @@ describe('searchBar component', () => {
     // re-trying the hover makes the test pass
     await user.hover(screen.getByRole('button', { name: 'Search' }));
 
-    // await user.hover(screen.getByTestId('results-tooltip'));
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 
     // Store should not be updated, indicating search is yet to initiate
