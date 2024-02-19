@@ -1,10 +1,10 @@
 import {
   configureStore,
   combineReducers,
-  PreloadedState,
-  AnyAction,
+  UnknownAction,
   Reducer,
   createAction,
+  isAction,
 } from '@reduxjs/toolkit';
 import OperationsGatewayMiddleware, {
   listenToMessages,
@@ -29,12 +29,15 @@ const sliceReducer = combineReducers({
   windows: windowsReducer,
 });
 
-const rootReducer: Reducer = (state: RootState, action: AnyAction) =>
-  action.type === importSession.toString()
-    ? { ...action.payload, config: state.config } // load new state
-    : sliceReducer(state, action); //defer to original reducer
+const rootReducer: Reducer = (state: RootState, action: UnknownAction) => {
+  if (isAction(action)) {
+    return importSession.match(action)
+      ? { ...action.payload, config: state.config } // load new state
+      : sliceReducer(state, action); //defer to original reducer
+  }
+};
 
-export function setupStore(preloadedState?: PreloadedState<RootState>) {
+export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
     reducer: rootReducer,
     preloadedState,

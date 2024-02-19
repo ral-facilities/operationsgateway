@@ -1,13 +1,12 @@
 import React from 'react';
 import PlotList from './plotList.component';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { renderComponentWithStore, getInitialState } from '../setupTests';
 import { RootState } from '../state/store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Plot List component', () => {
-  let state: PreloadedState<RootState>;
+  let state: RootState;
 
   const createView = (initialState = state) => {
     return renderComponentWithStore(<PlotList />, {

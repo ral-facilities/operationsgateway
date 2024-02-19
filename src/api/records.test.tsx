@@ -24,7 +24,6 @@ import {
   useShotnumToDateConverter,
   useDateToShotnumConverter,
 } from './records';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { parseISO } from 'date-fns';
 import { operators, parseFilter, Token } from '../filtering/filterParser';
@@ -32,7 +31,7 @@ import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
 import recordsJson from '../mocks/records.json';
 
 describe('records api functions', () => {
-  let state: PreloadedState<RootState>;
+  let state: RootState;
 
   beforeEach(() => {
     state = getInitialState();
