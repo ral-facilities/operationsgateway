@@ -8,7 +8,6 @@ import {
   cleanupDatePickerWorkaround,
   applyDatePickerWorkaround,
 } from '../setupTests';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import { formatDateTimeForApi } from '../state/slices/searchSlice';
@@ -22,7 +21,7 @@ describe('searchBar component', () => {
   let props: React.ComponentProps<typeof SearchBar>;
 
   const createView = (
-    initialState?: PreloadedState<RootState>,
+    initialState?: Partial<RootState>,
     queryClient?: QueryClient
   ) => {
     return renderComponentWithProviders(<SearchBar {...props} />, {

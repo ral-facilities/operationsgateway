@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, lruMemoize } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import { DropResult } from 'react-beautiful-dnd';
@@ -164,7 +164,12 @@ export const selectSelectedIdsIgnoreOrder = createSelector(
   selectSelectedIds,
   (selectedIds) => selectedIds,
   {
+    memoize: lruMemoize,
     memoizeOptions: { equalityCheck: arrayEquals },
+    devModeChecks: {
+      // we deliberately want to return the same info, just want to memoise it ignoring array order
+      identityFunctionCheck: 'never',
+    },
   }
 );
 

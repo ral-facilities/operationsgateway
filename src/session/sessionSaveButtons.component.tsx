@@ -6,6 +6,7 @@ import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { format, parseISO } from 'date-fns';
 import { ImportSessionType } from '../state/store';
+import { shallowEqual } from 'react-redux';
 
 export interface SessionsSaveButtonsProps {
   onSaveAsSessionClick: () => void;
@@ -42,7 +43,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     null
   );
 
-  const state = useAppSelector(sessionSelector);
+  const state = useAppSelector(sessionSelector, shallowEqual);
 
   const prevReduxState = React.useRef<ImportSessionType | null>(null); // Initialize with null
 

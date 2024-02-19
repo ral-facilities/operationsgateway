@@ -16,13 +16,10 @@ import {
   getInitialState,
 } from '../setupTests';
 import { operators, Token } from '../filtering/filterParser';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 
 describe('Data View', () => {
-  const createView = (
-    initialState?: PreloadedState<RootState>
-  ): RenderResult => {
+  const createView = (initialState?: Partial<RootState>): RenderResult => {
     return renderComponentWithProviders(<DataView />, {
       preloadedState: initialState,
     });

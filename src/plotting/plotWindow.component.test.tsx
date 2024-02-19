@@ -8,7 +8,6 @@ import {
   getInitialState,
 } from '../setupTests';
 import { PlotConfig } from '../state/slices/plotSlice';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { rest } from 'msw';
 import { server } from '../mocks/server';
@@ -31,7 +30,7 @@ jest.mock('./plot.component', () => () => (
 
 describe('Plot Window component', () => {
   let testPlotConfig: PlotConfig;
-  let state: PreloadedState<RootState>;
+  let state: RootState;
 
   beforeEach(() => {
     testPlotConfig = testPlotConfigs[0];

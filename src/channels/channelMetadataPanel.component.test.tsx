@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
 import { FullChannelMetadata } from '../app.types';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { QueryClient } from '@tanstack/react-query';
 import { renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
@@ -13,7 +12,7 @@ describe('Channel Metadata Panel', () => {
   let displayedChannel: FullChannelMetadata | undefined;
 
   const createView = (
-    initialState?: PreloadedState<RootState>,
+    initialState?: Partial<RootState>,
     queryClient?: QueryClient
   ) => {
     return renderComponentWithProviders(

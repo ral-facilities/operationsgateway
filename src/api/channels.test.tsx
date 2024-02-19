@@ -14,7 +14,6 @@ import {
   getInitialState,
   testChannels,
 } from '../setupTests';
-import { PreloadedState } from '@reduxjs/toolkit';
 import { RootState } from '../state/store';
 import { server } from '../mocks/server';
 import { rest } from 'msw';
@@ -25,7 +24,7 @@ describe('channels api functions', () => {
   });
 
   describe('useAvailableColumns', () => {
-    let state: PreloadedState<RootState>;
+    let state: RootState;
 
     beforeEach(() => {
       state = getInitialState();
