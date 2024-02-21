@@ -257,9 +257,18 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             min={1}
             max={10}
             value={thisChannel.options.lineWidth ?? 3}
-            onChange={(_event, newValue) =>
-              newValue && changeChannelLineWidth(newValue)
-            }
+            onInputChange={(event) => {
+              let newValue = parseInt(event.target.value);
+              if (newValue < 1) {
+                newValue = 1;
+              } else if (newValue > 10) {
+                newValue = 10;
+              }
+              newValue && changeChannelLineWidth(newValue);
+            }}
+            aria-label={`change ${
+              thisChannel.displayName ?? thisChannel.name
+            } line width`}
           />
         </Box>
       </Grid>
@@ -326,10 +335,17 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             min={1}
             max={10}
             value={thisChannel.options.markerSize ?? 3}
-            onChange={(_event, newValue) =>
-              newValue && changeChannelMarkerSize(newValue)
-            }
+            onInputChange={(event) => {
+              let newValue = parseInt(event.target.value);
+              if (newValue < 1) {
+                newValue = 1;
+              } else if (newValue > 10) {
+                newValue = 10;
+              }
+              newValue && changeChannelMarkerSize(newValue);
+            }}
             disabled={thisChannel.options.markerStyle === false}
+            aria-label={`change ${thisChannel.displayName ?? thisChannel.name} marker size`}
           />
         </Box>
       </Grid>

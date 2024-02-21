@@ -99,6 +99,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Line width
         </p>
         <div
+          aria-label="change activeArea line width"
           class="MuiNumberInput-root css-zmtyut"
         >
           <button
@@ -254,6 +255,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Marker size
         </p>
         <div
+          aria-label="change activeArea marker size"
           class="MuiNumberInput-root css-zmtyut"
         >
           <button

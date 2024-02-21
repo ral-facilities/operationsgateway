@@ -20,6 +20,11 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
         decrementButton: StyledStepperButton,
       }}
       slotProps={{
+        input: {
+          onFocus: (event) => {
+            event.target.select();
+          },
+        },
         incrementButton: {
           children: <ArrowDropUpIcon fontSize="small" />,
           className: 'increment',
