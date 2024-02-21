@@ -28,10 +28,12 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
         incrementButton: {
           children: <ArrowDropUpIcon fontSize="small" />,
           className: 'increment',
+          'aria-label': 'increment',
         },
         decrementButton: {
           children: <ArrowDropDownIcon fontSize="small" />,
           className: 'decrement',
+          'aria-label': 'decrement',
         },
       }}
       {...props}
@@ -41,7 +43,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
 });
 
 const StyledInputRoot = styled('div')(
-  ({ theme }) => `
+  () => `
   display: grid;
   grid-template-columns: 1fr 14px;
   grid-template-rows: 1fr 1fr;
@@ -51,7 +53,7 @@ const StyledInputRoot = styled('div')(
 );
 
 const StyledInput = styled('input')(
-  ({ theme }) => `
+  () => `
   grid-column: 1/2;
   grid-row: 1/3;
   font-size: 12;
@@ -71,7 +73,7 @@ const StyledInput = styled('input')(
 );
 
 const StyledStepperButton = styled('button')(
-  ({ theme }) => `
+  () => `
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;

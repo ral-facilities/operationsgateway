@@ -105,6 +105,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           <button
             aria-controls=":r0:"
             aria-disabled="false"
+            aria-label="decrement"
             class="MuiNumberInput-decrementButton decrement css-1d3khx7"
             tabindex="-1"
           >
@@ -123,6 +124,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           <button
             aria-controls=":r0:"
             aria-disabled="false"
+            aria-label="increment"
             class="MuiNumberInput-incrementButton increment css-1d3khx7"
             tabindex="-1"
           >
@@ -261,6 +263,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           <button
             aria-controls=":r1:"
             aria-disabled="false"
+            aria-label="decrement"
             class="MuiNumberInput-decrementButton decrement css-1d3khx7"
             tabindex="-1"
           >
@@ -279,6 +282,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           <button
             aria-controls=":r1:"
             aria-disabled="false"
+            aria-label="increment"
             class="MuiNumberInput-incrementButton increment css-1d3khx7"
             tabindex="-1"
           >
