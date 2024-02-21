@@ -266,6 +266,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               }
               newValue && changeChannelLineWidth(newValue);
             }}
+            onChange={(_event, value) => {
+              value && changeChannelLineWidth(value);
+            }}
             aria-label={`change ${
               thisChannel.displayName ?? thisChannel.name
             } line width`}
@@ -343,6 +346,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
                 newValue = 10;
               }
               newValue && changeChannelMarkerSize(newValue);
+            }}
+            onChange={(_event, value) => {
+              value && changeChannelMarkerSize(value);
             }}
             disabled={thisChannel.options.markerStyle === false}
             aria-label={`change ${thisChannel.displayName ?? thisChannel.name} marker size`}
