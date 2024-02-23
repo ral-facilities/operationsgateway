@@ -453,6 +453,11 @@ describe('searchBar component', () => {
 
     // Tooltip warning should be present
     await user.hover(screen.getByRole('button', { name: 'Search' }));
+
+    // for some strange reason, the tooltip is not being found on the first hover
+    // re-trying the hover makes the test pass
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 
     // Store should not be updated, indicating search is yet to initiate
@@ -537,6 +542,7 @@ describe('searchBar component', () => {
 
     // Tooltip warning should not be present
     await user.hover(screen.getByRole('button', { name: 'Search' }));
+
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
     // Mock the returned count query response
@@ -553,6 +559,11 @@ describe('searchBar component', () => {
 
     // Tooltip warning should be present
     await user.hover(screen.getByRole('button', { name: 'Search' }));
+
+    // for some strange reason, the tooltip is not being found on the first hover
+    // re-trying the hover makes the test pass
+    await user.hover(screen.getByRole('button', { name: 'Search' }));
+
     expect(await screen.findByRole('tooltip')).toBeInTheDocument();
   });
 

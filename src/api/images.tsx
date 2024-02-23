@@ -1,4 +1,8 @@
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import {
+  UseQueryResult,
+  useQuery,
+  keepPreviousData,
+} from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
@@ -94,24 +98,16 @@ export const useImage = (
 ): UseQueryResult<string, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<
-    string,
-    AxiosError,
-    string,
-    [string, string, string, FalseColourParams?]
-  >(
-    ['images', recordId, channelName, falseColourParams],
-    (params) => {
+  return useQuery({
+    queryKey: ['images', recordId, channelName, falseColourParams],
+
+    queryFn: (params) => {
       return fetchImage(apiUrl, recordId, channelName, falseColourParams);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      // set to display old image whilst new one is loading
-      keepPreviousData: true,
-    }
-  );
+
+    // set to display old image whilst new one is loading
+    placeholderData: keepPreviousData,
+  });
 };
 
 export const useColourBar = (
@@ -119,19 +115,16 @@ export const useColourBar = (
 ): UseQueryResult<string, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<string, AxiosError, string, [string, FalseColourParams]>(
-    ['colourbar', falseColourParams],
-    (params) => {
+  return useQuery({
+    queryKey: ['colourbar', falseColourParams],
+
+    queryFn: (params) => {
       return fetchColourBar(apiUrl, falseColourParams);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      // set to display old colour bar whilst new one is loading
-      keepPreviousData: true,
-    }
-  );
+
+    // set to display old colour bar whilst new one is loading
+    placeholderData: keepPreviousData,
+  });
 };
 
 export const useColourMaps = (): UseQueryResult<
@@ -140,15 +133,11 @@ export const useColourMaps = (): UseQueryResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery<ColourMapsParams, AxiosError, ColourMapsParams, [string]>(
-    ['colourmaps'],
-    (params) => {
+  return useQuery({
+    queryKey: ['colourmaps'],
+
+    queryFn: (params) => {
       return fetchColourMaps(apiUrl);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-    }
-  );
+  });
 };

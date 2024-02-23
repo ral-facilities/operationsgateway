@@ -34,7 +34,8 @@ export const useSaveSession = (): UseMutationResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
-  return useMutation((session: Session) => saveSession(apiUrl, session), {
+  return useMutation({
+    mutationFn: (session: Session) => saveSession(apiUrl, session),
     onError: (error) => {
       console.log('Got error ' + error.message);
     },
@@ -71,18 +72,16 @@ export const useEditSession = (): UseMutationResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
-  return useMutation(
-    (session: SessionResponse) => editSession(apiUrl, session),
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
-        queryClient.invalidateQueries({ queryKey: ['session'] });
-      },
-    }
-  );
+  return useMutation({
+    mutationFn: (session: SessionResponse) => editSession(apiUrl, session),
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+    },
+  });
 };
 
 const deleteSession = (
@@ -105,17 +104,15 @@ export const useDeleteSession = (): UseMutationResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
-  return useMutation(
-    (session: SessionResponse) => deleteSession(apiUrl, session),
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['sessionList'] });
-      },
-    }
-  );
+  return useMutation({
+    mutationFn: (session: SessionResponse) => deleteSession(apiUrl, session),
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+    },
+  });
 };
 
 const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
@@ -136,17 +133,13 @@ export const useSessionList = (): UseQueryResult<
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery(
-    ['sessionList'],
-    (params) => {
+  return useQuery({
+    queryKey: ['sessionList'],
+
+    queryFn: (params) => {
       return fetchSessionList(apiUrl);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-    }
-  );
+  });
 };
 
 const fetchSession = (
@@ -169,16 +162,13 @@ export const useSession = (
 ): UseQueryResult<SessionResponse, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery(
-    ['session', session_id],
-    (params) => {
+  return useQuery({
+    queryKey: ['session', session_id],
+
+    queryFn: (params) => {
       return fetchSession(apiUrl, session_id);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      enabled: typeof session_id !== 'undefined',
-    }
-  );
+
+    enabled: typeof session_id !== 'undefined',
+  });
 };

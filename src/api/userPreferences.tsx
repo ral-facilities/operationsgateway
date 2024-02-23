@@ -40,17 +40,13 @@ export const useUserPreference = <T,>(
 ): UseQueryResult<T | null, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useQuery(
-    ['userPreference', name],
-    (params) => {
+  return useQuery({
+    queryKey: ['userPreference', name],
+
+    queryFn: (params) => {
       return fetchUserPreference<T>(apiUrl, name);
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-    }
-  );
+  });
 };
 
 export const updateUserPreference = async <T,>(
@@ -94,21 +90,19 @@ export const useUpdateUserPreference = <T,>(
   const queryClient = useQueryClient();
   const { apiUrl } = useAppSelector(selectUrls);
 
-  return useMutation(
-    ({ value }: { value: T }) => {
+  return useMutation({
+    mutationFn: ({ value }: { value: T }) => {
       if (value !== null) {
         return updateUserPreference(apiUrl, name, value);
       } else {
         return deleteUserPreference(apiUrl, name);
       }
     },
-    {
-      onError: (error) => {
-        console.log('Got error ' + error.message);
-      },
-      onSuccess: (data, vars) => {
-        queryClient.setQueryData(['userPreference', name], vars.value);
-      },
-    }
-  );
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: (data, vars) => {
+      queryClient.setQueryData(['userPreference', name], vars.value);
+    },
+  });
 };

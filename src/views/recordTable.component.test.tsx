@@ -123,7 +123,7 @@ describe('Record Table', () => {
       expect(screen.queryByTestId('sort shotnum')).not.toBeInTheDocument();
     });
 
-    act(() => {
+    await act(async () => {
       store.dispatch(selectColumn('shotnum'));
     });
 

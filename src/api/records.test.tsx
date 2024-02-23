@@ -202,7 +202,7 @@ describe('records api functions', () => {
       );
 
       expect(result.current.data).toEqual(undefined);
-      expect(result.current.isLoading).toBe(true);
+      expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
     });
     it.todo(
@@ -241,7 +241,7 @@ describe('records api functions', () => {
       );
 
       expect(result.current.data).toEqual(undefined);
-      expect(result.current.isLoading).toBe(true);
+      expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
     });
     it.todo(
