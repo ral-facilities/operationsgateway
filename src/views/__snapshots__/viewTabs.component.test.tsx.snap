@@ -145,6 +145,19 @@ exports[`View Tabs renders correctly 1`] = `
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-olsibl-MuiDivider-root"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1owl11-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                Export
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
             </div>
           </div>
         </div>
@@ -772,7 +785,7 @@ exports[`View Tabs renders correctly 1`] = `
                     >
                       <th
                         aria-label="Select all rows"
-                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
+                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
                         role="columnheader"
                         scope="col"
                       >
@@ -853,7 +866,7 @@ exports[`View Tabs renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":r8:"
+                    id=":r9:"
                   >
                     Rows per page:
                   </p>
@@ -861,12 +874,12 @@ exports[`View Tabs renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":r9:"
+                      aria-controls=":ra:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r8: :r7:"
+                      aria-labelledby=":r9: :r8:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":r7:"
+                      id=":r8:"
                       role="combobox"
                       tabindex="0"
                     >
