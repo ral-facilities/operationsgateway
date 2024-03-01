@@ -11,6 +11,7 @@ import { useSession, useSessionList } from '../api/sessions';
 import { SessionListItem } from '../app.types';
 import SessionDialogue from '../session/sessionDialogue.component';
 import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
+import ExportButton from '../export/exportButton.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -172,7 +173,7 @@ const ViewTabs = () => {
             <StyledTab value="Data" label="Data" {...a11yProps('Data')} />
             <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
           </Tabs>
-          <Box marginLeft="auto">
+          <Box marginLeft="auto" sx={{ display: 'flex' }}>
             <SessionSaveButtons
               onSaveAsSessionClick={onSaveAsSessionClick}
               loadedSessionData={loadedSessionData}
@@ -180,6 +181,7 @@ const ViewTabs = () => {
               autoSaveSessionId={autoSaveSessionId}
               onChangeAutoSaveSessionId={setAutoSaveSessionId}
             />
+            <ExportButton />
           </Box>
         </Box>
         <TabPanel value={value} label={'Data'}>

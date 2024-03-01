@@ -108,10 +108,10 @@ exports[`View Tabs renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-zdpt2t"
+          class="MuiBox-root css-al6ceu"
         >
           <div
-            class="MuiBox-root css-brvi3t"
+            class="MuiBox-root css-mcd6si"
           >
             <div
               class="MuiBox-root css-k008qs"
@@ -145,8 +145,16 @@ exports[`View Tabs renders correctly 1`] = `
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-brvi3t"
+          >
+            <div
+              class="MuiBox-root css-k008qs"
+            >
               <hr
-                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-olsibl-MuiDivider-root"
+                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-tw7q2e-MuiDivider-root"
               />
               <button
                 class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1owl11-MuiButtonBase-root-MuiButton-root"

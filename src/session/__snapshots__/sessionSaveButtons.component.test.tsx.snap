@@ -3,7 +3,7 @@
 exports[`session buttons renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root css-brvi3t"
+    class="MuiBox-root css-mcd6si"
   >
     <div
       class="MuiBox-root css-k008qs"
@@ -33,19 +33,6 @@ exports[`session buttons renders correctly 1`] = `
         type="button"
       >
         Save as
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
-      <hr
-        class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-olsibl-MuiDivider-root"
-      />
-      <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1owl11-MuiButtonBase-root-MuiButton-root"
-        tabindex="0"
-        type="button"
-      >
-        Export
         <span
           class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
         />
