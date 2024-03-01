@@ -27,6 +27,6 @@ export const selectionSlice = createSlice({
 export const { setSelectedRows } = selectionSlice.actions;
 
 export const selectSelectedRows = (state: RootState) =>
-  state.selection.selectedRows;
+  state.selection?.selectedRows;
 
 export default selectionSlice.reducer;
