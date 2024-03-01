@@ -35,6 +35,8 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { useAppDispatch } from '../state/hooks';
+import { setSelectedRows } from '../state/slices/selectionSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -145,6 +147,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               role="columnheader"
               aria-label="Select all rows"
               sx={{
+                alignItems: 'center',
+                display: 'flex',
                 ...stickyColumnStyles,
                 left: header.getStart('left'),
               }}
@@ -222,6 +226,16 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onRowSelectionChange: setRowSelection,
     columnResizeMode: 'onChange',
   });
+
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    // create an array with selected row ids
+    const selectedRows = Object.keys(rowSelection).filter(
+      (rowId) => rowSelection[rowId as keyof typeof rowSelection]
+    );
+    dispatch(setSelectedRows(selectedRows));
+  }, [dispatch, rowSelection]);
 
   return (
     <div>

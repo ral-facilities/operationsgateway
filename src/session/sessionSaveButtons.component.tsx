@@ -1,12 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, Divider } from '@mui/material';
 import { SessionResponse } from '../app.types';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { format, parseISO } from 'date-fns';
 import { ImportSessionType } from '../state/store';
 import { shallowEqual } from 'react-redux';
+import ExportDialogue from './exportDialogue.component';
 
 export interface SessionsSaveButtonsProps {
   onSaveAsSessionClick: () => void;
@@ -67,6 +68,8 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
       onSaveAsSessionClick();
     }
   }, [loadedSessionData, state, editSession, onSaveAsSessionClick]);
+
+  const [exportOpen, setExportOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     let autoSaveTimer: ReturnType<typeof setInterval> | null;
@@ -147,6 +150,18 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
         >
           Save as
         </Button>
+        <Divider orientation="vertical" flexItem sx={{ marginX: 1 }} />
+        <Button
+          sx={{ mx: '4px' }}
+          onClick={() => setExportOpen(true)}
+          variant="outlined"
+        >
+          Export
+        </Button>
+        <ExportDialogue
+          open={exportOpen}
+          onClose={() => setExportOpen(false)}
+        />
       </Box>
     </Box>
   );
