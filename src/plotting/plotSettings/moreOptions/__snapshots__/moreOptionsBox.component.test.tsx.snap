@@ -99,61 +99,37 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Line width
         </p>
         <div
-          aria-label="change activeArea line width"
-          class="MuiNumberInput-root css-zmtyut"
+          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
-          <button
-            aria-controls=":r0:"
-            aria-disabled="false"
-            aria-label="decrement"
-            class="MuiNumberInput-decrementButton decrement css-1d3khx7"
-            tabindex="-1"
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
           >
-            <svg
+            <input
+              aria-invalid="false"
+              aria-label="change activeArea line width"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              id=":r0:"
+              max="10"
+              min="1"
+              name="line width"
+              type="number"
+              value="3"
+            />
+            <fieldset
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-              data-testid="ArrowDropDownIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
-              <path
-                d="m7 10 5 5 5-5z"
-              />
-            </svg>
-          </button>
-          <button
-            aria-controls=":r0:"
-            aria-disabled="false"
-            aria-label="increment"
-            class="MuiNumberInput-incrementButton increment css-1d3khx7"
-            tabindex="-1"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-              data-testid="ArrowDropUpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="m7 14 5-5 5 5z"
-              />
-            </svg>
-          </button>
-          <input
-            aria-disabled="false"
-            aria-valuemax="10"
-            aria-valuemin="1"
-            aria-valuenow="3"
-            aria-valuetext="3"
-            autocomplete="off"
-            autocorrect="off"
-            class="MuiNumberInput-input css-3aul9a"
-            id=":r0:"
-            spellcheck="false"
-            type="text"
-            value="3"
-          />
+              <legend
+                class="css-ihdtdm"
+              >
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -257,61 +233,37 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Marker size
         </p>
         <div
-          aria-label="change activeArea marker size"
-          class="MuiNumberInput-root css-zmtyut"
+          class="MuiFormControl-root MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
         >
-          <button
-            aria-controls=":r1:"
-            aria-disabled="false"
-            aria-label="decrement"
-            class="MuiNumberInput-decrementButton decrement css-1d3khx7"
-            tabindex="-1"
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
           >
-            <svg
+            <input
+              aria-invalid="false"
+              aria-label="change activeArea marker size"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              id=":r1:"
+              max="10"
+              min="1"
+              name="marker size"
+              type="number"
+              value="3"
+            />
+            <fieldset
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-              data-testid="ArrowDropDownIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
-              <path
-                d="m7 10 5 5 5-5z"
-              />
-            </svg>
-          </button>
-          <button
-            aria-controls=":r1:"
-            aria-disabled="false"
-            aria-label="increment"
-            class="MuiNumberInput-incrementButton increment css-1d3khx7"
-            tabindex="-1"
-          >
-            <svg
-              aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
-              data-testid="ArrowDropUpIcon"
-              focusable="false"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="m7 14 5-5 5 5z"
-              />
-            </svg>
-          </button>
-          <input
-            aria-disabled="false"
-            aria-valuemax="10"
-            aria-valuemin="1"
-            aria-valuenow="3"
-            aria-valuetext="3"
-            autocomplete="off"
-            autocorrect="off"
-            class="MuiNumberInput-input css-3aul9a"
-            id=":r1:"
-            spellcheck="false"
-            type="text"
-            value="3"
-          />
+              <legend
+                class="css-ihdtdm"
+              >
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
         </div>
       </div>
     </div>
@@ -332,28 +284,6 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           <button
             aria-haspopup="dialog"
             aria-label="Pick activeArea colour"
-            class="MuiBox-root css-129yjn7"
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
-    >
-      <div
-        class="MuiBox-root css-1fz0abn"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
-        >
-          Marker colour
-        </p>
-        <div
-          class="MuiBox-root css-79elbk"
-        >
-          <button
-            aria-haspopup="dialog"
-            aria-label="Pick activeArea marker colour"
             class="MuiBox-root css-129yjn7"
           />
         </div>

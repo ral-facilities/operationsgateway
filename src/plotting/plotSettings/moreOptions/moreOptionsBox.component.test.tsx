@@ -28,7 +28,6 @@ describe('MoreOptionsBox', () => {
           lineWidth: 3,
           markerStyle: 'circle',
           markerSize: 3,
-          markerColour: `colour-${i.toString()}`,
           yAxis: 'left',
         },
       }));
@@ -114,46 +113,26 @@ describe('MoreOptionsBox', () => {
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
 
-  it('allows user to change marker colour', async () => {
-    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
-    expected[1].options.markerColour = expect.anything();
-
-    createView();
-
-    await user.click(
-      screen.getByLabelText(`Pick ${props.channel.name} marker colour`)
-    );
-    await user.click(screen.getByLabelText('Color'));
-
-    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
-  });
-
   it('allows user to change width of the plot line', async () => {
     const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
     expected[1].options.lineWidth = 5;
 
     createView();
-
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} line width`),
-      '5'
+    const input = screen.getByLabelText(
+      `change ${props.channel.name} line width`
     );
+
+    await user.type(input, '5');
 
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
     // Won't allow for input out of specified range (now 1-10)
     expected[1].options.lineWidth = 10;
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} line width`),
-      '11'
-    );
+    fireEvent.change(input, { target: { value: '11' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
     expected[1].options.lineWidth = 1;
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} line width`),
-      '0'
-    );
+    fireEvent.change(input, { target: { value: '0' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
 
@@ -162,27 +141,21 @@ describe('MoreOptionsBox', () => {
     expected[1].options.markerSize = 5;
 
     createView();
-
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} marker size`),
-      '5'
+    const input = screen.getByLabelText(
+      `change ${props.channel.name} marker size`
     );
+
+    await user.type(input, '5');
 
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
     // Won't allow for input out of specified range (now 1-10)
     expected[1].options.markerSize = 10;
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} marker size`),
-      '11'
-    );
+    fireEvent.change(input, { target: { value: '11' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
     expected[1].options.markerSize = 1;
-    await user.type(
-      screen.getByLabelText(`change ${props.channel.name} marker size`),
-      '0'
-    );
+    fireEvent.change(input, { target: { value: '0' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
 

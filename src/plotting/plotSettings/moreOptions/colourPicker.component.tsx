@@ -1,6 +1,6 @@
 import React from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { Box, Switch } from '@mui/material';
+import { Box } from '@mui/material';
 import { useClickOutside } from '../../../hooks';
 
 type ColourPickerProps = {
@@ -12,11 +12,10 @@ type ColourPickerProps = {
 };
 
 const ColourPicker = (props: ColourPickerProps) => {
-  const { channelName, colour, changeColour, marker, sameAsLine } = props;
+  const { channelName, colour, changeColour } = props;
   const popover = React.useRef<HTMLDivElement | null>(null);
   const parent = React.useRef<HTMLDivElement | null>(null);
   const [isOpen, toggle] = React.useState(false);
-  const [lockColour, toggleLockColour] = React.useState(sameAsLine ?? false);
 
   const close = React.useCallback(() => toggle(false), []);
   // use parent node which is always mounted to get the document to attach event listeners to
@@ -37,7 +36,7 @@ const ColourPicker = (props: ColourPickerProps) => {
         }}
         component="button"
         onClick={() => toggle(!isOpen)}
-        aria-label={`Pick ${channelName}${marker ? ' marker' : ''} colour`}
+        aria-label={`Pick ${channelName} colour`}
         aria-haspopup="dialog"
       />
 
@@ -74,32 +73,8 @@ const ColourPicker = (props: ColourPickerProps) => {
             color={colour}
             onChange={(newColour: string) => {
               changeColour(newColour);
-              toggleLockColour(false);
             }}
           />
-          {marker && (
-            <Box
-              sx={{
-                height: 24,
-                fontSize: 12,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Switch
-                size="small"
-                checked={lockColour}
-                aria-label={`toggle ${channelName} marker colour same as line`}
-                sx={{ marginLeft: 0 }}
-                onChange={() => {
-                  toggleLockColour(!lockColour);
-                  lockColour ? changeColour(colour) : changeColour('');
-                }}
-              />
-              Same as line
-            </Box>
-          )}
         </Box>
       )}
     </Box>

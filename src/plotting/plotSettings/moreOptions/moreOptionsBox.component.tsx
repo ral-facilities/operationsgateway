@@ -10,9 +10,9 @@ import {
   RadioGroup,
   Switch,
   Typography,
+  TextField,
 } from '@mui/material';
 import ColourPicker from './colourPicker.component';
-import NumberInput from './numberInput.component';
 import {
   LineStyle,
   MarkerStyle,
@@ -77,23 +77,6 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
       changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
     [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]
-  );
-
-  const changeChannelMarkerColour = React.useCallback(
-    (selectedColour: string) => {
-      const newSelectedPlotChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((currentChannel) => {
-        if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.markerColour =
-            selectedColour === '' ? undefined : selectedColour;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
   );
 
   const changeChannelLineStyle = React.useCallback(
@@ -253,25 +236,28 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           }}
         >
           <Typography sx={{ fontSize: 12 }}>Line width</Typography>
-          <NumberInput
-            min={1}
-            max={10}
+          <TextField
+            name="line width"
             value={thisChannel.options.lineWidth ?? 3}
-            onInputChange={(event) => {
+            type="number"
+            size="small"
+            inputProps={{
+              min: 1,
+              max: 10,
+              'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} line width`,
+            }}
+            onFocus={(event) => {
+              event.target.select();
+            }}
+            onChange={(event) => {
               let newValue = parseInt(event.target.value);
               if (newValue < 1) {
                 newValue = 1;
               } else if (newValue > 10) {
                 newValue = 10;
               }
-              newValue && changeChannelLineWidth(newValue);
+              changeChannelLineWidth(newValue);
             }}
-            onChange={(_event, value) => {
-              value && changeChannelLineWidth(value);
-            }}
-            aria-label={`change ${
-              thisChannel.displayName ?? thisChannel.name
-            } line width`}
           />
         </Box>
       </Grid>
@@ -334,24 +320,28 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           }}
         >
           <Typography sx={{ fontSize: 12 }}>Marker size</Typography>
-          <NumberInput
-            min={1}
-            max={10}
+          <TextField
+            name="marker size"
             value={thisChannel.options.markerSize ?? 3}
-            onInputChange={(event) => {
+            type="number"
+            size="small"
+            inputProps={{
+              min: 1,
+              max: 10,
+              'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} marker size`,
+            }}
+            onFocus={(event) => {
+              event.target.select();
+            }}
+            onChange={(event) => {
               let newValue = parseInt(event.target.value);
               if (newValue < 1) {
                 newValue = 1;
               } else if (newValue > 10) {
                 newValue = 10;
               }
-              newValue && changeChannelMarkerSize(newValue);
+              changeChannelMarkerSize(newValue);
             }}
-            onChange={(_event, value) => {
-              value && changeChannelMarkerSize(value);
-            }}
-            disabled={thisChannel.options.markerStyle === false}
-            aria-label={`change ${thisChannel.displayName ?? thisChannel.name} marker size`}
           />
         </Box>
       </Grid>
@@ -372,30 +362,6 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             channelName={thisChannel.displayName ?? thisChannel.name}
             colour={thisChannel.options.colour}
             changeColour={changeChannelColour}
-          />
-        </Box>
-      </Grid>
-      <Grid container item>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: 'inherit',
-            justifyContent: 'space-between',
-            border: 1,
-            padding: 1,
-            alignItems: 'center',
-          }}
-        >
-          <Typography sx={{ fontSize: 12 }}>Marker colour</Typography>
-          <ColourPicker
-            channelName={thisChannel.displayName ?? thisChannel.name}
-            colour={
-              thisChannel.options.markerColour ?? thisChannel.options.colour
-            }
-            changeColour={changeChannelMarkerColour}
-            marker={true}
-            sameAsLine={thisChannel.options.markerColour === undefined}
           />
         </Box>
       </Grid>
