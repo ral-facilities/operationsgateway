@@ -506,9 +506,7 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
-test.only('user can change the line width of plotted channels', async ({
-  page,
-}) => {
+test('user can change the line width of plotted channels', async ({ page }) => {
   await page.goto('/');
 
   await page.locator('text=Plots').click();
