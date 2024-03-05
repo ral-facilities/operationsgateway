@@ -240,6 +240,16 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             name="line width"
             value={thisChannel.options.lineWidth ?? 3}
             type="number"
+            sx={{
+              '& .MuiInputBase-input': {
+                width: 36,
+                fontSize: '0.9rem',
+                padding: '3px 3px 3px 8px',
+              },
+              '& .MuiInputLabel-root': {
+                fontSize: '0.5rem',
+              },
+            }}
             size="small"
             inputProps={{
               min: 1,
@@ -324,6 +334,16 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             name="marker size"
             value={thisChannel.options.markerSize ?? 3}
             type="number"
+            sx={{
+              '& .MuiInputBase-input': {
+                width: 36,
+                fontSize: '0.9rem',
+                padding: '3px 3px 3px 8px',
+              },
+              '& .MuiInputLabel-root': {
+                fontSize: '0.5rem',
+              },
+            }}
             size="small"
             inputProps={{
               min: 1,
