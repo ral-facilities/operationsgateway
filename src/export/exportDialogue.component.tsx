@@ -15,6 +15,7 @@ import {
 import React from 'react';
 import { useAppSelector } from '../state/hooks';
 import { selectSelectedRows } from '../state/slices/selectionSlice';
+// import { useExportData } from '../api/export';
 
 export interface ExportDialogueProps {
   open: boolean;
@@ -25,8 +26,9 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   const { open, onClose } = props;
 
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
-  const [selectedRow, setSelectedRow] = React.useState('All Rows');
-  const [selectedContent, setSelectedContent] = React.useState({
+  const [selectedExportType, setSelectedExportType] =
+    React.useState('All Rows');
+  const [selectedExportContent, setSelectedExportContent] = React.useState({
     Scalars: true,
     Images: false,
     'Waveform CSVs': false,
@@ -38,23 +40,23 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   }, [onClose]);
 
   const handleExportClick = () => {
-    console.log('Selected Row:', selectedRow);
-    console.log('Selected Content:', selectedContent);
-    console.log('Selected Columns:', selectedColumns);
+    console.log('Export Type:', selectedExportType);
+    console.log('Export Content:', selectedExportContent);
+    console.log('Selected Rows:', selectedRows);
   };
 
   const handleRowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedRow(event.target.value);
+    setSelectedExportType(event.target.value);
   };
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedContent({
-      ...selectedContent,
+    setSelectedExportContent({
+      ...selectedExportContent,
       [event.target.value]: event.target.checked,
     });
   };
 
-  const selectedColumns = useAppSelector(selectSelectedRows);
+  const selectedRows = useAppSelector(selectSelectedRows);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg">
@@ -62,7 +64,7 @@ const ExportDialogue = (props: ExportDialogueProps) => {
       <DialogContent>
         <FormLabel>Choose the rows to be exported:</FormLabel>
         <RadioGroup
-          value={selectedRow}
+          value={selectedExportType}
           onChange={handleRowChange}
           name="radio-buttons-group"
           sx={{ mb: 3 }}
@@ -80,13 +82,15 @@ const ExportDialogue = (props: ExportDialogueProps) => {
         <Divider />
         <FormGroup sx={{ mt: 1 }} onChange={handleContentChange}>
           <FormLabel>Content:</FormLabel>
-          {Object.keys(selectedContent).map((label) => (
+          {Object.keys(selectedExportContent).map((label) => (
             <FormControlLabel
               key={label}
               control={
                 <Checkbox
                   checked={
-                    selectedContent[label as keyof typeof selectedContent]
+                    selectedExportContent[
+                      label as keyof typeof selectedExportContent
+                    ]
                   }
                   value={label}
                   color="primary"

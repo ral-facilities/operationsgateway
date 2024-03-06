@@ -5,7 +5,10 @@ import { selectUrls } from '../state/slices/configSlice';
 import { selectSelectedRows } from '../state/slices/selectionSlice';
 import { readSciGatewayToken } from '../parseTokens';
 
-const exportData = (apiUrl: string, selectedRows: string[]): Promise<void> => {
+const exportData = (
+  apiUrl: string,
+  selectedRows: string[]
+): Promise<string> => {
   return axios
     .post(`${apiUrl}/export`, selectedRows, {
       headers: {
@@ -13,7 +16,7 @@ const exportData = (apiUrl: string, selectedRows: string[]): Promise<void> => {
       },
     })
     .then((response) => {
-      console.log(response);
+      return response.data;
     });
 };
 
