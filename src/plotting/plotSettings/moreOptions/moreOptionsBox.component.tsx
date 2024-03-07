@@ -50,26 +50,16 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
     false,
   ];
 
-  const toggleChannelVisibility = React.useCallback(() => {
-    const newSelectedPlotChannelsArray =
-      deepCopySelectedPlotChannels(selectedPlotChannels);
-    newSelectedPlotChannelsArray.some((currentChannel) => {
-      if (currentChannel.name === thisChannel.name) {
-        currentChannel.options.visible = !currentChannel.options.visible;
-        return true;
-      }
-      return false;
-    });
-    changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-  }, [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]);
-
-  const changeChannelColour = React.useCallback(
-    (selectedColour: string) => {
+  const changeChannelOption = React.useCallback(
+    <K extends keyof SelectedPlotChannel['options']>(
+      option: K,
+      newValue: SelectedPlotChannel['options'][K]
+    ) => {
       const newSelectedPlotChannelsArray =
         deepCopySelectedPlotChannels(selectedPlotChannels);
       newSelectedPlotChannelsArray.some((currentChannel) => {
         if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.colour = selectedColour;
+          currentChannel.options[option] = newValue;
           return true;
         }
         return false;
@@ -77,86 +67,6 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
       changeSelectedPlotChannels(newSelectedPlotChannelsArray);
     },
     [changeSelectedPlotChannels, thisChannel.name, selectedPlotChannels]
-  );
-
-  const changeChannelLineStyle = React.useCallback(
-    (chosenStyle: LineStyle) => {
-      const newSelectedChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedChannelsArray.some((currentChannel) => {
-        if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.lineStyle = chosenStyle;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [selectedPlotChannels, changeSelectedPlotChannels, thisChannel.name]
-  );
-
-  const changeChannelLineWidth = React.useCallback(
-    (newWidth: number) => {
-      const newSelectedChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedChannelsArray.some((currentChannel) => {
-        if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.lineWidth = newWidth;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
-  );
-
-  const changeChannelMarkerStyle = React.useCallback(
-    (chosenStyle: MarkerStyle) => {
-      const newSelectedChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedChannelsArray.some((currentChannel) => {
-        if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.markerStyle = chosenStyle;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
-  );
-
-  const changeChannelMarkerSize = React.useCallback(
-    (newSize: number) => {
-      const newSelectedChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedChannelsArray.some((currentChannel) => {
-        if (currentChannel.name === thisChannel.name) {
-          currentChannel.options.markerSize = newSize;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
-  );
-
-  const changeChannelAxis = React.useCallback(
-    (yAxis: SelectedPlotChannel['options']['yAxis']) => {
-      const newSelectedPlotChannelsArray =
-        deepCopySelectedPlotChannels(selectedPlotChannels);
-      newSelectedPlotChannelsArray.some((channel) => {
-        if (channel.name === thisChannel.name) {
-          channel.options.yAxis = yAxis;
-          return true;
-        }
-        return false;
-      });
-      changeSelectedPlotChannels(newSelectedPlotChannelsArray);
-    },
-    [changeSelectedPlotChannels, selectedPlotChannels, thisChannel.name]
   );
 
   return (
@@ -181,7 +91,10 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               thisChannel.displayName ?? thisChannel.name
             } visibility ${thisChannel.options.visible ? 'off' : 'on'}`}
             sx={{ m: 1 }}
-            onChange={() => toggleChannelVisibility()}
+            // onChange={() => toggleChannelVisibility()}
+            onChange={() =>
+              changeChannelOption('visible', !thisChannel.options.visible)
+            }
           />
         </Box>
       </Grid>
@@ -202,7 +115,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             value={thisChannel.options.lineStyle}
             onChange={(event) => {
               const newValue = event.target.value;
-              changeChannelLineStyle(newValue as LineStyle);
+              changeChannelOption('lineStyle', newValue as LineStyle);
             }}
             sx={{ fontSize: 12, width: 70 }}
             inputProps={{
@@ -266,7 +179,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               } else if (newValue > 10) {
                 newValue = 10;
               }
-              changeChannelLineWidth(newValue);
+              changeChannelOption('lineWidth', newValue);
             }}
           />
         </Box>
@@ -289,7 +202,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             onChange={(event) => {
               const newValue =
                 event.target.value === 'false' ? false : event.target.value;
-              changeChannelMarkerStyle(newValue as MarkerStyle);
+              changeChannelOption('markerStyle', newValue as MarkerStyle);
             }}
             sx={{ fontSize: 12, width: 70 }}
             inputProps={{
@@ -360,7 +273,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               } else if (newValue > 10) {
                 newValue = 10;
               }
-              changeChannelMarkerSize(newValue);
+              changeChannelOption('markerSize', newValue);
             }}
           />
         </Box>
@@ -381,7 +294,9 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           <ColourPicker
             channelName={thisChannel.displayName ?? thisChannel.name}
             colour={thisChannel.options.colour}
-            changeColour={changeChannelColour}
+            changeColour={(newColour: string) =>
+              changeChannelOption('colour', newColour)
+            }
           />
         </Box>
       </Grid>
@@ -407,7 +322,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             value={thisChannel.options.yAxis}
             onChange={(event) => {
               const newValue = event.target.value;
-              changeChannelAxis(
+              changeChannelOption(
+                'yAxis',
                 newValue as SelectedPlotChannel['options']['yAxis']
               );
             }}
