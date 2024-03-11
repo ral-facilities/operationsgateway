@@ -32,7 +32,7 @@ const MoreOptionsToggle = (props: MoreOptionsProps) => {
           role="dialog"
           sx={{
             position: 'absolute',
-            top: -95,
+            bottom: -18,
             right: 30,
             zIndex: 1,
             backgroundColor: 'background.paper',

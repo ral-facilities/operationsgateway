@@ -8,7 +8,6 @@ type ColourPickerProps = {
   colour: string;
   changeColour: (colour: string) => void;
   marker?: boolean;
-  sameAsLine?: boolean;
 };
 
 const ColourPicker = (props: ColourPickerProps) => {

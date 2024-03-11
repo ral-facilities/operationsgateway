@@ -91,7 +91,6 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               thisChannel.displayName ?? thisChannel.name
             } visibility ${thisChannel.options.visible ? 'off' : 'on'}`}
             sx={{ m: 1 }}
-            // onChange={() => toggleChannelVisibility()}
             onChange={() =>
               changeChannelOption('visible', !thisChannel.options.visible)
             }
