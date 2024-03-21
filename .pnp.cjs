@@ -64,7 +64,7 @@ const RAW_RUNTIME_STATE =
           ["cross-env", "npm:7.0.3"],\
           ["cypress", "npm:12.17.3"],\
           ["cypress-failed-log", "npm:2.10.0"],\
-          ["date-fns", "npm:3.3.0"],\
+          ["date-fns", "npm:3.6.0"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.1.0"],\
           ["eslint-config-react-app", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.0.1"],\
@@ -3676,7 +3676,7 @@ const RAW_RUNTIME_STATE =
           ["@date-io/date-fns", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:3.0.0"],\
           ["@date-io/core", "npm:3.0.0"],\
           ["@types/date-fns", null],\
-          ["date-fns", "npm:3.3.0"]\
+          ["date-fns", "npm:3.6.0"]\
         ],\
         "packagePeers": [\
           "@types/date-fns",\
@@ -4840,7 +4840,7 @@ const RAW_RUNTIME_STATE =
           ["@types/react-dom", "npm:18.2.18"],\
           ["@types/react-transition-group", "npm:4.4.10"],\
           ["clsx", "npm:2.1.0"],\
-          ["date-fns", "npm:3.3.0"],\
+          ["date-fns", "npm:3.6.0"],\
           ["date-fns-jalali", null],\
           ["dayjs", null],\
           ["luxon", null],\
@@ -9814,10 +9814,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["date-fns", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/date-fns-npm-3.3.0-2e41595e23-e93a99f0a4.zip/node_modules/date-fns/",\
+      ["npm:3.6.0", {\
+        "packageLocation": "./.yarn/cache/date-fns-npm-3.6.0-e59d980978-cac35c5892.zip/node_modules/date-fns/",\
         "packageDependencies": [\
-          ["date-fns", "npm:3.3.0"]\
+          ["date-fns", "npm:3.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16178,7 +16178,7 @@ const RAW_RUNTIME_STATE =
           ["cross-env", "npm:7.0.3"],\
           ["cypress", "npm:12.17.3"],\
           ["cypress-failed-log", "npm:2.10.0"],\
-          ["date-fns", "npm:3.3.0"],\
+          ["date-fns", "npm:3.6.0"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-prettier", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:9.1.0"],\
           ["eslint-config-react-app", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:7.0.1"],\
