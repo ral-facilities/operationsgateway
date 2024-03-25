@@ -270,6 +270,10 @@ const Plot = (props: PlotProps) => {
             (channel) => channel.name === dataset.name
           ) ?? {};
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
+          const lineWidth = channelConfig?.lineWidth ?? 3;
+          const markerStyle = channelConfig?.markerStyle ?? 'circle';
+          const markerSize = channelConfig?.markerSize ?? 3;
+          const markerColour = channelConfig?.markerColour;
           const displayNameWithUnits = units
             ? `${displayName} (${units})`
             : `${displayName}`;
@@ -293,12 +297,18 @@ const Plot = (props: PlotProps) => {
                 : channelConfig?.colour,
             borderDash:
               lineStyle === 'dashed'
-                ? [5, 5]
+                ? [5 + (lineWidth - 3), 5 + (lineWidth - 3)]
                 : lineStyle === 'dotted'
-                  ? [0, 5]
+                  ? [0, 5 + (lineWidth - 3)]
                   : undefined,
-            pointRadius: lineStyle === 'dotted' ? 3 : undefined,
             borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
+            borderWidth: lineWidth,
+            pointBorderWidth: 1 + Math.max(0, (markerSize - 3) / 2),
+            pointStyle: markerStyle,
+            pointRadius: markerSize,
+            pointHoverRadius: markerSize + 1,
+            pointBackgroundColor: markerColour,
+            pointBorderColor: markerColour,
           } satisfies ChartDataset<PlotType, PlotDataset['data']>;
         }),
       })

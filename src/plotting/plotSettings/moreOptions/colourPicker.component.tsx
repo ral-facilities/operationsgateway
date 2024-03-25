@@ -7,6 +7,7 @@ type ColourPickerProps = {
   channelName: string;
   colour: string;
   changeColour: (colour: string) => void;
+  marker?: boolean;
 };
 
 const ColourPicker = (props: ColourPickerProps) => {
@@ -42,11 +43,12 @@ const ColourPicker = (props: ColourPickerProps) => {
         <Box
           role="dialog"
           sx={{
+            backgroundColor: '#fff',
             position: 'absolute',
             top: -95,
             right: 30,
             zIndex: 1,
-            borderRadius: 9,
+            borderRadius: 2,
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.15)',
             '& .react-colorful': {
               height: 125,

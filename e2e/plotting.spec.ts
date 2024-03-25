@@ -401,6 +401,61 @@ test('user can change line style of plotted channels', async ({ page }) => {
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
+test('user can change the marker style and size of plotted channels', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
+
+  await popup.locator('text=Channel_ABCDE').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
+
+  await popup.locator('text=Channel_DEFGH').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup.locator('[aria-label="More options for Channel_DEFGH"]').click();
+  await popup
+    .locator('[aria-label="change Channel_DEFGH marker style"]')
+    .selectOption('rectRot');
+
+  await popup.getByLabel('change Channel_DEFGH marker size').fill('5');
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup
+    .locator('[aria-label="change Shot Number marker style"]')
+    .selectOption('triangle');
+
+  await popup.getByLabel('change Shot Number marker size').fill('7');
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  const chart = await popup.locator('#my-chart');
+
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
 test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively', async ({
   page,
 }) => {
@@ -448,6 +503,51 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
       type: 'png',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
+test('user can change the line width of plotted channels', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('[aria-label="line chart"]').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
+
+  await popup.locator('text=Channel_ABCDE').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('DEFGH');
+
+  await popup.locator('text=Channel_DEFGH').click();
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup.locator('[aria-label="More options for Channel_DEFGH"]').click();
+  await popup.getByLabel('change Channel_DEFGH line width').fill('7');
+
+  await popup.locator('[aria-label="More options for Shot Number"]').click();
+  await popup.getByLabel('change Shot Number line width').fill('2');
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  const chart = await popup.locator('#my-chart');
+
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
+  expect(
+    await chart.screenshot({
+      type: 'png',
+    })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 

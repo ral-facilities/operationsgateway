@@ -25,6 +25,9 @@ describe('MoreOptionsBox', () => {
           visible: true,
           colour: `colour-${i.toString()}`,
           lineStyle: 'solid',
+          lineWidth: 3,
+          markerStyle: 'circle',
+          markerSize: 3,
           yAxis: 'left',
         },
       }));
@@ -57,6 +60,19 @@ describe('MoreOptionsBox', () => {
       `change ${props.channel.name} line style`
     );
     fireEvent.change(select, { target: { value: 'dashed' } });
+    expect(changeSelectedPlotChannels).toHaveBeenCalledWith(expected);
+  });
+
+  it('allows user to change marker style of a channel', async () => {
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.markerStyle = 'cross';
+
+    createView();
+
+    const select = screen.getByLabelText(
+      `change ${props.channel.name} marker style`
+    );
+    fireEvent.change(select, { target: { value: 'cross' } });
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith(expected);
   });
 
@@ -94,6 +110,52 @@ describe('MoreOptionsBox', () => {
     );
     await user.click(screen.getByLabelText('Color'));
 
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+  });
+
+  it('allows user to change width of the plot line', async () => {
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.lineWidth = 5;
+
+    createView();
+    const input = screen.getByLabelText(
+      `change ${props.channel.name} line width`
+    );
+
+    await user.type(input, '5');
+
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+
+    // Won't allow for input out of specified range (now 1-10)
+    expected[1].options.lineWidth = 10;
+    fireEvent.change(input, { target: { value: '11' } });
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+
+    expected[1].options.lineWidth = 1;
+    fireEvent.change(input, { target: { value: '0' } });
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+  });
+
+  it('allows user to change size of the marker', async () => {
+    const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
+    expected[1].options.markerSize = 5;
+
+    createView();
+    const input = screen.getByLabelText(
+      `change ${props.channel.name} marker size`
+    );
+
+    await user.type(input, '5');
+
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+
+    // Won't allow for input out of specified range (now 1-10)
+    expected[1].options.markerSize = 10;
+    fireEvent.change(input, { target: { value: '11' } });
+    expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
+
+    expected[1].options.markerSize = 1;
+    fireEvent.change(input, { target: { value: '0' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
 

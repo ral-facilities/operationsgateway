@@ -66,7 +66,7 @@ exports[`MoreOptionsToggle renders correctly when options box open and passes al
       </span>
     </button>
     <div
-      class="MuiBox-root css-jqdgkj"
+      class="MuiBox-root css-2rtj2t"
       role="dialog"
     >
       <mock-moreoptionsbox
