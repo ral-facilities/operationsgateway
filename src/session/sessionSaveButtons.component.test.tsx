@@ -88,6 +88,9 @@ describe('session buttons', () => {
       name: 'test (autosaved)',
       summary: 'test',
       session: {
+        selection: {
+          selectedRows: [],
+        },
         table: {
           columnStates: {},
           selectedColumnIds: [timeChannelName],
@@ -129,6 +132,9 @@ describe('session buttons', () => {
       name: 'test (autosaved)',
       summary: 'test',
       session: {
+        selection: {
+          selectedRows: [],
+        },
         table: {
           columnStates: {},
           selectedColumnIds: [timeChannelName],
@@ -177,6 +183,9 @@ describe('session buttons', () => {
       name: 'test (autosaved)',
       summary: 'test',
       session: {
+        selection: {
+          selectedRows: [],
+        },
         table: {
           columnStates: {},
           selectedColumnIds: [timeChannelName],

@@ -20,7 +20,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -925,7 +925,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >

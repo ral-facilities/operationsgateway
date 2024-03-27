@@ -1,6 +1,7 @@
 import React from 'react';
 import Table, { TableProps } from './table.component';
-import { screen, render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { renderComponentWithProviders } from '../setupTests';
 import { RecordRow } from '../app.types';
 import { ColumnDef } from '@tanstack/react-table';
 import userEvent from '@testing-library/user-event';
@@ -50,7 +51,7 @@ describe('Table', () => {
   const openFilters = jest.fn();
 
   const createView = () => {
-    return render(<Table {...props} />);
+    return renderComponentWithProviders(<Table {...props} />);
   };
 
   beforeEach(() => {
