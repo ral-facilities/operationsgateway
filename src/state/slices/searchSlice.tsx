@@ -5,7 +5,7 @@ import { SearchParams } from '../../app.types';
 import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
 import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
-import { format } from 'date-fns';
+import { format, sub } from 'date-fns';
 
 export const formatDateTimeForApi = (datetime: Date): string => {
   const dateString = format(datetime, 'yyyy-MM-dd');
@@ -19,10 +19,20 @@ interface SearchState {
   searchParams: SearchParams;
 }
 
+const to = new Date();
+to.setSeconds(59);
+const from = sub(new Date(to), {
+  hours: 24,
+});
+from.setSeconds(0);
+
 // Define the initial state using that type
 export const initialState: SearchState = {
   searchParams: {
-    dateRange: {},
+    dateRange: {
+      toDate: formatDateTimeForApi(to),
+      fromDate: formatDateTimeForApi(from),
+    },
     shotnumRange: {},
     maxShots: MAX_SHOTS_VALUES[0],
     experimentID: null,

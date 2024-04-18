@@ -23,14 +23,42 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
     setFlashingFilterValue(headerName);
   }, []);
 
-  // SG header + SG footer + tabs + spacing + search + spacing + buttons + spacing + pagination
-  const tableHeight = `calc(100vh - (64px + 32px + 49px + 8px ${
-    searchExpanded ? '+ 100px + 8px' : ''
-  } + 32px + 8px + 52px))`;
+  const [searchHeight, setSearchHeight] = React.useState(0);
+
+  const searchResizeObserver = React.useRef<ResizeObserver>(
+    new ResizeObserver((entries) => {
+      if (entries[0].contentRect.height)
+        setSearchHeight(entries[0].contentRect.height);
+    })
+  );
+
+  // need to use a useCallback instead of a useRef for this
+  // see https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node
+  const searchHeightRef = React.useCallback((container: HTMLDivElement) => {
+    if (container !== null) {
+      searchResizeObserver.current.observe(container);
+    }
+    // When element is unmounted we know container is null so time to clean up
+    else {
+      if (searchResizeObserver.current)
+        searchResizeObserver.current.disconnect();
+    }
+  }, []);
+
+  console.log('searchHeight', searchHeight);
+
+  // SG header + SG footer + tabs + search + spacing + buttons + spacing + pagination
+  const tableHeight = `calc(100vh - (64px + 32px + 49px ${
+    searchExpanded ? `+ ${searchHeight}px` : ''
+  } + 8px + 32px + 8px + 52px))`;
 
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>
-      <SearchBar expanded={searchExpanded} sessionId={sessionId} />
+      <SearchBar
+        expanded={searchExpanded}
+        sessionId={sessionId}
+        heightRef={searchHeightRef}
+      />
       <TableButtons
         searchExpanded={searchExpanded}
         toggleSearchExpanded={() =>

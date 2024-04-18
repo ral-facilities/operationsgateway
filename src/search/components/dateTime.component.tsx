@@ -150,7 +150,7 @@ export interface DateTimeSearchProps {
 const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
   const { invalidDateRange, id, ...inputProps } = renderProps.inputProps ?? {};
   const error = (renderProps.error || invalidDateRange) ?? undefined;
-  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+  let helperText = 'Format: yyyy-MM-dd HH:mm';
   if (invalidDateRange) helperText = 'Invalid date-time range';
 
   return (
@@ -162,7 +162,7 @@ const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
         ...inputProps,
         sx: {
           fontSize: '1rem',
-          fontWeight: 'bold',
+          width: '10rem',
         },
       }}
       variant="standard"
@@ -263,11 +263,15 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         }),
       }}
     >
-      <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+      <CalendarMonth
+        sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }}
+      />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container columns={2} direction="column">
           <Grid item>
-            <Typography noWrap>From date</Typography>
+            <Typography noWrap sx={{ fontWeight: 'bold' }}>
+              From date
+            </Typography>
           </Grid>
           <Grid item>
             <DateTimePicker
@@ -358,7 +362,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         />
         <Grid container columns={2} direction="column">
           <Grid item>
-            <Typography noWrap>To date</Typography>
+            <Typography noWrap sx={{ fontWeight: 'bold' }}>
+              To date
+            </Typography>
           </Grid>
           <Grid item>
             <DateTimePicker
