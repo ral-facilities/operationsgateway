@@ -154,6 +154,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 display: 'flex',
                 ...stickyColumnStyles,
                 left: header.getStart('left'),
+                display: 'flex',
               }}
             >
               <Checkbox
@@ -162,7 +163,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 }}
                 size="small"
                 color="primary"
-                sx={{ p: '5px', m: '4px' }}
+                sx={{ p: '5px', m: '4px', alignSelf: 'center' }}
                 checked={table.getIsAllPageRowsSelected()}
                 indeterminate={table.getIsSomePageRowsSelected()}
                 // toggle all rows on current page

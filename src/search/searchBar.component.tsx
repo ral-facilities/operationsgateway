@@ -328,6 +328,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterShotnumMin(undefined);
       setSearchParameterShotnumMax(undefined);
       setMaxShots(MAX_SHOTS_VALUES[0]);
+      setTimeframeRange(null);
       sessionIdChange.current = true;
     } else firstUpdate.current = false;
   }, [sessionId]);
@@ -585,14 +586,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                       </Box>
                     }
                   >
-                    <Button
-                      variant={paramsUpdated ? 'contained' : 'outlined'}
-                      sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
-                      onClick={handleSearch}
-                      disabled={invalidDateRange || invalidShotNumberRange}
-                    >
-                      Search
-                    </Button>
+                    <span>
+                      <Button
+                        variant={paramsUpdated ? 'contained' : 'outlined'}
+                        sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
+                        onClick={handleSearch}
+                        disabled={invalidDateRange || invalidShotNumberRange}
+                      >
+                        Search
+                      </Button>
+                    </span>
                   </Tooltip>
                 ) : (
                   <Button
