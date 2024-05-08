@@ -1,16 +1,123 @@
 import axios, { AxiosError } from 'axios';
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 import { selectSelectedRows } from '../state/slices/selectionSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
+import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import { SearchParams, SortType } from '../app.types';
+import { staticChannels } from './channels';
 
 const exportData = (
   apiUrl: string,
-  selectedRows: string[]
+  sort: SortType,
+  searchParams: SearchParams,
+  filters: string[],
+  offsetParams?: {
+    startIndex: number;
+    stopIndex: number;
+  },
+  projection?: string[],
+  dataToExport?: {
+    Scalars: boolean;
+    Images: boolean;
+    'Waveform CSVs': boolean;
+    'Waveform Images': boolean;
+  },
+  selectedRows?: string[]
 ): Promise<string> => {
+  const queryParams = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(sort)) {
+    // API recognises sort values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const sortKey =
+      key in staticChannels ? `metadata.${key}` : `channels.${key}`;
+    queryParams.append('order', `${sortKey} ${value}`);
+  }
+
+  const { dateRange } = searchParams;
+
+  let timestampObj = {};
+  if (dateRange.fromDate || dateRange.toDate) {
+    timestampObj = {
+      'metadata.timestamp': {
+        $gte: dateRange.fromDate,
+        $lte: dateRange.toDate,
+      },
+    };
+  }
+
+  const filtersObj = filters
+    .filter((f) => f.length !== 0)
+    .map((f) => JSON.parse(f));
+
+  const searchObj = [];
+  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+
+  searchObj.push(...filtersObj);
+
+  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
+
+  projection?.forEach((channel) => {
+    // API recognises projection values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const key =
+      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+    queryParams.append('projection', key);
+
+    if (!(channel in staticChannels)) {
+      existsConditions.push({ [key]: { $exists: true } });
+    }
+  });
+
+  // TODO: if selected rows - add in condition to search obj
+  if (selectedRows) {
+    searchObj.push({ _id: { $in: selectedRows } });
+  }
+
+  if (existsConditions.length > 0 || searchObj.length > 0) {
+    const query =
+      existsConditions.length > 0 && searchObj.length > 0
+        ? { $and: searchObj, $or: existsConditions }
+        : existsConditions.length > 0
+          ? { $or: existsConditions }
+          : { $and: searchObj };
+
+    queryParams.append('conditions', JSON.stringify(query));
+  }
+
+  if (dataToExport) {
+    queryParams.append(
+      'export_scalars',
+      JSON.stringify(dataToExport['Scalars'])
+    );
+    queryParams.append('export_images', JSON.stringify(dataToExport['Images']));
+    queryParams.append(
+      'export_waveform_csvs',
+      JSON.stringify(dataToExport['Waveform CSVs'])
+    );
+    queryParams.append(
+      'export_waveform_images',
+      JSON.stringify(dataToExport['Waveform Images'])
+    );
+  }
+
+  queryParams.append(
+    'skip',
+    offsetParams ? JSON.stringify(offsetParams.startIndex) : '0'
+  );
+  queryParams.append(
+    'limit',
+    offsetParams
+      ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
+      : '0'
+  );
+
   return axios
-    .post(`${apiUrl}/export`, selectedRows, {
+    .get(`${apiUrl}/export`, {
+      params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
       },
@@ -20,15 +127,47 @@ const exportData = (
     });
 };
 
-export const useExportData = (): UseQueryResult<void, AxiosError> => {
-  const selectedRows = useAppSelector(selectSelectedRows);
+export const useExportData = (): UseMutationResult<string, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
+  const selectedRows = useAppSelector(selectSelectedRows);
+  const { searchParams, page, resultsPerPage, sort, filters } =
+    useAppSelector(selectQueryParams);
+  const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
-  return useQuery({
-    queryKey: ['exportData'],
+  const { maxShots } = searchParams;
 
-    queryFn: (params) => {
-      return exportData(apiUrl, selectedRows);
+  return useMutation({
+    mutationKey: ['exportData'],
+
+    mutationFn: (params) => {
+      const { exportType, dataToExport } = params as {
+        exportType: string;
+        dataToExport: {
+          Scalars: boolean;
+          Images: boolean;
+          'Waveform CSVs': boolean;
+          'Waveform Images': boolean;
+        };
+      };
+      const startIndex =
+        exportType === 'Visible Rows' ? page * resultsPerPage : 0;
+      const stopIndex =
+        exportType === 'Visible Rows'
+          ? startIndex + resultsPerPage
+          : exportType === 'All Rows'
+            ? maxShots
+            : 0;
+
+      return exportData(
+        apiUrl,
+        sort,
+        searchParams,
+        filters,
+        { startIndex, stopIndex },
+        projection,
+        dataToExport,
+        exportType === 'Selected Rows' ? selectedRows : undefined
+      );
     },
   });
 };

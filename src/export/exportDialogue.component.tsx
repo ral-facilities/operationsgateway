@@ -13,9 +13,7 @@ import {
   Divider,
 } from '@mui/material';
 import React from 'react';
-import { useAppSelector } from '../state/hooks';
-import { selectSelectedRows } from '../state/slices/selectionSlice';
-// import { useExportData } from '../api/export';
+import { useExportData } from '../api/export';
 
 export interface ExportDialogueProps {
   open: boolean;
@@ -25,6 +23,7 @@ export interface ExportDialogueProps {
 const ExportDialogue = (props: ExportDialogueProps) => {
   const { open, onClose } = props;
 
+  const mutation = useExportData();
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
@@ -40,9 +39,10 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   }, [onClose]);
 
   const handleExportClick = () => {
-    console.log('Export Type:', selectedExportType);
-    console.log('Export Content:', selectedExportContent);
-    console.log('Selected Rows:', selectedRows);
+    mutation.mutate({
+      exportType: selectedExportType,
+      dataToExport: selectedExportContent,
+    });
   };
 
   const handleRowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +55,6 @@ const ExportDialogue = (props: ExportDialogueProps) => {
       [event.target.value]: event.target.checked,
     });
   };
-
-  const selectedRows = useAppSelector(selectSelectedRows);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg">
