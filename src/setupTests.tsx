@@ -17,6 +17,7 @@ import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialState as initialSelectionState } from './state/slices/selectionSlice';
 import {
   initialState as initialPlotState,
   PlotConfig,
@@ -121,6 +122,7 @@ export const getInitialState = (): RootState => ({
   plots: initialPlotState,
   filter: initialFilterState,
   windows: initialWindowsState,
+  selection: initialSelectionState, // Add the 'selection' property here
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>
