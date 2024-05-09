@@ -9,7 +9,7 @@ import { readSciGatewayToken } from '../parseTokens';
 import { SearchParams, SortType } from '../app.types';
 import { staticChannels } from './channels';
 
-const exportData = (
+export const exportData = (
   apiUrl: string,
   sort: SortType,
   searchParams: SearchParams,
@@ -121,8 +121,24 @@ const exportData = (
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
       },
+      responseType: 'blob',
     })
     .then((response) => {
+      const href = URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = href;
+      link.setAttribute(
+        'download',
+        // response.headers['content-disposition'].split('filename=')[1]
+        'export.zip'
+      );
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      URL.revokeObjectURL(href);
+
+      // TODO: does it have to return anything?
       return response.data;
     });
 };

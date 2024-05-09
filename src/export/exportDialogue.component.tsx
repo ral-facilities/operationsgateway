@@ -23,7 +23,7 @@ export interface ExportDialogueProps {
 const ExportDialogue = (props: ExportDialogueProps) => {
   const { open, onClose } = props;
 
-  const mutation = useExportData();
+  const mutate = useExportData().mutate;
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
@@ -38,12 +38,11 @@ const ExportDialogue = (props: ExportDialogueProps) => {
     onClose();
   }, [onClose]);
 
-  const handleExportClick = () => {
-    mutation.mutate({
+  const handleExportClick = () =>
+    mutate({
       exportType: selectedExportType,
       dataToExport: selectedExportContent,
     });
-  };
 
   const handleRowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedExportType(event.target.value);
