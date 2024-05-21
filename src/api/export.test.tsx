@@ -2,19 +2,19 @@ import axios from 'axios';
 import { useExportData } from './export';
 import { renderHook, waitFor } from '@testing-library/react';
 import { hooksWrapperWithProviders, getInitialState } from '../setupTests';
+import { RootState } from '../state/store';
 
 jest.mock('axios');
 
 describe('useExportData', () => {
-  let state = getInitialState();
+  let state: RootState;
+  const mockLinkClick = jest.fn();
+  const mockLinkRemove = jest.fn();
+  // const mockLinkSetAttribute = jest.fn();
+  let mockLink: HTMLAnchorElement = {};
 
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('sends axios request to export data and returns successful response', async () => {
-    (axios.get as jest.Mock).mockResolvedValue({});
-
+    state = getInitialState();
     state = {
       ...getInitialState(),
       selection: {
@@ -39,6 +39,37 @@ describe('useExportData', () => {
         },
       },
     };
+    mockLink = {
+      href: '',
+      download: '',
+      click: mockLinkClick,
+      remove: mockLinkRemove,
+      target: '',
+      style: {},
+      // setAttribute: mockLinkSetAttribute,
+    };
+
+    document.originalCreateElement = document.createElement;
+    document.body.originalAppendChild = document.body.appendChild;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    document.createElement = document.originalCreateElement;
+    document.body.appendChild = document.body.originalAppendChild;
+  });
+
+  it('sends axios request to export selected rows and returns successful response', async () => {
+    (axios.get as jest.Mock).mockResolvedValue({});
+
+    document.createElement = jest.fn().mockImplementation((tag) => {
+      if (tag === 'a') return mockLink;
+      else return document.originalCreateElement(tag);
+    });
+    document.body.appendChild = jest.fn().mockImplementation((node) => {
+      if (!(node instanceof Node)) return mockLink;
+      else return document.body.originalAppendChild(node);
+    });
 
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
@@ -59,7 +90,6 @@ describe('useExportData', () => {
 
     await waitFor(() => result.current.isSuccess);
 
-    //TODO: there must be a better way to do this 😅
     const params = new URLSearchParams();
     params.append('order', 'metadata.timestamp desc');
     params.append('projection', 'metadata.timestamp');
@@ -90,6 +120,159 @@ describe('useExportData', () => {
     params.append('skip', '0');
     params.append('limit', '0');
 
+    expect(axios.get).toHaveBeenCalledWith('/export', {
+      params,
+      headers: {
+        Authorization: 'Bearer null',
+      },
+      responseType: 'blob',
+    });
+
+    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
+  });
+
+  it('sends axios request to export all rows and returns successful response', async () => {
+    (axios.get as jest.Mock).mockResolvedValue({});
+
+    document.createElement = jest.fn().mockImplementation((tag) => {
+      if (tag === 'a') return mockLink;
+      else return document.originalCreateElement(tag);
+    });
+    document.body.appendChild = jest.fn().mockImplementation((node) => {
+      if (!(node instanceof Node)) return mockLink;
+      else return document.body.originalAppendChild(node);
+    });
+
+    const { result } = renderHook(() => useExportData(), {
+      wrapper: hooksWrapperWithProviders(state),
+    });
+
+    expect(axios.get).not.toHaveBeenCalled();
+    expect(result.current.isIdle).toBe(true);
+
+    result.current.mutate({
+      exportType: 'All Rows',
+      dataToExport: {
+        Scalars: false,
+        Images: true,
+        'Waveform CSVs': false,
+        'Waveform Images': true,
+      },
+    });
+
+    await waitFor(() => result.current.isSuccess);
+
+    const params = new URLSearchParams();
+
+    params.append('order', 'metadata.timestamp desc');
+    params.append('projection', 'metadata.timestamp');
+    params.append('projection', 'channels.ChannelA');
+    params.append('projection', 'channels.ChannelB');
+    params.append(
+      'conditions',
+      JSON.stringify({
+        $and: [
+          {
+            'metadata.timestamp': {
+              $gte: '2022-10-17T00:00:00',
+              $lte: '2022-11-04T23:59:59',
+            },
+          },
+        ],
+        $or: [
+          { 'channels.ChannelA': { $exists: true } },
+          { 'channels.ChannelB': { $exists: true } },
+        ],
+      })
+    );
+    params.append('export_scalars', 'false');
+    params.append('export_images', 'true');
+    params.append('export_waveform_csvs', 'false');
+    params.append('export_waveform_images', 'true');
+    params.append('skip', '0');
+    params.append('limit', '1000');
+
+    expect(axios.get).toHaveBeenCalledWith('/export', {
+      params,
+      headers: {
+        Authorization: 'Bearer null',
+      },
+      responseType: 'blob',
+    });
+
+    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
+  });
+
+  it('sends axios request to export visible rows and returns successful response', async () => {
+    (axios.get as jest.Mock).mockResolvedValue({});
+
+    document.createElement = jest.fn().mockImplementation((tag) => {
+      if (tag === 'a') return mockLink;
+      else return document.originalCreateElement(tag);
+    });
+    document.body.appendChild = jest.fn().mockImplementation((node) => {
+      if (!(node instanceof Node)) return mockLink;
+      else return document.body.originalAppendChild(node);
+    });
+
+    const { result } = renderHook(() => useExportData(), {
+      wrapper: hooksWrapperWithProviders(state),
+    });
+
+    expect(axios.get).not.toHaveBeenCalled();
+    expect(result.current.isIdle).toBe(true);
+
+    result.current.mutate({
+      exportType: 'Visible Rows',
+      dataToExport: {
+        Scalars: true,
+        Images: true,
+        'Waveform CSVs': false,
+        'Waveform Images': false,
+      },
+    });
+
+    await waitFor(() => result.current.isSuccess);
+
+    const params = new URLSearchParams();
+    params.append('order', 'metadata.timestamp desc');
+    params.append('projection', 'metadata.timestamp');
+    params.append('projection', 'channels.ChannelA');
+    params.append('projection', 'channels.ChannelB');
+    params.append(
+      'conditions',
+      JSON.stringify({
+        $and: [
+          {
+            'metadata.timestamp': {
+              $gte: '2022-10-17T00:00:00',
+              $lte: '2022-11-04T23:59:59',
+            },
+          },
+        ],
+        $or: [
+          { 'channels.ChannelA': { $exists: true } },
+          { 'channels.ChannelB': { $exists: true } },
+        ],
+      })
+    );
+    params.append('export_scalars', 'true');
+    params.append('export_images', 'true');
+    params.append('export_waveform_csvs', 'false');
+    params.append('export_waveform_images', 'false');
+    params.append('skip', '25');
+    params.append('limit', '25');
+
     console.log(params.toString());
 
     expect(axios.get).toHaveBeenCalledWith('/export', {
@@ -99,6 +282,13 @@ describe('useExportData', () => {
       },
       responseType: 'blob',
     });
+
+    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
   });
 
   it.todo(

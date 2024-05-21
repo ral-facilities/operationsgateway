@@ -9,6 +9,13 @@ import { readSciGatewayToken } from '../parseTokens';
 import { SearchParams, SortType } from '../app.types';
 import { staticChannels } from './channels';
 
+interface DataToExport {
+  Scalars: boolean;
+  Images: boolean;
+  'Waveform CSVs': boolean;
+  'Waveform Images': boolean;
+}
+
 export const exportData = (
   apiUrl: string,
   sort: SortType,
@@ -19,14 +26,9 @@ export const exportData = (
     stopIndex: number;
   },
   projection?: string[],
-  dataToExport?: {
-    Scalars: boolean;
-    Images: boolean;
-    'Waveform CSVs': boolean;
-    'Waveform Images': boolean;
-  },
+  dataToExport?: DataToExport,
   selectedRows?: string[]
-): Promise<string> => {
+): Promise<void> => {
   const queryParams = new URLSearchParams();
 
   for (const [key, value] of Object.entries(sort)) {
@@ -127,23 +129,21 @@ export const exportData = (
       const href = URL.createObjectURL(response.data);
       const link = document.createElement('a');
       link.href = href;
-      link.setAttribute(
-        'download',
-        // response.headers['content-disposition'].split('filename=')[1]
-        'export.zip'
-      );
+      link.download = response.headers['content-disposition']
+        .split('filename=')[1]
+        .slice(1, -1);
+
+      link.style.display = 'none';
+
       document.body.appendChild(link);
       link.click();
 
-      document.body.removeChild(link);
+      link.remove();
       URL.revokeObjectURL(href);
-
-      // TODO: does it have to return anything?
-      return response.data;
     });
 };
 
-export const useExportData = (): UseMutationResult<string, AxiosError> => {
+export const useExportData = (): UseMutationResult<void, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const selectedRows = useAppSelector(selectSelectedRows);
   const { searchParams, page, resultsPerPage, sort, filters } =
@@ -158,12 +158,7 @@ export const useExportData = (): UseMutationResult<string, AxiosError> => {
     mutationFn: (params) => {
       const { exportType, dataToExport } = params as {
         exportType: string;
-        dataToExport: {
-          Scalars: boolean;
-          Images: boolean;
-          'Waveform CSVs': boolean;
-          'Waveform Images': boolean;
-        };
+        dataToExport: DataToExport;
       };
       const startIndex =
         exportType === 'Visible Rows' ? page * resultsPerPage : 0;

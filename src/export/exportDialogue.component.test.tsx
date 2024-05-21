@@ -1,4 +1,5 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../setupTests';
 import ExportDialogue from './exportDialogue.component';
 import React from 'react';
@@ -9,10 +10,14 @@ jest.mock('../api/export', () => ({
 }));
 
 describe('ExportDialogue', () => {
+  let user: ReturnType<typeof userEvent.setup>;
+
   beforeEach(() => {
     (useExportData as jest.Mock).mockReturnValue({
       mutate: jest.fn(),
     });
+
+    user = userEvent.setup();
   });
 
   it('renders ExportDialogue component', () => {
@@ -23,44 +28,44 @@ describe('ExportDialogue', () => {
     expect(exportDataTitle).toBeInTheDocument();
   });
 
-  it('handles row change', () => {
+  it('handles row change', async () => {
     renderComponentWithProviders(
       <ExportDialogue open={true} onClose={() => {}} />
     );
     const allRowsRadio = screen.getByLabelText('All Rows') as HTMLInputElement;
-    fireEvent.click(allRowsRadio);
+    await user.click(allRowsRadio);
     expect(allRowsRadio.checked).toBe(true);
 
     const visibleRowsRadio = screen.getByLabelText(
       'Visible Rows'
     ) as HTMLInputElement;
-    fireEvent.click(visibleRowsRadio);
+    await user.click(visibleRowsRadio);
     expect(visibleRowsRadio.checked).toBe(true);
     expect(allRowsRadio.checked).toBe(false);
   });
 
-  it('handles content change', () => {
+  it('handles content change', async () => {
     renderComponentWithProviders(
       <ExportDialogue open={true} onClose={() => {}} />
     );
     const imagesCheckbox = screen.getByLabelText('Images') as HTMLInputElement;
     expect(imagesCheckbox.checked).toBe(false);
 
-    fireEvent.click(imagesCheckbox);
+    await user.click(imagesCheckbox);
     expect(imagesCheckbox.checked).toBe(true);
   });
 
-  it('handles closing the dialogue', () => {
+  it('handles closing the dialogue', async () => {
     const onCloseMock = jest.fn();
     renderComponentWithProviders(
       <ExportDialogue open={true} onClose={onCloseMock} />
     );
     const cancelButton = screen.getByText('Cancel');
-    fireEvent.click(cancelButton);
+    await user.click(cancelButton);
     expect(onCloseMock).toHaveBeenCalled();
   });
 
-  it('handles export click', () => {
+  it('handles export click', async () => {
     const onCloseMock = jest.fn();
     const exportData = jest.fn();
     (useExportData as jest.Mock).mockReturnValue({
@@ -71,7 +76,7 @@ describe('ExportDialogue', () => {
     );
 
     const exportButton = screen.getByText('Export');
-    fireEvent.click(exportButton);
+    await user.click(exportButton);
     expect(exportData).toHaveBeenCalledWith({
       exportType: 'All Rows',
       dataToExport: {
