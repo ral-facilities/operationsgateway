@@ -26,6 +26,9 @@
 
 import '@testing-library/cypress/add-commands';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('cypress-delete-downloads-folder').addCustomCommand();
+
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
     name: 'DRAGNDROP',

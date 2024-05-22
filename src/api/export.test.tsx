@@ -4,13 +4,10 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { hooksWrapperWithProviders, getInitialState } from '../setupTests';
 import { RootState } from '../state/store';
 
-jest.mock('axios');
-
 describe('useExportData', () => {
   let state: RootState;
   const mockLinkClick = jest.fn();
   const mockLinkRemove = jest.fn();
-  // const mockLinkSetAttribute = jest.fn();
   let mockLink: HTMLAnchorElement = {};
 
   beforeEach(() => {
@@ -60,7 +57,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export selected rows and returns successful response', async () => {
-    (axios.get as jest.Mock).mockResolvedValue({});
+    const getSpy = jest.spyOn(axios, 'get');
 
     document.createElement = jest.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -120,7 +117,7 @@ describe('useExportData', () => {
     params.append('skip', '0');
     params.append('limit', '0');
 
-    expect(axios.get).toHaveBeenCalledWith('/export', {
+    expect(getSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -129,7 +126,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('testObjectUrl');
-    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.download).toEqual('scwcdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -137,7 +134,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export all rows and returns successful response', async () => {
-    (axios.get as jest.Mock).mockResolvedValue({});
+    const getSpy = jest.spyOn(axios, 'get');
 
     document.createElement = jest.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -197,7 +194,7 @@ describe('useExportData', () => {
     params.append('skip', '0');
     params.append('limit', '1000');
 
-    expect(axios.get).toHaveBeenCalledWith('/export', {
+    expect(getSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -206,7 +203,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('testObjectUrl');
-    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.download).toEqual('imwidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -214,7 +211,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export visible rows and returns successful response', async () => {
-    (axios.get as jest.Mock).mockResolvedValue({});
+    const getSpy = jest.spyOn(axios, 'get');
 
     document.createElement = jest.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -236,7 +233,7 @@ describe('useExportData', () => {
       exportType: 'Visible Rows',
       dataToExport: {
         Scalars: true,
-        Images: true,
+        Images: false,
         'Waveform CSVs': false,
         'Waveform Images': false,
       },
@@ -267,15 +264,13 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'true');
-    params.append('export_images', 'true');
+    params.append('export_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
     params.append('skip', '25');
     params.append('limit', '25');
 
-    console.log(params.toString());
-
-    expect(axios.get).toHaveBeenCalledWith('/export', {
+    expect(getSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -284,7 +279,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('testObjectUrl');
-    expect(mockLink.download).toEqual('export.zip');
+    expect(mockLink.download).toEqual('scdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();

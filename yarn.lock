@@ -6685,6 +6685,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cypress-delete-downloads-folder@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "cypress-delete-downloads-folder@npm:0.0.5"
+  checksum: 694f1f5fceb146e7b249a886fceeeb21d18bd1a53cec68381b130aa5e7eb2348f8525a2f5671d83735778abbbcd58b6c634ae53f1721a7939344716f61f5a77f
+  languageName: node
+  linkType: hard
+
 "cypress-failed-log@npm:2.10.0":
   version: 2.10.0
   resolution: "cypress-failed-log@npm:2.10.0"
@@ -12277,6 +12284,7 @@ __metadata:
     chartjs-plugin-zoom: "npm:2.0.0"
     cross-env: "npm:7.0.3"
     cypress: "npm:12.17.3"
+    cypress-delete-downloads-folder: "npm:^0.0.5"
     cypress-failed-log: "npm:2.10.0"
     date-fns: "npm:3.3.0"
     eslint: "npm:8.56.0"

@@ -35,8 +35,6 @@ import {
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
-import { useAppDispatch } from '../state/hooks';
-import { setSelectedRows } from '../state/slices/selectionSlice';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -67,6 +65,9 @@ export interface TableProps {
   resultsPerPage: number;
   onPageChange: (page: number) => void;
   onResultsPerPageChange: (resultsPerPage: number) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onRowSelectionChange: (newValue: any) => void;
+  selectedRows: Record<string, boolean>;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
   onColumnWordWrapToggle: (column: string) => void;
@@ -91,6 +92,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     resultsPerPage,
     onPageChange,
     onResultsPerPageChange,
+    onRowSelectionChange,
+    selectedRows,
     sort,
     onSort,
     onColumnWordWrapToggle,
@@ -99,8 +102,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     openFilters,
     filteredChannelNames,
   } = props;
-
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
   const prevDataRef = React.useRef<RecordRow[]>([]);
@@ -215,7 +216,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     state: {
       columnOrder: tableColumnOrder,
       columnVisibility: tableColumnVisibility,
-      rowSelection,
+      rowSelection: selectedRows,
       columnPinning,
     },
     enableRowSelection: true,
@@ -223,19 +224,9 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row._id,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: onRowSelectionChange,
     columnResizeMode: 'onChange',
   });
-
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    // create an array with selected row ids
-    const selectedRows = Object.keys(rowSelection).filter(
-      (rowId) => rowSelection[rowId as keyof typeof rowSelection]
-    );
-    dispatch(setSelectedRows(selectedRows));
-  }, [dispatch, rowSelection]);
 
   return (
     <div>

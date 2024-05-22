@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
@@ -21,12 +21,32 @@ export const selectionSlice = createSlice({
     setSelectedRows: (state, action: PayloadAction<string[]>) => {
       state.selectedRows = action.payload;
     },
+    setSelectedRowsFromObject: (
+      state,
+      action: PayloadAction<Record<string, boolean>>
+    ) => {
+      state.selectedRows = Object.keys(action.payload);
+    },
   },
 });
 
-export const { setSelectedRows } = selectionSlice.actions;
+export const { setSelectedRows, setSelectedRowsFromObject } =
+  selectionSlice.actions;
 
 export const selectSelectedRows = (state: RootState) =>
   state.selection?.selectedRows;
+
+export const selectSelectedRowsObject = createSelector(
+  [selectSelectedRows],
+  (selectedRows) => {
+    return selectedRows.reduce(
+      (obj: Record<string, boolean>, rowId: string) => {
+        obj[rowId] = true;
+        return obj;
+      },
+      {}
+    );
+  }
+);
 
 export default selectionSlice.reducer;

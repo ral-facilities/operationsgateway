@@ -297,4 +297,22 @@ export const handlers = [
     preferredColourMap = (await req.json()).value;
     return res(ctx.status(200), ctx.json(preferredColourMap));
   }),
+  rest.get('/export', async (req, res, ctx) => {
+    const enc = new TextEncoder();
+    const uintarr = enc.encode(
+      'timestamp,\n2022-10-03 08:09:00,\n2022-10-03 08:15:00,\n2022-10-03 08:21:00,'
+    );
+    const arrBuffer = uintarr.buffer;
+
+    const testString = `${req.url.searchParams.get('export_scalars') === 'true' ? 'sc' : ''}${req.url.searchParams.get('export_images') === 'true' ? 'im' : ''}${req.url.searchParams.get('export_waveform_csvs') === 'true' ? 'wc' : ''}${req.url.searchParams.get('export_waveform_images') === 'true' ? 'wi' : ''}`;
+    return res(
+      ctx.status(200),
+      ctx.set('Content-Type', 'text/plain'),
+      ctx.set(
+        'Content-Disposition',
+        `attachment; filename="${testString}download.csv"`
+      ),
+      ctx.body(arrBuffer)
+    );
+  }),
 ];

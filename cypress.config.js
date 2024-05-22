@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { defineConfig } = require('cypress');
+const { removeDirectory } = require('cypress-delete-downloads-folder');
 
 module.exports = defineConfig({
   chromeWebSecurity: false,
@@ -10,6 +11,7 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on) {
+      on('task', { removeDirectory });
       // https://github.com/bahmutov/cypress-failed-log
       require('cypress-failed-log/on')(on);
     },

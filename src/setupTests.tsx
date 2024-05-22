@@ -35,6 +35,9 @@ import { matchRequestUrl, MockedRequest } from 'msw';
 import channelsJson from './mocks/channels.json';
 import crypto from 'crypto';
 import failOnConsole from 'jest-fail-on-console';
+import { TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
 
 failOnConsole();
 
@@ -49,6 +52,20 @@ afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished.
 afterAll(() => server.close());
+
+if (typeof window.URL.createObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'createObjectURL', {
+    value: () => 'testObjectUrl',
+  });
+}
+
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {},
+  });
+}
 
 /**
  * Waits for msw request -

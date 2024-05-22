@@ -63,6 +63,7 @@ const RAW_RUNTIME_STATE =
           ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
           ["cross-env", "npm:7.0.3"],\
           ["cypress", "npm:12.17.3"],\
+          ["cypress-delete-downloads-folder", "npm:0.0.5"],\
           ["cypress-failed-log", "npm:2.10.0"],\
           ["date-fns", "npm:3.3.0"],\
           ["eslint", "npm:8.56.0"],\
@@ -9771,6 +9772,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["cypress-delete-downloads-folder", [\
+      ["npm:0.0.5", {\
+        "packageLocation": "./.yarn/cache/cypress-delete-downloads-folder-npm-0.0.5-a415d9b3df-694f1f5fce.zip/node_modules/cypress-delete-downloads-folder/",\
+        "packageDependencies": [\
+          ["cypress-delete-downloads-folder", "npm:0.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["cypress-failed-log", [\
       ["npm:2.10.0", {\
         "packageLocation": "./.yarn/cache/cypress-failed-log-npm-2.10.0-c790be5ca6-5321f40117.zip/node_modules/cypress-failed-log/",\
@@ -16177,6 +16187,7 @@ const RAW_RUNTIME_STATE =
           ["chartjs-plugin-zoom", "virtual:c9244accb1038960b8bd2ad679a4254224d40b15df01d8c1ca49bdc22d22637447d555aee5f07b768c5deaa012fb66b3da954479d1ae1181e2bbdad9a15b5496#npm:2.0.0"],\
           ["cross-env", "npm:7.0.3"],\
           ["cypress", "npm:12.17.3"],\
+          ["cypress-delete-downloads-folder", "npm:0.0.5"],\
           ["cypress-failed-log", "npm:2.10.0"],\
           ["date-fns", "npm:3.3.0"],\
           ["eslint", "npm:8.56.0"],\
