@@ -39,6 +39,7 @@ export const selectSelectedRows = (state: RootState) =>
 export const selectSelectedRowsObject = createSelector(
   [selectSelectedRows],
   (selectedRows) => {
+    if (!selectedRows) return {};
     return selectedRows.reduce(
       (obj: Record<string, boolean>, rowId: string) => {
         obj[rowId] = true;

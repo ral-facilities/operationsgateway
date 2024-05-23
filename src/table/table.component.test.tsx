@@ -49,6 +49,7 @@ describe('Table', () => {
   const onDragEnd = jest.fn();
   const onColumnWordWrapToggle = jest.fn();
   const openFilters = jest.fn();
+  const onRowSelectionChange = jest.fn();
 
   const createView = () => {
     return renderComponentWithProviders(<Table {...props} />);
@@ -74,6 +75,8 @@ describe('Table', () => {
       resultsPerPage: 25,
       onPageChange,
       onResultsPerPageChange,
+      onRowSelectionChange,
+      selectedRows: {},
       sort: {},
       onSort,
       onColumnClose,
