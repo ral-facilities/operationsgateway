@@ -23,6 +23,7 @@ import {
   selectSelectedRowsObject,
   setSelectedRows,
 } from '../state/slices/selectionSlice';
+import { Updater, RowSelectionState } from '@tanstack/react-table';
 
 export const extractChannelsFromTokens = (
   appliedFilters: Token[][]
@@ -91,9 +92,12 @@ const RecordTable = React.memo(
 
     const selectedRows = useAppSelector(selectSelectedRowsObject);
     const onRowSelectionChange = React.useCallback(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (newValue: any) => {
-        dispatch(setSelectedRows(newValue(selectedRows)));
+      (newValue: Updater<RowSelectionState>) => {
+        const updater = newValue as (
+          old: RowSelectionState
+        ) => RowSelectionState;
+
+        dispatch(setSelectedRows(updater(selectedRows)));
       },
       [dispatch, selectedRows]
     );

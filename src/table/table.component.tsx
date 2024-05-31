@@ -15,6 +15,8 @@ import {
   flexRender,
   ColumnDef,
   VisibilityState,
+  Updater,
+  RowSelectionState,
 } from '@tanstack/react-table';
 import {
   Backdrop,
@@ -65,8 +67,7 @@ export interface TableProps {
   resultsPerPage: number;
   onPageChange: (page: number) => void;
   onResultsPerPageChange: (resultsPerPage: number) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onRowSelectionChange: (newValue: any) => void;
+  onRowSelectionChange: (newValue: Updater<RowSelectionState>) => void;
   selectedRows: Record<string, boolean>;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;

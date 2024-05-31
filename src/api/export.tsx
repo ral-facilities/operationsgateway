@@ -74,7 +74,6 @@ export const exportData = (
     }
   });
 
-  // TODO: if selected rows - add in condition to search obj
   if (selectedRows) {
     searchObj.push({ _id: { $in: selectedRows } });
   }

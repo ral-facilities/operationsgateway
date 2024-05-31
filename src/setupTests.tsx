@@ -139,7 +139,7 @@ export const getInitialState = (): RootState => ({
   plots: initialPlotState,
   filter: initialFilterState,
   windows: initialWindowsState,
-  selection: initialSelectionState, // Add the 'selection' property here
+  selection: initialSelectionState,
 });
 export const dispatch = (
   action: Action | ThunkAction<void, RootState, unknown, Action<string>>

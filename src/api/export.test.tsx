@@ -43,7 +43,6 @@ describe('useExportData', () => {
       remove: mockLinkRemove,
       target: '',
       style: {},
-      // setAttribute: mockLinkSetAttribute,
     };
 
     document.originalCreateElement = document.createElement;
