@@ -21,7 +21,7 @@ import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
 import {
   selectSelectedRowsObject,
-  setSelectedRowsFromObject,
+  setSelectedRows,
 } from '../state/slices/selectionSlice';
 
 export const extractChannelsFromTokens = (
@@ -93,7 +93,7 @@ const RecordTable = React.memo(
     const onRowSelectionChange = React.useCallback(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (newValue: any) => {
-        dispatch(setSelectedRowsFromObject(newValue(selectedRows)));
+        dispatch(setSelectedRows(newValue(selectedRows)));
       },
       [dispatch, selectedRows]
     );

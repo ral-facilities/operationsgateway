@@ -18,10 +18,7 @@ export const selectionSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    setSelectedRows: (state, action: PayloadAction<string[]>) => {
-      state.selectedRows = action.payload;
-    },
-    setSelectedRowsFromObject: (
+    setSelectedRows: (
       state,
       action: PayloadAction<Record<string, boolean>>
     ) => {
@@ -30,8 +27,7 @@ export const selectionSlice = createSlice({
   },
 });
 
-export const { setSelectedRows, setSelectedRowsFromObject } =
-  selectionSlice.actions;
+export const { setSelectedRows } = selectionSlice.actions;
 
 export const selectSelectedRows = (state: RootState) =>
   state.selection?.selectedRows;
