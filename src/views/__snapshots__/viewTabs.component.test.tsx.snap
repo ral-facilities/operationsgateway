@@ -166,6 +166,40 @@ exports[`View Tabs renders correctly 1`] = `
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
+              <div
+                aria-hidden="true"
+                class="MuiBackdrop-root css-1wckrpe-MuiBackdrop-root"
+                style="opacity: 0; visibility: hidden;"
+              >
+                <div
+                  class="MuiBox-root css-1b15trw"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-h6 css-1wrli5b-MuiTypography-root"
+                  >
+                    Generating export data...
+                  </h6>
+                  <span
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1reeo09-MuiCircularProgress-root"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

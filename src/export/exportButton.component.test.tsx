@@ -10,9 +10,11 @@ describe('ExportButton', () => {
   it('opens and closes the dialog on button clicks', async () => {
     renderComponentWithProviders(<ExportButton />);
 
-    user.click(screen.getByText('Export'));
+    user = userEvent.setup();
+
+    await user.click(screen.getByRole('button', { name: 'Export' }));
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(screen.getByRole('button', { name: 'Cancel' }));
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });

@@ -106,7 +106,7 @@ const ExportDialogue = (props: ExportDialogueProps) => {
         </DialogActions>
       </Dialog>
       <Backdrop
-        open={isPending}
+        open={isPending ?? false}
         sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}
       >
         <Box

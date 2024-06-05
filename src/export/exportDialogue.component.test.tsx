@@ -70,6 +70,7 @@ describe('ExportDialogue', () => {
     const exportData = jest.fn();
     (useExportData as jest.Mock).mockReturnValue({
       mutate: exportData,
+      isPending: true,
     });
     renderComponentWithProviders(
       <ExportDialogue open={true} onClose={onCloseMock} />
@@ -86,5 +87,7 @@ describe('ExportDialogue', () => {
         'Waveform Images': false,
       },
     });
+
+    expect(screen.getByText('Generating export data...')).toBeVisible();
   });
 });

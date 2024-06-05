@@ -285,6 +285,82 @@ describe('useExportData', () => {
     expect(mockLinkRemove).toHaveBeenCalled();
   });
 
+  it('sends axios request without skip and limit when maxShots is unlimited and exporting all rows', async () => {
+    state.search.searchParams.maxShots = Infinity;
+
+    const getSpy = jest.spyOn(axios, 'get');
+
+    document.createElement = jest.fn().mockImplementation((tag) => {
+      if (tag === 'a') return mockLink;
+      else return document.originalCreateElement(tag);
+    });
+    document.body.appendChild = jest.fn().mockImplementation((node) => {
+      if (!(node instanceof Node)) return mockLink;
+      else return document.body.originalAppendChild(node);
+    });
+
+    const { result } = renderHook(() => useExportData(), {
+      wrapper: hooksWrapperWithProviders(state),
+    });
+
+    expect(axios.get).not.toHaveBeenCalled();
+    expect(result.current.isIdle).toBe(true);
+
+    result.current.mutate({
+      exportType: 'All Rows',
+      dataToExport: {
+        Scalars: true,
+        Images: false,
+        'Waveform CSVs': false,
+        'Waveform Images': false,
+      },
+    });
+
+    await waitFor(() => result.current.isSuccess);
+
+    const params = new URLSearchParams();
+    params.append('order', 'metadata.timestamp desc');
+    params.append('projection', 'metadata.timestamp');
+    params.append('projection', 'channels.ChannelA');
+    params.append('projection', 'channels.ChannelB');
+    params.append(
+      'conditions',
+      JSON.stringify({
+        $and: [
+          {
+            'metadata.timestamp': {
+              $gte: '2022-10-17T00:00:00',
+              $lte: '2022-11-04T23:59:59',
+            },
+          },
+        ],
+        $or: [
+          { 'channels.ChannelA': { $exists: true } },
+          { 'channels.ChannelB': { $exists: true } },
+        ],
+      })
+    );
+    params.append('export_scalars', 'true');
+    params.append('export_images', 'false');
+    params.append('export_waveform_csvs', 'false');
+    params.append('export_waveform_images', 'false');
+
+    expect(getSpy).toHaveBeenCalledWith('/export', {
+      params,
+      headers: {
+        Authorization: 'Bearer null',
+      },
+      responseType: 'blob',
+    });
+
+    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.download).toEqual('scdownload.csv');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
+  });
+
   it.todo(
     'sends request to export data and throws an appropriate error on failure'
   );
