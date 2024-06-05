@@ -105,16 +105,18 @@ export const exportData = (
     );
   }
 
-  queryParams.append(
-    'skip',
-    offsetParams ? JSON.stringify(offsetParams.startIndex) : '0'
-  );
-  queryParams.append(
-    'limit',
-    offsetParams
-      ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
-      : '0'
-  );
+  if (!(offsetParams?.stopIndex === Infinity)) {
+    queryParams.append(
+      'skip',
+      offsetParams ? JSON.stringify(offsetParams.startIndex) : '0'
+    );
+    queryParams.append(
+      'limit',
+      offsetParams
+        ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
+        : '0'
+    );
+  }
 
   return axios
     .get(`${apiUrl}/export`, {

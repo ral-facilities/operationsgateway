@@ -8,12 +8,10 @@ describe('Export', () => {
     cy.deleteDownloadsFolder();
   });
 
-  it('opens the export dialogue', () => {
+  it('can open and close the dialog', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog').should('exist');
-  });
 
-  it('closes the export dialogue', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog').should('exist');
     cy.findByRole('button', { name: 'Cancel' }).click();

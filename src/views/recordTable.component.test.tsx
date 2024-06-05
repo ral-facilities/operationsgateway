@@ -130,7 +130,7 @@ describe('Record Table', () => {
       const user = userEvent.setup();
       server.use(
         rest.get('/records', (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json(recordsJson.slice(0, 3)));
+          return res(ctx.status(200), ctx.json(recordsJson));
         })
       );
       const { store } = createView({
