@@ -39,6 +39,11 @@ const fetchRecords = async (
 ): Promise<Record[]> => {
   const queryParams = new URLSearchParams();
 
+  // TODO: needs a proper fix (probably with a default sort)
+  if (Object.keys(sort).length === 0) {
+    sort = { timestamp: 'asc' };
+  }
+
   for (const [key, value] of Object.entries(sort)) {
     // API recognises sort values as metadata.key or channel.key
     // Therefore, we must construct the appropriate parameter
@@ -292,7 +297,7 @@ export const useRecordsPaginated = (): UseQueryResult<
       {
         page,
         resultsPerPage,
-        sort,
+        sort: JSON.stringify(sort), // need to stringify sort as property order is important!
         searchParams,
         filters,
         projection,
@@ -300,15 +305,14 @@ export const useRecordsPaginated = (): UseQueryResult<
     ],
 
     queryFn: ({ queryKey }) => {
-      const { page, resultsPerPage, sort, searchParams, filters } =
-        queryKey[1] as {
-          page: number;
-          resultsPerPage: number;
-          sort: SortType;
-          searchParams: SearchParams;
-          filters: string[];
-          projection: string[];
-        };
+      const { page, resultsPerPage, searchParams, filters } = queryKey[1] as {
+        page: number;
+        resultsPerPage: number;
+        sort: string;
+        searchParams: SearchParams;
+        filters: string[];
+        projection: string[];
+      };
 
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
@@ -491,15 +495,21 @@ export const useThumbnails = (
     queryKey: [
       'thumbnails',
       channel,
-      { page, resultsPerPage, sort, searchParams, filters },
+      {
+        page,
+        resultsPerPage,
+        sort: JSON.stringify(sort), // need to stringify sort as property order is important!
+        searchParams,
+        filters,
+      },
     ],
 
     queryFn: (params) => {
-      const { page, resultsPerPage, sort, searchParams, filters } = params
+      const { page, resultsPerPage, searchParams, filters } = params
         .queryKey[2] as {
         page: number;
         resultsPerPage: number;
-        sort: SortType;
+        sort: string;
         searchParams: SearchParams;
         filters: string[];
       };

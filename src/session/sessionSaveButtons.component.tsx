@@ -111,7 +111,6 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
   return (
     <Box
       sx={{
-        paddingRight: '16px',
         paddingLeft: '8px',
         paddingTop: '8px',
         paddingbottom: '8px',

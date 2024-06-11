@@ -19,6 +19,11 @@ import { useAvailableColumns } from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
+import {
+  selectSelectedRowsObject,
+  setSelectedRows,
+} from '../state/slices/selectionSlice';
+import { Updater, RowSelectionState } from '@tanstack/react-table';
 
 export const extractChannelsFromTokens = (
   appliedFilters: Token[][]
@@ -85,6 +90,18 @@ const RecordTable = React.memo(
       [dispatch]
     );
 
+    const selectedRows = useAppSelector(selectSelectedRowsObject);
+    const onRowSelectionChange = React.useCallback(
+      (newValue: Updater<RowSelectionState>) => {
+        const updater = newValue as (
+          old: RowSelectionState
+        ) => RowSelectionState;
+
+        dispatch(setSelectedRows(updater(selectedRows)));
+      },
+      [dispatch, selectedRows]
+    );
+
     const handleSort = React.useCallback(
       (column: string, order: Order | null) => {
         dispatch(changeSort({ column, order }));
@@ -132,6 +149,8 @@ const RecordTable = React.memo(
         loadedCount={!countLoading}
         resultsPerPage={resultsPerPage}
         onResultsPerPageChange={onResultsPerPageChange}
+        onRowSelectionChange={onRowSelectionChange}
+        selectedRows={selectedRows}
         onPageChange={onPageChange}
         sort={sort}
         onSort={handleSort}

@@ -382,6 +382,7 @@ describe('records api functions', () => {
 
       const request = await pendingRequest;
 
+      params.append('order', 'metadata.timestamp asc');
       params.append('projection', `metadata.${timeChannelName}`);
       params.append('skip', '0');
       params.append('limit', '25');
@@ -686,6 +687,7 @@ describe('records api functions', () => {
 
       const request = await pendingRequest;
 
+      params.append('order', 'metadata.timestamp asc');
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
 

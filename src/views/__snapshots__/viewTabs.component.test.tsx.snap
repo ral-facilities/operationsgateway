@@ -108,10 +108,10 @@ exports[`View Tabs renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root css-zdpt2t"
+          class="MuiBox-root css-al6ceu"
         >
           <div
-            class="MuiBox-root css-brvi3t"
+            class="MuiBox-root css-mcd6si"
           >
             <div
               class="MuiBox-root css-k008qs"
@@ -145,6 +145,61 @@ exports[`View Tabs renders correctly 1`] = `
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-brvi3t"
+          >
+            <div
+              class="MuiBox-root css-k008qs"
+            >
+              <hr
+                class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-tw7q2e-MuiDivider-root"
+              />
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium css-1owl11-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                Export
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <div
+                aria-hidden="true"
+                class="MuiBackdrop-root css-1wckrpe-MuiBackdrop-root"
+                style="opacity: 0; visibility: hidden;"
+              >
+                <div
+                  class="MuiBox-root css-1b15trw"
+                >
+                  <h6
+                    class="MuiTypography-root MuiTypography-h6 css-1wrli5b-MuiTypography-root"
+                  >
+                    Generating export data...
+                  </h6>
+                  <span
+                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1reeo09-MuiCircularProgress-root"
+                    role="progressbar"
+                    style="width: 40px; height: 40px;"
+                  >
+                    <svg
+                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                      viewBox="22 22 44 44"
+                    >
+                      <circle
+                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                        cx="44"
+                        cy="44"
+                        fill="none"
+                        r="20.2"
+                        stroke-width="3.6"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -772,7 +827,7 @@ exports[`View Tabs renders correctly 1`] = `
                     >
                       <th
                         aria-label="Select all rows"
-                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-h1zgy0-MuiTableCell-root"
+                        class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
                         role="columnheader"
                         scope="col"
                       >
@@ -853,7 +908,7 @@ exports[`View Tabs renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":r8:"
+                    id=":r9:"
                   >
                     Rows per page:
                   </p>
@@ -861,12 +916,12 @@ exports[`View Tabs renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":r9:"
+                      aria-controls=":ra:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r8: :r7:"
+                      aria-labelledby=":r9: :r8:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":r7:"
+                      id=":r8:"
                       role="combobox"
                       tabindex="0"
                     >

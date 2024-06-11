@@ -15,6 +15,8 @@ import {
   flexRender,
   ColumnDef,
   VisibilityState,
+  Updater,
+  RowSelectionState,
 } from '@tanstack/react-table';
 import {
   Backdrop,
@@ -65,6 +67,8 @@ export interface TableProps {
   resultsPerPage: number;
   onPageChange: (page: number) => void;
   onResultsPerPageChange: (resultsPerPage: number) => void;
+  onRowSelectionChange: (newValue: Updater<RowSelectionState>) => void;
+  selectedRows: Record<string, boolean>;
   sort: { [column: string]: Order };
   onSort: (column: string, order: Order | null) => void;
   onColumnWordWrapToggle: (column: string) => void;
@@ -89,6 +93,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     resultsPerPage,
     onPageChange,
     onResultsPerPageChange,
+    onRowSelectionChange,
+    selectedRows,
     sort,
     onSort,
     onColumnWordWrapToggle,
@@ -97,8 +103,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     openFilters,
     filteredChannelNames,
   } = props;
-
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
   const prevDataRef = React.useRef<RecordRow[]>([]);
@@ -145,6 +149,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               role="columnheader"
               aria-label="Select all rows"
               sx={{
+                alignItems: 'center',
+                display: 'flex',
                 ...stickyColumnStyles,
                 left: header.getStart('left'),
               }}
@@ -211,7 +217,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     state: {
       columnOrder: tableColumnOrder,
       columnVisibility: tableColumnVisibility,
-      rowSelection,
+      rowSelection: selectedRows,
       columnPinning,
     },
     enableRowSelection: true,
@@ -219,7 +225,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row._id,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: onRowSelectionChange,
     columnResizeMode: 'onChange',
   });
 

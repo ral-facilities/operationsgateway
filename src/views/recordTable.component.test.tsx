@@ -99,6 +99,61 @@ describe('Record Table', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  describe('row selection', () => {
+    it('can select all rows', async () => {
+      const user = userEvent.setup();
+
+      server.use(
+        rest.get('/records', (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json(recordsJson.slice(0, 3)));
+        })
+      );
+      const { store } = createView({
+        table: { ...state.table },
+      });
+
+      await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+        timeout: 5000,
+      });
+
+      expect(store.getState().selection.selectedRows).toEqual([]);
+
+      await user.click(screen.getByLabelText('select all rows'));
+      expect(store.getState().selection.selectedRows).toEqual(['1', '2', '3']);
+
+      // Deselect all rows
+      await user.click(screen.getByLabelText('select all rows'));
+      expect(store.getState().selection.selectedRows).toEqual([]);
+    });
+
+    it('can select single and multiple rows', async () => {
+      const user = userEvent.setup();
+      server.use(
+        rest.get('/records', (req, res, ctx) => {
+          return res(ctx.status(200), ctx.json(recordsJson));
+        })
+      );
+      const { store } = createView({
+        table: { ...state.table },
+      });
+      await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+        timeout: 5000,
+      });
+
+      expect(store.getState().selection.selectedRows).toEqual([]);
+
+      await user.click(screen.getAllByLabelText('select row')[0]);
+      expect(store.getState().selection.selectedRows).toEqual(['1']);
+
+      await user.click(screen.getAllByLabelText('select row')[1]);
+      expect(store.getState().selection.selectedRows).toEqual(['1', '2']);
+
+      // Deselect a row
+      await user.click(screen.getAllByLabelText('select row')[0]);
+      expect(store.getState().selection.selectedRows).toEqual(['2']);
+    });
+  });
+
   it('can sort columns and removes column sort when column is closed', async () => {
     const user = userEvent.setup();
     const { store } = createView({
