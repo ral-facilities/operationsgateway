@@ -47,10 +47,11 @@ exports[`session Drawer renders correctly 1`] = `
         </div>
       </div>
       <ul
+        aria-label="session list"
         class="MuiList-root css-1mk9mw3-MuiList-root"
       >
         <li
-          class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+          class="MuiListItem-root MuiListItem-gutters css-16bu54v-MuiListItem-root"
         >
           <div
             class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1qkq609-MuiButtonBase-root-MuiListItemButton-root"
@@ -66,6 +67,13 @@ exports[`session Drawer renders correctly 1`] = `
                 Session 3
               </span>
             </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </div>
+          <div
+            class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
+          >
             <div
               class="MuiBox-root css-epvm6"
             >
@@ -112,13 +120,10 @@ exports[`session Drawer renders correctly 1`] = `
                 />
               </button>
             </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </div>
         </li>
         <li
-          class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+          class="MuiListItem-root MuiListItem-gutters css-16bu54v-MuiListItem-root"
         >
           <div
             class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1qkq609-MuiButtonBase-root-MuiListItemButton-root"
@@ -134,6 +139,13 @@ exports[`session Drawer renders correctly 1`] = `
                 Session 1
               </span>
             </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </div>
+          <div
+            class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
+          >
             <div
               class="MuiBox-root css-epvm6"
             >
@@ -180,13 +192,10 @@ exports[`session Drawer renders correctly 1`] = `
                 />
               </button>
             </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </div>
         </li>
         <li
-          class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+          class="MuiListItem-root MuiListItem-gutters css-16bu54v-MuiListItem-root"
         >
           <div
             class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1qkq609-MuiButtonBase-root-MuiListItemButton-root"
@@ -202,6 +211,13 @@ exports[`session Drawer renders correctly 1`] = `
                 Session 4
               </span>
             </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </div>
+          <div
+            class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
+          >
             <div
               class="MuiBox-root css-epvm6"
             >
@@ -248,13 +264,10 @@ exports[`session Drawer renders correctly 1`] = `
                 />
               </button>
             </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </div>
         </li>
         <li
-          class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+          class="MuiListItem-root MuiListItem-gutters css-16bu54v-MuiListItem-root"
         >
           <div
             class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-1qkq609-MuiButtonBase-root-MuiListItemButton-root"
@@ -270,6 +283,13 @@ exports[`session Drawer renders correctly 1`] = `
                 Session 2
               </span>
             </div>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </div>
+          <div
+            class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
+          >
             <div
               class="MuiBox-root css-epvm6"
             >
@@ -316,9 +336,6 @@ exports[`session Drawer renders correctly 1`] = `
                 />
               </button>
             </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </div>
         </li>
       </ul>

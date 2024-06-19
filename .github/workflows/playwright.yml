@@ -21,7 +21,7 @@ jobs:
         run: yarn --immutable
 
       - name: Run playwright tests
-        run: yarn playwright:test
+        run: yarn playwright:test:mocked
 
       - name: Upload test report
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4

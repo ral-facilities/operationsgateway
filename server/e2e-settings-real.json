@@ -1,0 +1,13 @@
+{
+  "apiUrl": "http://localhost:8000",
+  "recordLimitWarning": -1,
+  "routes": [
+    {
+      "section": "Homepage",
+      "link": "/operationsgateway",
+      "displayName": "OperationsGateway",
+      "order": 0
+    }
+  ],
+  "pluginHost": "http://localhost:3000"
+}

@@ -11,7 +11,6 @@ import { devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: './e2e',
   /* Maximum time one test can run for. */
   timeout: 60 * 1000,
   expect: {
@@ -53,64 +52,86 @@ const config: PlaywrightTestConfig = {
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
-    },
-
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        launchOptions: {
-          // need these to ensure Date picker media queries pass
-          // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
-          firefoxUserPrefs: {
-            'ui.primaryPointerCapabilities': 0x02 | 0x04,
-            'ui.allPointerCapabilities': 0x02 | 0x04,
-          },
+  projects: process.env.USE_REAL_API
+    ? [
+        {
+          name: 'setup',
+          testDir: './e2e/real',
+          testMatch: /.*\.setup\.ts/,
         },
-      },
-    },
+        // full e2e tests
+        {
+          name: 'E2E tests',
+          use: {
+            ...devices['Desktop Chrome'],
+            // Use prepared auth state.
+            storageState: 'e2e/real/.auth/user.json',
+          },
+          testDir: './e2e/real',
+          dependencies: ['setup'],
+        },
+      ]
+    : [
+        {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome'],
+          },
+          testDir: './e2e/mocked',
+        },
 
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
+        {
+          name: 'firefox',
+          use: {
+            ...devices['Desktop Firefox'],
+            launchOptions: {
+              // need these to ensure Date picker media queries pass
+              // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+              firefoxUserPrefs: {
+                'ui.primaryPointerCapabilities': 0x02 | 0x04,
+                'ui.allPointerCapabilities': 0x02 | 0x04,
+              },
+            },
+          },
+          testDir: './e2e/mocked',
+        },
 
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: {
-    //     ...devices['Pixel 5'],
-    //   },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: {
-    //     ...devices['iPhone 12'],
-    //   },
-    // },
+        {
+          name: 'webkit',
+          use: {
+            ...devices['Desktop Safari'],
+          },
+          testDir: './e2e/mocked',
+        },
 
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: {
-    //     channel: 'msedge',
-    //   },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: {
-    //     channel: 'chrome',
-    //   },
-    // },
-  ],
+        /* Test against mobile viewports. */
+        // {
+        //   name: 'Mobile Chrome',
+        //   use: {
+        //     ...devices['Pixel 5'],
+        //   },
+        // },
+        // {
+        //   name: 'Mobile Safari',
+        //   use: {
+        //     ...devices['iPhone 12'],
+        //   },
+        // },
+
+        /* Test against branded browsers. */
+        // {
+        //   name: 'Microsoft Edge',
+        //   use: {
+        //     channel: 'msedge',
+        //   },
+        // },
+        // {
+        //   name: 'Google Chrome',
+        //   use: {
+        //     channel: 'chrome',
+        //   },
+        // },
+      ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
