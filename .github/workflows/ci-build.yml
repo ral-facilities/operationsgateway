@@ -106,9 +106,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ubuntu-20.04-pip-3.9-${{ env.pythonLocation }}-${{ hashFiles('.github/ci_requirements.txt') }}
+          key: ubuntu-20.04-pip-3.9-${{ env.pythonLocation }}-${{ hashFiles('operationsgateway-api/.github/ci_requirements.txt') }}
       - name: Install Poetry
         run: pip install -r .github/ci_requirements.txt
+        working-directory: ./operationsgateway-api
 
       # Install and start MongoDB
       - name: Start MongoDB
@@ -116,9 +117,21 @@ jobs:
         with:
           mongodb-version: '5.0'
 
+       # Configure correct paths in config files
+      - name: Configure private key path
+        run: yq -i ".auth.private_key_path = \"/home/runner/work/operationsgateway/id_rsa\"" .github/ci_config.yml
+        working-directory: ./operationsgateway-api
+      - name: Configure public key path
+        run: yq -i ".auth.public_key_path = \"/home/runner/work/operationsgateway/id_rsa.pub\"" .github/ci_config.yml
+        working-directory: ./operationsgateway-api
+      - name: Configure log config path
+        run: yq -i ".api.log_config_path = \"/home/runner/work/operationsgateway/operationsgateway-api/operationsgateway_api/logging.ini\"" .github/ci_ingest_echo_config.yml
+        working-directory: ./operationsgateway-api
+
       # Read the database name from the config file and store it in an environment variable
       - name: Get database name from ci_config.yml
         run: echo "DATABASE_NAME=$(grep database_name .github/ci_config.yml | cut -d ':' -f 2 | tr -d '[:space:]')" >> $GITHUB_ENV
+        working-directory: ./operationsgateway-api
 
       # Load Poetry virtual environment dependencies and install API dependencies
       - name: Load Poetry cache
@@ -174,10 +187,12 @@ jobs:
         run: yq -i ".echo.access_key = \"$ECHO_S3_ACCESS_KEY\"" .github/ci_ingest_echo_config.yml
         env:
           ECHO_S3_ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
+        working-directory: ./operationsgateway-api
       - name: Configure echo secret key
         run: yq -i ".echo.secret_key = \"$ECHO_S3_SECRET_KEY\"" .github/ci_ingest_echo_config.yml
         env:
           ECHO_S3_SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
+        working-directory: ./operationsgateway-api
       - name: Copy config for Echo Ingest script to correct place
         run: cp .github/ci_ingest_echo_config.yml util/realistic_data/config.yml
         working-directory: ./operationsgateway-api
