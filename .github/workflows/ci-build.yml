@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-mocked-tests
           path: playwright-report/
           retention-days: 10
   playwright-tests-real:
@@ -119,13 +119,16 @@ jobs:
 
        # Configure correct paths in config files
       - name: Configure private key path
-        run: yq -i ".auth.private_key_path = \"/home/runner/work/operationsgateway/id_rsa\"" .github/ci_config.yml
+        run: yq -i ".auth.private_key_path = \"$GITHUB_WORKSPACE/id_rsa\"" .github/ci_config.yml
         working-directory: ./operationsgateway-api
       - name: Configure public key path
-        run: yq -i ".auth.public_key_path = \"/home/runner/work/operationsgateway/id_rsa.pub\"" .github/ci_config.yml
+        run: yq -i ".auth.public_key_path = \"$GITHUB_WORKSPACE/id_rsa.pub\"" .github/ci_config.yml
+        working-directory: ./operationsgateway-api
+      - name: Configure api host
+        run: yq -i ".app.host = \"0.0.0.0\"" .github/ci_config.yml
         working-directory: ./operationsgateway-api
       - name: Configure log config path
-        run: yq -i ".api.log_config_path = \"/home/runner/work/operationsgateway/operationsgateway-api/operationsgateway_api/logging.ini\"" .github/ci_ingest_echo_config.yml
+        run: yq -i ".api.log_config_path = \"$GITHUB_WORKSPACE/operationsgateway-api/operationsgateway_api/logging.ini\"" .github/ci_ingest_echo_config.yml
         working-directory: ./operationsgateway-api
 
       # Read the database name from the config file and store it in an environment variable
@@ -168,16 +171,16 @@ jobs:
         working-directory: ./operationsgateway-api
 
       - name: Create SSH private key file for auth
-        run: 'echo "$SSH_KEY_PRIVATE" > /home/runner/work/operationsgateway/id_rsa'
+        run: 'echo "$SSH_KEY_PRIVATE" > $GITHUB_WORKSPACE/id_rsa'
         shell: bash
         env:
           SSH_KEY_PRIVATE: ${{secrets.SSH_PRIVATE_KEY_FOR_AUTH_OPENSSH}}
 
       - name: Set permissions on private key file
-        run: chmod 600 /home/runner/work/operationsgateway/id_rsa
+        run: chmod 600 $GITHUB_WORKSPACE/id_rsa
 
       - name: Create SSH public key file for auth
-        run: 'echo "$SSH_KEY_PUBLIC" > /home/runner/work/operationsgateway/id_rsa.pub'
+        run: 'echo "$SSH_KEY_PUBLIC" > $GITHUB_WORKSPACE/id_rsa.pub'
         shell: bash
         env:
           SSH_KEY_PUBLIC: ${{secrets.SSH_PUBLIC_KEY_FOR_AUTH_OPENSSH}}
@@ -202,7 +205,7 @@ jobs:
         working-directory: ./operationsgateway-api
 
       - name: Start API
-        run: poetry run python -m operationsgateway_api.src.main
+        run: nohup poetry run python -m operationsgateway_api.src.main > api-output.txt &
         working-directory: ./operationsgateway-api
 
       - uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
@@ -220,6 +223,6 @@ jobs:
         uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-real-tests
           path: playwright-report/
           retention-days: 10

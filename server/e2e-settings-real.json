@@ -1,5 +1,5 @@
 {
-  "apiUrl": "http://localhost:8000",
+  "apiUrl": "http://host.docker.internal:8000",
   "recordLimitWarning": -1,
   "routes": [
     {
