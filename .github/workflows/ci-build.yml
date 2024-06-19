@@ -8,8 +8,31 @@ on:
       - develop
 
 jobs:
-  test:
-    name: Tests
+  lint-and-unit-test:
+    name: Lint & Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - name: Setup Node.js
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn --immutable
+      - name: Run linting
+        run: yarn lint:js
+      - name: Run unit tests
+        run: yarn test
+      - name: Upload unit test coverage
+        if: success()
+        uses: codecov/codecov-action@e0b68c6749509c5f83f984dd99a76a1c1a231044 # v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+  cypress-tests:
+    name: Cypress Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -24,16 +47,6 @@ jobs:
         run: |
           sudo apt-get install libgconf-2-4
           yarn --immutable
-      - name: Run linting
-        run: yarn lint:js
-      - name: Run unit tests
-        run: yarn test
-      - name: Upload unit test coverage
-        if: success()
-        uses: codecov/codecov-action@e0b68c6749509c5f83f984dd99a76a1c1a231044 # v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
       - name: Run e2e tests
         run: yarn e2e
       - name: Upload Cypress screenshots
@@ -42,3 +55,156 @@ jobs:
         with:
           name: OperationsGateway Screenshots
           path: cypress/screenshots
+  playwright-tests-mocked:
+    name: Playwright Tests (mocked)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --immutable
+
+      - name: Run playwright tests
+        run: yarn playwright:test:mocked
+
+      - name: Upload test report
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 10
+  playwright-tests-real:
+    name: E2E Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Checkout OperationsGateway API
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          repository: ral-facilities/operationsgateway-api
+          ref: main
+          path: operationsgateway-api
+
+      # Install dependencies of python-ldap
+      - name: Install python-ldap dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsasl2-dev python3.9-dev libldap2-dev libssl-dev
+
+      # Setup Python and environment dependencies (via cache)
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Load Pip cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ubuntu-20.04-pip-3.9-${{ env.pythonLocation }}-${{ hashFiles('.github/ci_requirements.txt') }}
+      - name: Install Poetry
+        run: pip install -r .github/ci_requirements.txt
+
+      # Install and start MongoDB
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: '5.0'
+
+      # Read the database name from the config file and store it in an environment variable
+      - name: Get database name from ci_config.yml
+        run: echo "DATABASE_NAME=$(grep database_name .github/ci_config.yml | cut -d ':' -f 2 | tr -d '[:space:]')" >> $GITHUB_ENV
+
+      # Load Poetry virtual environment dependencies and install API dependencies
+      - name: Load Poetry cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ubuntu-20.04-poetry-3.9-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+      - name: Install dependencies
+        run: poetry install --without simulated-data
+        working-directory: ./operationsgateway-api
+
+      # Setup minio and create bucket
+      - name: Setup minio
+        run: |
+          docker run -d -p 9000:9000 --name minio \
+                     -e "MINIO_ACCESS_KEY=minioadmin" \
+                     -e "MINIO_SECRET_KEY=minioadmin" \
+                     -v /tmp/data:/data \
+                     -v /tmp/config:/root/.minio \
+                     minio/minio server /data
+          export AWS_ACCESS_KEY_ID=minioadmin
+          export AWS_SECRET_ACCESS_KEY=minioadmin
+          export AWS_EC2_METADATA_DISABLED=true
+          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://og-actions-test
+
+      - name: Move CI config.yml to correct place
+        run: cp .github/ci_config.yml operationsgateway_api/config.yml
+        working-directory: ./operationsgateway-api
+      - name: Setup logging configuration
+        run: cp operationsgateway_api/logging.ini.example operationsgateway_api/logging.ini
+        working-directory: ./operationsgateway-api
+      - name: Create log file
+        run: touch "./logs.log"
+        working-directory: ./operationsgateway-api
+
+      - name: Create SSH private key file for auth
+        run: 'echo "$SSH_KEY_PRIVATE" > /home/runner/work/operationsgateway/id_rsa'
+        shell: bash
+        env:
+          SSH_KEY_PRIVATE: ${{secrets.SSH_PRIVATE_KEY_FOR_AUTH_OPENSSH}}
+
+      - name: Set permissions on private key file
+        run: chmod 600 /home/runner/work/operationsgateway/id_rsa
+
+      - name: Create SSH public key file for auth
+        run: 'echo "$SSH_KEY_PUBLIC" > /home/runner/work/operationsgateway/id_rsa.pub'
+        shell: bash
+        env:
+          SSH_KEY_PUBLIC: ${{secrets.SSH_PUBLIC_KEY_FOR_AUTH_OPENSSH}}
+
+      # Setup steps for Echo ingestion script
+      - name: Configure echo access key
+        run: yq -i ".echo.access_key = \"$ECHO_S3_ACCESS_KEY\"" .github/ci_ingest_echo_config.yml
+        env:
+          ECHO_S3_ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
+      - name: Configure echo secret key
+        run: yq -i ".echo.secret_key = \"$ECHO_S3_SECRET_KEY\"" .github/ci_ingest_echo_config.yml
+        env:
+          ECHO_S3_SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
+      - name: Copy config for Echo Ingest script to correct place
+        run: cp .github/ci_ingest_echo_config.yml util/realistic_data/config.yml
+        working-directory: ./operationsgateway-api
+
+      - name: Run Echo Ingest script
+        run: poetry run python util/realistic_data/ingest_echo_data.py
+        working-directory: ./operationsgateway-api
+
+      - name: Start API
+        run: poetry run python -m operationsgateway_api.src.main
+        working-directory: ./operationsgateway-api
+
+      - uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4
+        with:
+          node-version: 20
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --immutable
+
+      - name: Run playwright tests
+        run: yarn playwright:test:real
+
+      - name: Upload test report
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 10

@@ -1,0 +1,7 @@
+[default]
+access_key = replace_with_access_key
+secret_key = replace_with_secret_key
+host_base = s3.echo.stfc.ac.uk
+host_bucket = s3.echo.stfc.ac.uk/
+signature_v2 = True
+public_url_use_https = True
