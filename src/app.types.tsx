@@ -272,3 +272,25 @@ export interface SessionListItem {
   timestamp: string;
   _id: string;
 }
+
+export interface FunctionTag {
+  type: 'channel' | 'functionToken' | 'function' | 'number' | 'string';
+  value: string;
+  label: string;
+}
+
+export interface FunctionToken {
+  name: string;
+  symbol: string;
+  details?: string;
+}
+
+export interface ValidateFunctionPost {
+  name: string;
+  expression: string;
+}
+
+export interface ValidateFunctionState {
+  name: string;
+  expression: FunctionTag[];
+}
