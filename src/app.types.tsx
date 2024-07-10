@@ -1,6 +1,7 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
 import type { CartesianScaleTypeRegistry } from 'chart.js';
 import { ImportSessionType } from './state/store';
+import { Token } from './filtering/filterParser';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -255,4 +256,18 @@ export interface SessionListItem {
   auto_saved: boolean;
   timestamp: string;
   _id: string;
+}
+
+export interface FunctionItem {
+  name: string;
+  // expression: string;
+  expression: Token[];
+  returnType?: DataType;
+}
+
+// TODO align this with the FE terminology in the backend
+export interface FunctionToken {
+  name: string;
+  symbol: string;
+  details?: string;
 }

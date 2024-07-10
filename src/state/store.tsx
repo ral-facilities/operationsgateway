@@ -14,6 +14,7 @@ import tableReducer from './slices/tableSlice';
 import searchReducer from './slices/searchSlice';
 import plotReducer from './slices/plotSlice';
 import filterReducer from './slices/filterSlice';
+import functionsReducer from './slices/functionsSlice';
 import windowsReducer from './slices/windowSlice';
 
 export const importSession = createAction<ImportSessionType>('IMPORT_SESSION');
@@ -26,6 +27,7 @@ const sliceReducer = combineReducers({
   search: searchReducer,
   plots: plotReducer,
   filter: filterReducer,
+  functions: functionsReducer,
   windows: windowsReducer,
 });
 

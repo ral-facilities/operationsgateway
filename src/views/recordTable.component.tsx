@@ -15,10 +15,14 @@ import {
 } from '../state/slices/tableSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectAppliedFilters } from '../state/slices/filterSlice';
-import { useAvailableColumns } from '../api/channels';
+import {
+  constructColumnDefsFromFunctions,
+  useAvailableColumns,
+} from '../api/channels';
 import { DropResult } from 'react-beautiful-dnd';
 import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
+import { selectAppliedFunctions } from '../state/slices/functionsSlice';
 
 export const extractChannelsFromTokens = (
   appliedFilters: Token[][]
@@ -50,6 +54,7 @@ const RecordTable = React.memo(
     const dispatch = useAppDispatch();
 
     const appliedFilters = useAppSelector(selectAppliedFilters);
+    const appliedFunctions = useAppSelector(selectAppliedFunctions);
     const queryParams = useAppSelector(selectQueryParams);
     const { sort, page, resultsPerPage, searchParams } = queryParams;
     const { maxShots } = searchParams;
@@ -64,9 +69,17 @@ const RecordTable = React.memo(
       [availableColumns]
     );
 
+    const availableColumnsIncludeFunctions = React.useMemo(
+      () =>
+        availableColumnsNullChecked.concat(
+          constructColumnDefsFromFunctions(appliedFunctions)
+        ),
+      [availableColumnsNullChecked, appliedFunctions]
+    );
+
     const columnStates = useAppSelector(selectColumnStates);
     const columnVisibility = useAppSelector((state) =>
-      selectColumnVisibility(state, availableColumnsNullChecked)
+      selectColumnVisibility(state, availableColumnsIncludeFunctions)
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
@@ -121,7 +134,7 @@ const RecordTable = React.memo(
       <Table
         tableHeight={tableHeight}
         data={data ?? []}
-        availableColumns={availableColumnsNullChecked}
+        availableColumns={availableColumnsIncludeFunctions}
         columnStates={columnStates}
         columnVisibility={columnVisibility}
         columnOrder={columnOrder}

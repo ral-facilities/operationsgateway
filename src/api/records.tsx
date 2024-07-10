@@ -16,6 +16,7 @@ import {
   isChannelImage,
   isChannelWaveform,
   DateRangetoShotnumConverter,
+  FunctionItem,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -31,6 +32,7 @@ const fetchRecords = async (
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
+  functions: FunctionItem[],
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -71,14 +73,23 @@ const fetchRecords = async (
   const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
   projection?.forEach((channel) => {
-    // API recognises projection values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const key =
-      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
-    queryParams.append('projection', key);
+    // Do not project on functions
+    let is_function = false;
+    functions.forEach((functionItem) => {
+      if (channel === functionItem.name) is_function = true;
+    });
+    if (!is_function) {
+      // API recognises projection values as metadata.key or channel.key
+      // Therefore, we must construct the appropriate parameter
+      const key =
+        channel in staticChannels
+          ? `metadata.${channel}`
+          : `channels.${channel}`;
+      queryParams.append('projection', key);
 
-    if (!(channel in staticChannels)) {
-      existsConditions.push({ [key]: { $exists: true } });
+      if (!(channel in staticChannels)) {
+        existsConditions.push({ [key]: { $exists: true } });
+      }
     }
   });
 
@@ -100,6 +111,18 @@ const fetchRecords = async (
       JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
+
+  functions.forEach((functionItem) => {
+    let expression = '';
+    functionItem.expression.forEach((token) => {
+      expression += token.value;
+    });
+    if (expression)
+      queryParams.append(
+        'functions',
+        JSON.stringify({ ...functionItem, expression: expression })
+      );
+  });
 
   return axios
     .get(`${apiUrl}/records`, {
@@ -287,7 +310,7 @@ export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
 > => {
-  const { searchParams, page, resultsPerPage, sort, filters } =
+  const { searchParams, page, resultsPerPage, sort, filters, functions } =
     useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
   const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
@@ -304,6 +327,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort: SortType;
         searchParams: SearchParams;
         filters: string[];
+        functions: FunctionItem[];
         projection: string[];
       },
     ]
@@ -316,11 +340,12 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort,
         searchParams,
         filters,
+        functions,
         projection,
       },
     ],
     (params) => {
-      const { page, resultsPerPage, sort, searchParams, filters } =
+      const { page, resultsPerPage, sort, searchParams, filters, functions } =
         params.queryKey[1];
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
@@ -330,6 +355,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort,
         searchParams,
         filters,
+        functions,
         {
           startIndex,
           stopIndex,
@@ -461,6 +487,7 @@ export const usePlotRecords = (
         sort,
         searchParams,
         filters,
+        [],
         offsetParams,
         projection
       );
@@ -546,6 +573,7 @@ export const useThumbnails = (
         sort,
         searchParams,
         filters,
+        [],
         {
           startIndex,
           stopIndex,

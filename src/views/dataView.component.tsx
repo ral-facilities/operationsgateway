@@ -5,11 +5,13 @@ import FilterDialogue from '../filtering/filterDialogue.component';
 import RecordTable from './recordTable.component';
 import TableButtons from './tableButtons.component';
 import ChannelsDialogue from '../channels/channelsDialogue.component';
+import FunctionsDialogue from '../functions/functionsDialogue.component';
 export interface DataViewProps {
   sessionId: string | undefined;
 }
 const DataView = React.memo((props: DataViewProps): React.ReactElement => {
   const { sessionId } = props;
+  const [functionsOpen, setFunctionsOpen] = React.useState<boolean>(false);
   const [filtersOpen, setFiltersOpen] = React.useState<boolean>(false);
   const [channelsOpen, setChannelsOpen] = React.useState<boolean>(false);
   const [flashingFilterValue, setFlashingFilterValue] = React.useState<
@@ -36,8 +38,13 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
         toggleSearchExpanded={() =>
           setSearchExpanded((searchExpanded) => !searchExpanded)
         }
+        openFunctions={() => setFunctionsOpen(true)}
         openFilters={() => setFiltersOpen(true)}
         openChannels={() => setChannelsOpen(true)}
+      />
+      <FunctionsDialogue
+        open={functionsOpen}
+        onClose={() => setFunctionsOpen(false)}
       />
       <FilterDialogue
         open={filtersOpen}

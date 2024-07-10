@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
+  FunctionItem,
   isChannelMetadataImage,
   isChannelMetadataScalar,
   isChannelMetadataWaveform,
@@ -223,6 +224,23 @@ export const constructColumnDefs = (
             );
           }
         : undefined,
+    });
+
+    myColumnDefs.push(newColumnDef);
+  });
+  return myColumnDefs;
+};
+
+export const constructColumnDefsFromFunctions = (
+  functions: FunctionItem[]
+): ColumnDef<RecordRow>[] => {
+  const columnHelper = createColumnHelper<RecordRow>();
+  const myColumnDefs: ColumnDef<RecordRow>[] = [];
+
+  functions.forEach((functionItem: FunctionItem) => {
+    const newColumnDef = columnHelper.accessor(functionItem.name, {
+      id: functionItem.name,
+      header: () => <React.Fragment>{functionItem.name}</React.Fragment>,
     });
 
     myColumnDefs.push(newColumnDef);

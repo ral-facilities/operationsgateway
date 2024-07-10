@@ -6,6 +6,7 @@ import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
 import { selectQueryFilters } from './filterSlice';
 import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
 import { format } from 'date-fns';
+import { selectAppliedFunctions } from './functionsSlice';
 
 export const formatDateTimeForApi = (datetime: Date): string => {
   const dateString = format(datetime, 'yyyy-MM-dd');
@@ -53,12 +54,14 @@ export const selectQueryParams = createSelector(
   selectPage,
   selectResultsPerPage,
   selectQueryFilters,
-  (searchParams, sort, page, resultsPerPage, filters) => ({
+  selectAppliedFunctions,
+  (searchParams, sort, page, resultsPerPage, filters, functions) => ({
     searchParams,
     sort,
     filters,
     page,
     resultsPerPage,
+    functions,
   })
 );
 
