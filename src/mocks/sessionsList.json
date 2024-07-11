@@ -53,7 +53,12 @@
           "screenY": 200
         }
       },
-      "filter": { "appliedFilters": [[]] },
+      "filter": {
+        "appliedFilters": [[]]
+      },
+      "functions": {
+        "appliedFunctions": []
+      },
       "windows": {
         "31bd407c-7be8-4c34-8419-47b38e705442": {
           "id": "31bd407c-7be8-4c34-8419-47b38e705442",
@@ -107,7 +112,10 @@
             "fromDate": "2022-01-06T13:00:00",
             "toDate": "2022-01-09T12:00:59"
           },
-          "shotnumRange": { "min": 7, "max": 9 },
+          "shotnumRange": {
+            "min": 7,
+            "max": 9
+          },
           "maxShots": 50,
           "experimentID": {
             "_id": "19210012-1",
@@ -122,11 +130,26 @@
       "filter": {
         "appliedFilters": [
           [
-            { "type": "channel", "value": "shotnum", "label": "Shot Number" },
-            { "type": "compop", "value": ">", "label": ">" },
-            { "type": "number", "value": "7", "label": "7" }
+            {
+              "type": "channel",
+              "value": "shotnum",
+              "label": "Shot Number"
+            },
+            {
+              "type": "compop",
+              "value": ">",
+              "label": ">"
+            },
+            {
+              "type": "number",
+              "value": "7",
+              "label": "7"
+            }
           ]
         ]
+      },
+      "functions": {
+        "appliedFunctions": []
       },
       "windows": {}
     }
@@ -158,6 +181,9 @@
       "plots": {},
       "filter": {
         "appliedFilters": [[]]
+      },
+      "functions": {
+        "appliedFunctions": []
       },
       "windows": {}
     }
@@ -204,6 +230,9 @@
       "plots": {},
       "filter": {
         "appliedFilters": [[]]
+      },
+      "functions": {
+        "appliedFunctions": []
       },
       "windows": {}
     }

@@ -1,18 +1,18 @@
-import React from 'react';
 import {
-  type RenderResult,
   act,
+  fireEvent,
   screen,
   waitFor,
-  fireEvent,
+  type RenderResult,
 } from '@testing-library/react';
-import SessionSaveButtons, {
-  SessionsSaveButtonsProps,
-  AUTO_SAVE_INTERVAL_MS,
-} from './sessionSaveButtons.component';
-import { renderComponentWithProviders } from '../setupTests';
+import React from 'react';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { timeChannelName } from '../app.types';
+import { renderComponentWithProviders } from '../setupTests';
+import SessionSaveButtons, {
+  AUTO_SAVE_INTERVAL_MS,
+  SessionsSaveButtonsProps,
+} from './sessionSaveButtons.component';
 
 // Mock the useEditSession hook
 jest.mock('../api/sessions', () => ({
@@ -108,6 +108,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
     });
@@ -152,6 +155,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
     });
@@ -203,6 +209,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
       timestamp: '',

@@ -1,8 +1,8 @@
 import {
-  configureStore,
-  combineReducers,
-  UnknownAction,
   Reducer,
+  UnknownAction,
+  combineReducers,
+  configureStore,
   createAction,
   isAction,
 } from '@reduxjs/toolkit';
@@ -10,12 +10,13 @@ import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './middleware/operationsgateway.middleware';
 import configReducer from './slices/configSlice';
-import tableReducer from './slices/tableSlice';
-import searchReducer from './slices/searchSlice';
-import plotReducer from './slices/plotSlice';
 import filterReducer from './slices/filterSlice';
-import windowsReducer from './slices/windowSlice';
+import functionsReducer from './slices/functionsSlice';
+import plotReducer from './slices/plotSlice';
+import searchReducer from './slices/searchSlice';
 import selectionReducer from './slices/selectionSlice';
+import tableReducer from './slices/tableSlice';
+import windowsReducer from './slices/windowSlice';
 
 export const importSession = createAction<ImportSessionType>('IMPORT_SESSION');
 
@@ -27,6 +28,7 @@ const sliceReducer = combineReducers({
   search: searchReducer,
   plots: plotReducer,
   filter: filterReducer,
+  functions: functionsReducer,
   windows: windowsReducer,
   selection: selectionReducer,
 });
