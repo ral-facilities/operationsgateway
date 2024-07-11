@@ -18,7 +18,9 @@ export function convertExpressionsToStrings(
       name: functionState.name,
       expression: functionState.expression
         .map((token) => token.value)
-        .join(' '),
+        .join(' ')
+        .replace(/\s*\(\s*/g, '(')
+        .replace(/\s*\)\s*/g, ')'),
     }))
   );
 }
@@ -65,13 +67,15 @@ const postValidateFunctions = (
     });
 };
 
-export const usePostValidateFunctions = (
-  functions: ValidateFunctionState[]
-): UseMutationResult<DataType[], AxiosError> => {
+export const usePostValidateFunctions = (): UseMutationResult<
+  DataType[],
+  AxiosError,
+  ValidateFunctionState[]
+> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useMutation({
-    mutationFn: () => {
+    mutationFn: (functions: ValidateFunctionState[]) => {
       return postValidateFunctions(apiUrl, functions);
     },
   });

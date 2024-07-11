@@ -294,3 +294,6 @@ export interface ValidateFunctionState {
   name: string;
   expression: FunctionTag[];
 }
+export interface APIError {
+  detail: string;
+}

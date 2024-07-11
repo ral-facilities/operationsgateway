@@ -1,0 +1,202 @@
+[
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "1"
+      }
+    ],
+    "return_types": ["scalar"],
+    "id": "Constant"
+  },
+  {
+    "functions": [
+      {
+        "name": "b",
+        "expression": "1"
+      }
+    ],
+    "return_types": ["scalar"],
+    "id": "Constant B"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "1"
+      },
+      {
+        "name": "b",
+        "expression": "a + 1"
+      }
+    ],
+    "return_types": ["scalar", "scalar"],
+    "id": "Function types"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "Channel_GHIJK / 10"
+      }
+    ],
+    "return_types": ["scalar"],
+    "id": "Scalar operation"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "Channel_FGHIJ - 737"
+      }
+    ],
+    "return_types": ["waveform"],
+    "id": "Waveform operation"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "("
+      }
+    ],
+    "message": "Error at index 0: expression '(' has unexpected end-of-input, check all brackets are closed",
+    "id": "Left bracket hanging"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": ")"
+      }
+    ],
+    "message": "Error at index 0: expression ')' has unexpected character, check all brackets are opened",
+    "id": "Right bracket hanging"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "a"
+      }
+    ],
+    "message": "Error at index 0: 'a' is not a recognised channel",
+    "id": "Undefined variable"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "centre(1)"
+      }
+    ],
+    "message": "Error at index 0: 'centre' accepts {'waveform'} type(s), 'scalar' provided",
+    "id": "Wrong function argument type"
+  },
+  {
+    "functions": [
+      {
+        "name": "b",
+        "expression": "Channel_EFGHI"
+      }
+    ],
+    "return_types": ["image"],
+    "id": "Image"
+  },
+  {
+    "functions": [
+      {
+        "name": "b",
+        "expression": "Channel_EFGHI"
+      },
+      {
+        "name": "c",
+        "expression": "Channel_FGHIJ"
+      }
+    ],
+    "return_types": ["image", "waveform"],
+    "id": "Image and waveform"
+  },
+  {
+    "functions": [
+      {
+        "name": "b",
+        "expression": "Channel_EFGHI"
+      },
+      {
+        "name": "c",
+        "expression": "Channel_FGHIJ"
+      },
+      {
+        "name": "a",
+        "expression": "b + c"
+      }
+    ],
+    "message": "Error at index 2: Operation between types ['image', 'waveform'] not supported",
+    "id": "Unsupported operands"
+  },
+  {
+    "functions": [
+      {
+        "name": "Channel_FGHIJ",
+        "expression": "1"
+      }
+    ],
+    "message": "Error at index 0: name 'Channel_FGHIJ' is already a channel name",
+    "id": "Reuse channel name"
+  },
+  {
+    "functions": [
+      {
+        "name": "a",
+        "expression": "1"
+      },
+      {
+        "name": "a",
+        "expression": "2"
+      }
+    ],
+    "message": "Error at index 1: name 'a' is already a function name",
+    "id": "Reuse function name"
+  },
+  {
+    "functions": [
+      {
+        "name": "mean",
+        "expression": "1"
+      }
+    ],
+    "message": "Error at index 0: name 'mean' is already a builtin name",
+    "id": "Reuse builtin name"
+  },
+  {
+    "functions": [
+      {
+        "name": "b@d_n@m3",
+        "expression": "1"
+      }
+    ],
+    "message": "Error at index 0: name 'b@d_n@m3' must start with a letter, and can only contain letters, digits, '-' or '_' characters",
+    "id": "Bad name"
+  },
+  {
+    "functions": [
+      {
+        "name": "bad + name",
+        "expression": "1"
+      }
+    ],
+    "message": "Error at index 0: name 'bad + name' must start with a letter, and can only contain letters, digits, '-' or '_' characters",
+    "id": "Name with spaces"
+  },
+  {
+    "functions": [
+      {
+        "name": "1",
+        "expression": "1"
+      }
+    ],
+    "message": "Error at index 0: name '1' must start with a letter, and can only contain letters, digits, '-' or '_' characters",
+    "id": "Name without letters"
+  }
+]

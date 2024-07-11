@@ -1,17 +1,19 @@
 import { rest } from 'msw';
-import recordsJson from './records.json';
-import channelsJson from './channels.json';
-import experimentsJson from './experiments.json';
-import colourMapsJson from './colourMaps.json';
-import sessionsJson from './sessionsList.json';
+import { ColourMapsParams } from '../api/images';
 import {
   Channel,
   ExperimentParams,
-  isChannelScalar,
   Record,
+  isChannelScalar,
 } from '../app.types';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
-import { ColourMapsParams } from '../api/images';
+import channelsJson from './channels.json';
+import colourMapsJson from './colourMaps.json';
+import experimentsJson from './experiments.json';
+import functionsTokensJson from './functionTokens.json';
+import functionsJson from './functions.json';
+import recordsJson from './records.json';
+import sessionsJson from './sessionsList.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -314,5 +316,31 @@ export const handlers = [
       ),
       ctx.body(arrBuffer)
     );
+  }),
+
+  rest.get('/functions/tokens', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(functionsTokensJson));
+  }),
+
+  rest.post('/functions/validate', async (req, res, ctx) => {
+    const body = await req.json();
+
+    // Find the matching function from the JSON data
+    const matchedFunction = functionsJson.find(
+      (func) => JSON.stringify(func.functions) === JSON.stringify(body)
+    );
+
+    if (matchedFunction?.return_types) {
+      return res(ctx.status(200), ctx.json(matchedFunction.return_types));
+    }
+
+    if (matchedFunction?.message) {
+      return res(
+        ctx.status(400),
+        ctx.json({ detail: matchedFunction.message })
+      );
+    }
+
+    return res(ctx.status(400), ctx.json({ detail: 'Invalid function' }));
   }),
 ];

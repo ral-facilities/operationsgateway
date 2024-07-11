@@ -1,0 +1,105 @@
+[
+  {
+    "symbol": "+",
+    "name": "Add"
+  },
+  {
+    "symbol": "-",
+    "name": "Subtract"
+  },
+  {
+    "symbol": "*",
+    "name": "Multiply"
+  },
+  {
+    "symbol": "/",
+    "name": "Divide"
+  },
+  {
+    "symbol": "**",
+    "name": "Raise to power"
+  },
+  {
+    "symbol": "(",
+    "name": "Open bracket"
+  },
+  {
+    "symbol": ")",
+    "name": "Close bracket"
+  },
+  {
+    "symbol": "mean",
+    "name": "Mean",
+    "details": "Calculate the mean of a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.mean.html"
+  },
+  {
+    "symbol": "exp",
+    "name": "Exponential",
+    "details": "Raise `e` to the power of the input argument (element-wise if a trace or image is provided). Implementation: https://numpy.org/doc/stable/reference/generated/numpy.exp.html"
+  },
+  {
+    "symbol": "log",
+    "name": "Natural logarithm",
+    "details": "Calculate the logarithm in base `e` of the input argument (element-wise if a trace or image is provided). Implementation:https://numpy.org/doc/stable/reference/generated/numpy.log.html"
+  },
+  {
+    "symbol": "max",
+    "name": "Maximum",
+    "details": "Calculate the maximum value in a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.max.html"
+  },
+  {
+    "symbol": "min",
+    "name": "Minimum",
+    "details": "Calculate the minimum value in a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.min.html"
+  },
+  {
+    "symbol": "background",
+    "name": "Background",
+    "details": "Calculate the background of a waveform or image. Errors if scalar provided. Implementation (waveform): First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to y values whose difference from their neighbours is more than 0.2 times the total range in y. The first 25 and last 25 y values in the signal are averaged to give an estimate of the background.Implementation (image): The average pixel value in the 10 by 10 region in the top left of the image is returned."
+  },
+  {
+    "symbol": "centre",
+    "name": "Centre",
+    "details": "Calculate the centre of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM, and x value at the centre of this region is returned. Note this will not be the same as the x value of the maximum, unless the data is symmetric."
+  },
+  {
+    "symbol": "centroid_x",
+    "name": "Centroid (x)",
+    "details": "Calculate the x position of the centroid of an image. Errors if waveform or scalar provided. Implementation: Returns the x position of the image's centroid in terms of pixel values."
+  },
+  {
+    "symbol": "centroid_y",
+    "name": "Centroid (Y)",
+    "details": "Calculate the y position of the centroid of an image. Errors if waveform or scalar provided. Implementation: Returns the y position of the image's centroid in terms of pixel values."
+  },
+  {
+    "symbol": "falling",
+    "name": "Falling",
+    "details": "Calculate the falling edge of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the upper x value is returned."
+  },
+  {
+    "symbol": "fwhm",
+    "name": "Full Width Half Maximum",
+    "details": "Calculate the FWHM of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the difference in x value is returned."
+  },
+  {
+    "symbol": "fmhw_x",
+    "name": "Full Width Half Maximum (x)",
+    "details": "Calculate the FWHM of an image across the x axis, at the y position of the image centroid. Errors if waveform or scalar provided. Implementation: First, calculates the centroid and extracts the y position. Then applies smoothing by taking weighted nearest and next-nearest neighbour contributions to pixel values whose difference from their neighbours is more than 0.2 times the total range in values. The maximum value is then identified along with the positions bounding the FWHM and the distance in pixels returned."
+  },
+  {
+    "symbol": "fmhw_y",
+    "name": "Full Width Half Maximum (y)",
+    "details": "Calculate the FWHM of an image across the y axis, at the x position of the image centroid. Errors if waveform or scalar provided. Implementation: First, calculates the centroid and extracts the x position. Then applies smoothing by taking weighted nearest and next-nearest neighbour contributions to pixel values whose difference from their neighbours is more than 0.2 times the total range in values. The maximum value is then identified along with the positions bounding the FWHM and the distance in pixels returned."
+  },
+  {
+    "symbol": "integrate",
+    "name": "Integrate",
+    "details": "Integrate a waveform or image. Errors if scalar provided. Implementation (waveform): First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to y values whose difference from their neighbours is more than 0.2 times the total range in y. The y values are then integrated with respect to x, with the last y value neglected.Implementation (image): Return the sum of all pixel values."
+  },
+  {
+    "symbol": "rising",
+    "name": "Rising",
+    "details": "Calculate the rising edge of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the lower x value is returned."
+  }
+]
