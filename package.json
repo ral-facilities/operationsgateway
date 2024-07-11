@@ -69,7 +69,7 @@
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "postinstall": "husky install && yarn dlx @yarnpkg/sdks"
+    "postinstall": "husky install"
   },
   "lint-staged": {
     "src/**/*.{tsx,ts,js,jsx}": [
