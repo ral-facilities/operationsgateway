@@ -293,6 +293,7 @@ export interface ValidateFunctionPost {
 export interface ValidateFunctionState {
   name: string;
   expression: FunctionTag[];
+  dataType: DataType;
 }
 export interface APIError {
   detail: string;

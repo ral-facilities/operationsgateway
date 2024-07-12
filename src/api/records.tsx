@@ -1,36 +1,38 @@
-import axios, { AxiosError } from 'axios';
 import {
-  useQuery,
   UseQueryResult,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { parseISO } from 'date-fns';
 import {
-  isChannelScalar,
+  DateRangetoShotnumConverter,
   PlotDataset,
   Record,
   RecordRow,
-  SortType,
-  SelectedPlotChannel,
   SearchParams,
-  timeChannelName,
+  SelectedPlotChannel,
+  SortType,
+  ValidateFunctionPost,
   isChannelImage,
+  isChannelScalar,
   isChannelWaveform,
-  DateRangetoShotnumConverter,
+  timeChannelName,
 } from '../app.types';
-import { useAppSelector } from '../state/hooks';
-import { selectQueryParams } from '../state/slices/searchSlice';
-import { parseISO } from 'date-fns';
-import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import { useAppSelector } from '../state/hooks';
+import { selectUrls } from '../state/slices/configSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
+import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
 import { staticChannels } from './channels';
-import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 
 const fetchRecords = async (
   apiUrl: string,
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
+  functions: ValidateFunctionPost[],
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -76,14 +78,23 @@ const fetchRecords = async (
   const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
   projection?.forEach((channel) => {
-    // API recognises projection values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const key =
-      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
-    queryParams.append('projection', key);
+    // Do not project on functions
+    let is_function = false;
+    functions.forEach((func) => {
+      if (channel === func.name) is_function = true;
+    });
+    if (!is_function) {
+      // API recognises projection values as metadata.key or channel.key
+      // Therefore, we must construct the appropriate parameter
+      const key =
+        channel in staticChannels
+          ? `metadata.${channel}`
+          : `channels.${channel}`;
+      queryParams.append('projection', key);
 
-    if (!(channel in staticChannels)) {
-      existsConditions.push({ [key]: { $exists: true } });
+      if (!(channel in staticChannels)) {
+        existsConditions.push({ [key]: { $exists: true } });
+      }
     }
   });
 
@@ -105,6 +116,10 @@ const fetchRecords = async (
       JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
     );
   }
+
+  functions.forEach((func) => {
+    queryParams.append('functions', JSON.stringify(func));
+  });
 
   return axios
     .get(`${apiUrl}/records`, {
@@ -286,7 +301,7 @@ export const useRecordsPaginated = (): UseQueryResult<
   RecordRow[],
   AxiosError
 > => {
-  const { searchParams, page, resultsPerPage, sort, filters } =
+  const { searchParams, page, resultsPerPage, sort, filters, functions } =
     useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
   const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
@@ -300,19 +315,22 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort: JSON.stringify(sort), // need to stringify sort as property order is important!
         searchParams,
         filters,
+        functions,
         projection,
       },
     ],
 
     queryFn: ({ queryKey }) => {
-      const { page, resultsPerPage, searchParams, filters } = queryKey[1] as {
-        page: number;
-        resultsPerPage: number;
-        sort: string;
-        searchParams: SearchParams;
-        filters: string[];
-        projection: string[];
-      };
+      const { page, resultsPerPage, searchParams, filters, functions } =
+        queryKey[1] as {
+          page: number;
+          resultsPerPage: number;
+          sort: string;
+          searchParams: SearchParams;
+          filters: string[];
+          functions: ValidateFunctionPost[];
+          projection: string[];
+        };
 
       // React Table pagination is zero-based
       const startIndex = page * resultsPerPage;
@@ -322,6 +340,7 @@ export const useRecordsPaginated = (): UseQueryResult<
         sort,
         searchParams,
         filters,
+        functions,
         {
           startIndex,
           stopIndex,
@@ -405,7 +424,8 @@ export const usePlotRecords = (
   XAxis?: string
 ): UseQueryResult<PlotDataset[], AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { searchParams, filters } = useAppSelector(selectQueryParams);
+  const { searchParams, filters, functions } =
+    useAppSelector(selectQueryParams);
   const parsedXAxis = XAxis ?? timeChannelName;
 
   const projection = [
@@ -420,15 +440,17 @@ export const usePlotRecords = (
         sort: { [parsedXAxis]: 'asc' },
         searchParams,
         filters,
+        functions,
         projection,
       },
     ],
 
     queryFn: ({ queryKey }) => {
-      const { sort, filters, searchParams } = queryKey[1] as {
+      const { sort, filters, functions, searchParams } = queryKey[1] as {
         sort: { [x: string]: string };
         searchParams: SearchParams;
         filters: string[];
+        functions: ValidateFunctionPost[];
         projection: string[];
       };
 
@@ -445,6 +467,7 @@ export const usePlotRecords = (
         sort as SortType,
         searchParams,
         filters,
+        functions,
         offsetParams,
         projection
       );
@@ -488,7 +511,8 @@ export const useThumbnails = (
   page: number,
   resultsPerPage: number
 ): UseQueryResult<Record[], AxiosError> => {
-  const { searchParams, sort, filters } = useAppSelector(selectQueryParams);
+  const { searchParams, sort, filters, functions } =
+    useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery({
@@ -501,17 +525,19 @@ export const useThumbnails = (
         sort: JSON.stringify(sort), // need to stringify sort as property order is important!
         searchParams,
         filters,
+        functions,
       },
     ],
 
     queryFn: (params) => {
-      const { page, resultsPerPage, searchParams, filters } = params
+      const { page, resultsPerPage, searchParams, filters, functions } = params
         .queryKey[2] as {
         page: number;
         resultsPerPage: number;
         sort: string;
         searchParams: SearchParams;
         filters: string[];
+        functions: ValidateFunctionPost[];
       };
 
       // React Table pagination is zero-based
@@ -522,6 +548,7 @@ export const useThumbnails = (
         sort,
         searchParams,
         filters,
+        functions,
         {
           startIndex,
           stopIndex,

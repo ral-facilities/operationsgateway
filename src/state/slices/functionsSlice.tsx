@@ -5,14 +5,14 @@ import { ValidateFunctionState } from '../../app.types';
 import { RootState } from '../store';
 
 // Define a type for the slice state
-interface FilterState {
+interface FunctionsState {
   appliedFunctions: ValidateFunctionState[];
 }
 
 // Define the initial state using that type
 export const initialState = {
   appliedFunctions: [],
-} as FilterState;
+} as FunctionsState;
 
 export const functionsSlice = createSlice({
   name: 'functions',

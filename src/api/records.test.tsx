@@ -1,34 +1,36 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { renderHook, waitFor } from '@testing-library/react';
+import { parseISO } from 'date-fns';
 import {
   PlotDataset,
   Record,
   ScalarChannel,
   SearchParams,
   SelectedPlotChannel,
+  ValidateFunctionPost,
+  ValidateFunctionState,
   timeChannelName,
 } from '../app.types';
+import { Token, operators, parseFilter } from '../filtering/filterParser';
+import recordsJson from '../mocks/records.json';
+import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
 import {
-  hooksWrapperWithProviders,
-  getInitialState,
   createTestQueryClient,
+  getInitialState,
+  hooksWrapperWithProviders,
   waitForRequest,
 } from '../setupTests';
-import { renderHook, waitFor } from '@testing-library/react';
+import { RootState } from '../state/store';
 import {
   getFormattedAxisData,
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
   usePlotRecords,
   useRecordCount,
-  useIncomingRecordCount,
   useRecordsPaginated,
-  useThumbnails,
   useShotnumToDateConverter,
-  useDateToShotnumConverter,
+  useThumbnails,
 } from './records';
-import { RootState } from '../state/store';
-import { parseISO } from 'date-fns';
-import { operators, parseFilter, Token } from '../filtering/filterParser';
-import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
-import recordsJson from '../mocks/records.json';
 
 describe('records api functions', () => {
   let state: RootState;
@@ -392,7 +394,7 @@ describe('records api functions', () => {
       expect(result.current.data).toMatchSnapshot();
     });
 
-    it('can send sort, date range, projection and filter parameters as part of request', async () => {
+    it('can send sort, date range, projection functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {
@@ -421,6 +423,15 @@ describe('records api functions', () => {
             ],
           ],
         },
+        functions: {
+          appliedFunctions: [
+            {
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+            },
+          ] as ValidateFunctionState[],
+        },
       };
 
       const pendingRequest = waitForRequest('GET', '/records');
@@ -445,6 +456,10 @@ describe('records api functions', () => {
       );
       params.append('skip', '0');
       params.append('limit', '25');
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
+      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
@@ -533,7 +548,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(expectedData);
     });
 
-    it('can send x-axis, filter and maxShots params as part of request', async () => {
+    it('can send x-axis, filter, functions and maxShots params as part of request', async () => {
       state = {
         ...getInitialState(),
         filter: {
@@ -545,6 +560,15 @@ describe('records api functions', () => {
               { type: 'number', value: '300', label: '300' },
             ],
           ],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+            },
+          ] as ValidateFunctionState[],
         },
         search: {
           ...getInitialState().search,
@@ -591,6 +615,10 @@ describe('records api functions', () => {
 
       params.append('skip', '0');
       params.append('limit', '1000');
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
+      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -704,7 +732,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson);
     });
 
-    it('can send sort, date range and filter parameters as part of request', async () => {
+    it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {
@@ -732,6 +760,15 @@ describe('records api functions', () => {
             ],
           ],
         },
+        functions: {
+          appliedFunctions: [
+            {
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+            },
+          ] as ValidateFunctionState[],
+        },
       };
 
       const pendingRequest = waitForRequest('GET', '/records');
@@ -756,6 +793,10 @@ describe('records api functions', () => {
       );
       params.append('skip', '0');
       params.append('limit', '25');
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
+      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });

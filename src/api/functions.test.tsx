@@ -24,7 +24,11 @@ describe('useGetFunctionsTokens', () => {
 
 describe('usePostValidateFunctions', () => {
   const functions: ValidateFunctionState[] = [
-    { name: 'a', expression: [{ type: 'number', label: '1', value: '1' }] },
+    {
+      name: 'a',
+      expression: [{ type: 'number', label: '1', value: '1' }],
+      dataType: 'scalar',
+    },
     {
       name: 'b',
       expression: [
@@ -32,8 +36,13 @@ describe('usePostValidateFunctions', () => {
         { type: 'functionToken', label: '+', value: '+' },
         { type: 'number', label: '1', value: '1' },
       ],
+      dataType: 'scalar',
     },
-    { name: 'mean', expression: [{ type: 'number', label: '1', value: '1' }] },
+    {
+      name: 'mean',
+      expression: [{ type: 'number', label: '1', value: '1' }],
+      dataType: 'scalar',
+    },
     {
       name: 'a',
       expression: [
@@ -42,6 +51,7 @@ describe('usePostValidateFunctions', () => {
         { type: 'number', label: '1', value: '1' },
         { type: 'functionToken', label: ')', value: ')' },
       ],
+      dataType: 'scalar',
     },
   ];
   it('sends request to post functions to validate and returns successful response (1 functions)', async () => {

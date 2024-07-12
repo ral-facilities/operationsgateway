@@ -1,5 +1,11 @@
-import React from 'react';
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import axios, { AxiosError } from 'axios';
+import React from 'react';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
@@ -8,22 +14,19 @@ import {
   isChannelMetadataWaveform,
   RecordRow,
   timeChannelName,
+  ValidateFunctionState,
 } from '../app.types';
-import {
-  useQuery,
-  UseQueryResult,
-  UseQueryOptions,
-} from '@tanstack/react-query';
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { readSciGatewayToken } from '../parseTokens';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectUrls } from '../state/slices/configSlice';
+import { selectAppliedFunctions } from '../state/slices/functionsSlice';
+import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
+import { AppDispatch } from '../state/store';
 import {
   roundNumber,
   TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
-import { selectUrls } from '../state/slices/configSlice';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { readSciGatewayToken } from '../parseTokens';
-import { AppDispatch } from '../state/store';
-import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
+import { convertExpressionsToStrings } from './functions';
 
 interface ChannelsEndpoint {
   channels: {
@@ -234,25 +237,47 @@ export const getScalarChannels = (
   ) as FullScalarChannelMetadata[];
 };
 
-const useScalarChannelsOptions = {
-  select: (data: FullChannelMetadata[]) => getScalarChannels(data),
+// Utility function to format applied functions
+const formatAppliedFunctions = (
+  appliedFunctions: ValidateFunctionState[]
+): FullChannelMetadata[] => {
+  return appliedFunctions.map((func) => ({
+    systemName: func.name,
+    name: func.name,
+    type: func.dataType,
+    description: JSON.parse(convertExpressionsToStrings([func]))[0].expression,
+    path: '',
+  }));
 };
 
 export const useScalarChannels = (): UseQueryResult<
   FullScalarChannelMetadata[],
   AxiosError
 > => {
-  return useChannels(useScalarChannelsOptions);
+  const appliedFunctions = useAppSelector(selectAppliedFunctions);
+  const formattedFunctions = formatAppliedFunctions(appliedFunctions);
+
+  const selectFn = React.useCallback(
+    (data: FullChannelMetadata[]) =>
+      getScalarChannels([...data, ...formattedFunctions]),
+    [formattedFunctions]
+  );
+  return useChannels({ select: selectFn });
 };
 
 export const useAvailableColumns = (): UseQueryResult<
   ColumnDef<RecordRow>[],
   AxiosError
 > => {
+  const appliedFunctions = useAppSelector(selectAppliedFunctions);
+  const formattedFunctions = formatAppliedFunctions(appliedFunctions);
+
   const dispatch = useAppDispatch();
   const selectFn = React.useCallback(
-    (data: FullChannelMetadata[]) => constructColumnDefs(data, dispatch),
-    [dispatch]
+    (data: FullChannelMetadata[]) =>
+      constructColumnDefs([...data, ...formattedFunctions], dispatch),
+    [dispatch, formattedFunctions]
   );
+
   return useChannels({ select: selectFn });
 };

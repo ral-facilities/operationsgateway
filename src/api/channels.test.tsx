@@ -1,22 +1,27 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook, waitFor } from '@testing-library/react';
+import { rest } from 'msw';
 import {
-  useChannels,
-  useAvailableColumns,
-  getScalarChannels,
-  staticChannels,
-  useChannelSummary,
-  ChannelSummary,
-} from './channels';
-import { FullChannelMetadata, timeChannelName } from '../app.types';
+  FullChannelMetadata,
+  ValidateFunctionState,
+  timeChannelName,
+} from '../app.types';
+import { server } from '../mocks/server';
 import {
-  hooksWrapperWithProviders,
   getInitialState,
+  hooksWrapperWithProviders,
   testChannels,
 } from '../setupTests';
 import { RootState } from '../state/store';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
+import {
+  ChannelSummary,
+  getScalarChannels,
+  staticChannels,
+  useAvailableColumns,
+  useChannelSummary,
+  useChannels,
+  useScalarChannels,
+} from './channels';
 
 describe('channels api functions', () => {
   afterEach(() => {
@@ -70,6 +75,62 @@ describe('channels api functions', () => {
             precision: 2,
             systemName: 'CHANNEL_DEFGH',
             path: '/Channels/2',
+          },
+        },
+      });
+    });
+
+    it('uses a select function to construct an array of columns from given channel and functions metadata', async () => {
+      state = {
+        ...state,
+        functions: {
+          appliedFunctions: [
+            {
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+            },
+          ] as ValidateFunctionState[],
+        },
+      };
+      const { result } = renderHook(() => useAvailableColumns(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const data = result.current.data;
+
+      expect(data).not.toBeUndefined();
+
+      const timestampCol = data!.find((col) => col.id === timeChannelName);
+
+      // assert it converts a static channel correctly
+      expect(timestampCol).toEqual({
+        id: 'timestamp',
+        accessorKey: 'timestamp',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: { channelInfo: staticChannels['timestamp'] },
+      });
+
+      const functionCol = data!.find((col) => col.id === 'a');
+
+      // assert it converts a normal channel correctly
+      expect(functionCol).toEqual({
+        id: 'a',
+        accessorKey: 'a',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: {
+          channelInfo: {
+            description: '1',
+            type: 'scalar',
+            name: 'a',
+            systemName: 'a',
+            path: '',
           },
         },
       });
@@ -240,5 +301,60 @@ describe('channels api functions', () => {
     it.todo(
       'sends axios request to fetch records and throws an appropriate error on failure'
     );
+  });
+
+  describe('useScalarChannels', () => {
+    let state: RootState;
+
+    beforeEach(() => {
+      state = getInitialState();
+    });
+
+    it('uses a select function to construct an array of scalar channels and functions', async () => {
+      state = {
+        ...state,
+        functions: {
+          appliedFunctions: [
+            {
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+            },
+          ] as ValidateFunctionState[],
+        },
+      };
+      const { result } = renderHook(() => useScalarChannels(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const data = result.current.data;
+
+      expect(data).not.toBeUndefined();
+
+      const channelABCDE = data!.find(
+        (data) => data.systemName === 'CHANNEL_ABCDE'
+      );
+
+      expect(channelABCDE).toEqual({
+        name: 'Channel_ABCDE',
+        path: '/Channels/1',
+        systemName: 'CHANNEL_ABCDE',
+        type: 'scalar',
+      });
+
+      const functionA = data!.find((data) => data.systemName === 'a');
+
+      expect(functionA).toEqual({
+        description: '1',
+        name: 'a',
+        path: '',
+        systemName: 'a',
+        type: 'scalar',
+      });
+    });
   });
 });
