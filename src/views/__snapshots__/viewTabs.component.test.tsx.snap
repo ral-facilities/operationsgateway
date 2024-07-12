@@ -50,6 +50,7 @@ exports[`View Tabs renders correctly 1`] = `
           </div>
         </div>
         <ul
+          aria-label="session list"
           class="MuiList-root css-1mk9mw3-MuiList-root"
         />
       </div>
