@@ -6,7 +6,9 @@ import {
   IconButton,
   List,
   ListItemButton,
+  listItemButtonClasses,
   ListItemText,
+  listItemSecondaryActionClasses,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -83,53 +85,67 @@ const SessionListElement = (
     }
   }, [onChangeLoadedSessionTimestamp, selected, session]);
   return (
-    <ListItemButton
-      selected={selected}
+    <ListItem
+      disablePadding
+      secondaryAction={
+        <Box sx={{ whiteSpace: 'nowrap' }}>
+          <IconButton
+            size="small"
+            onClick={(event) => {
+              event.stopPropagation();
+              openSessionEdit(session);
+            }}
+            aria-label={`edit ${session.name} session`}
+          >
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            size="small"
+            onClick={(event) => {
+              event.stopPropagation();
+              openSessionDelete(session);
+            }}
+            aria-label={`delete ${session.name} session`}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      }
       sx={{
-        textDecoration: 'none',
-        padding: 1,
-      }}
-      onClick={() => {
-        onChangeAutoSaveSessionId(undefined);
-        onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
-        handleImport(session._id);
+        [`& > .${listItemButtonClasses.root}`]: {
+          paddingRight: '76px',
+        },
+        [`& .${listItemSecondaryActionClasses.root}`]: {
+          right: '8px',
+        },
       }}
     >
-      <ListItemText
-        primaryTypographyProps={{
-          variant: 'button',
-          sx: {
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            overflowWrap: 'break-word',
-          },
+      <ListItemButton
+        selected={selected}
+        sx={{
+          textDecoration: 'none',
+          padding: 1,
+        }}
+        onClick={() => {
+          onChangeAutoSaveSessionId(undefined);
+          onChangeLoadedSessionTimestamp(session.timestamp, session.auto_saved);
+          handleImport(session._id);
         }}
       >
-        {session.name}
-      </ListItemText>
-      <Box sx={{ whiteSpace: 'nowrap' }}>
-        <IconButton
-          size="small"
-          onClick={(event) => {
-            event.stopPropagation();
-            openSessionEdit(session);
+        <ListItemText
+          primaryTypographyProps={{
+            variant: 'button',
+            sx: {
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              overflowWrap: 'break-word',
+            },
           }}
-          aria-label={`edit ${session.name} session`}
         >
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          size="small"
-          onClick={(event) => {
-            event.stopPropagation();
-            openSessionDelete(session);
-          }}
-          aria-label={`delete ${session.name} session`}
-        >
-          <DeleteIcon />
-        </IconButton>
-      </Box>
-    </ListItemButton>
+          {session.name}
+        </ListItemText>
+      </ListItemButton>
+    </ListItem>
   );
 };
 
@@ -208,12 +224,14 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
       >
         {drawer}
       </Box>
-      <List disablePadding>
+      <List disablePadding aria-label="session list">
         {sessionsList &&
-          sessionsList.sort(compareSessions).map((item, index) => (
-            <ListItem key={item._id} disablePadding>
+          sessionsList
+            .sort(compareSessions)
+            .map((item, index) => (
               <SessionListElement
                 {...item}
+                key={item._id}
                 handleImport={handleSessionClick}
                 selected={loadedSessionId === item._id}
                 openSessionDelete={openSessionDelete}
@@ -221,8 +239,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
                 onChangeLoadedSessionTimestamp={onChangeLoadedSessionTimestamp}
                 onChangeAutoSaveSessionId={onChangeAutoSaveSessionId}
               />
-            </ListItem>
-          ))}
+            ))}
       </List>
     </Drawer>
   );
