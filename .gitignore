@@ -2,8 +2,15 @@
 
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
+
+# yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # development
 .vscode
@@ -31,14 +38,6 @@ yarn-error.log*
 **/public/*settings*.json
 !**/public/*settings.example.json
 
-# yarn 2
-.yarn/*
-!.yarn/cache
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
 /test-results/
 /playwright-report/
 /playwright/.cache/
