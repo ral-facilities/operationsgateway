@@ -175,6 +175,7 @@ test('should be able to create a session, reload the session, edit it and delete
     })
   ).not.toBeVisible();
 
-  // if we get to the end of the test, no need to our after each to delete the session
+  // if we get to the end of the test, no need to run our after each code to delete the session
+  // (since we just deleted it as part of the test), so reset session id
   sessionId = undefined;
 });
