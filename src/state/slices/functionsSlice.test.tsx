@@ -56,12 +56,15 @@ describe('functionsSlice', () => {
           appliedFunctions: functions,
         },
       };
-      expect(selectQueryFunctions(state)).toEqual([
-        { expression: '1', name: 'a' },
-        { expression: 'a + 1', name: 'b' },
-        { expression: '1', name: 'mean' },
-        { expression: 'centre(1)', name: 'a' },
-      ]);
+      expect(selectQueryFunctions(state)).toEqual({
+        channels: [],
+        functions: [
+          { expression: '1', name: 'a' },
+          { expression: 'a + 1', name: 'b' },
+          { expression: '1', name: 'mean' },
+          { expression: 'centre(1)', name: 'a' },
+        ],
+      });
     });
   });
 });

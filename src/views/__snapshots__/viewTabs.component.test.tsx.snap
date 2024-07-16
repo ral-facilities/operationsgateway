@@ -909,7 +909,7 @@ exports[`View Tabs renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":r9:"
+                    id=":ra:"
                   >
                     Rows per page:
                   </p>
@@ -917,12 +917,12 @@ exports[`View Tabs renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":ra:"
+                      aria-controls=":rb:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":r9: :r8:"
+                      aria-labelledby=":ra: :r9:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":r8:"
+                      id=":r9:"
                       role="combobox"
                       tabindex="0"
                     >
