@@ -7,8 +7,6 @@ import {
   ScalarChannel,
   SearchParams,
   SelectedPlotChannel,
-  ValidateFunctionPost,
-  ValidateFunctionState,
   timeChannelName,
 } from '../app.types';
 import { Token, operators, parseFilter } from '../filtering/filterParser';
@@ -312,6 +310,43 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
+    it('can set functions params via the store', async () => {
+      state = {
+        ...getInitialState(),
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
+            },
+          ],
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/records/count');
+
+      const { result } = renderHook(() => useIncomingRecordCount(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append(
+        'conditions',
+        '{"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
+      );
+
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(result.current.data).toEqual(recordsJson.length);
+    });
+
     it('can set search and filter params via the store', async () => {
       state = {
         ...getInitialState(),
@@ -426,11 +461,13 @@ describe('records api functions', () => {
         functions: {
           appliedFunctions: [
             {
+              id: '1',
               name: 'a',
               expression: [{ type: 'number', label: '1', value: '1' }],
               dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
             },
-          ] as ValidateFunctionState[],
+          ],
         },
       };
 
@@ -451,15 +488,15 @@ describe('records api functions', () => {
       params.append('projection', `metadata.${timeChannelName}`);
       params.append('projection', 'channels.CHANNEL_1');
       params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
+      params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
-      params.append(
-        'functions',
-        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
-      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
@@ -564,11 +601,13 @@ describe('records api functions', () => {
         functions: {
           appliedFunctions: [
             {
+              id: '1',
               name: 'a',
               expression: [{ type: 'number', label: '1', value: '1' }],
               dataType: 'scalar',
+              channels: [],
             },
-          ] as ValidateFunctionState[],
+          ],
         },
         search: {
           ...getInitialState().search,
@@ -607,6 +646,11 @@ describe('records api functions', () => {
       });
 
       params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
+
+      params.append(
         'conditions',
         '{"$and":[{"metadata.shotnum":{"$gt":300}}],"$or":' +
           JSON.stringify(existsConditions) +
@@ -615,10 +659,6 @@ describe('records api functions', () => {
 
       params.append('skip', '0');
       params.append('limit', '1000');
-      params.append(
-        'functions',
-        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
-      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
 
@@ -763,11 +803,13 @@ describe('records api functions', () => {
         functions: {
           appliedFunctions: [
             {
+              id: '1',
               name: 'a',
               expression: [{ type: 'number', label: '1', value: '1' }],
               dataType: 'scalar',
+              channels: [],
             },
-          ] as ValidateFunctionState[],
+          ],
         },
       };
 
@@ -788,15 +830,15 @@ describe('records api functions', () => {
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
       params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
+      params.append(
         'conditions',
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
-      params.append(
-        'functions',
-        JSON.stringify({ name: 'a', expression: '1' } as ValidateFunctionPost)
-      );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());
     });

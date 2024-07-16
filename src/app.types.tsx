@@ -291,10 +291,18 @@ export interface ValidateFunctionPost {
 }
 
 export interface ValidateFunctionState {
+  id: string;
   name: string;
   expression: FunctionTag[];
   dataType: DataType;
+  channels: string[];
 }
+
+export interface APIFunctionState {
+  channels: string[];
+  functions: ValidateFunctionPost[];
+}
+
 export interface APIError {
   detail: string;
 }

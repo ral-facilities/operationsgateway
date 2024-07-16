@@ -1,0 +1,257 @@
+import { QueryClient } from '@tanstack/react-query';
+import { act, screen } from '@testing-library/react';
+import userEvent, { UserEvent } from '@testing-library/user-event';
+import React from 'react';
+import { getInitialState, renderComponentWithProviders } from '../setupTests';
+import { RootState } from '../state/store';
+import FunctionsDialog, {
+  FunctionsDialogProps,
+} from './functionsDialog.component';
+describe('FunctionsDialog', () => {
+  let props: FunctionsDialogProps;
+  let user: UserEvent;
+
+  const onClose = jest.fn();
+
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
+    return renderComponentWithProviders(<FunctionsDialog {...props} />, {
+      preloadedState: initialState,
+      queryClient,
+    });
+  };
+
+  beforeEach(() => {
+    props = {
+      open: true,
+      onClose: onClose,
+      flashingFunctionValue: '',
+    };
+    user = userEvent.setup();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders functions dialog when dialog is open', async () => {
+    let baseElement;
+    await act(async () => {
+      baseElement = createView().baseElement;
+    });
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('calls onClose when close button is clicked', async () => {
+    createView();
+
+    await user.click(screen.getByText('Close'));
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('dispatches changeAppliedFunctions and onClose when apply button is clicked (number)', async () => {
+    const state = {
+      ...getInitialState(),
+    };
+
+    const { store } = createView(state);
+
+    const nameInput = screen.getByLabelText('Name');
+
+    await user.type(nameInput, 'a');
+
+    const expressionInput = screen.getByLabelText('Expression');
+
+    await user.type(expressionInput, '1{enter}');
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().functions.appliedFunctions).toStrictEqual([
+      {
+        channels: [],
+        dataType: 'scalar',
+        expression: [{ label: '1', type: 'number', value: '1' }],
+        id: expect.anything(),
+        name: 'a',
+      },
+    ]);
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('dispatches changeAppliedFunctions and onClose when apply button is clicked (channel)', async () => {
+    const state = {
+      ...getInitialState(),
+    };
+
+    const { store } = createView(state);
+
+    const nameInput = screen.getByLabelText('Name');
+
+    await user.type(nameInput, 'b');
+
+    const expressionInput = screen.getByLabelText('Expression');
+
+    await user.type(expressionInput, 'Channel_EFG{enter}');
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().functions.appliedFunctions).toStrictEqual([
+      {
+        channels: ['CHANNEL_EFGHI'],
+        dataType: 'image',
+        expression: [
+          { label: 'Channel_EFGHI', type: 'channel', value: 'CHANNEL_EFGHI' },
+        ],
+        id: expect.anything(),
+        name: 'b',
+      },
+    ]);
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('display error message for invalid functions and clears error message and sends a valid request (multiple functions)', async () => {
+    const state = {
+      ...getInitialState(),
+    };
+
+    const { store } = createView(state);
+
+    const nameInput = screen.getByLabelText('Name');
+
+    await user.type(nameInput, 'b');
+
+    const expressionInput = screen.getByLabelText('Expression');
+
+    await user.type(expressionInput, 'Channel_EFG{enter}');
+
+    const addFunction = screen.getByRole('button', {
+      name: 'Add new function',
+    });
+
+    await user.click(addFunction);
+
+    await user.type(screen.getAllByLabelText('Name')[1], 'c');
+
+    await user.type(
+      screen.getAllByLabelText('Expression')[1],
+      'Channel_FGH{enter}'
+    );
+    await user.click(addFunction);
+
+    await user.type(screen.getAllByLabelText('Name')[2], 'a');
+
+    await user.type(screen.getAllByLabelText('Expression')[2], 'b');
+    await user.type(screen.getAllByLabelText('Expression')[2], ' ');
+    await user.type(screen.getAllByLabelText('Expression')[2], '+');
+    await user.type(screen.getAllByLabelText('Expression')[2], ' ');
+    await user.type(
+      screen.getAllByLabelText('Expression')[2],
+      'c{arrowdown}{arrowdown}{arrowdown}{enter}'
+    );
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+    expect(
+      await screen.findByText(
+        "Operation between types ['image', 'waveform'] not supported"
+      )
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('Apply')).toBeDisabled();
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    const deleteButtons = screen.getAllByLabelText('Delete function');
+
+    await user.click(deleteButtons[2]);
+
+    expect(
+      screen.queryByText(
+        "Operation between types ['image', 'waveform'] not supported"
+      )
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().functions.appliedFunctions).toStrictEqual([
+      {
+        channels: ['CHANNEL_EFGHI'],
+        dataType: 'image',
+        expression: [
+          { label: 'Channel_EFGHI', type: 'channel', value: 'CHANNEL_EFGHI' },
+        ],
+        id: expect.anything(),
+        name: 'b',
+      },
+      {
+        channels: ['CHANNEL_FGHIJ'],
+        dataType: 'waveform',
+        expression: [
+          {
+            label: 'Channel_FGHIJ',
+            type: 'channel',
+            value: 'CHANNEL_FGHIJ',
+          },
+        ],
+        id: expect.anything(),
+        name: 'c',
+      },
+    ]);
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('display error message for name of a function and clears error message and sends a valid request', async () => {
+    const state = {
+      ...getInitialState(),
+    };
+
+    const { store } = createView(state);
+
+    const nameInput = screen.getByLabelText('Name');
+
+    await user.type(nameInput, '1');
+
+    const expressionInput = screen.getByLabelText('Expression');
+
+    await user.type(expressionInput, '1{enter}');
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+    expect(
+      await screen.findByText(
+        "name '1' must start with a letter, and can only contain letters, digits, '-' or '_' characters"
+      )
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('Apply')).toBeDisabled();
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    await user.clear(nameInput);
+    await user.type(nameInput, 'a');
+
+    expect(
+      screen.queryByText(
+        "name '1' must start with a letter, and can only contain letters, digits, '-' or '_' characters"
+      )
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().functions.appliedFunctions).toStrictEqual([
+      {
+        channels: [],
+        dataType: 'scalar',
+        expression: [{ label: '1', type: 'number', value: '1' }],
+        id: expect.anything(),
+        name: 'a',
+      },
+    ]);
+    expect(onClose).toHaveBeenCalled();
+  });
+});

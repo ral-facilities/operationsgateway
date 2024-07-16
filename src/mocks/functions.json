@@ -37,7 +37,7 @@
     "functions": [
       {
         "name": "a",
-        "expression": "Channel_GHIJK / 10"
+        "expression": "CHANNEL_GHIJK / 10"
       }
     ],
     "return_types": ["scalar"],
@@ -47,7 +47,7 @@
     "functions": [
       {
         "name": "a",
-        "expression": "Channel_FGHIJ - 737"
+        "expression": "CHANNEL_FGHIJ - 737"
       }
     ],
     "return_types": ["waveform"],
@@ -97,7 +97,7 @@
     "functions": [
       {
         "name": "b",
-        "expression": "Channel_EFGHI"
+        "expression": "CHANNEL_EFGHI"
       }
     ],
     "return_types": ["image"],
@@ -107,11 +107,11 @@
     "functions": [
       {
         "name": "b",
-        "expression": "Channel_EFGHI"
+        "expression": "CHANNEL_EFGHI"
       },
       {
         "name": "c",
-        "expression": "Channel_FGHIJ"
+        "expression": "CHANNEL_FGHIJ"
       }
     ],
     "return_types": ["image", "waveform"],
@@ -121,11 +121,11 @@
     "functions": [
       {
         "name": "b",
-        "expression": "Channel_EFGHI"
+        "expression": "CHANNEL_EFGHI"
       },
       {
         "name": "c",
-        "expression": "Channel_FGHIJ"
+        "expression": "CHANNEL_FGHIJ"
       },
       {
         "name": "a",
@@ -138,11 +138,11 @@
   {
     "functions": [
       {
-        "name": "Channel_FGHIJ",
+        "name": "CHANNEL_FGHIJ",
         "expression": "1"
       }
     ],
-    "message": "Error at index 0: name 'Channel_FGHIJ' is already a channel name",
+    "message": "Error at index 0: name 'CHANNEL_FGHIJ' is already a channel name",
     "id": "Reuse channel name"
   },
   {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import type { RenderResult } from '@testing-library/react';
 import {
   act,
   screen,
@@ -7,16 +7,17 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
-import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DataView from './dataView.component';
+import React from 'react';
+import { ValidateFunctionState } from '../app.types';
+import { operators, Token } from '../filtering/filterParser';
 import {
   flushPromises,
-  renderComponentWithProviders,
   getInitialState,
+  renderComponentWithProviders,
 } from '../setupTests';
-import { operators, Token } from '../filtering/filterParser';
 import { RootState } from '../state/store';
+import DataView from './dataView.component';
 
 describe('Data View', () => {
   const createView = (initialState?: Partial<RootState>): RenderResult => {
@@ -95,6 +96,37 @@ describe('Data View', () => {
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+    expect(dialogue).toBeVisible();
+  });
+
+  it('opens the functions dialogue when the functions button in a data header is clicked', async () => {
+    const user = userEvent.setup();
+    const state = {
+      ...getInitialState(),
+      table: { ...getInitialState().table, selectedColumnIds: ['a'] },
+      functions: {
+        appliedFunctions: [
+          {
+            id: '1',
+            name: 'a',
+            expression: [{ type: 'number', label: '1', value: '1' }],
+            dataType: 'scalar',
+            channels: [],
+          } as ValidateFunctionState,
+        ],
+      },
+    };
+    await act(async () => {
+      createView(state);
+      await flushPromises();
+    });
+
+    const functionAHeader = await screen.findByRole('columnheader', {
+      name: 'a',
+    });
+    expect(functionAHeader).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Functions' }));
+    const dialogue = await screen.findByRole('dialog', { name: 'Functions' });
     expect(dialogue).toBeVisible();
   });
 

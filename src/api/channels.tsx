@@ -245,7 +245,7 @@ const formatAppliedFunctions = (
     systemName: func.name,
     name: func.name,
     type: func.dataType,
-    description: JSON.parse(convertExpressionsToStrings([func]))[0].expression,
+    description: convertExpressionsToStrings([func]).functions[0].expression,
     path: '',
   }));
 };

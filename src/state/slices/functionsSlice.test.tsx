@@ -6,20 +6,33 @@ describe('functionsSlice', () => {
     let state: { functions: typeof initialState };
 
     const functions: ValidateFunctionState[] = [
-      { name: 'a', expression: [{ type: 'number', label: '1', value: '1' }] },
       {
+        id: '1',
+        name: 'a',
+        expression: [{ type: 'number', label: '1', value: '1' }],
+        dataType: 'scalar',
+        channels: [],
+      },
+      {
+        id: '2',
         name: 'b',
         expression: [
           { type: 'number', label: 'a', value: 'a' },
           { type: 'functionToken', label: '+', value: '+' },
           { type: 'number', label: '1', value: '1' },
         ],
+        dataType: 'scalar',
+        channels: [],
       },
       {
+        id: '3',
         name: 'mean',
         expression: [{ type: 'number', label: '1', value: '1' }],
+        dataType: 'scalar',
+        channels: [],
       },
       {
+        id: '4',
         name: 'a',
         expression: [
           { type: 'functionToken', label: 'centre', value: 'centre' },
@@ -27,6 +40,8 @@ describe('functionsSlice', () => {
           { type: 'number', label: '1', value: '1' },
           { type: 'functionToken', label: ')', value: ')' },
         ],
+        dataType: 'scalar',
+        channels: [],
       },
     ];
 

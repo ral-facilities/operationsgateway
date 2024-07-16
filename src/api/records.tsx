@@ -6,6 +6,7 @@ import {
 import axios, { AxiosError } from 'axios';
 import { parseISO } from 'date-fns';
 import {
+  APIFunctionState,
   DateRangetoShotnumConverter,
   PlotDataset,
   Record,
@@ -13,7 +14,6 @@ import {
   SearchParams,
   SelectedPlotChannel,
   SortType,
-  ValidateFunctionPost,
   isChannelImage,
   isChannelScalar,
   isChannelWaveform,
@@ -32,7 +32,7 @@ const fetchRecords = async (
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
-  functions: ValidateFunctionPost[],
+  functionsState: APIFunctionState,
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -80,7 +80,7 @@ const fetchRecords = async (
   projection?.forEach((channel) => {
     // Do not project on functions
     let is_function = false;
-    functions.forEach((func) => {
+    functionsState.functions.forEach((func) => {
       if (channel === func.name) is_function = true;
     });
     if (!is_function) {
@@ -95,6 +95,16 @@ const fetchRecords = async (
       if (!(channel in staticChannels)) {
         existsConditions.push({ [key]: { $exists: true } });
       }
+    }
+  });
+
+  functionsState.functions.forEach((func) => {
+    queryParams.append('functions', JSON.stringify(func));
+  });
+
+  functionsState.channels.forEach((channel) => {
+    if (!projection?.includes(channel)) {
+      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
     }
   });
 
@@ -117,10 +127,6 @@ const fetchRecords = async (
     );
   }
 
-  functions.forEach((func) => {
-    queryParams.append('functions', JSON.stringify(func));
-  });
-
   return axios
     .get(`${apiUrl}/records`, {
       params: queryParams,
@@ -138,6 +144,7 @@ const fetchRecordCountQuery = (
   apiUrl: string,
   searchParams: SearchParams,
   filters: string[],
+  functionsState: APIFunctionState,
   projection?: string[]
 ): Promise<number> => {
   const queryParams = new URLSearchParams();
@@ -166,13 +173,28 @@ const fetchRecordCountQuery = (
   const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
   projection?.forEach((channel) => {
-    // API recognises projection values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const key =
-      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+    // Do not project on functions
+    let is_function = false;
+    functionsState.functions.forEach((func) => {
+      if (channel === func.name) is_function = true;
+    });
+    if (!is_function) {
+      // API recognises projection values as metadata.key or channel.key
+      // Therefore, we must construct the appropriate parameter
+      const key =
+        channel in staticChannels
+          ? `metadata.${channel}`
+          : `channels.${channel}`;
 
-    if (!(channel in staticChannels)) {
-      existsConditions.push({ [key]: { $exists: true } });
+      if (!(channel in staticChannels)) {
+        existsConditions.push({ [key]: { $exists: true } });
+      }
+    }
+  });
+
+  functionsState.channels.forEach((channel) => {
+    if (!projection?.includes(channel)) {
+      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
     }
   });
 
@@ -328,7 +350,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           sort: string;
           searchParams: SearchParams;
           filters: string[];
-          functions: ValidateFunctionPost[];
+          functions: APIFunctionState;
           projection: string[];
         };
 
@@ -450,7 +472,7 @@ export const usePlotRecords = (
         sort: { [x: string]: string };
         searchParams: SearchParams;
         filters: string[];
-        functions: ValidateFunctionPost[];
+        functions: APIFunctionState;
         projection: string[];
       };
 
@@ -537,7 +559,7 @@ export const useThumbnails = (
         sort: string;
         searchParams: SearchParams;
         filters: string[];
-        functions: ValidateFunctionPost[];
+        functions: APIFunctionState;
       };
 
       // React Table pagination is zero-based
@@ -561,20 +583,29 @@ export const useThumbnails = (
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { searchParams, filters } = useAppSelector(selectQueryParams);
+  const { searchParams, filters, functions } =
+    useAppSelector(selectQueryParams);
   const queryClient = useQueryClient();
   const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   return useQuery({
-    queryKey: ['recordCount', { searchParams, filters, projection }],
+    queryKey: ['recordCount', { searchParams, filters, projection, functions }],
 
     queryFn: (params) => {
-      const { searchParams, filters, projection } = params.queryKey[1] as {
+      const { searchParams, filters, functions, projection } = params
+        .queryKey[1] as {
         searchParams: SearchParams;
         filters: string[];
+        functions: APIFunctionState;
         projection: string[];
       };
-      return fetchRecordCountQuery(apiUrl, searchParams, filters, projection);
+      return fetchRecordCountQuery(
+        apiUrl,
+        searchParams,
+        filters,
+        functions,
+        projection
+      );
     },
 
     initialData: () =>
@@ -584,6 +615,7 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
           searchParams,
           filters,
           projection,
+          functions,
         },
       ]),
   });
@@ -594,8 +626,11 @@ export const useIncomingRecordCount = (
   searchParams?: SearchParams
 ): UseQueryResult<number, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
-  const { filters: storeFilters, searchParams: storeSearchParams } =
-    useAppSelector(selectQueryParams);
+  const {
+    filters: storeFilters,
+    searchParams: storeSearchParams,
+    functions,
+  } = useAppSelector(selectQueryParams);
 
   let finalisedFilters: string[];
   if (filters) {
@@ -618,17 +653,26 @@ export const useIncomingRecordCount = (
         searchParams: finalisedSearchParams,
         filters: finalisedFilters,
         projection: [timeChannelName],
+        functions: functions,
       },
     ],
 
     queryFn: (params) => {
-      const { searchParams, filters, projection } = params.queryKey[1] as {
+      const { searchParams, filters, functions, projection } = params
+        .queryKey[1] as {
         searchParams: SearchParams;
         filters: string[];
+        functions: APIFunctionState;
         projection: string[];
       };
 
-      return fetchRecordCountQuery(apiUrl, searchParams, filters, projection);
+      return fetchRecordCountQuery(
+        apiUrl,
+        searchParams,
+        filters,
+        functions,
+        projection
+      );
     },
   });
 };

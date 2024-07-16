@@ -5,24 +5,33 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { DataType, FunctionToken, ValidateFunctionState } from '../app.types';
+import {
+  APIFunctionState,
+  DataType,
+  FunctionToken,
+  ValidateFunctionState,
+} from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 
 export function convertExpressionsToStrings(
   functionStates: ValidateFunctionState[]
-): string {
-  return JSON.stringify(
-    functionStates.map((functionState) => ({
+): APIFunctionState {
+  const channels = functionStates.flatMap((state) => state.channels);
+  const uniqueChannels = Array.from(new Set(channels));
+
+  return {
+    channels: uniqueChannels,
+    functions: functionStates.map((functionState) => ({
       name: functionState.name,
       expression: functionState.expression
-        .map((token) => token.value)
+        .map((token) => token.value.trim())
         .join(' ')
         .replace(/\s*\(\s*/g, '(')
         .replace(/\s*\)\s*/g, ')'),
-    }))
-  );
+    })),
+  };
 }
 
 const getFunctionsTokens = (apiUrl: string): Promise<FunctionToken[]> => {
@@ -55,7 +64,9 @@ const postValidateFunctions = (
   apiUrl: string,
   functions: ValidateFunctionState[]
 ): Promise<DataType[]> => {
-  const formattedFunctions = convertExpressionsToStrings(functions);
+  const formattedFunctions = JSON.stringify(
+    convertExpressionsToStrings(functions).functions
+  );
   return axios
     .post(`${apiUrl}/functions/validate`, formattedFunctions, {
       headers: {

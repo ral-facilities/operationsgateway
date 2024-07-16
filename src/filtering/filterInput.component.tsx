@@ -1,15 +1,15 @@
 import {
   Autocomplete,
-  TextField,
-  createFilterOptions,
-  autocompleteClasses,
-  Theme,
-  SxProps,
   Chip,
+  SxProps,
+  TextField,
+  Theme,
+  autocompleteClasses,
+  createFilterOptions,
 } from '@mui/material';
 import React from 'react';
-import { Token, ParserError, operators, parseFilter } from './filterParser';
 import { FLASH_ANIMATION } from '../animation';
+import { ParserError, Token, operators, parseFilter } from './filterParser';
 
 interface FilterInputProps {
   channels: Token[];
@@ -48,6 +48,7 @@ const FilterInput = (props: FilterInputProps) => {
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
       }
+
       // only move right when cursor is at end
       if (cursorPos === inputValue.length && e.key === 'ArrowRight') {
         e.stopPropagation();

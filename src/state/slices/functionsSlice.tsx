@@ -37,8 +37,7 @@ export const selectAppliedFunctions = (state: RootState) =>
 
 export const selectQueryFunctions = createSelector(
   selectAppliedFunctions,
-  (appliedFunctions) =>
-    JSON.parse(convertExpressionsToStrings(appliedFunctions))
+  (appliedFunctions) => convertExpressionsToStrings(appliedFunctions)
 );
 
 export default functionsSlice.reducer;

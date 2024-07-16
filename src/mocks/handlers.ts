@@ -341,6 +341,11 @@ export const handlers = [
       );
     }
 
-    return res(ctx.status(400), ctx.json({ detail: 'Invalid function' }));
+    return res(
+      ctx.status(400),
+      ctx.json({
+        detail: `Error at index ${body.length - 1}: Invalid function`,
+      })
+    );
   }),
 ];

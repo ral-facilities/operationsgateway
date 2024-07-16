@@ -25,11 +25,14 @@ describe('useGetFunctionsTokens', () => {
 describe('usePostValidateFunctions', () => {
   const functions: ValidateFunctionState[] = [
     {
+      id: '1',
       name: 'a',
       expression: [{ type: 'number', label: '1', value: '1' }],
       dataType: 'scalar',
+      channels: [],
     },
     {
+      id: '2',
       name: 'b',
       expression: [
         { type: 'number', label: 'a', value: 'a' },
@@ -37,13 +40,17 @@ describe('usePostValidateFunctions', () => {
         { type: 'number', label: '1', value: '1' },
       ],
       dataType: 'scalar',
+      channels: [],
     },
     {
+      id: '3',
       name: 'mean',
       expression: [{ type: 'number', label: '1', value: '1' }],
       dataType: 'scalar',
+      channels: [],
     },
     {
+      id: '4',
       name: 'a',
       expression: [
         { type: 'functionToken', label: 'centre', value: 'centre' },
@@ -52,6 +59,7 @@ describe('usePostValidateFunctions', () => {
         { type: 'functionToken', label: ')', value: ')' },
       ],
       dataType: 'scalar',
+      channels: [],
     },
   ];
   it('sends request to post functions to validate and returns successful response (1 functions)', async () => {
@@ -96,7 +104,7 @@ describe('usePostValidateFunctions', () => {
       expect(result.current.isSuccess).toBeFalsy();
     });
 
-    expect(result.current.error.response.data).toEqual({
+    expect(result.current.error?.response?.data).toEqual({
       detail:
         "Error at index 0: 'centre' accepts {'waveform'} type(s), 'scalar' provided",
     });
