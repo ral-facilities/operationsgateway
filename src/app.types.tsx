@@ -302,7 +302,12 @@ export interface APIFunctionState {
   channels: string[];
   functions: ValidateFunctionPost[];
 }
-
+export interface APIErrorResponse {
+  type: string;
+  loc: (string | number)[];
+  msg: string;
+  input: string;
+}
 export interface APIError {
-  detail: string;
+  detail: string | APIErrorResponse[];
 }

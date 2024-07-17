@@ -19,6 +19,7 @@ import {
 } from '../api/functions';
 import {
   APIError,
+  APIErrorResponse,
   DataType,
   FunctionTag,
   ValidateFunctionState,
@@ -50,15 +51,26 @@ export interface FunctionsDialogProps {
   flashingFunctionValue?: string;
 }
 
-const parseErrorCode = (errorCode: string) => {
-  const parts = errorCode.split(':');
-  const errorMessage = parts[1].trim();
-  const indexPart = parts[0].split(' ');
-  const index = parseInt(indexPart[indexPart.length - 1], 10);
+const parseErrorCode = (
+  errorCode: string | APIErrorResponse[]
+): { index: number; errorMessage: string; isNameError: boolean }[] => {
+  if (typeof errorCode === 'string') {
+    const parts = errorCode.split(':');
+    const errorMessage = parts[1].trim();
+    const indexPart = parts[0].split(' ');
+    const index = parseInt(indexPart[indexPart.length - 1], 10);
 
-  const includesFunctionName = errorMessage.includes('name');
+    const includesFunctionName = errorMessage.includes('name');
 
-  return { index, errorMessage, isNameError: includesFunctionName };
+    return [{ index, errorMessage, isNameError: includesFunctionName }];
+  } else {
+    return errorCode.map((code) => {
+      const index = Number(code.loc[1]);
+      const errorMessage = code.msg;
+      const isNameError = code.loc[2] === 'name';
+      return { index, errorMessage, isNameError };
+    });
+  }
 };
 
 const FunctionsDialog = (props: FunctionsDialogProps) => {
@@ -182,13 +194,16 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
   const handleError = React.useCallback(
     (error: AxiosError) => {
       const errorCode = (error.response?.data as APIError).detail;
-      const { index, errorMessage, isNameError } = parseErrorCode(errorCode);
-      const functionId = functions[index].id;
-      handleChangeError(functionId)(
-        isNameError
-          ? { name: { message: errorMessage } }
-          : { expression: { message: errorMessage } }
-      );
+      const parsedErrors = parseErrorCode(errorCode);
+      parsedErrors.forEach((error) => {
+        const { index, errorMessage, isNameError } = error;
+        const functionId = functions[index].id;
+        handleChangeError(functionId)(
+          isNameError
+            ? { name: { message: errorMessage } }
+            : { expression: { message: errorMessage } }
+        );
+      });
     },
     [functions, handleChangeError]
   );

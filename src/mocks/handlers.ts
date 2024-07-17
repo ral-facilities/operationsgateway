@@ -1,9 +1,11 @@
 import { rest } from 'msw';
 import { ColourMapsParams } from '../api/images';
 import {
+  APIErrorResponse,
   Channel,
   ExperimentParams,
   Record,
+  ValidateFunctionPost,
   isChannelScalar,
 } from '../app.types';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
@@ -324,6 +326,34 @@ export const handlers = [
 
   rest.post('/functions/validate', async (req, res, ctx) => {
     const body = await req.json();
+
+    // Validate an array of ValidateFunctionPost objects
+    const errors: APIErrorResponse[] = [];
+
+    body.forEach((item: ValidateFunctionPost, index: number) => {
+      if (!item.name.trim() || item.name.length < 1) {
+        errors.push({
+          type: 'string_too_short',
+          loc: [`body`, index, 'name'],
+          msg: 'String should have at least 1 character',
+          input: item.name,
+        });
+      }
+
+      if (!item.expression.trim() || item.expression.length < 1) {
+        errors.push({
+          type: 'string_too_short',
+          loc: [`body`, index, 'expression'],
+          msg: 'String should have at least 1 character',
+          input: item.expression,
+        });
+      }
+    });
+
+    // If there are validation errors, return them
+    if (errors.length > 0) {
+      return res(ctx.status(400), ctx.json({ detail: errors }));
+    }
 
     // Find the matching function from the JSON data
     const matchedFunction = functionsJson.find(

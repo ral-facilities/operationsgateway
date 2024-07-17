@@ -207,6 +207,32 @@ describe('FunctionsDialog', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('display error message for invalid functions (multiple empty functions)', async () => {
+    const state = {
+      ...getInitialState(),
+    };
+
+    createView(state);
+
+    const addFunction = screen.getByRole('button', {
+      name: 'Add new function',
+    });
+
+    await user.click(addFunction);
+
+    await user.click(addFunction);
+
+    await user.click(addFunction);
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+    // Await the promise and then check the length
+    const errorMessages = await screen.findAllByText(
+      'String should have at least 1 character'
+    );
+    expect(errorMessages.length).toEqual(8);
+  });
+
   it('display error message for name of a function and clears error message and sends a valid request', async () => {
     const state = {
       ...getInitialState(),

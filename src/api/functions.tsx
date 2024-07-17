@@ -64,9 +64,8 @@ const postValidateFunctions = (
   apiUrl: string,
   functions: ValidateFunctionState[]
 ): Promise<DataType[]> => {
-  const formattedFunctions = JSON.stringify(
-    convertExpressionsToStrings(functions).functions
-  );
+  const formattedFunctions = convertExpressionsToStrings(functions).functions;
+
   return axios
     .post(`${apiUrl}/functions/validate`, formattedFunctions, {
       headers: {
