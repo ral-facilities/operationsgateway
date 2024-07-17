@@ -128,6 +128,12 @@ describe('Data View', () => {
     await user.click(screen.getByRole('button', { name: 'Functions' }));
     const dialogue = await screen.findByRole('dialog', { name: 'Functions' });
     expect(dialogue).toBeVisible();
+
+    await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('dialog', { name: 'Functions' })
+    );
   });
 
   it('opens the channels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {
