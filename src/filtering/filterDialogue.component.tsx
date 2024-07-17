@@ -47,7 +47,7 @@ export const Heading = (props: React.ComponentProps<typeof Typography>) => {
     </Typography>
   );
 };
-const Body = (props: React.ComponentProps<typeof Typography>) => (
+export const Body = (props: React.ComponentProps<typeof Typography>) => (
   <Typography variant="body2" gutterBottom>
     {props.children}
   </Typography>

@@ -41,6 +41,8 @@ describe('FunctionsDialog', () => {
     await act(async () => {
       baseElement = createView().baseElement;
     });
+
+    expect(await screen.findByText('Waveform Analysis')).toBeInTheDocument();
     expect(baseElement).toMatchSnapshot();
   });
 

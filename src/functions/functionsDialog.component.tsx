@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Grid,
   IconButton,
 } from '@mui/material';
@@ -32,6 +33,7 @@ import {
   selectSelectedIds,
   updateSelectedColumns,
 } from '../state/slices/tableSlice';
+import FunctionsHelp from './functionsHelp.component';
 import FunctionsInputs from './functionsInputs.component';
 
 export interface errorState {
@@ -320,6 +322,10 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                 Add new function
               </Button>
             </Grid>
+          </Grid>
+          <Divider orientation="vertical" flexItem />
+          <Grid item xs>
+            {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
       </DialogContent>
