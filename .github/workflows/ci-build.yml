@@ -99,7 +99,7 @@ jobs:
 
       # Setup Python and environment dependencies (via cache)
       - name: Setup Python
-        uses: actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236 # v4
+        uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5
         with:
           python-version: 3.9
       - name: Load Pip cache
