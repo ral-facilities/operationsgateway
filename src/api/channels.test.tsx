@@ -126,7 +126,7 @@ describe('channels api functions', () => {
         cell: expect.any(Function),
         meta: {
           channelInfo: {
-            description: '1',
+            description: 'Function: 1',
             type: 'scalar',
             name: 'a',
             systemName: 'a',
@@ -349,7 +349,7 @@ describe('channels api functions', () => {
       const functionA = data!.find((data) => data.systemName === 'a');
 
       expect(functionA).toEqual({
-        description: '1',
+        description: 'Function: 1',
         name: 'a',
         path: '',
         systemName: 'a',

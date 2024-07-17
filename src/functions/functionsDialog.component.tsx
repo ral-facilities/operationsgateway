@@ -194,6 +194,8 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
   const handleError = React.useCallback(
     (error: AxiosError) => {
       const errorCode = (error.response?.data as APIError).detail;
+
+      if (typeof errorCode === 'string' && !errorCode.includes(':')) return;
       const parsedErrors = parseErrorCode(errorCode);
       parsedErrors.forEach((error) => {
         const { index, errorMessage, isNameError } = error;

@@ -190,14 +190,16 @@ export const constructColumnDefs = (
                   alt={`${channel.name ?? channel.systemName} ${
                     channel.type
                   } for timestamp ${row.getValue(timeChannelName)}`}
-                  onClick={() =>
-                    dispatch(
-                      openTraceWindow({
-                        recordId: (row.original as RecordRow)['_id'],
-                        channelName: channel.systemName,
-                      })
-                    )
-                  }
+                  onClick={() => {
+                    if (!channel.description?.startsWith('Function:')) {
+                      dispatch(
+                        openTraceWindow({
+                          recordId: (row.original as RecordRow)['_id'],
+                          channelName: channel.systemName,
+                        })
+                      );
+                    }
+                  }}
                 />
               );
             }
@@ -210,14 +212,16 @@ export const constructColumnDefs = (
                     alt={`${channel.name ?? channel.systemName} ${
                       channel.type
                     } for timestamp ${row.getValue(timeChannelName)}`}
-                    onClick={() =>
-                      dispatch(
-                        openImageWindow({
-                          recordId: (row.original as RecordRow)['_id'],
-                          channelName: channel.systemName,
-                        })
-                      )
-                    }
+                    onClick={() => {
+                      if (!channel.description?.startsWith('Function:')) {
+                        dispatch(
+                          openImageWindow({
+                            recordId: (row.original as RecordRow)['_id'],
+                            channelName: channel.systemName,
+                          })
+                        );
+                      }
+                    }}
                   />
                 );
               }
@@ -245,7 +249,7 @@ const formatAppliedFunctions = (
     systemName: func.name,
     name: func.name,
     type: func.dataType,
-    description: convertExpressionsToStrings([func]).functions[0].expression,
+    description: `Function: ${convertExpressionsToStrings([func]).functions[0].expression}`,
     path: '',
   }));
 };
