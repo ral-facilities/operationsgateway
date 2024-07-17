@@ -6,7 +6,7 @@ import { selectSelectedRows } from '../state/slices/selectionSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { readSciGatewayToken } from '../parseTokens';
-import { SearchParams, SortType } from '../app.types';
+import { SearchParams, SortType, timeChannelName } from '../app.types';
 import { staticChannels } from './channels';
 
 interface DataToExport {
@@ -69,7 +69,7 @@ export const exportData = (
       channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
     queryParams.append('projection', key);
 
-    if (!(channel in staticChannels)) {
+    if (channel !== timeChannelName) {
       existsConditions.push({ [key]: { $exists: true } });
     }
   });

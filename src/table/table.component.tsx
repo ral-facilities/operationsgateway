@@ -154,7 +154,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 display: 'flex',
                 ...stickyColumnStyles,
                 left: header.getStart('left'),
-                display: 'flex',
               }}
             >
               <Checkbox
