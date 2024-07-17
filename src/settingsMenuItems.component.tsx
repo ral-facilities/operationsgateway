@@ -61,7 +61,7 @@ const SettingsMenuItems = () => {
 
   const colourMapsList = extendedColourMap
     ? Object.values(colourMaps ?? {}).flat()
-    : colourMaps?.[mainColourMap] ?? [];
+    : (colourMaps?.[mainColourMap] ?? []);
 
   const colourMapsNames = colourMapsList?.filter(
     (colourmap) => !colourmap?.endsWith('_r')
