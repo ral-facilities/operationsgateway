@@ -80,17 +80,19 @@ describe('channels api functions', () => {
       });
     });
 
-    it('uses a select function to construct an array of columns from given channel and functions metadata', async () => {
+    it('uses a select function to construct an array of columns from given channel and functions metadata (scalar)', async () => {
       state = {
         ...state,
         functions: {
           appliedFunctions: [
             {
+              id: '1',
               name: 'a',
               expression: [{ type: 'number', label: '1', value: '1' }],
               dataType: 'scalar',
+              channels: [],
             },
-          ] as ValidateFunctionState[],
+          ],
         },
       };
       const { result } = renderHook(() => useAvailableColumns(), {
@@ -130,6 +132,102 @@ describe('channels api functions', () => {
             type: 'scalar',
             name: 'a',
             systemName: 'a',
+            path: '',
+          },
+        },
+      });
+    });
+
+    it('uses a select function to construct an array of columns from given channel and functions metadata (image and waveform)', async () => {
+      state = {
+        ...state,
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'b',
+              expression: [
+                {
+                  type: 'channel',
+                  label: 'CHANNEL_EFGHI',
+                  value: 'CHANNEL_EFGHI',
+                },
+              ],
+              dataType: 'image',
+              channels: ['CHANNEL_EFGHI'],
+            },
+            {
+              id: '2',
+              name: 'c',
+              expression: [
+                {
+                  type: 'channel',
+                  label: 'CHANNEL_FGHIJ',
+                  value: 'CHANNEL_FGHIJ',
+                },
+              ],
+              dataType: 'waveform',
+              channels: ['CHANNEL_FGHIJ'],
+            },
+          ],
+        },
+      };
+      const { result } = renderHook(() => useAvailableColumns(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const data = result.current.data;
+
+      expect(data).not.toBeUndefined();
+
+      const timestampCol = data!.find((col) => col.id === timeChannelName);
+
+      // assert it converts a static channel correctly
+      expect(timestampCol).toEqual({
+        id: 'timestamp',
+        accessorKey: 'timestamp',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: { channelInfo: staticChannels['timestamp'] },
+      });
+
+      const functionBCol = data!.find((col) => col.id === 'b');
+
+      // assert it converts a normal channel correctly
+      expect(functionBCol).toEqual({
+        id: 'b',
+        accessorKey: 'b',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: {
+          channelInfo: {
+            description: 'Function: CHANNEL_EFGHI',
+            type: 'image',
+            name: 'b',
+            systemName: 'b',
+            path: '',
+          },
+        },
+      });
+
+      const functionCCol = data!.find((col) => col.id === 'c');
+
+      // assert it converts a normal channel correctly
+      expect(functionCCol).toEqual({
+        id: 'c',
+        accessorKey: 'c',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: {
+          channelInfo: {
+            description: 'Function: CHANNEL_FGHIJ',
+            type: 'waveform',
+            name: 'c',
+            systemName: 'c',
             path: '',
           },
         },
