@@ -9313,12 +9313,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:2.4.2":
-  version: 2.4.2
-  resolution: "i18next-http-backend@npm:2.4.2"
+"i18next-http-backend@npm:2.5.2":
+  version: 2.5.2
+  resolution: "i18next-http-backend@npm:2.5.2"
   dependencies:
     cross-fetch: "npm:4.0.0"
-  checksum: 10c0/a117cd6d0cdcf6da6633f6a3ad9ec03cb77af49949cff09bda6660a7bdd3235768db91b367ec1e1b16026594c78643252ffc3cffc99cdafb5d3a847b0475485b
+  checksum: 10c0/57cfbeeea40a751134e1521fac89b14b780c9ad87b74a4f7d7168a88a8b603efed9f5df455dddbb408f7e268eae5aa0a6888e47b9f10cb9482d812d4d6997ffa
   languageName: node
   linkType: hard
 
@@ -12233,7 +12233,7 @@ __metadata:
     husky: "npm:9.0.6"
     i18next: "npm:23.8.2"
     i18next-browser-languagedetector: "npm:7.2.0"
-    i18next-http-backend: "npm:2.4.2"
+    i18next-http-backend: "npm:2.5.2"
     immutability-helper: "npm:3.1.1"
     jest-canvas-mock: "npm:2.5.0"
     jest-fail-on-console: "npm:3.1.1"
