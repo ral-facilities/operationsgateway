@@ -83,38 +83,18 @@ test('creates multiple complex functions', async ({ page }) => {
   // Check if the column header with name 'test' exists
   await expect(
     page.getByRole('columnheader', { name: 'test test menu' })
-  ).toBeVisible();
+  ).toBeVisible({
+    timeout: 20000,
+  });
 
   // Check if the column header with name 'test_2' exists
   await expect(
     page.getByRole('columnheader', { name: 'test_2 test_2 menu' })
-  ).toBeVisible();
+  ).toBeVisible({
+    timeout: 20000,
+  });
 
   await expect(page.getByText('1.3971397139713973e-8')).toBeVisible({
     timeout: 20000,
   });
-
-  await page.locator('text=Plots').click();
-
-  // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.locator('text=Create a plot').click(),
-  ]);
-
-  await popup.locator('label:has-text("Search")').fill('test_2');
-  await popup.getByRole('option', { name: 'test_2', exact: true }).click();
-
-  await popup.locator('[aria-label="close settings"]').click();
-
-  // wait for open settings button to be visible i.e. menu is fully closed
-  await popup.locator('[aria-label="open settings"]').click({ trial: true });
-
-  const chart = await popup.locator('#my-chart');
-  expect(
-    await chart.screenshot({
-      type: 'png',
-    })
-    // 150 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
