@@ -113,7 +113,7 @@ jobs:
 
       # Install and start MongoDB
       - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@e815fd8a9dfede09fd6e6c144f2c9f4875e933df # 1.7.0
+        uses: supercharge/mongodb-github-action@5a87bd81f88e2a8b195f8b7b656f5cda1350815a # 1.11.0
         with:
           mongodb-version: '5.0'
 
