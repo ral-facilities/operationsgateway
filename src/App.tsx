@@ -16,6 +16,7 @@ import { connect, Provider } from 'react-redux';
 import Preloader from './preloader/preloader.component';
 import './App.css';
 import SettingsMenuItems from './settingsMenuItems.component';
+import { WindowContextProvider } from './windows/openWindows.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,22 +72,24 @@ const App: React.FunctionComponent = () => {
     <div className="App">
       <Provider store={store}>
         <OGThemeProvider>
-          <QueryClientProvider client={queryClient}>
-            <ConnectedPreloader>
-              <React.Suspense
-                fallback={
-                  <Preloader loading={true}>Finished loading</Preloader>
-                }
-              >
-                <ViewTabs />
-                {/* Open windows is it's own component so that the open windows are always mounted
+          <WindowContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <ConnectedPreloader>
+                <React.Suspense
+                  fallback={
+                    <Preloader loading={true}>Finished loading</Preloader>
+                  }
+                >
+                  <ViewTabs />
+                  {/* Open windows is it's own component so that the open windows are always mounted
                   no matter which other components the user has mounted in ViewTabs etc. */}
-                <OpenWindows />
-                <SettingsMenuItems />
-              </React.Suspense>
-            </ConnectedPreloader>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
+                  <OpenWindows />
+                  <SettingsMenuItems />
+                </React.Suspense>
+              </ConnectedPreloader>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+          </WindowContextProvider>
         </OGThemeProvider>
       </Provider>
     </div>

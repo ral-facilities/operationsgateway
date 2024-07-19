@@ -19,7 +19,6 @@ import {
   PlotType,
   SelectedPlotChannel,
   FullScalarChannelMetadata,
-  DEFAULT_WINDOW_VARS,
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
@@ -33,12 +32,13 @@ import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 interface PlotWindowProps {
   onClose: () => void;
   plotConfig: PlotConfig;
+  plotWindowRef: React.RefObject<WindowPortalClass>;
 }
 
 const drawerWidth = 300;
 
 const PlotWindow = (props: PlotWindowProps) => {
-  const { onClose, plotConfig } = props;
+  const { onClose, plotConfig, plotWindowRef } = props;
 
   const dispatch = useAppDispatch();
 
@@ -136,23 +136,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     (channel) => channel.systemName === XAxis
   )?.name;
 
-  const plotWindowRef = React.createRef<WindowPortalClass>();
-
   const handleSavePlot = React.useCallback(() => {
-    // Capture window size and position
-    const outerWidth =
-      plotWindowRef.current?.state.window?.outerWidth ??
-      DEFAULT_WINDOW_VARS.outerWidth;
-    const outerHeight =
-      plotWindowRef.current?.state.window?.outerHeight ??
-      DEFAULT_WINDOW_VARS.outerHeight;
-    const screenX =
-      plotWindowRef.current?.state.window?.screenX ??
-      DEFAULT_WINDOW_VARS.screenX;
-    const screenY =
-      plotWindowRef.current?.state.window?.screenY ??
-      DEFAULT_WINDOW_VARS.screenY;
-
     const configToSave: PlotConfig = {
       ...plotConfig,
       title: plotTitle,
@@ -174,14 +158,9 @@ const PlotWindow = (props: PlotWindowProps) => {
       axesLabelsVisible,
       selectedColours,
       remainingColours,
-      outerWidth,
-      outerHeight,
-      screenX,
-      screenY,
     };
     dispatch(savePlot(configToSave));
   }, [
-    plotWindowRef,
     plotTitle,
     plotConfig,
     plotType,
@@ -210,8 +189,8 @@ const PlotWindow = (props: PlotWindowProps) => {
       ref={plotWindowRef}
       title={plotTitle}
       onClose={onClose}
-      outerWidth={plotConfig.outerWidth}
-      outerHeight={plotConfig.outerHeight}
+      innerWidth={plotConfig.innerWidth}
+      innerHeight={plotConfig.innerHeight}
       screenX={plotConfig.screenX}
       screenY={plotConfig.screenY}
     >
@@ -234,7 +213,7 @@ const PlotWindow = (props: PlotWindowProps) => {
                 width: drawerWidth,
               },
             }}
-            BackdropProps={{ sx: { position: 'absolute' } }}
+            slotProps={{ backdrop: { sx: { position: 'absolute' } } }}
             ModalProps={{
               container: document.getElementById('drawer-container'),
               sx: { position: 'absolute' },
