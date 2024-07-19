@@ -36,6 +36,9 @@ exports[`Open Windows component renders windows for each open window 1`] = `
   "screenY": 200
 }
 onClose=undefined
+plotWindowRef={
+  "current": null
+}
 
   </mock-plotwindow>
   <mock-plotwindow
@@ -71,6 +74,9 @@ onClose=undefined
   "screenY": 200
 }
 onClose=undefined
+plotWindowRef={
+  "current": null
+}
 
   </mock-plotwindow>
   <mock-tracewindow
@@ -89,6 +95,9 @@ onClose=undefined
   "screenY": 200
 }
 onClose=undefined
+traceWindowRef={
+  "current": null
+}
 
   </mock-tracewindow>
   <mock-imagewindow
@@ -107,6 +116,9 @@ onClose=undefined
   "screenY": 200
 }
 onClose=undefined
+imageWindowRef={
+  "current": null
+}
 
   </mock-imagewindow>
 </DocumentFragment>
