@@ -180,7 +180,7 @@ exports[`y-axis tab renders correctly 1`] = `
         </label>
         <div
           aria-labelledby="left-y-scale-group-label"
-          class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
+          class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
           role="radiogroup"
         >
           <label
@@ -351,7 +351,7 @@ exports[`y-axis tab renders correctly 1`] = `
       class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
     >
       <div
-        class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-1kkal6p-MuiAutocomplete-root"
+        class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-fzem9i-MuiAutocomplete-root"
         role="autocomplete"
       >
         <div
@@ -404,7 +404,7 @@ exports[`y-axis tab renders correctly 1`] = `
               value=""
             />
             <div
-              class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+              class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
             >
               <button
                 aria-label="Open"

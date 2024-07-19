@@ -18,7 +18,7 @@ exports[`False colour panel component renders correctly 1`] = `
             class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
                 checked=""
@@ -50,7 +50,7 @@ exports[`False colour panel component renders correctly 1`] = `
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
               tabindex="-1"
             >
               <input
@@ -79,7 +79,7 @@ exports[`False colour panel component renders correctly 1`] = `
             class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
             >
               <input
                 class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
@@ -124,102 +124,102 @@ exports[`False colour panel component renders correctly 1`] = `
           Level Range
         </label>
         <span
-          class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-1aznpnh-MuiSlider-root"
+          class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-ltlhnc-MuiSlider-root"
         >
           <span
-            class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
+            class="MuiSlider-rail css-7o8aqz-MuiSlider-rail"
           />
           <span
-            class="MuiSlider-track css-1gv0vcd-MuiSlider-track"
+            class="MuiSlider-track css-ttgsjq-MuiSlider-track"
             style="left: 0%; width: 100%;"
           />
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="0"
             style="left: 0%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
             data-index="0"
             style="left: 0%;"
           >
             0
           </span>
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="1"
             style="left: 12.156862745098039%;"
           />
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="2"
             style="left: 24.705882352941178%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
             data-index="2"
             style="left: 24.705882352941178%;"
           >
             63
           </span>
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="3"
             style="left: 37.254901960784316%;"
           />
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="4"
             style="left: 49.80392156862745%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
             data-index="4"
             style="left: 49.80392156862745%;"
           >
             127
           </span>
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="5"
             style="left: 62.35294117647059%;"
           />
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="6"
             style="left: 74.90196078431373%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
             data-index="6"
             style="left: 74.90196078431373%;"
           >
             191
           </span>
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="7"
             style="left: 87.45098039215686%;"
           />
           <span
-            class="MuiSlider-mark MuiSlider-markActive css-6cwnna-MuiSlider-mark"
+            class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
             data-index="8"
             style="left: 100%;"
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1eoe787-MuiSlider-markLabel"
+            class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
             data-index="8"
             style="left: 100%;"
           >
             255
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-jx1sa5-MuiSlider-thumb"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
             data-index="0"
             style="left: 0%;"
           >
@@ -239,7 +239,7 @@ exports[`False colour panel component renders correctly 1`] = `
             />
             <span
               aria-hidden="true"
-              class="MuiSlider-valueLabel css-7d61z1-MuiSlider-valueLabel"
+              class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
             >
               <span
                 class="MuiSlider-valueLabelCircle"
@@ -253,7 +253,7 @@ exports[`False colour panel component renders correctly 1`] = `
             </span>
           </span>
           <span
-            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-jx1sa5-MuiSlider-thumb"
+            class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
             data-index="1"
             style="left: 100%;"
           >
@@ -273,7 +273,7 @@ exports[`False colour panel component renders correctly 1`] = `
             />
             <span
               aria-hidden="true"
-              class="MuiSlider-valueLabel css-7d61z1-MuiSlider-valueLabel"
+              class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
             >
               <span
                 class="MuiSlider-valueLabelCircle"

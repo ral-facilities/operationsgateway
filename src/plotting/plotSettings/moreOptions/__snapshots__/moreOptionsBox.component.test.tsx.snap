@@ -15,11 +15,11 @@ exports[`MoreOptionsBox renders correctly 1`] = `
           Visible
         </p>
         <span
-          class="MuiSwitch-root MuiSwitch-sizeSmall css-1yui6zx-MuiSwitch-root"
+          class="MuiSwitch-root MuiSwitch-sizeSmall css-tqdtwk-MuiSwitch-root"
         >
           <span
             aria-label="toggle activeArea visibility off"
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
           >
             <input
               checked=""
@@ -303,7 +303,7 @@ exports[`MoreOptionsBox renders correctly 1`] = `
         </label>
         <div
           aria-labelledby="y-axis-label"
-          class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
+          class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
           role="radiogroup"
         >
           <label

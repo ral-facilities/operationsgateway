@@ -23,7 +23,7 @@ exports[`maxShots search renders correctly with a selected value 1`] = `
       >
         <div
           aria-label="select max shots"
-          class="MuiFormGroup-root MuiFormGroup-row css-qfz70r-MuiFormGroup-root"
+          class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
           role="radiogroup"
         >
           <label
