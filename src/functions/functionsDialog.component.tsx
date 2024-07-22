@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { useChannels } from '../api/channels';
 import {
   useGetFunctionsTokens,
@@ -179,7 +178,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       appliedFunctions.length === 0
         ? [
             {
-              id: uuidv4(),
+              id: crypto.randomUUID(),
               name: '',
               expression: [],
               dataType: 'scalar',
@@ -324,7 +323,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                   setFunctions((functions) => [
                     ...functions,
                     {
-                      id: uuidv4(),
+                      id: crypto.randomUUID(),
                       name: '',
                       expression: [],
                       dataType: 'scalar',
