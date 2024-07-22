@@ -55,7 +55,7 @@ exports[`Experiment search renders correctly 1`] = `
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-15 css-1b7af02-MuiGrid-root"
           >
             <div
-              class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-f34qqq-MuiAutocomplete-root"
+              class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-hcdzbm-MuiAutocomplete-root"
             >
               <div
                 class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -106,7 +106,7 @@ exports[`Experiment search renders correctly 1`] = `
                     value=""
                   />
                   <div
-                    class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                    class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
                   >
                     <button
                       aria-label="Open"
