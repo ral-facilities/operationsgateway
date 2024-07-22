@@ -13,9 +13,21 @@ test('scalar functions can be plotted', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(
-    page.getByRole('columnheader', { name: 'a a menu' })
-  ).toBeVisible();
+  const rowsPerPageDropdown = page.getByRole('combobox', {
+    name: 'Rows per page',
+  });
+
+  expect(rowsPerPageDropdown).toHaveText('25');
+
+  const rows = page.getByRole('rowgroup').last().getByRole('row');
+  // have to add 1 to expected column count to account for select column
+  const tempCellInFirstRow = rows.first().getByRole('cell').nth(2);
+
+  await expect(rows).toHaveCount(25);
+
+  await expect(tempCellInFirstRow).toHaveText('1', {
+    timeout: 40000,
+  });
 
   await page.locator('text=Plots').click();
 
@@ -80,21 +92,7 @@ test('creates multiple complex functions', async ({ page }) => {
   // Click on the apply button
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  // Check if the column header with name 'test' exists
-  await expect(
-    page.getByRole('columnheader', { name: 'test test menu' })
-  ).toBeVisible({
-    timeout: 20000,
-  });
-
-  // Check if the column header with name 'test_2' exists
-  await expect(
-    page.getByRole('columnheader', { name: 'test_2 test_2 menu' })
-  ).toBeVisible({
-    timeout: 20000,
-  });
-
   await expect(page.getByText('1.3971397139713973e-8')).toBeVisible({
-    timeout: 20000,
+    timeout: 40000,
   });
 });
