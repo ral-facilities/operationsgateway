@@ -191,14 +191,12 @@ export const constructColumnDefs = (
                     channel.type
                   } for timestamp ${row.getValue(timeChannelName)}`}
                   onClick={() => {
-                    if (!channel.description?.startsWith('Function:')) {
-                      dispatch(
-                        openTraceWindow({
-                          recordId: (row.original as RecordRow)['_id'],
-                          channelName: channel.systemName,
-                        })
-                      );
-                    }
+                    dispatch(
+                      openTraceWindow({
+                        recordId: (row.original as RecordRow)['_id'],
+                        channelName: channel.systemName,
+                      })
+                    );
                   }}
                 />
               );
@@ -213,14 +211,12 @@ export const constructColumnDefs = (
                       channel.type
                     } for timestamp ${row.getValue(timeChannelName)}`}
                     onClick={() => {
-                      if (!channel.description?.startsWith('Function:')) {
-                        dispatch(
-                          openImageWindow({
-                            recordId: (row.original as RecordRow)['_id'],
-                            channelName: channel.systemName,
-                          })
-                        );
-                      }
+                      dispatch(
+                        openImageWindow({
+                          recordId: (row.original as RecordRow)['_id'],
+                          channelName: channel.systemName,
+                        })
+                      );
                     }}
                   />
                 );

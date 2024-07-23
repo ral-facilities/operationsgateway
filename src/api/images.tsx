@@ -1,12 +1,14 @@
 import {
   UseQueryResult,
-  useQuery,
   keepPreviousData,
+  useQuery,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import { APIFunctionState } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
 
 export interface FalseColourParams {
   colourMap?: string;
@@ -22,6 +24,7 @@ export const fetchImage = async (
   apiUrl: string,
   recordId: string,
   channelName: string,
+  functionsState: APIFunctionState,
   falseColourParams?: FalseColourParams
 ): Promise<string> => {
   const params = new URLSearchParams();
@@ -39,6 +42,10 @@ export const fetchImage = async (
 
   if (!falseColourParams || params.toString().length === 0)
     params.set('original_image', 'true');
+
+  functionsState.functions.forEach((func) => {
+    params.append('functions', JSON.stringify(func));
+  });
 
   return axios
     .get(`${apiUrl}/images/${recordId}/${channelName}`, {
@@ -96,13 +103,20 @@ export const useImage = (
   channelName: string,
   falseColourParams?: FalseColourParams
 ): UseQueryResult<string, AxiosError> => {
+  const { functions } = useAppSelector(selectQueryParams);
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery({
-    queryKey: ['images', recordId, channelName, falseColourParams],
+    queryKey: ['images', recordId, channelName, functions, falseColourParams],
 
     queryFn: (params) => {
-      return fetchImage(apiUrl, recordId, channelName, falseColourParams);
+      return fetchImage(
+        apiUrl,
+        recordId,
+        channelName,
+        functions,
+        falseColourParams
+      );
     },
 
     // set to display old image whilst new one is loading

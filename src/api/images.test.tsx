@@ -1,8 +1,12 @@
-import { waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react';
-import { hooksWrapperWithProviders, waitForRequest } from '../setupTests';
-import { useColourBar, useColourMaps, useImage } from './images';
+import { renderHook, waitFor } from '@testing-library/react';
 import colourMapsJson from '../mocks/colourMaps.json';
+import {
+  getInitialState,
+  hooksWrapperWithProviders,
+  waitForRequest,
+} from '../setupTests';
+import { RootState } from '../state/store';
+import { useColourBar, useColourMaps, useImage } from './images';
 
 describe('images api functions', () => {
   afterEach(() => {
@@ -12,8 +16,11 @@ describe('images api functions', () => {
   describe('useImage', () => {
     let params: URLSearchParams;
 
+    let state: RootState;
+
     beforeEach(() => {
       params = new URLSearchParams();
+      state = getInitialState();
     });
 
     it('sends request to fetch original image and returns successful response', async () => {
@@ -36,6 +43,52 @@ describe('images api functions', () => {
 
       expect(result.current.data).toEqual('testObjectUrl');
       expect(request.url.searchParams).toEqual(params);
+    });
+
+    it('sends request to image from a function and returns successful response', async () => {
+      state = {
+        ...state,
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'b',
+              expression: [
+                {
+                  type: 'channel',
+                  label: 'CHANNEL_EFGHI',
+                  value: 'CHANNEL_EFGHI',
+                },
+              ],
+              dataType: 'image',
+              channels: ['CHANNEL_EFGHI'],
+            },
+          ],
+        },
+      };
+      const pendingRequest = waitForRequest('GET', '/images/1/TEST');
+
+      const { result } = renderHook(() => useImage('1', 'TEST'), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
+
+      const request = await pendingRequest;
+
+      params.set('original_image', 'true');
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'b', expression: 'CHANNEL_EFGHI' })
+      );
+
+      expect(result.current.data).toEqual('testObjectUrl');
+      expect(request.url.searchParams.toString()).toEqual(params.toString());
     });
 
     it('sends request to fetch original image with empty false colour params and returns successful response', async () => {
