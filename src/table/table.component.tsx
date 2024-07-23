@@ -36,7 +36,7 @@ import {
 } from '@mui/material';
 import DataHeader from './headerRenderers/dataHeader.component';
 import DataCell from './cellRenderers/dataCell.component';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider

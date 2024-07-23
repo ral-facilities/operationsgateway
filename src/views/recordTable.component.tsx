@@ -16,7 +16,7 @@ import {
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { useAvailableColumns } from '../api/channels';
-import { DropResult } from 'react-beautiful-dnd';
+import { DropResult } from '@hello-pangea/dnd';
 import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
 import {
