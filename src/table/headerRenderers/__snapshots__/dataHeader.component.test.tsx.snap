@@ -82,16 +82,16 @@ exports[`Data Header renders correctly 1`] = `
   <table>
     <thead>
       <tr
-        data-rbd-droppable-context-id="0"
-        data-rbd-droppable-id="columns"
+        data-rfd-droppable-context-id=":r0:"
+        data-rfd-droppable-id="columns"
       >
         <th
-          aria-describedby="rbd-hidden-text-0-hidden-text-0"
+          aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
           class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
-          data-rbd-drag-handle-context-id="0"
-          data-rbd-drag-handle-draggable-id="test"
-          data-rbd-draggable-context-id="0"
-          data-rbd-draggable-id="test"
+          data-rfd-drag-handle-context-id=":r0:"
+          data-rfd-drag-handle-draggable-id="test"
+          data-rfd-draggable-context-id=":r0:"
+          data-rfd-draggable-id="test"
           draggable="false"
           role="columnheader"
           tabindex="0"

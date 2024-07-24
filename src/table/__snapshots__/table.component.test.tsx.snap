@@ -15,8 +15,8 @@ exports[`Table renders correctly with all columns displayed 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rbd-droppable-context-id="1"
-            data-rbd-droppable-id="columns"
+            data-rfd-droppable-context-id=":r7:"
+            data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
@@ -140,12 +140,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </th>
             <th
-              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rbd-drag-handle-context-id="1"
-              data-rbd-drag-handle-draggable-id="shotnum"
-              data-rbd-draggable-context-id="1"
-              data-rbd-draggable-id="shotnum"
+              data-rfd-drag-handle-context-id=":r7:"
+              data-rfd-drag-handle-draggable-id="shotnum"
+              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-id="shotnum"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -234,12 +234,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </th>
             <th
-              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rbd-drag-handle-context-id="1"
-              data-rbd-drag-handle-draggable-id="activeArea"
-              data-rbd-draggable-context-id="1"
-              data-rbd-draggable-id="activeArea"
+              data-rfd-drag-handle-context-id=":r7:"
+              data-rfd-drag-handle-draggable-id="activeArea"
+              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-id="activeArea"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -328,12 +328,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
               </div>
             </th>
             <th
-              aria-describedby="rbd-hidden-text-1-hidden-text-2"
+              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rbd-drag-handle-context-id="1"
-              data-rbd-drag-handle-draggable-id="activeExperiment"
-              data-rbd-draggable-context-id="1"
-              data-rbd-draggable-id="activeExperiment"
+              data-rfd-drag-handle-context-id=":r7:"
+              data-rfd-drag-handle-draggable-id="activeExperiment"
+              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-id="activeExperiment"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -812,7 +812,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r9:"
+          id=":ri:"
         >
           Rows per page:
         </p>
@@ -820,12 +820,12 @@ exports[`Table renders correctly with all columns displayed 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":ra:"
+            aria-controls=":rj:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r9: :r8:"
+            aria-labelledby=":ri: :rh:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r8:"
+            id=":rh:"
             role="combobox"
             tabindex="0"
           >
@@ -920,8 +920,8 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rbd-droppable-context-id="0"
-            data-rbd-droppable-id="columns"
+            data-rfd-droppable-context-id=":r0:"
+            data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
@@ -1255,7 +1255,7 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r2:"
+          id=":r5:"
         >
           Rows per page:
         </p>
@@ -1263,12 +1263,12 @@ exports[`Table renders correctly, with only timestamp column 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r3:"
+            aria-controls=":r6:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r2: :r1:"
+            aria-labelledby=":r5: :r4:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r1:"
+            id=":r4:"
             role="combobox"
             tabindex="0"
           >
