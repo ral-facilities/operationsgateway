@@ -1,7 +1,7 @@
 import { createSelector, createSlice, lruMemoize } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ColumnDef, VisibilityState } from '@tanstack/react-table';
-import { DropResult } from 'react-beautiful-dnd';
+import { DropResult } from '@hello-pangea/dnd';
 import { RootState } from '../store';
 import {
   ColumnState,

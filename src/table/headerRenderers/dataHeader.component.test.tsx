@@ -7,7 +7,7 @@ import {
   act,
   within,
 } from '@testing-library/react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { flushPromises } from '../../setupTests';
 import userEvent from '@testing-library/user-event';
 

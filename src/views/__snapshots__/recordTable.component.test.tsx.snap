@@ -15,8 +15,8 @@ exports[`Record Table renders correctly 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rbd-droppable-context-id="0"
-            data-rbd-droppable-id="columns"
+            data-rfd-droppable-context-id=":r0:"
+            data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
@@ -1145,7 +1145,7 @@ exports[`Record Table renders correctly 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r1:"
+          id=":r4:"
         >
           Rows per page:
         </p>
@@ -1153,12 +1153,12 @@ exports[`Record Table renders correctly 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r2:"
+            aria-controls=":r5:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r1: :r0:"
+            aria-labelledby=":r4: :r3:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r0:"
+            id=":r3:"
             role="combobox"
             tabindex="0"
           >
@@ -1263,8 +1263,8 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rbd-droppable-context-id="2"
-            data-rbd-droppable-id="columns"
+            data-rfd-droppable-context-id=":re:"
+            data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
@@ -1439,7 +1439,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r9:"
+          id=":ri:"
         >
           Rows per page:
         </p>
@@ -1447,12 +1447,12 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":ra:"
+            aria-controls=":rj:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r9: :r8:"
+            aria-labelledby=":ri: :rh:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r8:"
+            id=":rh:"
             role="combobox"
             tabindex="0"
           >
@@ -1547,8 +1547,8 @@ exports[`Record Table renders correctly while loading 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rbd-droppable-context-id="1"
-            data-rbd-droppable-id="columns"
+            data-rfd-droppable-context-id=":r8:"
+            data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
@@ -1633,7 +1633,7 @@ exports[`Record Table renders correctly while loading 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r6:"
+          id=":rc:"
         >
           Rows per page:
         </p>
@@ -1641,12 +1641,12 @@ exports[`Record Table renders correctly while loading 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r7:"
+            aria-controls=":rd:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r6: :r5:"
+            aria-labelledby=":rc: :rb:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r5:"
+            id=":rb:"
             role="combobox"
             tabindex="0"
           >

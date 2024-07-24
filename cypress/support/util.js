@@ -1,4 +1,4 @@
-export const prefix = 'data-rbd';
+export const prefix = 'data-rfd';
 export const dragHandle = (() => {
   const base = `${prefix}-drag-handle`;
 

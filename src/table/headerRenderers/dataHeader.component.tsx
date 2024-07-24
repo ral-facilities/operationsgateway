@@ -28,7 +28,7 @@ import {
   Order,
   timeChannelName,
 } from '../../app.types';
-import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import { Draggable, DraggableProvided } from '@hello-pangea/dnd';
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -283,7 +283,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           <Divider
             onMouseDown={resizeHandler}
             onTouchStart={resizeHandler}
-            // contentEditable makes it so that react-beautiful-dnd won't listen to drag
+            // contentEditable makes it so that @hello-pangea/dnd won't listen to drag
             // events from this component. Also need to add tabIndex -1 to make it not
             // focusable as it looks like a text editor if focused on!
             contentEditable
