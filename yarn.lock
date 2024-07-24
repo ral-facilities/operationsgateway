@@ -3421,15 +3421,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-virtual@npm:beta":
-  version: 3.0.0-beta.68
-  resolution: "@tanstack/react-virtual@npm:3.0.0-beta.68"
+"@tanstack/react-virtual@npm:3.8.3":
+  version: 3.8.3
+  resolution: "@tanstack/react-virtual@npm:3.8.3"
   dependencies:
-    "@tanstack/virtual-core": "npm:3.0.0-beta.68"
+    "@tanstack/virtual-core": "npm:3.8.3"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/8c0afe5c476670093807cced5425bd6aad07ffef9b6823c75589eeefdbdd124b1c05766df9337bd6f92a7691c57a8c462c47c80a57d90bccedb9f19215797b76
+  checksum: 10c0/36a80c4fd1516d29a36ce4f97e0b1d05c0c715e779d12b70b9c9b7ebb8296e928fd5ca1d2a336467fa00d07721bb679845cdaa6f28de08b47402534d8bfed0d9
   languageName: node
   linkType: hard
 
@@ -3440,10 +3440,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/virtual-core@npm:3.0.0-beta.68":
-  version: 3.0.0-beta.68
-  resolution: "@tanstack/virtual-core@npm:3.0.0-beta.68"
-  checksum: 10c0/24288d83bbdddc6fc67ac6b1d1879fa159115cac829c0b36bb6e89c46b85d7bb5c60c3bb2256f96790fee2d13aa8227d7b9fbf20bfd94c3249dd21b506ae23df
+"@tanstack/virtual-core@npm:3.8.3":
+  version: 3.8.3
+  resolution: "@tanstack/virtual-core@npm:3.8.3"
+  checksum: 10c0/3509a578e7c8ced00eef5574ca16aae466a4d066204d3c558f027d13656b2950364fdb99c07a834557933b3b81d531e029f952766c36016e386c24e8be978af5
   languageName: node
   linkType: hard
 
@@ -12118,7 +12118,7 @@ __metadata:
     "@tanstack/react-query": "npm:5.51.1"
     "@tanstack/react-query-devtools": "npm:5.51.1"
     "@tanstack/react-table": "npm:8.19.3"
-    "@tanstack/react-virtual": "npm:beta"
+    "@tanstack/react-virtual": "npm:3.8.3"
     "@testing-library/cypress": "npm:10.0.1"
     "@testing-library/dom": "npm:10.3.2"
     "@testing-library/jest-dom": "npm:6.4.6"
