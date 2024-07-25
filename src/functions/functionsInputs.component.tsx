@@ -307,6 +307,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
                     }),
                 }}
                 {...getTagProps({ index })}
+                key={getTagProps({ index }).key}
                 onDelete={(event) => {
                   setError(undefined);
                   getTagProps({ index }).onDelete(event);
