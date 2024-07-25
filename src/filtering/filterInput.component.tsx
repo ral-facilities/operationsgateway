@@ -288,6 +288,7 @@ const FilterInput = (props: FilterInputProps) => {
                 }),
             }}
             {...getTagProps({ index })}
+            key={option.value}
           />
         ));
         return null;
