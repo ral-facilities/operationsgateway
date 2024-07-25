@@ -22,7 +22,6 @@
     "@types/node": "20.14.10",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "@types/uuid": "^10.0.0",
     "axios": "1.7.2",
     "cypress-delete-downloads-folder": "^0.0.5",
     "date-fns": "3.6.0",

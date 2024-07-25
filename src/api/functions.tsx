@@ -29,7 +29,16 @@ export function convertExpressionsToStrings(
         .map((token) => token.value.trim())
         .join(' ')
         .replace(/\s*\(\s*/g, '(')
-        .replace(/\s*\)\s*/g, ')'),
+        .replace(/\s*\)\s*/g, ')')
+        .replace('*(', '* (')
+        .replace(')*', ') *')
+        .replace('+(', '+ (')
+        .replace(')+', ') +')
+        .replace('-(', '- (')
+        .replace(')-', ') -')
+        .replace('/(', '/ (')
+        .replace(')/', ') /')
+        .replace(/\s*\*\*\s*/g, '**'),
     })),
   };
 }
