@@ -26,8 +26,9 @@ const getRandomColourMap = function (colourMaps: ColourMapsParams) {
   return randomCategory?.[Math.floor(Math.random() * randomCategory?.length)];
 };
 
+// VITE_APP_BUILD_STANDALONE used here to determine if E2E testing or not
 export let preferredColourMap =
-  process.env.REACT_APP_E2E_TESTING === 'true'
+  import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
     ? undefined
     : getRandomColourMap(colourMapsJson);
 

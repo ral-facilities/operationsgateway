@@ -16,7 +16,7 @@ describe('index - fetchSettings', () => {
   afterEach(() => {
     (log.error as jest.Mock).mockClear();
     (CustomEvent as jest.Mock).mockClear();
-    delete process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY;
+    delete import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY;
   });
 
   it('settings are loaded', async () => {
@@ -184,11 +184,13 @@ describe('index - fetchSettings', () => {
   });
 
   it('logs an error if settings.json fails to be loaded with custom path', async () => {
-    process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY =
+    import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY =
       '/custom/directory/';
     server.use(
       rest.get(
-        `${process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY}operationsgateway-settings.json`,
+        `${
+          import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY
+        }operationsgateway-settings.json`,
         (req, res, ctx) => {
           return res(ctx.status(404));
         }

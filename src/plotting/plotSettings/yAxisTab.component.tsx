@@ -472,7 +472,7 @@ const YAxisTab = (props: YAxisTabProps) => {
                   // for some reason, styling these buttons in a row causes webkit
                   // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
                   /* istanbul ignore next */
-                  process.env.REACT_APP_E2E_TESTING === 'true'
+                  import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
                     ? {}
                     : {
                         display: 'flex',

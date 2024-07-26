@@ -106,8 +106,9 @@ export function unmount(props: unknown): Promise<void> {
 
 // only export this for testing
 export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
-  const settingsPath = process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY
-    ? process.env.REACT_APP_OPERATIONSGATEWAY_BUILD_DIRECTORY +
+  const settingsPath = import.meta.env
+    .VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY
+    ? import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY +
       'operationsgateway-settings.json'
     : '/operationsgateway-settings.json';
   return axios
@@ -173,10 +174,7 @@ const settings = fetchSettings();
 setSettings(settings);
 
 async function prepare() {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.REACT_APP_E2E_TESTING === 'true'
-  ) {
+  if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
     const settingsResult = await settings;
     if (settingsResult?.apiUrl === '') {
       // need to use require instead of import as import breaks when loaded in SG
@@ -188,10 +186,7 @@ async function prepare() {
   return Promise.resolve();
 }
 
-if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.REACT_APP_E2E_TESTING === 'true'
-) {
+if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
   prepare().then(() => {
     // use this to detect if we're being loaded by SG
     // if we're not, then we need to call render ourselves
@@ -201,7 +196,7 @@ if (
   });
   log.setDefaultLevel(log.levels.DEBUG);
 
-  if (process.env.NODE_ENV === `development`) {
+  if (import.meta.env.DEV) {
     settings.then((settingsResult) => {
       if (settingsResult) {
         const apiUrl = settingsResult.apiUrl;
