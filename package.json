@@ -36,8 +36,8 @@
     "web-vitals": "3.5.1"
   },
   "resolutions": {
-    "@typescript-eslint/eslint-plugin": "7.16.1",
-    "@typescript-eslint/parser": "7.16.1",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
     "@testing-library/react/@testing-library/dom": "10.3.2",
     "@mui/x-date-pickers@^6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
   },
@@ -101,9 +101,9 @@
     "@testing-library/jest-dom": "6.4.6",
     "@testing-library/react": "16.0.0",
     "@testing-library/user-event": "14.5.1",
-    "@typescript-eslint/eslint-plugin": "7.16.1",
-    "@typescript-eslint/parser": "7.16.1",
-    "@typescript-eslint/typescript-estree": "7.16.1",
+    "@typescript-eslint/eslint-plugin": "7.17.0",
+    "@typescript-eslint/parser": "7.17.0",
+    "@typescript-eslint/typescript-estree": "7.17.0",
     "chart.js": "4.4.1",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
