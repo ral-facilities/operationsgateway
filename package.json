@@ -1,6 +1,7 @@
 {
   "name": "operationsgateway",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "3.0.0",
