@@ -21,6 +21,7 @@
     "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "axios": "1.7.2",
     "cypress-delete-downloads-folder": "^0.0.5",
     "date-fns": "3.6.0",
@@ -30,9 +31,9 @@
     "react-colorful": "5.6.1",
     "react-dom": "18.3.1",
     "react-redux": "9.1.2",
-    "react-scripts": "5.0.1",
     "single-spa-react": "5.1.4",
     "typescript": "5.5.3",
+    "vite": "^5.3.5",
     "web-vitals": "3.5.1"
   },
   "resolutions": {
@@ -42,8 +43,8 @@
     "@mui/x-date-pickers@^6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
   },
   "scripts": {
+    "dev": "vite --open",
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
-    "start": "craco start",
     "build": "craco build",
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",

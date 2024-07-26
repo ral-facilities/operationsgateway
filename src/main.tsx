@@ -5,7 +5,6 @@
 import 'hacktimer';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
-import './index.css';
 import App from './App';
 import * as log from 'loglevel';
 import singleSpaReact from 'single-spa-react';
@@ -13,8 +12,6 @@ import axios from 'axios';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
-
-import './index.css';
 
 export const pluginName = 'operationsgateway';
 
