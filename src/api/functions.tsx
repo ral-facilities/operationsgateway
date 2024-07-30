@@ -28,16 +28,15 @@ export function convertExpressionsToStrings(
       expression: functionState.expression
         .map((token) => token.value.trim())
         .join(' ')
+        // Remove any spaces around the open parenthesis '('
         .replace(/\s*\(\s*/g, '(')
+        // Remove any spaces around the close parenthesis ')'
         .replace(/\s*\)\s*/g, ')')
-        .replace('*(', '* (')
-        .replace(')*', ') *')
-        .replace('+(', '+ (')
-        .replace(')+', ') +')
-        .replace('-(', '- (')
-        .replace(')-', ') -')
-        .replace('/(', '/ (')
-        .replace(')/', ') /')
+        // Add a space between operators (*, +, -, /) and the following open parenthesis '('
+        .replace(/([*+\-/])\(/g, '$1 (')
+        // Add a space between the close parenthesis ')' and the following operators (*, +, -, /)
+        .replace(/\)([*+\-/])/g, ') $1')
+        // Remove any spaces around the double asterisk '**' (exponentiation operator)
         .replace(/\s*\*\*\s*/g, '**'),
     })),
   };
