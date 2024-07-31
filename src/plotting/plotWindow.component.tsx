@@ -213,11 +213,6 @@ const PlotWindow = (props: PlotWindowProps) => {
                 width: drawerWidth,
               },
             }}
-            slotProps={{ backdrop: { sx: { position: 'absolute' } } }}
-            ModalProps={{
-              container: document.getElementById('drawer-container'),
-              sx: { position: 'absolute' },
-            }}
             variant="persistent"
             anchor="left"
             open={open}

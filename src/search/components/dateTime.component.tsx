@@ -9,7 +9,11 @@ import {
   Box,
   Grid,
 } from '@mui/material';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import {
+  DateTimePicker,
+  DateTimeValidationError,
+  LocalizationProvider,
+} from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
@@ -145,6 +149,7 @@ export interface DateTimeSearchProps {
   ) => boolean;
   invalidDateRange: boolean;
   searchParamsUpdated: () => void;
+  setDatePickerError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
@@ -206,6 +211,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     isDateTimeInExperiment,
     invalidDateRange,
     searchParamsUpdated,
+    setDatePickerError,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -220,9 +226,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   }, [searchParameterFromDate, searchParameterToDate]);
 
   const [datePickerFromDateError, setDatePickerFromDateError] =
-    React.useState<boolean>(false);
+    React.useState<DateTimeValidationError>(null);
   const [datePickerToDateError, setDatePickerToDateError] =
-    React.useState<boolean>(false);
+    React.useState<DateTimeValidationError>(null);
+
+  React.useEffect(() => {
+    setDatePickerError(!!datePickerFromDateError && !!datePickerToDateError);
+  }, [datePickerFromDateError, datePickerToDateError, setDatePickerError]);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
@@ -325,7 +335,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
-              onError={(error) => setDatePickerFromDateError(!!error)}
+              onError={(error) => setDatePickerFromDateError(error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
                 day: (pickersDayProps) =>
@@ -345,7 +355,10 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 },
                 textField: {
                   inputProps: {
-                    invalidDateRange: invalidDateRange,
+                    invalidDateRange:
+                      invalidDateRange ||
+                      datePickerFromDateError === 'maxDate' ||
+                      datePickerToDateError === 'minDate',
                     id: 'from date-time',
                     placeholder: 'From...',
                     'aria-label': 'from, date-time input',
@@ -417,7 +430,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
-              onError={(error) => setDatePickerToDateError(!!error)}
+              onError={(error) => setDatePickerToDateError(error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
                 day: (pickersDayProps) =>
@@ -438,7 +451,10 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 },
                 textField: {
                   inputProps: {
-                    invalidDateRange: invalidDateRange,
+                    invalidDateRange:
+                      invalidDateRange ||
+                      datePickerFromDateError === 'maxDate' ||
+                      datePickerToDateError === 'minDate',
                     id: 'to date-time',
                     placeholder: 'To...',
                     'aria-label': 'to, date-time input',

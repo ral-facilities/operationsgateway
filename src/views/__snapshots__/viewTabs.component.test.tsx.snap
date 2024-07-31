@@ -230,16 +230,16 @@ exports[`View Tabs renders correctly 1`] = `
                     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-11 css-1bcn21u-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-12 css-1qeq9aw-MuiGrid-root"
                     >
                       <div
                         class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-0.5 css-125mmfg-MuiGrid-root"
                         >
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true MuiGrid-grid-xl-auto css-175xajt-MuiGrid-root"
                           >
                             <div
                               aria-label="date-time search box"
@@ -247,7 +247,7 @@ exports[`View Tabs renders correctly 1`] = `
                             >
                               <svg
                                 aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
                                 data-testid="CalendarMonthIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
@@ -263,7 +263,7 @@ exports[`View Tabs renders correctly 1`] = `
                                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
                                   >
                                     From date
                                   </p>
@@ -281,12 +281,12 @@ exports[`View Tabs renders correctly 1`] = `
                                         aria-invalid="false"
                                         aria-label="from, date-time input"
                                         autocomplete="off"
-                                        class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+                                        class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1t3hxbq-MuiInputBase-input-MuiInput-input"
                                         id="from date-time"
                                         inputmode="text"
                                         placeholder="From..."
                                         type="text"
-                                        value=""
+                                        value="2024-07-14 12:00"
                                       />
                                       <div
                                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
@@ -327,7 +327,7 @@ exports[`View Tabs renders correctly 1`] = `
                                   class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                                 >
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
                                   >
                                     To date
                                   </p>
@@ -345,12 +345,12 @@ exports[`View Tabs renders correctly 1`] = `
                                         aria-invalid="false"
                                         aria-label="to, date-time input"
                                         autocomplete="off"
-                                        class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+                                        class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1t3hxbq-MuiInputBase-input-MuiInput-input"
                                         id="to date-time"
                                         inputmode="text"
                                         placeholder="To..."
                                         type="text"
-                                        value=""
+                                        value="2024-07-15 12:00"
                                       />
                                       <div
                                         class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
@@ -384,18 +384,18 @@ exports[`View Tabs renders correctly 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1o7apob-MuiGrid-root"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
                           >
                             <div
                               class="MuiBox-root css-79elbk"
                             >
                               <div
                                 aria-label="open timeframe search box"
-                                class="MuiBox-root css-1mjwt1c"
+                                class="MuiBox-root css-bm8stw"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
                                   data-testid="ScheduleIcon"
                                   focusable="false"
                                   viewBox="0 0 24 24"
@@ -409,32 +409,32 @@ exports[`View Tabs renders correctly 1`] = `
                                 </svg>
                                 <div>
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
                                   >
                                     Timeframe
                                   </p>
                                   <h6
-                                    class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-b87fj0-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-of350e-MuiTypography-root"
                                   >
-                                    Select
+                                    24 hours
                                   </h6>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1o7apob-MuiGrid-root"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true MuiGrid-grid-xl-auto css-175xajt-MuiGrid-root"
                           >
                             <div
                               class="MuiBox-root css-79elbk"
                             >
                               <div
                                 aria-label="open experiment search box"
-                                class="MuiBox-root css-1mjwt1c"
+                                class="MuiBox-root css-bm8stw"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
                                   data-testid="ScienceOutlinedIcon"
                                   focusable="false"
                                   viewBox="0 0 24 24"
@@ -445,12 +445,12 @@ exports[`View Tabs renders correctly 1`] = `
                                 </svg>
                                 <div>
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
                                   >
                                     Experiment
                                   </p>
                                   <h6
-                                    class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-b87fj0-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
                                   >
                                     Select
                                   </h6>
@@ -459,18 +459,18 @@ exports[`View Tabs renders correctly 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2 css-1o7apob-MuiGrid-root"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true MuiGrid-grid-xl-auto css-175xajt-MuiGrid-root"
                           >
                             <div
                               class="MuiBox-root css-79elbk"
                             >
                               <div
                                 aria-label="open shot number search box"
-                                class="MuiBox-root css-1mjwt1c"
+                                class="MuiBox-root css-bm8stw"
                               >
                                 <svg
                                   aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
                                   data-testid="AdjustIcon"
                                   focusable="false"
                                   viewBox="0 0 24 24"
@@ -481,12 +481,12 @@ exports[`View Tabs renders correctly 1`] = `
                                 </svg>
                                 <div>
                                   <p
-                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
                                   >
                                     Shot Number
                                   </p>
                                   <h6
-                                    class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-b87fj0-MuiTypography-root"
+                                    class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
                                   >
                                     Select
                                   </h6>
@@ -495,10 +495,10 @@ exports[`View Tabs renders correctly 1`] = `
                             </div>
                           </div>
                           <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-1 css-u78q51-MuiGrid-root"
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
                           >
                             <button
-                              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-u31luq-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-1js53c9-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -701,9 +701,8 @@ exports[`View Tabs renders correctly 1`] = `
                           >
                             <button
                               aria-label="Refresh data"
-                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-1knaqv7-MuiButtonBase-root-MuiButton-root"
-                              disabled=""
-                              tabindex="-1"
+                              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-1knaqv7-MuiButtonBase-root-MuiButton-root"
+                              tabindex="0"
                               type="button"
                             >
                               <span
@@ -722,6 +721,9 @@ exports[`View Tabs renders correctly 1`] = `
                                 </svg>
                               </span>
                               Refresh
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
                             </button>
                           </div>
                         </div>
@@ -729,23 +731,24 @@ exports[`View Tabs renders correctly 1`] = `
                           class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                         >
                           <label
-                            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+                            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
                           >
                             <span
                               class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
                             >
                               <span
-                                aria-disabled="true"
-                                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
-                                tabindex="-1"
+                                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
                               >
                                 <input
+                                  checked=""
                                   class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
-                                  disabled=""
                                   type="checkbox"
                                 />
                                 <span
                                   class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                                />
+                                <span
+                                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                                 />
                               </span>
                               <span
@@ -753,7 +756,7 @@ exports[`View Tabs renders correctly 1`] = `
                               />
                             </span>
                             <span
-                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
                             >
                               Auto refresh
                             </span>
@@ -812,7 +815,7 @@ exports[`View Tabs renders correctly 1`] = `
             </div>
             <div>
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1dnh54p-MuiPaper-root-MuiTableContainer-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-ay9ul6-MuiPaper-root-MuiTableContainer-root"
                 role="table-container"
               >
                 <table
@@ -833,7 +836,7 @@ exports[`View Tabs renders correctly 1`] = `
                         scope="col"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-11h8vvi-MuiButtonBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1rb5stk-MuiButtonBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="select all rows"

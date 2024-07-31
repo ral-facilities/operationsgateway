@@ -19,30 +19,33 @@ interface SearchState {
   searchParams: SearchParams;
 }
 
-const to = new Date();
-to.setSeconds(59);
-const from = sub(new Date(to), {
-  hours: 24,
-});
-from.setSeconds(0);
+// use function so Date is initialised when initialState is needed, not generally
+// also makes things easier in tests when mocking the date
+export const initialStateFunc = (): SearchState => {
+  const to = new Date();
+  to.setSeconds(59);
+  const from = sub(new Date(to), {
+    hours: 24,
+  });
+  from.setSeconds(0);
 
-// Define the initial state using that type
-export const initialState: SearchState = {
-  searchParams: {
-    dateRange: {
-      toDate: formatDateTimeForApi(to),
-      fromDate: formatDateTimeForApi(from),
+  return {
+    searchParams: {
+      dateRange: {
+        toDate: formatDateTimeForApi(to),
+        fromDate: formatDateTimeForApi(from),
+      },
+      shotnumRange: {},
+      maxShots: MAX_SHOTS_VALUES[0],
+      experimentID: null,
     },
-    shotnumRange: {},
-    maxShots: MAX_SHOTS_VALUES[0],
-    experimentID: null,
-  },
+  };
 };
 
 export const searchSlice = createSlice({
   name: 'search',
   // `createSlice` will infer the state type from the `initialState` argument
-  initialState,
+  initialState: initialStateFunc,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     changeSearchParams: (state, action: PayloadAction<SearchParams>) => {

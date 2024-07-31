@@ -200,6 +200,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // Check for vaild Date Ranges and Shot Number Ranges
   // ##################################################
 
+  // need this to help keep track of invalid date ranges in the datetime component itself
+  const [datePickerError, setDatePickerError] = React.useState(false);
+
   const invalidDateRange =
     (searchParameterFromDate !== null &&
       searchParameterToDate !== null &&
@@ -207,7 +210,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       searchParameterToDate &&
       isBefore(searchParameterToDate, searchParameterFromDate)) ||
     (!searchParameterFromDate && searchParameterToDate !== null) ||
-    (searchParameterFromDate !== null && !searchParameterToDate);
+    (searchParameterFromDate !== null && !searchParameterToDate) ||
+    datePickerError;
 
   const invalidShotNumberRange =
     (searchParameterShotnumMin !== undefined &&
@@ -505,6 +509,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   isDateTimeInExperiment={isDateTimeInExperiment}
                   invalidDateRange={invalidDateRange}
                   searchParamsUpdated={searchParamsUpdated}
+                  setDatePickerError={setDatePickerError}
                 />
               </Grid>
               <Grid item xs="auto">

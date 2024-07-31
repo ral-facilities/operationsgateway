@@ -16,7 +16,7 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { AppStore, RootState, setupStore } from './state/store';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
-import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialStateFunc as initialSearchStateFunc } from './state/slices/searchSlice';
 import { initialState as initialSelectionState } from './state/slices/selectionSlice';
 import {
   initialState as initialPlotState,
@@ -52,20 +52,6 @@ afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished.
 afterAll(() => server.close());
-
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
-  });
-}
-
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {},
-  });
-}
 
 /**
  * Waits for msw request -
@@ -135,7 +121,7 @@ export const resetActions = (): void => {
 export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
-  search: initialSearchState,
+  search: initialSearchStateFunc(),
   plots: initialPlotState,
   filter: initialFilterState,
   windows: initialWindowsState,
@@ -172,6 +158,13 @@ if (typeof window.URL.revokeObjectURL === 'undefined') {
 Object.defineProperty(global, 'crypto', {
   value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
 });
+
+// jest doesn't implement ResizeObserver so mock it
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
