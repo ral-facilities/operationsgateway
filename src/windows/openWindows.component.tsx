@@ -14,27 +14,7 @@ import {
 } from '../state/slices/windowSlice';
 import TraceWindow from '../traces/traceWindow.component';
 import ImageWindow from '../images/imageWindow.component';
-import { WindowPortal as WindowPortalClass } from '../windows/windowPortal.component';
-
-type WindowsRefType = Record<string, React.RefObject<WindowPortalClass>>;
-
-// do some type fiddling to allow ref to be mutable, initialise and then remove the null type
-const initWindowsRef: React.MutableRefObject<WindowsRefType | null> =
-  React.createRef();
-initWindowsRef.current = {};
-const windowsRef = initWindowsRef as React.MutableRefObject<WindowsRefType>;
-
-export const WindowContext = React.createContext(windowsRef);
-
-export const WindowContextProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return (
-    <WindowContext.Provider value={windowsRef}>
-      {children}
-    </WindowContext.Provider>
-  );
-};
+import { WindowContext } from './windowContext';
 
 const OpenWindows = () => {
   const openPlots = Object.values(useAppSelector(selectOpenPlots));

@@ -16,7 +16,7 @@ import { connect, Provider } from 'react-redux';
 import Preloader from './preloader/preloader.component';
 import './App.css';
 import SettingsMenuItems from './settingsMenuItems.component';
-import { WindowContextProvider } from './windows/openWindows.component';
+import { WindowContextProvider } from './windows/windowContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {

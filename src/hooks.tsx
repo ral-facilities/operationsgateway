@@ -1,6 +1,6 @@
 import React from 'react';
 import { sessionSelector } from './state/hooks';
-import { WindowContext } from './windows/openWindows.component';
+import { WindowContext } from './windows/windowContext';
 
 // from react-colorful PopoverPicker demo :https://codesandbox.io/s/opmco?file=/src/PopoverPicker.js
 // Improved version of https://usehooks.com/useOnClickOutside/
