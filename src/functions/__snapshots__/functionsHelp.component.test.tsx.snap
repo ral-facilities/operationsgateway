@@ -22,7 +22,7 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
     </div>
      and 
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
     >
       <span
         class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
