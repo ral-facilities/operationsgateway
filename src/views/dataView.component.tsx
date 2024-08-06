@@ -17,16 +17,12 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
   const [flashingFilterValue, setFlashingFilterValue] = React.useState<
     string | undefined
   >(undefined);
-  const [flashingFunctionValue, setFlashingFunctionValue] = React.useState<
-    string | undefined
-  >(undefined);
 
   const [searchExpanded, setSearchExpanded] = React.useState<boolean>(true);
 
   const openFiltersFromDataHeader = React.useCallback((headerName: string) => {
     setFiltersOpen(true);
     setFlashingFilterValue(headerName);
-    setFlashingFunctionValue(headerName);
   }, []);
 
   // SG header + SG footer + tabs + spacing + search + spacing + buttons + spacing + pagination
@@ -54,7 +50,6 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
       <FunctionsDialog
         open={functionsOpen}
         onClose={() => setFunctionsOpen(false)}
-        flashingFunctionValue={flashingFunctionValue}
       />
       <ChannelsDialogue
         open={channelsOpen}

@@ -9,7 +9,6 @@ import {
   createFilterOptions,
 } from '@mui/material';
 import React from 'react';
-import { FLASH_ANIMATION } from '../animation';
 import { FunctionTag, ValidateFunctionState } from '../app.types';
 import { errorState } from './functionsDialog.component';
 
@@ -22,7 +21,6 @@ export interface FunctionsInputsProps {
   error?: errorState;
   setError: (error?: Partial<errorState>) => void;
   checkErrors: () => void;
-  flashingFunctionValue?: string;
 }
 
 // use matchFrom start here as otherwise it's hard to input e.g. the number 1 as there
@@ -41,7 +39,6 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
     setValue,
     error,
     setError,
-    flashingFunctionValue,
     checkErrors,
     functions,
   } = props;
@@ -195,15 +192,6 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
 
   let tags: React.ReactElement[] = [];
 
-  const [flashAnimationPlaying, setFlashAnimationPlaying] =
-    React.useState<boolean>(!!flashingFunctionValue);
-
-  // Stop the flash animation from playing after 1500ms
-  // This ensures the chip doesn't flash every time it is selected from the autocomplete
-  setTimeout(() => {
-    setFlashAnimationPlaying(false);
-  }, FLASH_ANIMATION.length);
-
   return (
     <Grid container spacing={1}>
       <Grid item sx={{ width: 250 }}>
@@ -300,12 +288,6 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
               <Chip
                 label={option.label}
                 size="small"
-                sx={{
-                  ...(flashAnimationPlaying &&
-                    flashingFunctionValue === option.value && {
-                      animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
-                    }),
-                }}
                 {...getTagProps({ index })}
                 key={getTagProps({ index }).key}
                 onDelete={(event) => {

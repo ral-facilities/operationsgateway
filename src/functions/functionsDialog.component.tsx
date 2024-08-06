@@ -50,7 +50,6 @@ export interface FunctionErrorState {
 export interface FunctionsDialogProps {
   open: boolean;
   onClose: () => void;
-  flashingFunctionValue?: string;
 }
 
 const parseErrorCode = (
@@ -76,7 +75,7 @@ const parseErrorCode = (
 };
 
 const FunctionsDialog = (props: FunctionsDialogProps) => {
-  const { open, onClose, flashingFunctionValue } = props;
+  const { open, onClose } = props;
 
   const dispatch = useAppDispatch();
   const appliedFunctions = useAppSelector(selectAppliedFunctions);
@@ -325,7 +324,6 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                       setValue={handleChangeValue(func.id)}
                       error={errors[func.id]}
                       setError={handleChangeError(func.id)}
-                      flashingFunctionValue={flashingFunctionValue}
                       checkErrors={() => checkErrors(index, func.id)}
                     />
                   </Grid>
