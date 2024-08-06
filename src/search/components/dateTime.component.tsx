@@ -153,10 +153,12 @@ export interface DateTimeSearchProps {
 }
 
 const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
-  const { invalidDateRange, id, ...inputProps } = renderProps.inputProps ?? {};
+  const { invalidDateRange, errorType, id, ...inputProps } =
+    renderProps.inputProps ?? {};
   const error = (renderProps.error || invalidDateRange) ?? undefined;
-  let helperText = 'Format: yyyy-MM-dd HH:mm';
+  let helperText = 'Invalid date';
   if (invalidDateRange) helperText = 'Invalid date-time range';
+  if (errorType === 'invalidDate') helperText = 'Format: yyyy-MM-dd HH:mm';
 
   return (
     <TextField
@@ -166,8 +168,13 @@ const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
       inputProps={{
         ...inputProps,
         sx: {
+          ...inputProps?.sx,
           fontSize: '1rem',
-          width: '10rem',
+          width:
+            renderProps.value === renderProps.placeholder ||
+            errorType === 'invalidDate'
+              ? '10rem'
+              : '8rem',
         },
       }}
       variant="standard"
@@ -353,17 +360,22 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
                 },
+                field: {
+                  clearable: true,
+                },
                 textField: {
                   inputProps: {
                     invalidDateRange:
                       invalidDateRange ||
                       datePickerFromDateError === 'maxDate' ||
                       datePickerToDateError === 'minDate',
+                    errorType: datePickerFromDateError,
                     id: 'from date-time',
                     placeholder: 'From...',
                     'aria-label': 'from, date-time input',
                   },
                 },
+                clearButton: { size: 'small' },
               }}
             />
           </Grid>
@@ -449,17 +461,22 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'to, date-time picker',
                 },
+                field: {
+                  clearable: true,
+                },
                 textField: {
                   inputProps: {
                     invalidDateRange:
                       invalidDateRange ||
                       datePickerFromDateError === 'maxDate' ||
                       datePickerToDateError === 'minDate',
+                    errorType: datePickerToDateError,
                     id: 'to date-time',
                     placeholder: 'To...',
                     'aria-label': 'to, date-time input',
                   },
                 },
+                clearButton: { size: 'small' },
               }}
             />
           </Grid>
