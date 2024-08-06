@@ -4,7 +4,9 @@ test('scalar functions can be plotted', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Functions' }).click();
 
-  await page.getByLabel('Name').fill('a');
+  await page.getByLabel('Name', { exact: true }).fill('a');
+
+  await page.getByRole('checkbox').click();
 
   const expressionFields = await page.locator('label:has-text("Expression")');
 
@@ -88,6 +90,9 @@ test('creates multiple complex functions', async ({ page }) => {
   await expressionFields.last().press('Enter');
   await expressionFields.last().fill(')');
   await expressionFields.last().press('Enter');
+
+  await page.getByRole('checkbox').first().click();
+  await page.getByRole('checkbox').last().click();
 
   // Click on the apply button
   await page.getByRole('button', { name: 'Apply' }).click();
