@@ -1,5 +1,6 @@
 import {
   Box,
+  Chip,
   Paper,
   Table,
   TableBody,
@@ -7,7 +8,6 @@ import {
   TableContainer,
   TableRow,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import { FunctionToken } from '../app.types';
 import { Body, Heading } from '../filtering/filterDialogue.component';
@@ -84,9 +84,28 @@ const FunctionsHelp = (props: FunctionsHelpProps) => {
       <Heading>Functions help</Heading>
       <Body>
         In the box, start typing data channel names, numbers, mathematical
-        functions, mathematical symbols such as {'+'} and {'integrate'}. The
-        Wizard will suggest suitable options and indicate using a grey box when
-        each item has been recognised.
+        functions, mathematical symbols such as{' '}
+        <Chip
+          label="+"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and{' '}
+        <Chip
+          label="integrate"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />
+        . The Wizard will suggest suitable options and indicate using a grey box
+        when each item has been recognised.
       </Body>
       <Heading>Functions and operators included </Heading>
       <TableContainer component={Paper}>
@@ -96,28 +115,24 @@ const FunctionsHelp = (props: FunctionsHelpProps) => {
               <TableRow key={index}>
                 <TableCell>{key}</TableCell>
                 <TableCell>
-                  <Box display="flex">
+                  <Box display="flex" flexWrap="wrap" gap={1}>
                     {values.map((value: FunctionToken) => {
-                      const operator = value.details ? (
+                      return (
                         <Tooltip
-                          title={value.details}
-                          placement="right"
+                          title={value.details || ''}
+                          placement="top"
                           key={value.symbol}
                         >
-                          <Typography fontSize="inherit" padding={1}>
-                            {value.symbol}
-                          </Typography>
+                          <Chip
+                            label={value.symbol}
+                            size="small"
+                            sx={{
+                              fontSize: '0.8125rem',
+                              backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                            }}
+                          />
                         </Tooltip>
-                      ) : (
-                        <Typography
-                          fontSize="inherit"
-                          padding={1}
-                          key={value.symbol}
-                        >
-                          {value.symbol}
-                        </Typography>
                       );
-                      return operator;
                     })}
                   </Box>
                 </TableCell>

@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { act, screen } from '@testing-library/react';
+import { act, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import { getInitialState, renderComponentWithProviders } from '../setupTests';
@@ -10,6 +10,7 @@ import FunctionsDialog, {
 describe('FunctionsDialog', () => {
   let props: FunctionsDialogProps;
   let user: UserEvent;
+  let state: RootState;
 
   const onClose = jest.fn();
 
@@ -61,6 +62,10 @@ describe('FunctionsDialog', () => {
 
     const { store } = createView(state);
 
+    const checkBox = screen.getByLabelText('Unnamed Function Checkbox');
+
+    await user.click(checkBox);
+
     const nameInput = screen.getByLabelText('Name');
 
     await user.type(nameInput, 'a');
@@ -82,6 +87,53 @@ describe('FunctionsDialog', () => {
       },
     ]);
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('checks checkboxes of the visible functions on the table and can remove functions from the table when unchecked', async () => {
+    state = {
+      ...getInitialState(),
+      functions: {
+        appliedFunctions: [
+          {
+            id: '1',
+            name: 'a',
+            expression: [{ type: 'number', label: '3', value: '3' }],
+            dataType: 'scalar',
+            channels: [],
+          },
+          {
+            id: '2',
+            name: 'b',
+            expression: [{ type: 'number', label: '2', value: '2' }],
+            dataType: 'scalar',
+            channels: [],
+          },
+        ],
+      },
+      table: {
+        ...getInitialState().table,
+        selectedColumnIds: ['a'],
+      },
+    };
+
+    createView(state);
+
+    const checkBoxA = within(screen.getByLabelText('a Checkbox')).getByRole(
+      'checkbox'
+    );
+
+    const checkBoxB = within(screen.getByLabelText('b Checkbox')).getByRole(
+      'checkbox'
+    );
+
+    expect(checkBoxA).toBeChecked();
+    expect(checkBoxB).not.toBeChecked();
+
+    await user.click(checkBoxA);
+    await user.click(checkBoxB);
+
+    expect(checkBoxA).not.toBeChecked();
+    expect(checkBoxB).toBeChecked();
   });
 
   it('dispatches changeAppliedFunctions and onClose when apply button is clicked (channel)', async () => {

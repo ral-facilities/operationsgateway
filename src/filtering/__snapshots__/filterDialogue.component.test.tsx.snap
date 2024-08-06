@@ -179,25 +179,199 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
               >
                 Filter help
               </h3>
-              <p
+              <div
                 class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
               >
-                In the box, start typing data channel names, numbers, mathematical symbols such as 
-                &gt;
-                 and 
-                &lt;=
-                 and keywords such as AND, OR and NOT. The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised.
-              </p>
+                In the box, start typing data channel names, numbers, mathematical symbols such as
+                 
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                  >
+                    &gt;
+                  </span>
+                </div>
+                 
+                and
+                 
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                  >
+                    &lt;=
+                  </span>
+                </div>
+                 
+                and keywords such as
+                 
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                  >
+                    AND
+                  </span>
+                </div>
+                ,
+                 
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-hsc04e-MuiChip-root"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                  >
+                    OR
+                  </span>
+                </div>
+                 
+                and
+                 
+                <div
+                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
+                >
+                  <span
+                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                  >
+                    NOT
+                  </span>
+                </div>
+                . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised.
+              </div>
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
               >
                 Operators included
               </h3>
-              <p
+              <div
                 class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
               >
-                =, !=, &gt;, &lt;, &gt;=, &lt;=, is null, is not null, and, or, not, (, )
-              </p>
+                <div
+                  class="MuiBox-root css-zefc5s"
+                >
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      =
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      !=
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      &gt;
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      &lt;
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      &gt;=
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      &lt;=
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      is null
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      is not null
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      and
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      or
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      not
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      (
+                    </span>
+                  </div>
+                  <div
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                  >
+                    <span
+                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                    >
+                      )
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

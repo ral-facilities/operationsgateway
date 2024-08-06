@@ -7,11 +7,31 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
   >
     Functions help
   </h3>
-  <p
+  <div
     class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
   >
-    In the box, start typing data channel names, numbers, mathematical functions, mathematical symbols such as + and integrate. The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised.
-  </p>
+    In the box, start typing data channel names, numbers, mathematical functions, mathematical symbols such as 
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+      >
+        +
+      </span>
+    </div>
+     and 
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+      >
+        integrate
+      </span>
+    </div>
+    . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised.
+  </div>
   <h3
     class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
   >
@@ -38,43 +58,85 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
           >
             <div
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-zefc5s"
             >
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                +
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  +
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                -
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  -
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                *
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  *
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                /
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  /
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                **
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  **
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                (
-              </p>
-              <p
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  (
+                </span>
+              </div>
+              <div
+                aria-label=""
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                data-mui-internal-clone-element="true"
               >
-                )
-              </p>
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  )
+                </span>
+              </div>
             </div>
           </td>
         </tr>
@@ -90,29 +152,41 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
           >
             <div
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-zefc5s"
             >
-              <p
+              <div
                 aria-label="Calculate the mean of a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.mean.html"
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                mean
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  mean
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the maximum value in a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.max.html"
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                max
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  max
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the minimum value in a trace (using the y variable) or image input. No effect on a scalar input. Implementation: https://numpy.org/doc/stable/reference/generated/numpy.min.html"
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                min
-              </p>
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  min
+                </span>
+              </div>
             </div>
           </td>
         </tr>
@@ -128,22 +202,30 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
           >
             <div
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-zefc5s"
             >
-              <p
+              <div
                 aria-label="Raise \`e\` to the power of the input argument (element-wise if a trace or image is provided). Implementation: https://numpy.org/doc/stable/reference/generated/numpy.exp.html"
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                exp
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  exp
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the logarithm in base \`e\` of the input argument (element-wise if a trace or image is provided). Implementation:https://numpy.org/doc/stable/reference/generated/numpy.log.html"
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                log
-              </p>
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  log
+                </span>
+              </div>
             </div>
           </td>
         </tr>
@@ -159,50 +241,74 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
           >
             <div
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-zefc5s"
             >
-              <p
+              <div
                 aria-label="Calculate the background of a waveform or image. Errors if scalar provided. Implementation (waveform): First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to y values whose difference from their neighbours is more than 0.2 times the total range in y. The first 25 and last 25 y values in the signal are averaged to give an estimate of the background.Implementation (image): The average pixel value in the 10 by 10 region in the top left of the image is returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                background
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  background
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the centre of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM, and x value at the centre of this region is returned. Note this will not be the same as the x value of the maximum, unless the data is symmetric."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                centre
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  centre
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the falling edge of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the upper x value is returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                falling
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  falling
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the FWHM of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the difference in x value is returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                fwhm
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  fwhm
+                </span>
+              </div>
+              <div
                 aria-label="Integrate a waveform or image. Errors if scalar provided. Implementation (waveform): First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to y values whose difference from their neighbours is more than 0.2 times the total range in y. The y values are then integrated with respect to x, with the last y value neglected.Implementation (image): Return the sum of all pixel values."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                integrate
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  integrate
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the rising edge of a waveform. Errors if image or scalar provided. Implementation: First, applies smoothing by taking weighted nearest and next-nearest neighbour contributions to  y values whose difference from their neighbours is more than 0.2 times the total range in y. The maximum y value is then identified along with the x positions bounding the FWHM and the lower x value is returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                rising
-              </p>
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  rising
+                </span>
+              </div>
             </div>
           </td>
         </tr>
@@ -218,36 +324,52 @@ exports[`FunctionsDialog renders help page correctly 1`] = `
             class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root"
           >
             <div
-              class="MuiBox-root css-k008qs"
+              class="MuiBox-root css-zefc5s"
             >
-              <p
+              <div
                 aria-label="Calculate the x position of the centroid of an image. Errors if waveform or scalar provided. Implementation: Returns the x position of the image's centroid in terms of pixel values."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                centroid_x
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  centroid_x
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the y position of the centroid of an image. Errors if waveform or scalar provided. Implementation: Returns the y position of the image's centroid in terms of pixel values."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                centroid_y
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  centroid_y
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the FWHM of an image across the x axis, at the y position of the image centroid. Errors if waveform or scalar provided. Implementation: First, calculates the centroid and extracts the y position. Then applies smoothing by taking weighted nearest and next-nearest neighbour contributions to pixel values whose difference from their neighbours is more than 0.2 times the total range in values. The maximum value is then identified along with the positions bounding the FWHM and the distance in pixels returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                fmhw_x
-              </p>
-              <p
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  fmhw_x
+                </span>
+              </div>
+              <div
                 aria-label="Calculate the FWHM of an image across the y axis, at the x position of the image centroid. Errors if waveform or scalar provided. Implementation: First, calculates the centroid and extracts the x position. Then applies smoothing by taking weighted nearest and next-nearest neighbour contributions to pixel values whose difference from their neighbours is more than 0.2 times the total range in values. The maximum value is then identified along with the positions bounding the FWHM and the distance in pixels returned."
-                class="MuiTypography-root MuiTypography-body1 css-o8r201-MuiTypography-root"
+                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
                 data-mui-internal-clone-element="true"
               >
-                fmhw_y
-              </p>
+                <span
+                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                >
+                  fmhw_y
+                </span>
+              </div>
             </div>
           </td>
         </tr>

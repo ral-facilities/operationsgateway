@@ -1,13 +1,16 @@
 import { AddCircle, Delete } from '@mui/icons-material';
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
+  FormControlLabel,
   Grid,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import React from 'react';
@@ -83,6 +86,9 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
   const [functions, setFunctions] =
     React.useState<ValidateFunctionState[]>(appliedFunctions);
   const [errors, setErrors] = React.useState<FunctionErrorState>({});
+  const [selectedColNames, setSelectedColNames] =
+    React.useState<string[]>(appliedSelectedIds);
+
   const { data: functionTokens } = useGetFunctionsTokens();
 
   const formattedFunctionTokens = React.useMemo(
@@ -239,12 +245,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
               }))
             )
           );
-          dispatch(
-            updateSelectedColumns([
-              ...appliedSelectedIds,
-              ...newFunctions.map((func) => func.name),
-            ])
-          );
+          dispatch(updateSelectedColumns([...selectedColNames]));
           onClose();
         })
         .catch(handleError);
@@ -254,7 +255,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       functions,
       handleError,
       dispatch,
-      appliedSelectedIds,
+      selectedColNames,
       onClose,
     ]
   );
@@ -268,8 +269,12 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       label: func.name,
     }));
 
+  React.useEffect(() => {
+    setSelectedColNames(appliedSelectedIds);
+  }, [appliedSelectedIds]);
+
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
       <DialogTitle>Functions</DialogTitle>
       <DialogContent>
         <Grid container columnSpacing={2}>
@@ -277,7 +282,38 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             <Heading mt={1}>Enter function</Heading>
             {functions.map((func, index) => {
               return (
-                <Grid container item key={func.id}>
+                <Grid pl={0} container item key={func.id}>
+                  <Grid item>
+                    <Tooltip
+                      title={
+                        selectedColNames.includes(func.name)
+                          ? 'Removed function column'
+                          : `Display function column`
+                      }
+                      arrow
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            disabled={!func.name}
+                            checked={selectedColNames.includes(func.name)}
+                            onChange={(event) => {
+                              const isChecked = event.target.checked;
+                              setSelectedColNames((prevSelectedIds) =>
+                                isChecked
+                                  ? [...prevSelectedIds, func.name]
+                                  : prevSelectedIds.filter(
+                                      (name) => name !== func.name
+                                    )
+                              );
+                            }}
+                          />
+                        }
+                        aria-label={`${func.name || 'Unnamed Function'} Checkbox`}
+                        label=""
+                      />
+                    </Tooltip>
+                  </Grid>
                   <Grid item xs>
                     <FunctionsInputs
                       channels={[...(channels ?? [])]}
@@ -340,7 +376,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs>
+          <Grid item sx={{ width: 650 }}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
