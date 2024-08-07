@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
-import FilterInput from './filterInput.component';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import FilterInput from './filterInput.component';
 import { operators, Token } from './filterParser';
 
 const originalGetBoundingClientRect =
@@ -13,7 +13,7 @@ describe('Filter input component', () => {
 
   beforeEach(() => {
     props = {
-      error: '',
+      error: undefined,
       value: [],
       setValue: jest.fn().mockImplementation((newValue) => {
         props.value = newValue;
@@ -63,7 +63,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'channel', value: 'shotnum', label: 'Shot Number' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('lets a user type operators in the filters and use the space bar for autocomplete when there is only one operator available', async () => {
@@ -78,7 +78,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       operators.find((t) => t.value === 'not')!,
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type in channels to the filter using space bar', async () => {
@@ -93,7 +93,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'channel', value: 'shotnum', label: 'Shot Number' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type numbers to the filter', async () => {
@@ -108,7 +108,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'number', value: '1', label: '1' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type numbers to the filter using space bar', async () => {
@@ -123,7 +123,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'number', value: '1', label: '1' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type custom strings to the filter if they are wrapped in double quotes', async () => {
@@ -138,7 +138,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'string', value: '"test"', label: '"test"' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type custom strings to the filter if they are wrapped in double quotes using space bar', async () => {
@@ -153,7 +153,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'string', value: '"test"', label: '"test"' },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type custom strings to the filter if they are wrapped in single quotes', async () => {
@@ -168,7 +168,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'string', value: "'test'", label: "'test'" },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can type custom strings to the filter if they are wrapped in single quotes using space bar', async () => {
@@ -183,7 +183,7 @@ describe('Filter input component', () => {
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'string', value: "'test'", label: "'test'" },
     ]);
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it("user can't type custom strings to the filter if they aren't wrapped in quotes", async () => {
@@ -265,7 +265,7 @@ describe('Filter input component', () => {
     await user.tab();
     await user.tab();
 
-    expect(props.setError).toHaveBeenCalledWith('');
+    expect(props.setError).toHaveBeenCalledWith(undefined);
   });
 
   it('user can modify the filter using arrow keys', async () => {

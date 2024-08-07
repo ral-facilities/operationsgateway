@@ -61,8 +61,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   // we need searchParams so we can check for past queries before showing the warning message
   const searchParams = useAppSelector(selectSearchParams);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
-  const [errors, setErrors] = React.useState<string[]>(
-    appliedFilters.map(() => '')
+  const [errors, setErrors] = React.useState<(string | undefined)[]>(
+    appliedFilters.map(() => undefined)
   );
   const { data: channels } = useChannels({
     select: (channels) => {
@@ -84,7 +84,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
 
   React.useEffect(() => {
     setFilters(appliedFilters);
-    setErrors(appliedFilters.map(() => ''));
+    setErrors(appliedFilters.map(() => undefined));
   }, [appliedFilters]);
 
   const handleChangeValue = React.useCallback(
@@ -95,7 +95,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     []
   );
   const handleChangeError = React.useCallback(
-    (index: number) => (value: string) =>
+    (index: number) => (value?: string) =>
       setErrors((errors) => {
         return [...errors.slice(0, index), value, ...errors.slice(index + 1)];
       }),
@@ -215,7 +215,6 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     '(',
     ')',
   ];
-
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -258,7 +257,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               <Button
                 onClick={() => {
                   setFilters((filters) => [...filters, []]);
-                  setErrors((errors) => [...errors, '']);
+                  setErrors((errors) => [...errors, undefined]);
                 }}
                 variant="outlined"
                 size="small"
@@ -385,7 +384,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             }
           >
             <Button
-              disabled={errors.some((e) => e.length !== 0)}
+              disabled={errors.some((e) => e !== undefined)}
               onClick={() => applyFilters()}
             >
               Apply
@@ -393,7 +392,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           </Tooltip>
         ) : (
           <Button
-            disabled={errors.some((e) => e.length !== 0)}
+            disabled={errors.some((e) => e !== undefined)}
             onClick={() => applyFilters()}
           >
             Apply

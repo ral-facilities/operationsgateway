@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
-import FilterDialogue from './filterDialogue.component';
+import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { rest } from 'msw';
+import React from 'react';
+import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
 import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
+import FilterDialogue from './filterDialogue.component';
 import { operators, Token } from './filterParser';
-import { QueryClient } from '@tanstack/react-query';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
-import recordsJson from '../mocks/records.json';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
