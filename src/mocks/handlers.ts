@@ -291,6 +291,8 @@ export const handlers = [
     }
   ),
   http.post('/users/preferences', async ({ request }) => {
+    // Ignoring here as don't have types defined for these endpoints
+    // @ts-ignore
     preferredColourMap = (await request.json()).value;
     return HttpResponse.json(preferredColourMap, { status: 200 });
   }),

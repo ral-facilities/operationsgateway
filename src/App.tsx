@@ -1,21 +1,21 @@
-import React from 'react';
-import ViewTabs from './views/viewTabs.component';
 import {
+  QueryCache,
   QueryClient,
   QueryClientProvider,
-  QueryCache,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { configureApp } from './state/slices/configSlice';
-import { requestPluginRerender } from './state/scigateway.actions';
+import React from 'react';
+import { connect, Provider } from 'react-redux';
+import './App.css';
 import { MicroFrontendId } from './app.types';
 import OGThemeProvider from './ogThemeProvider.component';
-import OpenWindows from './windows/openWindows.component';
-import { store, RootState } from './state/store';
-import { connect, Provider } from 'react-redux';
 import Preloader from './preloader/preloader.component';
-import './App.css';
 import SettingsMenuItems from './settingsMenuItems.component';
+import { requestPluginRerender } from './state/scigateway.actions';
+import { configureApp } from './state/slices/configSlice';
+import { RootState, store } from './state/store';
+import ViewTabs from './views/viewTabs.component';
+import OpenWindows from './windows/openWindows.component';
 
 const queryClient = new QueryClient({
   defaultOptions: {

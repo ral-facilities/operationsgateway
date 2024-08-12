@@ -84,7 +84,7 @@ export default defineConfig(({ mode }) => {
       lib: {
         // https://github.com/vitejs/vite/issues/7130
         entry: 'src/main.tsx',
-        name: 'inventory-management-system',
+        name: 'operationsgateway',
       },
       rollupOptions: {
         external: ['react', 'react-dom'].concat(rollupExternals),

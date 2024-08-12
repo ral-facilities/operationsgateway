@@ -73,36 +73,60 @@ if (typeof window.URL.revokeObjectURL === 'undefined') {
  * @param url string representing the URL match for the route
  * @returns a promise of the matching request
  *  */
+// TODO: Could this be replaced using an axios spy for the search params instead?
 export function waitForRequest(method: string, url: string) {
-  let requestId = '';
+  let newRequestId = '';
 
-  return new Promise<MockedRequest>((resolve, reject) => {
-    const onRequestStart = (req) => {
-      const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
+  return new Promise<Request>((resolve, reject) => {
+    const onRequestStart = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      const requestURL = new URL(request.url);
+      const matchesMethod =
+        request.method.toLowerCase() === method.toLowerCase();
 
-      const matchesUrl = matchRequestUrl(req.url, url).matches;
+      const matchesUrl = matchRequestUrl(requestURL, url).matches;
 
       if (matchesMethod && matchesUrl) {
-        requestId = req.id;
+        newRequestId = requestId;
       }
     };
 
-    const onRequestMatch = (req) => {
-      if (req.id === requestId) {
+    const onRequestMatch = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      if (requestId === newRequestId) {
         server.events.removeListener('request:start', onRequestStart);
         server.events.removeListener('request:match', onRequestMatch);
         server.events.removeListener('request:unhandled', onRequestUnhandled);
-        resolve(req);
+        resolve(request);
       }
     };
 
-    const onRequestUnhandled = (req) => {
-      if (req.id === requestId) {
+    const onRequestUnhandled = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      const requestURL = new URL(request.url);
+      if (requestId === newRequestId) {
         server.events.removeListener('request:start', onRequestStart);
         server.events.removeListener('request:match', onRequestMatch);
         server.events.removeListener('request:unhandled', onRequestUnhandled);
         reject(
-          new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
+          new Error(
+            `The ${request.method} ${requestURL.href} request was unhandled.`
+          )
         );
       }
     };
@@ -189,11 +213,6 @@ export const createTestQueryClient = (): QueryClient =>
         staleTime: 300000,
       },
     },
-    logger: {
-      log: console.log,
-      warn: console.warn,
-      error: jest.fn(),
-    },
   });
 
 export const hooksWrapperWithProviders = (
@@ -202,7 +221,7 @@ export const hooksWrapperWithProviders = (
 ) => {
   const testQueryClient = queryClient ?? createTestQueryClient();
   const store = setupStore(state);
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
     <Provider store={store}>
       <QueryClientProvider client={testQueryClient}>
         {children}
@@ -286,6 +305,8 @@ export const applyDatePickerWorkaround = (): void => {
 };
 
 export const cleanupDatePickerWorkaround = (): void => {
+  // TODO JOEL: Check if can remove the work around once tests migrated
+  // @ts-ignore
   delete window.matchMedia;
 };
 
@@ -300,10 +321,13 @@ export const testChannels = [
   ),
 ];
 
+// TODO JOEL: Verify working with tests - previously had staticChannels included as is
 export const testScalarChannels: FullScalarChannelMetadata[] = [
-  ...Object.values(staticChannels),
+  ...Object.values(staticChannels).filter(
+    (channel) => channel.type === 'scalar'
+  ),
   ...Object.entries(channelsJson.channels)
-    .filter(([systemName, channel]) => channel.type === 'scalar')
+    .filter(([_systemName, channel]) => channel.type === 'scalar')
     .map(
       ([systemName, channel]) =>
         ({
