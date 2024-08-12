@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import type { RenderResult } from '@testing-library/react';
 import {
   act,
   screen,
@@ -7,16 +7,15 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
-import type { RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DataView from './dataView.component';
+import { operators, Token } from '../filtering/filterParser';
 import {
   flushPromises,
-  renderComponentWithProviders,
   getInitialState,
+  renderComponentWithProviders,
 } from '../setupTests';
-import { operators, Token } from '../filtering/filterParser';
 import { RootState } from '../state/store';
+import DataView from './dataView.component';
 
 describe('Data View', () => {
   const createView = (initialState?: Partial<RootState>): RenderResult => {

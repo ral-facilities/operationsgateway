@@ -1,10 +1,10 @@
 import { Stack } from '@mui/material';
 import React from 'react';
-import SearchBar from '../search/searchBar.component';
+import ChannelsDialogue from '../channels/channelsDialogue.component';
 import FilterDialogue from '../filtering/filterDialogue.component';
+import SearchBar from '../search/searchBar.component';
 import RecordTable from './recordTable.component';
 import TableButtons from './tableButtons.component';
-import ChannelsDialogue from '../channels/channelsDialogue.component';
 export interface DataViewProps {
   sessionId: string | undefined;
 }

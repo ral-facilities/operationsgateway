@@ -1,4 +1,4 @@
-import React from 'react';
+import { Close, Search } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
@@ -19,8 +19,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Search, Close } from '@mui/icons-material';
-import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
+import React from 'react';
 import {
   FullScalarChannelMetadata,
   SelectedPlotChannel,
@@ -28,6 +27,7 @@ import {
   YAxisScale,
 } from '../../app.types';
 import ColourGenerator from './colourGenerator';
+import MoreOptionsToggle from './moreOptions/moreOptionsToggle.component';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 
 export interface YAxisTabProps {
@@ -263,7 +263,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           exclusive
           size="small"
           onChange={(
-            event: React.MouseEvent<HTMLElement>,
+            _event: React.MouseEvent<HTMLElement>,
             newAxis: 'left' | 'right'
           ) => {
             setAxis(newAxis);

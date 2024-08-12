@@ -1,13 +1,13 @@
-import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import YAxisTab from './yAxisTab.component';
-import type { YAxisTabProps } from './yAxisTab.component';
-import { testScalarChannels } from '../../setupTests';
-import { FullScalarChannelMetadata } from '../../app.types';
-import { COLOUR_ORDER } from './colourGenerator';
+import React from 'react';
 import { staticChannels } from '../../api/channels';
+import { FullScalarChannelMetadata } from '../../app.types';
+import { testScalarChannels } from '../../setupTests';
+import { COLOUR_ORDER } from './colourGenerator';
+import type { YAxisTabProps } from './yAxisTab.component';
+import YAxisTab from './yAxisTab.component';
 
 describe('y-axis tab', () => {
   let props: YAxisTabProps;

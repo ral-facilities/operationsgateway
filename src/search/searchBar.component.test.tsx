@@ -1,20 +1,20 @@
-import React from 'react';
-import SearchBar from './searchBar.component';
+import { QueryClient } from '@tanstack/react-query';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http } from 'msw';
+import React from 'react';
+import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
 import {
-  renderComponentWithProviders,
-  getInitialState,
-  cleanupDatePickerWorkaround,
   applyDatePickerWorkaround,
+  cleanupDatePickerWorkaround,
+  getInitialState,
+  renderComponentWithProviders,
 } from '../setupTests';
+import { formatDateTimeForApi } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
-import { formatDateTimeForApi } from '../state/slices/searchSlice';
-import { QueryClient } from '@tanstack/react-query';
-import { http } from 'msw';
-import { server } from '../mocks/server';
-import recordsJson from '../mocks/records.json';
+import SearchBar from './searchBar.component';
 
 describe('searchBar component', () => {
   let user: ReturnType<typeof userEvent.setup>;

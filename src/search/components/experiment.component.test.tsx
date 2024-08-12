@@ -1,13 +1,12 @@
-import React from 'react';
-import Experiment, { type ExperimentProps } from './experiment.component';
 import {
-  screen,
   render,
   type RenderResult,
+  screen,
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import experimentsJson from '../../mocks/experiments.json';
+import Experiment, { type ExperimentProps } from './experiment.component';
 
 describe('Experiment search', () => {
   let props: ExperimentProps;

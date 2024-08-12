@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box } from '@mui/material';
+import React from 'react';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
 const innerRadius = 140;

@@ -1,18 +1,18 @@
+import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { staticChannels } from '../api/channels';
+import {
+  getInitialState,
+  renderComponentWithProviders,
+  testChannels,
+} from '../setupTests';
+import { RootState } from '../state/store';
 import ChannelsDialogue, {
   selectChannelTree,
   TreeNode,
 } from './channelsDialogue.component';
-import {
-  getInitialState,
-  testChannels,
-  renderComponentWithProviders,
-} from '../setupTests';
-import { QueryClient } from '@tanstack/react-query';
-import { RootState } from '../state/store';
-import { staticChannels } from '../api/channels';
 
 describe('selectChannelTree', () => {
   it('transforms channel list with selection info into TreeNode', () => {

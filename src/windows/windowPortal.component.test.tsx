@@ -1,9 +1,8 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
-import type { WindowPortalProps } from './windowPortal.component';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { render } from '@testing-library/react';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
+import type { WindowPortalProps } from './windowPortal.component';
+import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
 
 describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;

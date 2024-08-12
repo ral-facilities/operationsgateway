@@ -1,12 +1,11 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
-import TraceWindow from './traceWindow.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
 import { http } from 'msw';
-import { server } from '../mocks/server';
-import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { server } from '../mocks/server';
+import { renderComponentWithProviders } from '../setupTests';
+import { TraceOrImageWindow } from '../state/slices/windowSlice';
+import TraceWindow from './traceWindow.component';
 
 jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

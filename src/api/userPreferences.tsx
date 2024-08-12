@@ -43,7 +43,7 @@ export const useUserPreference = <T,>(
   return useQuery({
     queryKey: ['userPreference', name],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchUserPreference<T>(apiUrl, name);
     },
   });
@@ -101,7 +101,7 @@ export const useUpdateUserPreference = <T,>(
     onError: (error) => {
       console.log('Got error ' + error.message);
     },
-    onSuccess: (data, vars) => {
+    onSuccess: (_data, vars) => {
       queryClient.setQueryData(['userPreference', name], vars.value);
     },
   });

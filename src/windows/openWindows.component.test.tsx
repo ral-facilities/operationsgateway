@@ -1,12 +1,11 @@
-import React from 'react';
-import OpenWindows from './openWindows.component';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
 import {
   getInitialState,
   renderComponentWithStore,
   testPlotConfigs,
 } from '../setupTests';
 import { RootState } from '../state/store';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
+import OpenWindows from './openWindows.component';
 
 // need to mock to avoid errors
 jest.mock('../plotting/plotWindow.component', () => (props) => (

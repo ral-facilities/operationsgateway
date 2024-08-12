@@ -1,7 +1,7 @@
 import {
   UseQueryResult,
-  useQuery,
   keepPreviousData,
+  useQuery,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { readSciGatewayToken } from '../parseTokens';
@@ -101,7 +101,7 @@ export const useImage = (
   return useQuery({
     queryKey: ['images', recordId, channelName, falseColourParams],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchImage(apiUrl, recordId, channelName, falseColourParams);
     },
 
@@ -118,7 +118,7 @@ export const useColourBar = (
   return useQuery({
     queryKey: ['colourbar', falseColourParams],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchColourBar(apiUrl, falseColourParams);
     },
 
@@ -136,7 +136,7 @@ export const useColourMaps = (): UseQueryResult<
   return useQuery({
     queryKey: ['colourmaps'],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchColourMaps(apiUrl);
     },
   });

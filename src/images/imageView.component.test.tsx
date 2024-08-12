@@ -1,7 +1,6 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import ImageView, { ImageViewProps } from './imageView.component';
 import { flushPromises } from '../setupTests';
+import ImageView, { ImageViewProps } from './imageView.component';
 
 describe('Image view component', () => {
   let props: ImageViewProps;

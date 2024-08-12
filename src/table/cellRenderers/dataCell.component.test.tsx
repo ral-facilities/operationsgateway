@@ -1,6 +1,5 @@
-import React from 'react';
-import DataCell, { DataCellProps } from './dataCell.component';
 import { render, RenderResult } from '@testing-library/react';
+import DataCell, { DataCellProps } from './dataCell.component';
 
 describe('Data Cell', () => {
   let props: DataCellProps;

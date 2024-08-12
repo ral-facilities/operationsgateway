@@ -1,4 +1,6 @@
+import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -7,25 +9,23 @@ import {
   Divider,
   Grid,
   IconButton,
-  Typography,
   Tooltip,
-  Box,
+  Typography,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
-import FilterInput from './filterInput.component';
+import { useChannels } from '../api/channels';
+import { useIncomingRecordCount } from '../api/records';
+import { timeChannelName } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import {
   changeAppliedFilters,
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
-import { Token, parseFilter } from './filterParser';
-import { useChannels } from '../api/channels';
-import { AddCircle, Delete, Warning } from '@mui/icons-material';
-import { useIncomingRecordCount } from '../api/records';
-import { selectRecordLimitWarning } from '../state/slices/configSlice';
-import { useQueryClient } from '@tanstack/react-query';
 import { selectSearchParams } from '../state/slices/searchSlice';
-import { timeChannelName } from '../app.types';
+import FilterInput from './filterInput.component';
+import { Token, parseFilter } from './filterParser';
 
 interface FilterDialogueProps {
   open: boolean;

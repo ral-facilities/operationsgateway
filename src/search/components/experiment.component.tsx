@@ -1,19 +1,18 @@
-import React from 'react';
-import { Search } from '@mui/icons-material';
+import { ScienceOutlined, Search } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
   Divider,
   Grid,
-  TextField,
-  Typography,
   // createFilterOptions,
   InputAdornment,
+  TextField,
+  Typography,
 } from '@mui/material';
-import { ExperimentParams } from '../../app.types';
-import { ScienceOutlined } from '@mui/icons-material';
-import { useClickOutside } from '../../hooks';
+import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
+import { ExperimentParams } from '../../app.types';
+import { useClickOutside } from '../../hooks';
 
 export interface ExperimentProps {
   experiments: ExperimentParams[];
@@ -70,14 +69,14 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
             fullWidth
             value={value}
             inputValue={inputValue}
-            onInputChange={(event, newInputValue) =>
+            onInputChange={(_event, newInputValue) =>
               setInputValue(newInputValue)
             }
             size="small"
             options={experiments}
             getOptionLabel={(option) => option.experiment_id}
             blurOnSelect
-            onChange={(event: unknown, newValue: ExperimentParams | null) => {
+            onChange={(_event: unknown, newValue: ExperimentParams | null) => {
               resetTimeframe();
               searchParamsUpdated();
 

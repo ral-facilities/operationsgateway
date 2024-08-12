@@ -1,10 +1,9 @@
-import React from 'react';
-import { screen, RenderResult, waitFor } from '@testing-library/react';
+import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderComponentWithProviders } from '../setupTests';
 import DeleteSessionDialogue, {
   DeleteSessionDialogueProps,
 } from './deleteSessionDialogue.component';
-import { renderComponentWithProviders } from '../setupTests';
 
 describe('delete session dialogue', () => {
   let props: DeleteSessionDialogueProps;

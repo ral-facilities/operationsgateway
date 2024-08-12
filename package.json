@@ -45,8 +45,8 @@
   },
   "scripts": {
     "dev": "vite --open",
+    "build": "tsc --project tsconfig.build.json && vite build",
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
-    "build": "craco build",
     "serve:build": "yarn build && serve -l 5001 build",
     "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",

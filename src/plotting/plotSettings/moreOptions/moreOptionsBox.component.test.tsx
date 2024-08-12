@@ -1,12 +1,11 @@
-import React from 'react';
-import MoreOptionsBox from './moreOptionsBox.component';
-import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { SelectedPlotChannel } from '../../../app.types';
 import { testPlotDatasets } from '../../../setupTests';
 import { deepCopySelectedPlotChannels } from '../../util';
-import { SelectedPlotChannel } from '../../../app.types';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
+import MoreOptionsBox from './moreOptionsBox.component';
 
 describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;

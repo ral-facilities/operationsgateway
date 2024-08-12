@@ -1,8 +1,7 @@
-import React from 'react';
-import ViewTabs from './viewTabs.component';
-import { renderComponentWithProviders } from '../setupTests';
-import { screen, within, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderComponentWithProviders } from '../setupTests';
+import ViewTabs from './viewTabs.component';
 
 describe('View Tabs', () => {
   let user;

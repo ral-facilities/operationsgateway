@@ -1,10 +1,9 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 import userEvent from '@testing-library/user-event';
-import { FullScalarChannelMetadata } from '../../app.types';
 import { staticChannels } from '../../api/channels';
+import { FullScalarChannelMetadata } from '../../app.types';
 import { testScalarChannels } from '../../setupTests';
+import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;

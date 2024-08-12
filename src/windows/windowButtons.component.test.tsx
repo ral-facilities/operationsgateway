@@ -1,17 +1,16 @@
-import React from 'react';
-import {
-  PlotButtons,
-  PlotButtonsProps,
-  constructDataRows,
-  formatTooltipLabel,
-  TraceButtonsProps,
-  TraceButtons,
-  ImageButtonsProps,
-  ImageButtons,
-} from './windowButtons.component';
-import { screen, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PlotDataset, SelectedPlotChannel } from '../app.types';
+import {
+  constructDataRows,
+  formatTooltipLabel,
+  ImageButtons,
+  ImageButtonsProps,
+  PlotButtons,
+  PlotButtonsProps,
+  TraceButtons,
+  TraceButtonsProps,
+} from './windowButtons.component';
 
 describe('Window buttons components', () => {
   const mockLinkClick = jest.fn();

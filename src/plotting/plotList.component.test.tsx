@@ -1,9 +1,8 @@
-import React from 'react';
-import PlotList from './plotList.component';
-import { renderComponentWithStore, getInitialState } from '../setupTests';
-import { RootState } from '../state/store';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getInitialState, renderComponentWithStore } from '../setupTests';
+import { RootState } from '../state/store';
+import PlotList from './plotList.component';
 
 describe('Plot List component', () => {
   let state: RootState;

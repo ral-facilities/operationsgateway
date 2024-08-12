@@ -1,9 +1,5 @@
 import { bypass, http, HttpResponse } from 'msw';
-import recordsJson from './records.json';
-import channelsJson from './channels.json';
-import experimentsJson from './experiments.json';
-import colourMapsJson from './colourMaps.json';
-import sessionsJson from './sessionsList.json';
+import { ColourMapsParams } from '../api/images';
 import {
   Channel,
   ExperimentParams,
@@ -11,7 +7,11 @@ import {
   Record,
 } from '../app.types';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
-import { ColourMapsParams } from '../api/images';
+import channelsJson from './channels.json';
+import colourMapsJson from './colourMaps.json';
+import experimentsJson from './experiments.json';
+import recordsJson from './records.json';
+import sessionsJson from './sessionsList.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {

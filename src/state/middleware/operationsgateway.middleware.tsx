@@ -1,14 +1,14 @@
+import { Middleware, UnknownAction, isAction } from '@reduxjs/toolkit';
 import log from 'loglevel';
+import { MicroFrontendId } from '../../app.types';
 import {
+  CustomFrontendMessageType,
+  broadcastSignOut,
   registerRoute,
   requestPluginRerender,
-  CustomFrontendMessageType,
   sendThemeOptions,
-  broadcastSignOut,
 } from '../scigateway.actions';
-import { MicroFrontendId } from '../../app.types';
 import { AppDispatch, RootState } from '../store';
-import { UnknownAction, Middleware, isAction } from '@reduxjs/toolkit';
 
 const broadcastMessage = (action: UnknownAction): void => {
   document.dispatchEvent(new CustomEvent(MicroFrontendId, { detail: action }));
@@ -16,7 +16,7 @@ const broadcastMessage = (action: UnknownAction): void => {
 
 type microFrontendMessageType = CustomEvent<UnknownAction>;
 
-export const listenToMessages = (dispatch: AppDispatch): void => {
+export const listenToMessages = (_dispatch: AppDispatch): void => {
   document.addEventListener(MicroFrontendId, (event) => {
     const pluginMessage = event as microFrontendMessageType;
 

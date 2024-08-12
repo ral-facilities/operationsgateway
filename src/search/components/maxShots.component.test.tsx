@@ -1,5 +1,3 @@
-import React from 'react';
-import MaxShots, { type MaxShotsProps } from './maxShots.component';
 import {
   render,
   screen,
@@ -7,6 +5,7 @@ import {
   type RenderResult,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {
   let props: MaxShotsProps;

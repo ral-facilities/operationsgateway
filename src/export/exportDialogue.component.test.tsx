@@ -1,9 +1,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useExportData } from '../api/export';
 import { renderComponentWithProviders } from '../setupTests';
 import ExportDialogue from './exportDialogue.component';
-import React from 'react';
-import { useExportData } from '../api/export';
 
 jest.mock('../api/export', () => ({
   useExportData: jest.fn(),

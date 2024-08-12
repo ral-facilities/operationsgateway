@@ -1,15 +1,15 @@
-import React from 'react';
+import { Schedule } from '@mui/icons-material';
 import {
   Box,
+  Button,
   Divider,
   Grid,
-  Typography,
-  Button,
   TextField,
+  Typography,
 } from '@mui/material';
-import { Schedule } from '@mui/icons-material';
-import { useClickOutside } from '../../hooks';
+import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
+import { useClickOutside } from '../../hooks';
 
 export type TimeframeRange = {
   value: number;

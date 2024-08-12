@@ -1,23 +1,22 @@
-import React from 'react';
-import DateTime, {
-  DateTimeSearchProps,
-  datesEqual,
-  verifyAndUpdateDate,
-  type VerifyAndUpdateDateParams,
-  renderExperimentPickerDay,
-  CustomPickersDay,
-} from './dateTime.component';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ExperimentParams } from '../../app.types';
+import experimentsJSON from '../../mocks/experiments.json';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
 } from '../../setupTests';
-import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { ExperimentParams } from '../../app.types';
-import experimentsJSON from '../../mocks/experiments.json';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import DateTime, {
+  CustomPickersDay,
+  datesEqual,
+  DateTimeSearchProps,
+  renderExperimentPickerDay,
+  verifyAndUpdateDate,
+  type VerifyAndUpdateDateParams,
+} from './dateTime.component';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {

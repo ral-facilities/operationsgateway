@@ -1,29 +1,28 @@
-import React from 'react';
-import RecordTable, {
-  extractChannelsFromTokens,
-} from './recordTable.component';
 import {
-  screen,
   act,
   fireEvent,
-  within,
+  screen,
   waitFor,
   waitForElementToBeRemoved,
+  within,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { http } from 'msw';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { operators, type Token } from '../filtering/filterParser';
+import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   getInitialState,
   renderComponentWithProviders,
 } from '../setupTests';
-import userEvent from '@testing-library/user-event';
+import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
 import { RootState } from '../state/store';
-import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
-import { operators, type Token } from '../filtering/filterParser';
-import { server } from '../mocks/server';
-import { http } from 'msw';
-import recordsJson from '../mocks/records.json';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
+import RecordTable, {
+  extractChannelsFromTokens,
+} from './recordTable.component';
 
 describe('Record Table', () => {
   let state: RootState;

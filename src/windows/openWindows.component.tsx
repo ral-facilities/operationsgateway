@@ -1,4 +1,4 @@
-import React from 'react';
+import ImageWindow from '../images/imageWindow.component';
 import PlotWindow from '../plotting/plotWindow.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
@@ -13,7 +13,6 @@ import {
   TraceOrImageWindow,
 } from '../state/slices/windowSlice';
 import TraceWindow from '../traces/traceWindow.component';
-import ImageWindow from '../images/imageWindow.component';
 
 const OpenWindows = () => {
   const openPlots = Object.values(useAppSelector(selectOpenPlots));

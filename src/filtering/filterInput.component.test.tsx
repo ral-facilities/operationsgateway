@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
-import FilterInput from './filterInput.component';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import FilterInput from './filterInput.component';
 import { operators, Token } from './filterParser';
 
 const originalGetBoundingClientRect =

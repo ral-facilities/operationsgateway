@@ -1,9 +1,8 @@
-import React from 'react';
-import { screen, type RenderResult, waitFor } from '@testing-library/react';
+import { screen, waitFor, type RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
-import { renderComponentWithProviders } from '../setupTests';
 import SessionsListJSON from '../mocks/sessionsList.json';
+import { renderComponentWithProviders } from '../setupTests';
+import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
 
 describe('session Drawer', () => {
   const openSessionSave = jest.fn();

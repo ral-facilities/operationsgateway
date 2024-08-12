@@ -1,9 +1,8 @@
-import React from 'react';
 import { act, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import AutoRefreshToggle, {
   AUTO_REFRESH_INTERVAL_MS,
 } from './autoRefreshToggle.component';
-import userEvent from '@testing-library/user-event';
 
 describe('AutoRefreshToggle', () => {
   beforeEach(() => {

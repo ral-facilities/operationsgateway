@@ -1,11 +1,10 @@
-import React from 'react';
-import MoreOptionsToggle from './moreOptionsToggle.component';
-import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { testPlotDatasets } from '../../../setupTests';
-import { SelectedPlotChannel } from '../../../app.types';
-import { render, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { SelectedPlotChannel } from '../../../app.types';
+import { testPlotDatasets } from '../../../setupTests';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
+import MoreOptionsToggle from './moreOptionsToggle.component';
 
 jest.mock('./moreOptionsBox.component', () => (props) => (
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

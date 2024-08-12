@@ -1,14 +1,9 @@
-import {
-  DefaultBodyType,
-  HttpResponse,
-  ResponseResolverReturnType,
-  http,
-} from 'msw';
-import image from './image.png';
+import { HttpResponse, http } from 'msw';
 import colourbar from './colourbar.png';
-import image_reverse from './image_reverse.png';
 import colourbar_reverse from './colourbar_reverse.png';
 import { preferredColourMap } from './handlers';
+import image from './image.png';
+import image_reverse from './image_reverse.png';
 
 const setFillStyleFromColourMap = (
   context: CanvasRenderingContext2D,

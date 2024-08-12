@@ -1,16 +1,15 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
+import { http } from 'msw';
+import { server } from '../mocks/server';
 import {
+  getInitialState,
   renderComponentWithProviders,
   testPlotConfigs,
-  getInitialState,
 } from '../setupTests';
 import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
-import { http } from 'msw';
-import { server } from '../mocks/server';
+import PlotWindow from './plotWindow.component';
 
 jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

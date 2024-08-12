@@ -1,12 +1,11 @@
-import React from 'react';
-import ShotNumber, { type ShotNumberProps } from './shotNumber.component';
 import {
-  screen,
   render,
   type RenderResult,
+  screen,
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import ShotNumber, { type ShotNumberProps } from './shotNumber.component';
 
 describe('shotNumber search', () => {
   let props: ShotNumberProps;

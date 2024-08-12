@@ -1,21 +1,21 @@
-import React from 'react';
-import { isValid, isEqual, isBefore, isAfter } from 'date-fns';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { CalendarMonth } from '@mui/icons-material';
 import {
+  Box,
+  Divider,
+  Grid,
   TextField,
   TextFieldProps,
-  Divider,
   Typography,
-  Box,
-  Grid,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { CalendarMonth } from '@mui/icons-material';
-import { TimeframeRange } from './timeframe.component';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { isAfter, isBefore, isEqual, isValid } from 'date-fns';
+import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
 import { ExperimentParams } from '../../app.types';
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { styled } from '@mui/material/styles';
+import { TimeframeRange } from './timeframe.component';
 
 export const datesEqual = (date1: Date | null, date2: Date | null): boolean => {
   if (date1 === date2) {

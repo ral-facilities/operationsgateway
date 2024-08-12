@@ -1,8 +1,8 @@
+import createCache from '@emotion/cache';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import { CssBaseline, Theme, useTheme } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { CssBaseline, Theme, useTheme } from '@mui/material';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235

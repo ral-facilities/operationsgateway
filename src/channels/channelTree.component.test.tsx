@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import { staticChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
+import channelsJson from '../mocks/channels.json';
 import { TreeNode } from './channelsDialogue.component';
 import ChannelTree from './channelTree.component';
-import { staticChannels } from '../api/channels';
-import channelsJson from '../mocks/channels.json';
-import { FullChannelMetadata } from '../app.types';
 
 describe('Channel Tree', () => {
   let currNode = '';

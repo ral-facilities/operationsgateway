@@ -7,10 +7,10 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { sessionSelector, useAppSelector } from '../state/hooks';
+import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
-import { shallowEqual } from 'react-redux';
+import { sessionSelector, useAppSelector } from '../state/hooks';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -99,9 +99,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       };
 
       editSession(session)
-        .then((response) => {
-          handleClose();
-        })
+        .then(() => handleClose())
         .catch((error) => {
           setError(true);
           console.log(error.message);

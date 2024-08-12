@@ -1,10 +1,9 @@
-import React from 'react';
-import Table, { TableProps } from './table.component';
-import { screen } from '@testing-library/react';
-import { renderComponentWithProviders } from '../setupTests';
-import { RecordRow } from '../app.types';
 import { ColumnDef } from '@tanstack/react-table';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { RecordRow } from '../app.types';
+import { renderComponentWithProviders } from '../setupTests';
+import Table, { TableProps } from './table.component';
 
 describe('Table', () => {
   let props: TableProps;

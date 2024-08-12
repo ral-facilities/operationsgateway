@@ -1,42 +1,42 @@
-import React from 'react';
-import {
-  Order,
-  RecordRow,
-  columnIconMappings,
-  ColumnState,
-  SearchParams,
-  timeChannelName,
-} from '../app.types';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  ColumnOrderState,
-  flexRender,
-  ColumnDef,
-  VisibilityState,
-  Updater,
-  RowSelectionState,
-} from '@tanstack/react-table';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import {
   Backdrop,
-  TableContainer as MuiTableContainer,
-  Table as MuiTable,
-  TableHead as MuiTableHead,
-  TableBody as MuiTableBody,
-  TableRow as MuiTableRow,
-  TablePagination as MuiTablePagination,
-  TableCell as MuiTableCell,
   Checkbox,
+  CircularProgress,
+  Table as MuiTable,
+  TableBody as MuiTableBody,
+  TableCell as MuiTableCell,
+  TableContainer as MuiTableContainer,
+  TableHead as MuiTableHead,
+  TablePagination as MuiTablePagination,
+  TableRow as MuiTableRow,
   Paper,
   SxProps,
   Theme,
-  CircularProgress,
   Typography,
 } from '@mui/material';
-import DataHeader from './headerRenderers/dataHeader.component';
+import {
+  ColumnDef,
+  ColumnOrderState,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  RowSelectionState,
+  Updater,
+  useReactTable,
+  VisibilityState,
+} from '@tanstack/react-table';
+import React from 'react';
+import {
+  columnIconMappings,
+  ColumnState,
+  Order,
+  RecordRow,
+  SearchParams,
+  timeChannelName,
+} from '../app.types';
 import DataCell from './cellRenderers/dataCell.component';
-import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import DataHeader from './headerRenderers/dataHeader.component';
 
 // 24 - the width of the close icon in header
 // 4.8 - the width of the divider
@@ -437,7 +437,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
       <MuiTablePagination
         component="div"
         count={count}
-        onPageChange={(e, page) => onPageChange(page)}
+        onPageChange={(_event, page) => onPageChange(page)}
         page={count > page * resultsPerPage ? page : 0}
         rowsPerPage={resultsPerPage}
         rowsPerPageOptions={maxShots === 50 ? [10, 25, 50] : [10, 25, 50, 100]}

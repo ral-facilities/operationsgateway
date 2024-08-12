@@ -1,11 +1,10 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
-import { getInitialState, renderComponentWithProviders } from '../setupTests';
-import ThumbnailSelector from './thumbnailSelector.component';
+import userEvent from '@testing-library/user-event';
 import { http } from 'msw';
 import { server } from '../mocks/server';
+import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
+import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {
   const changeRecordId = jest.fn();

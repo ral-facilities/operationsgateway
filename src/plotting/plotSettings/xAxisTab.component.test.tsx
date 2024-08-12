@@ -1,15 +1,14 @@
-import React from 'react';
-import XAxisTab from './xAxisTab.component';
-import type { XAxisTabProps } from './xAxisTab.component';
-import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { format } from 'date-fns';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   testScalarChannels,
 } from '../../setupTests';
-import { format } from 'date-fns';
+import type { XAxisTabProps } from './xAxisTab.component';
+import XAxisTab from './xAxisTab.component';
 
 describe('x-axis tab', () => {
   let props: XAxisTabProps;

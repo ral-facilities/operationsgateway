@@ -4,38 +4,38 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 // need to mock <canvas> for plotting
+import { Action, ThunkAction } from '@reduxjs/toolkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { RenderOptions } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import crypto from 'crypto';
 import 'jest-canvas-mock';
+import failOnConsole from 'jest-fail-on-console';
+import { matchRequestUrl } from 'msw';
+import { Provider } from 'react-redux';
+import { TextEncoder } from 'util';
+import { staticChannels } from './api/channels';
 import {
+  DEFAULT_WINDOW_VARS,
   FullChannelMetadata,
+  FullScalarChannelMetadata,
   PlotDataset,
   timeChannelName,
-  FullScalarChannelMetadata,
-  DEFAULT_WINDOW_VARS,
 } from './app.types';
-import { Action, ThunkAction } from '@reduxjs/toolkit';
-import { AppStore, RootState, setupStore } from './state/store';
+import channelsJson from './mocks/channels.json';
+import { server } from './mocks/server';
+import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { initialState as initialConfigState } from './state/slices/configSlice';
-import { initialState as initialTableState } from './state/slices/tableSlice';
-import { initialState as initialSearchState } from './state/slices/searchSlice';
-import { initialState as initialSelectionState } from './state/slices/selectionSlice';
+import { initialState as initialFilterState } from './state/slices/filterSlice';
 import {
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
-import { initialState as initialFilterState } from './state/slices/filterSlice';
+import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialState as initialSelectionState } from './state/slices/selectionSlice';
+import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialWindowsState } from './state/slices/windowSlice';
-import { render } from '@testing-library/react';
-import type { RenderOptions } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
-import { staticChannels } from './api/channels';
-import { server } from './mocks/server';
-import { matchRequestUrl, MockedRequest } from 'msw';
-import channelsJson from './mocks/channels.json';
-import crypto from 'crypto';
-import failOnConsole from 'jest-fail-on-console';
-import { TextEncoder } from 'util';
+import { AppStore, RootState, setupStore } from './state/store';
 
 global.TextEncoder = TextEncoder;
 

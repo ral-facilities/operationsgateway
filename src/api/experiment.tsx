@@ -1,9 +1,9 @@
-import axios, { AxiosError } from 'axios';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 import { ExperimentParams } from '../app.types';
+import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
-import { readSciGatewayToken } from '../parseTokens';
 
 const fetchExperiment = (apiUrl: string): Promise<ExperimentParams[]> => {
   return axios
@@ -26,8 +26,6 @@ export const useExperiment = (): UseQueryResult<
   return useQuery({
     queryKey: ['experiments'],
 
-    queryFn: (params) => {
-      return fetchExperiment(apiUrl);
-    },
+    queryFn: () => fetchExperiment(apiUrl),
   });
 };

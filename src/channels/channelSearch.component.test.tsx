@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
-import ChannelSearch from './channelSearch.component';
 import { testChannels } from '../setupTests';
+import ChannelSearch from './channelSearch.component';
 
 describe('Channel Search', () => {
   let currPathAndChannel = '';

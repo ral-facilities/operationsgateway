@@ -1,5 +1,4 @@
 import { Button, ButtonGroup } from '@mui/material';
-import React from 'react';
 
 interface TableButtonProps {
   openFilters: () => void;
