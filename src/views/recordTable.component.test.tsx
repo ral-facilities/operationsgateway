@@ -21,7 +21,7 @@ import { RootState } from '../state/store';
 import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
 import { operators, type Token } from '../filtering/filterParser';
 import { server } from '../mocks/server';
-import { rest } from 'msw';
+import { http } from 'msw';
 import recordsJson from '../mocks/records.json';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 
@@ -71,9 +71,9 @@ describe('Record Table', () => {
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/records/count', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/records/count', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     const view = createView();
@@ -82,10 +82,10 @@ describe('Record Table', () => {
 
   it('renders correctly while data count is zero', async () => {
     server.use(
-      rest.get('/records', (req, res, ctx) => {
+      http.get('/records', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json([]));
       }),
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(0));
       })
     );
@@ -104,7 +104,7 @@ describe('Record Table', () => {
       const user = userEvent.setup();
 
       server.use(
-        rest.get('/records', (req, res, ctx) => {
+        http.get('/records', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json(recordsJson.slice(0, 3)));
         })
       );
@@ -129,7 +129,7 @@ describe('Record Table', () => {
     it('can select single and multiple rows', async () => {
       const user = userEvent.setup();
       server.use(
-        rest.get('/records', (req, res, ctx) => {
+        http.get('/records', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json(recordsJson));
         })
       );
@@ -279,7 +279,7 @@ describe('Record Table', () => {
       ...recordsJson.slice(recordToModifyIndex + 1),
     ];
     server.use(
-      rest.get('/records', (req, res, ctx) => {
+      http.get('/records', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(modifiedRecords));
       })
     );

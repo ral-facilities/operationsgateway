@@ -9,7 +9,7 @@ import {
 } from '../setupTests';
 import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { server } from '../mocks/server';
 
 jest.mock('../windows/windowPortal.component', () => {
@@ -95,8 +95,8 @@ describe('Plot Window component', () => {
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     createView();

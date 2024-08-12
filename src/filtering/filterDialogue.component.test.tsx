@@ -8,7 +8,7 @@ import { RootState } from '../state/store';
 import { operators, Token } from './filterParser';
 import { QueryClient } from '@tanstack/react-query';
 import { server } from '../mocks/server';
-import { rest } from 'msw';
+import { http } from 'msw';
 import recordsJson from '../mocks/records.json';
 
 describe('Filter dialogue component', () => {
@@ -249,7 +249,7 @@ describe('Filter dialogue component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(31));
       })
     );
@@ -329,7 +329,7 @@ describe('Filter dialogue component', () => {
 
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(31));
       })
     );
@@ -352,7 +352,7 @@ describe('Filter dialogue component', () => {
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(100));
       })
     );
@@ -389,7 +389,7 @@ describe('Filter dialogue component', () => {
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(31));
       })
     );

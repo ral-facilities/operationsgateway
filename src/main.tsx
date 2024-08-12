@@ -2,16 +2,17 @@
 // it puts all timer functionality in a web worker to avoid browsers throttling
 // timers when main window is hidden (needed for popups to be more responsive
 // in cases like main OG window tabbed out, or minimized etc)
+import axios from 'axios';
 import 'hacktimer';
+import * as log from 'loglevel';
+import { SetupWorker } from 'msw/browser';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
-import App from './App';
-import * as log from 'loglevel';
 import singleSpaReact from 'single-spa-react';
-import axios from 'axios';
+import App from './App';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
-import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
+import { PluginRoute, registerRoute } from './state/scigateway.actions';
 
 export const pluginName = 'operationsgateway';
 
@@ -175,13 +176,18 @@ setSettings(settings);
 
 async function prepare() {
   if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
-    const settingsResult = await settings;
-    if (settingsResult?.apiUrl === '') {
-      // need to use require instead of import as import breaks when loaded in SG
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const { worker } = require('./mocks/browser');
-      return worker.start();
-    } else return Promise.resolve();
+    // Need to use require instead of import as import breaks when loaded in SG
+    const { worker } = await import('./mocks/browser');
+    return (worker as SetupWorker).start({
+      onUnhandledRequest(request, print) {
+        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+        if (request.url.includes('localhost')) {
+          return;
+        }
+
+        print.warning();
+      },
+    });
   }
   return Promise.resolve();
 }
@@ -193,25 +199,26 @@ if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
     if (!document.getElementById('scigateway')) {
       render();
     }
-  });
-  log.setDefaultLevel(log.levels.DEBUG);
 
-  if (import.meta.env.DEV) {
-    settings.then((settingsResult) => {
-      if (settingsResult) {
-        const apiUrl = settingsResult.apiUrl;
-        axios
-          .post(`${apiUrl}/login`, {
-            username: 'frontend',
-            password: 'front',
-          })
-          .then((response) => {
-            window.localStorage.setItem(MicroFrontendToken, response.data);
-          })
-          .catch((error) => log.error(`Got error: ${error.message}`));
-      }
-    });
-  }
+    log.setDefaultLevel(log.levels.DEBUG);
+
+    if (import.meta.env.DEV) {
+      settings.then((settingsResult) => {
+        if (settingsResult) {
+          const apiUrl = settingsResult.apiUrl;
+          axios
+            .post(`${apiUrl}/login`, {
+              username: 'frontend',
+              password: 'front',
+            })
+            .then((response) => {
+              window.localStorage.setItem(MicroFrontendToken, response.data);
+            })
+            .catch((error) => log.error(`Got error: ${error.message}`));
+        }
+      });
+    }
+  });
 } else {
   log.setDefaultLevel(log.levels.ERROR);
 }

@@ -16,7 +16,7 @@ import {
 } from '../setupTests';
 import { RootState } from '../state/store';
 import { server } from '../mocks/server';
-import { rest } from 'msw';
+import { http } from 'msw';
 
 describe('channels api functions', () => {
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('channels api functions', () => {
 
     it('returns no columns if no data was present in the request response', async () => {
       server.use(
-        rest.get('/channels', (req, res, ctx) => {
+        http.get('/channels', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json({ channels: {} }));
         })
       );
@@ -168,7 +168,7 @@ describe('channels api functions', () => {
 
     it('returns no channels if no data was present in the request response', async () => {
       server.use(
-        rest.get('/channels', (req, res, ctx) => {
+        http.get('/channels', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json({ channels: {} }));
         })
       );

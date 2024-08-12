@@ -1,5 +1,5 @@
 import * as log from 'loglevel';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { MicroFrontendId } from './app.types';
 import { fetchSettings } from './index';
 import { server } from './mocks/server';
@@ -34,7 +34,7 @@ describe('index - fetchSettings', () => {
     };
 
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(settingsResult));
       })
     );
@@ -84,7 +84,7 @@ describe('index - fetchSettings', () => {
     };
 
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(settingsResult));
       })
     );
@@ -126,7 +126,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if API URLs is not defined in the settings', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json({}));
       })
     );
@@ -144,7 +144,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if recordLimitWarning is not defined in the settings', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json({
@@ -167,7 +167,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if settings.json is an invalid JSON object', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(1));
       })
     );
@@ -187,7 +187,7 @@ describe('index - fetchSettings', () => {
     import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY =
       '/custom/directory/';
     server.use(
-      rest.get(
+      http.get(
         `${
           import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY
         }operationsgateway-settings.json`,
@@ -210,7 +210,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if fails to load a settings.json and is still in a loading state', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(ctx.status(500));
       })
     );
@@ -228,7 +228,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if no routes are defined in the settings', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json({
@@ -252,7 +252,7 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if route has missing entries', async () => {
     server.use(
-      rest.get('/operationsgateway-settings.json', (req, res, ctx) => {
+      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
         return res(
           ctx.status(200),
           ctx.json({

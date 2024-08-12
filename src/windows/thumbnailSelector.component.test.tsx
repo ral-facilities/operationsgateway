@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import ThumbnailSelector from './thumbnailSelector.component';
-import { rest } from 'msw';
+import { http } from 'msw';
 import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 
@@ -46,9 +46,9 @@ describe('Thumbnail selector component', () => {
       return new Promise(() => undefined);
     };
     server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/records/count', loadingHandler),
-      rest.get('/channels', loadingHandler)
+      http.get('/records', loadingHandler),
+      http.get('/records/count', loadingHandler),
+      http.get('/channels', loadingHandler)
     );
 
     const view = createView();
@@ -105,7 +105,7 @@ describe('Thumbnail selector component', () => {
 
   it('displays max shots as the max pagination when record count is more than it', async () => {
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
+      http.get('/records/count', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json(100));
       })
     );
