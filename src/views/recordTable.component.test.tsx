@@ -14,12 +14,7 @@ import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
 import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
 import { RootState } from '../state/store';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-  getInitialState,
-  renderComponentWithProviders,
-} from '../testUtils';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import RecordTable, {
   extractChannelsFromTokens,
 } from './recordTable.component';
@@ -40,8 +35,6 @@ describe('Record Table', () => {
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
-
     state = getInitialState();
 
     jest
@@ -50,7 +43,6 @@ describe('Record Table', () => {
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
     vi.clearAllMocks();
   });
 

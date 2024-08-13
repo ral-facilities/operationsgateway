@@ -5,10 +5,6 @@ import { render, RenderResult, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ExperimentParams } from '../../app.types';
 import experimentsJSON from '../../mocks/experiments.json';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-} from '../../testUtils';
 import DateTime, {
   CustomPickersDay,
   datesEqual,
@@ -274,7 +270,6 @@ describe('DateTime tests', () => {
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
     userEvent.setup();
     props = {
       searchParameterFromDate: null,
@@ -295,7 +290,6 @@ describe('DateTime tests', () => {
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
     vi.clearAllMocks();
   });
 

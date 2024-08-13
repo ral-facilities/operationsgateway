@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CustomPickersDay function renders the CustomPickerDay correctly 1`] = `
+exports[`CustomPickersDay function > renders the CustomPickerDay correctly 1`] = `
 <body>
   <div>
     <div
@@ -10,7 +10,7 @@ exports[`CustomPickersDay function renders the CustomPickerDay correctly 1`] = `
 </body>
 `;
 
-exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
+exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
 <DocumentFragment>
   <div
     aria-label="date-time search box"
@@ -156,7 +156,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
 </DocumentFragment>
 `;
 
-exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
+exports[`DateTime tests > renders correctly with no input date-time ranges 1`] = `
 <DocumentFragment>
   <div
     aria-label="date-time search box"
@@ -302,7 +302,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
 </DocumentFragment>
 `;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is not with an experiment 1`] = `
+exports[`renderExperimentPickerDay function > renders a PickersDay component when selectedDate is not with an experiment 1`] = `
 <Memo
   autoFocus={false}
   day={2022-02-05T00:00:00.000Z}
@@ -310,17 +310,17 @@ exports[`renderExperimentPickerDay function renders a PickersDay component when 
   isAnimating={false}
   isFirstVisibleCell={false}
   isLastVisibleCell={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onKeyDown={[MockFunction]}
+  onBlur={[MockFunction spy]}
+  onDaySelect={[MockFunction spy]}
+  onFocus={[MockFunction spy]}
+  onKeyDown={[MockFunction spy]}
   outsideCurrentMonth={true}
   selected={false}
   today={false}
 />
 `;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is null 1`] = `
+exports[`renderExperimentPickerDay function > renders a PickersDay component when selectedDate is null 1`] = `
 <Memo
   autoFocus={false}
   day={2022-02-05T00:00:00.000Z}
@@ -328,17 +328,17 @@ exports[`renderExperimentPickerDay function renders a PickersDay component when 
   isAnimating={false}
   isFirstVisibleCell={false}
   isLastVisibleCell={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onKeyDown={[MockFunction]}
+  onBlur={[MockFunction spy]}
+  onDaySelect={[MockFunction spy]}
+  onFocus={[MockFunction spy]}
+  onKeyDown={[MockFunction spy]}
   outsideCurrentMonth={true}
   selected={false}
   today={false}
 />
 `;
 
-exports[`renderExperimentPickerDay function renders a PickersDay component when selectedDate is with an experiment 1`] = `
+exports[`renderExperimentPickerDay function > renders a PickersDay component when selectedDate is with an experiment 1`] = `
 <Styled(memo)
   autoFocus={false}
   day={2022-02-05T00:00:00.000Z}
@@ -350,10 +350,10 @@ exports[`renderExperimentPickerDay function renders a PickersDay component when 
   isFirstVisibleCell={false}
   isLastDay={false}
   isLastVisibleCell={false}
-  onBlur={[MockFunction]}
-  onDaySelect={[MockFunction]}
-  onFocus={[MockFunction]}
-  onKeyDown={[MockFunction]}
+  onBlur={[MockFunction spy]}
+  onDaySelect={[MockFunction spy]}
+  onFocus={[MockFunction spy]}
+  onKeyDown={[MockFunction spy]}
   outsideCurrentMonth={true}
   selected={false}
   today={false}

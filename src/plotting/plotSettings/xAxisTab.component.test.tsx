@@ -2,11 +2,7 @@ import type { RenderResult } from '@testing-library/react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-  testScalarChannels,
-} from '../../testUtils';
+import { testScalarChannels } from '../../testUtils';
 import type { XAxisTabProps } from './xAxisTab.component';
 import XAxisTab from './xAxisTab.component';
 
@@ -188,13 +184,8 @@ describe('x-axis tab', () => {
 
     describe('date-time values', () => {
       beforeEach(() => {
-        applyDatePickerWorkaround();
         props.XAxis = 'timestamp';
         props.XAxisScale = 'time';
-      });
-
-      afterEach(() => {
-        cleanupDatePickerWorkaround();
       });
 
       it('lets user change the fromDate field and calls relevant onchange method', async () => {

@@ -1,18 +1,13 @@
 import { QueryClient } from '@tanstack/react-query';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
 import { formatDateTimeForApi } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-  getInitialState,
-  renderComponentWithProviders,
-} from '../testUtils';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import SearchBar from './searchBar.component';
 
@@ -31,7 +26,6 @@ describe('searchBar component', () => {
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
     user = userEvent.setup();
     props = {
       expanded: true,
@@ -40,7 +34,6 @@ describe('searchBar component', () => {
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
     vi.clearAllMocks();
   });
 
@@ -428,9 +421,7 @@ describe('searchBar component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
     const state = {
       ...getInitialState(),
@@ -489,9 +480,7 @@ describe('searchBar component', () => {
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(100));
-      })
+      http.get('/records/count', () => HttpResponse.json(100, { status: 200 }))
     );
 
     const state = {
@@ -547,9 +536,7 @@ describe('searchBar component', () => {
 
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
     await user.clear(dateFilterFromDate);
@@ -570,9 +557,7 @@ describe('searchBar component', () => {
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
     const testQueryClient = new QueryClient({
