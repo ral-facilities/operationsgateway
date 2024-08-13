@@ -55,7 +55,7 @@ describe('session buttons', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {

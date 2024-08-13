@@ -34,7 +34,7 @@ describe('Filter dialogue component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders filter dialogue when dialogue is open', async () => {

@@ -138,7 +138,7 @@ describe('renderExperimentPickerDay function', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders a PickersDay component when selectedDate is with an experiment', () => {
@@ -193,7 +193,7 @@ describe('verifyAndUpdateDate function', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('calls changeDate if otherDate is null', () => {
@@ -296,7 +296,7 @@ describe('DateTime tests', () => {
 
   afterEach(() => {
     cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with no input date-time ranges', () => {

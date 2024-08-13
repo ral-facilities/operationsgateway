@@ -87,7 +87,7 @@ describe('Table', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly, with only timestamp column', () => {

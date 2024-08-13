@@ -39,7 +39,7 @@ describe('Trace Window component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = () => {

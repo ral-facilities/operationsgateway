@@ -22,7 +22,7 @@ describe('session api functions', () => {
     };
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useSaveSession', () => {

@@ -43,7 +43,7 @@ describe('Plot Window component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = () => {

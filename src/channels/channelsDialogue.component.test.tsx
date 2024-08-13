@@ -116,7 +116,7 @@ describe('Channels Dialogue', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders channels dialogue when dialogue is open', async () => {

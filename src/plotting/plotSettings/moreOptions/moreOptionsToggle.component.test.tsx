@@ -51,7 +51,7 @@ describe('MoreOptionsToggle', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly when options box not open', () => {

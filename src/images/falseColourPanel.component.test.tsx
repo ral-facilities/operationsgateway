@@ -20,11 +20,11 @@ describe('False colour panel component', () => {
       changeUpperLevel,
     };
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = () => {
@@ -61,7 +61,7 @@ describe('False colour panel component', () => {
 
     expect(changeColourMap).toHaveBeenCalledWith('cividis');
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // check user can select "default" colourmap
     await user.click(select);
@@ -120,7 +120,7 @@ describe('False colour panel component', () => {
     expect(changeUpperLevel).toHaveBeenCalledWith(undefined);
     expect(extendedColourMapSwitch).toBeDisabled();
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     await user.click(falseColourSwitch);
 
@@ -144,7 +144,7 @@ describe('False colour panel component', () => {
     await user.click(within(dropdown).getByRole('option', { name: 'cividis' }));
 
     await user.click(falseColourSwitch);
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     await user.click(falseColourSwitch);
 
     expect(falseColourSwitch).toBeChecked();
@@ -182,7 +182,7 @@ describe('False colour panel component', () => {
     expect(reverseColourSwitch).toBeChecked();
     expect(changeColourMap).toHaveBeenCalledWith('inferno_r');
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const select2 = screen.getByLabelText('Colour Map');
     await user.click(select);
@@ -199,14 +199,14 @@ describe('False colour panel component', () => {
 
     expect(changeColourMap).toHaveBeenCalledWith('cividis_r');
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     await user.click(reverseColourSwitch);
     expect(changeColourMap).toHaveBeenCalledWith('cividis');
 
     await user.click(reverseColourSwitch);
 
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     // the reverse colour is disabled when it doesn't exist
 

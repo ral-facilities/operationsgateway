@@ -6,7 +6,7 @@ import { useExperiment } from './experiment';
 
 describe('channels api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useExperiment', () => {

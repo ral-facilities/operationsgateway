@@ -31,7 +31,7 @@ describe('session Drawer', () => {
     };
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {

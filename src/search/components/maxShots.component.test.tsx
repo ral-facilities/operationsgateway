@@ -17,7 +17,7 @@ describe('maxShots search', () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with a selected value', () => {
@@ -40,7 +40,7 @@ describe('maxShots search', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('50 shots', async () => {

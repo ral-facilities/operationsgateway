@@ -36,7 +36,7 @@ describe('session dialogue', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('displays warning message when name field is not defined', async () => {
@@ -126,7 +126,7 @@ describe('session dialogue', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('prefills the name and summary with the current session', async () => {

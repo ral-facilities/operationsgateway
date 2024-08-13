@@ -23,7 +23,7 @@ describe('plotSlice', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('createPlot handles assigning an untitled name correctly & creates a plot with the default options', () => {

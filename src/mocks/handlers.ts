@@ -63,7 +63,7 @@ export const handlers = [
 
     const validId = [1, 2, 3, 4];
     if (validId.includes(Number(id))) {
-      return HttpResponse.json(null, { status: 204 });
+      return new HttpResponse(null, { status: 204 });
     } else HttpResponse.json(null, { status: 422 });
   }),
   http.get('/sessions/list', async () => {
@@ -277,7 +277,7 @@ export const handlers = [
     if (typeof preferredColourMap === 'undefined') {
       return HttpResponse.json(
         { detail: 'No such attribute in database' },
-        { status: 200 }
+        { status: 404 }
       );
     } else {
       return HttpResponse.json(preferredColourMap, { status: 200 });

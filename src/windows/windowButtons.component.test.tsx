@@ -37,7 +37,7 @@ describe('Window buttons components', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     document.createElement = document.originalCreateElement;
     document.body.appendChild = document.body.originalAppendChild;
   });

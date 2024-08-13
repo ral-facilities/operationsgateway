@@ -33,7 +33,7 @@ describe('delete session dialogue', () => {
     user = userEvent; // Assigning userEvent to 'user'
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   it('renders correctly', async () => {
     createView();

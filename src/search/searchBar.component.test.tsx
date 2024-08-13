@@ -41,7 +41,7 @@ describe('searchBar component', () => {
 
   afterEach(() => {
     cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('dispatches changeSearchParams on search button click for a given date range', async () => {

@@ -10,7 +10,7 @@ describe('user preferences api functions', () => {
   const axiosDelete = jest.spyOn(axios, 'delete');
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useUserPreference', () => {

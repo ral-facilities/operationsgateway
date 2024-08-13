@@ -61,7 +61,7 @@ describe('Channel Tree', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should render correctly for root', () => {

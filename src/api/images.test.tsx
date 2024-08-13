@@ -5,7 +5,7 @@ import { useColourBar, useColourMaps, useImage } from './images';
 
 describe('images api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useImage', () => {
@@ -34,7 +34,7 @@ describe('images api functions', () => {
       params.set('original_image', 'true');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it('sends request to fetch original image with empty false colour params and returns successful response', async () => {
@@ -56,7 +56,7 @@ describe('images api functions', () => {
       params.set('original_image', 'true');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it('sends request to fetch false colour image and returns successful response', async () => {
@@ -88,7 +88,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it.todo(
@@ -129,7 +129,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it.todo(

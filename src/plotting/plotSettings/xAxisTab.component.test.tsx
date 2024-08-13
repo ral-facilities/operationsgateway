@@ -37,7 +37,7 @@ describe('x-axis tab', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with arbitrary x axis', () => {

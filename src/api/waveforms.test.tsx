@@ -4,7 +4,7 @@ import { useWaveform } from './waveforms';
 
 describe('waveform api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useWaveform', () => {

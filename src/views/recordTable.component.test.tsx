@@ -51,7 +51,7 @@ describe('Record Table', () => {
 
   afterEach(() => {
     cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {

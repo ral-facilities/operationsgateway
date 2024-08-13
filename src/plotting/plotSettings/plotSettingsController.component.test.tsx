@@ -65,7 +65,7 @@ describe('Plot Settings component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('snapshots', () => {

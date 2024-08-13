@@ -21,7 +21,7 @@ describe('Chart Type Buttons', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('calls changePlotType and changeXAxis when XY button is clicked', async () => {
