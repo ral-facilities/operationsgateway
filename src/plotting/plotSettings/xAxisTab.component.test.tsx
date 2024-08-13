@@ -6,7 +6,7 @@ import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   testScalarChannels,
-} from '../../setupTests';
+} from '../../testUtils';
 import type { XAxisTabProps } from './xAxisTab.component';
 import XAxisTab from './xAxisTab.component';
 

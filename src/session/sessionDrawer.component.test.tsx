@@ -1,7 +1,7 @@
 import { screen, waitFor, type RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SessionsListJSON from '../mocks/sessionsList.json';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
 
 describe('session Drawer', () => {

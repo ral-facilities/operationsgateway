@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { flushPromises } from '../setupTests';
+import { flushPromises } from '../testUtils';
 import ImageView, { ImageViewProps } from './imageView.component';
 
 describe('Image view component', () => {

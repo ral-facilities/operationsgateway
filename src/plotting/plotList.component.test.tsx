@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { getInitialState, renderComponentWithStore } from '../setupTests';
 import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithStore } from '../testUtils';
 import PlotList from './plotList.component';
 
 describe('Plot List component', () => {

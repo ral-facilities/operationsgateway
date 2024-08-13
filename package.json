@@ -49,9 +49,9 @@
     "preview": "vite preview",
     "preview:build": "yarn build && yarn preview",
     "preview:build:dev": "yarn build --watch & yarn preview",
+    "test": "vitest --coverage",
     "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
     "serve:build": "yarn build && serve -l 5001 build",
-    "test": "craco test --env=jsdom --coverage --watchAll=false",
     "test:watch": "craco test --env=jsdom --watch",
     "playwright:test:mocked": "docker run -v $PWD:/test -w=/test $(node -e \"if(process.env.CI !== 'true'){if(process.platform === 'win32'){console.log('-it -u pwuser')}else{console.log('-it -u $(id -u):$(id -g)')}}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
     "playwright:test:real": "docker run -v $PWD:/test -w=/test -e \"USE_REAL_API=true\" $(node -e \"if(process.env.CI !== 'true'){if(process.platform === 'win32'){console.log('-it -u pwuser')}else{console.log('-it -u $(id -u):$(id -g)')}}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
@@ -108,6 +108,7 @@
     "@typescript-eslint/eslint-plugin": "7.17.0",
     "@typescript-eslint/parser": "7.17.0",
     "@typescript-eslint/typescript-estree": "7.17.0",
+    "@vitest/coverage-v8": "^2.0.5",
     "chart.js": "4.4.1",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
@@ -123,12 +124,15 @@
     "husky": "9.1.1",
     "jest-canvas-mock": "2.5.0",
     "jest-fail-on-console": "3.3.0",
+    "jsdom": "^24.1.1",
     "lint-staged": "15.2.0",
     "msw": "2.3.5",
     "prettier": "3.3.3",
     "serve": "14.2.0",
     "serve-static": "1.15.0",
-    "start-server-and-test": "2.0.0"
+    "start-server-and-test": "2.0.0",
+    "vitest": "^2.0.5",
+    "vitest-canvas-mock": "^0.3.3"
   },
   "msw": {
     "workerDirectory": "public"

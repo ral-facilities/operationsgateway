@@ -6,8 +6,8 @@ import { http } from 'msw';
 import React from 'react';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
-import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import FilterDialogue from './filterDialogue.component';
 import { operators, Token } from './filterParser';
 

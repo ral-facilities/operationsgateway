@@ -7,7 +7,7 @@ import {
 } from '@testing-library/react';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { timeChannelName } from '../app.types';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
   SessionsSaveButtonsProps,

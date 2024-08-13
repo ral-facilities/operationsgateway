@@ -9,12 +9,12 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { operators, Token } from '../filtering/filterParser';
+import { RootState } from '../state/store';
 import {
   flushPromises,
   getInitialState,
   renderComponentWithProviders,
-} from '../setupTests';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import DataView from './dataView.component';
 
 describe('Data View', () => {

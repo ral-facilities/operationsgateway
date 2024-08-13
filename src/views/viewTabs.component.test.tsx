@@ -1,6 +1,6 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import ViewTabs from './viewTabs.component';
 
 describe('View Tabs', () => {

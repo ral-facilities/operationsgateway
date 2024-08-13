@@ -2,7 +2,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RecordRow } from '../app.types';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import Table, { TableProps } from './table.component';
 
 describe('Table', () => {

@@ -1,13 +1,13 @@
-import PlotReducer, {
-  initialState,
-  createPlot,
-  closePlot,
-  savePlot,
-  PlotConfig,
-} from './plotSlice';
-import { testPlotConfigs } from '../../setupTests';
-import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
 import { DEFAULT_WINDOW_VARS } from '../../app.types';
+import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
+import { testPlotConfigs } from '../../testUtils';
+import PlotReducer, {
+  closePlot,
+  createPlot,
+  initialState,
+  PlotConfig,
+  savePlot,
+} from './plotSlice';
 
 describe('plotSlice', () => {
   describe('Reducer', () => {

@@ -2,8 +2,8 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http } from 'msw';
 import { server } from '../mocks/server';
-import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {

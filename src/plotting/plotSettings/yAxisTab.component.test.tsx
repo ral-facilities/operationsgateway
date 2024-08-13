@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { staticChannels } from '../../api/channels';
 import { FullScalarChannelMetadata } from '../../app.types';
-import { testScalarChannels } from '../../setupTests';
+import { testScalarChannels } from '../../testUtils';
 import { COLOUR_ORDER } from './colourGenerator';
 import type { YAxisTabProps } from './yAxisTab.component';
 import YAxisTab from './yAxisTab.component';

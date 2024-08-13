@@ -3,12 +3,12 @@ import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { staticChannels } from '../api/channels';
+import { RootState } from '../state/store';
 import {
   getInitialState,
   renderComponentWithProviders,
   testChannels,
-} from '../setupTests';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import ChannelsDialogue, {
   selectChannelTree,
   TreeNode,

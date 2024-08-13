@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { flushPromises, renderComponentWithProviders } from '../setupTests';
+import { flushPromises, renderComponentWithProviders } from '../testUtils';
 import FalseColourPanel from './falseColourPanel.component';
 
 describe('False colour panel component', () => {

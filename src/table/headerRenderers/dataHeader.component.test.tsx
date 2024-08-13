@@ -7,7 +7,7 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { flushPromises } from '../../setupTests';
+import { flushPromises } from '../../testUtils';
 import DataHeader, { DataHeaderProps } from './dataHeader.component';
 
 describe('Data Header', () => {

@@ -2,7 +2,7 @@ import type { RenderResult } from '@testing-library/react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SelectedPlotChannel } from '../../../app.types';
-import { testPlotDatasets } from '../../../setupTests';
+import { testPlotDatasets } from '../../../testUtils';
 import { deepCopySelectedPlotChannels } from '../../util';
 import type { MoreOptionsProps } from './moreOptionsBox.component';
 import MoreOptionsBox from './moreOptionsBox.component';

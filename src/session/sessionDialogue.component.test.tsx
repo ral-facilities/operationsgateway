@@ -1,6 +1,6 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import SessionDialogue, {
   SessionDialogueProps,
 } from './sessionDialogue.component';

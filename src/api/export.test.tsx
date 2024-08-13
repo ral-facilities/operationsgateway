@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useExportData } from './export';
 import { renderHook, waitFor } from '@testing-library/react';
-import { hooksWrapperWithProviders, getInitialState } from '../setupTests';
+import axios from 'axios';
 import { RootState } from '../state/store';
+import { getInitialState, hooksWrapperWithProviders } from '../testUtils';
+import { useExportData } from './export';
 
 describe('useExportData', () => {
   let state: RootState;

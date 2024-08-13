@@ -8,12 +8,9 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
-import crypto from 'crypto';
 import 'jest-canvas-mock';
-import failOnConsole from 'jest-fail-on-console';
 import { matchRequestUrl } from 'msw';
 import { Provider } from 'react-redux';
-import { TextEncoder } from 'util';
 import { staticChannels } from './api/channels';
 import {
   DEFAULT_WINDOW_VARS,
@@ -36,36 +33,6 @@ import { initialState as initialSelectionState } from './state/slices/selectionS
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialWindowsState } from './state/slices/windowSlice';
 import { AppStore, RootState, setupStore } from './state/store';
-
-global.TextEncoder = TextEncoder;
-
-failOnConsole();
-
-jest.setTimeout(15000);
-
-// Establish API mocking before all tests.
-beforeAll(() => server.listen());
-
-// Reset any request handlers that we may add during the tests,
-// so they don't affect other tests.
-afterEach(() => server.resetHandlers());
-
-// Clean up after the tests are finished.
-afterAll(() => server.close());
-
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
-  });
-}
-
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {},
-  });
-}
 
 /**
  * Waits for msw request -
@@ -139,19 +106,6 @@ export function waitForRequest(method: string, url: string) {
   });
 }
 
-// this is needed because of https://github.com/facebook/jest/issues/8987
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-let mockActualReact;
-jest.doMock('react', () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (!mockActualReact) {
-    mockActualReact = jest.requireActual('react');
-  }
-  return mockActualReact;
-});
-
 export let actions: Action[] = [];
 export const resetActions = (): void => {
   actions = [];
@@ -175,27 +129,6 @@ export const dispatch = (
     actions.push(action);
   }
 };
-
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
-  });
-}
-
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {
-      // no-op
-    },
-  });
-}
-
-// jest doesn't implement web crypto so set up nodejs crypto as a default
-Object.defineProperty(global, 'crypto', {
-  value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
-});
 
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.

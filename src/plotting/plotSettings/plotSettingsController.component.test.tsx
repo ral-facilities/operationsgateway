@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { staticChannels } from '../../api/channels';
 import { FullScalarChannelMetadata } from '../../app.types';
-import { testScalarChannels } from '../../setupTests';
+import { testScalarChannels } from '../../testUtils';
 import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 
 describe('Plot Settings component', () => {

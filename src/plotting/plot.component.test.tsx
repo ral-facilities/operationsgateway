@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import { testPlotDatasets } from '../setupTests';
+import { testPlotDatasets } from '../testUtils';
 import Plot, { PlotProps } from './plot.component';
 import { deepCopySelectedPlotChannels } from './util';
 

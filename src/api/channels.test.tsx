@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook, waitFor } from '@testing-library/react';
+import { http } from 'msw';
+import { FullChannelMetadata, timeChannelName } from '../app.types';
+import { server } from '../mocks/server';
+import { RootState } from '../state/store';
 import {
-  useChannels,
-  useAvailableColumns,
+  getInitialState,
+  hooksWrapperWithProviders,
+  testChannels,
+} from '../testUtils';
+import {
+  ChannelSummary,
   getScalarChannels,
   staticChannels,
+  useAvailableColumns,
+  useChannels,
   useChannelSummary,
-  ChannelSummary,
 } from './channels';
-import { FullChannelMetadata, timeChannelName } from '../app.types';
-import {
-  hooksWrapperWithProviders,
-  getInitialState,
-  testChannels,
-} from '../setupTests';
-import { RootState } from '../state/store';
-import { server } from '../mocks/server';
-import { http } from 'msw';
 
 describe('channels api functions', () => {
   afterEach(() => {

@@ -8,7 +8,7 @@ import experimentsJSON from '../../mocks/experiments.json';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
-} from '../../setupTests';
+} from '../../testUtils';
 import DateTime, {
   CustomPickersDay,
   datesEqual,

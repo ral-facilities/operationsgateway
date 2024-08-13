@@ -1,8 +1,7 @@
-import { waitFor } from '@testing-library/react';
-import { renderHook } from '@testing-library/react';
-import { hooksWrapperWithProviders, waitForRequest } from '../setupTests';
-import { useColourBar, useColourMaps, useImage } from './images';
+import { renderHook, waitFor } from '@testing-library/react';
 import colourMapsJson from '../mocks/colourMaps.json';
+import { hooksWrapperWithProviders, waitForRequest } from '../testUtils';
+import { useColourBar, useColourMaps, useImage } from './images';
 
 describe('images api functions', () => {
   afterEach(() => {

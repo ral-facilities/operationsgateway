@@ -1,12 +1,11 @@
-import { screen } from '@testing-library/react';
-import React from 'react';
-import ChannelMetadataPanel from './channelMetadataPanel.component';
-import { FullChannelMetadata } from '../app.types';
 import { QueryClient } from '@tanstack/react-query';
-import { renderComponentWithProviders } from '../setupTests';
-import { RootState } from '../state/store';
-import { staticChannels } from '../api/channels';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { staticChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
+import { RootState } from '../state/store';
+import { renderComponentWithProviders } from '../testUtils';
+import ChannelMetadataPanel from './channelMetadataPanel.component';
 
 describe('Channel Metadata Panel', () => {
   let displayedChannel: FullChannelMetadata | undefined;

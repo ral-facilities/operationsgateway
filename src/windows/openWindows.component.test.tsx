@@ -1,10 +1,10 @@
 import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { RootState } from '../state/store';
 import {
   getInitialState,
   renderComponentWithStore,
   testPlotConfigs,
-} from '../setupTests';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import OpenWindows from './openWindows.component';
 
 // need to mock to avoid errors

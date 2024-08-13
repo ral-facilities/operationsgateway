@@ -5,14 +5,14 @@ import { http } from 'msw';
 import React from 'react';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
+import { formatDateTimeForApi } from '../state/slices/searchSlice';
+import { RootState } from '../state/store';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   getInitialState,
   renderComponentWithProviders,
-} from '../setupTests';
-import { formatDateTimeForApi } from '../state/slices/searchSlice';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
 import SearchBar from './searchBar.component';
 

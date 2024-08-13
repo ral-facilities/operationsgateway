@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { renderHook, waitFor } from '@testing-library/react';
+import { parseISO } from 'date-fns';
 import {
   PlotDataset,
   Record,
@@ -7,28 +9,26 @@ import {
   SelectedPlotChannel,
   timeChannelName,
 } from '../app.types';
+import { operators, parseFilter, Token } from '../filtering/filterParser';
+import recordsJson from '../mocks/records.json';
+import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
+import { RootState } from '../state/store';
 import {
-  hooksWrapperWithProviders,
-  getInitialState,
   createTestQueryClient,
+  getInitialState,
+  hooksWrapperWithProviders,
   waitForRequest,
-} from '../setupTests';
-import { renderHook, waitFor } from '@testing-library/react';
+} from '../testUtils';
 import {
   getFormattedAxisData,
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
   usePlotRecords,
   useRecordCount,
-  useIncomingRecordCount,
   useRecordsPaginated,
-  useThumbnails,
   useShotnumToDateConverter,
-  useDateToShotnumConverter,
+  useThumbnails,
 } from './records';
-import { RootState } from '../state/store';
-import { parseISO } from 'date-fns';
-import { operators, parseFilter, Token } from '../filtering/filterParser';
-import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
-import recordsJson from '../mocks/records.json';
 
 describe('records api functions', () => {
   let state: RootState;

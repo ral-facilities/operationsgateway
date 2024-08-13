@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { testChannels } from '../setupTests';
+import { testChannels } from '../testUtils';
 import ChannelSearch from './channelSearch.component';
 
 describe('Channel Search', () => {

@@ -12,14 +12,14 @@ import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { operators, type Token } from '../filtering/filterParser';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
+import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
+import { RootState } from '../state/store';
 import {
   applyDatePickerWorkaround,
   cleanupDatePickerWorkaround,
   getInitialState,
   renderComponentWithProviders,
-} from '../setupTests';
-import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import RecordTable, {
   extractChannelsFromTokens,
 } from './recordTable.component';

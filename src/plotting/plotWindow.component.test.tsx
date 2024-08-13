@@ -2,13 +2,13 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http } from 'msw';
 import { server } from '../mocks/server';
+import { PlotConfig } from '../state/slices/plotSlice';
+import { RootState } from '../state/store';
 import {
   getInitialState,
   renderComponentWithProviders,
   testPlotConfigs,
-} from '../setupTests';
-import { PlotConfig } from '../state/slices/plotSlice';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import PlotWindow from './plotWindow.component';
 
 jest.mock('../windows/windowPortal.component', () => {

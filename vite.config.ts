@@ -37,6 +37,15 @@ function jsonHMR(): PluginOption {
   };
 }
 
+// Obtain default coverage config from vitest when not building for production
+// (to avoid importing vitest during build as its a dev dependency)
+let coverageConfigDefaultsExclude: string[] = [];
+if (process.env.NODE_ENV !== 'production') {
+  await import('vitest/config').then((vitestConfig) => {
+    coverageConfigDefaultsExclude = vitestConfig.coverageConfigDefaults.exclude;
+  });
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -122,12 +131,12 @@ export default defineConfig(({ mode }) => {
   // // Use browserslist config
   // config.build.target = browserslistToEsbuild();
 
+  // TODO JOEL: Does this need the options shown in https://www.npmjs.com/package/vitest-canvas-mock?
   return {
     ...config,
     test: {
       globals: true,
       environment: 'jsdom',
-      globalSetup: './globalSetup.js',
       setupFiles: ['src/setupTests.ts'],
       coverage: {
         reporter: [
@@ -140,9 +149,10 @@ export default defineConfig(({ mode }) => {
           ['lcov', { outputFile: 'lcov.info', silent: true }],
         ],
         exclude: [
+          ...coverageConfigDefaultsExclude,
           'public/*',
           'server/*',
-          'cypress/*',
+          'playwright.config.js',
           // Leave handlers to show up unused code
           'src/mocks/browser.ts',
           'src/mocks/server.ts',

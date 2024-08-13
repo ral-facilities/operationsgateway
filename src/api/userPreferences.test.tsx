@@ -1,9 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { hooksWrapperWithProviders } from '../setupTests';
-import { useUpdateUserPreference, useUserPreference } from './userPreferences';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import axios from 'axios';
 import { setMockedPreferredColourMap } from '../mocks/handlers';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
+import { hooksWrapperWithProviders } from '../testUtils';
+import { useUpdateUserPreference, useUserPreference } from './userPreferences';
 
 describe('user preferences api functions', () => {
   const axiosPost = jest.spyOn(axios, 'post');

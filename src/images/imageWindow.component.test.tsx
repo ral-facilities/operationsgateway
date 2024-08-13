@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { http } from 'msw';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { server } from '../mocks/server';
-import { renderComponentWithProviders } from '../setupTests';
 import { TraceOrImageWindow } from '../state/slices/windowSlice';
+import { renderComponentWithProviders } from '../testUtils';
 import ImageWindow from './imageWindow.component';
 
 jest.mock('../windows/windowPortal.component', () => {
