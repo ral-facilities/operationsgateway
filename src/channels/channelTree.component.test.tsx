@@ -8,9 +8,9 @@ import ChannelTree from './channelTree.component';
 
 describe('Channel Tree', () => {
   let currNode = '';
-  const setCurrNode = jest.fn();
-  const handleChannelChecked = jest.fn();
-  const handleChannelSelected = jest.fn();
+  const setCurrNode = vi.fn();
+  const handleChannelChecked = vi.fn();
+  const handleChannelSelected = vi.fn();
   const channel1 = {
     ...Object.values(channelsJson.channels)[0],
     systemName: Object.keys(channelsJson.channels)[0],

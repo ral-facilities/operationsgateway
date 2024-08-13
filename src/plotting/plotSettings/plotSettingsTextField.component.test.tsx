@@ -9,7 +9,7 @@ describe('PlotSettingsTextField', () => {
       <PlotSettingsTextField
         label="value field"
         value="test value"
-        onChange={jest.fn()}
+        onChange={vi.fn()}
       />
     );
 

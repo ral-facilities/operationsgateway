@@ -4,9 +4,9 @@ import React from 'react';
 import TableButtons from './tableButtons.component';
 
 describe('Table buttons', () => {
-  const openFilters = jest.fn();
-  const openChannels = jest.fn();
-  const toggleSearchExpanded = jest.fn();
+  const openFilters = vi.fn();
+  const openChannels = vi.fn();
+  const toggleSearchExpanded = vi.fn();
 
   let user;
   let props: React.ComponentProps<typeof TableButtons>;

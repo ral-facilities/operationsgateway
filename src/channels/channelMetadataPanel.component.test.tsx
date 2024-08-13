@@ -17,8 +17,8 @@ describe('Channel Metadata Panel', () => {
     return renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected={false}
-        onSelectChannel={jest.fn()}
-        onDeselectChannel={jest.fn()}
+        onSelectChannel={vi.fn()}
+        onDeselectChannel={vi.fn()}
         displayedChannel={displayedChannel}
       />,
       {
@@ -74,13 +74,13 @@ describe('Channel Metadata Panel', () => {
 
   it('should add displayed channel when add channel button is clicked', async () => {
     const user = userEvent.setup();
-    const onSelectChannel = jest.fn();
+    const onSelectChannel = vi.fn();
 
     renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected={false}
         onSelectChannel={onSelectChannel}
-        onDeselectChannel={jest.fn()}
+        onDeselectChannel={vi.fn()}
         displayedChannel={displayedChannel}
       />
     );
@@ -92,12 +92,12 @@ describe('Channel Metadata Panel', () => {
 
   it('should remove displayed channel when it is selected and when remove channel button is clicked', async () => {
     const user = userEvent.setup();
-    const onDeselectChannel = jest.fn();
+    const onDeselectChannel = vi.fn();
 
     renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected
-        onSelectChannel={jest.fn()}
+        onSelectChannel={vi.fn()}
         onDeselectChannel={onDeselectChannel}
         displayedChannel={displayedChannel}
       />

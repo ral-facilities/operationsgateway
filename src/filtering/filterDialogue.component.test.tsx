@@ -2,7 +2,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
@@ -29,7 +29,7 @@ describe('Filter dialogue component', () => {
     user = userEvent.setup();
     props = {
       open: true,
-      onClose: jest.fn(),
+      onClose: vi.fn(),
     };
   });
 
@@ -249,8 +249,8 @@ describe('Filter dialogue component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
+      http.get('/records/count', () => {
+        HttpResponse.json(31, { status: 200 });
       })
     );
 
@@ -329,8 +329,8 @@ describe('Filter dialogue component', () => {
 
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
+      http.get('/records/count', () => {
+        return HttpResponse.json(31, { status: 200 });
       })
     );
 
@@ -352,8 +352,8 @@ describe('Filter dialogue component', () => {
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(100));
+      http.get('/records/count', () => {
+        return HttpResponse.json(100, { status: 200 });
       })
     );
 
@@ -389,8 +389,8 @@ describe('Filter dialogue component', () => {
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
+      http.get('/records/count', () => {
+        return HttpResponsse.json(31, { status: 200 });
       })
     );
 

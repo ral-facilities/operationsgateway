@@ -15,14 +15,14 @@ import SessionSaveButtons, {
 
 // Mock the useEditSession hook
 jest.mock('../api/sessions', () => ({
-  useEditSession: jest.fn(),
-  useSaveSession: jest.fn(),
+  useEditSession: vi.fn(),
+  useSaveSession: vi.fn(),
 }));
 
 describe('session buttons', () => {
   let props: SessionsSaveButtonsProps;
-  const onSaveAsSessionClick = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const onSaveAsSessionClick = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionSaveButtons {...props} />);
   };
@@ -46,10 +46,10 @@ describe('session buttons', () => {
 
     // Mock the return value of useEditSession hook
     useEditSession.mockReturnValue({
-      mutate: jest.fn().mockResolvedValue({}),
+      mutate: vi.fn().mockResolvedValue({}),
     });
     useSaveSession.mockReturnValue({
-      mutateAsync: jest.fn().mockResolvedValue({}),
+      mutateAsync: vi.fn().mockResolvedValue({}),
     });
   });
 

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Filter dialogue component doesn't render filter dialogue when dialogue is close 1`] = `
+exports[`Filter dialogue component > doesn't render filter dialogue when dialogue is close 1`] = `
 <body
   style=""
 >
@@ -8,7 +8,7 @@ exports[`Filter dialogue component doesn't render filter dialogue when dialogue 
 </body>
 `;
 
-exports[`Filter dialogue component renders filter dialogue when dialogue is open 1`] = `
+exports[`Filter dialogue component > renders filter dialogue when dialogue is open 1`] = `
 <body
   style="padding-right: 1024px; overflow: hidden;"
 >

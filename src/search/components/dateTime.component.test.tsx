@@ -79,10 +79,10 @@ describe('CustomPickersDay function', () => {
       showDaysOutsideCurrentMonth: undefined,
       isLastVisibleCell: false,
       isFirstVisibleCell: false,
-      onDaySelect: jest.fn(),
-      onBlur: jest.fn(),
-      onFocus: jest.fn(),
-      onKeyDown: jest.fn(),
+      onDaySelect: vi.fn(),
+      onBlur: vi.fn(),
+      onFocus: vi.fn(),
+      onKeyDown: vi.fn(),
     };
     const createView = (): RenderResult => {
       return render(
@@ -130,10 +130,10 @@ describe('renderExperimentPickerDay function', () => {
       selected: false,
       disableHighlightToday: undefined,
       showDaysOutsideCurrentMonth: undefined,
-      onDaySelect: jest.fn(),
-      onBlur: jest.fn(),
-      onFocus: jest.fn(),
-      onKeyDown: jest.fn(),
+      onDaySelect: vi.fn(),
+      onBlur: vi.fn(),
+      onFocus: vi.fn(),
+      onKeyDown: vi.fn(),
     };
   });
 
@@ -180,7 +180,7 @@ describe('renderExperimentPickerDay function', () => {
 
 describe('verifyAndUpdateDate function', () => {
   let props: VerifyAndUpdateDateParams;
-  const changeDate = jest.fn();
+  const changeDate = vi.fn();
 
   beforeEach(() => {
     props = {
@@ -261,13 +261,13 @@ describe('verifyAndUpdateDate function', () => {
 
 describe('DateTime tests', () => {
   let props: DateTimeSearchProps;
-  const changeSearchParameterFromDate = jest.fn();
-  const changeSearchParameterToDate = jest.fn();
-  const resetTimeframe = jest.fn();
-  const resetExperimentTimeframe = jest.fn();
-  const resetShotnumberRange = jest.fn();
-  const isDateTimeInExperiment = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeSearchParameterFromDate = vi.fn();
+  const changeSearchParameterToDate = vi.fn();
+  const resetTimeframe = vi.fn();
+  const resetExperimentTimeframe = vi.fn();
+  const resetShotnumberRange = vi.fn();
+  const isDateTimeInExperiment = vi.fn();
+  const searchParamsUpdated = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);

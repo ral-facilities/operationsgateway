@@ -8,8 +8,8 @@ import DeleteSessionDialogue, {
 describe('delete session dialogue', () => {
   let props: DeleteSessionDialogueProps;
   let user;
-  const onClose = jest.fn();
-  const onDeleteLoadedsession = jest.fn();
+  const onClose = vi.fn();
+  const onDeleteLoadedsession = vi.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<DeleteSessionDialogue {...props} />);

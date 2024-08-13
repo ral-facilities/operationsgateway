@@ -8,11 +8,11 @@ import SessionDialogue, {
 describe('session dialogue', () => {
   let props: SessionDialogueProps;
   let user;
-  const onClose = jest.fn();
-  const onChangeSessionName = jest.fn();
-  const onChangeSessionSummary = jest.fn();
-  const onChangeLoadedSessionId = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const onClose = vi.fn();
+  const onChangeSessionName = vi.fn();
+  const onChangeSessionSummary = vi.fn();
+  const onChangeLoadedSessionId = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionDialogue {...props} />);

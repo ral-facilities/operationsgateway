@@ -41,14 +41,14 @@ describe('Table', () => {
       accessorKey: 'activeExperiment',
     },
   ];
-  const onPageChange = jest.fn();
-  const onResultsPerPageChange = jest.fn();
-  const onSort = jest.fn();
-  const onColumnClose = jest.fn();
-  const onDragEnd = jest.fn();
-  const onColumnWordWrapToggle = jest.fn();
-  const openFilters = jest.fn();
-  const onRowSelectionChange = jest.fn();
+  const onPageChange = vi.fn();
+  const onResultsPerPageChange = vi.fn();
+  const onSort = vi.fn();
+  const onColumnClose = vi.fn();
+  const onDragEnd = vi.fn();
+  const onColumnWordWrapToggle = vi.fn();
+  const openFilters = vi.fn();
+  const onRowSelectionChange = vi.fn();
 
   const createView = () => {
     return renderComponentWithProviders(<Table {...props} />);

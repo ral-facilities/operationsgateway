@@ -5,7 +5,7 @@ import ChannelSearch from './channelSearch.component';
 
 describe('Channel Search', () => {
   let currPathAndChannel = '';
-  const onSearchChange = jest.fn();
+  const onSearchChange = vi.fn();
   const createView = () => {
     return render(
       <ChannelSearch

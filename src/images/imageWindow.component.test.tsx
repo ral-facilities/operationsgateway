@@ -44,7 +44,7 @@ describe('Image Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <ImageWindow onClose={jest.fn()} imageConfig={testImageConfig} />
+      <ImageWindow onClose={vi.fn()} imageConfig={testImageConfig} />
     );
   };
 

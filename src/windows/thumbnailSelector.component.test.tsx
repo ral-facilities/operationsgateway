@@ -7,7 +7,7 @@ import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {
-  const changeRecordId = jest.fn();
+  const changeRecordId = vi.fn();
   let channelName;
   let recordId;
 

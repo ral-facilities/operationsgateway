@@ -12,12 +12,12 @@ import DataHeader, { DataHeaderProps } from './dataHeader.component';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
-  const onSort = jest.fn();
-  const onClose = jest.fn();
-  const onToggleWordWrap = jest.fn();
-  const handleOnDragEnd = jest.fn();
-  const openFilters = jest.fn();
-  const resizeHandler = jest.fn();
+  const onSort = vi.fn();
+  const onClose = vi.fn();
+  const onToggleWordWrap = vi.fn();
+  const handleOnDragEnd = vi.fn();
+  const openFilters = vi.fn();
+  const resizeHandler = vi.fn();
   let user;
 
   const createView = (): RenderResult => {

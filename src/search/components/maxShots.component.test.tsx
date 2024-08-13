@@ -9,8 +9,8 @@ import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {
   let props: MaxShotsProps;
-  const changeMaxShots = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeMaxShots = vi.fn();
+  const searchParamsUpdated = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<MaxShots {...props} />);
@@ -33,7 +33,7 @@ describe('maxShots search', () => {
 
   describe('calls changeMaxShots when user clicks on', () => {
     let user;
-    const changeMaxShots = jest.fn();
+    const changeMaxShots = vi.fn();
 
     beforeEach(() => {
       user = userEvent.setup();

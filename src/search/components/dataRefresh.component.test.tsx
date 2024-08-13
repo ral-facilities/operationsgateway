@@ -4,7 +4,7 @@ import DataRefresh, { type DataRefreshProps } from './dataRefresh.component';
 
 describe('DataRefresh', () => {
   let props: DataRefreshProps;
-  const refreshData = jest.fn();
+  const refreshData = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<DataRefresh {...props} />);

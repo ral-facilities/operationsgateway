@@ -13,10 +13,10 @@ import XAxisTab from './xAxisTab.component';
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
   let user;
-  const changeXAxis = jest.fn();
-  const changeXAxisScale = jest.fn();
-  const changeXMinimum = jest.fn();
-  const changeXMaximum = jest.fn();
+  const changeXAxis = vi.fn();
+  const changeXAxisScale = vi.fn();
+  const changeXMinimum = vi.fn();
+  const changeXMaximum = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<XAxisTab {...props} />);

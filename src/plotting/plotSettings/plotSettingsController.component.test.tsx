@@ -8,19 +8,19 @@ import type { PlotSettingsControllerProps } from './plotSettingsController.compo
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;
   let user: ReturnType<typeof userEvent.setup>;
-  const changePlotType = jest.fn();
-  const changeXAxis = jest.fn();
-  const changeXAxisScale = jest.fn();
-  const changeLeftYAxisScale = jest.fn();
-  const changeRightYAxisScale = jest.fn();
-  const changeSelectedPlotChannels = jest.fn();
-  const changeXMinimum = jest.fn();
-  const changeXMaximum = jest.fn();
-  const changeLeftYAxisMinimum = jest.fn();
-  const changeLeftYAxisMaximum = jest.fn();
-  const changeRightYAxisMinimum = jest.fn();
-  const changeRightYAxisMaximum = jest.fn();
-  const changePlotTitle = jest.fn();
+  const changePlotType = vi.fn();
+  const changeXAxis = vi.fn();
+  const changeXAxisScale = vi.fn();
+  const changeLeftYAxisScale = vi.fn();
+  const changeRightYAxisScale = vi.fn();
+  const changeSelectedPlotChannels = vi.fn();
+  const changeXMinimum = vi.fn();
+  const changeXMaximum = vi.fn();
+  const changeLeftYAxisMinimum = vi.fn();
+  const changeLeftYAxisMaximum = vi.fn();
+  const changeRightYAxisMinimum = vi.fn();
+  const changeRightYAxisMaximum = vi.fn();
+  const changePlotTitle = vi.fn();
 
   const createView = () => {
     // need to import like this in order for the doMock's to work
@@ -49,8 +49,8 @@ describe('Plot Settings component', () => {
       changeRightYAxisScale,
       leftYAxisLabel: 'left y axis label',
       rightYAxisLabel: 'right y axis label',
-      changeLeftYAxisLabel: jest.fn(),
-      changeRightYAxisLabel: jest.fn(),
+      changeLeftYAxisLabel: vi.fn(),
+      changeRightYAxisLabel: vi.fn(),
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeXMinimum,

@@ -21,7 +21,7 @@ jest.mock('./moreOptionsBox.component', () => (props) => (
 
 describe('MoreOptionsToggle', () => {
   let props: MoreOptionsProps;
-  const changeSelectedPlotChannels = jest.fn();
+  const changeSelectedPlotChannels = vi.fn();
   let user;
 
   const createView = (): RenderResult => {

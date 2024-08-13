@@ -6,9 +6,9 @@ import FalseColourPanel from './falseColourPanel.component';
 
 describe('False colour panel component', () => {
   let props: React.ComponentProps<typeof FalseColourPanel>;
-  const changeColourMap = jest.fn();
-  const changeLowerLevel = jest.fn();
-  const changeUpperLevel = jest.fn();
+  const changeColourMap = vi.fn();
+  const changeLowerLevel = vi.fn();
+  const changeUpperLevel = vi.fn();
 
   beforeEach(() => {
     props = {

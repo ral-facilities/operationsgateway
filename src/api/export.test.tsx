@@ -6,8 +6,8 @@ import { useExportData } from './export';
 
 describe('useExportData', () => {
   let state: RootState;
-  const mockLinkClick = jest.fn();
-  const mockLinkRemove = jest.fn();
+  const mockLinkClick = vi.fn();
+  const mockLinkRemove = vi.fn();
   let mockLink: HTMLAnchorElement = {};
 
   beforeEach(() => {
@@ -58,11 +58,11 @@ describe('useExportData', () => {
   it('sends axios request to export selected rows and returns successful response', async () => {
     const getSpy = jest.spyOn(axios, 'get');
 
-    document.createElement = jest.fn().mockImplementation((tag) => {
+    document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
       else return document.originalCreateElement(tag);
     });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
+    document.body.appendChild = vi.fn().mockImplementation((node) => {
       if (!(node instanceof Node)) return mockLink;
       else return document.body.originalAppendChild(node);
     });
@@ -135,11 +135,11 @@ describe('useExportData', () => {
   it('sends axios request to export all rows and returns successful response', async () => {
     const getSpy = jest.spyOn(axios, 'get');
 
-    document.createElement = jest.fn().mockImplementation((tag) => {
+    document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
       else return document.originalCreateElement(tag);
     });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
+    document.body.appendChild = vi.fn().mockImplementation((node) => {
       if (!(node instanceof Node)) return mockLink;
       else return document.body.originalAppendChild(node);
     });
@@ -212,11 +212,11 @@ describe('useExportData', () => {
   it('sends axios request to export visible rows and returns successful response', async () => {
     const getSpy = jest.spyOn(axios, 'get');
 
-    document.createElement = jest.fn().mockImplementation((tag) => {
+    document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
       else return document.originalCreateElement(tag);
     });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
+    document.body.appendChild = vi.fn().mockImplementation((node) => {
       if (!(node instanceof Node)) return mockLink;
       else return document.body.originalAppendChild(node);
     });
@@ -290,11 +290,11 @@ describe('useExportData', () => {
 
     const getSpy = jest.spyOn(axios, 'get');
 
-    document.createElement = jest.fn().mockImplementation((tag) => {
+    document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
       else return document.originalCreateElement(tag);
     });
-    document.body.appendChild = jest.fn().mockImplementation((node) => {
+    document.body.appendChild = vi.fn().mockImplementation((node) => {
       if (!(node instanceof Node)) return mockLink;
       else return document.body.originalAppendChild(node);
     });

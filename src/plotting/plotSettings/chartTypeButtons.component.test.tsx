@@ -6,8 +6,8 @@ import ChartTypeButtons from './chartTypeButtons.component';
 describe('Chart Type Buttons', () => {
   let props: ChartTypeButtonsProps;
   let user;
-  const changePlotType = jest.fn();
-  const changeXAxis = jest.fn();
+  const changePlotType = vi.fn();
+  const changeXAxis = vi.fn();
 
   beforeEach(() => {
     props = {

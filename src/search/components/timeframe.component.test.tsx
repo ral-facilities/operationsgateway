@@ -10,10 +10,10 @@ import Timeframe, { type TimeframeProps } from './timeframe.component';
 describe('timeframe search', () => {
   let props: TimeframeProps;
   let user;
-  const changeTimeframe = jest.fn();
-  const resetExperimentTimeframe = jest.fn();
-  const resetShotnumber = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeTimeframe = vi.fn();
+  const resetExperimentTimeframe = vi.fn();
+  const resetShotnumber = vi.fn();
+  const searchParamsUpdated = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<Timeframe {...props} />);

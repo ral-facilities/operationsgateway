@@ -104,7 +104,7 @@ describe('cell content renderers', () => {
 
     it('can attach a onClick handler to the img', async () => {
       const user = userEvent.setup();
-      const onClick = jest.fn();
+      const onClick = vi.fn();
       render(
         <TraceOrImageThumbnail
           base64Data="base64"

@@ -5,12 +5,12 @@ import { renderComponentWithProviders } from '../testUtils';
 import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
 
 describe('session Drawer', () => {
-  const openSessionSave = jest.fn();
-  const openSessionEdit = jest.fn();
-  const openSessionDelete = jest.fn();
-  const onChangeLoadedSessionId = jest.fn();
-  const onChangeLoadedSessionTimestamp = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const openSessionSave = vi.fn();
+  const openSessionEdit = vi.fn();
+  const openSessionDelete = vi.fn();
+  const onChangeLoadedSessionId = vi.fn();
+  const onChangeLoadedSessionTimestamp = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {

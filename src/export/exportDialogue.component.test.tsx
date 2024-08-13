@@ -4,16 +4,16 @@ import { useExportData } from '../api/export';
 import { renderComponentWithProviders } from '../testUtils';
 import ExportDialogue from './exportDialogue.component';
 
-jest.mock('../api/export', () => ({
-  useExportData: jest.fn(),
+vi.mock('../api/export', () => ({
+  useExportData: vi.fn(),
 }));
 
 describe('ExportDialogue', () => {
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
-    (useExportData as jest.Mock).mockReturnValue({
-      mutate: jest.fn(),
+    vi.mocked(useExportData).mockReturnValue({
+      mutate: vi.fn(),
     });
 
     user = userEvent.setup();
@@ -55,7 +55,7 @@ describe('ExportDialogue', () => {
   });
 
   it('handles closing the dialogue', async () => {
-    const onCloseMock = jest.fn();
+    const onCloseMock = vi.fn();
     renderComponentWithProviders(
       <ExportDialogue open={true} onClose={onCloseMock} />
     );
@@ -65,9 +65,9 @@ describe('ExportDialogue', () => {
   });
 
   it('handles export click', async () => {
-    const onCloseMock = jest.fn();
-    const exportData = jest.fn();
-    (useExportData as jest.Mock).mockReturnValue({
+    const onCloseMock = vi.fn();
+    const exportData = vi.fn();
+    vi.mocked(useExportData).mockReturnValue({
       mutate: exportData,
       isPending: true,
     });

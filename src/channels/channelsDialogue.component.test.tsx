@@ -111,7 +111,7 @@ describe('Channels Dialogue', () => {
     user = userEvent.setup();
     props = {
       open: true,
-      onClose: jest.fn(),
+      onClose: vi.fn(),
     };
   });
 

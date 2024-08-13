@@ -48,7 +48,7 @@ describe('Plot Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <PlotWindow onClose={jest.fn()} plotConfig={testPlotConfig} />,
+      <PlotWindow onClose={vi.fn()} plotConfig={testPlotConfig} />,
       {
         preloadedState: state,
       }

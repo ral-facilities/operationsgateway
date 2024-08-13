@@ -26,7 +26,7 @@ import RecordTable, {
 
 describe('Record Table', () => {
   let state: RootState;
-  const openFilters = jest.fn();
+  const openFilters = vi.fn();
 
   let uuidCount = 0;
 

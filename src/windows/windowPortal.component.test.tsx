@@ -7,10 +7,10 @@ import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
 describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;
   let props: WindowPortalProps;
-  const onClose = jest.fn();
-  const mockAddEventListener = jest.fn();
-  const mockRemoveEventListener = jest.fn();
-  const mockWindowClose = jest.fn();
+  const onClose = vi.fn();
+  const mockAddEventListener = vi.fn();
+  const mockRemoveEventListener = vi.fn();
+  const mockWindowClose = vi.fn();
   let newDocument: Document;
   const theme = createTheme({ palette: { mode: 'dark' } });
 
@@ -83,7 +83,7 @@ describe('Window portal component', () => {
   it('removed and re-adds event listeners onClose prop change', () => {
     const { rerender } = createView();
 
-    const newMockOnClose = jest.fn();
+    const newMockOnClose = vi.fn();
 
     rerender(
       <WindowPortal {...props} onClose={newMockOnClose} theme={theme}>

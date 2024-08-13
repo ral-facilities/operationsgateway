@@ -12,17 +12,17 @@ import YAxisTab from './yAxisTab.component';
 describe('y-axis tab', () => {
   let props: YAxisTabProps;
   let user: ReturnType<typeof userEvent.setup>;
-  const changeLeftYAxisScale = jest.fn();
-  const changeRightYAxisScale = jest.fn();
-  const changeSelectedPlotChannels = jest.fn();
-  const changeLeftYAxisMinimum = jest.fn();
-  const changeLeftYAxisMaximum = jest.fn();
-  const changeRightYAxisMinimum = jest.fn();
-  const changeRightYAxisMaximum = jest.fn();
-  const changeSelectedColours = jest.fn();
-  const changeRemainingColours = jest.fn();
-  const changeRightYAxisLabel = jest.fn();
-  const changeLeftYAxisLabel = jest.fn();
+  const changeLeftYAxisScale = vi.fn();
+  const changeRightYAxisScale = vi.fn();
+  const changeSelectedPlotChannels = vi.fn();
+  const changeLeftYAxisMinimum = vi.fn();
+  const changeLeftYAxisMaximum = vi.fn();
+  const changeRightYAxisMinimum = vi.fn();
+  const changeRightYAxisMaximum = vi.fn();
+  const changeSelectedColours = vi.fn();
+  const changeRemainingColours = vi.fn();
+  const changeRightYAxisLabel = vi.fn();
+  const changeLeftYAxisLabel = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<YAxisTab {...props} />);

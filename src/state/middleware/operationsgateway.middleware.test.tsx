@@ -1,22 +1,22 @@
+import { UnknownAction } from '@reduxjs/toolkit';
+import log from 'loglevel';
+import {
+  broadcastSignOut,
+  registerRoute,
+  requestPluginRerender,
+  sendThemeOptions,
+} from '../scigateway.actions';
 import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './operationsgateway.middleware';
-import log from 'loglevel';
-import {
-  requestPluginRerender,
-  registerRoute,
-  broadcastSignOut,
-  sendThemeOptions,
-} from '../scigateway.actions';
-import { UnknownAction } from '@reduxjs/toolkit';
 
 // this sets up the mock store and returns some things to test
 const create = () => {
   const store = {
     getState: jest.fn(() => ({})),
-    dispatch: jest.fn(),
+    dispatch: vi.fn(),
   };
-  const next = jest.fn();
+  const next = vi.fn();
 
   const invoke = (action) => OperationsGatewayMiddleware(store)(next)(action);
 
@@ -136,7 +136,7 @@ describe('OperationsGateway Middleware', () => {
     });
 
     it('should listen for events and not fire unrecognised action', () => {
-      log.warn = jest.fn();
+      log.warn = vi.fn();
       listenToMessages(store.dispatch);
 
       handler(new CustomEvent('test', { detail: action }));
@@ -152,7 +152,7 @@ describe('OperationsGateway Middleware', () => {
     });
 
     it('should not fire actions for events without detail', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
 
       listenToMessages(store.dispatch);
 
@@ -169,7 +169,7 @@ describe('OperationsGateway Middleware', () => {
     });
 
     it('should not fire actions for events without type on detail', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
 
       listenToMessages(store.dispatch);
 

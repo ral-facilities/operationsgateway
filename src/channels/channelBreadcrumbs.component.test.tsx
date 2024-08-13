@@ -4,7 +4,7 @@ import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 
 describe('Channel Breadcrumbs', () => {
   let currNode = '';
-  const setCurrNode = jest.fn();
+  const setCurrNode = vi.fn();
   const createView = () => {
     return render(
       <ChannelBreadcrumbs currNode={currNode} setCurrNode={setCurrNode} />

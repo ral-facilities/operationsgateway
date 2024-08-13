@@ -14,7 +14,7 @@ describe('AutoRefreshToggle', () => {
   });
 
   it('should enable auto refresh if enabled', () => {
-    const onRequestRefresh = jest.fn();
+    const onRequestRefresh = vi.fn();
 
     render(<AutoRefreshToggle enabled onRequestRefresh={onRequestRefresh} />);
 
@@ -28,7 +28,7 @@ describe('AutoRefreshToggle', () => {
   });
 
   it('should not enable auto refresh if disabled', () => {
-    const onRequestRefresh = jest.fn();
+    const onRequestRefresh = vi.fn();
 
     render(
       <AutoRefreshToggle enabled={false} onRequestRefresh={onRequestRefresh} />
@@ -47,7 +47,7 @@ describe('AutoRefreshToggle', () => {
     const user = userEvent.setup({
       advanceTimers: jest.advanceTimersByTime,
     });
-    const onRequestRefresh = jest.fn();
+    const onRequestRefresh = vi.fn();
 
     render(<AutoRefreshToggle enabled onRequestRefresh={onRequestRefresh} />);
 

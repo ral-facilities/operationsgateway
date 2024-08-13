@@ -9,11 +9,11 @@ import ShotNumber, { type ShotNumberProps } from './shotNumber.component';
 
 describe('shotNumber search', () => {
   let props: ShotNumberProps;
-  const changeSearchParameterShotnumMin = jest.fn();
-  const changeSearchParameterShotnumMax = jest.fn();
-  const resetDateRange = jest.fn();
-  const resetExperimentTimeframe = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeSearchParameterShotnumMin = vi.fn();
+  const changeSearchParameterShotnumMax = vi.fn();
+  const resetDateRange = vi.fn();
+  const resetExperimentTimeframe = vi.fn();
+  const searchParamsUpdated = vi.fn();
   let user;
 
   const createView = (): RenderResult => {

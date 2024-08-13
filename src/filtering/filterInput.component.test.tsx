@@ -15,10 +15,10 @@ describe('Filter input component', () => {
     props = {
       error: '',
       value: [],
-      setValue: jest.fn().mockImplementation((newValue) => {
+      setValue: vi.fn().mockImplementation((newValue) => {
         props.value = newValue;
       }),
-      setError: jest.fn(),
+      setError: vi.fn(),
       channels: [
         { type: 'channel', value: 'type', label: 'type' },
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },

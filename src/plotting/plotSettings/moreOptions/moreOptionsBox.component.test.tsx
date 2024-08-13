@@ -9,7 +9,7 @@ import MoreOptionsBox from './moreOptionsBox.component';
 
 describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;
-  const changeSelectedPlotChannels = jest.fn();
+  const changeSelectedPlotChannels = vi.fn();
   let user;
 
   const createView = (): RenderResult => {

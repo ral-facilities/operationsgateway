@@ -10,8 +10,8 @@ jest.mock('hacktimer', () => ({}));
 
 describe('index - fetchSettings', () => {
   beforeEach(() => {
-    global.document.dispatchEvent = jest.fn();
-    global.CustomEvent = jest.fn();
+    global.document.dispatchEvent = vi.fn();
+    global.CustomEvent = vi.fn();
   });
   afterEach(() => {
     (log.error as jest.Mock).mockClear();

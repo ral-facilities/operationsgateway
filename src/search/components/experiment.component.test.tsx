@@ -10,11 +10,11 @@ import Experiment, { type ExperimentProps } from './experiment.component';
 
 describe('Experiment search', () => {
   let props: ExperimentProps;
-  const onExperimentChange = jest.fn();
-  const resetTimeFrame = jest.fn();
-  const changeExperimentTimeframe = jest.fn();
-  const resetShotnumber = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const onExperimentChange = vi.fn();
+  const resetTimeFrame = vi.fn();
+  const changeExperimentTimeframe = vi.fn();
+  const resetShotnumber = vi.fn();
+  const searchParamsUpdated = vi.fn();
   let user;
 
   const createView = (): RenderResult => {
