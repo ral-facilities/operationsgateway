@@ -7,21 +7,25 @@ import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import ImageWindow from './imageWindow.component';
 
-jest.mock('../windows/windowPortal.component', () => {
+vi.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <mock-WindowPortal>{children}</mock-WindowPortal>
-  ));
+  return {
+    default: ReactMock.forwardRef(({ children }, ref) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-WindowPortal>{children}</mock-WindowPortal>
+    )),
+  };
 });
 
-jest.mock('./imageView.component', () => () => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-ImageView data-testid="mock-image-view" />
-));
+vi.mock('./imageView.component', () => ({
+  default: () => (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    <mock-ImageView data-testid="mock-image-view" />
+  ),
+}));
 
 describe('Image Window component', () => {
   let testImageConfig: TraceOrImageWindow;
@@ -55,7 +59,7 @@ describe('Image Window component', () => {
   });
 
   it('renders correctly while image is loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };

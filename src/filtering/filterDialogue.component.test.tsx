@@ -249,9 +249,7 @@ describe('Filter dialogue component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      http.get('/records/count', () => {
-        HttpResponse.json(31, { status: 200 });
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
     const state = {

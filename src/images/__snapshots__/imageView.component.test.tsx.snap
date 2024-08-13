@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Image view component renders an image and a canvas overlay 1`] = `
+exports[`Image view component > renders an image and a canvas overlay 1`] = `
 <DocumentFragment>
   <div
     style="position: relative;"

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table renders correctly with all columns displayed 1`] = `
+exports[`Table > renders correctly with all columns displayed 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -905,7 +905,7 @@ exports[`Table renders correctly with all columns displayed 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Table renders correctly, with only timestamp column 1`] = `
+exports[`Table > renders correctly, with only timestamp column 1`] = `
 <DocumentFragment>
   <div>
     <div
