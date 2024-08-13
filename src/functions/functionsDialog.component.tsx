@@ -80,13 +80,19 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
   const dispatch = useAppDispatch();
   const appliedFunctions = useAppSelector(selectAppliedFunctions);
   const appliedSelectedIds = useAppSelector(selectSelectedIds);
-  // we need searchParams so we can check for past queries before showing the warning message
-  // const searchParams = useAppSelector(selectSearchParams);
+
+  const appliedSelectedIdsWithoutFuncs = appliedSelectedIds.filter(
+    (id) => !appliedFunctions.map((func) => func.name).includes(id)
+  );
+
   const [functions, setFunctions] =
     React.useState<ValidateFunctionState[]>(appliedFunctions);
   const [errors, setErrors] = React.useState<FunctionErrorState>({});
-  const [selectedColNames, setSelectedColNames] =
-    React.useState<string[]>(appliedSelectedIds);
+  const [selectedColIds, setSelectedColIds] = React.useState<string[]>(
+    appliedFunctions
+      .filter((func) => appliedSelectedIds.includes(func.name))
+      .map((func) => func.id)
+  );
 
   const { data: functionTokens } = useGetFunctionsTokens();
 
@@ -179,22 +185,29 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     []
   );
   React.useEffect(() => {
-    setFunctions(
-      appliedFunctions.length === 0
-        ? [
-            {
-              id: crypto.randomUUID(),
-              name: '',
-              expression: [],
-              dataType: 'scalar',
-              channels: [],
-            },
-          ]
-        : appliedFunctions
-    );
-    setErrors({});
-  }, [appliedFunctions]);
-
+    if (open) {
+      const functionId = crypto.randomUUID();
+      if (appliedFunctions.length === 0)
+        setSelectedColIds((prevSelectedIds) => [
+          ...prevSelectedIds,
+          functionId,
+        ]);
+      setFunctions(
+        appliedFunctions.length === 0
+          ? [
+              {
+                id: functionId,
+                name: '',
+                expression: [],
+                dataType: 'scalar',
+                channels: [],
+              },
+            ]
+          : appliedFunctions
+      );
+      setErrors({});
+    }
+  }, [appliedFunctions, open]);
   const handleError = React.useCallback(
     (error: AxiosError) => {
       const errorCode = (error.response?.data as APIError).detail;
@@ -244,7 +257,16 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
               }))
             )
           );
-          dispatch(updateSelectedColumns([...selectedColNames]));
+          const selectedFunctionCols = functions
+            .filter((func) => selectedColIds.includes(func.id))
+            .map((func) => func.name);
+
+          dispatch(
+            updateSelectedColumns([
+              ...appliedSelectedIdsWithoutFuncs,
+              ...selectedFunctionCols,
+            ])
+          );
           onClose();
         })
         .catch(handleError);
@@ -254,8 +276,9 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       functions,
       handleError,
       dispatch,
-      selectedColNames,
+      appliedSelectedIdsWithoutFuncs,
       onClose,
+      selectedColIds,
     ]
   );
 
@@ -269,8 +292,12 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     }));
 
   React.useEffect(() => {
-    setSelectedColNames(appliedSelectedIds);
-  }, [appliedSelectedIds]);
+    setSelectedColIds(
+      appliedFunctions
+        .filter((func) => appliedSelectedIds.includes(func.name))
+        .map((func) => func.id)
+    );
+  }, [appliedFunctions, appliedSelectedIds]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
@@ -285,7 +312,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                   <Grid item>
                     <Tooltip
                       title={
-                        selectedColNames.includes(func.name)
+                        selectedColIds.includes(func.id)
                           ? 'Removed function column'
                           : `Display function column`
                       }
@@ -294,15 +321,14 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            disabled={!func.name}
-                            checked={selectedColNames.includes(func.name)}
+                            checked={selectedColIds.includes(func.id)}
                             onChange={(event) => {
                               const isChecked = event.target.checked;
-                              setSelectedColNames((prevSelectedIds) =>
+                              setSelectedColIds((prevSelectedIds) =>
                                 isChecked
-                                  ? [...prevSelectedIds, func.name]
+                                  ? [...prevSelectedIds, func.id]
                                   : prevSelectedIds.filter(
-                                      (name) => name !== func.name
+                                      (id) => id !== func.id
                                     )
                               );
                             }}
@@ -354,15 +380,21 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             <Grid item>
               <Button
                 onClick={() => {
+                  const functionId = crypto.randomUUID();
                   setFunctions((functions) => [
                     ...functions,
                     {
-                      id: crypto.randomUUID(),
+                      id: functionId,
                       name: '',
                       expression: [],
                       dataType: 'scalar',
                       channels: [],
                     },
+                  ]);
+
+                  setSelectedColIds((prevSelectedIds) => [
+                    ...prevSelectedIds,
+                    functionId,
                   ]);
                 }}
                 variant="outlined"

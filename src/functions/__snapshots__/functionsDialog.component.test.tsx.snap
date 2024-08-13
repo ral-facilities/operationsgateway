@@ -59,18 +59,15 @@ exports[`FunctionsDialog renders functions dialog when dialog is open 1`] = `
                 >
                   <label
                     aria-label="Unnamed Function Checkbox"
-                    class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+                    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
                     data-mui-internal-clone-element="true"
                   >
                     <span
-                      aria-disabled="true"
-                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
-                      tabindex="-1"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
                     >
                       <input
                         class="PrivateSwitchBase-input css-1m9pwf3"
                         data-indeterminate="false"
-                        disabled=""
                         type="checkbox"
                       />
                       <svg
@@ -84,9 +81,12 @@ exports[`FunctionsDialog renders functions dialog when dialog is open 1`] = `
                           d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                         />
                       </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
                     </span>
                     <span
-                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-ahj2mt-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
                     />
                   </label>
                 </div>

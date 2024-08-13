@@ -719,8 +719,6 @@ test('scalar functions can be plotted', async ({ page }) => {
   // Locate the "Name" input field and type 'b'
   await page.getByLabel('Name', { exact: true }).fill('a');
 
-  await page.getByRole('checkbox').click();
-
   const expressionFields = await page.locator('label:has-text("Expression")');
 
   // Locate the "Expression" input field and type 'CHANNEL_EFGHI'
