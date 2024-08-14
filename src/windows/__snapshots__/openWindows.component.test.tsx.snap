@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Open Windows component renders windows for each open window 1`] = `
+exports[`Open Windows component > renders windows for each open window 1`] = `
 <DocumentFragment>
   <mock-plotwindow
     data-testid="mock-plotWindow"

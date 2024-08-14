@@ -8,46 +8,58 @@ import {
 import OpenWindows from './openWindows.component';
 
 // need to mock to avoid errors
-jest.mock('../plotting/plotWindow.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-plotWindow data-testid="mock-plotWindow">
-    {Object.entries(props).map(
-      ([propName, propValue]) =>
-        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-    )}
-    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-    {/* @ts-ignore */}
-  </mock-plotWindow>
-));
+vi.mock('../plotting/plotWindow.component', () => {
+  return {
+    default: (props) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-plotWindow data-testid="mock-plotWindow">
+        {Object.entries(props).map(
+          ([propName, propValue]) =>
+            `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+        )}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+      </mock-plotWindow>
+    ),
+  };
+});
 
 // need to mock to avoid errors
-jest.mock('../traces/traceWindow.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-traceWindow data-testid="mock-traceWindow">
-    {Object.entries(props).map(
-      ([propName, propValue]) =>
-        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-    )}
-    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-    {/* @ts-ignore */}
-  </mock-traceWindow>
-));
+vi.mock('../traces/traceWindow.component', () => {
+  return {
+    default: (props) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-traceWindow data-testid="mock-traceWindow">
+        {Object.entries(props).map(
+          ([propName, propValue]) =>
+            `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+        )}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+      </mock-traceWindow>
+    ),
+  };
+});
 
 // need to mock to avoid errors
-jest.mock('../images/imageWindow.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-imageWindow data-testid="mock-imageWindow">
-    {Object.entries(props).map(
-      ([propName, propValue]) =>
-        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-    )}
-    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-    {/* @ts-ignore */}
-  </mock-imageWindow>
-));
+vi.mock('../images/imageWindow.component', () => {
+  return {
+    default: (props) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-imageWindow data-testid="mock-imageWindow">
+        {Object.entries(props).map(
+          ([propName, propValue]) =>
+            `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+        )}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+      </mock-imageWindow>
+    ),
+  };
+});
 
 describe('Open Windows component', () => {
   let state: RootState;

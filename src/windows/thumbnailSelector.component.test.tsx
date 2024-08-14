@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
@@ -40,7 +40,7 @@ describe('Thumbnail selector component', () => {
   });
 
   it('renders correctly when loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
@@ -104,9 +104,7 @@ describe('Thumbnail selector component', () => {
 
   it('displays max shots as the max pagination when record count is more than it', async () => {
     server.use(
-      http.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(100));
-      })
+      http.get('/records/count', () => HttpResponse.json(100, { status: 200 }))
     );
 
     createView();

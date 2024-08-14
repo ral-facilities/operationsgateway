@@ -7,21 +7,23 @@ import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import TraceWindow from './traceWindow.component';
 
-jest.mock('../windows/windowPortal.component', () => {
+vi.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <mock-WindowPortal>{children}</mock-WindowPortal>
-  ));
+  return {
+    default: ReactMock.forwardRef(({ children }, ref) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-WindowPortal>{children}</mock-WindowPortal>
+    )),
+  };
 });
 
-jest.mock('./tracePlot.component', () => () => (
+vi.mock('./tracePlot.component', () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-TracePlot data-testid="mock-trace-plot" />
-));
+  return { default: () => <mock-TracePlot data-testid="mock-trace-plot" /> };
+});
 
 describe('Trace Window component', () => {
   let testTraceConfig: TraceOrImageWindow;
@@ -55,7 +57,7 @@ describe('Trace Window component', () => {
   });
 
   it('renders correctly while waveform is loading', () => {
-    const loadingHandler = (req, res, ctx) => {
+    const loadingHandler = () => {
       // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
       return new Promise(() => undefined);
     };
