@@ -191,7 +191,7 @@
             "min": 16,
             "max": 18
           },
-          "maxShots": 50,
+          "maxShots": null,
           "experimentID": {
             "_id": "22110007-2",
             "end_date": "2022-01-18T12:00:00",
