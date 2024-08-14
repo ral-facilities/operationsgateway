@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`x-axis tab renders correctly with arbitrary x axis 1`] = `
+exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1w7ngrt-MuiGrid-root"
@@ -336,7 +336,7 @@ exports[`x-axis tab renders correctly with arbitrary x axis 1`] = `
 </DocumentFragment>
 `;
 
-exports[`x-axis tab renders correctly with timestamp x axis 1`] = `
+exports[`x-axis tab > renders correctly with timestamp x axis 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1w7ngrt-MuiGrid-root"

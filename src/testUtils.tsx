@@ -8,7 +8,6 @@ import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
-import 'jest-canvas-mock';
 import { matchRequestUrl } from 'msw';
 import { Provider } from 'react-redux';
 import { staticChannels } from './api/channels';

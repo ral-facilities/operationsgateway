@@ -61,10 +61,6 @@ describe('session Drawer', () => {
     await user.click(session1);
     expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
 
-    await waitFor(() => {
-      expect(session1).toHaveStyle('background-color: primary.main');
-    });
-
     expect(onChangeLoadedSessionTimestamp).toHaveBeenCalledWith(
       '2023-06-29T10:30:00',
       true

@@ -14,7 +14,7 @@ import SessionSaveButtons, {
 } from './sessionSaveButtons.component';
 
 // Mock the useEditSession hook
-jest.mock('../api/sessions', () => ({
+vi.mock('../api/sessions', () => ({
   useEditSession: vi.fn(),
   useSaveSession: vi.fn(),
 }));
@@ -42,19 +42,19 @@ describe('session buttons', () => {
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
     };
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     // Mock the return value of useEditSession hook
-    useEditSession.mockReturnValue({
+    vi.mocked(useEditSession).mockReturnValue({
       mutate: vi.fn().mockResolvedValue({}),
     });
-    useSaveSession.mockReturnValue({
+    vi.mocked(useSaveSession).mockReturnValue({
       mutateAsync: vi.fn().mockResolvedValue({}),
     });
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
     vi.clearAllMocks();
   });
 
