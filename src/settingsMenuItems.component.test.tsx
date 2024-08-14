@@ -81,7 +81,7 @@ describe('Settings Menu Items component', () => {
 
   it('lets user select a new default colourmap from the dropdown', async () => {
     const { queryClient } = createView();
-    const invalidateQueriesSpy = jest.spyOn(queryClient, 'invalidateQueries');
+    const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries');
 
     const select = screen.getByRole('combobox', { name: 'Default Colour Map' });
     await waitFor(() => expect(select).toHaveTextContent('cividis'));

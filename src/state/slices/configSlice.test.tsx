@@ -9,7 +9,7 @@ import ConfigReducer, {
   settingsLoaded,
 } from './configSlice';
 
-jest.mock('loglevel');
+vi.mock('loglevel');
 
 describe('configSlice', () => {
   // normally can test reducers in components, but since configSlice is high level

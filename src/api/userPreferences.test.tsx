@@ -6,8 +6,8 @@ import { hooksWrapperWithProviders } from '../testUtils';
 import { useUpdateUserPreference, useUserPreference } from './userPreferences';
 
 describe('user preferences api functions', () => {
-  const axiosPost = jest.spyOn(axios, 'post');
-  const axiosDelete = jest.spyOn(axios, 'delete');
+  const axiosPost = vi.spyOn(axios, 'post');
+  const axiosDelete = vi.spyOn(axios, 'delete');
 
   afterEach(() => {
     vi.clearAllMocks();

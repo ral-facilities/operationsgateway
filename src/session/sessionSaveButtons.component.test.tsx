@@ -78,7 +78,7 @@ describe('session buttons', () => {
     const { rerender } = createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useSaveSession().mutateAsync).toHaveBeenCalledTimes(1);
@@ -172,7 +172,7 @@ describe('session buttons', () => {
     createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useEditSession().mutate).toHaveBeenCalledTimes(1);
@@ -212,7 +212,7 @@ describe('session buttons', () => {
     createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useEditSession().mutate).not.toHaveBeenCalledTimes(1);

@@ -4,12 +4,11 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import crypto from 'crypto';
+import { TextEncoder } from 'util';
 // TODO JOEL: Is this still needed? - Also in vite config
 // need to mock <canvas> for plotting
 import 'vitest-canvas-mock';
-// TODO JOEL: Replace with vitest-fail-on-console
-import failOnConsole from 'jest-fail-on-console';
-import { TextEncoder } from 'util';
+import failOnConsole from 'vitest-fail-on-console';
 import { server } from './mocks/server';
 
 // TODO JOEL: Is this still needed? - same for failOnConsole below

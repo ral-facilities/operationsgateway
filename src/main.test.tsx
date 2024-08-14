@@ -1,21 +1,26 @@
-import * as log from 'loglevel';
-import { http } from 'msw';
+import log from 'loglevel';
+import { http, HttpResponse } from 'msw';
 import { MicroFrontendId } from './app.types';
-import { fetchSettings } from './index';
+import { fetchSettings } from './main';
 import { server } from './mocks/server';
 import { registerRoute } from './state/scigateway.actions';
 
-jest.mock('loglevel');
-jest.mock('hacktimer', () => ({}));
+vi.mock('loglevel');
+vi.mock('hacktimer', () => ({}));
 
 describe('index - fetchSettings', () => {
   beforeEach(() => {
     global.document.dispatchEvent = vi.fn();
     global.CustomEvent = vi.fn();
+    // Pretend in SciGateway to prevent attempting to render (which throws an error as the index.html is not loaded
+    // for render to work)
+    document.getElementById = vi
+      .fn()
+      .mockReturnValue(document.createElement('div'));
   });
   afterEach(() => {
-    (log.error as jest.Mock).mockClear();
-    (CustomEvent as jest.Mock).mockClear();
+    vi.mocked(log.error).mockClear();
+    vi.mocked(CustomEvent).mockClear();
     delete import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY;
   });
 
@@ -34,9 +39,9 @@ describe('index - fetchSettings', () => {
     };
 
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(settingsResult));
-      })
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(settingsResult, { status: 200 })
+      )
     );
 
     const settings = await fetchSettings();
@@ -84,9 +89,9 @@ describe('index - fetchSettings', () => {
     };
 
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(settingsResult));
-      })
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(settingsResult, { status: 200 })
+      )
     );
     const settings = await fetchSettings();
 
@@ -126,9 +131,9 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if API URLs is not defined in the settings', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json({}));
-      })
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json({}, { status: 200 })
+      )
     );
 
     const settings = await fetchSettings();
@@ -136,7 +141,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: apiUrl is undefined in settings'
     );
@@ -144,14 +149,14 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if recordLimitWarning is not defined in the settings', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
             apiUrl: 'api',
-          })
-        );
-      })
+          },
+          { status: 200 }
+        )
+      )
     );
 
     const settings = await fetchSettings();
@@ -159,7 +164,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: recordLimitWarning is undefined in settings'
     );
@@ -167,9 +172,9 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if settings.json is an invalid JSON object', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(1));
-      })
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(1, { status: 200 })
+      )
     );
 
     const settings = await fetchSettings();
@@ -177,7 +182,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: Invalid format'
     );
@@ -191,9 +196,7 @@ describe('index - fetchSettings', () => {
         `${
           import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY
         }operationsgateway-settings.json`,
-        (req, res, ctx) => {
-          return res(ctx.status(404));
-        }
+        () => new HttpResponse(null, { status: 404 })
       )
     );
 
@@ -202,7 +205,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /custom/directory/operationsgateway-settings.json: Request failed with status code 404'
     );
@@ -210,9 +213,10 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if fails to load a settings.json and is still in a loading state', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(ctx.status(500));
-      })
+      http.get(
+        '/operationsgateway-settings.json',
+        () => new HttpResponse(null, { status: 500 })
+      )
     );
 
     const settings = await fetchSettings();
@@ -220,7 +224,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: Request failed with status code 500'
     );
@@ -228,15 +232,15 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if no routes are defined in the settings', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
             apiUrl: 'api',
             recordLimitWarning: -1,
-          })
-        );
-      })
+          },
+          { status: 200 }
+        )
+      )
     );
 
     const settings = await fetchSettings();
@@ -244,7 +248,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: No routes provided in the settings'
     );
@@ -252,10 +256,9 @@ describe('index - fetchSettings', () => {
 
   it('logs an error if route has missing entries', async () => {
     server.use(
-      http.get('/operationsgateway-settings.json', (req, res, ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
             apiUrl: 'api',
             recordLimitWarning: -1,
             routes: [
@@ -264,9 +267,10 @@ describe('index - fetchSettings', () => {
                 link: 'link',
               },
             ],
-          })
-        );
-      })
+          },
+          { status: 200 }
+        )
+      )
     );
 
     const settings = await fetchSettings();
@@ -274,7 +278,7 @@ describe('index - fetchSettings', () => {
     expect(settings).toBeUndefined();
     expect(log.error).toHaveBeenCalled();
 
-    const mockLog = (log.error as jest.Mock).mock;
+    const mockLog = vi.mocked(log.error).mock;
     expect(mockLog.calls[0][0]).toEqual(
       'Error loading /operationsgateway-settings.json: Route provided does not have all the required entries (section, link, displayName)'
     );

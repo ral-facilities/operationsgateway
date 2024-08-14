@@ -44,7 +44,7 @@ describe('Window buttons components', () => {
 
   describe('Plot buttons component', () => {
     const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
     let plotButtonsProps: PlotButtonsProps;
 
     const toggleGridVisibility = vi.fn();
@@ -187,7 +187,7 @@ describe('Window buttons components', () => {
     it('does nothing when export data button is clicked if data is not correct', async () => {
       plotButtonsProps.data = undefined;
       const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
-      const createElementSpy = jest.spyOn(document, 'createElement');
+      const createElementSpy = vi.spyOn(document, 'createElement');
 
       await user.click(
         screen.getByRole('button', { name: 'Export Plot Data' })
@@ -240,7 +240,7 @@ describe('Window buttons components', () => {
 
   describe('Trace buttons component', () => {
     const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
     let traceButtonsProps: TraceButtonsProps;
 
     const togglePointsVisibility = vi.fn();
@@ -349,7 +349,7 @@ describe('Window buttons components', () => {
       traceButtonsProps.data = undefined;
       render(<TraceButtons {...traceButtonsProps} />);
 
-      const createElementSpy = jest.spyOn(document, 'createElement');
+      const createElementSpy = vi.spyOn(document, 'createElement');
 
       await user.click(
         screen.getByRole('button', { name: 'Export Plot Data' })

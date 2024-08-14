@@ -39,10 +39,13 @@ function jsonHMR(): PluginOption {
 
 // Obtain default coverage config from vitest when not building for production
 // (to avoid importing vitest during build as its a dev dependency)
-let coverageConfigDefaultsExclude: string[] = [];
+let vitestDefaultExclude: string[] = [];
+let vitestCoverageConfigDefaultsExclude: string[] = [];
 if (process.env.NODE_ENV !== 'production') {
   await import('vitest/config').then((vitestConfig) => {
-    coverageConfigDefaultsExclude = vitestConfig.coverageConfigDefaults.exclude;
+    vitestDefaultExclude = vitestConfig.defaultExclude;
+    vitestCoverageConfigDefaultsExclude =
+      vitestConfig.coverageConfigDefaults.exclude;
   });
 }
 
@@ -139,6 +142,7 @@ export default defineConfig(({ mode }) => {
       environment: 'jsdom',
       globalSetup: './globalSetup.js',
       setupFiles: ['src/setupTests.ts'],
+      exclude: [...vitestDefaultExclude, 'e2e/**'],
       coverage: {
         reporter: [
           // Default
@@ -150,7 +154,7 @@ export default defineConfig(({ mode }) => {
           ['lcov', { outputFile: 'lcov.info', silent: true }],
         ],
         exclude: [
-          ...coverageConfigDefaultsExclude,
+          ...vitestCoverageConfigDefaultsExclude,
           'public/*',
           'server/*',
           'playwright.config.js',

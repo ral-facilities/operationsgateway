@@ -13,7 +13,7 @@ import OperationsGatewayMiddleware, {
 // this sets up the mock store and returns some things to test
 const create = () => {
   const store = {
-    getState: jest.fn(() => ({})),
+    getState: vi.fn(() => ({})),
     dispatch: vi.fn(),
   };
   const next = vi.fn();
@@ -47,7 +47,7 @@ describe('OperationsGateway Middleware', () => {
       return true;
     };
 
-    document.addEventListener = jest.fn(
+    document.addEventListener = vi.fn(
       (id: string, inputHandler: (event: Event) => void) => {
         handler = inputHandler;
       }
@@ -145,7 +145,7 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.warn).toHaveBeenCalled();
-      const mockLog = (log.warn as jest.Mock).mock;
+      const mockLog = vi.mocked(log.warn).mock;
       expect(mockLog.calls[0][0]).toContain(
         'Unexpected message received, not dispatched'
       );
@@ -162,7 +162,7 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toEqual(
         'Invalid message received:\nevent.detail = null'
       );
@@ -179,7 +179,7 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toEqual(
         'Invalid message received:\nevent.detail = {"actionWithoutType":true}'
       );

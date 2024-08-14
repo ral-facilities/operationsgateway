@@ -56,7 +56,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export selected rows and returns successful response', async () => {
-    const getSpy = jest.spyOn(axios, 'get');
+    const getSpy = vi.spyOn(axios, 'get');
 
     document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -133,7 +133,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export all rows and returns successful response', async () => {
-    const getSpy = jest.spyOn(axios, 'get');
+    const getSpy = vi.spyOn(axios, 'get');
 
     document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -210,7 +210,7 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export visible rows and returns successful response', async () => {
-    const getSpy = jest.spyOn(axios, 'get');
+    const getSpy = vi.spyOn(axios, 'get');
 
     document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -288,7 +288,7 @@ describe('useExportData', () => {
   it('sends axios request without skip and limit when maxShots is unlimited and exporting all rows', async () => {
     state.search.searchParams.maxShots = Infinity;
 
-    const getSpy = jest.spyOn(axios, 'get');
+    const getSpy = vi.spyOn(axios, 'get');
 
     document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;

@@ -4,13 +4,12 @@
 // in cases like main OG window tabbed out, or minimized etc)
 import axios from 'axios';
 import 'hacktimer';
-import * as log from 'loglevel';
-import { SetupWorker } from 'msw/browser';
+import log from 'loglevel';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
 import App from './App';
-import { MicroFrontendId, MicroFrontendToken } from './app.types';
+import { MicroFrontendId } from './app.types';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 
@@ -174,34 +173,43 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
 const settings = fetchSettings();
 setSettings(settings);
 
+/* Renders only if we're not being loaded by SG  */
+const conditionalSciGatewayRender = () => {
+  if (!document.getElementById('scigateway')) {
+    render();
+  }
+};
+
 async function prepare() {
   if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
-    // Need to use require instead of import as import breaks when loaded in SG
-    const { worker } = await import('./mocks/browser');
-    return (worker as SetupWorker).start({
-      onUnhandledRequest(request, print) {
-        // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
-        if (request.url.includes('localhost')) {
-          return;
-        }
+    // When in dev, only use MSW if the api url is given, otherwise load MSW as it must have been explicitly requested
+    const settingsResult = await settings;
+    if (
+      import.meta.env.VITE_APP_INCLUDE_MSW === 'true' ||
+      settingsResult?.apiUrl === ''
+    ) {
+      // Need to use require instead of import as import breaks when loaded in SG
+      const { worker } = await import('./mocks/browser');
+      return (worker as SetupWorker).start({
+        onUnhandledRequest(request, print) {
+          // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
+          if (request.url.includes('localhost')) {
+            return;
+          }
 
-        print.warning();
-      },
-    });
+          print.warning();
+        },
+      });
+    } else Promise.resolve();
   }
   return Promise.resolve();
 }
 
 if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
   prepare().then(() => {
-    // use this to detect if we're being loaded by SG
-    // if we're not, then we need to call render ourselves
-    if (!document.getElementById('scigateway')) {
-      render();
-    }
+    conditionalSciGatewayRender();
 
     log.setDefaultLevel(log.levels.DEBUG);
-
     if (import.meta.env.DEV) {
       settings.then((settingsResult) => {
         if (settingsResult) {
@@ -220,5 +228,7 @@ if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
     }
   });
 } else {
+  conditionalSciGatewayRender();
+
   log.setDefaultLevel(log.levels.ERROR);
 }
