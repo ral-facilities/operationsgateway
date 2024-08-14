@@ -38,7 +38,6 @@ test.afterEach(async ({ request, context }) => {
 
 test('user can change the false colour parameters of an image', async ({
   page,
-  browserName,
 }) => {
   // open up popup
   const [popup] = await Promise.all([
@@ -84,18 +83,15 @@ test('user can change the false colour parameters of an image', async ({
 
   const sliderDims = await SliderRoot.boundingBox();
 
-  if (browserName !== 'webkit') {
-    await llSliderThumb.dragTo(SliderRoot, {
-      targetPosition: {
-        // moving the slider to the target value in %
-        x: (sliderDims?.width ?? 0) * 0.4,
-        y: sliderDims?.height ? sliderDims.height / 2 : 0,
-      },
-    });
+  await llSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
+      x: (sliderDims?.width ?? 0) * 0.4,
+      y: sliderDims?.height ? sliderDims.height / 2 : 0,
+    },
+  });
 
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
-  }
+  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {

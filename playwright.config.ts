@@ -68,6 +68,27 @@ const config: PlaywrightTestConfig = {
             storageState: 'e2e/real/.auth/user.json',
           },
           testDir: './e2e/real',
+          testIgnore: /.*sessions.spec.ts/,
+          dependencies: ['setup'],
+        },
+        // sessions test needs to run on firefox to test saving position & size of popups
+        {
+          name: 'E2E tests - Firefox',
+          use: {
+            ...devices['Desktop Firefox'],
+            launchOptions: {
+              // need these to ensure Date picker media queries pass
+              // ref: https://mui.com/x/react-date-pickers/getting-started/#testing-caveats
+              firefoxUserPrefs: {
+                'ui.primaryPointerCapabilities': 0x02 | 0x04,
+                'ui.allPointerCapabilities': 0x02 | 0x04,
+              },
+            },
+            // Use prepared auth state.
+            storageState: 'e2e/real/.auth/user.json',
+          },
+          testDir: './e2e/real',
+          testMatch: /.*sessions.spec.ts/,
           dependencies: ['setup'],
         },
       ]

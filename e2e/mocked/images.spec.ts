@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
 
-test('user can zoom and pan the image', async ({ page, browserName }) => {
+test('user can zoom and pan the image', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
@@ -66,7 +66,9 @@ test('user can zoom and pan the image', async ({ page, browserName }) => {
     await imageDiv.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+    // have to reduce threshold when comparing zoomed in images as otherwise similarly
+    // coloured pixels are considered ok
+  ).toMatchSnapshot({ maxDiffPixels: 150, threshold: 0 });
 
   // test that multiple zoom levels work
   await imageDiv.dragTo(imageDiv, {
@@ -84,24 +86,20 @@ test('user can zoom and pan the image', async ({ page, browserName }) => {
     await imageDiv.screenshot({
       type: 'png',
     })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+    // have to reduce threshold when comparing zoomed in images as otherwise similarly
+    // coloured pixels are considered ok
+  ).toMatchSnapshot({ maxDiffPixels: 150, threshold: 0 });
 
-  // TODO: Remove webkit check when reset view works correctly again in Playwright.
-  //       Currently there's an issue on WebKit where upon resetting the view the image disappears, causing snapshots to fail
-  if (browserName !== 'webkit') {
-    await popup.locator('text=Reset View').click();
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(
-      await imageDiv.screenshot({
-        type: 'png',
-      })
-    ).toMatchSnapshot({ maxDiffPixels: 150 });
-  }
+  await popup.locator('text=Reset View').click();
+  expect(
+    await imageDiv.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can change the false colour parameters of an image', async ({
   page,
-  browserName,
 }) => {
   // open up popup
   const [popup] = await Promise.all([
@@ -136,18 +134,15 @@ test('user can change the false colour parameters of an image', async ({
 
   const sliderDims = await SliderRoot.boundingBox();
 
-  if (browserName !== 'webkit') {
-    await llSliderThumb.dragTo(SliderRoot, {
-      targetPosition: {
-        // moving the slider to the target value in %
-        x: (sliderDims?.width ?? 0) * 0.4,
-        y: sliderDims?.height ? sliderDims.height / 2 : 0,
-      },
-    });
+  await llSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
+      x: (sliderDims?.width ?? 0) * 0.4,
+      y: sliderDims?.height ? sliderDims.height / 2 : 0,
+    },
+  });
 
-    // eslint-disable-next-line jest/no-conditional-expect
-    expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
-  }
+  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
