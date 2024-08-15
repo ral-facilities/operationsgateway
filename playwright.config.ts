@@ -138,7 +138,7 @@ const config: PlaywrightTestConfig = {
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'yarn e2e:serve',
+    command: process.env.USE_REAL_API ? 'yarn e2e:serve:api' : 'yarn e2e:serve',
     url: 'http://localhost:3000',
     timeout: 180 * 1000,
     stdout: 'pipe',
