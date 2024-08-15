@@ -13,8 +13,8 @@ import axios from 'axios';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
-import LogoLight from './operationsgateway-logo.png';
-import LogoDark from './operationsgateway-logo-white.png';
+import LogoLight from './operationsgateway-logo.svg';
+import LogoDark from './operationsgateway-logo-white.svg';
 
 import './index.css';
 

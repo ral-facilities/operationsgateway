@@ -57,8 +57,8 @@ describe('index - fetchSettings', () => {
           helpSteps: [],
           logoAltText: 'OperationsGateway',
           logoDarkMode:
-            'http://localhost:3000/operationsgateway-logo-white.png',
-          logoLightMode: 'http://localhost:3000/operationsgateway-logo.png',
+            'http://localhost:3000/operationsgateway-logo-white.svg',
+          logoLightMode: 'http://localhost:3000/operationsgateway-logo.svg',
         },
       },
     });
