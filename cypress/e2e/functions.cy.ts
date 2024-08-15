@@ -11,7 +11,6 @@ describe('Sessions', () => {
     cy.findByLabelText('Name').type('a');
     cy.findByLabelText('Expression').type('1 ');
 
-    cy.findByRole('checkbox').click();
     cy.findByRole('button', { name: 'Apply' }).click();
     cy.findByRole('columnheader', {
       name: 'a',
@@ -22,7 +21,6 @@ describe('Sessions', () => {
     cy.findByRole('button', { name: 'Functions' }).click();
     cy.findByLabelText('Name').type('a');
     cy.findByLabelText('Expression').type('1 ');
-    cy.findByRole('checkbox').click();
 
     cy.findByRole('button', { name: 'Add new function' }).click({
       force: true,
@@ -30,7 +28,6 @@ describe('Sessions', () => {
 
     cy.findAllByLabelText('Name').last().type('b');
     cy.findAllByLabelText('Expression').last().type('a{enter}+{enter}1{enter}');
-    cy.findAllByRole('checkbox').last().click();
 
     cy.findByRole('button', { name: 'Apply' }).click();
     cy.findByRole('columnheader', {
@@ -45,7 +42,6 @@ describe('Sessions', () => {
     cy.findByRole('button', { name: 'Functions' }).click();
     cy.findByLabelText('Name').type('a');
     cy.findByLabelText('Expression').type('1 ');
-    cy.findByRole('checkbox').click();
 
     cy.findByRole('button', { name: 'Add new function' }).click({
       force: true,
@@ -53,7 +49,6 @@ describe('Sessions', () => {
 
     cy.findAllByLabelText('Name').last().type('b');
     cy.findAllByLabelText('Expression').last().type('a{enter}+{enter}1{enter}');
-    cy.findAllByRole('checkbox').last().click();
 
     cy.findByRole('button', { name: 'Apply' }).click();
     cy.findByRole('columnheader', {
@@ -88,15 +83,12 @@ describe('Sessions', () => {
     cy.findByLabelText('Name').type('b');
     cy.findByLabelText('Expression').type('CHANNEL_EFGHI ');
 
-    cy.findByRole('checkbox').click();
-
     cy.findByRole('button', { name: 'Add new function' }).click({
       force: true,
     });
 
     cy.findAllByLabelText('Name').last().type('c');
     cy.findAllByLabelText('Expression').last().type('CHANNEL_FGHIJ ');
-    cy.findAllByRole('checkbox').last().click();
 
     cy.findByRole('button', { name: 'Apply' }).click();
     cy.findByRole('columnheader', {
