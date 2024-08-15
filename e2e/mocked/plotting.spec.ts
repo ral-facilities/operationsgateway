@@ -554,6 +554,9 @@ test('user can change the line width of plotted channels', async ({ page }) => {
 test('user can plot channels on the right y axis', async ({ page }) => {
   await page.goto('/');
 
+  // MSW wont load immediately here, so wait for it to start
+  await page.waitForFunction(() => window.msw);
+
   await page.evaluate(async () => {
     const { msw } = window;
 
@@ -570,9 +573,9 @@ test('user can plot channels on the right y axis', async ({ page }) => {
     });
 
     msw.worker.use(
-      msw.rest.get('/records', async (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(modifiedRecordsJson));
-      })
+      msw.http.get('/records', async () =>
+        msw.HttpResponse.json(modifiedRecordsJson, { status: 200 })
+      )
     );
   });
 

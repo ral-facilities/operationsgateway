@@ -133,12 +133,10 @@ export const handlers = [
       { status: 200 }
     );
   }),
-  http.get('/records', () => {
-    return HttpResponse.json(recordsJson, { status: 200 });
-  }),
-  http.get('/records/count', () => {
-    return HttpResponse.json(recordsJson.length, { status: 200 });
-  }),
+  http.get('/records', () => HttpResponse.json(recordsJson, { status: 200 })),
+  http.get('/records/count', () =>
+    HttpResponse.json(recordsJson.length, { status: 200 })
+  ),
   http.get('/records/range_converter', ({ request }) => {
     const url = new URL(request.url);
     const shotnumRange = url.searchParams.get('shotnum_range');
@@ -270,9 +268,9 @@ export const handlers = [
       { status: 200 }
     );
   }),
-  http.get('/images/colourmap_names', () => {
-    return HttpResponse.json(colourMapsJson, { status: 200 });
-  }),
+  http.get('/images/colourmap_names', () =>
+    HttpResponse.json(colourMapsJson, { status: 200 })
+  ),
   http.get(`/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`, () => {
     if (typeof preferredColourMap === 'undefined') {
       return HttpResponse.json(

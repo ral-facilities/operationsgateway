@@ -282,7 +282,7 @@ describe('Table Component', () => {
 
         worker.use(
           http.get('/records/count', () =>
-            HttpResponse.json(50, { status: 1000 })
+            HttpResponse.json(1000, { status: 200 })
           )
         );
       });
@@ -301,7 +301,7 @@ describe('Table Component', () => {
 
         worker.use(
           http.get('/records/count', () =>
-            HttpResponse.json(50, { status: 2500 })
+            HttpResponse.json(2500, { status: 200 })
           )
         );
       });

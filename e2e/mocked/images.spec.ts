@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -326,56 +326,58 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
     const url = window.URL.createObjectURL(responseBlob);
 
     msw.worker.use(
-      msw.rest.get('/images/:recordId/:channelName', async (req, res, ctx) => {
-        const canvas = window.document.createElement('canvas');
-        const context = canvas.getContext('2d');
+      msw.http.get(
+        '/images/:recordId/:channelName',
+        async () => {
+          const canvas = window.document.createElement('canvas');
+          const context = canvas.getContext('2d');
 
-        const result = await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = function () {
-            canvas.width = img.width;
-            canvas.height = img.height;
+          const result = await new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = function () {
+              canvas.width = img.width;
+              canvas.height = img.height;
 
-            if (context) {
-              // draw image
-              context.drawImage(img, 0, 0, canvas.width, canvas.height);
+              if (context) {
+                // draw image
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-              // set composite mode
-              context.globalCompositeOperation = 'color';
+                // set composite mode
+                context.globalCompositeOperation = 'color';
 
-              // draw color
-              context.fillStyle = '#f00';
-              context.fillRect(0, 0, canvas.width, canvas.height);
+                // draw color
+                context.fillStyle = '#f00';
+                context.fillRect(0, 0, canvas.width, canvas.height);
 
-              canvas.toBlob(async (blob) => {
-                if (blob) {
-                  const arrayBuffer = await blob.arrayBuffer();
+                canvas.toBlob(async (blob) => {
+                  if (blob) {
+                    const arrayBuffer = await blob.arrayBuffer();
 
-                  resolve(
-                    res.once(
-                      ctx.status(200),
-                      ctx.set(
-                        'Content-Length',
-                        arrayBuffer.byteLength.toString()
-                      ),
-                      ctx.set('Content-Type', 'image/png'),
-                      ctx.body(arrayBuffer)
-                    )
-                  );
-                } else {
-                  reject();
-                }
-              });
-            } else {
-              reject();
-            }
-          };
-          img.onerror = reject;
-          img.src = url;
-        });
+                    resolve(
+                      new msw.HttpResponse(arrayBuffer, {
+                        headers: {
+                          'Content-Length': arrayBuffer.byteLength.toString(),
+                          'Content-Type': 'image/png',
+                        },
+                        status: 200,
+                      })
+                    );
+                  } else {
+                    reject();
+                  }
+                });
+              } else {
+                reject();
+              }
+            };
+            img.onerror = reject;
+            img.src = url;
+          });
 
-        return result;
-      })
+          return result;
+        },
+        { once: true }
+      )
     );
   });
 
