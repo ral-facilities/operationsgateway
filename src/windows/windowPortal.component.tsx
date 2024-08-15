@@ -37,7 +37,7 @@ export class WindowPortal extends React.PureComponent<
     const externalWindow = window.open(
       '',
       '',
-      `innerWidth=${this.props.innerWidth},innerHeight=${this.props.innerHeight},left=${this.props.screenX},top=${this.props.screenY}`
+      `innerWidth=${this.props.innerWidth},innerHeight=${this.props.innerHeight},left=${this.props.screenX < 0 ? this.props.screenX - this.props.innerWidth : this.props.screenX},top=${this.props.screenY < 0 ? this.props.screenY - this.props.innerHeight : this.props.screenY}`
     );
     // create a container div
     const el = document.createElement('div');
