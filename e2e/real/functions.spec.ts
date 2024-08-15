@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test';
 test('scalar functions can be plotted', async ({ page }) => {
   await page.goto('/');
 
+  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+
+  await page.getByRole('radio', { name: 'Unlimited' }).click();
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
   await page.getByRole('button', { name: 'Functions' }).click();
 
   await page.getByLabel('Name').fill('a');
