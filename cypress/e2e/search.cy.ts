@@ -1,3 +1,4 @@
+import { HttpResponse } from 'msw';
 import { formatDateTimeForApi } from '../support/util';
 
 function getParamsFromUrl(url: string) {
@@ -1173,12 +1174,14 @@ describe('Search', () => {
       // check that if a search drops below the limit the tooltip no longer displays
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
-        const { worker, rest } = window.msw;
+        const { worker, http } = window.msw;
 
         worker.use(
-          rest.get('/records/count', (req, res, ctx) => {
-            return res.once(ctx.status(200), ctx.json(8)); //arbitrary number less than 10
-          })
+          http.get(
+            '/records/count',
+            () => HttpResponse.json(8, { status: 200 }), //arbitrary number less than 10
+            { once: true }
+          )
         );
       });
 

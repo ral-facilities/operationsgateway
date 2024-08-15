@@ -5,11 +5,12 @@
 import axios from 'axios';
 import 'hacktimer';
 import log from 'loglevel';
+import { SetupWorker } from 'msw/browser';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
 import App from './App';
-import { MicroFrontendId } from './app.types';
+import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 

@@ -1,4 +1,5 @@
-import { getHandleSelector, addInitialSystemChannels } from '../support/util';
+import { HttpResponse } from 'msw';
+import { addInitialSystemChannels, getHandleSelector } from '../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
   // check if the first column contains the checkbox
@@ -260,12 +261,12 @@ describe('Table Component', () => {
 
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
-        const { worker, rest } = window.msw;
+        const { worker, http } = window.msw;
 
         worker.use(
-          rest.get('/records/count', (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(50));
-          })
+          http.get('/records/count', () =>
+            HttpResponse.json(50, { status: 200 })
+          )
         );
       });
 
@@ -277,12 +278,12 @@ describe('Table Component', () => {
 
       cy.window().then(async (window) => {
         // Reference global instances set in "src/mocks/browser.js".
-        const { worker, rest } = window.msw;
+        const { worker, http } = window.msw;
 
         worker.use(
-          rest.get('/records/count', (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(1000));
-          })
+          http.get('/records/count', () =>
+            HttpResponse.json(50, { status: 1000 })
+          )
         );
       });
 
@@ -296,12 +297,12 @@ describe('Table Component', () => {
 
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
-        const { worker, rest } = window.msw;
+        const { worker, http } = window.msw;
 
         worker.use(
-          rest.get('/records/count', (req, res, ctx) => {
-            return res(ctx.status(200), ctx.json(2500)); //arbirary number greater than 1000
-          })
+          http.get('/records/count', () =>
+            HttpResponse.json(50, { status: 2500 })
+          )
         );
       });
 

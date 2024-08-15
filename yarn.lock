@@ -4642,7 +4642,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.3.0, chalk@npm:^2.4.2":
+"chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -5089,16 +5089,6 @@ __metadata:
   version: 0.0.5
   resolution: "cypress-delete-downloads-folder@npm:0.0.5"
   checksum: 10c0/bc91793d107627828b73db8577c00586cec9465d7fb9d9914868de1122f709aea61ee06f3baf2c9a9fa0207b5ce2082e3ec7324c799399eaf80c063161a1aea6
-  languageName: node
-  linkType: hard
-
-"cypress-failed-log@npm:2.10.0":
-  version: 2.10.0
-  resolution: "cypress-failed-log@npm:2.10.0"
-  dependencies:
-    debug: "npm:4.3.4"
-    logdown: "npm:3.3.1"
-  checksum: 10c0/9177ed9737dea15f18026ef88823b242c80d8619957615bb823d0f3c102e7c3e4c4d554cdb27194c23ec4ec0dc620e1eaae67c24d3f018d6e91877302d72bb7c
   languageName: node
   linkType: hard
 
@@ -8030,15 +8020,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"logdown@npm:3.3.1":
-  version: 3.3.1
-  resolution: "logdown@npm:3.3.1"
-  dependencies:
-    chalk: "npm:^2.3.0"
-  checksum: 10c0/36c7ecf4708e007d4b3588f76c3e3032aed35cbe5116d33ea61acf9b62a6b81c784e253ba66fed095afd8515625001ca0a51ab5c552b44baf9cbaa6bb612e451
-  languageName: node
-  linkType: hard
-
 "loglevel@npm:1.9.1":
   version: 1.9.1
   resolution: "loglevel@npm:1.9.1"
@@ -8727,7 +8708,6 @@ __metadata:
     cross-env: "npm:7.0.3"
     cypress: "npm:13.13.0"
     cypress-delete-downloads-folder: "npm:^0.0.5"
-    cypress-failed-log: "npm:2.10.0"
     date-fns: "npm:3.6.0"
     eslint: "npm:8.57.0"
     eslint-config-prettier: "npm:9.1.0"
