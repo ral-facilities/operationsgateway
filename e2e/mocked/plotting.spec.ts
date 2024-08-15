@@ -554,8 +554,8 @@ test('user can change the line width of plotted channels', async ({ page }) => {
 test('user can plot channels on the right y axis', async ({ page }) => {
   await page.goto('/');
 
-  // MSW wont load immediately here, so wait for it to start
-  await page.waitForFunction(() => window.msw);
+  // MSW wont start immediately here, so wait for page to load first
+  await expect(page.locator('text=Plots')).toBeVisible();
 
   await page.evaluate(async () => {
     const { msw } = window;
