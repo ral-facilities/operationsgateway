@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-// import browserslistToEsbuild from 'browserslist-to-esbuild';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 import fs from 'node:fs';
 import path from 'path';
 import { PluginOption, UserConfig, defineConfig, loadEnv } from 'vite';
@@ -27,8 +27,7 @@ function jsonHMR(): PluginOption {
       if (file.endsWith('.json')) {
         console.log('reloading json file...');
 
-        // TODO JOEL: Replace this as deprecated (Do the same for IMS and SciGateway)
-        server.hot.send({
+        server.ws.send({
           type: 'full-reload',
           path: '*',
         });
@@ -130,11 +129,9 @@ export default defineConfig(({ mode }) => {
     };
   }
 
-  // TODO JOEL: Enable this later
-  // // Use browserslist config
-  // config.build.target = browserslistToEsbuild();
+  // Use browserslist config
+  config.build.target = browserslistToEsbuild();
 
-  // TODO JOEL: Does this need the options shown in https://www.npmjs.com/package/vitest-canvas-mock?
   return {
     ...config,
     test: {
