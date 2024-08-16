@@ -51,7 +51,31 @@ describe('Sessions', () => {
         expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
         expect(JSON.stringify(request.body)).equal(
-          '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"toDate":"2024-08-02T14:00:59","fromDate":"2024-08-01T14:00:00"},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{},"selection":{"selectedRows":[]}}'
+          JSON.stringify({
+            table: {
+              columnStates: {},
+              selectedColumnIds: ['timestamp'],
+              page: 0,
+              resultsPerPage: 25,
+              sort: {},
+            },
+            search: {
+              searchParams: {
+                dateRange: {
+                  toDate: '2024-08-02T14:00:59',
+                  fromDate: '2024-08-01T14:00:00',
+                },
+                shotnumRange: {},
+                maxShots: 50,
+                experimentID: null,
+              },
+            },
+            plots: {},
+            filter: { appliedFilters: [[]] },
+            functions: { appliedFunctions: [] },
+            windows: {},
+            selection: { selectedRows: [] },
+          })
         );
 
         expect(request.url.toString()).to.contain('name=');

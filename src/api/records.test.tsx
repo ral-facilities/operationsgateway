@@ -324,6 +324,17 @@ describe('records api functions', () => {
     it('can set functions params via the store', async () => {
       state = {
         ...getInitialState(),
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
+            maxShots: MAX_SHOTS_VALUES[0],
+          },
+        },
         functions: {
           appliedFunctions: [
             {
@@ -351,7 +362,7 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
       );
 
       expect(request.url.searchParams.toString()).toEqual(params.toString());

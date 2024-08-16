@@ -65,6 +65,13 @@ test('creates multiple complex functions', async ({ page }) => {
   // Complex function take extra time to process in the backend
   test.slow();
 
+  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+
+  await page.getByRole('radio', { name: 'Unlimited' }).click();
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
   await page.getByRole('button', { name: 'Functions' }).click();
 
   const nameFields = await page.locator('label:has-text("Name")');
@@ -100,7 +107,7 @@ test('creates multiple complex functions', async ({ page }) => {
   // Click on the apply button
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(page.getByText('1.3971397139713973e-8')).toBeVisible({
+  await expect(page.getByText('9.370937093709367e-9')).toBeVisible({
     timeout: 200000,
   });
 });
