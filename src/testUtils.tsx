@@ -223,7 +223,6 @@ export const testChannels = [
   ),
 ];
 
-// TODO JOEL: Verify working with tests - previously had staticChannels included as is
 export const testScalarChannels: FullScalarChannelMetadata[] = [
   ...Object.values(staticChannels).filter(
     (channel) => channel.type === 'scalar'

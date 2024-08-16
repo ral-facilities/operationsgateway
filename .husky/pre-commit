@@ -3,5 +3,4 @@ if [ -t 2 ]; then
   exec >/dev/tty 2>&1
 fi
 
-# TODO JOEL: Enable this again
-# yarn lint-staged -q
+yarn lint-staged -q
