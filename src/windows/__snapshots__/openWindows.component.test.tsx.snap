@@ -30,12 +30,15 @@ exports[`Open Windows component > renders windows for each open window 1`] = `
     "#7f8000",
     "#80007f"
   ],
-  "outerWidth": 600,
-  "outerHeight": 400,
+  "innerWidth": 600,
+  "innerHeight": 400,
   "screenX": 200,
   "screenY": 200
 }
 onClose=undefined
+plotWindowRef={
+  "current": null
+}
 
   </mock-plotwindow>
   <mock-plotwindow
@@ -65,12 +68,15 @@ onClose=undefined
     "#7f8000",
     "#80007f"
   ],
-  "outerWidth": 600,
-  "outerHeight": 400,
+  "innerWidth": 600,
+  "innerHeight": 400,
   "screenX": 200,
   "screenY": 200
 }
 onClose=undefined
+plotWindowRef={
+  "current": null
+}
 
   </mock-plotwindow>
   <mock-tracewindow
@@ -83,12 +89,15 @@ onClose=undefined
   "recordId": "1",
   "channelName": "TEST",
   "title": "Trace TEST 1",
-  "outerWidth": 600,
-  "outerHeight": 400,
+  "innerWidth": 600,
+  "innerHeight": 400,
   "screenX": 200,
   "screenY": 200
 }
 onClose=undefined
+traceWindowRef={
+  "current": null
+}
 
   </mock-tracewindow>
   <mock-imagewindow
@@ -101,12 +110,15 @@ onClose=undefined
   "recordId": "1",
   "channelName": "TEST",
   "title": "Image TEST 1",
-  "outerWidth": 600,
-  "outerHeight": 400,
+  "innerWidth": 600,
+  "innerHeight": 400,
   "screenX": 200,
   "screenY": 200
 }
 onClose=undefined
+imageWindowRef={
+  "current": null
+}
 
   </mock-imagewindow>
 </DocumentFragment>

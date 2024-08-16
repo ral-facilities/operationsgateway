@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { screen, within } from '@testing-library/react';
+import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import React from 'react';
@@ -35,6 +35,7 @@ describe('searchBar component', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('dispatches changeSearchParams on search button click for a given date range', async () => {
@@ -303,6 +304,10 @@ describe('searchBar component', () => {
   });
 
   it('sends default search parameters when none are amended by the user', async () => {
+    vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+
+    user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
     const state = getInitialState();
     const { store } = createView(state);
 
@@ -310,19 +315,16 @@ describe('searchBar component', () => {
 
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
-        fromDate: undefined,
-        toDate: undefined,
+        fromDate: '2024-07-01T12:00:00',
+        toDate: '2024-07-02T12:00:59',
       },
-      shotnumRange: {
-        min: undefined,
-        max: undefined,
-      },
+      shotnumRange: {},
       maxShots: MAX_SHOTS_VALUES[0],
       experimentID: null,
     });
   });
 
-  it('disables the serach button if a invalid date range is selected', async () => {
+  it('disables the search button if a invalid date range is selected', async () => {
     createView();
 
     // From Date is above To Date
@@ -428,6 +430,13 @@ describe('searchBar component', () => {
       config: {
         ...getInitialState().config,
         recordLimitWarning: 30, // lower than the returned count of 31
+      },
+      search: {
+        ...getInitialState().search,
+        searchParams: {
+          ...getInitialState().search.searchParams,
+          dateRange: {},
+        },
       },
     };
     const { store } = createView(state);
@@ -636,29 +645,23 @@ describe('searchBar component', () => {
   });
 
   describe('searches by relative timeframe', () => {
-    let realDate;
-
     beforeEach(() => {
-      // Mock the Date constructor to allow for accurate comparison between expected and actual dates
-      realDate = Date;
+      user = userEvent.setup({
+        advanceTimers: vi.advanceTimersByTime,
+      });
+
+      vi.useFakeTimers().setSystemTime(new Date('2022-01-11 00:05'));
     });
 
     afterEach(() => {
-      global.Date = realDate;
+      act(() => {
+        vi.runOnlyPendingTimers();
+      });
     });
 
     it('minutes', async () => {
       const state = getInitialState();
       const { store } = createView(state);
-
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return new Date('2022-01-11 00:05');
-        }
-      };
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
@@ -674,29 +677,20 @@ describe('searchBar component', () => {
         await screen.findByRole('checkbox', { name: 'Auto refresh' })
       ).toBeInTheDocument();
 
-      const actualFromDate =
-        store.getState().search.searchParams.dateRange.fromDate;
-      const actualToDate =
-        store.getState().search.searchParams.dateRange.toDate;
-      expect(actualFromDate).toBeDefined();
-      expect(actualToDate).toBeDefined();
-
-      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
-      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(expectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(expectedToDate)
+      );
     });
 
     it('hours', async () => {
       const state = getInitialState();
       const { store } = createView(state);
-
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return new Date('2022-01-11 00:05');
-        }
-      };
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
@@ -712,29 +706,20 @@ describe('searchBar component', () => {
         await screen.findByRole('checkbox', { name: 'Auto refresh' })
       ).toBeInTheDocument();
 
-      const actualFromDate =
-        store.getState().search.searchParams.dateRange.fromDate;
-      const actualToDate =
-        store.getState().search.searchParams.dateRange.toDate;
-      expect(actualFromDate).toBeDefined();
-      expect(actualToDate).toBeDefined();
-
-      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
-      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(expectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(expectedToDate)
+      );
     });
 
     it('days', async () => {
       const state = getInitialState();
       const { store } = createView(state);
-
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return new Date('2022-01-11 00:05');
-        }
-      };
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
@@ -750,29 +735,20 @@ describe('searchBar component', () => {
         await screen.findByRole('checkbox', { name: 'Auto refresh' })
       ).toBeInTheDocument();
 
-      const actualFromDate =
-        store.getState().search.searchParams.dateRange.fromDate;
-      const actualToDate =
-        store.getState().search.searchParams.dateRange.toDate;
-      expect(actualFromDate).toBeDefined();
-      expect(actualToDate).toBeDefined();
-
-      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
-      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(expectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(expectedToDate)
+      );
     });
 
     it('clears timeframe range when shot numbers are manually selected', async () => {
       const state = getInitialState();
       const { store } = createView(state);
-
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return new Date('2022-01-11 00:05');
-        }
-      };
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
@@ -806,34 +782,29 @@ describe('searchBar component', () => {
       // Initiate search
 
       await user.click(screen.getByRole('button', { name: 'Search' }));
-      expect(store.getState().search.searchParams).toStrictEqual({
-        dateRange: {
-          fromDate: '2022-01-05T00:00:00',
-          toDate: '2022-01-16T00:00:59',
-        },
-        shotnumRange: {
-          min: 5,
-          max: 16,
-        },
-        maxShots: 1000,
-        experimentID: null,
-      });
+
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams).toStrictEqual({
+          dateRange: {
+            fromDate: '2022-01-05T00:00:00',
+            toDate: '2022-01-16T00:00:59',
+          },
+          shotnumRange: {
+            min: 5,
+            max: 16,
+          },
+          maxShots: 1000,
+          experimentID: null,
+        })
+      );
     });
 
     it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', async () => {
       const state = getInitialState();
       const { store } = createView(state);
 
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return new Date('2022-01-11 00:05');
-        }
-      };
-
-      // Set a relative timestamp and verify the initial seach is correct
+      // Set a relative timestamp and verify the initial search is correct
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
@@ -847,46 +818,36 @@ describe('searchBar component', () => {
       await user.click(screen.getByLabelText('close timeframe search box'));
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
-      const actualFromDate =
-        store.getState().search.searchParams.dateRange.fromDate;
-      const actualToDate =
-        store.getState().search.searchParams.dateRange.toDate;
-      expect(actualFromDate).toBeDefined();
-      expect(actualToDate).toBeDefined();
-
-      expect(actualFromDate).toEqual(formatDateTimeForApi(expectedFromDate));
-      expect(actualToDate).toEqual(formatDateTimeForApi(expectedToDate));
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(expectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(expectedToDate)
+      );
 
       // Mock a new date constructor to simulate time moving forward a minute
 
-      const testDate = new Date('2022-01-11 00:06');
-      realDate = Date;
-      global.Date = class extends Date {
-        constructor(date) {
-          if (date) {
-            return super(date);
-          }
-          return testDate;
-        }
-      };
+      // act(() => {
+      vi.setSystemTime(new Date('2022-01-11 00:06'));
+      // });
 
       await user.click(screen.getByRole('button', { name: 'Refresh data' }));
       const newExpectedToDate = new Date('2022-01-11 00:06:59');
       const newExpectedFromDate = new Date('2022-01-10 23:56:00');
 
-      const newActualFromDate =
-        store.getState().search.searchParams.dateRange.fromDate;
-      const newActualToDate =
-        store.getState().search.searchParams.dateRange.toDate;
-      expect(newActualFromDate).toBeDefined();
-      expect(newActualToDate).toBeDefined();
-
       // Check that the new datetime stamps have each moved forward a minute
 
-      expect(newActualFromDate).toEqual(
-        formatDateTimeForApi(newExpectedFromDate)
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(newExpectedFromDate)
+        )
       );
-      expect(newActualToDate).toEqual(formatDateTimeForApi(newExpectedToDate));
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(newExpectedToDate)
+      );
     });
   });
 

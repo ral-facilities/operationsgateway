@@ -120,6 +120,9 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
+
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
@@ -182,6 +185,9 @@ describe('Search', () => {
         const expectedFromDate = new Date('1970-01-07 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
 
         cy.startSnoopingBrowserMockedRequest();
 
@@ -246,6 +252,9 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
+
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
@@ -309,6 +318,9 @@ describe('Search', () => {
         const expectedFromDate = new Date('1970-01-08 00:50:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
 
         cy.startSnoopingBrowserMockedRequest();
 
@@ -397,6 +409,9 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
+
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
@@ -461,6 +476,9 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
+
         cy.startSnoopingBrowserMockedRequest();
 
         cy.contains('Search').click();
@@ -524,6 +542,9 @@ describe('Search', () => {
         const expectedFromDate = new Date('1970-01-03 01:00:00');
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
 
         cy.startSnoopingBrowserMockedRequest();
 
@@ -657,8 +678,7 @@ describe('Search', () => {
 
       // Only the From date is defined
 
-      cy.findByLabelText('from, date-time input').clear();
-      cy.findByLabelText('to, date-time input').clear();
+      cy.findByLabelText('to, date-time input').type('{ctrl+a}{backspace}');
 
       cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
 
@@ -674,9 +694,7 @@ describe('Search', () => {
 
       // Only the To date is defined
 
-      // cy.findByLabelText('from, date-time input').clear();
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
-      cy.findByLabelText('to, date-time input').clear();
 
       cy.findByLabelText('to, date-time input').type('2022-01-01_00:00');
 

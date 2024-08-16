@@ -1,3 +1,4 @@
+import React from 'react';
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
@@ -27,11 +28,16 @@ import {
   initialState as initialPlotState,
   PlotConfig,
 } from './state/slices/plotSlice';
-import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialStateFunc as initialSearchStateFunc } from './state/slices/searchSlice';
 import { initialState as initialSelectionState } from './state/slices/selectionSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialWindowsState } from './state/slices/windowSlice';
 import { AppStore, RootState, setupStore } from './state/store';
+import {
+  WindowContext,
+  WindowContextProvider,
+  WindowsRefType,
+} from './windows/windowContext';
 
 /**
  * Waits for msw request -
@@ -112,7 +118,7 @@ export const resetActions = (): void => {
 export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
-  search: initialSearchState,
+  search: initialSearchStateFunc(),
   plots: initialPlotState,
   filter: initialFilterState,
   windows: initialWindowsState,
@@ -135,6 +141,7 @@ interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
   store?: AppStore;
   queryClient?: QueryClient;
+  windowsRef?: React.MutableRefObject<WindowsRefType>;
 }
 
 export const createTestQueryClient = (): QueryClient =>
@@ -171,16 +178,22 @@ export function renderComponentWithProviders(
     store = setupStore(preloadedState),
     // Automatically create a query client instance if no query client was passed in
     queryClient = createTestQueryClient(),
+    windowsRef,
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
+    const WindowsProvider = windowsRef
+      ? WindowContext.Provider
+      : WindowContextProvider;
     return (
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <WindowsProvider {...(windowsRef ? { value: windowsRef } : {})}>
+            {children}
+          </WindowsProvider>
         </QueryClientProvider>
       </Provider>
     );
@@ -205,6 +218,34 @@ export function renderComponentWithStore(
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
+  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+}
+
+export function renderComponentWithStoreAndWindows(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    windowsRef,
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
+) {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
+    const WindowsProvider = windowsRef
+      ? WindowContext.Provider
+      : WindowContextProvider;
+    if (windowsRef && windowsRef.current === null) windowsRef.current = {};
+    return (
+      <Provider store={store}>
+        <WindowsProvider {...(windowsRef ? { value: windowsRef } : {})}>
+          {children}
+        </WindowsProvider>
+      </Provider>
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

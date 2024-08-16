@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http } from 'msw';
+import React from 'react';
 import { server } from '../mocks/server';
 import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
@@ -9,6 +10,7 @@ import {
   renderComponentWithProviders,
   testPlotConfigs,
 } from '../testUtils';
+import { WindowPortal } from '../windows/windowPortal.component';
 import PlotWindow from './plotWindow.component';
 
 vi.mock('../windows/windowPortal.component', () => {
@@ -53,8 +55,13 @@ describe('Plot Window component', () => {
   });
 
   const createView = () => {
+    const ref = React.createRef<WindowPortal>();
     return renderComponentWithProviders(
-      <PlotWindow onClose={vi.fn()} plotConfig={testPlotConfig} />,
+      <PlotWindow
+        onClose={vi.fn()}
+        plotConfig={testPlotConfig}
+        plotWindowRef={ref}
+      />,
       {
         preloadedState: state,
       }

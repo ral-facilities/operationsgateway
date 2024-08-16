@@ -10,6 +10,8 @@ import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
 import App from './App';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
+import LogoDark from './operationsgateway-logo-white.svg';
+import LogoLight from './operationsgateway-logo.svg';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 
@@ -147,6 +149,13 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
                   index === 0 && 'helpSteps' in settings
                     ? settings['helpSteps']
                     : [],
+                logoLightMode: settings['pluginHost']
+                  ? settings['pluginHost'] + LogoLight
+                  : undefined,
+                logoDarkMode: settings['pluginHost']
+                  ? settings['pluginHost'] + LogoDark
+                  : undefined,
+                logoAltText: 'OperationsGateway',
               },
             };
             document.dispatchEvent(

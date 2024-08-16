@@ -51,20 +51,19 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
     );
   };
   return (
-    <Box sx={{ padding: '5px', bgcolor: 'background.default' }}>
+    <Box sx={{ padding: 0.5, bgcolor: 'background.default' }}>
       <Typography gutterBottom sx={{ fontWeight: 'bold' }}>
         Select your experiment
       </Typography>
       <Divider
         sx={{
-          marginBottom: 2,
+          marginBottom: 1,
           borderBottomWidth: 2,
           backgroundColor: 'black',
-          width: '90%',
         }}
       />
       <Grid container spacing={1}>
-        <Grid item xs={15}>
+        <Grid item xs={12}>
           <Autocomplete
             fullWidth
             value={value}
@@ -146,7 +145,7 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
-          paddingRight: 5,
+          paddingRight: 2,
           paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
@@ -156,10 +155,14 @@ const Experiment = (props: ExperimentProps): React.ReactElement => {
         }}
         onClick={() => toggle(!isOpen)}
       >
-        <ScienceOutlined sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+        <ScienceOutlined
+          sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }}
+        />
         <div>
-          <Typography noWrap>Experiment</Typography>
-          <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+          <Typography noWrap sx={{ fontWeight: 'bold' }}>
+            Experiment
+          </Typography>
+          <Typography variant="subtitle1">
             {experiment
               ? `ID ${experiment.experiment_id} (part ${experiment.part})`
               : 'Select'}

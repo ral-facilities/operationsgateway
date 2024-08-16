@@ -17,7 +17,7 @@ exports[`Image view component > renders an image and a canvas overlay 1`] = `
       <img
         alt="Test image"
         src="testSrc"
-        style="transform: translate(0px,0px) scale(1); transform-origin: top left;"
+        style="transform: translate(0px,0px) scale(1); transform-origin: top left; image-rendering: pixelated;"
       />
     </div>
   </div>

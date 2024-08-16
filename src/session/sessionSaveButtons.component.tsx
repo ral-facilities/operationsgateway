@@ -5,6 +5,7 @@ import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
+import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { ImportSessionType } from '../state/store';
 
@@ -52,10 +53,13 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     prevReduxState.current = state;
   }, [state]);
 
+  const updateWindowPositions = useUpdateWindowPositions();
+
   const handleSaveSession = React.useCallback(() => {
     if (loadedSessionData) {
+      const sessionState = updateWindowPositions(state);
       const session = {
-        session: state,
+        session: sessionState,
         auto_saved: false,
         _id: loadedSessionData._id,
         summary: loadedSessionData.summary,
@@ -66,7 +70,13 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     } else {
       onSaveAsSessionClick();
     }
-  }, [loadedSessionData, state, editSession, onSaveAsSessionClick]);
+  }, [
+    loadedSessionData,
+    updateWindowPositions,
+    state,
+    editSession,
+    onSaveAsSessionClick,
+  ]);
 
   React.useEffect(() => {
     let autoSaveTimer: ReturnType<typeof setInterval> | null;

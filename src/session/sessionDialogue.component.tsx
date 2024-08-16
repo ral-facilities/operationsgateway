@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
+import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 
 export interface SessionDialogueProps {
@@ -54,11 +55,15 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     onClose();
   }, [onChangeSessionName, onChangeSessionSummary, onClose]);
 
+  const updateWindowPositions = useUpdateWindowPositions();
+
   const handleExportCreateSession = React.useCallback(() => {
     if (sessionName) {
+      const sessionState = updateWindowPositions(state);
+
       const session = {
         name: sessionName,
-        session: state,
+        session: sessionState,
         summary: sessionSummary,
         auto_saved: false,
       };
@@ -85,6 +90,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     sessionName,
     sessionSummary,
     state,
+    updateWindowPositions,
   ]);
 
   const handleExportEditSession = React.useCallback(() => {

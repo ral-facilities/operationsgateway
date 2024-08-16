@@ -231,7 +231,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                       onClick: () => setFromOpen(!fromOpen),
                       size: 'small',
                       'aria-label': 'from, date-time picker',
+                      sx: { padding: '3px' },
                     },
+                    openPickerIcon: { fontSize: 'inherit' },
+                    field: { clearable: true },
                     textField: {
                       inputProps: {
                         invalidDateRange: invalidDateRange,
@@ -241,6 +244,8 @@ const XAxisTab = (props: XAxisTabProps) => {
                         date: fromDate,
                       },
                     },
+                    clearButton: { size: 'small', sx: { padding: '3px' } },
+                    clearIcon: { fontSize: 'inherit' },
                   }}
                 />
               </LocalizationProvider>
@@ -284,7 +289,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                       onClick: () => setToOpen(!toOpen),
                       size: 'small',
                       'aria-label': 'to, date-time picker',
+                      sx: { padding: '3px' },
                     },
+                    openPickerIcon: { fontSize: 'inherit' },
+                    field: { clearable: true },
                     textField: {
                       inputProps: {
                         invalidDateRange: invalidDateRange,
@@ -294,6 +302,8 @@ const XAxisTab = (props: XAxisTabProps) => {
                         date: toDate,
                       },
                     },
+                    clearButton: { size: 'small', sx: { padding: '3px' } },
+                    clearIcon: { fontSize: 'inherit' },
                   }}
                 />
               </LocalizationProvider>

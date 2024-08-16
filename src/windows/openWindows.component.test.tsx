@@ -2,7 +2,7 @@ import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { RootState } from '../state/store';
 import {
   getInitialState,
-  renderComponentWithStore,
+  renderComponentWithStoreAndWindows,
   testPlotConfigs,
 } from '../testUtils';
 import OpenWindows from './openWindows.component';
@@ -61,12 +61,16 @@ vi.mock('../images/imageWindow.component', () => {
   };
 });
 
+const windowsRef: React.MutableRefObject<WindowsRefType | null> =
+  React.createRef();
+
 describe('Open Windows component', () => {
   let state: RootState;
 
   const createView = (initialState = state) => {
-    return renderComponentWithStore(<OpenWindows />, {
+    return renderComponentWithStoreAndWindows(<OpenWindows />, {
       preloadedState: initialState,
+      windowsRef,
     });
   };
 
@@ -104,5 +108,12 @@ describe('Open Windows component', () => {
 
     // We expect Plot 0 and Plot 2 to be in the screenshot. Plot 1 has open: false
     expect(view.asFragment()).toMatchSnapshot();
+
+    expect(windowsRef.current).toStrictEqual({
+      'test-plot-id-0': { current: null },
+      'test-plot-id-2': { current: null },
+      trace_window: { current: null },
+      image_window: { current: null },
+    });
   });
 });

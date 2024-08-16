@@ -14,7 +14,13 @@ function getParamsFromUrl(url: string) {
 
 describe('Sessions', () => {
   beforeEach(() => {
+    // mock date to ensure stability in auto-set from and to date
+    cy.clock(new Date('2024-08-02 14:00'), ['Date']);
+
     cy.visit('/');
+
+    cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
+    cy.findByRole('progressbar').should('not.exist');
   });
   afterEach(() => {
     cy.clearMocks();
@@ -43,11 +49,11 @@ describe('Sessions', () => {
     cy.findByRole('button', { name: 'Save' }).click();
 
     cy.findBrowserMockedRequests({ method: 'POST', url: '/sessions' }).should(
-      async (postRequests) => {
-        expect(postRequests.length).equal(1);
-        const request = postRequests[0];
+      async (patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
         expect(JSON.stringify(await request.json())).equal(
-          '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{},"selection":{"selectedRows":[]}}'
+          '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"toDate":"2024-08-02T14:00:59","fromDate":"2024-08-01T14:00:00"},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{},"selection":{"selectedRows":[]}}'
         );
 
         expect(request.url.toString()).to.contain('name=');
@@ -183,6 +189,10 @@ describe('Sessions', () => {
   it('sends a patch request when a user saves their current session', () => {
     cy.findByText('Session 2').click();
 
+    // wait for session to load
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
+
     cy.startSnoopingBrowserMockedRequest();
 
     cy.findByRole('button', { name: 'Save' }).click();
@@ -223,6 +233,11 @@ describe('Sessions', () => {
 
   it('loads in the summary and name (with _copy) when save as is clicked and a user session is selected', () => {
     cy.findByText('Session 2').click();
+
+    // wait for session to load
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
+
     cy.findByRole('button', { name: 'Save as' }).click();
     cy.findByLabelText('Save Session').should('exist');
 

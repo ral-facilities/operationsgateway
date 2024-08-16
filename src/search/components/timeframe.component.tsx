@@ -212,7 +212,7 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
-          paddingRight: 5,
+          paddingRight: 2,
           paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
@@ -222,10 +222,14 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
         }}
         onClick={() => toggle(!isOpen)}
       >
-        <Schedule sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+        <Schedule
+          sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }}
+        />
         <div>
-          <Typography noWrap>Timeframe</Typography>
-          <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+          <Typography noWrap sx={{ fontWeight: 'bold' }}>
+            Timeframe
+          </Typography>
+          <Typography noWrap variant="subtitle1">
             {props.timeframe
               ? `${props.timeframe.value} ${props.timeframe.timescale}`
               : 'Select'}
@@ -239,7 +243,7 @@ const Timeframe = (props: TimeframeProps): React.ReactElement => {
             border: '1px solid',
             position: 'absolute',
             top: 55,
-            zIndex: 2,
+            zIndex: 1500,
             backgroundColor: '#ffffff',
             width: 330,
           }}

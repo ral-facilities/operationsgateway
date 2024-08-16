@@ -31,8 +31,8 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
   return (
     <Box
       sx={{
-        paddingTop: '5px',
-        paddingLeft: '5px',
+        padding: 0.5,
+        paddingBottom: 1,
         bgcolor: 'background.default',
       }}
     >
@@ -41,14 +41,13 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
       </Typography>
       <Divider
         sx={{
-          marginBottom: 2,
+          marginBottom: 1,
           borderBottomWidth: 2,
           backgroundColor: 'black',
-          width: '90%',
         }}
       />
-      <Grid container spacing={1}>
-        <Grid item xs={5}>
+      <Grid container spacing={1} alignItems="center">
+        <Grid item xs>
           <TextField
             name="shot number min"
             label="Min"
@@ -68,10 +67,10 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
-        <Grid item xs={1}>
-          <p>to</p>
+        <Grid item xs="auto">
+          <Typography noWrap>to</Typography>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs>
           <TextField
             name="shot number max"
             label="Max"
@@ -148,7 +147,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           borderRadius: '10px',
           display: 'flex',
           flexDirection: 'row',
-          paddingRight: 5,
+          paddingRight: 2,
           paddingBottom: '4px',
           cursor: 'pointer',
           overflow: 'hidden',
@@ -158,10 +157,12 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
         }}
         onClick={() => toggle(!isOpen)}
       >
-        <Adjust sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+        <Adjust sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }} />
         <div>
-          <Typography noWrap>Shot Number</Typography>
-          <Typography noWrap variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+          <Typography noWrap sx={{ fontWeight: 'bold' }}>
+            Shot Number
+          </Typography>
+          <Typography variant="subtitle1">
             {min !== undefined && max === undefined
               ? `Minimum: ${min}`
               : min === undefined && max !== undefined
@@ -178,10 +179,11 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
           sx={{
             border: '1px solid',
             position: 'absolute',
+            right: 0,
             top: 55,
-            zIndex: 2,
+            zIndex: 1500,
             backgroundColor: '#ffffff',
-            width: 300,
+            width: 360,
           }}
           ref={popover}
         >

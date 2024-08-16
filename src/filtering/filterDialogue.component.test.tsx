@@ -424,6 +424,13 @@ describe('Filter dialogue component', () => {
         ...getInitialState().config,
         recordLimitWarning: 30, // lower than the returned count of 31
       },
+      search: {
+        ...getInitialState().search,
+        searchParams: {
+          ...getInitialState().search.searchParams,
+          dateRange: {},
+        },
+      },
     };
     const { store } = createView(state, testQueryClient);
 
@@ -438,7 +445,7 @@ describe('Filter dialogue component', () => {
     await user.hover(screen.getByRole('button', { name: 'Apply' }));
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
-    // Store should now be updated, indicating search initiated on second attempt
+    // Store should now be updated, indicating search initiated
     expect(store.getState().filter.appliedFilters).toStrictEqual([
       [
         {

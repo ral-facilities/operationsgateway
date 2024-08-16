@@ -264,6 +264,7 @@ describe('DateTime tests', () => {
   const resetShotnumberRange = vi.fn();
   const isDateTimeInExperiment = vi.fn();
   const searchParamsUpdated = vi.fn();
+  const setDatePickerError = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);
@@ -286,6 +287,7 @@ describe('DateTime tests', () => {
       isDateTimeInExperiment,
       invalidDateRange: false,
       searchParamsUpdated,
+      setDatePickerError,
     };
   });
 
@@ -420,9 +422,7 @@ describe('DateTime tests', () => {
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
     await userEvent.type(dateFilterToDate, '2022-01-');
-    expect(
-      screen.getByText('Date-time format: yyyy-MM-dd HH:mm')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Format: yyyy-MM-dd HH:mm')).toBeInTheDocument();
   });
 
   it('displays helper text while typing date-time (from date)', async () => {
@@ -430,16 +430,15 @@ describe('DateTime tests', () => {
 
     const dateFilterFromDate = screen.getByLabelText('from, date-time input');
     await userEvent.type(dateFilterFromDate, '2022-01-');
-    expect(
-      screen.getByText('Date-time format: yyyy-MM-dd HH:mm')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Format: yyyy-MM-dd HH:mm')).toBeInTheDocument();
   });
 
-  it('handles invalid date-time values correctly by not calling changeDate and displaying helper text', async () => {
+  it('handles invalid date-time values correctly by calling setDatePickerError and displaying helper text', async () => {
     props = { ...props, invalidDateRange: true };
     createView();
 
     const helperTexts = screen.getAllByText('Invalid date-time range');
+    expect(setDatePickerError).toHaveBeenCalled();
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
