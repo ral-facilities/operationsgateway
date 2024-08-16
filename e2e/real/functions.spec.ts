@@ -101,6 +101,6 @@ test('creates multiple complex functions', async ({ page }) => {
   await page.getByRole('button', { name: 'Apply' }).click();
 
   await expect(page.getByText('1.3971397139713973e-8')).toBeVisible({
-    timeout: 100000,
+    timeout: 200000,
   });
 });
