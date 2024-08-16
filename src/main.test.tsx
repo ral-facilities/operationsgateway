@@ -35,7 +35,7 @@ describe('index - fetchSettings', () => {
           displayName: 'displayName',
         },
       ],
-      pluginHost: 'http://localhost:3000/',
+      pluginHost: 'http://localhost:3000',
     };
 
     server.use(

@@ -3,9 +3,12 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+import { TextEncoder } from 'util';
 import 'vitest-canvas-mock';
 import failOnConsole from 'vitest-fail-on-console';
 import { server } from './mocks/server';
+
+global.TextEncoder = TextEncoder;
 
 failOnConsole();
 

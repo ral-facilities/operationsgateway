@@ -1,3 +1,4 @@
+import React from 'react';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { RootState } from '../state/store';
 import {
@@ -6,6 +7,7 @@ import {
   testPlotConfigs,
 } from '../testUtils';
 import OpenWindows from './openWindows.component';
+import { WindowsRefType } from './windowContext';
 
 // need to mock to avoid errors
 vi.mock('../plotting/plotWindow.component', () => {

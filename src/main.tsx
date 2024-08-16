@@ -10,10 +10,10 @@ import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
 import App from './App';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
-import LogoDark from './operationsgateway-logo-white.svg';
-import LogoLight from './operationsgateway-logo.svg';
 import { OperationsGatewaySettings, setSettings } from './settings';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
+import LogoDark from '/operationsgateway-logo-white.svg';
+import LogoLight from '/operationsgateway-logo.svg';
 
 export const pluginName = 'operationsgateway';
 

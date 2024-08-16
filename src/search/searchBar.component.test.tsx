@@ -760,12 +760,17 @@ describe('searchBar component', () => {
 
       await user.click(screen.getByLabelText('open shot number search box'));
       const shotnumPopup = screen.getByRole('dialog');
+
+      // Wait for the shot number to be updated after the timeframe
+      expect(
+        await within(shotnumPopup).findByDisplayValue('5')
+      ).toBeInTheDocument();
+
       const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
         name: 'Max',
       });
 
       await user.clear(shotnumMax);
-
       await user.type(shotnumMax, '16');
 
       await user.click(screen.getByLabelText('close shot number search box'));

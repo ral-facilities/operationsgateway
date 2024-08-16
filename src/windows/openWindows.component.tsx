@@ -1,3 +1,4 @@
+import React from 'react';
 import ImageWindow from '../images/imageWindow.component';
 import PlotWindow from '../plotting/plotWindow.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
