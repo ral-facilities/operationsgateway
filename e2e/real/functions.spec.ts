@@ -62,6 +62,8 @@ test('scalar functions can be plotted', async ({ page }) => {
 
 test('creates multiple complex functions', async ({ page }) => {
   await page.goto('/');
+  // Complex function take extra time to process in the backend
+  test.slow();
 
   await page.getByRole('button', { name: 'Functions' }).click();
 
@@ -99,6 +101,6 @@ test('creates multiple complex functions', async ({ page }) => {
   await page.getByRole('button', { name: 'Apply' }).click();
 
   await expect(page.getByText('1.3971397139713973e-8')).toBeVisible({
-    timeout: 40000,
+    timeout: 100000,
   });
 });
