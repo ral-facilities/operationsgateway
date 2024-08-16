@@ -12,9 +12,11 @@ describe('View Tabs', () => {
 
   beforeEach(() => {
     user = userEvent.setup();
+    jest.useRealTimers();
   });
 
   it('renders correctly', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
     const { asFragment } = createView();
     expect(asFragment()).toMatchSnapshot();
   });
@@ -117,14 +119,19 @@ describe('View Tabs', () => {
   it('deletes currently loaded user session', async () => {
     createView();
     await waitFor(() => {
-      expect(screen.getByText('Session 1')).toBeInTheDocument();
+      expect(screen.getByText('Session 4')).toBeInTheDocument();
     });
 
-    const session1 = screen.getByText('Session 1');
-    await user.click(session1);
+    const session4 = screen.getByText('Session 4');
+    await user.click(session4);
+
+    // check infinite shots get handled correctly
+    await waitFor(() => {
+      expect(screen.getByRole('radio', { name: /Unlimited/ })).toBeChecked();
+    });
 
     const deleteButton = screen.getByRole('button', {
-      name: 'delete Session 1 session',
+      name: 'delete Session 4 session',
     });
 
     await user.click(deleteButton);
@@ -134,7 +141,7 @@ describe('View Tabs', () => {
     expect(deleteDialog).toBeVisible();
     expect(
       within(deleteDialog).getByTestId('delete-session-name')
-    ).toHaveTextContent('Session 1');
+    ).toHaveTextContent('Session 4');
 
     const contniueButton = screen.getByRole('button', { name: 'Continue' });
     await user.click(contniueButton);

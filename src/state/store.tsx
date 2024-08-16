@@ -35,9 +35,17 @@ const sliceReducer = combineReducers({
 
 const rootReducer: Reducer = (state: RootState, action: UnknownAction) => {
   if (isAction(action)) {
-    return importSession.match(action)
-      ? { ...action.payload, config: state.config } // load new state
-      : sliceReducer(state, action); //defer to original reducer
+    if (importSession.match(action)) {
+      if (action.payload.search.searchParams.maxShots === null)
+        action.payload.search.searchParams.maxShots = Infinity;
+
+      return {
+        ...action.payload,
+        config: state.config,
+      }; // load new state
+    } else {
+      return sliceReducer(state, action); //defer to original reducer
+    }
   }
 };
 
