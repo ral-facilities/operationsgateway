@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, keyframes, styled } from '@mui/material';
 import React from 'react';
 
 const colors = ['#8C4799', '#1D4F91', '#C34613', '#008275', '#63666A'];
@@ -11,11 +11,13 @@ interface PreloaderProps {
   children: React.ReactNode;
 }
 
-interface SpinnerStyle {
-  [id: string]: string | number;
-}
+const rotate = keyframes`
+  to {
+    transform: rotateZ(360deg);
+  }
+`;
 
-const spinnerStyle = (index: number): SpinnerStyle => {
+const StyledI = styled('i')(({ index }: { index: number }) => {
   const size = innerRadius + index * 2 * (border + spacing);
 
   return {
@@ -32,7 +34,7 @@ const spinnerStyle = (index: number): SpinnerStyle => {
     width: size,
     marginTop: -size / 2,
     marginLeft: -size / 2,
-    animationName: 'rotate',
+    animationName: `${rotate}`,
     animationIterationCount: 'infinite',
     animationDuration: '3s',
     animationTimingFunction: `cubic-bezier(.09, ${0.3 * index}, ${
@@ -41,7 +43,7 @@ const spinnerStyle = (index: number): SpinnerStyle => {
     transformOrigin: '50% 100% 0',
     boxSizing: 'border-box',
   };
-};
+});
 
 const Preloader: React.FC<PreloaderProps> = (props: PreloaderProps) => (
   <div>
@@ -58,25 +60,22 @@ const Preloader: React.FC<PreloaderProps> = (props: PreloaderProps) => (
           justifyContent: 'center',
         }}
       >
-        <div
-          role="progressbar"
-          style={{ boxSizing: 'border-box', padding: '10px 0' }}
-        >
-          <div
-            style={{
+        <div style={{ boxSizing: 'border-box', padding: '10px 0' }}>
+          <Box
+            sx={{
               display: 'block',
               margin: 'auto',
               width: innerRadius + colors.length * 2 * (border + spacing),
               height: innerRadius + colors.length * 2 * (border + spacing),
-              animation: 'rotate 10s infinite linear',
+              animation: `${rotate} 10s infinite linear`,
             }}
           >
-            <i style={spinnerStyle(0)} />
-            <i style={spinnerStyle(1)} />
-            <i style={spinnerStyle(2)} />
-            <i style={spinnerStyle(3)} />
-            <i style={spinnerStyle(4)} />
-          </div>
+            <StyledI index={0} />
+            <StyledI index={1} />
+            <StyledI index={2} />
+            <StyledI index={3} />
+            <StyledI index={4} />
+          </Box>
         </div>
         <Box sx={{ color: 'text.primary' }}>Loading...</Box>
       </Box>

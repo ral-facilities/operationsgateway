@@ -230,7 +230,6 @@ export const fetchRangeRecordConverterQuery = (
         if (shotnumMin || shotnumMax) {
           inputRange = { min: shotnumMin, max: shotnumMax };
         }
-        console.log('RETURNING RESULT');
         return { ...inputRange, ...response.data };
       }
     });
