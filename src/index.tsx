@@ -13,6 +13,8 @@ import axios from 'axios';
 import { MicroFrontendId, MicroFrontendToken } from './app.types';
 import { PluginRoute, registerRoute } from './state/scigateway.actions';
 import { OperationsGatewaySettings, setSettings } from './settings';
+import LogoLight from './operationsgateway-logo.svg';
+import LogoDark from './operationsgateway-logo-white.svg';
 
 import './index.css';
 
@@ -149,6 +151,13 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
                   index === 0 && 'helpSteps' in settings
                     ? settings['helpSteps']
                     : [],
+                logoLightMode: settings['pluginHost']
+                  ? settings['pluginHost'] + LogoLight
+                  : undefined,
+                logoDarkMode: settings['pluginHost']
+                  ? settings['pluginHost'] + LogoDark
+                  : undefined,
+                logoAltText: 'OperationsGateway',
               },
             };
             document.dispatchEvent(

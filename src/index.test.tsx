@@ -55,6 +55,10 @@ describe('index - fetchSettings', () => {
           hideFromMenu: false,
           order: 0,
           helpSteps: [],
+          logoAltText: 'OperationsGateway',
+          logoDarkMode:
+            'http://localhost:3000/operationsgateway-logo-white.svg',
+          logoLightMode: 'http://localhost:3000/operationsgateway-logo.svg',
         },
       },
     });
@@ -104,6 +108,9 @@ describe('index - fetchSettings', () => {
           hideFromMenu: false,
           order: 0,
           helpSteps: [{ target: '#id', content: 'content' }],
+          logoAltText: 'OperationsGateway',
+          logoDarkMode: undefined,
+          logoLightMode: undefined,
         },
       },
     });
@@ -119,6 +126,9 @@ describe('index - fetchSettings', () => {
           hideFromMenu: true,
           order: 1,
           helpSteps: [],
+          logoAltText: 'OperationsGateway',
+          logoDarkMode: undefined,
+          logoLightMode: undefined,
         },
       },
     });

@@ -43,7 +43,7 @@ describe('session buttons', () => {
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
     };
-    jest.useFakeTimers();
+    jest.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
 
     // Mock the return value of useEditSession hook
     useEditSession.mockReturnValue({
@@ -100,7 +100,10 @@ describe('session buttons', () => {
         },
         search: {
           searchParams: {
-            dateRange: {},
+            dateRange: {
+              fromDate: '2024-07-14T12:00:00',
+              toDate: '2024-07-15T12:00:59',
+            },
             shotnumRange: {},
             maxShots: 50,
             experimentID: null,
@@ -144,7 +147,10 @@ describe('session buttons', () => {
         },
         search: {
           searchParams: {
-            dateRange: {},
+            dateRange: {
+              fromDate: '2024-07-14T12:00:00',
+              toDate: '2024-07-15T12:00:59',
+            },
             shotnumRange: {},
             maxShots: 50,
             experimentID: null,
@@ -195,7 +201,10 @@ describe('session buttons', () => {
         },
         search: {
           searchParams: {
-            dateRange: {},
+            dateRange: {
+              fromDate: '2024-07-14T12:00:00',
+              toDate: '2024-07-15T12:00:59',
+            },
             shotnumRange: {},
             maxShots: 50,
             experimentID: null,

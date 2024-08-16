@@ -89,6 +89,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     totalDataCount,
     maxShots,
     loadedData,
+    loadedCount,
     page,
     resultsPerPage,
     onPageChange,
@@ -161,7 +162,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 }}
                 size="small"
                 color="primary"
-                sx={{ p: '5px', m: '4px' }}
+                sx={{ p: '5px', m: '4px', alignSelf: 'center' }}
                 checked={table.getIsAllPageRowsSelected()}
                 indeterminate={table.getIsSomePageRowsSelected()}
                 // toggle all rows on current page
@@ -231,7 +232,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
 
   return (
     <div>
-      {loadedData && totalDataCount <= 0 && (
+      {((loadedData && data.length <= 0) ||
+        (loadedCount && totalDataCount <= 0)) && (
         <Paper sx={{ padding: 1, margin: 1 }} aria-label="no results message">
           <Typography align="center" variant="h6" component="h6">
             No results found with current filters applied, please modify filter

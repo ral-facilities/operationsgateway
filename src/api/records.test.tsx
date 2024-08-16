@@ -39,6 +39,7 @@ describe('records api functions', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   describe('useRecordCount', () => {
@@ -108,6 +109,16 @@ describe('records api functions', () => {
     });
 
     it('returns cached data from incomingRecordCount request if it is available', async () => {
+      state = {
+        ...getInitialState(),
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {},
+          },
+        },
+      };
       // Test that record count data is reused when we fetch the count of a large request before fetching the records themselves
 
       // Create a queryClient here and pass it between each hooks instance
@@ -370,10 +381,14 @@ describe('records api functions', () => {
     });
 
     it('sends request to fetch records, returns successful response and uses a select function to format the results', async () => {
+      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+
       const pendingRequest = waitForRequest('GET', '/records');
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        wrapper: hooksWrapperWithProviders(state),
+        // don't pass in state here as we want the initial state to be generated after
+        // we have our fake timers set up
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -384,6 +399,10 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('projection', `metadata.${timeChannelName}`);
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2024-07-01T12:00:00","$lte":"2024-07-02T12:00:59"}}]}'
+      );
       params.append('skip', '0');
       params.append('limit', '25');
 
@@ -474,12 +493,14 @@ describe('records api functions', () => {
     });
 
     it('uses a select function to format the results', async () => {
+      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+
       const pendingRequest = waitForRequest('GET', '/records');
 
       const { result } = renderHook(
         () => usePlotRecords(testSelectedPlotChannels),
         {
-          wrapper: hooksWrapperWithProviders(state),
+          wrapper: hooksWrapperWithProviders(),
         }
       );
 
@@ -501,7 +522,7 @@ describe('records api functions', () => {
       // correct conditions added
       params.append(
         'conditions',
-        '{"$or":[{"channels.CHANNEL_ABCDE":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2024-07-01T12:00:00","$lte":"2024-07-02T12:00:59"}}],"$or":[{"channels.CHANNEL_ABCDE":{"$exists":true}}]}'
       );
 
       // searchParams.maxShots defaults to 50
@@ -551,6 +572,7 @@ describe('records api functions', () => {
           searchParams: {
             ...getInitialState().search.searchParams,
             maxShots: 1000,
+            dateRange: {},
           },
         },
       };
@@ -627,6 +649,7 @@ describe('records api functions', () => {
           searchParams: {
             ...getInitialState().search.searchParams,
             maxShots: Infinity,
+            dateRange: {},
           },
         },
       };
@@ -675,10 +698,12 @@ describe('records api functions', () => {
     });
 
     it('sends request to fetch records with a projection and returns successful response', async () => {
+      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+
       const pendingRequest = waitForRequest('GET', '/records');
 
       const { result } = renderHook(() => useThumbnails('TEST', 1, 25), {
-        wrapper: hooksWrapperWithProviders(state),
+        wrapper: hooksWrapperWithProviders(),
       });
 
       await waitFor(() => {
@@ -693,7 +718,7 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$or":[{"channels.TEST":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2024-07-01T12:00:00","$lte":"2024-07-02T12:00:59"}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
       );
 
       params.append('skip', '25');

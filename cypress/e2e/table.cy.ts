@@ -95,13 +95,15 @@ describe('Table Component', () => {
   });
 
   it('can resize columns', () => {
-    cy.get('[aria-describedby="table-loading-indicator"]').should(
-      'have.attr',
-      'aria-busy',
-      'false'
-    );
+    // wait for loading
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
 
     addInitialSystemChannels(['Shot Number']);
+
+    // wait for loading
+    cy.findByRole('progressbar').should('exist');
+    cy.findByRole('progressbar').should('not.exist');
 
     cy.get('[role="columnheader"]').eq(1).as('firstColumn');
     cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');

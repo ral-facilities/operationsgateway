@@ -9,7 +9,11 @@ import {
   Box,
   Grid,
 } from '@mui/material';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import {
+  DateTimePicker,
+  DateTimeValidationError,
+  LocalizationProvider,
+} from '@mui/x-date-pickers';
 import { CalendarMonth } from '@mui/icons-material';
 import { TimeframeRange } from './timeframe.component';
 import { FLASH_ANIMATION } from '../../animation';
@@ -145,13 +149,16 @@ export interface DateTimeSearchProps {
   ) => boolean;
   invalidDateRange: boolean;
   searchParamsUpdated: () => void;
+  setDatePickerError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
-  const { invalidDateRange, id, ...inputProps } = renderProps.inputProps ?? {};
+  const { invalidDateRange, errorType, id, ...inputProps } =
+    renderProps.inputProps ?? {};
   const error = (renderProps.error || invalidDateRange) ?? undefined;
-  let helperText = 'Date-time format: yyyy-MM-dd HH:mm';
+  let helperText = 'Invalid date';
   if (invalidDateRange) helperText = 'Invalid date-time range';
+  if (errorType === 'invalidDate') helperText = 'Format: yyyy-MM-dd HH:mm';
 
   return (
     <TextField
@@ -161,8 +168,13 @@ const CustomTextField: React.FC<TextFieldProps> = (renderProps) => {
       inputProps={{
         ...inputProps,
         sx: {
+          ...inputProps?.sx,
           fontSize: '1rem',
-          fontWeight: 'bold',
+          width:
+            renderProps.value === renderProps.placeholder ||
+            errorType === 'invalidDate'
+              ? '10rem'
+              : '8rem',
         },
       }}
       variant="standard"
@@ -206,6 +218,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
     isDateTimeInExperiment,
     invalidDateRange,
     searchParamsUpdated,
+    setDatePickerError,
   } = props;
 
   const [datePickerFromDate, setDatePickerFromDate] =
@@ -220,9 +233,13 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
   }, [searchParameterFromDate, searchParameterToDate]);
 
   const [datePickerFromDateError, setDatePickerFromDateError] =
-    React.useState<boolean>(false);
+    React.useState<DateTimeValidationError>(null);
   const [datePickerToDateError, setDatePickerToDateError] =
-    React.useState<boolean>(false);
+    React.useState<DateTimeValidationError>(null);
+
+  React.useEffect(() => {
+    setDatePickerError(!!datePickerFromDateError && !!datePickerToDateError);
+  }, [datePickerFromDateError, datePickerToDateError, setDatePickerError]);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
 
@@ -263,11 +280,15 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         }),
       }}
     >
-      <CalendarMonth sx={{ fontSize: 40, padding: '10px 5px 0px 5px' }} />
+      <CalendarMonth
+        sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }}
+      />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Grid container columns={2} direction="column">
           <Grid item>
-            <Typography noWrap>From date</Typography>
+            <Typography noWrap sx={{ fontWeight: 'bold' }}>
+              From date
+            </Typography>
           </Grid>
           <Grid item>
             <DateTimePicker
@@ -321,7 +342,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
-              onError={(error) => setDatePickerFromDateError(!!error)}
+              onError={(error) => setDatePickerFromDateError(error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
                 day: (pickersDayProps) =>
@@ -339,14 +360,22 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
                 },
+                field: {
+                  clearable: true,
+                },
                 textField: {
                   inputProps: {
-                    invalidDateRange: invalidDateRange,
+                    invalidDateRange:
+                      invalidDateRange ||
+                      datePickerFromDateError === 'maxDate' ||
+                      datePickerToDateError === 'minDate',
+                    errorType: datePickerFromDateError,
                     id: 'from date-time',
                     placeholder: 'From...',
                     'aria-label': 'from, date-time input',
                   },
                 },
+                clearButton: { size: 'small' },
               }}
             />
           </Grid>
@@ -358,7 +387,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         />
         <Grid container columns={2} direction="column">
           <Grid item>
-            <Typography noWrap>To date</Typography>
+            <Typography noWrap sx={{ fontWeight: 'bold' }}>
+              To date
+            </Typography>
           </Grid>
           <Grid item>
             <DateTimePicker
@@ -411,7 +442,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
               }}
               onOpen={() => setPopupOpen(true)}
               onClose={() => setPopupOpen(false)}
-              onError={(error) => setDatePickerToDateError(!!error)}
+              onError={(error) => setDatePickerToDateError(error)}
               views={['year', 'month', 'day', 'hours', 'minutes']}
               slots={{
                 day: (pickersDayProps) =>
@@ -430,14 +461,22 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'to, date-time picker',
                 },
+                field: {
+                  clearable: true,
+                },
                 textField: {
                   inputProps: {
-                    invalidDateRange: invalidDateRange,
+                    invalidDateRange:
+                      invalidDateRange ||
+                      datePickerFromDateError === 'maxDate' ||
+                      datePickerToDateError === 'minDate',
+                    errorType: datePickerToDateError,
                     id: 'to date-time',
                     placeholder: 'To...',
                     'aria-label': 'to, date-time input',
                   },
                 },
+                clearButton: { size: 'small' },
               }}
             />
           </Grid>
