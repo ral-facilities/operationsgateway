@@ -9,16 +9,16 @@ import { ImageButtons } from '../windows/windowButtons.component';
 import { useImage } from '../api/images';
 import FalseColourPanel from './falseColourPanel.component';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { useAppDispatch } from '../state/hooks';
 
 interface ImageWindowProps {
   onClose: () => void;
   imageConfig: TraceOrImageWindow;
+  imageWindowRef: React.RefObject<WindowPortalClass>;
 }
 
 const ImageWindow = (props: ImageWindowProps) => {
-  const { onClose, imageConfig } = props;
+  const { onClose, imageConfig, imageWindowRef } = props;
   const { channelName, recordId, title } = imageConfig;
 
   const dispatch = useAppDispatch();
@@ -39,8 +39,6 @@ const ImageWindow = (props: ImageWindowProps) => {
     }
   );
 
-  const windowRef = React.createRef<WindowPortalClass>();
-
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const resetView = React.useCallback(() => {
@@ -49,26 +47,11 @@ const ImageWindow = (props: ImageWindowProps) => {
 
   const updateImageConfig = React.useCallback(
     (newRecordId?: string) => {
-      const outerWidth =
-        windowRef.current?.state.window?.outerWidth ??
-        DEFAULT_WINDOW_VARS.outerWidth;
-      const outerHeight =
-        windowRef.current?.state.window?.outerHeight ??
-        DEFAULT_WINDOW_VARS.outerHeight;
-      const screenX =
-        windowRef.current?.state.window?.screenX ?? DEFAULT_WINDOW_VARS.screenX;
-      const screenY =
-        windowRef.current?.state.window?.screenY ?? DEFAULT_WINDOW_VARS.screenY;
-
       const configToSave: TraceOrImageWindow = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
         // this would open up a new window, which we don't want
         ...imageConfig,
-        outerWidth,
-        outerHeight,
-        screenX,
-        screenY,
         ...(newRecordId
           ? {
               recordId: newRecordId,
@@ -78,16 +61,16 @@ const ImageWindow = (props: ImageWindowProps) => {
       };
       dispatch(updateWindow(configToSave));
     },
-    [windowRef, imageConfig, dispatch]
+    [imageConfig, dispatch]
   );
 
   return (
     <WindowPortal
-      ref={windowRef}
+      ref={imageWindowRef}
       title={title}
       onClose={onClose}
-      outerWidth={imageConfig.outerWidth}
-      outerHeight={imageConfig.outerHeight}
+      innerWidth={imageConfig.innerWidth}
+      innerHeight={imageConfig.innerHeight}
       screenX={imageConfig.screenX}
       screenY={imageConfig.screenY}
     >

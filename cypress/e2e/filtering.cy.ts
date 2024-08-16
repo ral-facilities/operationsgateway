@@ -5,6 +5,16 @@ describe('Filtering Component', () => {
     cy.visit('/');
 
     cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
+
+    cy.findByLabelText('from, date-time input')
+      .parent()
+      .findByRole('button', { name: 'Clear value' })
+      .click();
+    cy.findByLabelText('to, date-time input')
+      .parent()
+      .findByRole('button', { name: 'Clear value' })
+      .click();
+    cy.findByRole('button', { name: 'Search' }).click();
     cy.findByRole('progressbar').should('not.exist');
   });
 

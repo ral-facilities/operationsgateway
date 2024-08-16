@@ -11,6 +11,7 @@ import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
 import { rest } from 'msw';
 import { server } from '../mocks/server';
+import { WindowPortal } from '../windows/windowPortal.component';
 
 jest.mock('../windows/windowPortal.component', () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -48,8 +49,13 @@ describe('Plot Window component', () => {
   });
 
   const createView = () => {
+    const ref = React.createRef<WindowPortal>();
     return renderComponentWithProviders(
-      <PlotWindow onClose={jest.fn()} plotConfig={testPlotConfig} />,
+      <PlotWindow
+        onClose={jest.fn()}
+        plotConfig={testPlotConfig}
+        plotWindowRef={ref}
+      />,
       {
         preloadedState: state,
       }

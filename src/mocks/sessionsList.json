@@ -47,8 +47,8 @@
             "#7f8000",
             "#80007f"
           ],
-          "outerWidth": 600,
-          "outerHeight": 400,
+          "innerWidth": 600,
+          "innerHeight": 400,
           "screenX": 200,
           "screenY": 200
         }
@@ -67,8 +67,8 @@
           "recordId": "13",
           "channelName": "CHANNEL_EFGHI",
           "title": "Image CHANNEL_EFGHI 13",
-          "outerWidth": 600,
-          "outerHeight": 400,
+          "innerWidth": 600,
+          "innerHeight": 400,
           "screenX": 200,
           "screenY": 200
         },
@@ -79,8 +79,8 @@
           "recordId": "14",
           "channelName": "CHANNEL_EFGHI",
           "title": "Image CHANNEL_EFGHI 14",
-          "outerWidth": 600,
-          "outerHeight": 400,
+          "innerWidth": 600,
+          "innerHeight": 400,
           "screenX": 200,
           "screenY": 200
         }
@@ -217,7 +217,7 @@
             "min": 16,
             "max": 18
           },
-          "maxShots": 50,
+          "maxShots": null,
           "experimentID": {
             "_id": "22110007-2",
             "end_date": "2022-01-18T12:00:00",

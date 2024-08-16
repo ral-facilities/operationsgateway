@@ -42,6 +42,20 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
   });
   const BUTTON_INDEX = 0;
   const SLOPPY_CLICK_THRESHOLD = 10;
+
+  // separate out the two cy.wrap commands as it can trigger element detached from DOM error
+  cy.get(subject)
+    .first()
+    .then((subject) => {
+      const coordsDrag = subject[0].getBoundingClientRect();
+      cy.wrap(subject).trigger('mousedown', {
+        button: BUTTON_INDEX,
+        clientX: coordsDrag.x,
+        clientY: coordsDrag.y,
+        force: true,
+      });
+    });
+
   cy.get(target)
     .first()
     .then(($target) => {
@@ -50,12 +64,6 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
         .first()
         .then((subject) => {
           const coordsDrag = subject[0].getBoundingClientRect();
-          cy.wrap(subject).trigger('mousedown', {
-            button: BUTTON_INDEX,
-            clientX: coordsDrag.x,
-            clientY: coordsDrag.y,
-            force: true,
-          });
           cy.wrap(subject).trigger('mousemove', {
             button: BUTTON_INDEX,
             clientX: coordsDrag.x + SLOPPY_CLICK_THRESHOLD,

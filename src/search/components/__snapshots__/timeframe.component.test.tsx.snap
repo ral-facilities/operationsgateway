@@ -7,11 +7,11 @@ exports[`timeframe search renders correctly 1`] = `
   >
     <div
       aria-label="close timeframe search box"
-      class="MuiBox-root css-1mjwt1c"
+      class="MuiBox-root css-bm8stw"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
         data-testid="ScheduleIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -25,19 +25,19 @@ exports[`timeframe search renders correctly 1`] = `
       </svg>
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
         >
           Timeframe
         </p>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-b87fj0-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-noWrap css-of350e-MuiTypography-root"
         >
           Select
         </h6>
       </div>
     </div>
     <div
-      class="MuiBox-root css-1iujcq"
+      class="MuiBox-root css-11ouw3s"
       role="dialog"
     >
       <div

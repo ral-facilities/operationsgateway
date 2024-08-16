@@ -1,5 +1,33 @@
 import { test, expect } from '@playwright/test';
 
+type CallBackFind<T> = (
+  value: T,
+  index?: number,
+  collection?: T[]
+) => Promise<boolean>;
+
+/**
+ * Async Find function
+ *
+ * @export
+ * @template T
+ * @param {T[]} elements
+ * @param {CallBackFind<T>} cb
+ * @returns {Promise<T | undefined>}
+ */
+async function aFind<T>(
+  elements: T[],
+  cb: CallBackFind<T>
+): Promise<T | undefined> {
+  for (const [index, element] of elements.entries()) {
+    if (await cb(element, index, elements)) {
+      return element;
+    }
+  }
+
+  return undefined;
+}
+
 let sessionId: string | undefined;
 
 // ensure the session we created is deleted in case the test fails
@@ -22,6 +50,9 @@ test.afterEach(async ({ request, context }) => {
 test('should be able to create a session, reload the session, edit it and delete it', async ({
   page,
 }) => {
+  // test is slow because have to do full CRUD of session in single test
+  test.slow();
+
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
@@ -44,14 +75,21 @@ test('should be able to create a session, reload the session, edit it and delete
   await page.getByRole('button', { name: 'Add Channels' }).click();
 
   // open multiple windows - check they get re-opened when session restored
-  await Promise.all([
+  const [imagePopup] = await Promise.all([
     page.waitForEvent('popup'),
     page
       .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
       .first()
       .click(),
   ]);
-  await Promise.all([
+
+  await imagePopup.evaluate(() => {
+    window.moveTo(100, 100);
+  });
+
+  await imagePopup.setViewportSize({ height: 100, width: 100 });
+
+  const [tracePopup] = await Promise.all([
     page.waitForEvent('popup'),
     page
       .getByAltText('D100 pre-amp 1 photodiode trace waveform ', {
@@ -61,12 +99,21 @@ test('should be able to create a session, reload the session, edit it and delete
       .click(),
   ]);
 
+  await tracePopup.evaluate(() => {
+    window.moveTo(200, 200);
+  });
+  await tracePopup.setViewportSize({ height: 200, width: 200 });
+
   await page.getByRole('tab', { name: 'Plots' }).click();
   // open up popup
-  await Promise.all([
+  const [plotPopup] = await Promise.all([
     page.waitForEvent('popup'),
     page.getByRole('button', { name: 'Create a plot' }).click(),
   ]);
+  await plotPopup.evaluate(() => {
+    window.moveTo(300, 300);
+  });
+  await plotPopup.setViewportSize({ height: 300, width: 300 });
 
   await page.getByRole('button', { name: 'Save as' }).click();
 
@@ -103,9 +150,68 @@ test('should be able to create a session, reload the session, edit it and delete
     .click();
 
   await expect(page.getByRole('progressbar')).toBeVisible();
-  await expect(page.getByRole('progressbar')).not.toBeVisible();
+  await expect(page.getByRole('progressbar')).not.toBeVisible({
+    timeout: 10000,
+  });
 
   await expect(popups).toHaveLength(3);
+
+  const newImagePopup = await aFind(popups, async (p) =>
+    (await p.title()).includes('Image')
+  );
+
+  const imagePopupDims = await newImagePopup?.evaluate(() => {
+    return {
+      screenX: window.screenX,
+      screenY: window.screenY,
+      innerHeight: window.innerHeight,
+      innerWidth: window.innerWidth,
+    };
+  });
+  expect(imagePopupDims).toEqual({
+    screenX: 100,
+    screenY: 100,
+    innerHeight: 100,
+    innerWidth: 100,
+  });
+
+  const newTracePopup = await aFind(popups, async (p) =>
+    (await p.title()).includes('Trace')
+  );
+
+  const tracePopupDims = await newTracePopup?.evaluate(() => {
+    return {
+      screenX: window.screenX,
+      screenY: window.screenY,
+      innerHeight: window.innerHeight,
+      innerWidth: window.innerWidth,
+    };
+  });
+  expect(tracePopupDims).toEqual({
+    screenX: 200,
+    screenY: 200,
+    innerHeight: 200,
+    innerWidth: 200,
+  });
+
+  const newPlotPopup = await aFind(popups, async (p) =>
+    (await p.title()).includes('Untitled')
+  );
+
+  const plotPopupDims = await newPlotPopup?.evaluate(() => {
+    return {
+      screenX: window.screenX,
+      screenY: window.screenY,
+      innerHeight: window.innerHeight,
+      innerWidth: window.innerWidth,
+    };
+  });
+  expect(plotPopupDims).toEqual({
+    screenX: 300,
+    screenY: 300,
+    innerHeight: 300,
+    innerWidth: 300,
+  });
 
   // edit session metadata
 

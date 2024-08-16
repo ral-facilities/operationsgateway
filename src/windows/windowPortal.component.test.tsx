@@ -16,14 +16,14 @@ describe('Window portal component', () => {
   const theme = createTheme({ palette: { mode: 'dark' } });
 
   Object.defineProperty(window, 'open', {
-    value: () => {
+    value: jest.fn(() => {
       return {
         document: newDocument,
         addEventListener: mockAddEventListener,
         removeEventListener: mockRemoveEventListener,
         close: mockWindowClose,
       };
-    },
+    }),
   });
 
   const createView = () =>
@@ -46,6 +46,12 @@ describe('Window portal component', () => {
   it('renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly', () => {
     const { unmount } = createView();
 
+    expect(window.open).toHaveBeenCalledWith(
+      '',
+      '',
+      `innerWidth=${props.innerWidth},innerHeight=${props.innerHeight},left=${props.screenX},top=${props.screenY}`
+    );
+
     expect(newDocument.body).toMatchSnapshot();
     expect(mockAddEventListener).toHaveBeenCalledTimes(1);
     expect(mockAddEventListener).toHaveBeenCalledWith('beforeunload', onClose);
@@ -65,6 +71,21 @@ describe('Window portal component', () => {
 
     unmount();
     expect(mockWindowClose).toHaveBeenCalled();
+  });
+
+  it('handles negative x & Y window co-ords correctly', () => {
+    props = {
+      ...props,
+      screenX: -100,
+      screenY: -100,
+    };
+    createView();
+
+    expect(window.open).toHaveBeenCalledWith(
+      '',
+      '',
+      `innerWidth=${props.innerWidth},innerHeight=${props.innerHeight},left=${props.screenX - props.innerWidth},top=${props.screenY - props.innerHeight}`
+    );
   });
 
   it('changes title on title prop change', () => {
