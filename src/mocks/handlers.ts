@@ -70,7 +70,6 @@ export const handlers = [
     return HttpResponse.json(sessionsJson, { status: 200 });
   }),
   http.get('/sessions/:id', async ({ request }) => {
-    console.log(request.url);
     const url = new URL(request.url);
     const session_id = url.pathname.replace('/sessions/', '');
     const sessionData = sessionsJson.find(

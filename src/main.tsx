@@ -2,8 +2,9 @@
 // it puts all timer functionality in a web worker to avoid browsers throttling
 // timers when main window is hidden (needed for popups to be more responsive
 // in cases like main OG window tabbed out, or minimized etc)
-import axios from 'axios';
 import 'hacktimer';
+//
+import axios from 'axios';
 import log from 'loglevel';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
