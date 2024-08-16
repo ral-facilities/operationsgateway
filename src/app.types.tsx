@@ -177,8 +177,8 @@ export interface ColumnState {
 }
 
 export const DEFAULT_WINDOW_VARS = {
-  outerWidth: 600,
-  outerHeight: 400,
+  innerWidth: 600,
+  innerHeight: 400,
   screenX: 200,
   screenY: 200,
 };
@@ -187,8 +187,8 @@ export interface WindowConfig {
   id: string;
   open: boolean;
   title: string;
-  outerWidth: number;
-  outerHeight: number;
+  innerWidth: number;
+  innerHeight: number;
   screenX: number;
   screenY: number;
 }

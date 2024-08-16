@@ -1,3 +1,4 @@
+import React from 'react';
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
@@ -32,11 +33,16 @@ import {
   PlotConfig,
   initialState as initialPlotState,
 } from './state/slices/plotSlice';
-import { initialState as initialSearchState } from './state/slices/searchSlice';
+import { initialStateFunc as initialSearchStateFunc } from './state/slices/searchSlice';
 import { initialState as initialSelectionState } from './state/slices/selectionSlice';
 import { initialState as initialTableState } from './state/slices/tableSlice';
 import { initialState as initialWindowsState } from './state/slices/windowSlice';
 import { AppStore, RootState, setupStore } from './state/store';
+import {
+  WindowContext,
+  WindowContextProvider,
+  WindowsRefType,
+} from './windows/windowContext';
 
 global.TextEncoder = TextEncoder;
 
@@ -53,20 +59,6 @@ afterEach(() => server.resetHandlers());
 
 // Clean up after the tests are finished.
 afterAll(() => server.close());
-
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
-  });
-}
-
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {},
-  });
-}
 
 /**
  * Waits for msw request -
@@ -136,7 +128,7 @@ export const resetActions = (): void => {
 export const getInitialState = (): RootState => ({
   config: initialConfigState,
   table: initialTableState,
-  search: initialSearchState,
+  search: initialSearchStateFunc(),
   plots: initialPlotState,
   filter: initialFilterState,
   functions: initialFunctionsState,
@@ -175,12 +167,20 @@ Object.defineProperty(global, 'crypto', {
   value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
 });
 
+// jest doesn't implement ResizeObserver so mock it
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
   store?: AppStore;
   queryClient?: QueryClient;
+  windowsRef?: React.MutableRefObject<WindowsRefType>;
 }
 
 export const createTestQueryClient = (): QueryClient =>
@@ -222,16 +222,22 @@ export function renderComponentWithProviders(
     store = setupStore(preloadedState),
     // Automatically create a query client instance if no query client was passed in
     queryClient = createTestQueryClient(),
+    windowsRef,
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
   function Wrapper({
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
+    const WindowsProvider = windowsRef
+      ? WindowContext.Provider
+      : WindowContextProvider;
     return (
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <WindowsProvider {...(windowsRef ? { value: windowsRef } : {})}>
+            {children}
+          </WindowsProvider>
         </QueryClientProvider>
       </Provider>
     );
@@ -256,6 +262,34 @@ export function renderComponentWithStore(
     children,
   }: React.PropsWithChildren<unknown>): JSX.Element {
     return <Provider store={store}>{children}</Provider>;
+  }
+  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+}
+
+export function renderComponentWithStoreAndWindows(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = setupStore(preloadedState),
+    windowsRef,
+    ...renderOptions
+  }: ExtendedRenderOptions = {}
+) {
+  function Wrapper({
+    children,
+  }: React.PropsWithChildren<unknown>): JSX.Element {
+    const WindowsProvider = windowsRef
+      ? WindowContext.Provider
+      : WindowContextProvider;
+    if (windowsRef && windowsRef.current === null) windowsRef.current = {};
+    return (
+      <Provider store={store}>
+        <WindowsProvider {...(windowsRef ? { value: windowsRef } : {})}>
+          {children}
+        </WindowsProvider>
+      </Provider>
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 }

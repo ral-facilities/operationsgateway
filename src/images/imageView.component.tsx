@@ -253,6 +253,7 @@ const ImageView = (props: ImageViewProps) => {
           style={{
             transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom})`,
             transformOrigin: 'top left',
+            imageRendering: 'pixelated',
           }}
           onMouseDown={mouseDownHandler}
           onMouseMove={mouseMoveHandler}

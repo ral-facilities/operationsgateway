@@ -18,7 +18,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
       data-testid="CalendarMonthIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -34,7 +34,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
         class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
         >
           From date
         </p>
@@ -52,13 +52,38 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
               aria-invalid="false"
               aria-label="from, date-time input"
               autocomplete="off"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-jflll1-MuiInputBase-input-MuiInput-input"
               id="from date-time"
               inputmode="text"
               placeholder="From..."
               type="text"
               value="2021-01-01 00:00"
             />
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1673wpy-MuiInputAdornment-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                title="Clear value"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  data-testid="ClearIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
             <div
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
@@ -98,7 +123,7 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
         class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
         >
           To date
         </p>
@@ -116,13 +141,38 @@ exports[`DateTime tests renders correctly with input date-time ranges 1`] = `
               aria-invalid="false"
               aria-label="to, date-time input"
               autocomplete="off"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-jflll1-MuiInputBase-input-MuiInput-input"
               id="to date-time"
               inputmode="text"
               placeholder="To..."
               type="text"
               value="2021-01-02 00:00"
             />
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1673wpy-MuiInputAdornment-root"
+            >
+              <button
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                title="Clear value"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  data-testid="ClearIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
             <div
               class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
             >
@@ -164,7 +214,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1hspsbx-MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1cprn3g-MuiSvgIcon-root"
       data-testid="CalendarMonthIcon"
       focusable="false"
       viewBox="0 0 24 24"
@@ -180,7 +230,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
         class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
         >
           From date
         </p>
@@ -198,7 +248,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
               aria-invalid="false"
               aria-label="from, date-time input"
               autocomplete="off"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-jflll1-MuiInputBase-input-MuiInput-input"
               id="from date-time"
               inputmode="text"
               placeholder="From..."
@@ -244,7 +294,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
         class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-fvtpii-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-29c4sz-MuiTypography-root"
         >
           To date
         </p>
@@ -262,7 +312,7 @@ exports[`DateTime tests renders correctly with no input date-time ranges 1`] = `
               aria-invalid="false"
               aria-label="to, date-time input"
               autocomplete="off"
-              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-b2cfjz-MuiInputBase-input-MuiInput-input"
+              class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-jflll1-MuiInputBase-input-MuiInput-input"
               id="to date-time"
               inputmode="text"
               placeholder="To..."

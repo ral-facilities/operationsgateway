@@ -8,16 +8,16 @@ import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import TracePlot from './tracePlot.component';
 import { TraceButtons } from '../windows/windowButtons.component';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { useAppDispatch } from '../state/hooks';
 
 interface TraceWindowProps {
   onClose: () => void;
   traceConfig: TraceOrImageWindow;
+  traceWindowRef: React.RefObject<WindowPortalClass>;
 }
 
 const TraceWindow = (props: TraceWindowProps) => {
-  const { onClose, traceConfig } = props;
+  const { onClose, traceConfig, traceWindowRef } = props;
   const { channelName, recordId, title } = traceConfig;
 
   const dispatch = useAppDispatch();
@@ -41,32 +41,13 @@ const TraceWindow = (props: TraceWindowProps) => {
     channelName
   );
 
-  const traceWindowRef = React.createRef<WindowPortalClass>();
-
   const updateTraceConfig = React.useCallback(
     (newRecordId?: string) => {
-      const outerWidth =
-        traceWindowRef.current?.state.window?.outerWidth ??
-        DEFAULT_WINDOW_VARS.outerWidth;
-      const outerHeight =
-        traceWindowRef.current?.state.window?.outerHeight ??
-        DEFAULT_WINDOW_VARS.outerHeight;
-      const screenX =
-        traceWindowRef.current?.state.window?.screenX ??
-        DEFAULT_WINDOW_VARS.screenX;
-      const screenY =
-        traceWindowRef.current?.state.window?.screenY ??
-        DEFAULT_WINDOW_VARS.screenY;
-
       const configToSave: TraceOrImageWindow = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
         // this would open up a new window, which we don't want
         ...traceConfig,
-        outerWidth,
-        outerHeight,
-        screenX,
-        screenY,
         ...(newRecordId
           ? {
               recordId: newRecordId,
@@ -76,7 +57,7 @@ const TraceWindow = (props: TraceWindowProps) => {
       };
       dispatch(updateWindow(configToSave));
     },
-    [traceWindowRef, traceConfig, dispatch]
+    [traceConfig, dispatch]
   );
 
   return (
@@ -84,8 +65,8 @@ const TraceWindow = (props: TraceWindowProps) => {
       ref={traceWindowRef}
       title={title}
       onClose={onClose}
-      outerWidth={traceConfig.outerWidth}
-      outerHeight={traceConfig.outerHeight}
+      innerWidth={traceConfig.innerWidth}
+      innerHeight={traceConfig.innerHeight}
       screenX={traceConfig.screenX}
       screenY={traceConfig.screenY}
     >

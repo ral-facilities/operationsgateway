@@ -49,11 +49,12 @@ export type TimeframeDates = {
 interface SearchBarProps {
   expanded: boolean;
   sessionId: string | undefined;
+  heightRef: (container: HTMLDivElement) => void;
 }
 
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const dispatch = useAppDispatch();
-  const { expanded, sessionId } = props;
+  const { expanded, sessionId, heightRef } = props;
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const {
@@ -107,7 +108,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // This is set in the timeframe search box by the user
   // If the user edits any of the date fields otherwise, this is set to null
   const [timeframeRange, setTimeframeRange] =
-    React.useState<TimeframeRange | null>(null);
+    React.useState<TimeframeRange | null>({ value: 24, timescale: 'hours' });
 
   const calculateTimeframeDateRange = (
     timeframe: TimeframeRange
@@ -199,6 +200,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // Check for vaild Date Ranges and Shot Number Ranges
   // ##################################################
 
+  // need this to help keep track of invalid date ranges in the datetime component itself
+  const [datePickerError, setDatePickerError] = React.useState(false);
+
   const invalidDateRange =
     (searchParameterFromDate !== null &&
       searchParameterToDate !== null &&
@@ -206,7 +210,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       searchParameterToDate &&
       isBefore(searchParameterToDate, searchParameterFromDate)) ||
     (!searchParameterFromDate && searchParameterToDate !== null) ||
-    (searchParameterFromDate !== null && !searchParameterToDate);
+    (searchParameterFromDate !== null && !searchParameterToDate) ||
+    datePickerError;
 
   const invalidShotNumberRange =
     (searchParameterShotnumMin !== undefined &&
@@ -327,6 +332,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterShotnumMin(undefined);
       setSearchParameterShotnumMax(undefined);
       setMaxShots(MAX_SHOTS_VALUES[0]);
+      setTimeframeRange(null);
       sessionIdChange.current = true;
     } else firstUpdate.current = false;
   }, [sessionId]);
@@ -481,11 +487,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
-      <Grid container spacing={1} direction="row">
-        <Grid container item xs={11} direction="column">
+      <Grid container spacing={1} direction="row" ref={heightRef}>
+        <Grid container item xs={12} direction="column">
           <Grid item>
-            <Grid container spacing={1} direction="row">
-              <Grid item xs={5}>
+            <Grid container spacing={0.5} direction="row">
+              <Grid item xs xl="auto">
                 <DateTime
                   searchParameterFromDate={searchParameterFromDate}
                   searchParameterToDate={searchParameterToDate}
@@ -503,9 +509,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   isDateTimeInExperiment={isDateTimeInExperiment}
                   invalidDateRange={invalidDateRange}
                   searchParamsUpdated={searchParamsUpdated}
+                  setDatePickerError={setDatePickerError}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs="auto">
                 <Timeframe
                   timeframe={timeframeRange}
                   changeTimeframe={setRelativeTimeframe}
@@ -516,7 +523,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs xl="auto">
                 <Experiment
                   experiments={experiments ?? []}
                   onExperimentChange={setSearchParameterExperiment}
@@ -529,7 +536,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs xl="auto">
                 <ShotNumber
                   searchParameterShotnumMin={searchParameterShotnumMin}
                   searchParameterShotnumMax={searchParameterShotnumMax}
@@ -542,7 +549,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   searchParamsUpdated={searchParamsUpdated}
                 />
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs="auto">
                 {displayingWarningMessage ? (
                   <Tooltip
                     componentsProps={{
@@ -557,6 +564,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                     data-testid="results-tooltip"
                     arrow
                     placement="bottom"
+                    enterDelay={0}
+                    enterTouchDelay={0}
                     title={
                       <Box
                         sx={{
@@ -582,19 +591,21 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                       </Box>
                     }
                   >
-                    <Button
-                      variant={paramsUpdated ? 'contained' : 'outlined'}
-                      sx={{ height: '100%' }}
-                      onClick={handleSearch}
-                      disabled={invalidDateRange || invalidShotNumberRange}
-                    >
-                      Search
-                    </Button>
+                    <span>
+                      <Button
+                        variant={paramsUpdated ? 'contained' : 'outlined'}
+                        sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
+                        onClick={handleSearch}
+                        disabled={invalidDateRange || invalidShotNumberRange}
+                      >
+                        Search
+                      </Button>
+                    </span>
                   </Tooltip>
                 ) : (
                   <Button
                     variant={paramsUpdated ? 'contained' : 'outlined'}
-                    sx={{ height: '100%' }}
+                    sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
                     onClick={handleSearch}
                     disabled={invalidDateRange || invalidShotNumberRange}
                   >
