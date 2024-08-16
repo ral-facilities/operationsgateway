@@ -303,26 +303,40 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   ]);
 
   // Updates the search fields when a session is loaded
+  // also just generally ensures we're synced with the store
   React.useEffect(() => {
-    if (dateRange.fromDate) {
-      setSearchParameterFromDate(new Date(dateRange.fromDate));
-    }
-    if (dateRange.toDate) {
-      setSearchParameterToDate(new Date(dateRange.toDate));
-    }
+    setSearchParameterFromDate(
+      typeof dateRange.fromDate !== 'undefined'
+        ? new Date(dateRange.fromDate)
+        : null
+    );
+    setSearchParameterToDate(
+      typeof dateRange.toDate !== 'undefined'
+        ? new Date(dateRange.toDate)
+        : null
+    );
 
-    if (experimentID) {
-      setSearchParameterExperiment(experimentID);
-    }
+    setSearchParameterExperiment(experimentID);
+
+    setSearchParameterShotnumMin(shotnumRange.min);
+    setSearchParameterShotnumMax(shotnumRange.max);
 
     setMaxShots(maxShotsParam);
     setParamsUpdated(false);
-  }, [dateRange, experimentID, maxShotsParam]);
+  }, [
+    dateRange.fromDate,
+    dateRange.toDate,
+    experimentID,
+    maxShotsParam,
+    shotnumRange.max,
+    shotnumRange.min,
+  ]);
 
   const firstUpdate = React.useRef(true);
-  // we need to keep track of a session ID change so that we can skip the useEffect
-  // that's supposed to activate after handleSearch is clicked & incomingCount is updated
-  const sessionIdChange = React.useRef(false);
+  // use a ref so that we can control the useEffect that's supposed to
+  // only activate after handleSearch is clicked & incomingCount is updated
+  const currentlySearching = React.useRef(false);
+
   // removes all the search fields when a session is loaded
   React.useEffect(() => {
     if (!firstUpdate.current && sessionId) {
@@ -333,7 +347,6 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterShotnumMax(undefined);
       setMaxShots(MAX_SHOTS_VALUES[0]);
       setTimeframeRange(null);
-      sessionIdChange.current = true;
     } else firstUpdate.current = false;
   }, [sessionId]);
 
@@ -421,6 +434,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setDisplayingWarningMessage(false);
       dispatch(changeSearchParams(newSearchParams));
       setParamsUpdated(false);
+      currentlySearching.current = false;
+    } else {
+      currentlySearching.current = true;
     }
   }, [
     searchParameterFromDate,
@@ -440,29 +456,28 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // display the warning message or update the applied filters
   React.useEffect(() => {
     // check incomingCount isn't undefined so we don't run on initial render
-    if (typeof incomingCount !== 'undefined') {
-      if (!sessionIdChange.current) {
-        if (
-          !displayingWarningMessage &&
-          overRecordLimit() &&
-          // search for if we have previously made a search with these params
-          // use exact: false to ignore things like sort, pagination etc.
-          queryClient.getQueriesData({
-            exact: false,
-            queryKey: [
-              'records',
-              { filters: filters, searchParams: incomingParams },
-            ],
-          }).length === 0
-        ) {
-          setDisplayingWarningMessage(true);
-        } else {
-          setDisplayingWarningMessage(false);
-          dispatch(changeSearchParams(incomingParams));
-          setParamsUpdated(false);
-        }
+    // also check we're currently searching i.e. only run directly after handleSearch is called
+    // not in other instances where incomingCount/incomingSearch can change
+    if (typeof incomingCount !== 'undefined' && currentlySearching.current) {
+      if (
+        !displayingWarningMessage &&
+        overRecordLimit() &&
+        // search for if we have previously made a search with these params
+        // use exact: false to ignore things like sort, pagination etc.
+        queryClient.getQueriesData({
+          exact: false,
+          queryKey: [
+            'records',
+            { filters: filters, searchParams: incomingParams },
+          ],
+        }).length === 0
+      ) {
+        setDisplayingWarningMessage(true);
       } else {
-        sessionIdChange.current = false;
+        setDisplayingWarningMessage(false);
+        dispatch(changeSearchParams(incomingParams));
+        setParamsUpdated(false);
+        currentlySearching.current = false;
       }
     }
     // deliberately only want this use effect to be called when incomingCount or incomingParams changes
