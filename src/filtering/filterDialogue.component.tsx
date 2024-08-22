@@ -258,7 +258,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               In the box, start typing data channel names, numbers, mathematical
               symbols such as {'>'} and {'<='} and keywords such as AND, OR and
               NOT. The Wizard will suggest suitable options and indicate using a
-              grey box when each item has been recognised.
+              grey box when each item has been recognised. Function names are
+              not currently supported in filters.
             </Body>
             <Heading>Operators included</Heading>
             <Body>
