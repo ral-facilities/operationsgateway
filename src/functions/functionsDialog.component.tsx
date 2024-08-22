@@ -119,6 +119,15 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     },
   });
 
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setSelectedColIds(
+      appliedFunctions
+        .filter((func) => appliedSelectedIds.includes(func.name))
+        .map((func) => func.id)
+    );
+  }, [appliedFunctions, appliedSelectedIds, onClose]);
+
   const handleChangeValue = React.useCallback(
     (id: string) => (update: Partial<ValidateFunctionState>) =>
       setFunctions((functions) => {
@@ -310,7 +319,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                     <Tooltip
                       title={
                         selectedColIds.includes(func.id)
-                          ? 'Removed function column'
+                          ? 'Hide function column'
                           : `Display function column`
                       }
                       arrow
@@ -403,13 +412,13 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item sx={{ width: 650 }}>
+          <Grid item xs={5}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handleClose}>Close</Button>
         <Button
           disabled={Object.keys(errors).length !== 0 || functions.length === 0}
           onClick={() => {
