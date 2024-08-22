@@ -2,23 +2,23 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import React from 'react';
-import { FunctionTag, ValidateFunctionState } from '../app.types';
+import { FunctionToken, ValidateFunctionState } from '../app.types';
 import FunctionsInputs, {
   FunctionsInputsProps,
 } from './functionsInputs.component';
 
-const channels: FunctionTag[] = [
+const channels: FunctionToken[] = [
   { label: 'Channel1', value: 'Channel1', type: 'channel' },
   { label: 'Channel2', value: 'Channel2', type: 'channel' },
 ];
 
-const operators: FunctionTag[] = [
+const operators: FunctionToken[] = [
   { label: '+', value: '+', type: 'functionToken' },
   { label: '-', value: '-', type: 'functionToken' },
   { label: 'log', value: 'log', type: 'functionToken' },
 ];
 
-const functions: FunctionTag[] = [
+const functions: FunctionToken[] = [
   { label: 'Function1', value: 'Function1', type: 'function' },
   { label: 'Function2', value: 'Function2', type: 'function' },
 ];

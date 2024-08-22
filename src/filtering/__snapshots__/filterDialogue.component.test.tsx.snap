@@ -240,7 +240,7 @@ exports[`Filter dialogue component renders filter dialogue when dialogue is open
                     NOT
                   </span>
                 </div>
-                . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised.
+                . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised. Function names are not currently supported in filters.
               </div>
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"

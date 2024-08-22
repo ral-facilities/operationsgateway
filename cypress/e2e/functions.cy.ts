@@ -1,4 +1,4 @@
-describe('Sessions', () => {
+describe('Functions', () => {
   beforeEach(() => {
     cy.visit('/');
   });

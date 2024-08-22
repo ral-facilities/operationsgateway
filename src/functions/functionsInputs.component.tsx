@@ -9,13 +9,13 @@ import {
   createFilterOptions,
 } from '@mui/material';
 import React from 'react';
-import { FunctionTag, ValidateFunctionState } from '../app.types';
+import { FunctionToken, ValidateFunctionState } from '../app.types';
 import { errorState } from './functionsDialog.component';
 
 export interface FunctionsInputsProps {
-  channels: FunctionTag[];
-  operators: FunctionTag[];
-  functions: FunctionTag[];
+  channels: FunctionToken[];
+  operators: FunctionToken[];
+  functions: FunctionToken[];
   value: ValidateFunctionState;
   setValue: (update: Partial<ValidateFunctionState>) => void;
   error?: errorState;
@@ -26,7 +26,7 @@ export interface FunctionsInputsProps {
 // use matchFrom start here as otherwise it's hard to input e.g. the number 1 as there
 // are channels with that in their name. It also matches eCat behaviour - but we should
 // check if this is desired.
-const filterOptions = createFilterOptions<FunctionTag>({
+const filterOptions = createFilterOptions<FunctionToken>({
   matchFrom: 'start',
   limit: 100,
 });
@@ -126,7 +126,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
         if (typeof newToken !== 'undefined') {
           e.preventDefault();
           e.stopPropagation();
-          newValue.splice(inputIndex, 0, newToken as FunctionTag);
+          newValue.splice(inputIndex, 0, newToken as FunctionToken);
           setValue({ expression: newValue });
           setInputValue('');
           setError(undefined);
@@ -225,7 +225,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           value={value.expression}
           onChange={(
             event: unknown,
-            newValue: (string | FunctionTag)[],
+            newValue: (string | FunctionToken)[],
             reason: string
           ) => {
             // need to move last item in newValue (the newly added token)
@@ -240,7 +240,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
             // createOption implies a value which is not in options so either
             // a number, a string (surrounded by quotes) or we should reject
             if (reason === 'createOption') {
-              // newTerm is a string not a FunctionToken so use that fact to find it (and it means we can safely cast here)
+              // newTerm is a string not a FunctionOperator so use that fact to find it (and it means we can safely cast here)
               const newTerm = newValue.find(
                 (v) => typeof v === 'string'
               ) as string;
@@ -255,7 +255,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
                   value: newTerm,
                   label: newTerm,
                 };
-                setValue({ expression: newValue as FunctionTag[] });
+                setValue({ expression: newValue as FunctionToken[] });
 
                 setInputIndex((prevIndex) => prevIndex + 1);
               } // new term is a string specified by either single or double quotes so allow it
@@ -264,7 +264,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
                 setInputValue(newTerm);
               }
             } else {
-              setValue({ expression: newValue as FunctionTag[] });
+              setValue({ expression: newValue as FunctionToken[] });
             }
             if (reason === 'selectOption') {
               setInputIndex((prevIndex) => prevIndex + 1);
@@ -284,7 +284,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           // this is need to allow user to repeatedly select the same tag
           isOptionEqualToValue={(option, value) => false}
           renderTags={(value, getTagProps) => {
-            tags = value.map((option: FunctionTag, index: number) => (
+            tags = value.map((option: FunctionToken, index: number) => (
               <Chip
                 label={option.label}
                 size="small"

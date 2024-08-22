@@ -80,65 +80,7 @@ describe('channels api functions', () => {
       });
     });
 
-    it('uses a select function to construct an array of columns from given channel and functions metadata (scalar)', async () => {
-      state = {
-        ...state,
-        functions: {
-          appliedFunctions: [
-            {
-              id: '1',
-              name: 'a',
-              expression: [{ type: 'number', label: '1', value: '1' }],
-              dataType: 'scalar',
-              channels: [],
-            },
-          ],
-        },
-      };
-      const { result } = renderHook(() => useAvailableColumns(), {
-        wrapper: hooksWrapperWithProviders(state),
-      });
-
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
-
-      const data = result.current.data;
-
-      expect(data).not.toBeUndefined();
-
-      const timestampCol = data!.find((col) => col.id === timeChannelName);
-
-      // assert it converts a static channel correctly
-      expect(timestampCol).toEqual({
-        id: 'timestamp',
-        accessorKey: 'timestamp',
-        header: expect.any(Function),
-        cell: expect.any(Function),
-        meta: { channelInfo: staticChannels['timestamp'] },
-      });
-
-      const functionCol = data!.find((col) => col.id === 'a');
-
-      // assert it converts a normal channel correctly
-      expect(functionCol).toEqual({
-        id: 'a',
-        accessorKey: 'a',
-        header: expect.any(Function),
-        cell: expect.any(Function),
-        meta: {
-          channelInfo: {
-            description: 'Function: 1',
-            type: 'scalar',
-            name: 'a',
-            systemName: 'a',
-            path: '',
-          },
-        },
-      });
-    });
-
-    it('uses a select function to construct an array of columns from given channel and functions metadata (image and waveform)', async () => {
+    it('uses a select function to construct an array of columns from given channel and functions metadata', async () => {
       state = {
         ...state,
         functions: {
@@ -168,6 +110,13 @@ describe('channels api functions', () => {
               ],
               dataType: 'waveform',
               channels: ['CHANNEL_FGHIJ'],
+            },
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: [],
             },
           ],
         },
@@ -228,6 +177,25 @@ describe('channels api functions', () => {
             type: 'waveform',
             name: 'c',
             systemName: 'c',
+            path: '',
+          },
+        },
+      });
+
+      const functionCol = data!.find((col) => col.id === 'a');
+
+      // assert it converts a normal channel correctly
+      expect(functionCol).toEqual({
+        id: 'a',
+        accessorKey: 'a',
+        header: expect.any(Function),
+        cell: expect.any(Function),
+        meta: {
+          channelInfo: {
+            description: 'Function: 1',
+            type: 'scalar',
+            name: 'a',
+            systemName: 'a',
             path: '',
           },
         },

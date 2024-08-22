@@ -324,7 +324,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 }}
               />
               . The Wizard will suggest suitable options and indicate using a
-              grey box when each item has been recognised.
+              grey box when each item has been recognised. Function names are
+              not currently supported in filters.
             </Body>
             <Heading>Operators included</Heading>
             <Body>
