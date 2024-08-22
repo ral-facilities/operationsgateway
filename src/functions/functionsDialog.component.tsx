@@ -15,15 +15,12 @@ import {
 import { AxiosError } from 'axios';
 import React from 'react';
 import { useChannels } from '../api/channels';
-import {
-  useGetFunctionsTokens,
-  usePostValidateFunctions,
-} from '../api/functions';
+import { useFunctionsTokens, useValidateFunctions } from '../api/functions';
 import {
   APIError,
   APIErrorResponse,
   DataType,
-  FunctionTag,
+  FunctionToken,
   ValidateFunctionState,
 } from '../app.types';
 import { Heading } from '../filtering/filterDialogue.component';
@@ -94,7 +91,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       .map((func) => func.id)
   );
 
-  const { data: functionTokens } = useGetFunctionsTokens();
+  const { data: functionTokens } = useFunctionsTokens();
 
   const formattedFunctionTokens = React.useMemo(
     () =>
@@ -104,7 +101,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             type: 'functionToken',
             value: token.symbol,
             label: token.symbol,
-          }) as FunctionTag
+          }) as FunctionToken
       ) ?? [],
     [functionTokens]
   );
@@ -117,10 +114,19 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             type: 'channel',
             value: channel.systemName,
             label: channel?.name ?? channel.systemName,
-          }) as FunctionTag
+          }) as FunctionToken
       );
     },
   });
+
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setSelectedColIds(
+      appliedFunctions
+        .filter((func) => appliedSelectedIds.includes(func.name))
+        .map((func) => func.id)
+    );
+  }, [appliedFunctions, appliedSelectedIds, onClose]);
 
   const handleChangeValue = React.useCallback(
     (id: string) => (update: Partial<ValidateFunctionState>) =>
@@ -227,7 +233,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     [functions, handleChangeError]
   );
 
-  const { mutateAsync: postValidateFunctions } = usePostValidateFunctions();
+  const { mutateAsync: postValidateFunctions } = useValidateFunctions();
 
   const checkErrors = React.useCallback(
     (index: number, id: string) => {
@@ -282,7 +288,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     ]
   );
 
-  const functionsToken: FunctionTag[] = functions
+  const tokenisedFunctions: FunctionToken[] = functions
     .filter((func) => func.expression.length !== 0)
     .filter((func) => func.name.trim() !== '')
     .map((func) => ({
@@ -313,7 +319,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                     <Tooltip
                       title={
                         selectedColIds.includes(func.id)
-                          ? 'Removed function column'
+                          ? 'Hide function column'
                           : `Display function column`
                       }
                       arrow
@@ -343,7 +349,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                     <FunctionsInputs
                       channels={[...(channels ?? [])]}
                       operators={formattedFunctionTokens}
-                      functions={functionsToken.filter(
+                      functions={tokenisedFunctions.filter(
                         (token) => token.value !== func.name
                       )}
                       value={func}
@@ -406,13 +412,13 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item sx={{ width: 650 }}>
+          <Grid item xs={5}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handleClose}>Close</Button>
         <Button
           disabled={Object.keys(errors).length !== 0 || functions.length === 0}
           onClick={() => {

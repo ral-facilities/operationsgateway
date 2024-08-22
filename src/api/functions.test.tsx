@@ -1,19 +1,19 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { FunctionToken, ValidateFunctionState } from '../app.types';
+import { FunctionOperator, ValidateFunctionState } from '../app.types';
 import functionTokenJson from '../mocks/functionTokens.json';
 import { hooksWrapperWithProviders } from '../setupTests';
-import { useGetFunctionsTokens, usePostValidateFunctions } from './functions';
+import { useFunctionsTokens, useValidateFunctions } from './functions';
 
-describe('useGetFunctionsTokens', () => {
+describe('useFunctionsTokens', () => {
   it('sends request to fetch functions Tokens and returns successful response', async () => {
-    const { result } = renderHook(() => useGetFunctionsTokens(), {
+    const { result } = renderHook(() => useFunctionsTokens(), {
       wrapper: hooksWrapperWithProviders(),
     });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBeTruthy();
     });
-    const expected: FunctionToken[] = functionTokenJson;
+    const expected: FunctionOperator[] = functionTokenJson;
     expect(result.current.data).toEqual(expected);
   });
 
@@ -22,7 +22,7 @@ describe('useGetFunctionsTokens', () => {
   );
 });
 
-describe('usePostValidateFunctions', () => {
+describe('useValidateFunctions', () => {
   const functions: ValidateFunctionState[] = [
     {
       id: '1',
@@ -63,7 +63,7 @@ describe('usePostValidateFunctions', () => {
     },
   ];
   it('sends request to post functions to validate and returns successful response (1 functions)', async () => {
-    const { result } = renderHook(() => usePostValidateFunctions(), {
+    const { result } = renderHook(() => useValidateFunctions(), {
       wrapper: hooksWrapperWithProviders(),
     });
     expect(result.current.isIdle).toBe(true);
@@ -78,7 +78,7 @@ describe('usePostValidateFunctions', () => {
   });
 
   it('sends request to post functions to validate and returns successful response (2 functions)', async () => {
-    const { result } = renderHook(() => usePostValidateFunctions(), {
+    const { result } = renderHook(() => useValidateFunctions(), {
       wrapper: hooksWrapperWithProviders(),
     });
     expect(result.current.isIdle).toBe(true);
@@ -93,7 +93,7 @@ describe('usePostValidateFunctions', () => {
   });
 
   it('sends request to post functions to validate and returns unsuccessful response (expression)', async () => {
-    const { result } = renderHook(() => usePostValidateFunctions(), {
+    const { result } = renderHook(() => useValidateFunctions(), {
       wrapper: hooksWrapperWithProviders(),
     });
     expect(result.current.isIdle).toBe(true);
@@ -111,7 +111,7 @@ describe('usePostValidateFunctions', () => {
   });
 
   it('sends request to post functions to validate and returns unsuccessful response (name)', async () => {
-    const { result } = renderHook(() => usePostValidateFunctions(), {
+    const { result } = renderHook(() => useValidateFunctions(), {
       wrapper: hooksWrapperWithProviders(),
     });
     expect(result.current.isIdle).toBe(true);

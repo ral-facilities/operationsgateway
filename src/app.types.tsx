@@ -273,13 +273,13 @@ export interface SessionListItem {
   _id: string;
 }
 
-export interface FunctionTag {
-  type: 'channel' | 'functionToken' | 'function' | 'number' | 'string';
+export interface FunctionToken {
+  type: 'channel' | 'functionToken' | 'function' | 'number';
   value: string;
   label: string;
 }
 
-export interface FunctionToken {
+export interface FunctionOperator {
   name: string;
   symbol: string;
   details?: string;
@@ -293,7 +293,7 @@ export interface ValidateFunctionPost {
 export interface ValidateFunctionState {
   id: string;
   name: string;
-  expression: FunctionTag[];
+  expression: FunctionToken[];
   dataType: DataType;
   channels: string[];
 }

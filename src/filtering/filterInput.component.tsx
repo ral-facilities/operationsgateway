@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { FLASH_ANIMATION } from '../animation';
-import { FunctionTag } from '../app.types';
+import { FunctionToken } from '../app.types';
 import { ParserError, Token, operators, parseFilter } from './filterParser';
 
 interface FilterInputProps {
@@ -216,7 +216,7 @@ interface UseOnChangeProps<T> {
   enableCustomStringHandling: boolean;
 }
 
-export const useOnChange = <T extends Token | FunctionTag>({
+export const useOnChange = <T extends Token | FunctionToken>({
   inputValue,
   setInputValue,
   setValue,

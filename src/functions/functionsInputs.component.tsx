@@ -9,7 +9,7 @@ import {
   createFilterOptions,
 } from '@mui/material';
 import React from 'react';
-import { FunctionTag, ValidateFunctionState } from '../app.types';
+import { FunctionToken, ValidateFunctionState } from '../app.types';
 import {
   useClickHandler,
   useKeydownHandler,
@@ -18,9 +18,9 @@ import {
 import { errorState } from './functionsDialog.component';
 
 export interface FunctionsInputsProps {
-  channels: FunctionTag[];
-  operators: FunctionTag[];
-  functions: FunctionTag[];
+  channels: FunctionToken[];
+  operators: FunctionToken[];
+  functions: FunctionToken[];
   value: ValidateFunctionState;
   setValue: (update: Partial<ValidateFunctionState>) => void;
   error?: errorState;
@@ -31,7 +31,7 @@ export interface FunctionsInputsProps {
 // use matchFrom start here as otherwise it's hard to input e.g. the number 1 as there
 // are channels with that in their name. It also matches eCat behaviour - but we should
 // check if this is desired.
-const filterOptions = createFilterOptions<FunctionTag>({
+const filterOptions = createFilterOptions<FunctionToken>({
   matchFrom: 'start',
   limit: 100,
 });
@@ -66,7 +66,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
     }
   };
 
-  const keydownHandler = useKeydownHandler<FunctionTag>({
+  const keydownHandler = useKeydownHandler<FunctionToken>({
     inputValue,
     inputIndex,
     setInputIndex,
@@ -81,7 +81,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
 
   const clickHandler = useClickHandler({ setInputIndex, inputIndex });
 
-  const onChange = useOnChange<FunctionTag>({
+  const onChange = useOnChange<FunctionToken>({
     inputValue,
     setInputValue,
     setValue: (newExpression) => setValue({ expression: newExpression }),
@@ -129,7 +129,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           // this is need to allow user to repeatedly select the same tag
           isOptionEqualToValue={(option, value) => false}
           renderTags={(value, getTagProps) => {
-            tags = value.map((option: FunctionTag, index: number) => (
+            tags = value.map((option: FunctionToken, index: number) => (
               <Chip
                 label={option.label}
                 size="small"

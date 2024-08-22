@@ -9,22 +9,22 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
-import { FunctionToken } from '../app.types';
+import { FunctionOperator } from '../app.types';
 import { Body, Heading } from '../filtering/filterDialogue.component';
 
 export interface FunctionsHelpProps {
-  data: FunctionToken[];
+  data: FunctionOperator[];
 }
 
 interface Categories {
-  'Mathematical Symbols': FunctionToken[];
-  'Statistical Functions': FunctionToken[];
-  'Exponential And Logarithmic Functions': FunctionToken[];
-  'Waveform Analysis': FunctionToken[];
-  'Image Analysis': FunctionToken[];
+  'Mathematical Symbols': FunctionOperator[];
+  'Statistical Functions': FunctionOperator[];
+  'Exponential And Logarithmic Functions': FunctionOperator[];
+  'Waveform Analysis': FunctionOperator[];
+  'Image Analysis': FunctionOperator[];
 }
 
-function categoriseSymbols(symbols: FunctionToken[]) {
+function categoriseSymbols(symbols: FunctionOperator[]) {
   const categories: Categories = {
     'Mathematical Symbols': [],
     'Statistical Functions': [],
@@ -116,7 +116,7 @@ const FunctionsHelp = (props: FunctionsHelpProps) => {
                 <TableCell>{key}</TableCell>
                 <TableCell>
                   <Box display="flex" flexWrap="wrap" gap={1}>
-                    {values.map((value: FunctionToken) => {
+                    {values.map((value: FunctionOperator) => {
                       return (
                         <Tooltip
                           title={value.details || ''}
