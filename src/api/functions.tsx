@@ -8,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 import {
   APIFunctionState,
   DataType,
-  FunctionToken,
+  FunctionOperator,
   ValidateFunctionState,
 } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
@@ -42,7 +42,7 @@ export function convertExpressionsToStrings(
   };
 }
 
-const getFunctionsTokens = (apiUrl: string): Promise<FunctionToken[]> => {
+const getFunctionsTokens = (apiUrl: string): Promise<FunctionOperator[]> => {
   return axios
     .get(`${apiUrl}/functions/tokens`, {
       headers: {
@@ -54,8 +54,8 @@ const getFunctionsTokens = (apiUrl: string): Promise<FunctionToken[]> => {
     });
 };
 
-export const useGetFunctionsTokens = (): UseQueryResult<
-  FunctionToken[],
+export const useFunctionsTokens = (): UseQueryResult<
+  FunctionOperator[],
   AxiosError
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
@@ -85,7 +85,7 @@ const postValidateFunctions = (
     });
 };
 
-export const usePostValidateFunctions = (): UseMutationResult<
+export const useValidateFunctions = (): UseMutationResult<
   DataType[],
   AxiosError,
   ValidateFunctionState[]

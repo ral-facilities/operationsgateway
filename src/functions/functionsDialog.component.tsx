@@ -12,15 +12,12 @@ import {
 import { AxiosError } from 'axios';
 import React from 'react';
 import { useChannels } from '../api/channels';
-import {
-  useGetFunctionsTokens,
-  usePostValidateFunctions,
-} from '../api/functions';
+import { useFunctionsTokens, useValidateFunctions } from '../api/functions';
 import {
   APIError,
   APIErrorResponse,
   DataType,
-  FunctionTag,
+  FunctionToken,
   ValidateFunctionState,
 } from '../app.types';
 import { Heading } from '../filtering/filterDialogue.component';
@@ -78,12 +75,10 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
   const dispatch = useAppDispatch();
   const appliedFunctions = useAppSelector(selectAppliedFunctions);
   const appliedSelectedIds = useAppSelector(selectSelectedIds);
-  // we need searchParams so we can check for past queries before showing the warning message
-  // const searchParams = useAppSelector(selectSearchParams);
   const [functions, setFunctions] =
     React.useState<ValidateFunctionState[]>(appliedFunctions);
   const [errors, setErrors] = React.useState<FunctionErrorState>({});
-  const { data: functionTokens } = useGetFunctionsTokens();
+  const { data: functionTokens } = useFunctionsTokens();
 
   const formattedFunctionTokens = React.useMemo(
     () =>
@@ -93,7 +88,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             type: 'functionToken',
             value: token.symbol,
             label: token.symbol,
-          }) as FunctionTag
+          }) as FunctionToken
       ) ?? [],
     [functionTokens]
   );
@@ -106,7 +101,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             type: 'channel',
             value: channel.systemName,
             label: channel?.name ?? channel.systemName,
-          }) as FunctionTag
+          }) as FunctionToken
       );
     },
   });
@@ -209,7 +204,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     [functions, handleChangeError]
   );
 
-  const { mutateAsync: postValidateFunctions } = usePostValidateFunctions();
+  const { mutateAsync: postValidateFunctions } = useValidateFunctions();
 
   const checkErrors = React.useCallback(
     (index: number, id: string) => {
@@ -259,7 +254,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     ]
   );
 
-  const functionsToken: FunctionTag[] = functions
+  const tokenisedFunctions: FunctionToken[] = functions
     .filter((func) => func.expression.length !== 0)
     .filter((func) => func.name.trim() !== '')
     .map((func) => ({
@@ -282,7 +277,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                     <FunctionsInputs
                       channels={[...(channels ?? [])]}
                       operators={formattedFunctionTokens}
-                      functions={functionsToken.filter(
+                      functions={tokenisedFunctions.filter(
                         (token) => token.value !== func.name
                       )}
                       value={func}
