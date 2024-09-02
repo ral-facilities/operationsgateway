@@ -5,9 +5,9 @@ import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import TraceWindow from './traceWindow.component';
 
-vi.mock('../windows/windowPortal.component', () => {
+vi.mock('../windows/windowPortal.component', async () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const ReactMock = require('react');
+  const ReactMock = await vi.importActual('react');
   return {
     default: ReactMock.forwardRef(({ children }, ref) => (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
