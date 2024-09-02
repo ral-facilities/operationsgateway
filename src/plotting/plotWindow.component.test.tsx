@@ -1,8 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http } from 'msw';
 import React from 'react';
-import { server } from '../mocks/server';
 import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
 import {
@@ -102,15 +100,6 @@ describe('Plot Window component', () => {
   });
 
   it('renders correctly while records and channels are loading', () => {
-    const loadingHandler = () => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(
-      http.get('/records', loadingHandler),
-      http.get('/channels', loadingHandler)
-    );
-
     createView();
     screen.getByLabelText('Settings loading');
     screen.getByLabelText('Plot loading');

@@ -40,16 +40,6 @@ describe('Thumbnail selector component', () => {
   });
 
   it('renders correctly when loading', () => {
-    const loadingHandler = () => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(
-      http.get('/records', loadingHandler),
-      http.get('/records/count', loadingHandler),
-      http.get('/channels', loadingHandler)
-    );
-
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });

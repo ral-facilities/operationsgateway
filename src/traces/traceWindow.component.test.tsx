@@ -1,8 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http } from 'msw';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
-import { server } from '../mocks/server';
 import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import TraceWindow from './traceWindow.component';
@@ -57,12 +55,6 @@ describe('Trace Window component', () => {
   });
 
   it('renders correctly while waveform is loading', () => {
-    const loadingHandler = () => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(http.get('/waveforms', loadingHandler));
-
     createView();
     screen.getByLabelText('Trace loading');
   });
