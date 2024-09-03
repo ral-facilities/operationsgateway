@@ -1,10 +1,10 @@
-import React from 'react';
 import { act } from '@testing-library/react';
-import App from './App';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { flushPromises } from './setupTests';
+import App from './App';
+import { flushPromises } from './testUtils';
 
-jest.mock('loglevel');
+vi.mock('loglevel');
 
 describe('App', () => {
   it('renders without crashing', async () => {

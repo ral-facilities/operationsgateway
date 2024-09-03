@@ -48,7 +48,7 @@ const ChannelSearch = (props: ChannelSearchProps) => {
       filterOptions={filterOptions}
       value={value}
       inputValue={inputValue}
-      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+      onInputChange={(_event, newInputValue) => setInputValue(newInputValue)}
       size="small"
       options={channels}
       getOptionLabel={(option) =>
@@ -57,7 +57,7 @@ const ChannelSearch = (props: ChannelSearchProps) => {
           : option.systemName
       }
       blurOnSelect
-      onChange={(event: unknown, newValue: FullChannelMetadata | null) => {
+      onChange={(_event: unknown, newValue: FullChannelMetadata | null) => {
         if (newValue) onSearchChange(newValue);
         setValue(newValue);
       }}

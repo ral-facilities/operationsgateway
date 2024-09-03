@@ -1,22 +1,22 @@
-import React from 'react';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
-  Typography,
-  ListItem,
   IconButton,
   List,
+  ListItem,
   ListItemButton,
   listItemButtonClasses,
-  ListItemText,
   listItemSecondaryActionClasses,
+  ListItemText,
+  Typography,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Drawer from '@mui/material/Drawer';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import React from 'react';
 import { SessionListItem, SessionResponse } from '../app.types';
-import { importSession } from '../state/store';
 import { useAppDispatch } from '../state/hooks';
+import { importSession } from '../state/store';
 
 export interface SessionDrawerProps {
   openSessionSave: () => void;
@@ -228,7 +228,7 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         {sessionsList &&
           sessionsList
             .sort(compareSessions)
-            .map((item, index) => (
+            .map((item) => (
               <SessionListElement
                 {...item}
                 key={item._id}

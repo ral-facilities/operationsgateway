@@ -1,29 +1,29 @@
-import React from 'react';
-import { useRecordCount, useRecordsPaginated } from '../api/records';
-import Table from '../table/table.component';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
-import {
-  changeSort,
-  changePage,
-  changeResultsPerPage,
-  selectColumnStates,
-  selectColumnVisibility,
-  selectSelectedIds,
-  deselectColumn,
-  reorderColumn,
-  toggleWordWrap,
-} from '../state/slices/tableSlice';
-import { selectQueryParams } from '../state/slices/searchSlice';
-import { selectAppliedFilters } from '../state/slices/filterSlice';
-import { useAvailableColumns } from '../api/channels';
 import { DropResult } from '@hello-pangea/dnd';
+import { RowSelectionState, Updater } from '@tanstack/react-table';
+import React from 'react';
+import { useAvailableColumns } from '../api/channels';
+import { useRecordCount, useRecordsPaginated } from '../api/records';
 import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectAppliedFilters } from '../state/slices/filterSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
 import {
   selectSelectedRowsObject,
   setSelectedRows,
 } from '../state/slices/selectionSlice';
-import { Updater, RowSelectionState } from '@tanstack/react-table';
+import {
+  changePage,
+  changeResultsPerPage,
+  changeSort,
+  deselectColumn,
+  reorderColumn,
+  selectColumnStates,
+  selectColumnVisibility,
+  selectSelectedIds,
+  toggleWordWrap,
+} from '../state/slices/tableSlice';
+import Table from '../table/table.component';
 
 export const extractChannelsFromTokens = (
   appliedFilters: Token[][]

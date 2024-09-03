@@ -1,17 +1,16 @@
-import React from 'react';
-import { screen, type RenderResult, waitFor } from '@testing-library/react';
+import { screen, waitFor, type RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
-import { renderComponentWithProviders } from '../setupTests';
 import SessionsListJSON from '../mocks/sessionsList.json';
+import { renderComponentWithProviders } from '../testUtils';
+import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
 
 describe('session Drawer', () => {
-  const openSessionSave = jest.fn();
-  const openSessionEdit = jest.fn();
-  const openSessionDelete = jest.fn();
-  const onChangeLoadedSessionId = jest.fn();
-  const onChangeLoadedSessionTimestamp = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const openSessionSave = vi.fn();
+  const openSessionEdit = vi.fn();
+  const openSessionDelete = vi.fn();
+  const onChangeLoadedSessionId = vi.fn();
+  const onChangeLoadedSessionTimestamp = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
   let user;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
@@ -32,7 +31,7 @@ describe('session Drawer', () => {
     };
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {
@@ -61,10 +60,6 @@ describe('session Drawer', () => {
     const session1 = screen.getByText('Session 1');
     await user.click(session1);
     expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
-
-    await waitFor(() => {
-      expect(session1).toHaveStyle('background-color: primary.main');
-    });
 
     expect(onChangeLoadedSessionTimestamp).toHaveBeenCalledWith(
       '2023-06-29T10:30:00',

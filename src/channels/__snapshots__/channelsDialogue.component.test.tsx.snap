@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Channels Dialogue doesn't render channels dialogue when dialogue is closed 1`] = `
+exports[`Channels Dialogue > doesn't render channels dialogue when dialogue is closed 1`] = `
 <body
   style=""
 >
@@ -8,7 +8,7 @@ exports[`Channels Dialogue doesn't render channels dialogue when dialogue is clo
 </body>
 `;
 
-exports[`Channels Dialogue renders channels dialogue when dialogue is open 1`] = `
+exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`] = `
 <body
   style="padding-right: 1024px; overflow: hidden;"
 >

@@ -1,18 +1,18 @@
+import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { staticChannels } from '../api/channels';
+import { RootState } from '../state/store';
+import {
+  getInitialState,
+  renderComponentWithProviders,
+  testChannels,
+} from '../testUtils';
 import ChannelsDialogue, {
   selectChannelTree,
   TreeNode,
 } from './channelsDialogue.component';
-import {
-  getInitialState,
-  testChannels,
-  renderComponentWithProviders,
-} from '../setupTests';
-import { QueryClient } from '@tanstack/react-query';
-import { RootState } from '../state/store';
-import { staticChannels } from '../api/channels';
 
 describe('selectChannelTree', () => {
   it('transforms channel list with selection info into TreeNode', () => {
@@ -111,12 +111,12 @@ describe('Channels Dialogue', () => {
     user = userEvent.setup();
     props = {
       open: true,
-      onClose: jest.fn(),
+      onClose: vi.fn(),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders channels dialogue when dialogue is open', async () => {

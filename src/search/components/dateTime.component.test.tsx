@@ -1,23 +1,18 @@
-import React from 'react';
-import DateTime, {
-  DateTimeSearchProps,
-  datesEqual,
-  verifyAndUpdateDate,
-  type VerifyAndUpdateDateParams,
-  renderExperimentPickerDay,
-  CustomPickersDay,
-} from './dateTime.component';
-import { render, RenderResult, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-} from '../../setupTests';
-import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { ExperimentParams } from '../../app.types';
-import experimentsJSON from '../../mocks/experiments.json';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
+import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { render, RenderResult, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ExperimentParams } from '../../app.types';
+import experimentsJSON from '../../mocks/experiments.json';
+import DateTime, {
+  CustomPickersDay,
+  datesEqual,
+  DateTimeSearchProps,
+  renderExperimentPickerDay,
+  verifyAndUpdateDate,
+  type VerifyAndUpdateDateParams,
+} from './dateTime.component';
 
 describe('datesEqual function', () => {
   it('returns true if both dates are null', () => {
@@ -80,10 +75,10 @@ describe('CustomPickersDay function', () => {
       showDaysOutsideCurrentMonth: undefined,
       isLastVisibleCell: false,
       isFirstVisibleCell: false,
-      onDaySelect: jest.fn(),
-      onBlur: jest.fn(),
-      onFocus: jest.fn(),
-      onKeyDown: jest.fn(),
+      onDaySelect: vi.fn(),
+      onBlur: vi.fn(),
+      onFocus: vi.fn(),
+      onKeyDown: vi.fn(),
     };
     const createView = (): RenderResult => {
       return render(
@@ -131,15 +126,15 @@ describe('renderExperimentPickerDay function', () => {
       selected: false,
       disableHighlightToday: undefined,
       showDaysOutsideCurrentMonth: undefined,
-      onDaySelect: jest.fn(),
-      onBlur: jest.fn(),
-      onFocus: jest.fn(),
-      onKeyDown: jest.fn(),
+      onDaySelect: vi.fn(),
+      onBlur: vi.fn(),
+      onFocus: vi.fn(),
+      onKeyDown: vi.fn(),
     };
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders a PickersDay component when selectedDate is with an experiment', () => {
@@ -181,7 +176,7 @@ describe('renderExperimentPickerDay function', () => {
 
 describe('verifyAndUpdateDate function', () => {
   let props: VerifyAndUpdateDateParams;
-  const changeDate = jest.fn();
+  const changeDate = vi.fn();
 
   beforeEach(() => {
     props = {
@@ -194,7 +189,7 @@ describe('verifyAndUpdateDate function', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('calls changeDate if otherDate is null', () => {
@@ -262,21 +257,20 @@ describe('verifyAndUpdateDate function', () => {
 
 describe('DateTime tests', () => {
   let props: DateTimeSearchProps;
-  const changeSearchParameterFromDate = jest.fn();
-  const changeSearchParameterToDate = jest.fn();
-  const resetTimeframe = jest.fn();
-  const resetExperimentTimeframe = jest.fn();
-  const resetShotnumberRange = jest.fn();
-  const isDateTimeInExperiment = jest.fn();
-  const searchParamsUpdated = jest.fn();
-  const setDatePickerError = jest.fn();
+  const changeSearchParameterFromDate = vi.fn();
+  const changeSearchParameterToDate = vi.fn();
+  const resetTimeframe = vi.fn();
+  const resetExperimentTimeframe = vi.fn();
+  const resetShotnumberRange = vi.fn();
+  const isDateTimeInExperiment = vi.fn();
+  const searchParamsUpdated = vi.fn();
+  const setDatePickerError = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<DateTime {...props} />);
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
     userEvent.setup();
     props = {
       searchParameterFromDate: null,
@@ -298,8 +292,7 @@ describe('DateTime tests', () => {
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with no input date-time ranges', () => {

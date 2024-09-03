@@ -1,24 +1,23 @@
-import React from 'react';
-import DataHeader, { DataHeaderProps } from './dataHeader.component';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import {
+  act,
   render,
   RenderResult,
   screen,
-  act,
   within,
 } from '@testing-library/react';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
-import { flushPromises } from '../../setupTests';
 import userEvent from '@testing-library/user-event';
+import { flushPromises } from '../../testUtils';
+import DataHeader, { DataHeaderProps } from './dataHeader.component';
 
 describe('Data Header', () => {
   let props: DataHeaderProps;
-  const onSort = jest.fn();
-  const onClose = jest.fn();
-  const onToggleWordWrap = jest.fn();
-  const handleOnDragEnd = jest.fn();
-  const openFilters = jest.fn();
-  const resizeHandler = jest.fn();
+  const onSort = vi.fn();
+  const onClose = vi.fn();
+  const onToggleWordWrap = vi.fn();
+  const handleOnDragEnd = vi.fn();
+  const openFilters = vi.fn();
+  const resizeHandler = vi.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -64,7 +63,7 @@ describe('Data Header', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {

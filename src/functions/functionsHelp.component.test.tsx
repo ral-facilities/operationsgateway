@@ -1,5 +1,4 @@
 import { render } from '@testing-library/react';
-import React from 'react';
 import functionsTokensJson from '../mocks/functionTokens.json';
 import FunctionsHelp, { FunctionsHelpProps } from './functionsHelp.component';
 describe('FunctionsDialog', () => {
@@ -16,7 +15,7 @@ describe('FunctionsDialog', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders help page correctly', async () => {

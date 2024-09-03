@@ -1,7 +1,6 @@
-import React from 'react';
 import { render } from '@testing-library/react';
-import { TracePlotProps } from './tracePlot.component';
-import TracePlot from './tracePlot.component';
+import React from 'react';
+import TracePlot, { TracePlotProps } from './tracePlot.component';
 
 describe('Trace plot component', () => {
   let props: TracePlotProps;

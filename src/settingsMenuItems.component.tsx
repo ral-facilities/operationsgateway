@@ -8,18 +8,18 @@ import {
   SelectChangeEvent,
   Switch,
 } from '@mui/material';
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  ColourMapSelect,
-  filterNamesWithSuffixR,
-} from './images/falseColourPanel.component';
 import { FalseColourParams, useColourMaps } from './api/images';
 import {
   useUpdateUserPreference,
   useUserPreference,
 } from './api/userPreferences';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+  ColourMapSelect,
+  filterNamesWithSuffixR,
+} from './images/falseColourPanel.component';
 
 export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
 
@@ -122,14 +122,14 @@ const SettingsMenuItems = () => {
   };
 
   const handleExtendColourMaps = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     setExtendedColourMap(checked);
   };
 
   const handleReverseColour = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     if (selectColourMap !== '') {
@@ -150,7 +150,7 @@ const SettingsMenuItems = () => {
 
   const observer = React.useMemo(
     () =>
-      new MutationObserver((mutations) => {
+      new MutationObserver(() => {
         if (
           document.body.querySelector('#settings ul, #mobile-overflow-menu ul')
         ) {

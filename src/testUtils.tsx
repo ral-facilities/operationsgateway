@@ -1,3 +1,8 @@
+import { Action, ThunkAction } from '@reduxjs/toolkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type { RenderOptions } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { matchRequestUrl } from 'msw';
 import React from 'react';
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
@@ -5,16 +10,8 @@ import React from 'react';
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 // need to mock <canvas> for plotting
-import { Action, ThunkAction } from '@reduxjs/toolkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import type { RenderOptions } from '@testing-library/react';
-import { render } from '@testing-library/react';
-import crypto from 'crypto';
 import 'jest-canvas-mock';
-import failOnConsole from 'jest-fail-on-console';
-import { MockedRequest, matchRequestUrl } from 'msw';
 import { Provider } from 'react-redux';
-import { TextEncoder } from 'util';
 import { staticChannels } from './api/channels';
 import {
   DEFAULT_WINDOW_VARS,
@@ -44,22 +41,6 @@ import {
   WindowsRefType,
 } from './windows/windowContext';
 
-global.TextEncoder = TextEncoder;
-
-failOnConsole();
-
-jest.setTimeout(15000);
-
-// Establish API mocking before all tests.
-beforeAll(() => server.listen());
-
-// Reset any request handlers that we may add during the tests,
-// so they don't affect other tests.
-afterEach(() => server.resetHandlers());
-
-// Clean up after the tests are finished.
-afterAll(() => server.close());
-
 /**
  * Waits for msw request -
  * @param method string representing the HTTP method
@@ -67,35 +48,58 @@ afterAll(() => server.close());
  * @returns a promise of the matching request
  *  */
 export function waitForRequest(method: string, url: string) {
-  let requestId = '';
+  let newRequestId = '';
 
-  return new Promise<MockedRequest>((resolve, reject) => {
-    const onRequestStart = (req) => {
-      const matchesMethod = req.method.toLowerCase() === method.toLowerCase();
+  return new Promise<Request>((resolve, reject) => {
+    const onRequestStart = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      const requestURL = new URL(request.url);
+      const matchesMethod =
+        request.method.toLowerCase() === method.toLowerCase();
 
-      const matchesUrl = matchRequestUrl(req.url, url).matches;
+      const matchesUrl = matchRequestUrl(requestURL, url).matches;
 
       if (matchesMethod && matchesUrl) {
-        requestId = req.id;
+        newRequestId = requestId;
       }
     };
 
-    const onRequestMatch = (req) => {
-      if (req.id === requestId) {
+    const onRequestMatch = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      if (requestId === newRequestId) {
         server.events.removeListener('request:start', onRequestStart);
         server.events.removeListener('request:match', onRequestMatch);
         server.events.removeListener('request:unhandled', onRequestUnhandled);
-        resolve(req);
+        resolve(request);
       }
     };
 
-    const onRequestUnhandled = (req) => {
-      if (req.id === requestId) {
+    const onRequestUnhandled = ({
+      request,
+      requestId,
+    }: {
+      request: Request;
+      requestId: string;
+    }) => {
+      const requestURL = new URL(request.url);
+      if (requestId === newRequestId) {
         server.events.removeListener('request:start', onRequestStart);
         server.events.removeListener('request:match', onRequestMatch);
         server.events.removeListener('request:unhandled', onRequestUnhandled);
         reject(
-          new Error(`The ${req.method} ${req.url.href} request was unhandled.`)
+          new Error(
+            `The ${request.method} ${requestURL.href} request was unhandled.`
+          )
         );
       }
     };
@@ -107,19 +111,6 @@ export function waitForRequest(method: string, url: string) {
     server.events.on('request:unhandled', onRequestUnhandled);
   });
 }
-
-// this is needed because of https://github.com/facebook/jest/issues/8987
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-let mockActualReact;
-jest.doMock('react', () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (!mockActualReact) {
-    mockActualReact = jest.requireActual('react');
-  }
-  return mockActualReact;
-});
 
 export let actions: Action[] = [];
 export const resetActions = (): void => {
@@ -146,34 +137,6 @@ export const dispatch = (
   }
 };
 
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
-  });
-}
-
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // required as work-around for enzyme/jest environment not implementing window.URL.revokeObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {
-      // no-op
-    },
-  });
-}
-
-// jest doesn't implement web crypto so set up nodejs crypto as a default
-Object.defineProperty(global, 'crypto', {
-  value: Object.setPrototypeOf({ subtle: crypto.subtle }, crypto),
-});
-
-// jest doesn't implement ResizeObserver so mock it
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
-
 // This type interface extends the default options for render from RTL, as well
 // as allows the user to specify other things such as initialState, store.
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
@@ -191,11 +154,6 @@ export const createTestQueryClient = (): QueryClient =>
         staleTime: 300000,
       },
     },
-    logger: {
-      log: console.log,
-      warn: console.warn,
-      error: jest.fn(),
-    },
   });
 
 export const hooksWrapperWithProviders = (
@@ -204,7 +162,7 @@ export const hooksWrapperWithProviders = (
 ) => {
   const testQueryClient = queryClient ?? createTestQueryClient();
   const store = setupStore(state);
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
     <Provider store={store}>
       <QueryClientProvider client={testQueryClient}>
         {children}
@@ -297,34 +255,6 @@ export function renderComponentWithStoreAndWindows(
 export const flushPromises = (): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve));
 
-// MUI date pickers default to mobile versions during testing and so functions
-// like .simulate('change') will not work, this workaround ensures desktop
-// datepickers are used in tests instead
-// https://github.com/mui/material-ui-pickers/issues/2073
-export const applyDatePickerWorkaround = (): void => {
-  // add window.matchMedia
-  // this is necessary for the date picker to be rendered in desktop mode.
-  // if this is not provided, the mobile mode is rendered, which might lead to unexpected behavior
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: (query: string) => ({
-      media: query,
-      // this is the media query that @material-ui/pickers uses to determine if a device is a desktop device
-      matches: query === '(pointer: fine)',
-      onchange: () => undefined,
-      addEventListener: () => undefined,
-      removeEventListener: () => undefined,
-      addListener: () => undefined,
-      removeListener: () => undefined,
-      dispatchEvent: () => false,
-    }),
-  });
-};
-
-export const cleanupDatePickerWorkaround = (): void => {
-  delete window.matchMedia;
-};
-
 export const testChannels = [
   ...Object.values(staticChannels),
   ...Object.entries(channelsJson.channels).map(
@@ -337,9 +267,11 @@ export const testChannels = [
 ];
 
 export const testScalarChannels: FullScalarChannelMetadata[] = [
-  ...Object.values(staticChannels),
+  ...Object.values(staticChannels).filter(
+    (channel) => channel.type === 'scalar'
+  ),
   ...Object.entries(channelsJson.channels)
-    .filter(([systemName, channel]) => channel.type === 'scalar')
+    .filter(([_systemName, channel]) => channel.type === 'scalar')
     .map(
       ([systemName, channel]) =>
         ({

@@ -1,9 +1,8 @@
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import React from 'react';
-import { getInitialState, renderComponentWithProviders } from '../setupTests';
 import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import FunctionsDialog, {
   FunctionsDialogProps,
 } from './functionsDialog.component';
@@ -11,7 +10,7 @@ describe('FunctionsDialog', () => {
   let props: FunctionsDialogProps;
   let user: UserEvent;
 
-  const onClose = jest.fn();
+  const onClose = vi.fn();
 
   const createView = (
     initialState?: Partial<RootState>,
@@ -33,7 +32,7 @@ describe('FunctionsDialog', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders functions dialog when dialog is open', async () => {

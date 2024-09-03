@@ -1,7 +1,7 @@
-import React from 'react';
-import PlotSettingsTextField from './plotSettingsTextField.component';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import PlotSettingsTextField from './plotSettingsTextField.component';
 
 describe('PlotSettingsTextField', () => {
   it('renders correctly', () => {
@@ -9,7 +9,7 @@ describe('PlotSettingsTextField', () => {
       <PlotSettingsTextField
         label="value field"
         value="test value"
-        onChange={jest.fn()}
+        onChange={vi.fn()}
       />
     );
 

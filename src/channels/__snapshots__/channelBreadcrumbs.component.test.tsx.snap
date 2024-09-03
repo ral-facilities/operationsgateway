@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Channel Breadcrumbs should render correctly for path 1`] = `
+exports[`Channel Breadcrumbs > should render correctly for path 1`] = `
 <DocumentFragment>
   <nav
     aria-label="breadcrumb"
@@ -75,7 +75,7 @@ exports[`Channel Breadcrumbs should render correctly for path 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Channel Breadcrumbs should render correctly for root 1`] = `
+exports[`Channel Breadcrumbs > should render correctly for root 1`] = `
 <DocumentFragment>
   <nav
     aria-label="breadcrumb"

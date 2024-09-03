@@ -109,7 +109,7 @@ export const useImage = (
   return useQuery({
     queryKey: ['images', recordId, channelName, functions, falseColourParams],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchImage(
         apiUrl,
         recordId,
@@ -132,7 +132,7 @@ export const useColourBar = (
   return useQuery({
     queryKey: ['colourbar', falseColourParams],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchColourBar(apiUrl, falseColourParams);
     },
 
@@ -150,7 +150,7 @@ export const useColourMaps = (): UseQueryResult<
   return useQuery({
     queryKey: ['colourmaps'],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchColourMaps(apiUrl);
     },
   });

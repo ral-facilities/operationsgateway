@@ -231,12 +231,12 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           fullWidth
           inputValue={inputValue}
           onBlur={checkErrors}
-          onInputChange={(event, newInputValue) => {
+          onInputChange={(_event, newInputValue) => {
             setInputValue(newInputValue);
           }}
           value={value.expression}
           onChange={(
-            event: unknown,
+            _event: unknown,
             newValue: (string | FunctionToken)[],
             reason: string
           ) => {
@@ -294,7 +294,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
             }
           }}
           // this is need to allow user to repeatedly select the same tag
-          isOptionEqualToValue={(option, value) => false}
+          isOptionEqualToValue={(_option, _value) => false}
           renderTags={(value, getTagProps) => {
             tags = value.map((option: FunctionToken, index: number) => (
               <Chip

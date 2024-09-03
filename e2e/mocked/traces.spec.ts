@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -136,18 +136,18 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
     const { msw } = window;
 
     msw.worker.use(
-      msw.rest.get(
+      msw.http.get(
         '/waveforms/:recordId/:channelName',
-        async (req, res, ctx) => {
-          return res.once(
-            ctx.status(200),
-            ctx.json({
+        async () =>
+          msw.HttpResponse.json(
+            {
               _id: '2',
               x: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
               y: [8, 1, 10, 9, 4, 3, 5, 6, 2, 7],
-            })
-          );
-        }
+            },
+            { status: 200 }
+          ),
+        { once: true }
       )
     );
   });

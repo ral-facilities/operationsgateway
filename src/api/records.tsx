@@ -1,22 +1,22 @@
 import {
-  UseQueryResult,
   useQuery,
   useQueryClient,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { parseISO } from 'date-fns';
 import {
   APIFunctionState,
   DateRangetoShotnumConverter,
+  isChannelImage,
+  isChannelScalar,
+  isChannelWaveform,
   PlotDataset,
   Record,
   RecordRow,
   SearchParams,
   SelectedPlotChannel,
   SortType,
-  isChannelImage,
-  isChannelScalar,
-  isChannelWaveform,
   timeChannelName,
 } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
@@ -282,7 +282,7 @@ export const useDateToShotnumConverter = (
   return useQuery({
     queryKey: ['dateToShotnumConverter', { fromDate, toDate }],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchRangeRecordConverterQuery(
         apiUrl,
         fromDate,
@@ -305,17 +305,14 @@ export const useShotnumToDateConverter = (
 
   return useQuery({
     queryKey: ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
-
-    queryFn: (params) => {
-      return fetchRangeRecordConverterQuery(
+    queryFn: () =>
+      fetchRangeRecordConverterQuery(
         apiUrl,
         undefined,
         undefined,
         shotnumMin,
         shotnumMax
-      );
-    },
-
+      ),
     enabled,
   });
 };

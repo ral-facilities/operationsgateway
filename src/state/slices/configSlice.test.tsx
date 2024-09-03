@@ -1,15 +1,15 @@
+import { setSettings } from '../../settings';
+import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
-  settingsLoaded,
-  loadUrls,
-  loadPluginHostSetting,
   initialState,
+  loadPluginHostSetting,
   loadRecordLimitWarningSetting,
+  loadUrls,
+  settingsLoaded,
 } from './configSlice';
-import { actions, resetActions, dispatch } from '../../setupTests';
-import { setSettings } from '../../settings';
 
-jest.mock('loglevel');
+vi.mock('loglevel');
 
 describe('configSlice', () => {
   // normally can test reducers in components, but since configSlice is high level

@@ -1,5 +1,3 @@
-import React from 'react';
-import MaxShots, { type MaxShotsProps } from './maxShots.component';
 import {
   render,
   screen,
@@ -7,18 +5,19 @@ import {
   type RenderResult,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {
   let props: MaxShotsProps;
-  const changeMaxShots = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeMaxShots = vi.fn();
+  const searchParamsUpdated = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<MaxShots {...props} />);
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with a selected value', () => {
@@ -34,14 +33,14 @@ describe('maxShots search', () => {
 
   describe('calls changeMaxShots when user clicks on', () => {
     let user;
-    const changeMaxShots = jest.fn();
+    const changeMaxShots = vi.fn();
 
     beforeEach(() => {
       user = userEvent.setup();
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('50 shots', async () => {
