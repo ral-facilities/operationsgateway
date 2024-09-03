@@ -93,7 +93,11 @@ export default defineConfig(({ mode }) => {
     // Config for deployment in SciGateway
     config.build = {
       lib: {
-        // https://github.com/vitejs/vite/issues/7130
+        // We use `umd` here as `es` causes some import statements to leak into the main.js, breaking the build
+        // removing this entirely uses a default of both, which for build results in `umd` taking precedence but when
+        // using --watch, `es` appears to replace it intermittently. Hopefully this can be fixed in the future and we
+        // can use `es` instead.
+        formats: ['umd'],
         entry: 'src/main.tsx',
         name: 'operationsgateway',
       },

@@ -468,18 +468,11 @@ const YAxisTab = (props: YAxisTabProps) => {
                 </Typography>
               </Tooltip>
               <Box
-                sx={
-                  // for some reason, styling these buttons in a row causes webkit
-                  // headless playwright e2e tests on linux to fail - so disable this styling in e2e builds
-                  /* istanbul ignore next */
-                  import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
-                    ? {}
-                    : {
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }
-                }
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
               >
                 <MoreOptionsToggle
                   channel={plotChannel}

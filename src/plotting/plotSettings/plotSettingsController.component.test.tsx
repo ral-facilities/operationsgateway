@@ -24,9 +24,9 @@ describe('Plot Settings component', () => {
 
   const createView = async () => {
     // need to import like this in order for the doMock's to work
-    const PlotSettingsController =
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      (await vi.importActual('./plotSettingsController.component')).default;
+    const PlotSettingsController = (
+      await vi.importActual('./plotSettingsController.component')
+    ).default;
     return render(<PlotSettingsController {...props} />);
   };
 

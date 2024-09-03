@@ -1,15 +1,9 @@
-import React from 'react';
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
-// need to mock <canvas> for plotting
 import { Action, ThunkAction } from '@reduxjs/toolkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import { matchRequestUrl } from 'msw';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { staticChannels } from './api/channels';
 import {
@@ -45,7 +39,6 @@ import {
  * @param url string representing the URL match for the route
  * @returns a promise of the matching request
  *  */
-// TODO: Could this be replaced using an axios spy for the search params instead?
 export function waitForRequest(method: string, url: string) {
   let newRequestId = '';
 

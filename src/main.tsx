@@ -198,7 +198,6 @@ async function prepare() {
       import.meta.env.VITE_APP_INCLUDE_MSW === 'true' ||
       settingsResult?.apiUrl === ''
     ) {
-      // Need to use require instead of import as import breaks when loaded in SG
       const { worker } = await import('./mocks/browser');
       return worker.start({
         onUnhandledRequest(request, print) {

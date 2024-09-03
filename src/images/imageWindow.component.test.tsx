@@ -6,7 +6,6 @@ import { renderComponentWithProviders } from '../testUtils';
 import ImageWindow from './imageWindow.component';
 
 vi.mock('../windows/windowPortal.component', async () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ReactMock = await vi.importActual('react');
   return {
     default: ReactMock.forwardRef(({ children }, ref) => (
