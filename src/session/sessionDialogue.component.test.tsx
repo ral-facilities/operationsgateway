@@ -1,19 +1,18 @@
-import React from 'react';
-import { screen, RenderResult, waitFor } from '@testing-library/react';
+import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderComponentWithProviders } from '../testUtils';
 import SessionDialogue, {
   SessionDialogueProps,
 } from './sessionDialogue.component';
-import { renderComponentWithProviders } from '../setupTests';
 
 describe('session dialogue', () => {
   let props: SessionDialogueProps;
   let user;
-  const onClose = jest.fn();
-  const onChangeSessionName = jest.fn();
-  const onChangeSessionSummary = jest.fn();
-  const onChangeLoadedSessionId = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const onClose = vi.fn();
+  const onChangeSessionName = vi.fn();
+  const onChangeSessionSummary = vi.fn();
+  const onChangeLoadedSessionId = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionDialogue {...props} />);
@@ -37,7 +36,7 @@ describe('session dialogue', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('displays warning message when name field is not defined', async () => {
@@ -127,7 +126,7 @@ describe('session dialogue', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('prefills the name and summary with the current session', async () => {

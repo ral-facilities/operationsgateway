@@ -1,15 +1,15 @@
-import axios, { AxiosError } from 'axios';
 import {
   useMutation,
   UseMutationResult,
   useQuery,
-  UseQueryResult,
   useQueryClient,
+  UseQueryResult,
 } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
+import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
-import { readSciGatewayToken } from '../parseTokens';
 
 const saveSession = (apiUrl: string, session: Session): Promise<string> => {
   const queryParams = new URLSearchParams();
@@ -136,7 +136,7 @@ export const useSessionList = (): UseQueryResult<
   return useQuery({
     queryKey: ['sessionList'],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchSessionList(apiUrl);
     },
   });
@@ -165,7 +165,7 @@ export const useSession = (
   return useQuery({
     queryKey: ['session', session_id],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchSession(apiUrl, session_id);
     },
 

@@ -1,5 +1,3 @@
-import React from 'react';
-import Timeframe, { type TimeframeProps } from './timeframe.component';
 import {
   render,
   screen,
@@ -7,14 +5,15 @@ import {
   type RenderResult,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Timeframe, { type TimeframeProps } from './timeframe.component';
 
 describe('timeframe search', () => {
   let props: TimeframeProps;
   let user;
-  const changeTimeframe = jest.fn();
-  const resetExperimentTimeframe = jest.fn();
-  const resetShotnumber = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const changeTimeframe = vi.fn();
+  const resetExperimentTimeframe = vi.fn();
+  const resetShotnumber = vi.fn();
+  const searchParamsUpdated = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<Timeframe {...props} />);
@@ -32,7 +31,7 @@ describe('timeframe search', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {

@@ -1,6 +1,6 @@
-import React from 'react';
-import { ToggleButtonGroup, ToggleButton, Stack } from '@mui/material';
 import { ScatterPlot, ShowChart } from '@mui/icons-material';
+import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import React from 'react';
 import { PlotType, timeChannelName } from '../../app.types';
 
 export interface ChartTypeButtonsProps {
@@ -16,7 +16,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
   const { plotType, changePlotType, XAxis, changeXAxis } = props;
 
   const handleChangeChartType = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>, newChartType: PlotType) => {
+    (_event: React.MouseEvent<HTMLElement>, newChartType: PlotType) => {
       changePlotType(newChartType);
     },
     [changePlotType]
@@ -24,7 +24,7 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
 
   const handleChangePlotVariant = React.useCallback(
     (
-      event: React.MouseEvent<HTMLElement>,
+      _event: React.MouseEvent<HTMLElement>,
       newPlotVariant: PlotVariant | null
     ) => {
       if (newPlotVariant !== null) {

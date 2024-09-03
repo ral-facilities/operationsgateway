@@ -1,25 +1,26 @@
+import { Draggable, DraggableProvided } from '@hello-pangea/dnd';
 import {
-  Typography,
+  Close,
+  Feed,
+  FilterAlt,
+  MoreVert,
+  WrapText,
+} from '@mui/icons-material';
+import {
   Box,
-  TableSortLabel,
   Divider,
-  TableCell,
-  SxProps,
-  Tooltip,
-  Theme,
-  Menu,
-  MenuItem,
   IconButton,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
+  SxProps,
+  TableCell,
+  TableSortLabel,
+  Theme,
+  Tooltip,
+  Typography,
 } from '@mui/material';
-import {
-  MoreVert,
-  Feed,
-  Close,
-  WrapText,
-  FilterAlt,
-} from '@mui/icons-material';
 import React from 'react';
 import {
   FullChannelMetadata,
@@ -28,7 +29,6 @@ import {
   Order,
   timeChannelName,
 } from '../../app.types';
-import { Draggable, DraggableProvided } from '@hello-pangea/dnd';
 
 export interface DataHeaderProps {
   disableSort?: boolean;

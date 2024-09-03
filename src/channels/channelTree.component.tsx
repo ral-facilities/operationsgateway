@@ -6,7 +6,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import React from 'react';
 import { FullChannelMetadata, timeChannelName } from '../app.types';
 import { TreeNode } from './channelsDialogue.component';
 

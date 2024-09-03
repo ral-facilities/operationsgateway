@@ -1,15 +1,15 @@
-import { createSelector, createSlice, lruMemoize } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import { DropResult } from '@hello-pangea/dnd';
-import { RootState } from '../store';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, lruMemoize } from '@reduxjs/toolkit';
+import { ColumnDef, VisibilityState } from '@tanstack/react-table';
 import {
   ColumnState,
-  Order,
   FullChannelMetadata,
-  timeChannelName,
+  Order,
   RecordRow,
+  timeChannelName,
 } from '../../app.types';
+import { RootState } from '../store';
 
 export const resultsPerPage = 25;
 
@@ -125,11 +125,11 @@ export const {
 export const selectColumnStates = (state: RootState) =>
   state.table.columnStates;
 export const selectAvailableColumns = (
-  state: RootState,
+  _state: RootState,
   availableColumns: ColumnDef<RecordRow>[]
 ) => availableColumns;
 export const selectAvailableChannels = (
-  state: RootState,
+  _state: RootState,
   availableChannels: FullChannelMetadata[]
 ) => availableChannels;
 export const selectSelectedIds = (state: RootState) =>

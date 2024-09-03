@@ -1,22 +1,21 @@
-import React from 'react';
-import {
-  PlotButtons,
-  PlotButtonsProps,
-  constructDataRows,
-  formatTooltipLabel,
-  TraceButtonsProps,
-  TraceButtons,
-  ImageButtonsProps,
-  ImageButtons,
-} from './windowButtons.component';
-import { screen, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PlotDataset, SelectedPlotChannel } from '../app.types';
+import {
+  constructDataRows,
+  formatTooltipLabel,
+  ImageButtons,
+  ImageButtonsProps,
+  PlotButtons,
+  PlotButtonsProps,
+  TraceButtons,
+  TraceButtonsProps,
+} from './windowButtons.component';
 
 describe('Window buttons components', () => {
-  const mockLinkClick = jest.fn();
-  const mockLinkRemove = jest.fn();
-  const mockLinkSetAttribute = jest.fn();
+  const mockLinkClick = vi.fn();
+  const mockLinkRemove = vi.fn();
+  const mockLinkSetAttribute = vi.fn();
   let mockLink: HTMLAnchorElement = {};
   let user;
 
@@ -38,20 +37,20 @@ describe('Window buttons components', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     document.createElement = document.originalCreateElement;
     document.body.appendChild = document.body.originalAppendChild;
   });
 
   describe('Plot buttons component', () => {
     const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
     let plotButtonsProps: PlotButtonsProps;
 
-    const toggleGridVisibility = jest.fn();
-    const toggleAxesLabelsVisibility = jest.fn();
-    const savePlot = jest.fn();
-    const resetView = jest.fn();
+    const toggleGridVisibility = vi.fn();
+    const toggleAxesLabelsVisibility = vi.fn();
+    const savePlot = vi.fn();
+    const resetView = vi.fn();
 
     beforeEach(() => {
       plotButtonsProps = {
@@ -123,11 +122,11 @@ describe('Window buttons components', () => {
       render(<PlotButtons {...plotButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });
-      document.body.appendChild = jest.fn().mockImplementation((node) => {
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
         if (!(node instanceof Node)) return mockLink;
         else return document.body.originalAppendChild(node);
       });
@@ -159,11 +158,11 @@ describe('Window buttons components', () => {
       render(<PlotButtons {...plotButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });
-      document.body.appendChild = jest.fn().mockImplementation((node) => {
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
         if (!(node instanceof Node)) return mockLink;
         else return document.body.originalAppendChild(node);
       });
@@ -188,7 +187,7 @@ describe('Window buttons components', () => {
     it('does nothing when export data button is clicked if data is not correct', async () => {
       plotButtonsProps.data = undefined;
       const { unmount } = render(<PlotButtons {...plotButtonsProps} />);
-      const createElementSpy = jest.spyOn(document, 'createElement');
+      const createElementSpy = vi.spyOn(document, 'createElement');
 
       await user.click(
         screen.getByRole('button', { name: 'Export Plot Data' })
@@ -241,11 +240,11 @@ describe('Window buttons components', () => {
 
   describe('Trace buttons component', () => {
     const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = jest.spyOn(canvas, 'toDataURL');
+    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
     let traceButtonsProps: TraceButtonsProps;
 
-    const togglePointsVisibility = jest.fn();
-    const resetView = jest.fn();
+    const togglePointsVisibility = vi.fn();
+    const resetView = vi.fn();
 
     beforeEach(() => {
       traceButtonsProps = {
@@ -284,11 +283,11 @@ describe('Window buttons components', () => {
       render(<TraceButtons {...traceButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });
-      document.body.appendChild = jest.fn().mockImplementation((node) => {
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
         if (!(node instanceof Node)) return mockLink;
         else return document.body.originalAppendChild(node);
       });
@@ -320,11 +319,11 @@ describe('Window buttons components', () => {
       render(<TraceButtons {...traceButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });
-      document.body.appendChild = jest.fn().mockImplementation((node) => {
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
         if (!(node instanceof Node)) return mockLink;
         else return document.body.originalAppendChild(node);
       });
@@ -350,7 +349,7 @@ describe('Window buttons components', () => {
       traceButtonsProps.data = undefined;
       render(<TraceButtons {...traceButtonsProps} />);
 
-      const createElementSpy = jest.spyOn(document, 'createElement');
+      const createElementSpy = vi.spyOn(document, 'createElement');
 
       await user.click(
         screen.getByRole('button', { name: 'Export Plot Data' })
@@ -377,7 +376,7 @@ describe('Window buttons components', () => {
   describe('Image buttons component', () => {
     let imageButtonsProps: ImageButtonsProps;
 
-    const resetView = jest.fn();
+    const resetView = vi.fn();
 
     beforeEach(() => {
       imageButtonsProps = {
@@ -397,11 +396,11 @@ describe('Window buttons components', () => {
       render(<ImageButtons {...imageButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });
-      document.body.appendChild = jest.fn().mockImplementation((node) => {
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
         if (!(node instanceof Node)) return mockLink;
         else return document.body.originalAppendChild(node);
       });
@@ -424,7 +423,7 @@ describe('Window buttons components', () => {
       render(<ImageButtons {...imageButtonsProps} />);
 
       // have to mock after render otherwise it fails to render our component
-      document.createElement = jest.fn().mockImplementation((tag) => {
+      document.createElement = vi.fn().mockImplementation((tag) => {
         if (tag === 'a') return mockLink;
         else return document.originalCreateElement(tag);
       });

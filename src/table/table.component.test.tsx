@@ -1,10 +1,9 @@
-import React from 'react';
-import Table, { TableProps } from './table.component';
-import { screen } from '@testing-library/react';
-import { renderComponentWithProviders } from '../setupTests';
-import { RecordRow } from '../app.types';
 import { ColumnDef } from '@tanstack/react-table';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { RecordRow } from '../app.types';
+import { renderComponentWithProviders } from '../testUtils';
+import Table, { TableProps } from './table.component';
 
 describe('Table', () => {
   let props: TableProps;
@@ -42,14 +41,14 @@ describe('Table', () => {
       accessorKey: 'activeExperiment',
     },
   ];
-  const onPageChange = jest.fn();
-  const onResultsPerPageChange = jest.fn();
-  const onSort = jest.fn();
-  const onColumnClose = jest.fn();
-  const onDragEnd = jest.fn();
-  const onColumnWordWrapToggle = jest.fn();
-  const openFilters = jest.fn();
-  const onRowSelectionChange = jest.fn();
+  const onPageChange = vi.fn();
+  const onResultsPerPageChange = vi.fn();
+  const onSort = vi.fn();
+  const onColumnClose = vi.fn();
+  const onDragEnd = vi.fn();
+  const onColumnWordWrapToggle = vi.fn();
+  const openFilters = vi.fn();
+  const onRowSelectionChange = vi.fn();
 
   const createView = () => {
     return renderComponentWithProviders(<Table {...props} />);
@@ -88,7 +87,7 @@ describe('Table', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly, with only timestamp column', () => {

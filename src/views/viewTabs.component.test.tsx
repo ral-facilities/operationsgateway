@@ -1,8 +1,7 @@
-import React from 'react';
-import ViewTabs from './viewTabs.component';
-import { renderComponentWithProviders } from '../setupTests';
-import { screen, within, waitFor } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderComponentWithProviders } from '../testUtils';
+import ViewTabs from './viewTabs.component';
 
 describe('View Tabs', () => {
   let user;
@@ -12,11 +11,11 @@ describe('View Tabs', () => {
 
   beforeEach(() => {
     user = userEvent.setup();
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('renders correctly', () => {
-    jest.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
+    vi.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
     const { asFragment } = createView();
     expect(asFragment()).toMatchSnapshot();
   });

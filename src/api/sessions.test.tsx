@@ -1,4 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import { Session, SessionListItem } from '../app.types';
+import sessionsListJSON from '../mocks/sessionsList.json';
+import { hooksWrapperWithProviders } from '../testUtils';
 import {
   useDeleteSession,
   useEditSession,
@@ -6,9 +9,6 @@ import {
   useSession,
   useSessionList,
 } from './sessions';
-import { Session, SessionListItem } from '../app.types';
-import { hooksWrapperWithProviders } from '../setupTests';
-import sessionsListJSON from '../mocks/sessionsList.json';
 
 describe('session api functions', () => {
   let mockData: Session;
@@ -22,7 +22,7 @@ describe('session api functions', () => {
     };
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useSaveSession', () => {

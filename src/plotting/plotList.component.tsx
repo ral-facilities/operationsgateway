@@ -1,12 +1,11 @@
-import React from 'react';
-import { Button, Card, CardContent, CardActions, Grid } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   createPlot,
   deletePlot,
   openPlot,
-  selectPlots,
   PlotConfig,
+  selectPlots,
 } from '../state/slices/plotSlice';
 
 const PlotCard = (props: { plotConfig: PlotConfig }) => {
@@ -38,10 +37,7 @@ const PlotCard = (props: { plotConfig: PlotConfig }) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PlotListProps {}
-
-const PlotList = (props: PlotListProps) => {
+const PlotList = () => {
   const dispatch = useAppDispatch();
   const plots = useAppSelector(selectPlots);
 

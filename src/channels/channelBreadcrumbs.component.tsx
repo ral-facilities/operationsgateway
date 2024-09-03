@@ -1,6 +1,5 @@
 import { NavigateNext } from '@mui/icons-material';
 import { Breadcrumbs, Link, Typography } from '@mui/material';
-import React from 'react';
 
 type ChannelBreadcrumbsProps = {
   currNode: string;

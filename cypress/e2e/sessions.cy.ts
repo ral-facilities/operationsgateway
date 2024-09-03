@@ -1,3 +1,5 @@
+import { HttpResponse } from 'msw';
+
 function getParamsFromUrl(url: string) {
   const paramsString = url.split('?')[1];
   const paramMap = new Map();
@@ -27,13 +29,13 @@ describe('Sessions', () => {
     cy.findByTestId('AddCircleIcon').should('exist');
     cy.window().then((window) => {
       // Reference global instances set in "src/mocks/browser.js".
-      const { worker, rest } = window.msw;
+      const { worker, http } = window.msw;
 
       worker.use(
-        rest.post('/sessions', async (req, res, ctx) => {
+        http.post('/sessions', async () => {
           // return a session without popups
           const sessionID = '2';
-          return res(ctx.status(200), ctx.json(sessionID));
+          return HttpResponse.json(sessionID, { status: 200 });
         })
       );
     });
@@ -47,10 +49,10 @@ describe('Sessions', () => {
     cy.findByRole('button', { name: 'Save' }).click();
 
     cy.findBrowserMockedRequests({ method: 'POST', url: '/sessions' }).should(
-      (patchRequests) => {
+      async (patchRequests) => {
         expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
-        expect(JSON.stringify(request.body)).equal(
+        expect(JSON.stringify(await request.json())).equal(
           '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"toDate":"2024-08-02T14:00:59","fromDate":"2024-08-01T14:00:00"},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{},"selection":{"selectedRows":[]}}'
         );
 
@@ -198,10 +200,10 @@ describe('Sessions', () => {
     cy.findBrowserMockedRequests({
       method: 'PATCH',
       url: '/sessions/:id',
-    }).should((patchRequests) => {
+    }).should(async (patchRequests) => {
       expect(patchRequests.length).equal(1);
       const request = patchRequests[0];
-      expect(JSON.stringify(request.body)).equal(
+      expect(JSON.stringify(await request.json())).equal(
         '{"table":{"columnStates":{},"selectedColumnIds":["timestamp","CHANNEL_EFGHI","CHANNEL_FGHIJ","shotnum"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"fromDate":"2022-01-06T13:00:00","toDate":"2022-01-09T12:00:59"},"shotnumRange":{"min":7,"max":9},"maxShots":50,"experimentID":{"_id":"19210012-1","end_date":"2022-01-09T12:00:00","experiment_id":"19210012","part":1,"start_date":"2022-01-06T13:00:00"}}},"plots":{},"filter":{"appliedFilters":[[{"type":"channel","value":"shotnum","label":"Shot Number"},{"type":"compop","value":">","label":">"},{"type":"number","value":"7","label":"7"}]]},"windows":{},"selection":{"selectedRows":[]}}'
       );
       expect(request.url.toString()).to.contain('2');

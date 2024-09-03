@@ -1,6 +1,6 @@
-var express = require('express');
-var path = require('path');
-var serveStatic = require('serve-static');
+import express from 'express';
+import path from 'path';
+import serveStatic from 'serve-static';
 
 var app = express();
 
@@ -23,11 +23,11 @@ app.get('/operationsgateway-settings.json', function (req, res) {
 
 app.use(
   express.json(),
-  serveStatic(path.resolve('./build'), { index: ['index.html', 'index.htm'] })
+  serveStatic(path.resolve('./dist'), { index: ['index.html', 'index.htm'] })
 );
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.resolve('./build/index.html'));
+  res.sendFile(path.resolve('./dist/index.html'));
 });
 
 var server = app.listen(3000, '0.0.0.0', function () {

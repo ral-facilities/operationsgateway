@@ -1,8 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react';
-import { PlotProps } from './plot.component';
-import { testPlotDatasets } from '../setupTests';
-import Plot from './plot.component';
+import React from 'react';
+import { testPlotDatasets } from '../testUtils';
+import Plot, { PlotProps } from './plot.component';
 import { deepCopySelectedPlotChannels } from './util';
 
 describe('Plot component', () => {

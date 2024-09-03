@@ -1,5 +1,5 @@
-import React from 'react';
 import { TextField, TextFieldProps } from '@mui/material';
+import React from 'react';
 
 const PlotSettingsTextField = (
   props: {

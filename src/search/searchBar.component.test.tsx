@@ -1,20 +1,15 @@
-import React from 'react';
-import SearchBar from './searchBar.component';
+import { QueryClient } from '@tanstack/react-query';
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  renderComponentWithProviders,
-  getInitialState,
-  cleanupDatePickerWorkaround,
-  applyDatePickerWorkaround,
-} from '../setupTests';
-import { RootState } from '../state/store';
-import { MAX_SHOTS_VALUES } from './components/maxShots.component';
-import { formatDateTimeForApi } from '../state/slices/searchSlice';
-import { QueryClient } from '@tanstack/react-query';
-import { rest } from 'msw';
-import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw';
+import React from 'react';
 import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
+import { formatDateTimeForApi } from '../state/slices/searchSlice';
+import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
+import { MAX_SHOTS_VALUES } from './components/maxShots.component';
+import SearchBar from './searchBar.component';
 
 describe('searchBar component', () => {
   let user: ReturnType<typeof userEvent.setup>;
@@ -31,7 +26,6 @@ describe('searchBar component', () => {
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
     user = userEvent.setup();
     props = {
       expanded: true,
@@ -40,9 +34,8 @@ describe('searchBar component', () => {
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('dispatches changeSearchParams on search button click for a given date range', async () => {
@@ -311,9 +304,9 @@ describe('searchBar component', () => {
   });
 
   it('sends default search parameters when none are amended by the user', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+    vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
 
-    user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     const state = getInitialState();
     const { store } = createView(state);
@@ -430,9 +423,7 @@ describe('searchBar component', () => {
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
     const state = {
       ...getInitialState(),
@@ -498,9 +489,7 @@ describe('searchBar component', () => {
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(100));
-      })
+      http.get('/records/count', () => HttpResponse.json(100, { status: 200 }))
     );
 
     const state = {
@@ -556,9 +545,7 @@ describe('searchBar component', () => {
 
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
     await user.clear(dateFilterFromDate);
@@ -579,9 +566,7 @@ describe('searchBar component', () => {
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
     server.use(
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(31));
-      })
+      http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
     const testQueryClient = new QueryClient({
@@ -662,15 +647,15 @@ describe('searchBar component', () => {
   describe('searches by relative timeframe', () => {
     beforeEach(() => {
       user = userEvent.setup({
-        advanceTimers: jest.advanceTimersByTime,
+        advanceTimers: vi.advanceTimersByTime,
       });
 
-      jest.useFakeTimers().setSystemTime(new Date('2022-01-11 00:05'));
+      vi.useFakeTimers().setSystemTime(new Date('2022-01-11 00:05'));
     });
 
     afterEach(() => {
       act(() => {
-        jest.runOnlyPendingTimers();
+        vi.runOnlyPendingTimers();
       });
     });
 
@@ -775,12 +760,17 @@ describe('searchBar component', () => {
 
       await user.click(screen.getByLabelText('open shot number search box'));
       const shotnumPopup = screen.getByRole('dialog');
+
+      // Wait for the shot number to be updated after the timeframe
+      expect(
+        await within(shotnumPopup).findByDisplayValue('5')
+      ).toBeInTheDocument();
+
       const shotnumMax = within(shotnumPopup).getByRole('spinbutton', {
         name: 'Max',
       });
 
       await user.clear(shotnumMax);
-
       await user.type(shotnumMax, '16');
 
       await user.click(screen.getByLabelText('close shot number search box'));
@@ -846,7 +836,7 @@ describe('searchBar component', () => {
       // Mock a new date constructor to simulate time moving forward a minute
 
       // act(() => {
-      jest.setSystemTime(new Date('2022-01-11 00:06'));
+      vi.setSystemTime(new Date('2022-01-11 00:06'));
       // });
 
       await user.click(screen.getByRole('button', { name: 'Refresh data' }));

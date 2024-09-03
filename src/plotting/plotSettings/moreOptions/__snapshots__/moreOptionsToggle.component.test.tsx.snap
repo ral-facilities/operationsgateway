@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MoreOptionsToggle renders correctly when options box not open 1`] = `
+exports[`MoreOptionsToggle > renders correctly when options box not open 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-79elbk"
@@ -30,7 +30,7 @@ exports[`MoreOptionsToggle renders correctly when options box not open 1`] = `
 </DocumentFragment>
 `;
 
-exports[`MoreOptionsToggle renders correctly when options box open and passes all props to the child component 1`] = `
+exports[`MoreOptionsToggle > renders correctly when options box open and passes all props to the child component 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-79elbk"

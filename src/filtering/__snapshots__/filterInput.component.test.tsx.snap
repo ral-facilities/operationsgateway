@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Filter input component renders a autocomplete with chips for any values the user has selected 1`] = `
+exports[`Filter input component > renders a autocomplete with chips for any values the user has selected 1`] = `
 <DocumentFragment>
   <div
     class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasClearIcon css-1u6ug4u-MuiAutocomplete-root"
@@ -97,7 +97,7 @@ exports[`Filter input component renders a autocomplete with chips for any values
 </DocumentFragment>
 `;
 
-exports[`Filter input component renders an error if there is one 1`] = `
+exports[`Filter input component > renders an error if there is one 1`] = `
 <DocumentFragment>
   <div
     class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"

@@ -1,5 +1,11 @@
-import React from 'react';
+import {
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult,
+} from '@tanstack/react-query';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import axios, { AxiosError } from 'axios';
+import React from 'react';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
@@ -9,21 +15,15 @@ import {
   RecordRow,
   timeChannelName,
 } from '../app.types';
-import {
-  useQuery,
-  UseQueryResult,
-  UseQueryOptions,
-} from '@tanstack/react-query';
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { readSciGatewayToken } from '../parseTokens';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectUrls } from '../state/slices/configSlice';
+import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
+import { AppDispatch } from '../state/store';
 import {
   roundNumber,
   TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
-import { selectUrls } from '../state/slices/configSlice';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { readSciGatewayToken } from '../parseTokens';
-import { AppDispatch } from '../state/store';
-import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
 
 interface ChannelsEndpoint {
   channels: {
@@ -114,7 +114,7 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
 
   return useQuery({
     queryKey: ['channels'],
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchChannels(apiUrl);
     },
 
@@ -134,7 +134,7 @@ export const useChannelSummary = (
   return useQuery({
     queryKey: ['channelSummary', dataChannel],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchChannelSummary(apiUrl, dataChannel);
     },
 

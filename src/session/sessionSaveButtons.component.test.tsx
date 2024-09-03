@@ -1,29 +1,28 @@
-import React from 'react';
 import {
   type RenderResult,
   act,
+  fireEvent,
   screen,
   waitFor,
-  fireEvent,
 } from '@testing-library/react';
-import SessionSaveButtons, {
-  SessionsSaveButtonsProps,
-  AUTO_SAVE_INTERVAL_MS,
-} from './sessionSaveButtons.component';
-import { renderComponentWithProviders } from '../setupTests';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { timeChannelName } from '../app.types';
+import { renderComponentWithProviders } from '../testUtils';
+import SessionSaveButtons, {
+  AUTO_SAVE_INTERVAL_MS,
+  SessionsSaveButtonsProps,
+} from './sessionSaveButtons.component';
 
 // Mock the useEditSession hook
-jest.mock('../api/sessions', () => ({
-  useEditSession: jest.fn(),
-  useSaveSession: jest.fn(),
+vi.mock('../api/sessions', () => ({
+  useEditSession: vi.fn(),
+  useSaveSession: vi.fn(),
 }));
 
 describe('session buttons', () => {
   let props: SessionsSaveButtonsProps;
-  const onSaveAsSessionClick = jest.fn();
-  const onChangeAutoSaveSessionId = jest.fn();
+  const onSaveAsSessionClick = vi.fn();
+  const onChangeAutoSaveSessionId = vi.fn();
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionSaveButtons {...props} />);
   };
@@ -43,20 +42,20 @@ describe('session buttons', () => {
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
     };
-    jest.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
+    vi.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
 
     // Mock the return value of useEditSession hook
-    useEditSession.mockReturnValue({
-      mutate: jest.fn().mockResolvedValue({}),
+    vi.mocked(useEditSession).mockReturnValue({
+      mutate: vi.fn().mockResolvedValue({}),
     });
-    useSaveSession.mockReturnValue({
-      mutateAsync: jest.fn().mockResolvedValue({}),
+    vi.mocked(useSaveSession).mockReturnValue({
+      mutateAsync: vi.fn().mockResolvedValue({}),
     });
   });
 
   afterEach(() => {
-    jest.useRealTimers();
-    jest.clearAllMocks();
+    vi.useRealTimers();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {
@@ -79,7 +78,7 @@ describe('session buttons', () => {
     const { rerender } = createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useSaveSession().mutateAsync).toHaveBeenCalledTimes(1);
@@ -179,7 +178,7 @@ describe('session buttons', () => {
     createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useEditSession().mutate).toHaveBeenCalledTimes(1);
@@ -222,7 +221,7 @@ describe('session buttons', () => {
     createView();
 
     act(() => {
-      jest.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
+      vi.advanceTimersByTime(AUTO_SAVE_INTERVAL_MS);
     });
 
     expect(useEditSession().mutate).not.toHaveBeenCalledTimes(1);
