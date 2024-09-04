@@ -1,8 +1,8 @@
+import { renderHook } from '@testing-library/react';
 import React from 'react';
 import { useUpdateWindowPositions } from './hooks';
-import { renderHook } from '@testing-library/react';
-import { getInitialState } from './setupTests';
 import { RootState } from './state/store';
+import { getInitialState } from './testUtils';
 import { WindowContext, WindowsRefType } from './windows/windowContext';
 
 const windowsRef: React.MutableRefObject<WindowsRefType | null> =

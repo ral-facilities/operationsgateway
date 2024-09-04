@@ -1,13 +1,13 @@
-import { ButtonGroup, Button } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
+import { format } from 'date-fns';
 import React from 'react';
 import {
   PlotDataset,
-  XAxisScale,
+  SelectedPlotChannel,
   timeChannelName,
   Waveform,
-  SelectedPlotChannel,
+  XAxisScale,
 } from '../app.types';
-import { format } from 'date-fns';
 
 export const formatTooltipLabel = (
   label: number,

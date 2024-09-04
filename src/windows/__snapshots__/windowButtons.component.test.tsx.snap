@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Window buttons components Image buttons component renders image buttons group 1`] = `
+exports[`Window buttons components > Image buttons component > renders image buttons group 1`] = `
 <DocumentFragment>
   <div
     aria-label="plot actions"
@@ -31,7 +31,7 @@ exports[`Window buttons components Image buttons component renders image buttons
 </DocumentFragment>
 `;
 
-exports[`Window buttons components Plot buttons component renders plot buttons group 1`] = `
+exports[`Window buttons components > Plot buttons component > renders plot buttons group 1`] = `
 <DocumentFragment>
   <div
     aria-label="plot actions"
@@ -102,7 +102,7 @@ exports[`Window buttons components Plot buttons component renders plot buttons g
 </DocumentFragment>
 `;
 
-exports[`Window buttons components Trace buttons component renders trace buttons group 1`] = `
+exports[`Window buttons components > Trace buttons component > renders trace buttons group 1`] = `
 <DocumentFragment>
   <div
     aria-label="plot actions"

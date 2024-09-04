@@ -1,21 +1,20 @@
-import React from 'react';
-import Experiment, { type ExperimentProps } from './experiment.component';
 import {
-  screen,
   render,
   type RenderResult,
+  screen,
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import experimentsJson from '../../mocks/experiments.json';
+import Experiment, { type ExperimentProps } from './experiment.component';
 
 describe('Experiment search', () => {
   let props: ExperimentProps;
-  const onExperimentChange = jest.fn();
-  const resetTimeFrame = jest.fn();
-  const changeExperimentTimeframe = jest.fn();
-  const resetShotnumber = jest.fn();
-  const searchParamsUpdated = jest.fn();
+  const onExperimentChange = vi.fn();
+  const resetTimeFrame = vi.fn();
+  const changeExperimentTimeframe = vi.fn();
+  const resetShotnumber = vi.fn();
+  const searchParamsUpdated = vi.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -37,7 +36,7 @@ describe('Experiment search', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Channel Tree should render correctly for root 1`] = `
+exports[`Channel Tree > should render correctly for root 1`] = `
 <DocumentFragment>
   <ul
     class="MuiList-root MuiList-dense css-1xbd29p-MuiList-root"
@@ -111,7 +111,7 @@ exports[`Channel Tree should render correctly for root 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Channel Tree should render correctly for sub node 1`] = `
+exports[`Channel Tree > should render correctly for sub node 1`] = `
 <DocumentFragment>
   <ul
     class="MuiList-root MuiList-dense css-1xbd29p-MuiList-root"

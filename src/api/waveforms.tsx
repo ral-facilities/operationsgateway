@@ -38,7 +38,7 @@ export const useWaveform = (
   return useQuery({
     queryKey: ['waveforms', recordId, channelName, functions],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchWaveform(apiUrl, recordId, channelName, functions);
     },
   });

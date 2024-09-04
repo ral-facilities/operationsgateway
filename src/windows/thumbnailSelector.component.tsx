@@ -99,9 +99,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
               : maxShots
             : -1
         }
-        onPageChange={(e, page) => {
-          setPage(page);
-        }}
+        onPageChange={(_event, page) => setPage(page)}
         page={page}
         rowsPerPage={resultsPerPage}
         labelRowsPerPage="Page size"

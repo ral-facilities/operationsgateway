@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Thumbnail selector component renders correctly when loading 1`] = `
+exports[`Thumbnail selector component > renders correctly when loading 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column css-1r907rv-MuiGrid-root"
@@ -115,7 +115,7 @@ exports[`Thumbnail selector component renders correctly when loading 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Thumbnail selector component renders list of thumbnails and pagination controls 1`] = `
+exports[`Thumbnail selector component > renders list of thumbnails and pagination controls 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column css-1r907rv-MuiGrid-root"

@@ -1,16 +1,13 @@
 import React from 'react';
 import {
-  XAxisScale,
   PlotDataset,
   PlotType,
-  YAxisScale,
   SelectedPlotChannel,
+  XAxisScale,
+  YAxisScale,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
-import type { ChartOptions, ChartDataset } from 'chart.js';
-// we import this even though we don't use it so we can get typescript info added to ChartOptions
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type Zoom from 'chartjs-plugin-zoom';
+import type { ChartDataset, ChartOptions } from 'chart.js';
 
 export interface PlotProps {
   datasets: PlotDataset[];

@@ -1,14 +1,9 @@
-import {
-  DefaultBodyType,
-  MockedResponse,
-  ResponseResolverReturnType,
-  rest,
-} from 'msw';
-import image from './image.png';
+import { HttpResponse, http } from 'msw';
 import colourbar from './colourbar.png';
-import image_reverse from './image_reverse.png';
 import colourbar_reverse from './colourbar_reverse.png';
 import { preferredColourMap } from './handlers';
+import image from './image.png';
+import image_reverse from './image_reverse.png';
 
 const setFillStyleFromColourMap = (
   context: CanvasRenderingContext2D,
@@ -64,9 +59,10 @@ const setFillStyleFromColourMap = (
 };
 
 export const browserHandlers = [
-  rest.get('/images/:recordId/:channelName', async (req, res, ctx) => {
-    const originalImage = req.url.searchParams.get('original_image');
-    const colourmap = req.url.searchParams.get('colourmap_name');
+  http.get('/images/:recordId/:channelName', async ({ request }) => {
+    const url = new URL(request.url);
+    const originalImage = url.searchParams.get('original_image');
+    const colourmap = url.searchParams.get('colourmap_name');
     const useInverseImage = colourmap?.endsWith('_r');
     const imageToFetch = useInverseImage ? image_reverse : image;
     const imageResponse = await fetch(imageToFetch);
@@ -77,9 +73,7 @@ export const browserHandlers = [
       const canvas = window.document.createElement('canvas');
       const context = canvas.getContext('2d');
 
-      const result = await new Promise<
-        ResponseResolverReturnType<MockedResponse<DefaultBodyType>>
-      >((resolve, reject) => {
+      const result = await new Promise<HttpResponse>((resolve, reject) => {
         const img = new Image();
         img.onload = function () {
           canvas.width = img.width;
@@ -106,22 +100,20 @@ export const browserHandlers = [
                 const arrayBuffer = await blob.arrayBuffer();
 
                 resolve(
-                  res(
-                    ctx.status(200),
-                    ctx.set(
-                      'Content-Length',
-                      arrayBuffer.byteLength.toString()
-                    ),
-                    ctx.set('Content-Type', 'image/png'),
-                    ctx.body(arrayBuffer)
-                  )
+                  new HttpResponse(arrayBuffer, {
+                    headers: {
+                      'Content-Length': arrayBuffer.byteLength.toString(),
+                      'Content-Type': 'image/png',
+                    },
+                    status: 200,
+                  })
                 );
               } else {
-                reject(res(ctx.status(500)));
+                reject(new HttpResponse(null, { status: 500 }));
               }
             });
           } else {
-            reject(res(ctx.status(500)));
+            reject(new HttpResponse(null, { status: 500 }));
           }
         };
         img.onerror = reject;
@@ -133,16 +125,18 @@ export const browserHandlers = [
       // Convert png image to "ArrayBuffer".
       const imageBuffer = await imageResponse.arrayBuffer();
 
-      return res(
-        ctx.status(200),
-        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
-        ctx.set('Content-Type', 'image/png'),
-        ctx.body(imageBuffer)
-      );
+      return new HttpResponse(imageBuffer, {
+        headers: {
+          'Content-Length': imageBuffer.byteLength.toString(),
+          'Content-Type': 'image/png',
+        },
+        status: 200,
+      });
     }
   }),
-  rest.get('/images/colour_bar', async (req, res, ctx) => {
-    const colourmap = req.url.searchParams.get('colourmap_name');
+  http.get('/images/colour_bar', async ({ request }) => {
+    const url = new URL(request.url);
+    const colourmap = url.searchParams.get('colourmap_name');
     const useInverseImage = colourmap?.endsWith('_r');
     const imageToFetch = useInverseImage ? colourbar_reverse : colourbar;
     const imageResponse = await fetch(imageToFetch);
@@ -152,9 +146,7 @@ export const browserHandlers = [
       const canvas = window.document.createElement('canvas');
       const context = canvas.getContext('2d');
 
-      const result = await new Promise<
-        ResponseResolverReturnType<MockedResponse<DefaultBodyType>>
-      >((resolve, reject) => {
+      const result = await new Promise<HttpResponse>((resolve, reject) => {
         const img = new Image();
         img.onload = function () {
           canvas.width = img.width;
@@ -180,22 +172,20 @@ export const browserHandlers = [
                 const arrayBuffer = await blob.arrayBuffer();
 
                 resolve(
-                  res(
-                    ctx.status(200),
-                    ctx.set(
-                      'Content-Length',
-                      arrayBuffer.byteLength.toString()
-                    ),
-                    ctx.set('Content-Type', 'image/png'),
-                    ctx.body(arrayBuffer)
-                  )
+                  new HttpResponse(arrayBuffer, {
+                    headers: {
+                      'Content-Length': arrayBuffer.byteLength.toString(),
+                      'Content-Type': 'image/png',
+                    },
+                    status: 200,
+                  })
                 );
               } else {
-                reject(res(ctx.status(500)));
+                reject(new HttpResponse(null, { status: 500 }));
               }
             });
           } else {
-            reject(res(ctx.status(500)));
+            reject(new HttpResponse(null, { status: 500 }));
           }
         };
         img.onerror = reject;
@@ -207,12 +197,13 @@ export const browserHandlers = [
       // Convert png image to "ArrayBuffer".
       const imageBuffer = await imageResponse.arrayBuffer();
 
-      return res(
-        ctx.status(200),
-        ctx.set('Content-Length', imageBuffer.byteLength.toString()),
-        ctx.set('Content-Type', 'image/png'),
-        ctx.body(imageBuffer)
-      );
+      return new HttpResponse(imageBuffer, {
+        headers: {
+          'Content-Length': imageBuffer.byteLength.toString(),
+          'Content-Type': 'image/png',
+        },
+        status: 200,
+      });
     }
   }),
 ];

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Data Header opens menu when menu icon is clicked 1`] = `
+exports[`Data Header > opens menu when menu icon is clicked 1`] = `
 <ul
   aria-labelledby="test-menu-button"
   class="MuiList-root MuiList-padding MuiList-dense MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
@@ -77,7 +77,7 @@ exports[`Data Header opens menu when menu icon is clicked 1`] = `
 </ul>
 `;
 
-exports[`Data Header renders correctly 1`] = `
+exports[`Data Header > renders correctly 1`] = `
 <DocumentFragment>
   <table>
     <thead>

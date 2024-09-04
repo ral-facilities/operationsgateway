@@ -1,12 +1,12 @@
-import React from 'react';
 import {
   Box,
   FormControl,
-  FormLabel,
-  RadioGroup,
   FormControlLabel,
+  FormLabel,
   Radio,
+  RadioGroup,
 } from '@mui/material';
+import React from 'react';
 import { SearchParams } from '../../app.types';
 
 export const MAX_SHOTS_VALUES = [50, 1000, Infinity];

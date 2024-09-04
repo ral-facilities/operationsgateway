@@ -1,10 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import { RootState } from '../state/store';
 import {
   getInitialState,
   hooksWrapperWithProviders,
   waitForRequest,
-} from '../setupTests';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import { useWaveform } from './waveforms';
 
 describe('waveform api functions', () => {
@@ -16,7 +16,7 @@ describe('waveform api functions', () => {
     state = getInitialState();
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useWaveform', () => {
@@ -63,7 +63,9 @@ describe('waveform api functions', () => {
         y: [2, 10, 8, 7, 1, 4, 5, 3, 6, 9],
       });
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
     });
 
     it('sends request to fetch waveform and returns successful response', async () => {

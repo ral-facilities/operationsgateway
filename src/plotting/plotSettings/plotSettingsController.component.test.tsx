@@ -1,33 +1,32 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 import userEvent from '@testing-library/user-event';
-import { FullScalarChannelMetadata } from '../../app.types';
 import { staticChannels } from '../../api/channels';
-import { testScalarChannels } from '../../setupTests';
+import { FullScalarChannelMetadata } from '../../app.types';
+import { testScalarChannels } from '../../testUtils';
+import type { PlotSettingsControllerProps } from './plotSettingsController.component';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;
   let user: ReturnType<typeof userEvent.setup>;
-  const changePlotType = jest.fn();
-  const changeXAxis = jest.fn();
-  const changeXAxisScale = jest.fn();
-  const changeLeftYAxisScale = jest.fn();
-  const changeRightYAxisScale = jest.fn();
-  const changeSelectedPlotChannels = jest.fn();
-  const changeXMinimum = jest.fn();
-  const changeXMaximum = jest.fn();
-  const changeLeftYAxisMinimum = jest.fn();
-  const changeLeftYAxisMaximum = jest.fn();
-  const changeRightYAxisMinimum = jest.fn();
-  const changeRightYAxisMaximum = jest.fn();
-  const changePlotTitle = jest.fn();
+  const changePlotType = vi.fn();
+  const changeXAxis = vi.fn();
+  const changeXAxisScale = vi.fn();
+  const changeLeftYAxisScale = vi.fn();
+  const changeRightYAxisScale = vi.fn();
+  const changeSelectedPlotChannels = vi.fn();
+  const changeXMinimum = vi.fn();
+  const changeXMaximum = vi.fn();
+  const changeLeftYAxisMinimum = vi.fn();
+  const changeLeftYAxisMaximum = vi.fn();
+  const changeRightYAxisMinimum = vi.fn();
+  const changeRightYAxisMaximum = vi.fn();
+  const changePlotTitle = vi.fn();
 
-  const createView = () => {
+  const createView = async () => {
     // need to import like this in order for the doMock's to work
-    const PlotSettingsController =
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      require('./plotSettingsController.component').default;
+    const PlotSettingsController = (
+      await vi.importActual('./plotSettingsController.component')
+    ).default;
     return render(<PlotSettingsController {...props} />);
   };
 
@@ -50,8 +49,8 @@ describe('Plot Settings component', () => {
       changeRightYAxisScale,
       leftYAxisLabel: 'left y axis label',
       rightYAxisLabel: 'right y axis label',
-      changeLeftYAxisLabel: jest.fn(),
-      changeRightYAxisLabel: jest.fn(),
+      changeLeftYAxisLabel: vi.fn(),
+      changeRightYAxisLabel: vi.fn(),
       selectedPlotChannels: [],
       changeSelectedPlotChannels,
       changeXMinimum,
@@ -66,90 +65,106 @@ describe('Plot Settings component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('snapshots', () => {
     beforeAll(() => {
-      jest.resetModules();
-      jest.doMock('./plotSettingsTextField.component', () => (props) => (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <mock-plotSettingsTextField data-testid="mock-plotSettingsTextField">
-          {Object.entries(props).map(
-            ([propName, propValue]) =>
-              `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
-        </mock-plotSettingsTextField>
-      ));
+      vi.resetModules();
+      vi.doMock('./plotSettingsTextField.component', () => {
+        return {
+          default: (props) => (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <mock-plotSettingsTextField data-testid="mock-plotSettingsTextField">
+              {Object.entries(props).map(
+                ([propName, propValue]) =>
+                  `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+              )}
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+            </mock-plotSettingsTextField>
+          ),
+        };
+      });
 
-      jest.doMock('./chartTypeButtons.component', () => (props) => (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <mock-chartTypeButtons data-testid="mock-chartTypeButtons">
-          {Object.entries(props).map(
-            ([propName, propValue]) =>
-              `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
-        </mock-chartTypeButtons>
-      ));
+      vi.doMock('./chartTypeButtons.component', () => {
+        return {
+          default: (props) => (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <mock-chartTypeButtons data-testid="mock-chartTypeButtons">
+              {Object.entries(props).map(
+                ([propName, propValue]) =>
+                  `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+              )}
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+            </mock-chartTypeButtons>
+          ),
+        };
+      });
 
-      jest.doMock('./xAxisTab.component', () => (props) => (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <mock-xAxisTab data-testid="mock-xAxisTab">
-          {Object.entries(props).map(
-            ([propName, propValue]) =>
-              `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
-        </mock-xAxisTab>
-      ));
+      vi.doMock('./xAxisTab.component', () => {
+        return {
+          default: (props) => (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <mock-xAxisTab data-testid="mock-xAxisTab">
+              {Object.entries(props).map(
+                ([propName, propValue]) =>
+                  `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+              )}
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+            </mock-xAxisTab>
+          ),
+        };
+      });
 
-      jest.doMock('./yAxisTab.component', () => (props) => (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <mock-yAxisTab data-testid="mock-yAxisTab">
-          {Object.entries(props).map(
-            ([propName, propValue]) =>
-              `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-          )}
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
-        </mock-yAxisTab>
-      ));
+      vi.doMock('./yAxisTab.component', () => {
+        return {
+          default: (props) => (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <mock-yAxisTab data-testid="mock-yAxisTab">
+              {Object.entries(props).map(
+                ([propName, propValue]) =>
+                  `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+              )}
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
+            </mock-yAxisTab>
+          ),
+        };
+      });
     });
 
     afterAll(() => {
-      jest.resetModules();
-      jest.dontMock('./plotSettingsTextField.component');
-      jest.dontMock('./chartTypeButtons.component');
-      jest.dontMock('./xAxisTab.component');
-      jest.dontMock('./yAxisTab.component');
-      jest.resetModules();
+      vi.resetModules();
+      vi.doUnmock('./plotSettingsTextField.component');
+      vi.doUnmock('./chartTypeButtons.component');
+      vi.doUnmock('./xAxisTab.component');
+      vi.doUnmock('./yAxisTab.component');
+      vi.resetModules();
     });
 
-    it('renders plot settings form correctly (timeseries plot)', () => {
+    it('renders plot settings form correctly (timeseries plot)', async () => {
       props.XAxis = 'timestamp';
       props.XAxisScale = 'time';
-      const view = createView();
+      const view = await createView();
 
       expect(view.asFragment()).toMatchSnapshot();
     });
 
-    it('renders plot settings form correctly (x-axis tab selected)', () => {
-      const view = createView();
+    it('renders plot settings form correctly (x-axis tab selected)', async () => {
+      const view = await createView();
 
       expect(view.asFragment()).toMatchSnapshot();
     });
 
     it('renders plot settings form correctly (y-axis tab selected)', async () => {
-      const view = createView();
+      const view = await createView();
       await user.click(screen.getByRole('tab', { name: 'Y' }));
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -157,7 +172,7 @@ describe('Plot Settings component', () => {
   });
 
   it('lets user switch between X and Y settings tabs', async () => {
-    createView();
+    await createView();
 
     // should load X tab initially
     expect(screen.getByRole('tab', { selected: true })).toHaveTextContent('X');
@@ -176,7 +191,7 @@ describe('Plot Settings component', () => {
   });
 
   it('sets the correct values when plot variant changed from xy to timeseries', async () => {
-    createView();
+    await createView();
 
     await user.click(screen.getByRole('button', { name: 'Timeseries' }));
 
@@ -189,7 +204,7 @@ describe('Plot Settings component', () => {
   it('sets the correct values when plot variant changed from timeseries to xy', async () => {
     props.XAxis = 'timestamp';
     props.XAxisScale = 'time';
-    createView();
+    await createView();
 
     await user.click(screen.getByRole('button', { name: 'XY' }));
 
