@@ -227,7 +227,7 @@ export const useOnChange = <T extends Token | FunctionToken>({
   enableCustomStringHandling = true,
 }: UseOnChangeProps<T>) =>
   React.useCallback(
-    (event: unknown, newValue: (string | T)[], reason: string) => {
+    (_event: unknown, newValue: (string | T)[], reason: string) => {
       if (reason === 'createOption' || reason === 'selectOption') {
         const newToken = newValue.pop()!;
         newValue.splice(inputIndex, 0, newToken);
