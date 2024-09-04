@@ -495,7 +495,7 @@ describe('Filter input component', () => {
   });
 
   it('user can click between tags to change input position when moving input backwards', async () => {
-    window.Element.prototype.getBoundingClientRect = jest
+    window.Element.prototype.getBoundingClientRect = vi
       .fn()
       .mockReturnValue({ height: 10, width: 20, x: 10, y: 10 })
       .mockReturnValueOnce({ height: 0, width: 0, x: 0, y: 0 });
@@ -561,7 +561,7 @@ describe('Filter input component', () => {
   });
 
   it('user can click between tags to change input position even when tags "span multiple lines" (testing the overflow edge case)', async () => {
-    window.Element.prototype.getBoundingClientRect = jest
+    window.Element.prototype.getBoundingClientRect = vi
       .fn()
       .mockReturnValueOnce({ height: 10, width: 10, x: 10, y: 10 })
       .mockReturnValueOnce({ height: 10, width: 10, x: 0, y: 20 })
