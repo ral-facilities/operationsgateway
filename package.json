@@ -96,7 +96,7 @@
     "chart.js": "4.4.1",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
-    "cypress": "13.13.0",
+    "cypress": "13.14.1",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-config-react-app": "7.0.1",
