@@ -1,10 +1,9 @@
-import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { act, screen, waitFor, within } from '@testing-library/react';
-import { renderComponentWithProviders } from './setupTests';
+import userEvent from '@testing-library/user-event';
+import { setMockedPreferredColourMap } from './mocks/handlers';
 import SettingsMenuItems from './settingsMenuItems.component';
 import { RootState } from './state/store';
-import { setMockedPreferredColourMap } from './mocks/handlers';
+import { renderComponentWithProviders } from './testUtils';
 
 describe('Settings Menu Items component', () => {
   let settings;
@@ -25,7 +24,7 @@ describe('Settings Menu Items component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = (preloadedState?: Partial<RootState>) => {
@@ -82,7 +81,7 @@ describe('Settings Menu Items component', () => {
 
   it('lets user select a new default colourmap from the dropdown', async () => {
     const { queryClient } = createView();
-    const invalidateQueriesSpy = jest.spyOn(queryClient, 'invalidateQueries');
+    const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries');
 
     const select = screen.getByRole('combobox', { name: 'Default Colour Map' });
     await waitFor(() => expect(select).toHaveTextContent('cividis'));

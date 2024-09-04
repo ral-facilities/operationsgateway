@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import { testChannels } from '../testUtils';
 import ChannelSearch from './channelSearch.component';
-import { testChannels } from '../setupTests';
 
 describe('Channel Search', () => {
   let currPathAndChannel = '';
-  const onSearchChange = jest.fn();
+  const onSearchChange = vi.fn();
   const createView = () => {
     return render(
       <ChannelSearch

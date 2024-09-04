@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Channel Search should render correctly 1`] = `
+exports[`Channel Search > should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-hcdzbm-MuiAutocomplete-root"

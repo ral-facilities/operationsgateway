@@ -1,45 +1,44 @@
-import React from 'react';
-import DateTime from './components/dateTime.component';
-import Timeframe, {
-  type TimeframeRange,
-} from './components/timeframe.component';
-import Experiment from './components/experiment.component';
-import ShotNumber from './components/shotNumber.component';
-import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
-import { isBefore } from 'date-fns';
-import AutoRefreshToggle from './components/autoRefreshToggle.component';
+import { Warning } from '@mui/icons-material';
 import {
-  Grid,
+  Box,
   Button,
   Collapse,
+  Grid,
   Tooltip,
-  Box,
   Typography,
 } from '@mui/material';
-import { Warning } from '@mui/icons-material';
-import DataRefresh from './components/dataRefresh.component';
-import { useAppSelector, useAppDispatch } from '../state/hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import { isBefore, sub } from 'date-fns';
+import React from 'react';
+import { useExperiment } from '../api/experiment';
+import {
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
+  useShotnumToDateConverter,
+} from '../api/records';
 import {
   DateRange,
   ExperimentParams,
   SearchParams,
   ShotnumRange,
 } from '../app.types';
-import { sub } from 'date-fns';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import { selectQueryFilters } from '../state/slices/filterSlice';
 import {
   changeSearchParams,
-  selectSearchParams,
   formatDateTimeForApi,
+  selectSearchParams,
 } from '../state/slices/searchSlice';
-import { selectRecordLimitWarning } from '../state/slices/configSlice';
-import {
-  useDateToShotnumConverter,
-  useIncomingRecordCount,
-  useShotnumToDateConverter,
-} from '../api/records';
-import { useQueryClient } from '@tanstack/react-query';
-import { selectQueryFilters } from '../state/slices/filterSlice';
-import { useExperiment } from '../api/experiment';
+import AutoRefreshToggle from './components/autoRefreshToggle.component';
+import DataRefresh from './components/dataRefresh.component';
+import DateTime from './components/dateTime.component';
+import Experiment from './components/experiment.component';
+import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
+import ShotNumber from './components/shotNumber.component';
+import Timeframe, {
+  type TimeframeRange,
+} from './components/timeframe.component';
 
 export type TimeframeDates = {
   fromDate: Date | null;

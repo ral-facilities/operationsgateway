@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`session Drawer renders correctly 1`] = `
+exports[`session Drawer > renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="MuiDrawer-root MuiDrawer-docked css-srivv5-MuiDrawer-docked"

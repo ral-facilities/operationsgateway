@@ -1,12 +1,12 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { useExperiment } from './experiment';
 import { ExperimentParams } from '../app.types';
-import { hooksWrapperWithProviders } from '../setupTests';
 import experimentsJson from '../mocks/experiments.json';
+import { hooksWrapperWithProviders } from '../testUtils';
+import { useExperiment } from './experiment';
 
 describe('channels api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useExperiment', () => {

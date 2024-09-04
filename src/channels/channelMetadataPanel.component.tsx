@@ -1,3 +1,5 @@
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import {
   Button,
   Divider,
@@ -10,8 +12,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 import React from 'react';
 import { useChannelSummary } from '../api/channels';
 import {

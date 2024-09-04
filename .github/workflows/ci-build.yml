@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: yarn --immutable
       - name: Run linting
-        run: yarn lint:js
+        run: yarn lint
       - name: Run unit tests
         run: yarn test
       - name: Upload unit test coverage
@@ -51,7 +51,7 @@ jobs:
         run: yarn e2e
       - name: Upload Cypress screenshots
         if: failure()
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         with:
           name: OperationsGateway Screenshots
           path: cypress/screenshots
@@ -72,7 +72,7 @@ jobs:
         run: yarn playwright:test:mocked
 
       - name: Upload test report
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         if: always()
         with:
           name: playwright-report-mocked-tests
@@ -117,7 +117,7 @@ jobs:
         with:
           mongodb-version: '5.0'
 
-       # Configure correct paths in config files
+        # Configure correct paths in config files
       - name: Configure private key path
         run: yq -i ".auth.private_key_path = \"$GITHUB_WORKSPACE/id_rsa\"" .github/ci_config.yml
         working-directory: ./operationsgateway-api
@@ -220,7 +220,7 @@ jobs:
         run: yarn playwright:test:real
 
       - name: Upload test report
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         if: always()
         with:
           name: playwright-report-real-tests

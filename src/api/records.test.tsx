@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { renderHook, waitFor } from '@testing-library/react';
+import { parseISO } from 'date-fns';
 import {
   PlotDataset,
   Record,
@@ -7,28 +9,26 @@ import {
   SelectedPlotChannel,
   timeChannelName,
 } from '../app.types';
+import { operators, parseFilter, Token } from '../filtering/filterParser';
+import recordsJson from '../mocks/records.json';
+import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
+import { RootState } from '../state/store';
 import {
-  hooksWrapperWithProviders,
-  getInitialState,
   createTestQueryClient,
+  getInitialState,
+  hooksWrapperWithProviders,
   waitForRequest,
-} from '../setupTests';
-import { renderHook, waitFor } from '@testing-library/react';
+} from '../testUtils';
 import {
   getFormattedAxisData,
+  useDateToShotnumConverter,
+  useIncomingRecordCount,
   usePlotRecords,
   useRecordCount,
-  useIncomingRecordCount,
   useRecordsPaginated,
-  useThumbnails,
   useShotnumToDateConverter,
-  useDateToShotnumConverter,
+  useThumbnails,
 } from './records';
-import { RootState } from '../state/store';
-import { parseISO } from 'date-fns';
-import { operators, parseFilter, Token } from '../filtering/filterParser';
-import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
-import recordsJson from '../mocks/records.json';
 
 describe('records api functions', () => {
   let state: RootState;
@@ -38,8 +38,8 @@ describe('records api functions', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   describe('useRecordCount', () => {
@@ -104,7 +104,9 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -143,7 +145,9 @@ describe('records api functions', () => {
       const request = await pendingRequest;
 
       // We should have made one call to /records/count
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
       expect(incomingRecordCountResult.current.data).toEqual(
         recordsJson.length
       );
@@ -317,7 +321,9 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -364,7 +370,9 @@ describe('records api functions', () => {
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
@@ -381,7 +389,7 @@ describe('records api functions', () => {
     });
 
     it('sends request to fetch records, returns successful response and uses a select function to format the results', async () => {
-      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
 
       const pendingRequest = waitForRequest('GET', '/records');
 
@@ -406,7 +414,9 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
 
       expect(result.current.data).toMatchSnapshot();
     });
@@ -465,7 +475,9 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
     });
   });
 
@@ -489,11 +501,11 @@ describe('records api functions', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('uses a select function to format the results', async () => {
-      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
 
       const pendingRequest = waitForRequest('GET', '/records');
 
@@ -529,7 +541,9 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '50');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
 
       const expectedData: PlotDataset[] = [
         {
@@ -614,7 +628,9 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '1000');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
 
       const expectedData: PlotDataset[] = [
         {
@@ -682,7 +698,9 @@ describe('records api functions', () => {
         '{"$or":' + JSON.stringify(existsConditions) + '}'
       );
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
     });
   });
 
@@ -694,11 +712,11 @@ describe('records api functions', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('sends request to fetch records with a projection and returns successful response', async () => {
-      jest.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
 
       const pendingRequest = waitForRequest('GET', '/records');
 
@@ -724,7 +742,9 @@ describe('records api functions', () => {
       params.append('skip', '25');
       params.append('limit', '25');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
 
       expect(result.current.data).toEqual(recordsJson);
     });
@@ -782,7 +802,9 @@ describe('records api functions', () => {
       params.append('skip', '0');
       params.append('limit', '25');
 
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
     });
   });
 

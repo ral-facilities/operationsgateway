@@ -1,22 +1,22 @@
+import { UnknownAction } from '@reduxjs/toolkit';
+import log from 'loglevel';
+import {
+  broadcastSignOut,
+  registerRoute,
+  requestPluginRerender,
+  sendThemeOptions,
+} from '../scigateway.actions';
 import OperationsGatewayMiddleware, {
   listenToMessages,
 } from './operationsgateway.middleware';
-import log from 'loglevel';
-import {
-  requestPluginRerender,
-  registerRoute,
-  broadcastSignOut,
-  sendThemeOptions,
-} from '../scigateway.actions';
-import { UnknownAction } from '@reduxjs/toolkit';
 
 // this sets up the mock store and returns some things to test
 const create = () => {
   const store = {
-    getState: jest.fn(() => ({})),
-    dispatch: jest.fn(),
+    getState: vi.fn(() => ({})),
+    dispatch: vi.fn(),
   };
-  const next = jest.fn();
+  const next = vi.fn();
 
   const invoke = (action) => OperationsGatewayMiddleware(store)(next)(action);
 
@@ -47,7 +47,7 @@ describe('OperationsGateway Middleware', () => {
       return true;
     };
 
-    document.addEventListener = jest.fn(
+    document.addEventListener = vi.fn(
       (id: string, inputHandler: (event: Event) => void) => {
         handler = inputHandler;
       }
@@ -136,7 +136,7 @@ describe('OperationsGateway Middleware', () => {
     });
 
     it('should listen for events and not fire unrecognised action', () => {
-      log.warn = jest.fn();
+      log.warn = vi.fn();
       listenToMessages(store.dispatch);
 
       handler(new CustomEvent('test', { detail: action }));
@@ -145,14 +145,14 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.warn).toHaveBeenCalled();
-      const mockLog = (log.warn as jest.Mock).mock;
+      const mockLog = vi.mocked(log.warn).mock;
       expect(mockLog.calls[0][0]).toContain(
         'Unexpected message received, not dispatched'
       );
     });
 
     it('should not fire actions for events without detail', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
 
       listenToMessages(store.dispatch);
 
@@ -162,14 +162,14 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toEqual(
         'Invalid message received:\nevent.detail = null'
       );
     });
 
     it('should not fire actions for events without type on detail', () => {
-      log.error = jest.fn();
+      log.error = vi.fn();
 
       listenToMessages(store.dispatch);
 
@@ -179,7 +179,7 @@ describe('OperationsGateway Middleware', () => {
       expect(store.dispatch).not.toHaveBeenCalled();
 
       expect(log.error).toHaveBeenCalled();
-      const mockLog = (log.error as jest.Mock).mock;
+      const mockLog = vi.mocked(log.error).mock;
       expect(mockLog.calls[0][0]).toEqual(
         'Invalid message received:\nevent.detail = {"actionWithoutType":true}'
       );

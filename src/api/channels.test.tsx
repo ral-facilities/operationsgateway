@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
+import { FullChannelMetadata, timeChannelName } from '../app.types';
+import { server } from '../mocks/server';
+import { RootState } from '../state/store';
 import {
-  useChannels,
-  useAvailableColumns,
+  getInitialState,
+  hooksWrapperWithProviders,
+  testChannels,
+} from '../testUtils';
+import {
+  ChannelSummary,
   getScalarChannels,
   staticChannels,
+  useAvailableColumns,
+  useChannels,
   useChannelSummary,
-  ChannelSummary,
 } from './channels';
-import { FullChannelMetadata, timeChannelName } from '../app.types';
-import {
-  hooksWrapperWithProviders,
-  getInitialState,
-  testChannels,
-} from '../setupTests';
-import { RootState } from '../state/store';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
 
 describe('channels api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useAvailableColumns', () => {
@@ -77,8 +77,8 @@ describe('channels api functions', () => {
 
     it('returns no columns if no data was present in the request response', async () => {
       server.use(
-        rest.get('/channels', (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ channels: {} }));
+        http.get('/channels', () => {
+          return HttpResponse.json({ channels: {} }, { status: 200 });
         })
       );
 
@@ -168,8 +168,8 @@ describe('channels api functions', () => {
 
     it('returns no channels if no data was present in the request response', async () => {
       server.use(
-        rest.get('/channels', (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json({ channels: {} }));
+        http.get('/channels', () => {
+          return HttpResponse.json({ channels: {} }, { status: 200 });
         })
       );
 

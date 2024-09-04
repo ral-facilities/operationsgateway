@@ -1,3 +1,4 @@
+import { DEFAULT_WINDOW_VARS } from '../../app.types';
 import WindowReducer, {
   closeWindow,
   initialState,
@@ -5,7 +6,6 @@ import WindowReducer, {
   openTraceWindow,
   TraceOrImageWindow,
 } from './windowSlice';
-import { DEFAULT_WINDOW_VARS } from '../../app.types';
 
 describe('windowSlice', () => {
   describe('Reducer', () => {
@@ -15,13 +15,13 @@ describe('windowSlice', () => {
     beforeEach(() => {
       state = initialState;
 
-      jest
-        .spyOn(global.crypto, 'randomUUID')
-        .mockImplementation(() => `${++uuidCount}`);
+      vi.spyOn(global.crypto, 'randomUUID').mockImplementation(
+        () => `${++uuidCount}`
+      );
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('openTraceWindow creates a trace with the default options', () => {

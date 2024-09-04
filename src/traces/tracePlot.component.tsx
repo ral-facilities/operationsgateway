@@ -1,9 +1,7 @@
 import React from 'react';
 import { Waveform } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
-import type { ChartOptions, ChartData } from 'chart.js';
-// we import this even though we don't use it so we can get typescript info added to ChartOptions
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ChartData, ChartOptions } from 'chart.js';
 
 export interface TracePlotProps {
   trace: Waveform;

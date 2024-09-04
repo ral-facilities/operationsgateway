@@ -1,11 +1,10 @@
-import React from 'react';
-import DataRefresh, { type DataRefreshProps } from './dataRefresh.component';
 import { render, screen, type RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import DataRefresh, { type DataRefreshProps } from './dataRefresh.component';
 
 describe('DataRefresh', () => {
   let props: DataRefreshProps;
-  const refreshData = jest.fn();
+  const refreshData = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<DataRefresh {...props} />);
@@ -19,7 +18,7 @@ describe('DataRefresh', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', () => {

@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 
 describe('Channel Breadcrumbs', () => {
   let currNode = '';
-  const setCurrNode = jest.fn();
+  const setCurrNode = vi.fn();
   const createView = () => {
     return render(
       <ChannelBreadcrumbs currNode={currNode} setCurrNode={setCurrNode} />

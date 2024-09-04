@@ -1,9 +1,9 @@
-import React from 'react';
-import { Box, IconButton } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
-import MoreOptionsBox from './moreOptionsBox.component';
-import type { MoreOptionsProps } from './moreOptionsBox.component';
+import { Box, IconButton } from '@mui/material';
+import React from 'react';
 import { useClickOutside } from '../../../hooks';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
+import MoreOptionsBox from './moreOptionsBox.component';
 
 const MoreOptionsToggle = (props: MoreOptionsProps) => {
   const channelName = props.channel.displayName ?? props.channel.name;

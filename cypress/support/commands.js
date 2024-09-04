@@ -91,8 +91,13 @@ Cypress.Commands.add('startSnoopingBrowserMockedRequest', () => {
   cy.window().then((window) => {
     const worker = window?.msw?.worker;
 
-    worker.events.on('request:match', (req) => {
-      mockedRequests.push(req);
+    // Use start here instead of match as needs to be done before the request is read to
+    // avoid errors as an MDN Request's contents can only be read once. We then clone it
+    // here to ensure the MSW handlers can call .json() on it, and also any Cypress tests
+    // which would otherwise have failed for the same reason as json() can only be called
+    // once on the original request.
+    worker.events.on('request:start', ({ request }) => {
+      mockedRequests.push(request.clone());
     });
   });
 });
@@ -103,27 +108,30 @@ Cypress.Commands.add('startSnoopingBrowserMockedRequest', () => {
  */
 Cypress.Commands.add('findBrowserMockedRequests', ({ method, url }) => {
   return cy.window().then((window) => {
-    const { matchRequestUrl } = window?.msw;
+    const msw = window?.msw;
+    if (msw) {
+      const { matchRequestUrl } = msw;
 
-    return new Cypress.Promise((resolve, reject) => {
-      if (
-        !method ||
-        !url ||
-        typeof method !== 'string' ||
-        typeof url !== 'string'
-      ) {
-        return reject(
-          `Invalid parameters passed. Method: ${method} Url: ${url}`
+      return new Cypress.Promise((resolve, reject) => {
+        if (
+          !method ||
+          !url ||
+          typeof method !== 'string' ||
+          typeof url !== 'string'
+        ) {
+          return reject(
+            `Invalid parameters passed. Method: ${method} Url: ${url}`
+          );
+        }
+        resolve(
+          mockedRequests.filter((req) => {
+            const matchesMethod =
+              req.method && req.method.toLowerCase() === method.toLowerCase();
+            const matchesUrl = matchRequestUrl(new URL(req.url), url).matches;
+            return matchesMethod && matchesUrl;
+          })
         );
-      }
-      resolve(
-        mockedRequests.filter((req) => {
-          const matchesMethod =
-            req.method && req.method.toLowerCase() === method.toLowerCase();
-          const matchesUrl = matchRequestUrl(req.url, url).matches;
-          return matchesMethod && matchesUrl;
-        })
-      );
-    });
+      });
+    }
   });
 });

@@ -1,30 +1,30 @@
-import axios, { AxiosError } from 'axios';
 import {
   useQuery,
-  UseQueryResult,
   useQueryClient,
+  UseQueryResult,
 } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { parseISO } from 'date-fns';
 import {
+  DateRangetoShotnumConverter,
+  isChannelImage,
   isChannelScalar,
+  isChannelWaveform,
   PlotDataset,
   Record,
   RecordRow,
-  SortType,
-  SelectedPlotChannel,
   SearchParams,
+  SelectedPlotChannel,
+  SortType,
   timeChannelName,
-  isChannelImage,
-  isChannelWaveform,
-  DateRangetoShotnumConverter,
 } from '../app.types';
-import { useAppSelector } from '../state/hooks';
-import { selectQueryParams } from '../state/slices/searchSlice';
-import { parseISO } from 'date-fns';
-import { selectUrls } from '../state/slices/configSlice';
 import { readSciGatewayToken } from '../parseTokens';
+import { useAppSelector } from '../state/hooks';
+import { selectUrls } from '../state/slices/configSlice';
+import { selectQueryParams } from '../state/slices/searchSlice';
+import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
 import { staticChannels } from './channels';
-import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 
 const fetchRecords = async (
   apiUrl: string,
@@ -245,7 +245,7 @@ export const useDateToShotnumConverter = (
   return useQuery({
     queryKey: ['dateToShotnumConverter', { fromDate, toDate }],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchRangeRecordConverterQuery(
         apiUrl,
         fromDate,
@@ -268,17 +268,14 @@ export const useShotnumToDateConverter = (
 
   return useQuery({
     queryKey: ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
-
-    queryFn: (params) => {
-      return fetchRangeRecordConverterQuery(
+    queryFn: () =>
+      fetchRangeRecordConverterQuery(
         apiUrl,
         undefined,
         undefined,
         shotnumMin,
         shotnumMax
-      );
-    },
-
+      ),
     enabled,
   });
 };

@@ -1,6 +1,7 @@
 {
   "name": "operationsgateway",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "3.0.0",
@@ -17,43 +18,46 @@
     "@tanstack/react-query": "5.51.1",
     "@tanstack/react-query-devtools": "5.51.1",
     "@tanstack/react-table": "8.19.3",
-    "@types/jest": "29.5.2",
     "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "axios": "1.7.2",
+    "@vitejs/plugin-react": "^4.3.1",
+    "axios": "1.7.4",
+    "browserslist-to-esbuild": "^2.1.1",
     "cypress-delete-downloads-folder": "^0.0.5",
     "date-fns": "3.6.0",
     "hacktimer": "1.1.3",
     "loglevel": "1.9.1",
+    "msw": "2.3.5",
     "react": "18.3.1",
     "react-colorful": "5.6.1",
     "react-dom": "18.3.1",
     "react-redux": "9.1.2",
-    "react-scripts": "5.0.1",
     "single-spa-react": "5.1.4",
     "typescript": "5.5.3",
+    "vite": "^5.3.5",
     "web-vitals": "3.5.1"
   },
   "resolutions": {
-    "@typescript-eslint/eslint-plugin": "7.17.0",
-    "@typescript-eslint/parser": "7.17.0",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
     "@testing-library/react/@testing-library/dom": "10.4.0",
     "@mui/x-date-pickers@^6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
   },
   "scripts": {
-    "lint:js": "eslint --max-warnings=0 --ext=tsx --ext=ts --ext=js --ext=jsx --fix ./src",
-    "start": "craco start",
-    "build": "craco build",
-    "serve:build": "yarn build && serve -l 5001 build",
-    "test": "craco test --env=jsdom --coverage --watchAll=false",
-    "test:watch": "craco test --env=jsdom --watch",
+    "dev": "vite --open",
+    "build": "tsc --project tsconfig.build.json && vite build",
+    "preview": "vite preview",
+    "preview:build": "yarn build && yarn preview",
+    "preview:build:dev": "yarn build --watch & yarn preview",
+    "test": "vitest --coverage",
+    "lint": "eslint --max-warnings=0 --fix ./src ./cypress && tsc --noEmit -p tsconfig.build.json",
+    "build:e2e": "cross-env VITE_APP_BUILD_STANDALONE=true VITE_APP_INCLUDE_MSW=true GENERATE_SOURCEMAP=false yarn build",
+    "build:e2e:api": "cross-env VITE_APP_BUILD_STANDALONE=true VITE_APP_INCLUDE_MSW=false GENERATE_SOURCEMAP=false yarn build",
+    "e2e:serve": "yarn build:e2e && node ./server/e2e-test-server.js",
+    "e2e:serve:api": "yarn build:e2e:api && node ./server/e2e-test-server.js",
     "playwright:test:mocked": "docker run -v $PWD:/test -w=/test $(node -e \"if(process.env.CI !== 'true'){if(process.platform === 'win32'){console.log('-it -u pwuser')}else{console.log('-it -u $(id -u):$(id -g)')}}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
     "playwright:test:real": "docker run -v $PWD:/test -w=/test -e \"USE_REAL_API=true\" $(node -e \"if(process.env.CI !== 'true'){if(process.platform === 'win32'){console.log('-it -u pwuser')}else{console.log('-it -u $(id -u):$(id -g)')}}else{console.log('-e CI')}\") --rm --ipc=host -p 9323:9323 --add-host host.docker.internal:host-gateway mcr.microsoft.com/playwright:v$(yarn info @playwright/test --name-only --json | sed -n 's/^.*:\\(.*\\)\"$/\\1/p') yarn playwright test",
-    "eject": "react-scripts eject",
-    "build:e2e": "cross-env REACT_APP_E2E_TESTING=true GENERATE_SOURCEMAP=false craco build",
-    "e2e-test-server": "node ./server/e2e-test-server.js",
-    "e2e:serve": "yarn build:e2e && yarn e2e-test-server",
     "e2e:interactive": "start-server-and-test e2e:serve http://localhost:3000 cy:open",
     "e2e": "start-server-and-test e2e:serve http://localhost:3000 cy:run",
     "cy:open": "cypress open",
@@ -73,42 +77,26 @@
       "prettier --write"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "resetMocks": false,
-    "transformIgnorePatterns": [
-      "node_modules/(?!copy-anything|axios|is-what)"
-    ]
-  },
+  "browserslist": [
+    "defaults"
+  ],
   "packageManager": "yarn@4.3.1",
   "devDependencies": {
-    "@babel/eslint-parser": "7.24.8",
-    "@craco/craco": "7.1.0",
+    "@babel/eslint-parser": "7.25.1",
     "@playwright/test": "1.45.2",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.4.6",
     "@testing-library/react": "16.0.0",
-    "@testing-library/user-event": "14.5.1",
-    "@typescript-eslint/eslint-plugin": "7.17.0",
-    "@typescript-eslint/parser": "7.17.0",
-    "@typescript-eslint/typescript-estree": "7.17.0",
+    "@testing-library/user-event": "14.5.2",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "@typescript-eslint/typescript-estree": "7.18.0",
+    "@vitest/coverage-v8": "^2.0.5",
     "chart.js": "4.4.1",
     "chartjs-plugin-zoom": "2.0.0",
     "cross-env": "7.0.3",
     "cypress": "13.13.0",
-    "cypress-failed-log": "2.10.0",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-config-react-app": "7.0.1",
@@ -117,14 +105,15 @@
     "eslint-plugin-prettier": "5.2.1",
     "express": "4.19.2",
     "husky": "9.1.1",
-    "jest-canvas-mock": "2.5.0",
-    "jest-fail-on-console": "3.3.0",
+    "jsdom": "^24.1.1",
     "lint-staged": "15.2.0",
-    "msw": "1.3.2",
     "prettier": "3.3.3",
     "serve": "14.2.0",
     "serve-static": "1.15.0",
-    "start-server-and-test": "2.0.0"
+    "start-server-and-test": "2.0.0",
+    "vitest": "^2.0.5",
+    "vitest-canvas-mock": "^0.3.3",
+    "vitest-fail-on-console": "^0.7.0"
   },
   "msw": {
     "workerDirectory": "public"
