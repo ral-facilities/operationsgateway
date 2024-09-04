@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { FunctionOperator, ValidateFunctionState } from '../app.types';
 import functionTokenJson from '../mocks/functionTokens.json';
-import { hooksWrapperWithProviders } from '../setupTests';
+import { hooksWrapperWithProviders } from '../testUtils';
 import { useFunctionsTokens, useValidateFunctions } from './functions';
 
 describe('useFunctionsTokens', () => {

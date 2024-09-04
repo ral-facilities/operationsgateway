@@ -8,8 +8,8 @@ import {
   XAxisScale,
   YAxisScale,
 } from '../../app.types';
-import { RootState } from '../store';
 import { COLOUR_ORDER } from '../../plotting/plotSettings/colourGenerator';
+import { RootState } from '../store';
 
 export interface PlotConfig extends WindowConfig {
   plotType: PlotType;
@@ -100,7 +100,7 @@ export const { createPlot, closePlot, openPlot, savePlot, deletePlot } =
 export const selectPlots = (state: RootState) => state.plots;
 export const selectOpenPlots = createSelector(selectPlots, (plots) =>
   Object.fromEntries(
-    Object.entries(plots).filter(([plotTitle, plot]) => plot.open)
+    Object.entries(plots).filter(([_plotTitle, plot]) => plot.open)
   )
 );
 

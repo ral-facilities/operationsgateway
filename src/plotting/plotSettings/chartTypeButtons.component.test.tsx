@@ -1,14 +1,13 @@
-import React from 'react';
-import ChartTypeButtons from './chartTypeButtons.component';
-import type { ChartTypeButtonsProps } from './chartTypeButtons.component';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { ChartTypeButtonsProps } from './chartTypeButtons.component';
+import ChartTypeButtons from './chartTypeButtons.component';
 
 describe('Chart Type Buttons', () => {
   let props: ChartTypeButtonsProps;
   let user;
-  const changePlotType = jest.fn();
-  const changeXAxis = jest.fn();
+  const changePlotType = vi.fn();
+  const changeXAxis = vi.fn();
 
   beforeEach(() => {
     props = {
@@ -22,7 +21,7 @@ describe('Chart Type Buttons', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('calls changePlotType and changeXAxis when XY button is clicked', async () => {

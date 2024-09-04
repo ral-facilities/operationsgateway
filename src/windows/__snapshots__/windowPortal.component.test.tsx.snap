@@ -1,14 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Window portal component renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly 1`] = `
+exports[`Window portal component > renders child in separate document and initialises event listeners & scripts, and handles unmounting correctly 1`] = `
 <body>
   <div>
-    <style
-      data-emotion="external-global"
-      data-s=""
-    >
-      
-    </style>
     <div
       id="test"
     >
@@ -22,15 +16,9 @@ exports[`Window portal component renders child in separate document and initiali
 </body>
 `;
 
-exports[`Window portal component renders with theme inherited from ThemeProvider 1`] = `
+exports[`Window portal component > renders with theme inherited from ThemeProvider 1`] = `
 <body>
   <div>
-    <style
-      data-emotion="external-global"
-      data-s=""
-    >
-      
-    </style>
     <div
       id="test"
     >

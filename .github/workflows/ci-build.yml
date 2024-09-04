@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: yarn --immutable
       - name: Run linting
-        run: yarn lint:js
+        run: yarn lint
       - name: Run unit tests
         run: yarn test
       - name: Upload unit test coverage
@@ -117,7 +117,7 @@ jobs:
         with:
           mongodb-version: '5.0'
 
-       # Configure correct paths in config files
+        # Configure correct paths in config files
       - name: Configure private key path
         run: yq -i ".auth.private_key_path = \"$GITHUB_WORKSPACE/id_rsa\"" .github/ci_config.yml
         working-directory: ./operationsgateway-api

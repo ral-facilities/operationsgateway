@@ -1,6 +1,5 @@
-import React from 'react';
-import { Box, Button } from '@mui/material';
 import { Refresh } from '@mui/icons-material';
+import { Box, Button } from '@mui/material';
 
 export interface DataRefreshProps {
   timeframeSet: boolean;

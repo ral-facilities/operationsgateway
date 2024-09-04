@@ -1,20 +1,20 @@
-import React from 'react';
 import {
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormLabel,
   InputLabel,
+  ListSubheader,
   MenuItem,
   Paper,
   Select,
   SelectChangeEvent,
+  SelectProps,
   Slider,
   Stack,
   Switch,
-  FormGroup,
-  ListSubheader,
-  SelectProps,
 } from '@mui/material';
+import React from 'react';
 import {
   ColourMapsParams,
   FalseColourParams,
@@ -143,7 +143,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
   const handleEnabledChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     // disabling false colour
@@ -159,7 +159,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     setEnabled(checked);
   };
   const handleReverseColour = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     if (selectColourMap !== '') {
@@ -183,7 +183,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     : colourMaps?.[mainColourMap];
 
   const handleExtendColourMaps = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
     setExtendedColourMap(checked);
@@ -269,14 +269,14 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             value={[sliderLowerLevel, sliderUpperLevel]}
             valueLabelDisplay="auto"
             marks={marks}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
               if (Array.isArray(newValue)) {
                 const [lower, upper] = newValue;
                 setSliderLowerLevel(lower);
                 setSliderUpperLevel(upper);
               }
             }}
-            onChangeCommitted={(event, newValue) => {
+            onChangeCommitted={(_event, newValue) => {
               if (Array.isArray(newValue)) {
                 const [lower, upper] = newValue;
                 changeLowerLevel(lower);

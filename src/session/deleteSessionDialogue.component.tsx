@@ -7,8 +7,8 @@ import {
   FormHelperText,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { SessionResponse } from '../app.types';
 import { useDeleteSession } from '../api/sessions';
+import { SessionResponse } from '../app.types';
 
 export interface DeleteSessionDialogueProps {
   open: boolean;
@@ -32,7 +32,7 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
   const handleDeleteSession = React.useCallback(() => {
     if (sessionData) {
       deleteSession(sessionData)
-        .then((response) => {
+        .then(() => {
           if (loadedSessionId === sessionData._id) {
             onDeleteLoadedsession();
           }

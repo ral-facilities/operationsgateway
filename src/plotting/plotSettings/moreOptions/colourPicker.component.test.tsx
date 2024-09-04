@@ -1,13 +1,13 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import ColourPicker from './colourPicker.component';
 
 describe('ColourPicker component', () => {
   const props: React.ComponentProps<typeof ColourPicker> = {
     channelName: 'CHANNEL_1',
     colour: '#ff0000',
-    changeColour: jest.fn(),
+    changeColour: vi.fn(),
   };
 
   it('renders coloured square when popover is not open', () => {

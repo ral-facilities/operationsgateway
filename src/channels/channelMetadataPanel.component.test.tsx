@@ -1,12 +1,11 @@
-import { screen } from '@testing-library/react';
-import React from 'react';
-import ChannelMetadataPanel from './channelMetadataPanel.component';
-import { FullChannelMetadata } from '../app.types';
 import { QueryClient } from '@tanstack/react-query';
-import { renderComponentWithProviders } from '../setupTests';
-import { RootState } from '../state/store';
-import { staticChannels } from '../api/channels';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { staticChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
+import { RootState } from '../state/store';
+import { renderComponentWithProviders } from '../testUtils';
+import ChannelMetadataPanel from './channelMetadataPanel.component';
 
 describe('Channel Metadata Panel', () => {
   let displayedChannel: FullChannelMetadata | undefined;
@@ -18,8 +17,8 @@ describe('Channel Metadata Panel', () => {
     return renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected={false}
-        onSelectChannel={jest.fn()}
-        onDeselectChannel={jest.fn()}
+        onSelectChannel={vi.fn()}
+        onDeselectChannel={vi.fn()}
         displayedChannel={displayedChannel}
       />,
       {
@@ -75,13 +74,13 @@ describe('Channel Metadata Panel', () => {
 
   it('should add displayed channel when add channel button is clicked', async () => {
     const user = userEvent.setup();
-    const onSelectChannel = jest.fn();
+    const onSelectChannel = vi.fn();
 
     renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected={false}
         onSelectChannel={onSelectChannel}
-        onDeselectChannel={jest.fn()}
+        onDeselectChannel={vi.fn()}
         displayedChannel={displayedChannel}
       />
     );
@@ -93,12 +92,12 @@ describe('Channel Metadata Panel', () => {
 
   it('should remove displayed channel when it is selected and when remove channel button is clicked', async () => {
     const user = userEvent.setup();
-    const onDeselectChannel = jest.fn();
+    const onDeselectChannel = vi.fn();
 
     renderComponentWithProviders(
       <ChannelMetadataPanel
         isChannelSelected
-        onSelectChannel={jest.fn()}
+        onSelectChannel={vi.fn()}
         onDeselectChannel={onDeselectChannel}
         displayedChannel={displayedChannel}
       />

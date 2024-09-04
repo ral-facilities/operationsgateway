@@ -1,28 +1,26 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
-import TraceWindow from './traceWindow.component';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
-import { rest } from 'msw';
-import { server } from '../mocks/server';
-import { TraceOrImageWindow } from '../state/slices/windowSlice';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { TraceOrImageWindow } from '../state/slices/windowSlice';
+import { renderComponentWithProviders } from '../testUtils';
+import TraceWindow from './traceWindow.component';
 
-jest.mock('../windows/windowPortal.component', () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <mock-WindowPortal>{children}</mock-WindowPortal>
-  ));
+vi.mock('../windows/windowPortal.component', async () => {
+  const ReactMock = await vi.importActual('react');
+  return {
+    default: ReactMock.forwardRef(({ children }, ref) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-WindowPortal>{children}</mock-WindowPortal>
+    )),
+  };
 });
 
-jest.mock('./tracePlot.component', () => () => (
+vi.mock('./tracePlot.component', () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  <mock-TracePlot data-testid="mock-trace-plot" />
-));
+  return { default: () => <mock-TracePlot data-testid="mock-trace-plot" /> };
+});
 
 describe('Trace Window component', () => {
   let testTraceConfig: TraceOrImageWindow;
@@ -40,12 +38,12 @@ describe('Trace Window component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = () => {
     return renderComponentWithProviders(
-      <TraceWindow onClose={jest.fn()} traceConfig={testTraceConfig} />
+      <TraceWindow onClose={vi.fn()} traceConfig={testTraceConfig} />
     );
   };
 
@@ -56,12 +54,6 @@ describe('Trace Window component', () => {
   });
 
   it('renders correctly while waveform is loading', () => {
-    const loadingHandler = (req, res, ctx) => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(rest.get('/waveforms', loadingHandler));
-
     createView();
     screen.getByLabelText('Trace loading');
   });

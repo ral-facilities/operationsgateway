@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { defineConfig } = require('cypress');
-const { removeDirectory } = require('cypress-delete-downloads-folder');
+import { defineConfig } from 'cypress';
+import { removeDirectory } from 'cypress-delete-downloads-folder';
 
-module.exports = defineConfig({
+export default defineConfig({
   chromeWebSecurity: false,
   video: false,
   retries: {
@@ -12,9 +11,6 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on) {
       on('task', { removeDirectory });
-      // https://github.com/bahmutov/cypress-failed-log
-      require('cypress-failed-log/on')(on);
-
       on('before:browser:launch', (browser, launchOptions) => {
         if (browser.family === 'chromium' && browser.name !== 'electron') {
           // Set pointer type to fine so that date inputs work properly

@@ -15,10 +15,10 @@ describe('Filter input component', () => {
     props = {
       error: undefined,
       value: [],
-      setValue: jest.fn().mockImplementation((newValue) => {
+      setValue: vi.fn().mockImplementation((newValue) => {
         props.value = newValue;
       }),
-      setError: jest.fn(),
+      setError: vi.fn(),
       channels: [
         { type: 'channel', value: 'type', label: 'type' },
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -223,7 +223,7 @@ describe('Filter input component', () => {
 
     await user.type(filter, 'type');
     await user.type(filter, '{enter}');
-    (props.setError as jest.Mock).mockClear();
+    vi.mocked(props.setError).mockClear();
     await user.tab();
 
     expect(props.setError).toHaveBeenCalledWith(
@@ -245,7 +245,7 @@ describe('Filter input component', () => {
 
     await user.type(filter, 'type');
     await user.type(filter, ' ');
-    (props.setError as jest.Mock).mockClear();
+    vi.mocked(props.setError).mockClear();
     await user.tab();
 
     expect(props.setError).toHaveBeenCalledWith(
@@ -288,7 +288,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue1);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '=');
@@ -301,7 +301,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue2);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '{arrowright}');
@@ -313,7 +313,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue3);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '2');
@@ -346,7 +346,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue1);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '=');
@@ -359,7 +359,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue2);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '{arrowright}');
@@ -371,7 +371,7 @@ describe('Filter input component', () => {
     ];
     expect(props.setValue).toHaveBeenCalledWith(expectedValue3);
 
-    (props.setValue as jest.Mock).mockClear();
+    vi.mocked(props.setValue).mockClear();
     rerender(<FilterInput {...props} />);
 
     await user.type(filter, '2');

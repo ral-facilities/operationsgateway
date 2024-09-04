@@ -1,28 +1,31 @@
-import React from 'react';
-import MoreOptionsToggle from './moreOptionsToggle.component';
-import type { MoreOptionsProps } from './moreOptionsBox.component';
-import { testPlotDatasets } from '../../../setupTests';
-import { SelectedPlotChannel } from '../../../app.types';
-import { render, screen } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { SelectedPlotChannel } from '../../../app.types';
+import { testPlotDatasets } from '../../../testUtils';
+import type { MoreOptionsProps } from './moreOptionsBox.component';
+import MoreOptionsToggle from './moreOptionsToggle.component';
 
-jest.mock('./moreOptionsBox.component', () => (props) => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-moreOptionsBox data-testid="mock-moreOptionsBox">
-    {Object.entries(props).map(
-      ([propName, propValue]) =>
-        `${propName}=${JSON.stringify(propValue, null, 2)}\n`
-    )}
-    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-    {/* @ts-ignore */}
-  </mock-moreOptionsBox>
-));
+vi.mock('./moreOptionsBox.component', () => {
+  return {
+    default: (props) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-moreOptionsBox data-testid="mock-moreOptionsBox">
+        {Object.entries(props).map(
+          ([propName, propValue]) =>
+            `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+        )}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+      </mock-moreOptionsBox>
+    ),
+  };
+});
 
 describe('MoreOptionsToggle', () => {
   let props: MoreOptionsProps;
-  const changeSelectedPlotChannels = jest.fn();
+  const changeSelectedPlotChannels = vi.fn();
   let user;
 
   const createView = (): RenderResult => {
@@ -52,7 +55,7 @@ describe('MoreOptionsToggle', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly when options box not open', () => {

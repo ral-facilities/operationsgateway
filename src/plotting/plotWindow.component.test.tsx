@@ -1,33 +1,36 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
-import PlotWindow from './plotWindow.component';
 import userEvent from '@testing-library/user-event';
-import {
-  renderComponentWithProviders,
-  testPlotConfigs,
-  getInitialState,
-} from '../setupTests';
+import React from 'react';
 import { PlotConfig } from '../state/slices/plotSlice';
 import { RootState } from '../state/store';
-import { rest } from 'msw';
-import { server } from '../mocks/server';
+import {
+  getInitialState,
+  renderComponentWithProviders,
+  testPlotConfigs,
+} from '../testUtils';
 import { WindowPortal } from '../windows/windowPortal.component';
+import PlotWindow from './plotWindow.component';
 
-jest.mock('../windows/windowPortal.component', () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const ReactMock = require('react');
-  return ReactMock.forwardRef(({ children }, ref) => (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <mock-WindowPortal>{children}</mock-WindowPortal>
-  ));
+vi.mock('../windows/windowPortal.component', async () => {
+  const ReactMock = await vi.importActual('react');
+  return {
+    default: ReactMock.forwardRef(({ children }, ref) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-WindowPortal>{children}</mock-WindowPortal>
+    )),
+  };
 });
 
-jest.mock('./plot.component', () => () => (
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  <mock-Plot data-testid="mock-plot" />
-));
+vi.mock('./plot.component', () => {
+  return {
+    default: () => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-Plot data-testid="mock-plot" />
+    ),
+  };
+});
 
 describe('Plot Window component', () => {
   let testPlotConfig: PlotConfig;
@@ -45,14 +48,14 @@ describe('Plot Window component', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   const createView = () => {
     const ref = React.createRef<WindowPortal>();
     return renderComponentWithProviders(
       <PlotWindow
-        onClose={jest.fn()}
+        onClose={vi.fn()}
         plotConfig={testPlotConfig}
         plotWindowRef={ref}
       />,
@@ -96,15 +99,6 @@ describe('Plot Window component', () => {
   });
 
   it('renders correctly while records and channels are loading', () => {
-    const loadingHandler = (req, res, ctx) => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/channels', loadingHandler)
-    );
-
     createView();
     screen.getByLabelText('Settings loading');
     screen.getByLabelText('Plot loading');

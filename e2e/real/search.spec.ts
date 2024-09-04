@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('should be able to search via shot number', async ({ page }) => {
   await page.goto('/');

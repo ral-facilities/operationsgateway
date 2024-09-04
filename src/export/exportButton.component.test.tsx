@@ -1,8 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderComponentWithProviders } from '../setupTests';
+import { renderComponentWithProviders } from '../testUtils';
 import ExportButton from './exportButton.component';
-import React from 'react';
 
 describe('ExportButton', () => {
   let user: ReturnType<typeof userEvent.setup>;
