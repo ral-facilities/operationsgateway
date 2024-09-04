@@ -17,9 +17,9 @@ describe('plotSlice', () => {
     beforeEach(() => {
       state = initialState;
 
-      jest
-        .spyOn(global.crypto, 'randomUUID')
-        .mockImplementation(() => `${++uuidCount}`);
+      vi.spyOn(global.crypto, 'randomUUID').mockImplementation(
+        () => `${++uuidCount}`
+      );
     });
 
     afterEach(() => {
