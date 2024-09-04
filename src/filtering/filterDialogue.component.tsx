@@ -329,7 +329,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Operators included</Heading>
             <Body>
               <Box display="flex" flexWrap="wrap" gap={1}>
-                {helpPageOperators.map((operator, index) => (
+                {helpPageOperators.map((operator, _index) => (
                   <React.Fragment key={operator}>
                     <Chip
                       label={operator}
