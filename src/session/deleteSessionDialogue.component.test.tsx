@@ -1,16 +1,15 @@
-import React from 'react';
-import { screen, RenderResult, waitFor } from '@testing-library/react';
+import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderComponentWithProviders } from '../testUtils';
 import DeleteSessionDialogue, {
   DeleteSessionDialogueProps,
 } from './deleteSessionDialogue.component';
-import { renderComponentWithProviders } from '../setupTests';
 
 describe('delete session dialogue', () => {
   let props: DeleteSessionDialogueProps;
   let user;
-  const onClose = jest.fn();
-  const onDeleteLoadedsession = jest.fn();
+  const onClose = vi.fn();
+  const onDeleteLoadedsession = vi.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<DeleteSessionDialogue {...props} />);
@@ -34,7 +33,7 @@ describe('delete session dialogue', () => {
     user = userEvent; // Assigning userEvent to 'user'
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   it('renders correctly', async () => {
     createView();

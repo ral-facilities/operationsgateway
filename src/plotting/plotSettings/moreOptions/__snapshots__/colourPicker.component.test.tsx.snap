@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ColourPicker component renders colour picker when square is clicked 1`] = `
+exports[`ColourPicker component > renders colour picker when square is clicked 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-79elbk"
@@ -68,7 +68,7 @@ exports[`ColourPicker component renders colour picker when square is clicked 1`]
 </DocumentFragment>
 `;
 
-exports[`ColourPicker component renders coloured square when popover is not open 1`] = `
+exports[`ColourPicker component > renders coloured square when popover is not open 1`] = `
 <DocumentFragment>
   <div
     class="MuiBox-root css-79elbk"

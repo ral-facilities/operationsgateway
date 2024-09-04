@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Button,
   Dialog,
@@ -8,18 +7,19 @@ import {
   Divider,
   Grid,
 } from '@mui/material';
+import { createSelector } from '@reduxjs/toolkit';
+import React from 'react';
 import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
-import ChannelTree from './channelTree.component';
-import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   selectSelectedIds,
   updateSelectedColumns,
 } from '../state/slices/tableSlice';
-import { createSelector } from '@reduxjs/toolkit';
+import ChannelBreadcrumbs from './channelBreadcrumbs.component';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
 import ChannelSearch from './channelSearch.component';
+import ChannelTree from './channelTree.component';
 
 interface ChannelsDialogueProps {
   open: boolean;
@@ -42,9 +42,9 @@ export interface TreeNode {
  * @params selectedIds - array of all the channels currently selected
  */
 export const selectChannelTree = createSelector(
-  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+  (availableChannels: FullChannelMetadata[], _selectedIds: string[]) =>
     availableChannels,
-  (availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
+  (_availableChannels: FullChannelMetadata[], selectedIds: string[]) =>
     selectedIds,
   (availableChannels, selectedIds) => {
     const tree: TreeNode = { name: '/', children: {} };

@@ -1,33 +1,27 @@
-import React from 'react';
+import {
+  act,
+  fireEvent,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
+import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { operators, type Token } from '../filtering/filterParser';
+import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
+import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
+import { RootState } from '../state/store';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import RecordTable, {
   extractChannelsFromTokens,
 } from './recordTable.component';
-import {
-  screen,
-  act,
-  fireEvent,
-  within,
-  waitFor,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-  getInitialState,
-  renderComponentWithProviders,
-} from '../setupTests';
-import userEvent from '@testing-library/user-event';
-import { RootState } from '../state/store';
-import { selectColumn, deselectColumn } from '../state/slices/tableSlice';
-import { operators, type Token } from '../filtering/filterParser';
-import { server } from '../mocks/server';
-import { rest } from 'msw';
-import recordsJson from '../mocks/records.json';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
 
 describe('Record Table', () => {
   let state: RootState;
-  const openFilters = jest.fn();
+  const openFilters = vi.fn();
 
   let uuidCount = 0;
 
@@ -41,18 +35,15 @@ describe('Record Table', () => {
   };
 
   beforeEach(() => {
-    applyDatePickerWorkaround();
-
     state = getInitialState();
 
-    jest
-      .spyOn(global.crypto, 'randomUUID')
-      .mockImplementation(() => `${++uuidCount}`);
+    vi.spyOn(global.crypto, 'randomUUID').mockImplementation(
+      () => `${++uuidCount}`
+    );
   });
 
   afterEach(() => {
-    cleanupDatePickerWorkaround();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly', async () => {
@@ -66,28 +57,14 @@ describe('Record Table', () => {
   });
 
   it('renders correctly while loading', () => {
-    const loadingHandler = (req, res, ctx) => {
-      // taken from https://github.com/mswjs/msw/issues/778 - a way of mocking pending promises without breaking jest
-      return new Promise(() => undefined);
-    };
-    server.use(
-      rest.get('/records', loadingHandler),
-      rest.get('/records/count', loadingHandler),
-      rest.get('/channels', loadingHandler)
-    );
-
     const view = createView();
     expect(view.asFragment()).toMatchSnapshot();
   });
 
   it('renders correctly while data count is zero', async () => {
     server.use(
-      rest.get('/records', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json([]));
-      }),
-      rest.get('/records/count', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(0));
-      })
+      http.get('/records', () => HttpResponse.json([], { status: 200 })),
+      http.get('/records/count', () => HttpResponse.json(0, { status: 200 }))
     );
 
     const view = createView();
@@ -104,9 +81,9 @@ describe('Record Table', () => {
       const user = userEvent.setup();
 
       server.use(
-        rest.get('/records', (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json(recordsJson.slice(0, 3)));
-        })
+        http.get('/records', () =>
+          HttpResponse.json(recordsJson.slice(0, 3), { status: 200 })
+        )
       );
       const { store } = createView({
         table: { ...state.table },
@@ -129,9 +106,9 @@ describe('Record Table', () => {
     it('can select single and multiple rows', async () => {
       const user = userEvent.setup();
       server.use(
-        rest.get('/records', (req, res, ctx) => {
-          return res(ctx.status(200), ctx.json(recordsJson));
-        })
+        http.get('/records', () =>
+          HttpResponse.json(recordsJson, { status: 200 })
+        )
       );
       const { store } = createView({
         table: { ...state.table },
@@ -279,9 +256,9 @@ describe('Record Table', () => {
       ...recordsJson.slice(recordToModifyIndex + 1),
     ];
     server.use(
-      rest.get('/records', (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(modifiedRecords));
-      })
+      http.get('/records', () =>
+        HttpResponse.json(modifiedRecords, { status: 200 })
+      )
     );
 
     createView({

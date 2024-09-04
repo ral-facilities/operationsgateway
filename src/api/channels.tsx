@@ -117,7 +117,7 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
 
   return useQuery({
     queryKey: ['channels'],
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchChannels(apiUrl);
     },
 
@@ -137,7 +137,7 @@ export const useChannelSummary = (
   return useQuery({
     queryKey: ['channelSummary', dataChannel],
 
-    queryFn: (params) => {
+    queryFn: () => {
       return fetchChannelSummary(apiUrl, dataChannel);
     },
 

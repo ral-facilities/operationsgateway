@@ -1,14 +1,14 @@
+import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
+import { useWaveform } from '../api/waveforms';
+import { useAppDispatch } from '../state/hooks';
+import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
+import ThumbnailSelector from '../windows/thumbnailSelector.component';
+import { TraceButtons } from '../windows/windowButtons.component';
 import WindowPortal, {
   WindowPortal as WindowPortalClass,
 } from '../windows/windowPortal.component';
-import { useWaveform } from '../api/waveforms';
-import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
-import { Grid, Backdrop, CircularProgress } from '@mui/material';
 import TracePlot from './tracePlot.component';
-import { TraceButtons } from '../windows/windowButtons.component';
-import ThumbnailSelector from '../windows/thumbnailSelector.component';
-import { useAppDispatch } from '../state/hooks';
 
 interface TraceWindowProps {
   onClose: () => void;

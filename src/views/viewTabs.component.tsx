@@ -1,17 +1,17 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import DataView from './dataView.component';
-import PlotList from '../plotting/plotList.component';
-import SessionSaveButtons from '../session/sessionSaveButtons.component';
-import SessionsDrawer from '../session/sessionDrawer.component';
+import { styled } from '@mui/material/styles';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import React from 'react';
 import { useSession, useSessionList } from '../api/sessions';
 import { SessionListItem } from '../app.types';
-import SessionDialogue from '../session/sessionDialogue.component';
-import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
 import ExportButton from '../export/exportButton.component';
+import PlotList from '../plotting/plotList.component';
+import DeleteSessionDialogue from '../session/deleteSessionDialogue.component';
+import SessionDialogue from '../session/sessionDialogue.component';
+import SessionsDrawer from '../session/sessionDrawer.component';
+import SessionSaveButtons from '../session/sessionSaveButtons.component';
+import DataView from './dataView.component';
 
 type TabValue = 'Data' | 'Plots';
 
@@ -53,7 +53,7 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const ViewTabs = () => {
   const [value, setValue] = React.useState<TabValue>('Data');
 
-  const handleChange = (event: React.SyntheticEvent, newValue: TabValue) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: TabValue) => {
     setValue(newValue);
   };
 

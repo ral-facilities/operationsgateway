@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Record Table renders correctly 1`] = `
+exports[`Record Table > renders correctly 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -1238,7 +1238,7 @@ exports[`Record Table renders correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Record Table renders correctly while data count is zero 1`] = `
+exports[`Record Table > renders correctly while data count is zero 1`] = `
 <DocumentFragment>
   <div>
     <div
@@ -1532,7 +1532,7 @@ exports[`Record Table renders correctly while data count is zero 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Record Table renders correctly while loading 1`] = `
+exports[`Record Table > renders correctly while loading 1`] = `
 <DocumentFragment>
   <div>
     <div

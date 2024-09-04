@@ -1,23 +1,18 @@
-import React from 'react';
-import XAxisTab from './xAxisTab.component';
-import type { XAxisTabProps } from './xAxisTab.component';
-import { fireEvent, render, screen, within } from '@testing-library/react';
 import type { RenderResult } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  applyDatePickerWorkaround,
-  cleanupDatePickerWorkaround,
-  testScalarChannels,
-} from '../../setupTests';
 import { format } from 'date-fns';
+import { testScalarChannels } from '../../testUtils';
+import type { XAxisTabProps } from './xAxisTab.component';
+import XAxisTab from './xAxisTab.component';
 
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
   let user;
-  const changeXAxis = jest.fn();
-  const changeXAxisScale = jest.fn();
-  const changeXMinimum = jest.fn();
-  const changeXMaximum = jest.fn();
+  const changeXAxis = vi.fn();
+  const changeXAxisScale = vi.fn();
+  const changeXMinimum = vi.fn();
+  const changeXMaximum = vi.fn();
 
   const createView = (): RenderResult => {
     return render(<XAxisTab {...props} />);
@@ -38,7 +33,7 @@ describe('x-axis tab', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with arbitrary x axis', () => {
@@ -189,13 +184,8 @@ describe('x-axis tab', () => {
 
     describe('date-time values', () => {
       beforeEach(() => {
-        applyDatePickerWorkaround();
         props.XAxis = 'timestamp';
         props.XAxisScale = 'time';
-      });
-
-      afterEach(() => {
-        cleanupDatePickerWorkaround();
       });
 
       it('lets user change the fromDate field and calls relevant onchange method', async () => {

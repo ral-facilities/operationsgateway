@@ -1,7 +1,5 @@
-import '@testing-library/jest-dom';
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import React from 'react';
 import { FunctionToken, ValidateFunctionState } from '../app.types';
 import FunctionsInputs, {
   FunctionsInputsProps,
@@ -35,9 +33,9 @@ describe('FunctionsInputs', () => {
   let props: FunctionsInputsProps;
   let user: UserEvent;
 
-  const setValue = jest.fn();
-  const setError = jest.fn();
-  const checkErrors = jest.fn();
+  const setValue = vi.fn();
+  const setError = vi.fn();
+  const checkErrors = vi.fn();
   const createView = () => render(<FunctionsInputs {...props} />);
   beforeEach(() => {
     props = {
@@ -54,7 +52,7 @@ describe('FunctionsInputs', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders the name and expression input fields', () => {
@@ -258,7 +256,7 @@ describe('FunctionsInputs', () => {
       ],
     });
 
-    (setValue as jest.Mock).mockClear();
+    (setValue as vi.Mock).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '+');
@@ -272,7 +270,7 @@ describe('FunctionsInputs', () => {
         { label: '1', type: 'number', value: '1' },
       ],
     });
-    (setValue as jest.Mock).mockClear();
+    (setValue as vi.Mock).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '{arrowright}');
@@ -285,7 +283,7 @@ describe('FunctionsInputs', () => {
       ],
     });
 
-    (setValue as jest.Mock).mockClear();
+    (setValue as vi.Mock).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '2');
@@ -355,7 +353,7 @@ describe('FunctionsInputs', () => {
   });
 
   it('user can click between tags to change input position when moving input backwards', async () => {
-    window.Element.prototype.getBoundingClientRect = jest
+    window.Element.prototype.getBoundingClientRect = vi
       .fn()
       .mockReturnValue({ height: 10, width: 20, x: 10, y: 10 })
       .mockReturnValueOnce({ height: 0, width: 0, x: 0, y: 0 });
@@ -431,7 +429,7 @@ describe('FunctionsInputs', () => {
   });
 
   it('user can click between tags to change input position even when tags "span multiple lines" (testing the overflow edge case)', async () => {
-    window.Element.prototype.getBoundingClientRect = jest
+    window.Element.prototype.getBoundingClientRect = vi
       .fn()
       .mockReturnValueOnce({ height: 10, width: 10, x: 10, y: 10 })
       .mockReturnValueOnce({ height: 10, width: 10, x: 0, y: 20 })

@@ -1,12 +1,12 @@
+import { Box, Grid, Paper, styled, Tab, Tabs, Typography } from '@mui/material';
 import React from 'react';
-import { Grid, Box, styled, Tab, Tabs, Typography, Paper } from '@mui/material';
 import {
-  XAxisScale,
-  YAxisScale,
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
   timeChannelName,
+  XAxisScale,
+  YAxisScale,
 } from '../../app.types';
 import ChartTypeButtons from './chartTypeButtons.component';
 import PlotSettingsTextField from './plotSettingsTextField.component';
@@ -135,7 +135,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
   const [XYTabValue, setXYTabValue] = React.useState<TabValue>('X');
 
   const handleXYTabChange = React.useCallback(
-    (event: React.SyntheticEvent, newValue: TabValue) => {
+    (_event: React.SyntheticEvent, newValue: TabValue) => {
       setXYTabValue(newValue);
     },
     [setXYTabValue]

@@ -205,12 +205,12 @@ const FilterInput = (props: FilterInputProps) => {
       fullWidth
       inputValue={inputValue}
       onBlur={checkErrors}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(_event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       value={value}
       onChange={(
-        event: unknown,
+        _event: unknown,
         newValue: (string | Token)[],
         reason: string
       ) => {
@@ -276,7 +276,7 @@ const FilterInput = (props: FilterInputProps) => {
         }
       }}
       // this is need to allow user to repeatedly select the same tag
-      isOptionEqualToValue={(option, value) => false}
+      isOptionEqualToValue={() => false}
       renderTags={(value, getTagProps) => {
         tags = value.map((option: Token, index: number) => (
           <Chip

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Plot List component renders plot grid correctly with no plots 1`] = `
+exports[`Plot List component > renders plot grid correctly with no plots 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-h4ktle-MuiGrid-root"
@@ -23,7 +23,7 @@ exports[`Plot List component renders plot grid correctly with no plots 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Plot List component renders plot grid correctly with some plots 1`] = `
+exports[`Plot List component > renders plot grid correctly with some plots 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column css-h4ktle-MuiGrid-root"

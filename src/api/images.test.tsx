@@ -1,16 +1,17 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import colourMapsJson from '../mocks/colourMaps.json';
+
+import { RootState } from '../state/store';
 import {
   getInitialState,
   hooksWrapperWithProviders,
   waitForRequest,
-} from '../setupTests';
-import { RootState } from '../state/store';
+} from '../testUtils';
 import { useColourBar, useColourMaps, useImage } from './images';
 
 describe('images api functions', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('useImage', () => {
@@ -42,7 +43,7 @@ describe('images api functions', () => {
       params.set('original_image', 'true');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it('sends request to image from a function and returns successful response', async () => {
@@ -88,7 +89,9 @@ describe('images api functions', () => {
       );
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams.toString()).toEqual(params.toString());
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
     });
 
     it('sends request to fetch original image with empty false colour params and returns successful response', async () => {
@@ -110,7 +113,7 @@ describe('images api functions', () => {
       params.set('original_image', 'true');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it('sends request to fetch false colour image and returns successful response', async () => {
@@ -142,7 +145,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it.todo(
@@ -183,7 +186,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
 
       expect(result.current.data).toEqual('testObjectUrl');
-      expect(request.url.searchParams).toEqual(params);
+      expect(new URL(request.url).searchParams).toEqual(params);
     });
 
     it.todo(
