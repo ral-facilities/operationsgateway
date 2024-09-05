@@ -3,16 +3,12 @@
     "strict": true,
     "baseUrl": "../.yarn/cache",
     "target": "es5",
-    "lib": [
-      "ES2017",
-      "dom"
-    ],
+    "lib": ["ES2017", "dom"],
     "types": [
       "cypress",
-      "@testing-library/cypress"
+      "@testing-library/cypress",
+      "cypress-delete-downloads-folder"
     ]
   },
-  "include": [
-    "**/*"
-  ]
+  "include": ["**/*"]
 }

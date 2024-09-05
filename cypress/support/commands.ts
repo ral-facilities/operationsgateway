@@ -1,5 +1,6 @@
+/// <reference types="cypress" />
 // ***********************************************
-// This example commands.js shows you how to
+// This example commands.ts shows you how to
 // create various custom commands and overwrite
 // existing commands.
 //
@@ -25,9 +26,9 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import '@testing-library/cypress/add-commands';
+import { addCustomCommand as addDeleteDownloadsFolderCustomCommand } from 'cypress-delete-downloads-folder';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('cypress-delete-downloads-folder').addCustomCommand();
+addDeleteDownloadsFolderCustomCommand();
 
 Cypress.Commands.add('dragAndDrop', (subject, target) => {
   Cypress.log({
@@ -59,7 +60,7 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
   cy.get(target)
     .first()
     .then(($target) => {
-      let coordsDrop = $target[0].getBoundingClientRect();
+      const coordsDrop = $target[0].getBoundingClientRect();
       cy.get(subject)
         .first()
         .then((subject) => {
