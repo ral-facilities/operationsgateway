@@ -35,8 +35,7 @@
     "react-redux": "9.1.2",
     "single-spa-react": "5.1.4",
     "typescript": "5.5.3",
-    "vite": "^5.3.5",
-    "web-vitals": "3.5.1"
+    "vite": "^5.3.5"
   },
   "resolutions": {
     "@typescript-eslint/eslint-plugin": "8.3.0",
