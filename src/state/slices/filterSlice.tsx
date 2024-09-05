@@ -1,7 +1,7 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { parseFilter, Token } from '../../filtering/filterParser';
+import { RootState } from '../store';
 
 // Define a type for the slice state
 interface FilterState {
@@ -37,6 +37,7 @@ export const selectQueryFilters = createSelector(
     return appliedFilters.map((filter) => {
       try {
         return parseFilter(filter);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         // this shouldn't happen, as we should block the application of invalid filters
         // in the filterInput
