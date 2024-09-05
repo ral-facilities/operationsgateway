@@ -8,6 +8,7 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ValidateFunctionState } from '../app.types';
 import { operators, Token } from '../filtering/filterParser';
 import { RootState } from '../state/store';
 import {
@@ -95,6 +96,43 @@ describe('Data View', () => {
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
     expect(dialogue).toBeVisible();
+  });
+
+  it('opens the functions dialogue when the functions button in a data header is clicked', async () => {
+    const user = userEvent.setup();
+    const state = {
+      ...getInitialState(),
+      table: { ...getInitialState().table, selectedColumnIds: ['a'] },
+      functions: {
+        appliedFunctions: [
+          {
+            id: '1',
+            name: 'a',
+            expression: [{ type: 'number', label: '1', value: '1' }],
+            dataType: 'scalar',
+            channels: [],
+          } as ValidateFunctionState,
+        ],
+      },
+    };
+    await act(async () => {
+      createView(state);
+      await flushPromises();
+    });
+
+    const functionAHeader = await screen.findByRole('columnheader', {
+      name: 'a',
+    });
+    expect(functionAHeader).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Functions' }));
+    const dialogue = await screen.findByRole('dialog', { name: 'Functions' });
+    expect(dialogue).toBeVisible();
+
+    await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
+
+    await waitForElementToBeRemoved(() =>
+      screen.queryByRole('dialog', { name: 'Functions' })
+    );
   });
 
   it('opens the channels dialogue when the data channel button is clicked and closes when the close button is clicked', async () => {

@@ -1,11 +1,12 @@
-import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import { SearchParams } from '../../app.types';
-import { selectPage, selectSort, selectResultsPerPage } from './tableSlice';
-import { selectQueryFilters } from './filterSlice';
-import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { format, sub } from 'date-fns';
+import { SearchParams } from '../../app.types';
+import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
+import { RootState } from '../store';
+import { selectQueryFilters } from './filterSlice';
+import { selectQueryFunctions } from './functionsSlice';
+import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
 
 export const formatDateTimeForApi = (datetime: Date): string => {
   const dateString = format(datetime, 'yyyy-MM-dd');
@@ -66,10 +67,12 @@ export const selectQueryParams = createSelector(
   selectPage,
   selectResultsPerPage,
   selectQueryFilters,
-  (searchParams, sort, page, resultsPerPage, filters) => ({
+  selectQueryFunctions,
+  (searchParams, sort, page, resultsPerPage, filters, functions) => ({
     searchParams,
     sort,
     filters,
+    functions,
     page,
     resultsPerPage,
   })

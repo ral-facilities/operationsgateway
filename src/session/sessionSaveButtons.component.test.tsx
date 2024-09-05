@@ -1,9 +1,9 @@
 import {
-  type RenderResult,
   act,
   fireEvent,
   screen,
   waitFor,
+  type RenderResult,
 } from '@testing-library/react';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { timeChannelName } from '../app.types';
@@ -110,6 +110,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
     });
@@ -157,6 +160,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
     });
@@ -211,6 +217,9 @@ describe('session buttons', () => {
         },
         plots: {},
         filter: { appliedFilters: [[]] },
+        functions: {
+          appliedFunctions: [],
+        },
         windows: {},
       },
       timestamp: '',

@@ -876,7 +876,7 @@ exports[`View Tabs > renders correctly 1`] = `
                   >
                     <tr
                       class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-                      data-rfd-droppable-context-id=":r8:"
+                      data-rfd-droppable-context-id=":r9:"
                       data-rfd-droppable-id="columns"
                     >
                       <th
@@ -962,7 +962,7 @@ exports[`View Tabs > renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":rc:"
+                    id=":rd:"
                   >
                     Rows per page:
                   </p>
@@ -970,12 +970,12 @@ exports[`View Tabs > renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":rd:"
+                      aria-controls=":re:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":rc: :rb:"
+                      aria-labelledby=":rd: :rc:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":rb:"
+                      id=":rc:"
                       role="combobox"
                       tabindex="0"
                     >

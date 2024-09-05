@@ -1,15 +1,19 @@
 import { bypass, http, HttpResponse } from 'msw';
 import { ColourMapsParams } from '../api/images';
 import {
+  APIErrorResponse,
   Channel,
   ExperimentParams,
   isChannelScalar,
   Record,
+  ValidateFunctionPost,
 } from '../app.types';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
+import functionsTokensJson from './functionTokens.json';
+import functionsJson from './functions.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
 
@@ -308,5 +312,63 @@ export const handlers = [
       },
       status: 200,
     });
+  }),
+
+  http.get('/functions/tokens', () => {
+    return HttpResponse.json(functionsTokensJson, { status: 200 });
+  }),
+
+  http.post('/functions/validate', async ({ request }) => {
+    const body = (await request.json()) as ValidateFunctionPost[];
+
+    // Validate an array of ValidateFunctionPost objects
+    const errors: APIErrorResponse[] = [];
+
+    body.forEach((item: ValidateFunctionPost, index: number) => {
+      if (!item.name.trim() || item.name.length < 1) {
+        errors.push({
+          type: 'string_too_short',
+          loc: [`body`, index, 'name'],
+          msg: 'String should have at least 1 character',
+          input: item.name,
+        });
+      }
+
+      if (!item.expression.trim() || item.expression.length < 1) {
+        errors.push({
+          type: 'string_too_short',
+          loc: [`body`, index, 'expression'],
+          msg: 'String should have at least 1 character',
+          input: item.expression,
+        });
+      }
+    });
+
+    // If there are validation errors, return them
+    if (errors.length > 0) {
+      return HttpResponse.json({ detail: errors }, { status: 400 });
+    }
+
+    // Find the matching function from the JSON data
+    const matchedFunction = functionsJson.find(
+      (func) => JSON.stringify(func.functions) === JSON.stringify(body)
+    );
+
+    if (matchedFunction?.return_types) {
+      return HttpResponse.json(matchedFunction.return_types, { status: 200 });
+    }
+
+    if (matchedFunction?.message) {
+      return HttpResponse.json(
+        { detail: matchedFunction.message },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json(
+      {
+        detail: `Error at index ${body.length - 1}: Invalid function`,
+      },
+      { status: 400 }
+    );
   }),
 ];

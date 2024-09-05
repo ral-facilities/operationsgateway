@@ -713,3 +713,37 @@ test('user can customize both left and right y axis labels', async ({
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
+
+test('scalar functions can be plotted', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByRole('button', { name: 'Functions' }).click();
+
+  // Locate the "Name" input field and type 'b'
+  await page.getByLabel('Name').fill('a');
+
+  const expressionFields = await page.locator('label:has-text("Expression")');
+
+  // Locate the "Expression" input field and type 'CHANNEL_EFGHI'
+  await expressionFields.first().fill('1');
+  await expressionFields.first().press('Enter');
+
+  // Click on the apply button
+  await page.getByRole('button', { name: 'Apply' }).click();
+
+  // Check if the column header with name 'b' exists
+  await expect(
+    page.getByRole('columnheader', { name: 'a a menu' })
+  ).toBeVisible();
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search")').fill('a');
+  await popup.getByRole('option', { name: 'a', exact: true });
+});

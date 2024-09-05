@@ -5,6 +5,7 @@ import TableButtons from './tableButtons.component';
 
 describe('Table buttons', () => {
   const openFilters = vi.fn();
+  const openFunctions = vi.fn();
   const openChannels = vi.fn();
   const toggleSearchExpanded = vi.fn();
 
@@ -19,6 +20,7 @@ describe('Table buttons', () => {
     user = userEvent.setup();
     props = {
       openFilters,
+      openFunctions,
       openChannels,
       toggleSearchExpanded,
       searchExpanded: false,
@@ -35,6 +37,13 @@ describe('Table buttons', () => {
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
     expect(openFilters).toHaveBeenCalled();
+  });
+
+  it('calls openFunctions when the functions button is clicked', async () => {
+    createView();
+
+    await user.click(screen.getByRole('button', { name: 'Functions' }));
+    expect(openFunctions).toHaveBeenCalled();
   });
 
   it('calls openChannels when the data channels button is clicked', async () => {

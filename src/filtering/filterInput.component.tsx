@@ -48,6 +48,7 @@ const FilterInput = (props: FilterInputProps) => {
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
       }
+
       // only move right when cursor is at end
       if (cursorPos === inputValue.length && e.key === 'ArrowRight') {
         e.stopPropagation();
@@ -288,7 +289,7 @@ const FilterInput = (props: FilterInputProps) => {
                 }),
             }}
             {...getTagProps({ index })}
-            key={option.value}
+            key={getTagProps({ index }).key}
           />
         ));
         return null;

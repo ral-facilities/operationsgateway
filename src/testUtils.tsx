@@ -4,6 +4,13 @@ import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import { matchRequestUrl } from 'msw';
 import React from 'react';
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+// need to mock <canvas> for plotting
+import 'jest-canvas-mock';
 import { Provider } from 'react-redux';
 import { staticChannels } from './api/channels';
 import {
@@ -18,9 +25,10 @@ import { server } from './mocks/server';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialFilterState } from './state/slices/filterSlice';
+import { initialState as initialFunctionsState } from './state/slices/functionsSlice';
 import {
-  initialState as initialPlotState,
   PlotConfig,
+  initialState as initialPlotState,
 } from './state/slices/plotSlice';
 import { initialStateFunc as initialSearchStateFunc } from './state/slices/searchSlice';
 import { initialState as initialSelectionState } from './state/slices/selectionSlice';
@@ -114,6 +122,7 @@ export const getInitialState = (): RootState => ({
   search: initialSearchStateFunc(),
   plots: initialPlotState,
   filter: initialFilterState,
+  functions: initialFunctionsState,
   windows: initialWindowsState,
   selection: initialSelectionState,
 });

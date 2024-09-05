@@ -33,7 +33,7 @@ interface FilterDialogueProps {
   flashingFilterValue?: string;
 }
 
-const Heading = (props: React.ComponentProps<typeof Typography>) => {
+export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   const { children, ref, ...restProps } = props;
   return (
     <Typography
@@ -47,7 +47,7 @@ const Heading = (props: React.ComponentProps<typeof Typography>) => {
     </Typography>
   );
 };
-const Body = (props: React.ComponentProps<typeof Typography>) => (
+export const Body = (props: React.ComponentProps<typeof Typography>) => (
   <Typography variant="body2" gutterBottom>
     {props.children}
   </Typography>
@@ -258,7 +258,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               In the box, start typing data channel names, numbers, mathematical
               symbols such as {'>'} and {'<='} and keywords such as AND, OR and
               NOT. The Wizard will suggest suitable options and indicate using a
-              grey box when each item has been recognised.
+              grey box when each item has been recognised. Function names are
+              not currently supported in filters.
             </Body>
             <Heading>Operators included</Heading>
             <Body>

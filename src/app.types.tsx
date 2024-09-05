@@ -272,3 +272,42 @@ export interface SessionListItem {
   timestamp: string;
   _id: string;
 }
+
+export interface FunctionToken {
+  type: 'channel' | 'functionToken' | 'function' | 'number';
+  value: string;
+  label: string;
+}
+
+export interface FunctionOperator {
+  name: string;
+  symbol: string;
+  details?: string;
+}
+
+export interface ValidateFunctionPost {
+  name: string;
+  expression: string;
+}
+
+export interface ValidateFunctionState {
+  id: string;
+  name: string;
+  expression: FunctionToken[];
+  dataType: DataType;
+  channels: string[];
+}
+
+export interface APIFunctionState {
+  channels: string[];
+  functions: ValidateFunctionPost[];
+}
+export interface APIErrorResponse {
+  type: string;
+  loc: (string | number)[];
+  msg: string;
+  input: string;
+}
+export interface APIError {
+  detail: string | APIErrorResponse[];
+}

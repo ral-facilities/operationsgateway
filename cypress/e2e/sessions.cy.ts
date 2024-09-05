@@ -53,7 +53,31 @@ describe('Sessions', () => {
         expect(patchRequests.length).equal(1);
         const request = patchRequests[0];
         expect(JSON.stringify(await request.json())).equal(
-          '{"table":{"columnStates":{},"selectedColumnIds":["timestamp"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"toDate":"2024-08-02T14:00:59","fromDate":"2024-08-01T14:00:00"},"shotnumRange":{},"maxShots":50,"experimentID":null}},"plots":{},"filter":{"appliedFilters":[[]]},"windows":{},"selection":{"selectedRows":[]}}'
+          JSON.stringify({
+            table: {
+              columnStates: {},
+              selectedColumnIds: ['timestamp'],
+              page: 0,
+              resultsPerPage: 25,
+              sort: {},
+            },
+            search: {
+              searchParams: {
+                dateRange: {
+                  toDate: '2024-08-02T14:00:59',
+                  fromDate: '2024-08-01T14:00:00',
+                },
+                shotnumRange: {},
+                maxShots: 50,
+                experimentID: null,
+              },
+            },
+            plots: {},
+            filter: { appliedFilters: [[]] },
+            functions: { appliedFunctions: [] },
+            windows: {},
+            selection: { selectedRows: [] },
+          })
         );
 
         expect(request.url.toString()).to.contain('name=');
@@ -204,7 +228,50 @@ describe('Sessions', () => {
       expect(patchRequests.length).equal(1);
       const request = patchRequests[0];
       expect(JSON.stringify(await request.json())).equal(
-        '{"table":{"columnStates":{},"selectedColumnIds":["timestamp","CHANNEL_EFGHI","CHANNEL_FGHIJ","shotnum"],"page":0,"resultsPerPage":25,"sort":{}},"search":{"searchParams":{"dateRange":{"fromDate":"2022-01-06T13:00:00","toDate":"2022-01-09T12:00:59"},"shotnumRange":{"min":7,"max":9},"maxShots":50,"experimentID":{"_id":"19210012-1","end_date":"2022-01-09T12:00:00","experiment_id":"19210012","part":1,"start_date":"2022-01-06T13:00:00"}}},"plots":{},"filter":{"appliedFilters":[[{"type":"channel","value":"shotnum","label":"Shot Number"},{"type":"compop","value":">","label":">"},{"type":"number","value":"7","label":"7"}]]},"windows":{},"selection":{"selectedRows":[]}}'
+        JSON.stringify({
+          table: {
+            columnStates: {},
+            selectedColumnIds: [
+              'timestamp',
+              'CHANNEL_EFGHI',
+              'CHANNEL_FGHIJ',
+              'shotnum',
+            ],
+            page: 0,
+            resultsPerPage: 25,
+            sort: {},
+          },
+          search: {
+            searchParams: {
+              dateRange: {
+                fromDate: '2022-01-06T13:00:00',
+                toDate: '2022-01-09T12:00:59',
+              },
+              shotnumRange: { min: 7, max: 9 },
+              maxShots: 50,
+              experimentID: {
+                _id: '19210012-1',
+                end_date: '2022-01-09T12:00:00',
+                experiment_id: '19210012',
+                part: 1,
+                start_date: '2022-01-06T13:00:00',
+              },
+            },
+          },
+          plots: {},
+          filter: {
+            appliedFilters: [
+              [
+                { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+                { type: 'compop', value: '>', label: '>' },
+                { type: 'number', value: '7', label: '7' },
+              ],
+            ],
+          },
+          functions: { appliedFunctions: [] },
+          windows: {},
+          selection: { selectedRows: [] },
+        })
       );
       expect(request.url.toString()).to.contain('2');
       expect(request.url.toString()).to.contain('name=');

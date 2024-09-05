@@ -327,6 +327,56 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
+    it('can set functions params via the store', async () => {
+      state = {
+        ...getInitialState(),
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
+            maxShots: MAX_SHOTS_VALUES[0],
+          },
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
+            },
+          ],
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/records/count');
+
+      const { result } = renderHook(() => useIncomingRecordCount(), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
+      );
+
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
+      expect(result.current.data).toEqual(recordsJson.length);
+    });
+
     it('can set search and filter params via the store', async () => {
       state = {
         ...getInitialState(),
@@ -421,7 +471,7 @@ describe('records api functions', () => {
       expect(result.current.data).toMatchSnapshot();
     });
 
-    it('can send sort, date range, projection and filter parameters as part of request', async () => {
+    it('can send sort, date range, projection functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {
@@ -450,6 +500,17 @@ describe('records api functions', () => {
             ],
           ],
         },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
+            },
+          ],
+        },
       };
 
       const pendingRequest = waitForRequest('GET', '/records');
@@ -469,8 +530,12 @@ describe('records api functions', () => {
       params.append('projection', `metadata.${timeChannelName}`);
       params.append('projection', 'channels.CHANNEL_1');
       params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
+      params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
@@ -568,7 +633,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(expectedData);
     });
 
-    it('can send x-axis, filter and maxShots params as part of request', async () => {
+    it('can send x-axis, filter, functions and maxShots params as part of request', async () => {
       state = {
         ...getInitialState(),
         filter: {
@@ -579,6 +644,17 @@ describe('records api functions', () => {
               operators.find((t) => t.value === '>')!,
               { type: 'number', value: '300', label: '300' },
             ],
+          ],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: [],
+            },
           ],
         },
         search: {
@@ -617,6 +693,11 @@ describe('records api functions', () => {
           [`channels.${channel.name}`]: { $exists: true },
         });
       });
+
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
 
       params.append(
         'conditions',
@@ -749,7 +830,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson);
     });
 
-    it('can send sort, date range and filter parameters as part of request', async () => {
+    it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {
@@ -777,6 +858,17 @@ describe('records api functions', () => {
             ],
           ],
         },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: [],
+            },
+          ],
+        },
       };
 
       const pendingRequest = waitForRequest('GET', '/records');
@@ -795,6 +887,10 @@ describe('records api functions', () => {
       params.append('order', 'channels.CHANNEL_1 desc');
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'a', expression: '1' })
+      );
       params.append(
         'conditions',
         '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
