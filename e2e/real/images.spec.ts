@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -242,6 +242,7 @@ test('user can set their default colourmap', async ({ page }) => {
 
   // TODO - could the assert below be flaky if the screenshot is taken before the invalidated query comes back?
 
+  await expect(tableThumbnail).toBeAttached();
   expect(
     await tableThumbnail.screenshot({
       type: 'png',
