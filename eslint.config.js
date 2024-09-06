@@ -1,7 +1,9 @@
 import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
+import queryPlugin from '@tanstack/eslint-plugin-query';
 import prettierPlugin from 'eslint-config-prettier';
 import cypressPlugin from 'eslint-plugin-cypress/flat';
+import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactTestingLibraryPlugin from 'eslint-plugin-testing-library';
@@ -33,6 +35,8 @@ export default tseslint.config(
       // eslint-plugin-react-hooks doesn't support flat config properly yet
       // https://github.com/facebook/react/issues/28313
       'react-hooks': fixupPluginRules(reactHooksPlugin),
+      '@tanstack/query': queryPlugin,
+      'no-only-tests': noOnlyTestsPlugin,
     },
     extends: [
       eslint.configs.recommended,
@@ -60,6 +64,10 @@ export default tseslint.config(
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       ...reactHooksPlugin.configs.recommended.rules,
+      ...queryPlugin.configs.recommended.rules,
+      // Disable this due to the way the api url comes from redux - otherwise it would need to be added to all queryKey's
+      '@tanstack/query/exhaustive-deps': 'off',
+      'no-only-tests/no-only-tests': 'error',
     },
   },
   // eslint-plugin-testing-library doesn't support flat config properly yet

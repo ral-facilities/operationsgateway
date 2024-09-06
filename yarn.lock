@@ -1577,6 +1577,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/eslint-plugin-query@npm:^5.53.0":
+  version: 5.53.0
+  resolution: "@tanstack/eslint-plugin-query@npm:5.53.0"
+  dependencies:
+    "@typescript-eslint/utils": "npm:^8.3.0"
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0
+  checksum: 10c0/b5bbf700abeb21942289bdd1f1b337bb2387a54d766a6c294f5d6c5468be8d3186d5285520e60000cd0e3b5e09c1f88a0e88dbc6eaec441f765d83f220fac592
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.53.1":
   version: 5.53.1
   resolution: "@tanstack/query-core@npm:5.53.1"
@@ -2064,7 +2075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.4.0":
+"@typescript-eslint/utils@npm:8.4.0, @typescript-eslint/utils@npm:^8.3.0":
   version: 8.4.0
   resolution: "@typescript-eslint/utils@npm:8.4.0"
   dependencies:
@@ -6776,6 +6787,7 @@ __metadata:
     "@mui/x-date-pickers": "npm:^6.19.0"
     "@playwright/test": "npm:1.46.1"
     "@reduxjs/toolkit": "npm:2.2.6"
+    "@tanstack/eslint-plugin-query": "npm:^5.53.0"
     "@tanstack/react-query": "npm:5.53.1"
     "@tanstack/react-query-devtools": "npm:5.54.0"
     "@tanstack/react-table": "npm:8.20.5"
