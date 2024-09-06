@@ -412,7 +412,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
