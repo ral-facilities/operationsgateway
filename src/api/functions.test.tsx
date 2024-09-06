@@ -122,7 +122,7 @@ describe('useValidateFunctions', () => {
       expect(result.current.isSuccess).toBeFalsy();
     });
 
-    expect(result.current.error.response.data).toEqual({
+    expect(result.current.error?.response?.data).toEqual({
       detail: "Error at index 0: name 'mean' is already a builtin name",
     });
   });
