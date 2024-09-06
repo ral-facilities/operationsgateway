@@ -96,7 +96,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item sx={{ width: 250 }}>
+      <Grid item xs={12} sm={5}>
         <TextField
           fullWidth
           label="Name"
@@ -110,7 +110,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           size="small"
         />
       </Grid>
-      <Grid item xs>
+      <Grid item xs={12} sm={7}>
         <Autocomplete
           autoHighlight
           filterOptions={filterOptions}
