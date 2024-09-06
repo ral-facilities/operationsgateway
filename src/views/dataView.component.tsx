@@ -93,5 +93,5 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
     </Stack>
   );
 });
-
+DataView.displayName = 'DataView';
 export default DataView;

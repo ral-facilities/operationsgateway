@@ -14,7 +14,7 @@ import PlotWindow from './plotWindow.component';
 vi.mock('../windows/windowPortal.component', async () => {
   const ReactMock = await vi.importActual('react');
   return {
-    default: ReactMock.forwardRef(({ children }, ref) => (
+    default: ReactMock.forwardRef(({ children }, _ref) => (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       <mock-WindowPortal>{children}</mock-WindowPortal>

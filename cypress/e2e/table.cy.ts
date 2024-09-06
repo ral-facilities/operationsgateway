@@ -339,7 +339,7 @@ describe('Table Component', () => {
 
       // click on all checkboxes
       cy.get('tbody').within(() => {
-        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+        cy.get('tr.MuiTableRow-root').each(($tr) => {
           cy.wrap($tr).within(() => {
             cy.get('td').first().click();
           });

@@ -450,5 +450,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     </div>
   );
 });
+Table.displayName = 'Table';
 
 export default Table;

@@ -249,7 +249,7 @@ describe('session buttons', () => {
     const saveButton = screen.getByRole('button', { name: 'Save' });
     expect(saveButton).toBeInTheDocument();
 
-    await fireEvent.click(saveButton);
+    fireEvent.click(saveButton);
 
     await waitFor(() => {
       expect(useEditSession().mutate).toHaveBeenCalledTimes(1);
@@ -262,7 +262,7 @@ describe('session buttons', () => {
     const saveAsButton = screen.getByRole('button', { name: 'Save' });
     expect(saveAsButton).toBeInTheDocument();
 
-    await fireEvent.click(saveAsButton);
+    fireEvent.click(saveAsButton);
 
     await waitFor(() => {
       expect(onSaveAsSessionClick).toHaveBeenCalledTimes(1);
@@ -273,7 +273,7 @@ describe('session buttons', () => {
     const saveAsButton = screen.getByRole('button', { name: 'Save as' });
     expect(saveAsButton).toBeInTheDocument();
 
-    await fireEvent.click(saveAsButton);
+    fireEvent.click(saveAsButton);
 
     await waitFor(() => {
       expect(onSaveAsSessionClick).toHaveBeenCalledTimes(1);
