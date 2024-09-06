@@ -37,7 +37,7 @@ describe('Data View', () => {
     expect(
       screen.getByRole('textbox', { name: 'from, date-time input' })
     ).toBeInTheDocument();
-    expect(screen.getByRole('table-container')).toBeInTheDocument();
+    expect(screen.getByTestId('table-container')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
     expect(
       screen.queryByRole('dialog', { name: 'Filters' })

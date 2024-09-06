@@ -69,7 +69,7 @@ describe('x-axis tab', () => {
   it('allows user to select an x-axis (keyboard only)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -84,7 +84,7 @@ describe('x-axis tab', () => {
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -97,7 +97,7 @@ describe('x-axis tab', () => {
   it('prevents user from selecting time in xy mode', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'time');

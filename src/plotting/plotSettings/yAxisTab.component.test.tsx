@@ -127,7 +127,7 @@ describe('y-axis tab', () => {
   it('allows user to add channels on the y-axis (keyboard only)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('data-channels-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -155,7 +155,7 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByRole('button', { name: 'Right' }));
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('data-channels-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');

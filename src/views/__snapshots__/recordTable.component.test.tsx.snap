@@ -5,7 +5,7 @@ exports[`Record Table > renders correctly 1`] = `
   <div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
-      role="table-container"
+      data-testid="table-container"
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
@@ -1253,7 +1253,7 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
     </div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
-      role="table-container"
+      data-testid="table-container"
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
@@ -1537,7 +1537,7 @@ exports[`Record Table > renders correctly while loading 1`] = `
   <div>
     <div
       class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
-      role="table-container"
+      data-testid="table-container"
     >
       <table
         class="MuiTable-root css-rqglhn-MuiTable-root"
