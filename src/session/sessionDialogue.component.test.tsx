@@ -1,5 +1,5 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../testUtils';
 import SessionDialogue, {
   SessionDialogueProps,
@@ -7,7 +7,7 @@ import SessionDialogue, {
 
 describe('session dialogue', () => {
   let props: SessionDialogueProps;
-  let user;
+  let user: UserEvent;
   const onClose = vi.fn();
   const onChangeSessionName = vi.fn();
   const onChangeSessionSummary = vi.fn();

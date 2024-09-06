@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import { staticChannels } from '../api/channels';
 import { RootState } from '../state/store';
@@ -95,7 +95,7 @@ describe('selectChannelTree', () => {
 
 describe('Channels Dialogue', () => {
   let props: React.ComponentProps<typeof ChannelsDialogue>;
-  let user;
+  let user: UserEvent;
 
   const createView = (
     initialState?: Partial<RootState>,

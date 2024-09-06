@@ -1,5 +1,5 @@
 import { screen, waitFor, type RenderResult } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import SessionsListJSON from '../mocks/sessionsList.json';
 import { renderComponentWithProviders } from '../testUtils';
 import SessionsDrawer, { SessionDrawerProps } from './sessionDrawer.component';
@@ -11,7 +11,7 @@ describe('session Drawer', () => {
   const onChangeLoadedSessionId = vi.fn();
   const onChangeLoadedSessionTimestamp = vi.fn();
   const onChangeAutoSaveSessionId = vi.fn();
-  let user;
+  let user: UserEvent;
   let props: SessionDrawerProps;
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<SessionsDrawer {...props} />);

@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import React from 'react';
 import recordsJson from '../mocks/records.json';
@@ -12,7 +12,7 @@ import { operators, Token } from './filterParser';
 
 describe('Filter dialogue component', () => {
   let props: React.ComponentProps<typeof FilterDialogue>;
-  let user;
+  let user: UserEvent;
 
   const createView = (
     initialState?: Partial<RootState>,
@@ -130,13 +130,8 @@ describe('Filter dialogue component', () => {
     expect(filters).toHaveLength(2);
 
     const [filter1, filter2] = filters;
-
-    await user.type(filter1, 'Act{enter}is{enter}', {
-      delay: null,
-    });
-    await user.type(filter2, 'sh{enter}={enter}1{enter}', {
-      delay: null,
-    });
+    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.type(filter2, 'sh{enter}={enter}1{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -387,7 +382,7 @@ describe('Filter dialogue component', () => {
     // Mock the returned count query response
     server.use(
       http.get('/records/count', () => {
-        return HttpResponsse.json(31, { status: 200 });
+        return HttpResponse.json(31, { status: 200 });
       })
     );
 

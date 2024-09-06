@@ -1,6 +1,6 @@
 import type { RenderResult } from '@testing-library/react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { testScalarChannels } from '../../testUtils';
 import type { XAxisTabProps } from './xAxisTab.component';
@@ -8,7 +8,7 @@ import XAxisTab from './xAxisTab.component';
 
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
-  let user;
+  let user: UserEvent;
   const changeXAxis = vi.fn();
   const changeXAxisScale = vi.fn();
   const changeXMinimum = vi.fn();

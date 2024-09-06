@@ -6,7 +6,7 @@ import {
   screen,
   within,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { flushPromises } from '../../testUtils';
 import DataHeader, { DataHeaderProps } from './dataHeader.component';
 
@@ -18,7 +18,7 @@ describe('Data Header', () => {
   const handleOnDragEnd = vi.fn();
   const openFilters = vi.fn();
   const resizeHandler = vi.fn();
-  let user;
+  let user: UserEvent;
 
   const createView = (): RenderResult => {
     return render(

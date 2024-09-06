@@ -1,10 +1,10 @@
 import { screen, waitFor, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { renderComponentWithProviders } from '../testUtils';
 import ViewTabs from './viewTabs.component';
 
 describe('View Tabs', () => {
-  let user;
+  let user: UserEvent;
   const createView = () => {
     return renderComponentWithProviders(<ViewTabs />);
   };
@@ -197,7 +197,9 @@ describe('View Tabs', () => {
     const dialog = screen.getByRole('dialog');
 
     const summaryTextarea = within(dialog).getByLabelText('Summary');
-    const nameInput = within(dialog).getByLabelText('Name *');
+    const nameInput = within(dialog).getByLabelText(
+      'Name *'
+    ) as HTMLInputElement;
 
     expect(summaryTextarea).toHaveTextContent(
       'This is the summary for Session 1'

@@ -950,10 +950,10 @@ describe('records api functions', () => {
     it('formats channel data correctly', () => {
       let result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(
-        (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data
+        (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data
       );
 
-      (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
+      (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
       result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(1);
 

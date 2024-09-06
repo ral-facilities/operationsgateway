@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { Session, SessionListItem } from '../app.types';
+import { Session, SessionListItem, SessionResponse } from '../app.types';
 import sessionsListJSON from '../mocks/sessionsList.json';
+import { ImportSessionType } from '../state/store';
 import { hooksWrapperWithProviders } from '../testUtils';
 import {
   useDeleteSession,
@@ -11,14 +12,23 @@ import {
 } from './sessions';
 
 describe('session api functions', () => {
-  let mockData: Session;
+  let mockSessionData: Session;
+  let mockSessionResponseData: SessionResponse;
+
   beforeEach(() => {
-    mockData = {
+    mockSessionData = {
       name: 'test',
       summary: 'test',
-      session: {},
+      session: {} as ImportSessionType,
       auto_saved: false,
+    };
+    mockSessionResponseData = {
       _id: '1',
+      name: 'test',
+      summary: 'test',
+      timestamp: '2024-08-16T16:30:52',
+      auto_saved: false,
+      session: {} as ImportSessionType,
     };
   });
   afterEach(() => {
@@ -32,7 +42,7 @@ describe('session api functions', () => {
       });
       expect(result.current.isIdle).toBe(true);
 
-      result.current.mutate(mockData);
+      result.current.mutate(mockSessionData);
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
@@ -53,7 +63,7 @@ describe('session api functions', () => {
       });
       expect(result.current.isIdle).toBe(true);
 
-      result.current.mutate(mockData);
+      result.current.mutate(mockSessionResponseData);
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
@@ -74,7 +84,7 @@ describe('session api functions', () => {
       });
       expect(result.current.isIdle).toBe(true);
 
-      result.current.mutate(mockData);
+      result.current.mutate(mockSessionResponseData);
 
       await waitFor(() => {
         expect(result.current.isSuccess).toBeTruthy();
