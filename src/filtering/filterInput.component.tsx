@@ -219,7 +219,7 @@ const FilterInput = (props: FilterInputProps) => {
         if (reason === 'createOption' || reason === 'selectOption') {
           // below will always be non-null, as createOption/selectOption implies that
           // newValue is at least of length 1
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
           const newToken = newValue.pop()!;
           newValue.splice(inputIndex, 0, newToken);
         }

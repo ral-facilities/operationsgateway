@@ -243,12 +243,11 @@ describe('Record Table', () => {
   });
 
   it('rounds numbers correctly in scalar columns', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const recordToModifyIndex = recordsJson.findIndex(
       (record) => 'CHANNEL_DEFGH' in record.channels
     )!;
     const modifiedRecord = { ...recordsJson[recordToModifyIndex] };
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     modifiedRecord.channels.CHANNEL_DEFGH!.data = 333.3;
     const modifiedRecords = [
       ...recordsJson.slice(0, recordToModifyIndex),

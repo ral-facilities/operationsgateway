@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook, waitFor } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import {

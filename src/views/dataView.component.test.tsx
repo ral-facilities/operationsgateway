@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { RenderResult } from '@testing-library/react';
 import {
   act,
