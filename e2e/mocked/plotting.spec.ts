@@ -720,7 +720,7 @@ test('scalar functions can be plotted', async ({ page }) => {
   await page.getByRole('button', { name: 'Functions' }).click();
 
   // Locate the "Name" input field and type 'b'
-  await page.getByLabel('Name').fill('a');
+  await page.getByLabel('Name', { exact: true }).fill('a');
 
   const expressionFields = await page.locator('label:has-text("Expression")');
 

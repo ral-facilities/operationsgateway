@@ -6934,7 +6934,6 @@ __metadata:
     vitest: "npm:^2.0.5"
     vitest-canvas-mock: "npm:^0.3.3"
     vitest-fail-on-console: "npm:^0.7.0"
-    web-vitals: "npm:3.5.1"
   languageName: unknown
   linkType: soft
 
@@ -9193,13 +9192,6 @@ __metadata:
   bin:
     wait-on: bin/wait-on
   checksum: 10c0/2a9c56d26dac573e6bfd36e85d99f072021c23dc2c0faab900a411460b58e16982b96b018d9168c366040f56196314fa46f3d79ef19e3dc38f55824d5035f2ec
-  languageName: node
-  linkType: hard
-
-"web-vitals@npm:3.5.1":
-  version: 3.5.1
-  resolution: "web-vitals@npm:3.5.1"
-  checksum: 10c0/2b0239241b40e491aa048fac67191ba50cbc5b9d4a859166455d751d12c33399b70579dd3bf5639c37d32421459ce0f64de69307f4f2adae43c0f6b23010849c
   languageName: node
   linkType: hard
 

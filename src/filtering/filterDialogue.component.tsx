@@ -2,6 +2,7 @@ import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -48,7 +49,7 @@ export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   );
 };
 export const Body = (props: React.ComponentProps<typeof Typography>) => (
-  <Typography variant="body2" gutterBottom>
+  <Typography variant="body2" component="div" gutterBottom>
     {props.children}
   </Typography>
 );
@@ -60,8 +61,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   // we need searchParams so we can check for past queries before showing the warning message
   const searchParams = useAppSelector(selectSearchParams);
   const [filters, setFilters] = React.useState<Token[][]>(appliedFilters);
-  const [errors, setErrors] = React.useState<string[]>(
-    appliedFilters.map(() => '')
+  const [errors, setErrors] = React.useState<(string | undefined)[]>(
+    appliedFilters.map(() => undefined)
   );
   const { data: channels } = useChannels({
     select: (channels) => {
@@ -83,7 +84,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
 
   React.useEffect(() => {
     setFilters(appliedFilters);
-    setErrors(appliedFilters.map(() => ''));
+    setErrors(appliedFilters.map(() => undefined));
   }, [appliedFilters]);
 
   const handleChangeValue = React.useCallback(
@@ -94,7 +95,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     []
   );
   const handleChangeError = React.useCallback(
-    (index: number) => (value: string) =>
+    (index: number) => (value?: string) =>
       setErrors((errors) => {
         return [...errors.slice(0, index), value, ...errors.slice(index + 1)];
       }),
@@ -199,6 +200,21 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
+  const helpPageOperators = [
+    '=',
+    '!=',
+    '>',
+    '<',
+    '>=',
+    '<=',
+    'is null',
+    'is not null',
+    'and',
+    'or',
+    'not',
+    '(',
+    ')',
+  ];
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -241,7 +257,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               <Button
                 onClick={() => {
                   setFilters((filters) => [...filters, []]);
-                  setErrors((errors) => [...errors, '']);
+                  setErrors((errors) => [...errors, undefined]);
                 }}
                 variant="outlined"
                 size="small"
@@ -256,14 +272,76 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Filter help</Heading>
             <Body>
               In the box, start typing data channel names, numbers, mathematical
-              symbols such as {'>'} and {'<='} and keywords such as AND, OR and
-              NOT. The Wizard will suggest suitable options and indicate using a
+              symbols such as{' '}
+              <Chip
+                label=">"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and{' '}
+              <Chip
+                label="<="
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and keywords such as{' '}
+              <Chip
+                label="AND"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+              ,{' '}
+              <Chip
+                label="OR"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mr: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and{' '}
+              <Chip
+                label="NOT"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  ml: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+              . The Wizard will suggest suitable options and indicate using a
               grey box when each item has been recognised. Function names are
               not currently supported in filters.
             </Body>
             <Heading>Operators included</Heading>
             <Body>
-              {'=, !=, >, <, >=, <=, is null, is not null, and, or, not, (, )'}
+              <Box display="flex" flexWrap="wrap" gap={1}>
+                {helpPageOperators.map((operator, _index) => (
+                  <React.Fragment key={operator}>
+                    <Chip
+                      label={operator}
+                      size="small"
+                      sx={{
+                        fontSize: '0.8125rem',
+                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                      }}
+                    />
+                  </React.Fragment>
+                ))}
+              </Box>
             </Body>
           </Grid>
         </Grid>
@@ -307,7 +385,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             }
           >
             <Button
-              disabled={errors.some((e) => e.length !== 0)}
+              disabled={errors.some((e) => e !== undefined)}
               onClick={() => applyFilters()}
             >
               Apply
@@ -315,7 +393,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
           </Tooltip>
         ) : (
           <Button
-            disabled={errors.some((e) => e.length !== 0)}
+            disabled={errors.some((e) => e !== undefined)}
             onClick={() => applyFilters()}
           >
             Apply

@@ -10,6 +10,7 @@ describe('Functions', () => {
     cy.findByRole('button', { name: 'Functions' }).click();
     cy.findByLabelText('Name').type('a');
     cy.findByLabelText('Expression').type('1 ');
+
     cy.findByRole('button', { name: 'Apply' }).click();
     cy.findByRole('columnheader', {
       name: 'a',
@@ -21,7 +22,9 @@ describe('Functions', () => {
     cy.findByLabelText('Name').type('a');
     cy.findByLabelText('Expression').type('1 ');
 
-    cy.findByRole('button', { name: 'Add new function' }).click();
+    cy.findByRole('button', { name: 'Add new function' }).click({
+      force: true,
+    });
 
     cy.findAllByLabelText('Name').last().type('b');
     cy.findAllByLabelText('Expression').last().type('a{enter}+{enter}1{enter}');
@@ -35,12 +38,54 @@ describe('Functions', () => {
     }).should('exist');
   });
 
+  it('deselects function if they have been remove from the table and tests other checkbox functionality ', () => {
+    cy.findByRole('button', { name: 'Functions' }).click();
+    cy.findByLabelText('Name').type('a');
+    cy.findByLabelText('Expression').type('1 ');
+
+    cy.findByRole('button', { name: 'Add new function' }).click({
+      force: true,
+    });
+
+    cy.findAllByLabelText('Name').last().type('b');
+    cy.findAllByLabelText('Expression').last().type('a{enter}+{enter}1{enter}');
+
+    cy.findByRole('button', { name: 'Apply' }).click();
+    cy.findByRole('columnheader', {
+      name: 'a',
+    }).should('exist');
+    cy.findByRole('columnheader', {
+      name: 'b',
+    }).should('exist');
+
+    cy.findByLabelText('a menu').click();
+    cy.findByText('Close').click();
+
+    cy.findByLabelText('b menu').click();
+    cy.findByText('Close').click();
+
+    cy.findByRole('button', { name: 'Functions' }).click();
+
+    cy.findAllByRole('checkbox').first().should('not.be.checked');
+    cy.findAllByRole('checkbox').last().should('not.be.checked');
+
+    cy.findAllByRole('checkbox').last().click();
+
+    cy.findByRole('button', { name: 'Apply' }).click();
+
+    cy.findByRole('columnheader', {
+      name: 'b',
+    }).should('exist');
+  });
+
   it('creates multiple functions (waveform and image)', () => {
     cy.findByRole('button', { name: 'Functions' }).click();
     cy.findByLabelText('Name').type('b');
     cy.findByLabelText('Expression').type('CHANNEL_EFGHI ');
 
-    cy.findByRole('button', { name: 'Add new function' }).click();
+    cy.findByRole('button', { name: 'Add new function' }).click({
+      force: true,
+    });
 
     cy.findAllByLabelText('Name').last().type('c');
     cy.findAllByLabelText('Expression').last().type('CHANNEL_FGHIJ ');
