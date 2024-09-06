@@ -2,6 +2,7 @@ import { AddCircle, Delete, Warning } from '@mui/icons-material';
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -48,7 +49,7 @@ export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   );
 };
 export const Body = (props: React.ComponentProps<typeof Typography>) => (
-  <Typography variant="body2" gutterBottom>
+  <Typography variant="body2" component="div" gutterBottom>
     {props.children}
   </Typography>
 );
@@ -199,6 +200,22 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
+  const helpPageOperators = [
+    '=',
+    '!=',
+    '>',
+    '<',
+    '>=',
+    '<=',
+    'is null',
+    'is not null',
+    'and',
+    'or',
+    'not',
+    '(',
+    ')',
+  ];
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>Filters</DialogTitle>
@@ -256,14 +273,76 @@ const FilterDialogue = (props: FilterDialogueProps) => {
             <Heading>Filter help</Heading>
             <Body>
               In the box, start typing data channel names, numbers, mathematical
-              symbols such as {'>'} and {'<='} and keywords such as AND, OR and
-              NOT. The Wizard will suggest suitable options and indicate using a
+              symbols such as{' '}
+              <Chip
+                label=">"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and{' '}
+              <Chip
+                label="<="
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and keywords such as{' '}
+              <Chip
+                label="AND"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mx: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+              ,{' '}
+              <Chip
+                label="OR"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  mr: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />{' '}
+              and{' '}
+              <Chip
+                label="NOT"
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  ml: 1,
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+              . The Wizard will suggest suitable options and indicate using a
               grey box when each item has been recognised. Function names are
               not currently supported in filters.
             </Body>
             <Heading>Operators included</Heading>
             <Body>
-              {'=, !=, >, <, >=, <=, is null, is not null, and, or, not, (, )'}
+              <Box display="flex" flexWrap="wrap" gap={1}>
+                {helpPageOperators.map((operator, _index) => (
+                  <React.Fragment key={operator}>
+                    <Chip
+                      label={operator}
+                      size="small"
+                      sx={{
+                        fontSize: '0.8125rem',
+                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                      }}
+                    />
+                  </React.Fragment>
+                ))}
+              </Box>
             </Body>
           </Grid>
         </Grid>

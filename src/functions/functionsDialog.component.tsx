@@ -1,13 +1,16 @@
 import { AddCircle, Delete } from '@mui/icons-material';
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
+  FormControlLabel,
   Grid,
   IconButton,
+  Tooltip,
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import React from 'react';
@@ -44,7 +47,6 @@ export interface FunctionErrorState {
 export interface FunctionsDialogProps {
   open: boolean;
   onClose: () => void;
-  flashingFunctionValue?: string;
 }
 
 const parseErrorCode = (
@@ -70,14 +72,25 @@ const parseErrorCode = (
 };
 
 const FunctionsDialog = (props: FunctionsDialogProps) => {
-  const { open, onClose, flashingFunctionValue } = props;
+  const { open, onClose } = props;
 
   const dispatch = useAppDispatch();
   const appliedFunctions = useAppSelector(selectAppliedFunctions);
   const appliedSelectedIds = useAppSelector(selectSelectedIds);
+
+  const appliedSelectedIdsWithoutFuncs = appliedSelectedIds.filter(
+    (id) => !appliedFunctions.map((func) => func.name).includes(id)
+  );
+
   const [functions, setFunctions] =
     React.useState<ValidateFunctionState[]>(appliedFunctions);
   const [errors, setErrors] = React.useState<FunctionErrorState>({});
+  const [selectedColIds, setSelectedColIds] = React.useState<string[]>(
+    appliedFunctions
+      .filter((func) => appliedSelectedIds.includes(func.name))
+      .map((func) => func.id)
+  );
+
   const { data: functionTokens } = useFunctionsTokens();
 
   const formattedFunctionTokens = React.useMemo(
@@ -105,6 +118,15 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       );
     },
   });
+
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setSelectedColIds(
+      appliedFunctions
+        .filter((func) => appliedSelectedIds.includes(func.name))
+        .map((func) => func.id)
+    );
+  }, [appliedFunctions, appliedSelectedIds, onClose]);
 
   const handleChangeValue = React.useCallback(
     (id: string) => (update: Partial<ValidateFunctionState>) =>
@@ -169,22 +191,29 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     []
   );
   React.useEffect(() => {
-    setFunctions(
-      appliedFunctions.length === 0
-        ? [
-            {
-              id: crypto.randomUUID(),
-              name: '',
-              expression: [],
-              dataType: 'scalar',
-              channels: [],
-            },
-          ]
-        : appliedFunctions
-    );
-    setErrors({});
-  }, [appliedFunctions]);
-
+    if (open) {
+      const functionId = crypto.randomUUID();
+      if (appliedFunctions.length === 0)
+        setSelectedColIds((prevSelectedIds) => [
+          ...prevSelectedIds,
+          functionId,
+        ]);
+      setFunctions(
+        appliedFunctions.length === 0
+          ? [
+              {
+                id: functionId,
+                name: '',
+                expression: [],
+                dataType: 'scalar',
+                channels: [],
+              },
+            ]
+          : appliedFunctions
+      );
+      setErrors({});
+    }
+  }, [appliedFunctions, open]);
   const handleError = React.useCallback(
     (error: AxiosError) => {
       const errorCode = (error.response?.data as APIError).detail;
@@ -234,10 +263,14 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
               }))
             )
           );
+          const selectedFunctionCols = functions
+            .filter((func) => selectedColIds.includes(func.id))
+            .map((func) => func.name);
+
           dispatch(
             updateSelectedColumns([
-              ...appliedSelectedIds,
-              ...newFunctions.map((func) => func.name),
+              ...appliedSelectedIdsWithoutFuncs,
+              ...selectedFunctionCols,
             ])
           );
           onClose();
@@ -249,8 +282,9 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       functions,
       handleError,
       dispatch,
-      appliedSelectedIds,
+      appliedSelectedIdsWithoutFuncs,
       onClose,
+      selectedColIds,
     ]
   );
 
@@ -263,8 +297,16 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       label: func.name,
     }));
 
+  React.useEffect(() => {
+    setSelectedColIds(
+      appliedFunctions
+        .filter((func) => appliedSelectedIds.includes(func.name))
+        .map((func) => func.id)
+    );
+  }, [appliedFunctions, appliedSelectedIds]);
+
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
       <DialogTitle>Functions</DialogTitle>
       <DialogContent>
         <Grid container columnSpacing={2}>
@@ -272,7 +314,37 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             <Heading mt={1}>Enter function</Heading>
             {functions.map((func, index) => {
               return (
-                <Grid container item key={func.id}>
+                <Grid pl={0} container item key={func.id}>
+                  <Grid item>
+                    <Tooltip
+                      title={
+                        selectedColIds.includes(func.id)
+                          ? 'Hide function column'
+                          : `Display function column`
+                      }
+                      arrow
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={selectedColIds.includes(func.id)}
+                            onChange={(event) => {
+                              const isChecked = event.target.checked;
+                              setSelectedColIds((prevSelectedIds) =>
+                                isChecked
+                                  ? [...prevSelectedIds, func.id]
+                                  : prevSelectedIds.filter(
+                                      (id) => id !== func.id
+                                    )
+                              );
+                            }}
+                          />
+                        }
+                        aria-label={`${func.name || 'Unnamed Function'} Checkbox`}
+                        label=""
+                      />
+                    </Tooltip>
+                  </Grid>
                   <Grid item xs>
                     <FunctionsInputs
                       channels={[...(channels ?? [])]}
@@ -284,7 +356,6 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                       setValue={handleChangeValue(func.id)}
                       error={errors[func.id]}
                       setError={handleChangeError(func.id)}
-                      flashingFunctionValue={flashingFunctionValue}
                       checkErrors={() => checkErrors(index, func.id)}
                     />
                   </Grid>
@@ -315,15 +386,21 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             <Grid item>
               <Button
                 onClick={() => {
+                  const functionId = crypto.randomUUID();
                   setFunctions((functions) => [
                     ...functions,
                     {
-                      id: crypto.randomUUID(),
+                      id: functionId,
                       name: '',
                       expression: [],
                       dataType: 'scalar',
                       channels: [],
                     },
+                  ]);
+
+                  setSelectedColIds((prevSelectedIds) => [
+                    ...prevSelectedIds,
+                    functionId,
                   ]);
                 }}
                 variant="outlined"
@@ -335,13 +412,13 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs>
+          <Grid item xs={12} sm={5}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handleClose}>Close</Button>
         <Button
           disabled={Object.keys(errors).length !== 0 || functions.length === 0}
           onClick={() => {
