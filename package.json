@@ -50,7 +50,7 @@
     "preview:build": "yarn build && yarn preview",
     "preview:build:dev": "yarn build --watch & yarn preview",
     "test": "vitest --coverage",
-    "lint": "eslint --max-warnings=0 --fix ./src ./cypress && tsc --noEmit && tsc --noEmit -p cypress/tsconfig.json",
+    "lint": "eslint --max-warnings=0 --fix ./src ./cypress && tsc --noEmit -p tsconfig.build.json",
     "build:e2e": "cross-env VITE_APP_BUILD_STANDALONE=true VITE_APP_INCLUDE_MSW=true GENERATE_SOURCEMAP=false yarn build",
     "build:e2e:api": "cross-env VITE_APP_BUILD_STANDALONE=true VITE_APP_INCLUDE_MSW=false GENERATE_SOURCEMAP=false yarn build",
     "e2e:serve": "yarn build:e2e && node ./server/e2e-test-server.js",

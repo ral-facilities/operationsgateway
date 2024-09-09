@@ -8,7 +8,7 @@ import MoreOptionsToggle from './moreOptionsToggle.component';
 
 vi.mock('./moreOptionsBox.component', () => {
   return {
-    default: (props) => (
+    default: (props: MoreOptionsProps) => (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       <mock-moreOptionsBox data-testid="mock-moreOptionsBox">
@@ -35,6 +35,7 @@ describe('MoreOptionsToggle', () => {
   const testSelectedPlotChannels: SelectedPlotChannel[] = testPlotDatasets.map(
     (dataset, i) => ({
       name: dataset.name,
+      units: 'mm',
       options: {
         visible: true,
         colour: `colour-${i.toString()}`,

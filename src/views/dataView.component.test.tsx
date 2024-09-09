@@ -19,7 +19,7 @@ import DataView from './dataView.component';
 
 describe('Data View', () => {
   const createView = (initialState?: Partial<RootState>): RenderResult => {
-    return renderComponentWithProviders(<DataView />, {
+    return renderComponentWithProviders(<DataView sessionId={undefined} />, {
       preloadedState: initialState,
     });
   };

@@ -7,6 +7,7 @@ import {
 } from '@testing-library/react';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { timeChannelName } from '../app.types';
+import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
@@ -32,11 +33,11 @@ describe('session buttons', () => {
       onSaveAsSessionClick: onSaveAsSessionClick,
       loadedSessionData: {
         _id: '',
-        auto_saved: false,
         name: 'test',
         summary: 'test',
-        session: {},
         timestamp: '',
+        auto_saved: false,
+        session: {} as ImportSessionType,
       },
       loadedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
@@ -67,12 +68,12 @@ describe('session buttons', () => {
     props = {
       ...props,
       loadedSessionData: {
+        _id: '1',
         name: 'test',
         summary: 'test',
-        auto_saved: false,
-        session: {},
-        _id: '1',
         timestamp: '',
+        auto_saved: false,
+        session: {} as ImportSessionType,
       },
     };
     const { rerender } = createView();
@@ -120,12 +121,12 @@ describe('session buttons', () => {
     props = {
       ...props,
       loadedSessionData: {
+        _id: '2',
         name: 'test',
         summary: 'test',
-        auto_saved: false,
-        session: {},
-        _id: '2',
         timestamp: '',
+        auto_saved: false,
+        session: {} as ImportSessionType,
       },
     };
 
@@ -172,12 +173,12 @@ describe('session buttons', () => {
     props = {
       ...props,
       loadedSessionData: {
+        _id: '1',
         name: 'test',
         summary: 'test',
-        auto_saved: false,
-        session: {},
-        _id: '1',
         timestamp: '',
+        auto_saved: false,
+        session: {} as ImportSessionType,
       },
       autoSaveSessionId: '5',
     };
@@ -238,11 +239,11 @@ describe('session buttons', () => {
 
   it('save a user session', async () => {
     props.loadedSessionData = {
+      _id: '1',
       name: 'test',
       summary: 'test',
+      session: {} as ImportSessionType,
       auto_saved: false,
-      session: {},
-      _id: '1',
       timestamp: '',
     };
     createView();

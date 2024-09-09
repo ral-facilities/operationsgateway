@@ -68,6 +68,7 @@ describe('y-axis tab', () => {
   it('renders correctly with selected channels', () => {
     props.selectedPlotChannels = testScalarChannels.map((channel) => ({
       name: channel.systemName,
+      units: 'mm',
       displayName: channel.name,
       options: {
         visible: true,
@@ -213,6 +214,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,
@@ -237,6 +239,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,
@@ -247,6 +250,7 @@ describe('y-axis tab', () => {
       },
       {
         name: 'CHANNEL_DEFGH',
+        units: 'cm',
         displayName: 'Channel_DEFGH',
         options: {
           visible: true,
@@ -262,6 +266,7 @@ describe('y-axis tab', () => {
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_DEFGH',
+        units: 'cm',
         displayName: 'Channel_DEFGH',
         options: {
           visible: true,
@@ -279,6 +284,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,

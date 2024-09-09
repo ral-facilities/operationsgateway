@@ -1,5 +1,6 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
+import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import DeleteSessionDialogue, {
   DeleteSessionDialogueProps,
@@ -9,28 +10,28 @@ describe('delete session dialogue', () => {
   let props: DeleteSessionDialogueProps;
   let user: UserEvent;
   const onClose = vi.fn();
-  const onDeleteLoadedsession = vi.fn();
+  const onDeleteLoadedSession = vi.fn();
 
   const createView = (): RenderResult => {
     return renderComponentWithProviders(<DeleteSessionDialogue {...props} />);
   };
   const sessionData = {
+    _id: '1',
     name: 'test',
     summary: 'test',
-    session: {},
-    auto_saved: false,
-    _id: '1',
     timestamp: '',
+    auto_saved: false,
+    session: {} as ImportSessionType,
   };
   beforeEach(() => {
     props = {
       open: true,
       onClose: onClose,
       sessionData: sessionData,
-      onDeleteLoadedsession: onDeleteLoadedsession,
+      onDeleteLoadedSession: onDeleteLoadedSession,
       loadedSessionId: undefined,
     };
-    user = userEvent; // Assigning userEvent to 'user'
+    user = userEvent.setup();
   });
   afterEach(() => {
     vi.clearAllMocks();
@@ -85,6 +86,6 @@ describe('delete session dialogue', () => {
     await waitFor(() => {
       expect(onClose).toHaveBeenCalled();
     });
-    expect(onDeleteLoadedsession).toHaveBeenCalled();
+    expect(onDeleteLoadedSession).toHaveBeenCalled();
   });
 });

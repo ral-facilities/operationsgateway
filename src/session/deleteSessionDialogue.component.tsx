@@ -15,11 +15,11 @@ export interface DeleteSessionDialogueProps {
   onClose: () => void;
   sessionData: SessionResponse | undefined;
   loadedSessionId: string | undefined;
-  onDeleteLoadedsession: () => void;
+  onDeleteLoadedSession: () => void;
 }
 
 const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
-  const { open, onClose, sessionData, loadedSessionId, onDeleteLoadedsession } =
+  const { open, onClose, sessionData, loadedSessionId, onDeleteLoadedSession } =
     props;
 
   const [error, setError] = useState(false);
@@ -34,7 +34,7 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
       deleteSession(sessionData)
         .then(() => {
           if (loadedSessionId === sessionData._id) {
-            onDeleteLoadedsession();
+            onDeleteLoadedSession();
           }
           onClose();
         })
@@ -50,7 +50,7 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
     deleteSession,
     loadedSessionId,
     onClose,
-    onDeleteLoadedsession,
+    onDeleteLoadedSession,
     sessionData,
   ]);
 

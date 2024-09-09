@@ -20,6 +20,7 @@ describe('MoreOptionsBox', () => {
     const testSelectedPlotChannels: SelectedPlotChannel[] =
       testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
+        units: 'mm',
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,

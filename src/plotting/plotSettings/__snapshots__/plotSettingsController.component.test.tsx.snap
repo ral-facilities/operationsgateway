@@ -12,7 +12,7 @@ exports[`Plot Settings component > snapshots > renders plot settings form correc
         data-testid="mock-plotSettingsTextField"
       >
         label="Title"
-value=undefined
+value="Initial title"
 onChange=undefined
 
       </mock-plotsettingstextfield>
@@ -184,8 +184,8 @@ leftYAxisLabel="left y axis label"
 changeLeftYAxisLabel=undefined
 rightYAxisLabel="right y axis label"
 changeRightYAxisLabel=undefined
-initialSelectedColours=undefined
-initialRemainingColours=undefined
+initialSelectedColours=[]
+initialRemainingColours=[]
 changeSelectedColours=undefined
 changeRemainingColours=undefined
 
@@ -208,7 +208,7 @@ exports[`Plot Settings component > snapshots > renders plot settings form correc
         data-testid="mock-plotSettingsTextField"
       >
         label="Title"
-value=undefined
+value="Initial title"
 onChange=undefined
 
       </mock-plotsettingstextfield>
@@ -372,7 +372,7 @@ exports[`Plot Settings component > snapshots > renders plot settings form correc
         data-testid="mock-plotSettingsTextField"
       >
         label="Title"
-value=undefined
+value="Initial title"
 onChange=undefined
 
       </mock-plotsettingstextfield>
@@ -542,8 +542,8 @@ leftYAxisLabel="left y axis label"
 changeLeftYAxisLabel=undefined
 rightYAxisLabel="right y axis label"
 changeRightYAxisLabel=undefined
-initialSelectedColours=undefined
-initialRemainingColours=undefined
+initialSelectedColours=[]
+initialRemainingColours=[]
 changeSelectedColours=undefined
 changeRemainingColours=undefined
 

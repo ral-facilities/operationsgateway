@@ -3,6 +3,7 @@ import { act, screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import { staticChannels } from '../api/channels';
+import { FullChannelMetadata } from '../app.types';
 import { RootState } from '../state/store';
 import {
   getInitialState,
@@ -42,7 +43,9 @@ describe('selectChannelTree', () => {
             '1': {
               name: '1',
               checked: undefined,
-              children: testChannels.reduce((prev, curr) => {
+              children: testChannels.reduce<{
+                [key: string]: FullChannelMetadata & { checked: boolean };
+              }>((prev, curr) => {
                 if (curr.path.includes('1'))
                   prev[curr.systemName] = {
                     ...curr,
@@ -57,7 +60,9 @@ describe('selectChannelTree', () => {
             '2': {
               name: '2',
               checked: false,
-              children: testChannels.reduce((prev, curr) => {
+              children: testChannels.reduce<{
+                [key: string]: FullChannelMetadata & { checked: boolean };
+              }>((prev, curr) => {
                 if (curr.path.includes('2'))
                   prev[curr.systemName] = {
                     ...curr,
@@ -72,7 +77,9 @@ describe('selectChannelTree', () => {
             '3': {
               name: '3',
               checked: false,
-              children: testChannels.reduce((prev, curr) => {
+              children: testChannels.reduce<{
+                [key: string]: FullChannelMetadata & { checked: boolean };
+              }>((prev, curr) => {
                 if (curr.path.includes('3'))
                   prev[curr.systemName] = {
                     ...curr,
