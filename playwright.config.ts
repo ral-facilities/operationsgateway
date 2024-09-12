@@ -52,114 +52,118 @@ const config: PlaywrightTestConfig = {
   },
 
   /* Configure projects for major browsers */
-  projects: process.env.USE_REAL_API
-    ? [
-        {
-          name: 'setup',
-          testDir: './e2e/real',
-          testMatch: /.*\.setup\.ts/,
-        },
-        // full e2e tests
-        {
-          name: 'E2E tests',
-          use: {
-            ...devices['Desktop Chrome'],
-            // Use prepared auth state.
-            storageState: 'e2e/real/.auth/user.json',
+  projects:
+    process.env.USE_REAL_API === 'true'
+      ? [
+          {
+            name: 'setup',
+            testDir: './e2e/real',
+            testMatch: /.*\.setup\.ts/,
           },
-          testDir: './e2e/real',
-          testIgnore: /.*sessions.spec.ts/,
-          dependencies: ['setup'],
-        },
-        // sessions test needs to run on firefox to test saving position & size of popups
-        {
-          name: 'E2E tests - Firefox',
-          use: {
-            ...devices['Desktop Firefox'],
-            launchOptions: {
-              // need these to ensure Date picker media queries pass
-              // ref: https://mui.com/x/react-date-pickers/base-concepts/#testing-caveats
-              firefoxUserPrefs: {
-                'ui.primaryPointerCapabilities': 0x02 | 0x04,
-                'ui.allPointerCapabilities': 0x02 | 0x04,
+          // full e2e tests
+          {
+            name: 'E2E tests',
+            use: {
+              ...devices['Desktop Chrome'],
+              // Use prepared auth state.
+              storageState: 'e2e/real/.auth/user.json',
+            },
+            testDir: './e2e/real',
+            testIgnore: /.*sessions.spec.ts/,
+            dependencies: ['setup'],
+          },
+          // sessions test needs to run on firefox to test saving position & size of popups
+          {
+            name: 'E2E tests - Firefox',
+            use: {
+              ...devices['Desktop Firefox'],
+              launchOptions: {
+                // need these to ensure Date picker media queries pass
+                // ref: https://mui.com/x/react-date-pickers/base-concepts/#testing-caveats
+                firefoxUserPrefs: {
+                  'ui.primaryPointerCapabilities': 0x02 | 0x04,
+                  'ui.allPointerCapabilities': 0x02 | 0x04,
+                },
+              },
+              // Use prepared auth state.
+              storageState: 'e2e/real/.auth/user.json',
+            },
+            testDir: './e2e/real',
+            testMatch: /.*sessions.spec.ts/,
+            dependencies: ['setup'],
+          },
+        ]
+      : [
+          {
+            name: 'chromium',
+            use: {
+              ...devices['Desktop Chrome'],
+            },
+            testDir: './e2e/mocked',
+          },
+
+          {
+            name: 'firefox',
+            use: {
+              ...devices['Desktop Firefox'],
+              launchOptions: {
+                // need these to ensure Date picker media queries pass
+                // ref: https://mui.com/x/react-date-pickers/base-concepts/#testing-caveats
+                firefoxUserPrefs: {
+                  'ui.primaryPointerCapabilities': 0x02 | 0x04,
+                  'ui.allPointerCapabilities': 0x02 | 0x04,
+                },
               },
             },
-            // Use prepared auth state.
-            storageState: 'e2e/real/.auth/user.json',
+            testDir: './e2e/mocked',
           },
-          testDir: './e2e/real',
-          testMatch: /.*sessions.spec.ts/,
-          dependencies: ['setup'],
-        },
-      ]
-    : [
-        {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-          },
-          testDir: './e2e/mocked',
-        },
 
-        {
-          name: 'firefox',
-          use: {
-            ...devices['Desktop Firefox'],
-            launchOptions: {
-              // need these to ensure Date picker media queries pass
-              // ref: https://mui.com/x/react-date-pickers/base-concepts/#testing-caveats
-              firefoxUserPrefs: {
-                'ui.primaryPointerCapabilities': 0x02 | 0x04,
-                'ui.allPointerCapabilities': 0x02 | 0x04,
-              },
+          {
+            name: 'webkit',
+            use: {
+              ...devices['Desktop Safari'],
             },
+            testDir: './e2e/mocked',
           },
-          testDir: './e2e/mocked',
-        },
 
-        {
-          name: 'webkit',
-          use: {
-            ...devices['Desktop Safari'],
-          },
-          testDir: './e2e/mocked',
-        },
+          /* Test against mobile viewports. */
+          // {
+          //   name: 'Mobile Chrome',
+          //   use: {
+          //     ...devices['Pixel 5'],
+          //   },
+          // },
+          // {
+          //   name: 'Mobile Safari',
+          //   use: {
+          //     ...devices['iPhone 12'],
+          //   },
+          // },
 
-        /* Test against mobile viewports. */
-        // {
-        //   name: 'Mobile Chrome',
-        //   use: {
-        //     ...devices['Pixel 5'],
-        //   },
-        // },
-        // {
-        //   name: 'Mobile Safari',
-        //   use: {
-        //     ...devices['iPhone 12'],
-        //   },
-        // },
-
-        /* Test against branded browsers. */
-        // {
-        //   name: 'Microsoft Edge',
-        //   use: {
-        //     channel: 'msedge',
-        //   },
-        // },
-        // {
-        //   name: 'Google Chrome',
-        //   use: {
-        //     channel: 'chrome',
-        //   },
-        // },
-      ],
+          /* Test against branded browsers. */
+          // {
+          //   name: 'Microsoft Edge',
+          //   use: {
+          //     channel: 'msedge',
+          //   },
+          // },
+          // {
+          //   name: 'Google Chrome',
+          //   use: {
+          //     channel: 'chrome',
+          //   },
+          // },
+        ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: process.env.USE_REAL_API ? 'yarn e2e:serve:api' : 'yarn e2e:serve',
+    command:
+      process.env.USE_REAL_API === 'true'
+        ? 'yarn e2e:serve:api'
+        : 'yarn e2e:serve',
     url: 'http://localhost:3000',
     timeout: 180 * 1000,
     stdout: 'pipe',

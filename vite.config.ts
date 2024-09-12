@@ -158,7 +158,7 @@ export default defineConfig(({ mode }) => {
           ...vitestCoverageConfigDefaultsExclude,
           'public/*',
           'server/*',
-          'playwright.config.js',
+          'playwright.config.ts',
           // Leave handlers to show up unused code
           'src/mocks/browser.ts',
           'src/mocks/server.ts',
