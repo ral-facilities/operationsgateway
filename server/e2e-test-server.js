@@ -9,7 +9,7 @@ app.get('/operationsgateway-settings.json', function (req, res) {
   // If so, use the settings file specific to E2E
   // Otherwise, use the same settings file that is also for running the app normally (yarn start etc).
   const isCiEnv = process.env.CI;
-  const isRealE2ETesting = process.env.USE_REAL_API;
+  const isRealE2ETesting = process.env.USE_REAL_API === 'true';
   res.sendFile(
     path.resolve(
       isRealE2ETesting
