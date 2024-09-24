@@ -53,6 +53,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== label}
       id={`${label}-tabpanel`}
       aria-labelledby={`${label}-tab`}
+      style={{ width: '100%' }}
       {...other}
     >
       {value === label && <Box>{children}</Box>}
@@ -86,6 +87,102 @@ export const Body = (props: React.ComponentProps<typeof Typography>) => (
     {props.children}
   </Typography>
 );
+
+export const FilterPageHelp = () => {
+  const helpPageOperators = [
+    '=',
+    '!=',
+    '>',
+    '<',
+    '>=',
+    '<=',
+    'is null',
+    'is not null',
+    'and',
+    'or',
+    'not',
+    '(',
+    ')',
+  ];
+  return (
+    <Grid item xs>
+      <Heading>Filter help</Heading>
+      <Body>
+        In the box, start typing data channel names, numbers, mathematical
+        symbols such as{' '}
+        <Chip
+          label=">"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and{' '}
+        <Chip
+          label="<="
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and keywords such as{' '}
+        <Chip
+          label="AND"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />
+        ,{' '}
+        <Chip
+          label="OR"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mr: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and{' '}
+        <Chip
+          label="NOT"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            ml: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />
+        . The Wizard will suggest suitable options and indicate using a grey box
+        when each item has been recognised. Function names are not currently
+        supported in filters.
+      </Body>
+      <Heading>Operators included</Heading>
+      <Body>
+        <Box display="flex" flexWrap="wrap" gap={1}>
+          {helpPageOperators.map((operator, _index) => (
+            <React.Fragment key={operator}>
+              <Chip
+                label={operator}
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+            </React.Fragment>
+          ))}
+        </Box>
+      </Body>
+    </Grid>
+  );
+};
 
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose, flashingFilterValue } = props;
@@ -248,23 +345,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
-  const helpPageOperators = [
-    '=',
-    '!=',
-    '>',
-    '<',
-    '>=',
-    '<=',
-    'is null',
-    'is not null',
-    'and',
-    'or',
-    'not',
-    '(',
-    ')',
-  ];
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
         <StyledTab value="Filters" label="Filters" {...a11yProps('Filters')} />
         <StyledTab
@@ -275,61 +357,66 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </Tabs>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid item container sx={{ display: 'inline-block' }} xs={6}>
+          <Grid item container xs={12}>
             <TabPanel value={tabValue} label={'Filters'}>
-              <Grid
-                container
-                item
-                xs
-                pr={1}
-                flexDirection="column"
-                rowSpacing={1}
-              >
-                <Heading mt={1}>Enter filter</Heading>
-                {filters.map((filter, index) => (
-                  <Grid container item key={index}>
-                    <Grid item xs>
-                      <FilterInput
-                        channels={channels ?? []}
-                        value={filter}
-                        setValue={handleChangeValue(index)}
-                        error={errors[index]}
-                        setError={handleChangeError(index)}
-                        flashingFilterValue={flashingFilterValue}
-                      />
+              <Grid item container xs>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={6}
+                  pr={1}
+                  flexDirection="column"
+                  rowSpacing={1}
+                >
+                  <Heading mt={1}>Enter filter</Heading>
+                  {filters.map((filter, index) => (
+                    <Grid container item key={index}>
+                      <Grid item xs>
+                        <FilterInput
+                          channels={channels ?? []}
+                          value={filter}
+                          setValue={handleChangeValue(index)}
+                          error={errors[index]}
+                          setError={handleChangeError(index)}
+                          flashingFilterValue={flashingFilterValue}
+                        />
+                      </Grid>
+                      <Grid item xs={0.6} mt={0.5}>
+                        <IconButton
+                          onClick={() => {
+                            setFilters((filters) =>
+                              filters.filter((_, i) => i !== index)
+                            );
+                            setErrors((errors) =>
+                              errors.filter((_, i) => i !== index)
+                            );
+                          }}
+                          size="small"
+                          aria-label={`Delete filter ${index}`}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={0.6} mt={0.5}>
-                      <IconButton
-                        onClick={() => {
-                          setFilters((filters) =>
-                            filters.filter((_, i) => i !== index)
-                          );
-                          setErrors((errors) =>
-                            errors.filter((_, i) => i !== index)
-                          );
-                        }}
-                        size="small"
-                        aria-label={`Delete filter ${index}`}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                ))}
+                  ))}
 
-                <Grid item>
-                  <Button
-                    onClick={() => {
-                      setFilters((filters) => [...filters, []]);
-                      setErrors((errors) => [...errors, undefined]);
-                    }}
-                    variant="outlined"
-                    size="small"
-                    startIcon={<AddCircle />}
-                  >
-                    Add new filter
-                  </Button>
+                  <Grid item>
+                    <Button
+                      onClick={() => {
+                        setFilters((filters) => [...filters, []]);
+                        setErrors((errors) => [...errors, undefined]);
+                      }}
+                      variant="outlined"
+                      size="small"
+                      startIcon={<AddCircle />}
+                    >
+                      Add new filter
+                    </Button>
+                  </Grid>
                 </Grid>
+                <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                <FilterPageHelp />
               </Grid>
             </TabPanel>
 
@@ -355,83 +442,6 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 channels={channels ?? []}
               />
             </TabPanel>
-          </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs>
-            <Heading>Filter help</Heading>
-            <Body>
-              In the box, start typing data channel names, numbers, mathematical
-              symbols such as{' '}
-              <Chip
-                label=">"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and{' '}
-              <Chip
-                label="<="
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and keywords such as{' '}
-              <Chip
-                label="AND"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />
-              ,{' '}
-              <Chip
-                label="OR"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mr: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and{' '}
-              <Chip
-                label="NOT"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  ml: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />
-              . The Wizard will suggest suitable options and indicate using a
-              grey box when each item has been recognised. Function names are
-              not currently supported in filters.
-            </Body>
-            <Heading>Operators included</Heading>
-            <Body>
-              <Box display="flex" flexWrap="wrap" gap={1}>
-                {helpPageOperators.map((operator, _index) => (
-                  <React.Fragment key={operator}>
-                    <Chip
-                      label={operator}
-                      size="small"
-                      sx={{
-                        fontSize: '0.8125rem',
-                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                      }}
-                    />
-                  </React.Fragment>
-                ))}
-              </Box>
-            </Body>
           </Grid>
         </Grid>
       </DialogContent>

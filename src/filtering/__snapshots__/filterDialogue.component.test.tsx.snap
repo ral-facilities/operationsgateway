@@ -36,7 +36,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
     >
       <div
         aria-labelledby=":r3:"
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthXl MuiDialog-paperFullWidth css-csmqbv-MuiPaper-root-MuiDialog-paper"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
         role="dialog"
       >
         <div
@@ -102,18 +102,20 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
             class="MuiGrid-root MuiGrid-container css-o1xwpy-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-6 css-dbzltx-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
             >
               <div
                 aria-labelledby="Filters-tab"
                 hidden=""
                 id="Filters-tabpanel"
                 role="tabpanel"
+                style="width: 100%;"
               />
               <div
                 aria-labelledby="Favourite filters-tab"
                 id="Favourite filters-tabpanel"
                 role="tabpanel"
+                style="width: 100%;"
               >
                 <div
                   class="MuiBox-root css-0"
@@ -146,211 +148,6 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                       />
                     </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr
-              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-            />
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
-              >
-                Filter help
-              </h3>
-              <div
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
-              >
-                In the box, start typing data channel names, numbers, mathematical symbols such as
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    &gt;
-                  </span>
-                </div>
-                 
-                and
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    &lt;=
-                  </span>
-                </div>
-                 
-                and keywords such as
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    AND
-                  </span>
-                </div>
-                ,
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-hsc04e-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    OR
-                  </span>
-                </div>
-                 
-                and
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    NOT
-                  </span>
-                </div>
-                . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised. Function names are not currently supported in filters.
-              </div>
-              <h3
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
-              >
-                Operators included
-              </h3>
-              <div
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
-              >
-                <div
-                  class="MuiBox-root css-zefc5s"
-                >
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      =
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      !=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &gt;
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &lt;
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &gt;=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &lt;=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      is null
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      is not null
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      and
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      or
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      not
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      (
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      )
-                    </span>
                   </div>
                 </div>
               </div>
@@ -419,7 +216,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
     >
       <div
         aria-labelledby=":r0:"
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthXl MuiDialog-paperFullWidth css-csmqbv-MuiPaper-root-MuiDialog-paper"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
         role="dialog"
       >
         <div
@@ -476,131 +273,341 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
             class="MuiGrid-root MuiGrid-container css-o1xwpy-MuiGrid-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-6 css-dbzltx-MuiGrid-root"
+              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
             >
               <div
                 aria-labelledby="Filters-tab"
                 id="Filters-tabpanel"
                 role="tabpanel"
+                style="width: 100%;"
               >
                 <div
                   class="MuiBox-root css-0"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-1y6gt5w-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-xqag5e-MuiGrid-root"
                   >
-                    <h3
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-fqento-MuiTypography-root"
-                    >
-                      Enter filter
-                    </h3>
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-j76qx9-MuiGrid-root"
                     >
+                      <h3
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-fqento-MuiTypography-root"
+                      >
+                        Enter filter
+                      </h3>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
                       >
                         <div
-                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
                         >
                           <div
-                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                            class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
                           >
-                            <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
-                              data-shrink="true"
-                              for=":r1:"
-                              id=":r1:-label"
-                            >
-                              Filter
-                            </label>
                             <div
-                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
-                              data-id="Input"
+                              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
                             >
-                              <input
-                                aria-autocomplete="list"
-                                aria-expanded="false"
-                                aria-invalid="false"
-                                autocapitalize="none"
-                                autocomplete="off"
-                                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
-                                id=":r1:"
-                                role="combobox"
-                                spellcheck="false"
-                                type="text"
-                                value=""
-                              />
-                              <fieldset
-                                aria-hidden="true"
-                                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                              <label
+                                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                                data-shrink="true"
+                                for=":r1:"
+                                id=":r1:-label"
                               >
-                                <legend
-                                  class="css-14lo706"
+                                Filter
+                              </label>
+                              <div
+                                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+                                data-id="Input"
+                              >
+                                <input
+                                  aria-autocomplete="list"
+                                  aria-expanded="false"
+                                  aria-invalid="false"
+                                  autocapitalize="none"
+                                  autocomplete="off"
+                                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
+                                  id=":r1:"
+                                  role="combobox"
+                                  spellcheck="false"
+                                  type="text"
+                                  value=""
+                                />
+                                <fieldset
+                                  aria-hidden="true"
+                                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                                 >
-                                  <span>
-                                    Filter
-                                  </span>
-                                </legend>
-                              </fieldset>
+                                  <legend
+                                    class="css-14lo706"
+                                  >
+                                    <span>
+                                      Filter
+                                    </span>
+                                  </legend>
+                                </fieldset>
+                              </div>
                             </div>
                           </div>
                         </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                        >
+                          <button
+                            aria-label="Delete filter 0"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                            tabindex="0"
+                            type="button"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="DeleteIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
+                              />
+                            </svg>
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
+                        </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
                       >
                         <button
-                          aria-label="Delete filter 0"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-1k23hlb-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                            data-testid="DeleteIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
+                          <span
+                            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
                           >
-                            <path
-                              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
-                            />
-                          </svg>
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              data-testid="AddCircleIcon"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z"
+                              />
+                            </svg>
+                          </span>
+                          Add new filter
                           <span
                             class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           />
                         </button>
                       </div>
                     </div>
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-olsibl-MuiDivider-root"
+                    />
                     <div
-                      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
                     >
-                      <button
-                        class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-1k23hlb-MuiButtonBase-root-MuiButton-root"
-                        tabindex="0"
-                        type="button"
+                      <h3
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
                       >
-                        <span
-                          class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+                        Filter help
+                      </h3>
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+                      >
+                        In the box, start typing data channel names, numbers, mathematical symbols such as
+                         
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
                         >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                            data-testid="AddCircleIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
                           >
-                            <path
-                              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m5 11h-4v4h-2v-4H7v-2h4V7h2v4h4z"
-                            />
-                          </svg>
-                        </span>
-                        Add new filter
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
+                            &gt;
+                          </span>
+                        </div>
+                         
+                        and
+                         
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            &lt;=
+                          </span>
+                        </div>
+                         
+                        and keywords such as
+                         
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            AND
+                          </span>
+                        </div>
+                        ,
+                         
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-hsc04e-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            OR
+                          </span>
+                        </div>
+                         
+                        and
+                         
+                        <div
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                          >
+                            NOT
+                          </span>
+                        </div>
+                        . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised. Function names are not currently supported in filters.
+                      </div>
+                      <h3
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+                      >
+                        Operators included
+                      </h3>
+                      <div
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+                      >
+                        <div
+                          class="MuiBox-root css-zefc5s"
+                        >
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              =
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              !=
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              &gt;
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              &lt;
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              &gt;=
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              &lt;=
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              is null
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              is not null
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              and
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              or
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              not
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              (
+                            </span>
+                          </div>
+                          <div
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                          >
+                            <span
+                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            >
+                              )
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -610,212 +617,8 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                 hidden=""
                 id="Favourite filters-tabpanel"
                 role="tabpanel"
+                style="width: 100%;"
               />
-            </div>
-            <hr
-              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
-            />
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
-            >
-              <h3
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
-              >
-                Filter help
-              </h3>
-              <div
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
-              >
-                In the box, start typing data channel names, numbers, mathematical symbols such as
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    &gt;
-                  </span>
-                </div>
-                 
-                and
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    &lt;=
-                  </span>
-                </div>
-                 
-                and keywords such as
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    AND
-                  </span>
-                </div>
-                ,
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-hsc04e-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    OR
-                  </span>
-                </div>
-                 
-                and
-                 
-                <div
-                  class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
-                >
-                  <span
-                    class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                  >
-                    NOT
-                  </span>
-                </div>
-                . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised. Function names are not currently supported in filters.
-              </div>
-              <h3
-                class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
-              >
-                Operators included
-              </h3>
-              <div
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
-              >
-                <div
-                  class="MuiBox-root css-zefc5s"
-                >
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      =
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      !=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &gt;
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &lt;
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &gt;=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      &lt;=
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      is null
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      is not null
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      and
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      or
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      not
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      (
-                    </span>
-                  </div>
-                  <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
-                  >
-                    <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
-                    >
-                      )
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

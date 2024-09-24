@@ -4,12 +4,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Grid,
   TextField,
 } from '@mui/material';
 import React from 'react';
 import { useAddFavouriteFilter } from '../api/favouriteFilters';
 import { FavouriteFilter } from '../app.types';
+import { FilterPageHelp } from './filterDialogue.component';
 import FilterInput from './filterInput.component';
 import { Token } from './filterParser';
 
@@ -79,30 +81,41 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <DialogTitle>Add Favourite filter</DialogTitle>
       <DialogContent>
-        <Grid container sx={{ mt: 1 }} spacing={1}>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Name"
-              value={favouriteFilter.name}
-              onChange={(e) => {
-                setFavouriteFilter((prevfilter) => ({
-                  ...prevfilter,
-                  name: e.target.value,
-                }));
-              }}
-              size="small"
-            />
+        <Grid container sx={{ mt: 1 }}>
+          <Grid
+            container
+            item
+            xs={12}
+            sm={6}
+            flexDirection={'column'}
+            spacing={1}
+          >
+            <Grid item>
+              <TextField
+                fullWidth
+                label="Name"
+                value={favouriteFilter.name}
+                onChange={(e) => {
+                  setFavouriteFilter((prevfilter) => ({
+                    ...prevfilter,
+                    name: e.target.value,
+                  }));
+                }}
+                size="small"
+              />
+            </Grid>
+            <Grid item>
+              <FilterInput
+                channels={channels}
+                value={favouriteFilter.filter}
+                setValue={handleChangeValue}
+                error={favouriteFilterError.filter}
+                setError={handleChangeError}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <FilterInput
-              channels={channels}
-              value={favouriteFilter.filter}
-              setValue={handleChangeValue}
-              error={favouriteFilterError.filter}
-              setError={handleChangeError}
-            />
-          </Grid>
+          <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+          <FilterPageHelp />
         </Grid>
       </DialogContent>
       <DialogActions>
