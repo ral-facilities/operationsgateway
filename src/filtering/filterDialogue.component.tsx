@@ -6,10 +6,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Divider,
   Grid,
   IconButton,
+  Tabs,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -25,13 +25,46 @@ import {
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
 import { selectSearchParams } from '../state/slices/searchSlice';
+import { StyledTab } from '../views/viewTabs.component';
+import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
 import FilterInput from './filterInput.component';
-import { Token, parseFilter } from './filterParser';
+import { parseFilter, Token } from './filterParser';
 
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;
   flashingFilterValue?: string;
+}
+
+type TabValue = 'Filters' | 'Favourite filters';
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  value: TabValue;
+  label: TabValue;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, label, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== label}
+      id={`${label}-tabpanel`}
+      aria-labelledby={`${label}-tab`}
+      {...other}
+    >
+      {value === label && <Box>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(label: TabValue) {
+  return {
+    id: `${label}-tab`,
+    'aria-controls': `${label}-tabpanel`,
+  };
 }
 
 export const Heading = (props: React.ComponentProps<typeof Typography>) => {
@@ -64,6 +97,16 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const [errors, setErrors] = React.useState<(string | undefined)[]>(
     appliedFilters.map(() => undefined)
   );
+  const [favouriteFiltersOpen, setFavouriteFiltersOpen] =
+    React.useState<boolean>(false);
+  const [tabValue, setTabValue] = React.useState<TabValue>('Filters');
+
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabValue
+  ) => {
+    setTabValue(newValue);
+  };
   const { data: channels } = useChannels({
     select: (channels) => {
       return channels
@@ -216,56 +259,97 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     ')',
   ];
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle>Filters</DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+      <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
+        <StyledTab value="Filters" label="Filters" {...a11yProps('Filters')} />
+        <StyledTab
+          value="Favourite filters"
+          label="Favourite filters"
+          {...a11yProps('Favourite filters')}
+        />
+      </Tabs>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid container item xs pr={1} flexDirection="column" rowSpacing={1}>
-            <Heading mt={1}>Enter filter</Heading>
-            {filters.map((filter, index) => (
-              <Grid container item key={index}>
-                <Grid item xs>
-                  <FilterInput
-                    channels={channels ?? []}
-                    value={filter}
-                    setValue={handleChangeValue(index)}
-                    error={errors[index]}
-                    setError={handleChangeError(index)}
-                    flashingFilterValue={flashingFilterValue}
-                  />
-                </Grid>
-                <Grid item xs={0.6} mt={0.5}>
-                  <IconButton
+          <Grid item container sx={{ display: 'inline-block' }} xs={6}>
+            <TabPanel value={tabValue} label={'Filters'}>
+              <Grid
+                container
+                item
+                xs
+                pr={1}
+                flexDirection="column"
+                rowSpacing={1}
+              >
+                <Heading mt={1}>Enter filter</Heading>
+                {filters.map((filter, index) => (
+                  <Grid container item key={index}>
+                    <Grid item xs>
+                      <FilterInput
+                        channels={channels ?? []}
+                        value={filter}
+                        setValue={handleChangeValue(index)}
+                        error={errors[index]}
+                        setError={handleChangeError(index)}
+                        flashingFilterValue={flashingFilterValue}
+                      />
+                    </Grid>
+                    <Grid item xs={0.6} mt={0.5}>
+                      <IconButton
+                        onClick={() => {
+                          setFilters((filters) =>
+                            filters.filter((_, i) => i !== index)
+                          );
+                          setErrors((errors) =>
+                            errors.filter((_, i) => i !== index)
+                          );
+                        }}
+                        size="small"
+                        aria-label={`Delete filter ${index}`}
+                      >
+                        <Delete />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                ))}
+
+                <Grid item>
+                  <Button
                     onClick={() => {
-                      setFilters((filters) =>
-                        filters.filter((_, i) => i !== index)
-                      );
-                      setErrors((errors) =>
-                        errors.filter((_, i) => i !== index)
-                      );
+                      setFilters((filters) => [...filters, []]);
+                      setErrors((errors) => [...errors, undefined]);
                     }}
+                    variant="outlined"
                     size="small"
-                    aria-label={`Delete filter ${index}`}
+                    startIcon={<AddCircle />}
                   >
-                    <Delete />
-                  </IconButton>
+                    Add new filter
+                  </Button>
                 </Grid>
               </Grid>
-            ))}
+            </TabPanel>
 
-            <Grid item>
-              <Button
-                onClick={() => {
-                  setFilters((filters) => [...filters, []]);
-                  setErrors((errors) => [...errors, undefined]);
+            <TabPanel value={tabValue} label={'Favourite filters'}>
+              <Grid item xs>
+                <Button
+                  onClick={() => {
+                    setFavouriteFiltersOpen(true);
+                  }}
+                  variant="outlined"
+                  size="small"
+                  startIcon={<AddCircle />}
+                >
+                  Add new favourite filter
+                </Button>
+              </Grid>
+
+              <FavouriteFiltersDialogue
+                open={favouriteFiltersOpen}
+                onClose={() => {
+                  setFavouriteFiltersOpen(false);
                 }}
-                variant="outlined"
-                size="small"
-                startIcon={<AddCircle />}
-              >
-                Add new filter
-              </Button>
-            </Grid>
+                channels={channels ?? []}
+              />
+            </TabPanel>
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item xs>

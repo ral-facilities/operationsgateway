@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { QueryClient } from '@tanstack/react-query';
-import { act, screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import React from 'react';
@@ -37,12 +37,41 @@ describe('Filter dialogue component', () => {
     vi.clearAllMocks();
   });
 
-  it('renders filter dialogue when dialogue is open', async () => {
+  it('renders filter dialogue when dialogue is open (filter section)', async () => {
     let baseElement;
     await act(async () => {
       baseElement = createView().baseElement;
     });
     expect(baseElement).toMatchSnapshot();
+  });
+
+  it('renders filter dialogue when dialogue is open (favourite filter section)', async () => {
+    let baseElement;
+    await act(async () => {
+      baseElement = createView().baseElement;
+    });
+
+    await user.click(screen.getByText('Favourite filters'));
+    expect(
+      await screen.findByRole('button', { name: 'Add new favourite filter' })
+    ).toBeInTheDocument();
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('opens and closes Add new favourite filter dialogue', async () => {
+    createView();
+
+    await user.click(screen.getByText('Favourite filters'));
+    await user.click(
+      await screen.findByRole('button', { name: 'Add new favourite filter' })
+    );
+
+    expect(screen.getAllByText('Close').length).toEqual(2);
+
+    await user.click(screen.getAllByText('Close')[1]);
+    await waitFor(() => {
+      expect(screen.getAllByText('Close').length).toEqual(1);
+    });
   });
 
   it("doesn't render filter dialogue when dialogue is close", async () => {

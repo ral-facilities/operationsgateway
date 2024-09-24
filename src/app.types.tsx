@@ -311,3 +311,8 @@ export interface APIErrorResponse {
 export interface APIError {
   detail: string | APIErrorResponse[];
 }
+
+export interface FavouriteFilter {
+  name: string;
+  filter: string;
+}
