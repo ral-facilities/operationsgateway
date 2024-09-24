@@ -125,6 +125,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     },
   });
 
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setTabValue('Filters');
+  }, [onClose]);
+
   React.useEffect(() => {
     setFilters(appliedFilters);
     setErrors(appliedFilters.map(() => undefined));
@@ -259,7 +264,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     ')',
   ];
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+    <Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
         <StyledTab value="Filters" label="Filters" {...a11yProps('Filters')} />
         <StyledTab
@@ -431,7 +436,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={handleClose}>Close</Button>
         {displayingWarningMessage ? (
           <Tooltip
             componentsProps={{

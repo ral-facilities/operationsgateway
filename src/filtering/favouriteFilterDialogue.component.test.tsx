@@ -55,7 +55,7 @@ describe('Favorite filter dialogue component', () => {
     expect(props.onClose).toHaveBeenCalled();
   });
 
-  it('add a new favourtite filter', async () => {
+  it('add a new favourite filter', async () => {
     const pendingRequest = waitForRequest('POST', '/users/filters');
     const params = new URLSearchParams();
     createView();
