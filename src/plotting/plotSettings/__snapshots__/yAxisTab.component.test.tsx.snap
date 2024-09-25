@@ -352,7 +352,7 @@ exports[`y-axis tab > renders correctly 1`] = `
     >
       <div
         class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-fzem9i-MuiAutocomplete-root"
-        role="autocomplete"
+        data-testid="data-channels-autocomplete"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"

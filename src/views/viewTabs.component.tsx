@@ -118,7 +118,7 @@ const ViewTabs = () => {
     setLoadedSessionTimestamp({ timestamp, autoSaved });
   };
 
-  const onDeleteLoadedsession = () => {
+  const onDeleteLoadedSession = () => {
     setLoadedSessionId(undefined);
     setSelectedSessionId(undefined);
     setAutoSaveSessionId(undefined);
@@ -218,7 +218,7 @@ const ViewTabs = () => {
           onClose={() => setSessionDeleteOpen(false)}
           sessionData={selectedSessionData}
           loadedSessionId={loadedSessionId}
-          onDeleteLoadedsession={onDeleteLoadedsession}
+          onDeleteLoadedSession={onDeleteLoadedSession}
         />
       </Box>
     </Box>

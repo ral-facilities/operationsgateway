@@ -1014,7 +1014,7 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Min',
         })
-        .type(14);
+        .type('14');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
@@ -1031,7 +1031,7 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Max',
         })
-        .type(14);
+        .type('14');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
@@ -1060,7 +1060,7 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Min',
         })
-        .type(12);
+        .type('12');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
@@ -1087,7 +1087,7 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Max',
         })
-        .type(16);
+        .type('16');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')

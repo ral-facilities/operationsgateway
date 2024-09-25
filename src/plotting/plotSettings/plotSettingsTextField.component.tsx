@@ -1,12 +1,12 @@
 import { TextField, TextFieldProps } from '@mui/material';
 import React from 'react';
 
-const PlotSettingsTextField = (
-  props: {
-    value: string;
-    onChange: (title: string) => void;
-  } & Omit<TextFieldProps, 'value' | 'onChange'>
-) => {
+export type PlotSettingsTextFieldProps = {
+  value: string;
+  onChange: (title: string) => void;
+} & Omit<TextFieldProps, 'value' | 'onChange'>;
+
+const PlotSettingsTextField = (props: PlotSettingsTextFieldProps) => {
   const { value, onChange, ...rest } = props;
 
   const handleChangeTitle = React.useCallback(

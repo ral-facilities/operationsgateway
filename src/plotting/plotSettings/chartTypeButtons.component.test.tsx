@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import type { ChartTypeButtonsProps } from './chartTypeButtons.component';
 import ChartTypeButtons from './chartTypeButtons.component';
 
 describe('Chart Type Buttons', () => {
   let props: ChartTypeButtonsProps;
-  let user;
+  let user: UserEvent;
   const changePlotType = vi.fn();
   const changeXAxis = vi.fn();
 

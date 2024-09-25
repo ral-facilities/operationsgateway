@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { PlotDataset, SelectedPlotChannel } from '../app.types';
 import {
   constructDataRows,
@@ -16,8 +16,8 @@ describe('Window buttons components', () => {
   const mockLinkClick = vi.fn();
   const mockLinkRemove = vi.fn();
   const mockLinkSetAttribute = vi.fn();
-  let mockLink: HTMLAnchorElement = {};
-  let user;
+  let mockLink: HTMLAnchorElement;
+  let user: UserEvent;
 
   beforeEach(() => {
     user = userEvent.setup();

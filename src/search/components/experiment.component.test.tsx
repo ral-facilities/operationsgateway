@@ -4,7 +4,7 @@ import {
   screen,
   within,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import experimentsJson from '../../mocks/experiments.json';
 import Experiment, { type ExperimentProps } from './experiment.component';
 
@@ -15,7 +15,7 @@ describe('Experiment search', () => {
   const changeExperimentTimeframe = vi.fn();
   const resetShotnumber = vi.fn();
   const searchParamsUpdated = vi.fn();
-  let user;
+  let user: UserEvent;
 
   const createView = (): RenderResult => {
     return render(<Experiment {...props} />);
@@ -88,7 +88,7 @@ describe('Experiment search', () => {
 
     await user.click(screen.getByLabelText('open experiment search box'));
     const experimentPopup = screen.getByRole('combobox');
-    expect(experimentPopup).toBeInTheDocument('close experiment search box');
+    expect(experimentPopup).toBeInTheDocument();
 
     await user.type(experimentPopup, '221{arrowdown}{enter}');
 

@@ -11,7 +11,7 @@ describe('Filter parser', () => {
     value: 'CHANNEL_1',
     label: 'Channel 1',
   };
-  /* eslint-disable @typescript-eslint/no-non-null-assertion */
+
   const ltToken: Token = operators.find((t) => t.value === '<')!;
   const eqToken: Token = operators.find((t) => t.value === '=')!;
   const neqToken: Token = operators.find((t) => t.value === '!=')!;
@@ -33,7 +33,6 @@ describe('Filter parser', () => {
   const closeParenToken: Token = operators.find((t) => t.value === ')')!;
   const andToken: Token = operators.find((t) => t.value === 'and')!;
   const orToken: Token = operators.find((t) => t.value === 'or')!;
-  /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
   it('can parse a comparison operation', () => {
     expect(parseFilter([shotnumToken, ltToken, numberToken])).toEqual(

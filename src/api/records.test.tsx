@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook, waitFor } from '@testing-library/react';
 import { parseISO } from 'date-fns';
 import {
@@ -299,6 +298,7 @@ describe('records api functions', () => {
         },
         shotnumRange: {},
         maxShots: MAX_SHOTS_VALUES[0],
+        experimentID: null,
       };
 
       const pendingRequest = waitForRequest('GET', '/records/count');
@@ -558,6 +558,7 @@ describe('records api functions', () => {
           lineStyle: 'solid',
           yAxis: 'left',
         },
+        units: 'cm',
       },
     ];
 
@@ -908,8 +909,8 @@ describe('records api functions', () => {
     let testRecord: Record;
 
     beforeEach(() => {
-      // this has the scalar channel CHANNE_ABCDE
-      testRecord = recordsJson[0];
+      // this has the scalar channel CHANNEL_ABCDE
+      testRecord = recordsJson[0] as Record;
     });
 
     it('formats timestamp correctly', () => {
@@ -949,10 +950,10 @@ describe('records api functions', () => {
     it('formats channel data correctly', () => {
       let result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(
-        (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data
+        (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data
       );
 
-      (testRecord.channels['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
+      (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
       result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(1);
 

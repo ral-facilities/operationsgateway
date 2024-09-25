@@ -117,7 +117,8 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
 
   const handleChannelChecked = React.useCallback(
     (channel: string, checked: boolean) => {
-      checked ? onChannelDeselect(channel) : onChannelSelect(channel);
+      if (checked) onChannelDeselect(channel);
+      else onChannelSelect(channel);
     },
     [onChannelDeselect, onChannelSelect]
   );

@@ -9,7 +9,7 @@ describe('Image view component', () => {
     // mock to ensure img.onload gets called to set the canvas width & height
     // modified from: https://github.com/jsdom/jsdom/issues/1816#issuecomment-432496573
     Object.defineProperty(global.Image.prototype, 'src', {
-      set(src) {
+      set() {
         setTimeout(() => this.onload());
       },
     });

@@ -4,7 +4,7 @@ import {
   within,
   type RenderResult,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {
@@ -32,7 +32,7 @@ describe('maxShots search', () => {
   });
 
   describe('calls changeMaxShots when user clicks on', () => {
-    let user;
+    let user: UserEvent;
     const changeMaxShots = vi.fn();
 
     beforeEach(() => {

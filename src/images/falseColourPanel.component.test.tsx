@@ -84,9 +84,9 @@ describe('False colour panel component', () => {
 
     const upperSliderInput = sliderInput[1];
 
-    await fireEvent.change(lowerSliderInput, { target: { value: 25 } });
+    fireEvent.change(lowerSliderInput, { target: { value: 25 } });
 
-    await fireEvent.change(upperSliderInput, { target: { value: 50 } });
+    fireEvent.change(upperSliderInput, { target: { value: 50 } });
 
     expect(changeLowerLevel).toHaveBeenCalledWith(25);
 

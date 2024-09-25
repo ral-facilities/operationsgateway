@@ -213,7 +213,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
     >
       <div
         class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-fzem9i-MuiAutocomplete-root"
-        role="autocomplete"
+        data-testid="x-axis-autocomplete"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"

@@ -1,6 +1,6 @@
 import type { RenderResult } from '@testing-library/react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { SelectedPlotChannel } from '../../../app.types';
 import { testPlotDatasets } from '../../../testUtils';
 import { deepCopySelectedPlotChannels } from '../../util';
@@ -10,7 +10,7 @@ import MoreOptionsBox from './moreOptionsBox.component';
 describe('MoreOptionsBox', () => {
   let props: MoreOptionsProps;
   const changeSelectedPlotChannels = vi.fn();
-  let user;
+  let user: UserEvent;
 
   const createView = (): RenderResult => {
     return render(<MoreOptionsBox {...props} />);
@@ -20,6 +20,7 @@ describe('MoreOptionsBox', () => {
     const testSelectedPlotChannels: SelectedPlotChannel[] =
       testPlotDatasets.map((dataset, i) => ({
         name: dataset.name,
+        units: 'mm',
         options: {
           visible: true,
           colour: `colour-${i.toString()}`,

@@ -23,7 +23,6 @@ describe('Channel Search', () => {
   });
 
   it('should call onSearchChange when option is selected and not when it is cleared', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const testChannel = testChannels.find(
       (channel) => channel.systemName === 'shotnum'
     )!;
@@ -46,7 +45,6 @@ describe('Channel Search', () => {
   });
 
   it('should clear the input when currPathAndChannel no longer matches', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const testChannel = testChannels.find(
       (channel) => channel.systemName === 'shotnum'
     )!;

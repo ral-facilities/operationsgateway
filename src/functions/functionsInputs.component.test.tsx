@@ -256,7 +256,7 @@ describe('FunctionsInputs', () => {
       ],
     });
 
-    (setValue as vi.Mock).mockClear();
+    vi.mocked(setValue).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '+');
@@ -270,7 +270,7 @@ describe('FunctionsInputs', () => {
         { label: '1', type: 'number', value: '1' },
       ],
     });
-    (setValue as vi.Mock).mockClear();
+    vi.mocked(setValue).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '{arrowright}');
@@ -283,7 +283,7 @@ describe('FunctionsInputs', () => {
       ],
     });
 
-    (setValue as vi.Mock).mockClear();
+    vi.mocked(setValue).mockClear();
     rerender(<FunctionsInputs {...props} />);
 
     await user.type(expressionInput, '2');

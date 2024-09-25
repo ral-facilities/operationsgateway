@@ -246,6 +246,7 @@ const ImageView = (props: ImageViewProps) => {
         style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
       />
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
         <img
           src={image}
           alt={title}
@@ -258,6 +259,7 @@ const ImageView = (props: ImageViewProps) => {
           onMouseDown={mouseDownHandler}
           onMouseMove={mouseMoveHandler}
           onMouseUp={mouseUpOutHandler}
+          // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
           onMouseOut={mouseUpOutHandler}
         />
       </div>

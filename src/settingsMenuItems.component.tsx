@@ -235,7 +235,7 @@ const SettingsMenuItems = () => {
         </MenuItem>
       </>,
       // we know this is not null from the mutation observer
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       document.body.querySelector('#settings ul, #mobile-overflow-menu ul')!
     );
   }
