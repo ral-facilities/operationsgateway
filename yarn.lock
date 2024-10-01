@@ -6961,7 +6961,7 @@ __metadata:
     react-redux: "npm:9.1.2"
     serve: "npm:14.2.0"
     serve-static: "npm:1.16.0"
-    single-spa-react: "npm:5.1.4"
+    single-spa-react: "npm:6.0.2"
     start-server-and-test: "npm:2.0.0"
     typescript: "npm:5.6.2"
     typescript-eslint: "npm:^8.4.0"
@@ -8136,9 +8136,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"single-spa-react@npm:5.1.4":
-  version: 5.1.4
-  resolution: "single-spa-react@npm:5.1.4"
+"single-spa-react@npm:6.0.2":
+  version: 6.0.2
+  resolution: "single-spa-react@npm:6.0.2"
   dependencies:
     browserslist-config-single-spa: "npm:^1.0.1"
   peerDependencies:
@@ -8150,7 +8150,7 @@ __metadata:
       optional: true
     "@types/react-dom":
       optional: true
-  checksum: 10c0/9ce1e9750f043acb71edf1e0de6de04f1519d855b8dbbb7616122b485b44a72f310820d98f8992a43e36706f42ad3225259fb7c499a2943ca471f683e08b08ee
+  checksum: 10c0/f1241cdec61c92538724b67c046e2c38db6a218e302cdd3052270f7a57817ee37b8b188e8383db816e057a93e5c51849e87bef2b293cae8f42683ec8dadfb910
   languageName: node
   linkType: hard
 
