@@ -317,6 +317,8 @@ export interface FavouriteFilterPost {
   filter: string;
 }
 
+export type FavouriteFilterPatch = Partial<FavouriteFilterPost>;
+
 export interface FavouriteFilter extends FavouriteFilterPost {
   _id: string;
 }

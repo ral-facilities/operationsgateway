@@ -62,6 +62,24 @@ describe('Filter dialogue component', () => {
 
     await user.click(screen.getByText('Favourite filters'));
     await user.click(
+      await screen.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      })
+    );
+
+    expect(screen.getAllByText('Close').length).toEqual(2);
+
+    await user.click(screen.getAllByText('Close')[1]);
+    await waitFor(() => {
+      expect(screen.getAllByText('Close').length).toEqual(1);
+    });
+  });
+
+  it('opens and closes edit new favourite filter dialogue', async () => {
+    createView();
+
+    await user.click(screen.getByText('Favourite filters'));
+    await user.click(
       await screen.findByRole('button', { name: 'Add new favourite filter' })
     );
 

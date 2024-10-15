@@ -97,8 +97,9 @@ test('should be able to add a multiple filters', async ({ page }) => {
   await expect(page.getByText('1–7 of 7')).toBeVisible();
 });
 
-test('CR favourite filter', async ({ page }) => {
+test('CRU favourite filter', async ({ page }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
+
   await page.getByText('Favourite filters').click();
 
   await page.getByRole('button', { name: 'Add new favourite filter' }).click();
@@ -124,4 +125,30 @@ test('CR favourite filter', async ({ page }) => {
   // Assert that the input with the value 'test' exists after saving
   const savedTextField = page.locator('input[value="test"]');
   await expect(savedTextField).toHaveValue('test');
+
+  await page
+    .getByRole('button', { name: 'Edit test favourite filter' })
+    .click();
+
+  // Append ' 1' to the name field
+  await nameFields.last().fill('test 1');
+
+  // Edit the filter by replacing 42 with 40
+  await firstFilterInput.click(); // Focus on the filter input
+  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
+  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
+  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
+  await firstFilterInput.press('Backspace'); // Remove '42'
+  await firstFilterInput.pressSequentially('40'); // Type '4'
+  await firstFilterInput.press('Enter'); // Confirm the new filter value
+
+  // Unfocus again to ensure the combobox doesn't interfere with actions
+  await firstFilterInput.blur();
+
+  // Save the edited favourite filter
+  await page.getByRole('button', { name: 'Save' }).click();
+
+  // Assert the changes were successful (checking 'test 1' and updated filter value)
+  const updatedTextField = page.locator('input[value="test 1"]');
+  await expect(updatedTextField).toHaveValue('test 1');
 });
