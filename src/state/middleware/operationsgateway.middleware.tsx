@@ -28,11 +28,14 @@ export const listenToMessages = (_dispatch: AppDispatch): void => {
     ) {
       // this is a valid message, so process it
       // blank if body = ignore message as it's not processed by this plugin
-      if (requestPluginRerender.match(pluginMessage.detail)) {
-      } else if (registerRoute.match(pluginMessage.detail)) {
-      } else if (sendThemeOptions.match(pluginMessage.detail)) {
-      } else if (broadcastSignOut.match(pluginMessage.detail)) {
-      } else {
+      if (
+        !(
+          requestPluginRerender.match(pluginMessage.detail) ||
+          registerRoute.match(pluginMessage.detail) ||
+          sendThemeOptions.match(pluginMessage.detail) ||
+          broadcastSignOut.match(pluginMessage.detail)
+        )
+      ) {
         // log and ignore
         log.warn(
           `Unexpected message received, not dispatched:\nevent.detail = ${JSON.stringify(

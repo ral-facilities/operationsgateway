@@ -242,7 +242,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         </Paper>
       )}
       <MuiTableContainer
-        role="table-container"
+        data-testid="table-container"
         component={Paper}
         sx={{
           background: 'unset',
@@ -450,5 +450,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     </div>
   );
 });
+Table.displayName = 'Table';
 
 export default Table;

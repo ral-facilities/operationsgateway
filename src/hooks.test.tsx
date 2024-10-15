@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { useUpdateWindowPositions } from './hooks';
 import { RootState } from './state/store';
 import { getInitialState } from './testUtils';
@@ -10,7 +10,7 @@ const windowsRef: React.MutableRefObject<WindowsRefType | null> =
 windowsRef.current = {};
 
 export const useUpdateWindowPositionsProviders = () => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: { children: ReactNode }) => (
     <WindowContext.Provider value={windowsRef}>
       {children}
     </WindowContext.Provider>

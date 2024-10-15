@@ -112,7 +112,9 @@ describe('Data Channels Component', () => {
       .should('be.visible')
       .should(($imgs) =>
         // natural width means the img is a real image
-        $imgs.map((i, img) => expect(img.naturalWidth).to.be.greaterThan(0))
+        $imgs.map((_i, img) =>
+          expect((img as HTMLImageElement).naturalWidth).to.be.greaterThan(0)
+        )
       );
 
     cy.findByRole('button', { name: 'Channel_ABCDE' }).click();

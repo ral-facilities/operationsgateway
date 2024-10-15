@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import axios from 'axios';
+import { MockInstance } from 'vitest';
 import { RootState } from '../state/store';
 import { getInitialState, hooksWrapperWithProviders } from '../testUtils';
 import { useExportData } from './export';
@@ -8,7 +9,8 @@ describe('useExportData', () => {
   let state: RootState;
   const mockLinkClick = vi.fn();
   const mockLinkRemove = vi.fn();
-  let mockLink: HTMLAnchorElement = {};
+  let mockLink: HTMLAnchorElement;
+  let axiosGetSpy: MockInstance;
 
   beforeEach(() => {
     state = getInitialState();
@@ -47,16 +49,6 @@ describe('useExportData', () => {
 
     document.originalCreateElement = document.createElement;
     document.body.originalAppendChild = document.body.appendChild;
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-    document.createElement = document.originalCreateElement;
-    document.body.appendChild = document.body.originalAppendChild;
-  });
-
-  it('sends axios request to export selected rows and returns successful response', async () => {
-    const getSpy = vi.spyOn(axios, 'get');
 
     document.createElement = vi.fn().mockImplementation((tag) => {
       if (tag === 'a') return mockLink;
@@ -67,6 +59,16 @@ describe('useExportData', () => {
       else return document.body.originalAppendChild(node);
     });
 
+    axiosGetSpy = vi.spyOn(axios, 'get');
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    document.createElement = document.originalCreateElement;
+    document.body.appendChild = document.body.originalAppendChild;
+  });
+
+  it('sends axios request to export selected rows and returns successful response', async () => {
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
     });
@@ -116,7 +118,7 @@ describe('useExportData', () => {
     params.append('skip', '0');
     params.append('limit', '0');
 
-    expect(getSpy).toHaveBeenCalledWith('/export', {
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -133,17 +135,6 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export all rows and returns successful response', async () => {
-    const getSpy = vi.spyOn(axios, 'get');
-
-    document.createElement = vi.fn().mockImplementation((tag) => {
-      if (tag === 'a') return mockLink;
-      else return document.originalCreateElement(tag);
-    });
-    document.body.appendChild = vi.fn().mockImplementation((node) => {
-      if (!(node instanceof Node)) return mockLink;
-      else return document.body.originalAppendChild(node);
-    });
-
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
     });
@@ -193,7 +184,7 @@ describe('useExportData', () => {
     params.append('skip', '0');
     params.append('limit', '1000');
 
-    expect(getSpy).toHaveBeenCalledWith('/export', {
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -210,17 +201,6 @@ describe('useExportData', () => {
   });
 
   it('sends axios request to export visible rows and returns successful response', async () => {
-    const getSpy = vi.spyOn(axios, 'get');
-
-    document.createElement = vi.fn().mockImplementation((tag) => {
-      if (tag === 'a') return mockLink;
-      else return document.originalCreateElement(tag);
-    });
-    document.body.appendChild = vi.fn().mockImplementation((node) => {
-      if (!(node instanceof Node)) return mockLink;
-      else return document.body.originalAppendChild(node);
-    });
-
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
     });
@@ -269,7 +249,7 @@ describe('useExportData', () => {
     params.append('skip', '25');
     params.append('limit', '25');
 
-    expect(getSpy).toHaveBeenCalledWith('/export', {
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',
@@ -287,17 +267,6 @@ describe('useExportData', () => {
 
   it('sends axios request without skip and limit when maxShots is unlimited and exporting all rows', async () => {
     state.search.searchParams.maxShots = Infinity;
-
-    const getSpy = vi.spyOn(axios, 'get');
-
-    document.createElement = vi.fn().mockImplementation((tag) => {
-      if (tag === 'a') return mockLink;
-      else return document.originalCreateElement(tag);
-    });
-    document.body.appendChild = vi.fn().mockImplementation((node) => {
-      if (!(node instanceof Node)) return mockLink;
-      else return document.body.originalAppendChild(node);
-    });
 
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
@@ -345,7 +314,7 @@ describe('useExportData', () => {
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
 
-    expect(getSpy).toHaveBeenCalledWith('/export', {
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
       headers: {
         Authorization: 'Bearer null',

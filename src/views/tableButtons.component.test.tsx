@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import React from 'react';
 import TableButtons from './tableButtons.component';
 
@@ -9,7 +9,7 @@ describe('Table buttons', () => {
   const openChannels = vi.fn();
   const toggleSearchExpanded = vi.fn();
 
-  let user;
+  let user: UserEvent;
   let props: React.ComponentProps<typeof TableButtons>;
 
   const createView = () => {

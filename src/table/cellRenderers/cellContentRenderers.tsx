@@ -47,6 +47,7 @@ export const TraceOrImageThumbnail = React.forwardRef(
     ) : null;
   }
 );
+TraceOrImageThumbnail.displayName = 'TraceOrImageThumbnail';
 
 export const renderTimestamp = (serverTimestamp: string) => {
   const date = parseISO(serverTimestamp);

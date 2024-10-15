@@ -30,6 +30,7 @@ describe('searchBar component', () => {
     props = {
       expanded: true,
       sessionId: '1',
+      heightRef: () => {},
     };
   });
 

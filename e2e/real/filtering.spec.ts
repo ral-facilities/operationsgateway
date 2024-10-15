@@ -97,7 +97,7 @@ test('should be able to add a multiple filters', async ({ page }) => {
   await expect(page.getByText('1–7 of 7')).toBeVisible();
 });
 
-test('should be able to add a favourite filter', async ({ page }) => {
+test('CR favourite filter', async ({ page }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
   await page.getByText('Favourite filters').click();
 
@@ -121,8 +121,7 @@ test('should be able to add a favourite filter', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Save' }).click();
 
-  const element = page.locator('input[value="test 1"]'); // Adjust the selector as necessary
-
-  // Assert that the element exists
-  await expect(element).toBeVisible();
+  // Assert that the input with the value 'test' exists after saving
+  const savedTextField = page.locator('input[value="test"]');
+  await expect(savedTextField).toHaveValue('test');
 });

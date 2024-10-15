@@ -101,7 +101,10 @@ describe('CustomPickersDay function', () => {
 describe('renderExperimentPickerDay function', () => {
   let selectedDate: Date | null;
   let experiments: ExperimentParams[];
-  const isDateTimeInExperiment = (dateTime, experiment) => {
+  const isDateTimeInExperiment = (
+    dateTime: Date,
+    experiment: ExperimentParams
+  ) => {
     return (
       new Date(dateTime) >= new Date(experiment.start_date) &&
       new Date(dateTime) <= new Date(experiment.end_date)

@@ -3,7 +3,11 @@ import Preloader from './preloader.component';
 
 describe('Preloader component', () => {
   const createView = (loading: boolean) => {
-    return render(<Preloader loading={loading} children={<div>Test</div>} />);
+    return render(
+      <Preloader loading={loading}>
+        <div>Test</div>
+      </Preloader>
+    );
   };
 
   it('renders when the site is loading', () => {
