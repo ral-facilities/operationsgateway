@@ -381,6 +381,15 @@ export const handlers = [
     return HttpResponse.json(`Updated ${id}`, { status: 200 });
   }),
 
+  http.delete('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+
+    if (id === '66f2e06a41a3fe93d6c81395') {
+      return HttpResponse.json({ detail: 'error' }, { status: 400 });
+    }
+    return HttpResponse.json({ status: 204 });
+  }),
+
   http.get('/users/filters', async () => {
     return HttpResponse.json(favouriteFiltersJson, { status: 201 });
   }),

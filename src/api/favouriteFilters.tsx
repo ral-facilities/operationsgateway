@@ -127,3 +127,31 @@ export const useFavouriteFilters = (): UseQueryResult<
     },
   });
 };
+
+const deleteFavouriteFilter = (apiUrl: string, id: string): Promise<void> => {
+  return axios
+    .delete(`${apiUrl}/users/filters/${id}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useDeleteFavouriteFilter = (): UseMutationResult<
+  void,
+  AxiosError,
+  string
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => deleteFavouriteFilter(apiUrl, id),
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['favouriteFilters'] });
+    },
+  });
+};
