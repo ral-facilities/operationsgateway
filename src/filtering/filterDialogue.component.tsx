@@ -1,4 +1,6 @@
 import { AddCircle, Delete, Warning } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -10,12 +12,14 @@ import {
   Grid,
   IconButton,
   Tabs,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useChannels } from '../api/channels';
+import { useFavouriteFilters } from '../api/favouriteFilters';
 import { useIncomingRecordCount } from '../api/records';
 import { timeChannelName } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
@@ -345,6 +349,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
+  const { data: favouriteFilterData } = useFavouriteFilters();
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
@@ -433,6 +439,61 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                   Add new favourite filter
                 </Button>
               </Grid>
+              <Grid item container flexDirection="column" mt={1} rowSpacing={1}>
+                {favouriteFilterData?.map((data) => {
+                  return (
+                    <Grid item container spacing={1} key={data._id}>
+                      <Grid item xs={5.5}>
+                        <TextField
+                          fullWidth
+                          inputProps={{
+                            readOnly: true,
+                            disabled: true,
+                          }}
+                          sx={{
+                            // change label and border color when readonly
+                            '&:has([readonly]) ': {
+                              '& .MuiOutlinedInput-notchedOutline': {
+                                borderColor: '#cecece',
+                              },
+                            },
+                          }}
+                          label="Name"
+                          value={data.name}
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid item xs={5.5}>
+                        <FilterInput
+                          channels={channels ?? []}
+                          value={JSON.parse(data.filter) as Token[]}
+                          setValue={() => {}}
+                          setError={() => {}}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid item xs={0.5}>
+                        <Tooltip title={`Edit ${data.name}`}>
+                          <IconButton
+                            aria-label={`Edit ${data.name} favourite filter`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                      <Grid item xs={0.5}>
+                        <Tooltip title={`Delete ${data.name}`}>
+                          <IconButton
+                            aria-label={`Delete ${data.name} favourite filter`}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+              </Grid>
 
               <FavouriteFiltersDialogue
                 open={favouriteFiltersOpen}
@@ -447,57 +508,58 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
-        {displayingWarningMessage ? (
-          <Tooltip
-            componentsProps={{
-              tooltip: {
-                sx: {
-                  backgroundColor: 'yellow',
-                  color: 'black',
-                  border: '1px solid black',
+        {tabValue !== 'Favourite filters' &&
+          (displayingWarningMessage ? (
+            <Tooltip
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    backgroundColor: 'yellow',
+                    color: 'black',
+                    border: '1px solid black',
+                  },
                 },
-              },
-            }}
-            arrow
-            placement="bottom"
-            title={
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                }}
-              >
-                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
-                <div>
-                  <Typography variant="caption" align="center">
-                    {`This search will return over ${recordLimitWarning}
+              }}
+              arrow
+              placement="bottom"
+              title={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                  <div>
+                    <Typography variant="caption" align="center">
+                      {`This search will return over ${recordLimitWarning}
                       results.`}
-                  </Typography>
-                  <br />
-                  <Typography variant="caption" align="center">
-                    Click Apply again to continue
-                  </Typography>
-                </div>
-              </Box>
-            }
-          >
+                    </Typography>
+                    <br />
+                    <Typography variant="caption" align="center">
+                      Click Apply again to continue
+                    </Typography>
+                  </div>
+                </Box>
+              }
+            >
+              <Button
+                disabled={errors.some((e) => e !== undefined)}
+                onClick={() => applyFilters()}
+              >
+                Apply
+              </Button>
+            </Tooltip>
+          ) : (
             <Button
               disabled={errors.some((e) => e !== undefined)}
               onClick={() => applyFilters()}
             >
               Apply
             </Button>
-          </Tooltip>
-        ) : (
-          <Button
-            disabled={errors.some((e) => e !== undefined)}
-            onClick={() => applyFilters()}
-          >
-            Apply
-          </Button>
-        )}
+          ))}
       </DialogActions>
     </Dialog>
   );

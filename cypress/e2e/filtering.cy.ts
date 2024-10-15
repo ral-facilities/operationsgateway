@@ -508,7 +508,7 @@ describe('Filtering Component', () => {
 
     it('add a new favourite filter', () => {
       cy.findByRole('button', { name: 'Add new favourite filter' }).click();
-      cy.findByLabelText('Name').type('test');
+      cy.findAllByLabelText('Name').last().type('test');
       cy.findByRole('combobox', { name: 'Filter' }).type(
         'sh{enter}={enter}1{enter}'
       );
@@ -539,6 +539,12 @@ describe('Filtering Component', () => {
       });
     });
 
+    it('display favourite filters', () => {
+      cy.findByDisplayValue('test 1').should('exist');
+      cy.findByDisplayValue('test 2').should('exist');
+      cy.findByDisplayValue('test 3').should('exist');
+    });
+
     it('renders the save button as disabled if name field is empty', () => {
       cy.findByRole('button', { name: 'Add new favourite filter' }).click();
       cy.findByText('Add Favourite filter').should('exist');
@@ -554,7 +560,7 @@ describe('Filtering Component', () => {
       cy.findByRole('button', { name: 'Add new favourite filter' }).click();
       cy.findByText('Add Favourite filter').should('exist');
 
-      cy.findByLabelText('Name').type('test');
+      cy.findAllByLabelText('Name').last().type('test');
 
       cy.findByRole('button', { name: 'Save' }).should('be.disabled');
     });
@@ -563,7 +569,7 @@ describe('Filtering Component', () => {
       cy.findByRole('button', { name: 'Add new favourite filter' }).click();
       cy.findByText('Add Favourite filter').should('exist');
 
-      cy.findByLabelText('Name').type('test');
+      cy.findAllByLabelText('Name').last().type('test');
 
       cy.findByRole('combobox', { name: 'Filter' }).type('sh{enter}={enter}');
       cy.findByRole('combobox', { name: 'Filter' }).blur();

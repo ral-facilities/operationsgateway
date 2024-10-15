@@ -1,17 +1,19 @@
 import {
   useMutation,
   UseMutationResult,
+  useQuery,
   useQueryClient,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { FavouriteFilter } from '../app.types';
+import { FavouriteFilter, FavouriteFilterPost } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 
 const addFavouriteFilter = (
   apiUrl: string,
-  favouriteFilter: FavouriteFilter
+  favouriteFilter: FavouriteFilterPost
 ): Promise<string> => {
   const queryParams = new URLSearchParams();
 
@@ -35,18 +37,45 @@ const addFavouriteFilter = (
 export const useAddFavouriteFilter = (): UseMutationResult<
   string,
   AxiosError,
-  FavouriteFilter
+  FavouriteFilterPost
 > => {
   const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (favouriteFilter: FavouriteFilter) =>
+    mutationFn: (favouriteFilter: FavouriteFilterPost) =>
       addFavouriteFilter(apiUrl, favouriteFilter),
     onError: (error) => {
       console.log('Got error ' + error.message);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favouriteFilters'] });
+    },
+  });
+};
+
+const fetchFavouriteFilters = (apiUrl: string): Promise<FavouriteFilter[]> => {
+  return axios
+    .get(`${apiUrl}/users/filters`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const useFavouriteFilters = (): UseQueryResult<
+  FavouriteFilter[],
+  AxiosError
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery({
+    queryKey: ['favouriteFilters'],
+
+    queryFn: () => {
+      return fetchFavouriteFilters(apiUrl);
     },
   });
 };
