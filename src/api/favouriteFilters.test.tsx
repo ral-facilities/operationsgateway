@@ -3,6 +3,7 @@ import { FavouriteFilterPatch, FavouriteFilterPost } from '../app.types';
 import { hooksWrapperWithProviders } from '../testUtils';
 import {
   useAddFavouriteFilter,
+  useDeleteFavouriteFilter,
   useEditFavouriteFilter,
 } from './favouriteFilters';
 
@@ -63,6 +64,27 @@ describe('favourite filters api functions', () => {
 
     it.todo(
       'sends axios request to edit favourite filters for a user and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useDeleteFavouriteFilter', () => {
+    it('delete request to delete user session and returns successful response', async () => {
+      const { result } = renderHook(() => useDeleteFavouriteFilter(), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+      expect(result.current.isIdle).toBe(true);
+
+      result.current.mutate('1');
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual('');
+    });
+
+    it.todo(
+      'sends axios request to delete user favourite Filter and throws an appropriate error on failure'
     );
   });
 });

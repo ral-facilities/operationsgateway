@@ -30,6 +30,7 @@ import {
 } from '../state/slices/filterSlice';
 import { selectSearchParams } from '../state/slices/searchSlice';
 import { StyledTab } from '../views/viewTabs.component';
+import DeleteFavouriteFilterDialogue from './deleteFavouriteFilterDialogue.component';
 import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
 import FilterInput from './filterInput.component';
 import { parseFilter, Token } from './filterParser';
@@ -202,8 +203,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     false | 'post' | 'patch'
   >(false);
 
-  const [selectedFavouriteFilters, setSelectedFavouriteFilters] =
-    React.useState<FavouriteFilter | undefined>(undefined);
+  const [openDeleteDialogue, setOpenDeleteDialogue] =
+    React.useState<boolean>(false);
+  const [selectedFavouriteFilter, setSelectedFavouriteFilter] = React.useState<
+    FavouriteFilter | undefined
+  >(undefined);
   const [tabValue, setTabValue] = React.useState<TabValue>('Filters');
 
   const handleTabChange = (
@@ -354,7 +358,6 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   }, [incomingCount, incomingFilters]);
 
   const { data: favouriteFilterData } = useFavouriteFilters();
-
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
@@ -434,7 +437,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               <Grid item xs>
                 <Button
                   onClick={() => {
-                    setSelectedFavouriteFilters(undefined);
+                    setSelectedFavouriteFilter(undefined);
                     setFavouriteFiltersType('post');
                   }}
                   variant="outlined"
@@ -481,7 +484,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                         <Tooltip title={`Edit ${data.name}`}>
                           <IconButton
                             onClick={() => {
-                              setSelectedFavouriteFilters(data);
+                              setSelectedFavouriteFilter(data);
                               setFavouriteFiltersType('patch');
                             }}
                             aria-label={`Edit ${data.name} favourite filter`}
@@ -493,6 +496,10 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                       <Grid item xs={0.5}>
                         <Tooltip title={`Delete ${data.name}`}>
                           <IconButton
+                            onClick={() => {
+                              setSelectedFavouriteFilter(data);
+                              setOpenDeleteDialogue(true);
+                            }}
                             aria-label={`Delete ${data.name} favourite filter`}
                           >
                             <DeleteIcon />
@@ -509,11 +516,19 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 requestType={
                   favouriteFiltersType === false ? 'post' : favouriteFiltersType
                 }
-                selectedFavouriteFilter={selectedFavouriteFilters}
+                selectedFavouriteFilter={selectedFavouriteFilter}
                 onClose={() => {
                   setFavouriteFiltersType(false);
                 }}
                 channels={channels ?? []}
+              />
+              <DeleteFavouriteFilterDialogue
+                open={openDeleteDialogue}
+                onClose={() => {
+                  setOpenDeleteDialogue(false);
+                  setSelectedFavouriteFilter(undefined);
+                }}
+                favouriteFilter={selectedFavouriteFilter}
               />
             </TabPanel>
           </Grid>

@@ -684,5 +684,39 @@ describe('Filtering Component', () => {
       );
       cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
     });
+
+    it('delete favourite filter', () => {
+      cy.findByRole('button', {
+        name: 'Delete test 1 favourite filter',
+      }).click();
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'DELETE',
+        url: '/users/filters/:id',
+      }).should((deleteRequests) => {
+        expect(deleteRequests.length).equal(1);
+      });
+    });
+
+    it('display api error message for delete', () => {
+      cy.findByRole('button', {
+        name: 'Delete test 3 favourite filter',
+      }).click();
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'DELETE',
+        url: '/users/filters/:id',
+      }).should((deleteRequests) => {
+        expect(deleteRequests.length).equal(1);
+      });
+
+      cy.findByText('error').should('exist');
+    });
   });
 });

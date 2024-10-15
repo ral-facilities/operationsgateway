@@ -97,7 +97,7 @@ test('should be able to add a multiple filters', async ({ page }) => {
   await expect(page.getByText('1–7 of 7')).toBeVisible();
 });
 
-test('CRU favourite filter', async ({ page }) => {
+test('CRUD favourite filter', async ({ page }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
 
   await page.getByText('Favourite filters').click();
@@ -151,4 +151,14 @@ test('CRU favourite filter', async ({ page }) => {
   // Assert the changes were successful (checking 'test 1' and updated filter value)
   const updatedTextField = page.locator('input[value="test 1"]');
   await expect(updatedTextField).toHaveValue('test 1');
+
+  await page
+    .getByRole('button', { name: 'Delete test 1 favourite filter' })
+    .click();
+
+  await page.getByRole('button', { name: 'Continue' }).click();
+
+  expect(
+    await page.getByRole('button', { name: 'Delete test 1 favourite filter' })
+  ).not.toBeInViewport();
 });
