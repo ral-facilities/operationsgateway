@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('button', { name: 'Add this channel' }).click();
+  for (const row of await page.getByRole('checkbox').all()) await row.check();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -232,6 +232,16 @@ test('user can set their default colourmap', async ({ page }) => {
   expect(defaultColourMapDropdown).toHaveText('');
 
   await defaultColourMapDropdown.click();
+
+  // Start waiting for record request triggered  by changing colourmap
+  // need to wait for responses with more than 2 projection parameters to select
+  // the table query and not the image window thumbnail picker query
+  const recordsPromise = page.waitForResponse(
+    (response) =>
+      response.url().includes('records') &&
+      (response.url().match(/projection/g) || []).length > 2
+  );
+
   await page
     .getByRole('option', {
       name: 'inferno',
@@ -240,7 +250,8 @@ test('user can set their default colourmap', async ({ page }) => {
 
   expect(defaultColourMapDropdown).toHaveText('inferno');
 
-  // TODO - could the assert below be flaky if the screenshot is taken before the invalidated query comes back?
+  // wait for records response to come back before taking screenshot
+  const response = await recordsPromise;
 
   await expect(tableThumbnail).toBeAttached();
   expect(

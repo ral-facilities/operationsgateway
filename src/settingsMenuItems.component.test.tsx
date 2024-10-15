@@ -6,7 +6,7 @@ import { RootState } from './state/store';
 import { renderComponentWithProviders } from './testUtils';
 
 describe('Settings Menu Items component', () => {
-  let settings;
+  let settings: HTMLDivElement;
   let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {

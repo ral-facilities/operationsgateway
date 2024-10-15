@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { RenderResult } from '@testing-library/react';
 import {
   act,
@@ -20,7 +19,7 @@ import DataView from './dataView.component';
 
 describe('Data View', () => {
   const createView = (initialState?: Partial<RootState>): RenderResult => {
-    return renderComponentWithProviders(<DataView />, {
+    return renderComponentWithProviders(<DataView sessionId={undefined} />, {
       preloadedState: initialState,
     });
   };
@@ -38,7 +37,7 @@ describe('Data View', () => {
     expect(
       screen.getByRole('textbox', { name: 'from, date-time input' })
     ).toBeInTheDocument();
-    expect(screen.getByRole('table-container')).toBeInTheDocument();
+    expect(screen.getByTestId('table-container')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Filters' })).toBeInTheDocument();
     expect(
       screen.queryByRole('dialog', { name: 'Filters' })

@@ -4,12 +4,12 @@ import {
   within,
   type RenderResult,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import Timeframe, { type TimeframeProps } from './timeframe.component';
 
 describe('timeframe search', () => {
   let props: TimeframeProps;
-  let user;
+  let user: UserEvent;
   const changeTimeframe = vi.fn();
   const resetExperimentTimeframe = vi.fn();
   const resetShotnumber = vi.fn();

@@ -1,6 +1,6 @@
 import type { RenderResult } from '@testing-library/react';
 import { fireEvent, render, screen, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { testScalarChannels } from '../../testUtils';
 import type { XAxisTabProps } from './xAxisTab.component';
@@ -8,7 +8,7 @@ import XAxisTab from './xAxisTab.component';
 
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
-  let user;
+  let user: UserEvent;
   const changeXAxis = vi.fn();
   const changeXAxisScale = vi.fn();
   const changeXMinimum = vi.fn();
@@ -69,7 +69,7 @@ describe('x-axis tab', () => {
   it('allows user to select an x-axis (keyboard only)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -84,7 +84,7 @@ describe('x-axis tab', () => {
   it('allows user to select an x-axis (mouse and keyboard)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -97,7 +97,7 @@ describe('x-axis tab', () => {
   it('prevents user from selecting time in xy mode', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('x-axis-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'time');

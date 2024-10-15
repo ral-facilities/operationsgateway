@@ -425,7 +425,7 @@ export const getFormattedAxisData = (
         ? parseInt(record.metadata.activeExperiment)
         : NaN;
       break;
-    default:
+    default: {
       const channel = record.channels?.[axisName];
       if (isChannelScalar(channel)) {
         formattedData =
@@ -433,6 +433,7 @@ export const getFormattedAxisData = (
             ? channel.data
             : parseFloat(channel.data);
       }
+    }
   }
 
   return formattedData;

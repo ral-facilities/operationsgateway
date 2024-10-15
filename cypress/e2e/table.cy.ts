@@ -136,7 +136,7 @@ describe('Table Component', () => {
     addInitialSystemChannels(['Shot Number']);
     cy.get('[role="columnheader"]').should('be.visible');
 
-    cy.get('[role="table-container"]').scrollTo('bottom');
+    cy.get('[data-testid="table-container"]').scrollTo('bottom');
     cy.get('[role="columnheader"]').should('be.visible');
   });
 
@@ -168,7 +168,7 @@ describe('Table Component', () => {
 
     cy.contains('Add Channels').click();
 
-    cy.get('[role="table-container"]').scrollTo('right');
+    cy.get('[data-testid="table-container"]').scrollTo('right');
     cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
     // double check that we have scrolled far enough to test sticky column
     cy.findByRole('columnheader', { name: 'Shot Number' }).should(
@@ -339,7 +339,7 @@ describe('Table Component', () => {
 
       // click on all checkboxes
       cy.get('tbody').within(() => {
-        cy.get('tr.MuiTableRow-root').each(($tr, index) => {
+        cy.get('tr.MuiTableRow-root').each(($tr) => {
           cy.wrap($tr).within(() => {
             cy.get('td').first().click();
           });

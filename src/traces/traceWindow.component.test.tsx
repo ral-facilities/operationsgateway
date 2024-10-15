@@ -8,7 +8,8 @@ import TraceWindow from './traceWindow.component';
 vi.mock('../windows/windowPortal.component', async () => {
   const ReactMock = await vi.importActual('react');
   return {
-    default: ReactMock.forwardRef(({ children }, ref) => (
+    // @ts-expect-error Type wont be known due to method of import
+    default: ReactMock.forwardRef(({ children }, _ref) => (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       <mock-WindowPortal>{children}</mock-WindowPortal>

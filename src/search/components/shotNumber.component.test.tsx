@@ -4,7 +4,7 @@ import {
   screen,
   within,
 } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import ShotNumber, { type ShotNumberProps } from './shotNumber.component';
 
 describe('shotNumber search', () => {
@@ -14,7 +14,7 @@ describe('shotNumber search', () => {
   const resetDateRange = vi.fn();
   const resetExperimentTimeframe = vi.fn();
   const searchParamsUpdated = vi.fn();
-  let user;
+  let user: UserEvent;
 
   const createView = (): RenderResult => {
     return render(<ShotNumber {...props} />);
