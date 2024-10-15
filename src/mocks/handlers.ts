@@ -12,6 +12,7 @@ import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.compo
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
+import favouriteFiltersJson from './favouriteFilters.json';
 import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
 import recordsJson from './records.json';
@@ -373,5 +374,9 @@ export const handlers = [
   }),
   http.post('/users/filters', async () => {
     return HttpResponse.json('1', { status: 201 });
+  }),
+
+  http.get('/users/filters', async () => {
+    return HttpResponse.json(favouriteFiltersJson, { status: 201 });
   }),
 ];

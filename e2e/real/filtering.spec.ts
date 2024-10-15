@@ -96,3 +96,33 @@ test('should be able to add a multiple filters', async ({ page }) => {
 
   await expect(page.getByText('1–7 of 7')).toBeVisible();
 });
+
+test('should be able to add a favourite filter', async ({ page }) => {
+  await page.getByRole('button', { name: 'Filters' }).click();
+  await page.getByText('Favourite filters').click();
+
+  await page.getByRole('button', { name: 'Add new favourite filter' }).click();
+
+  const firstFilterInput = page
+    .getByRole('combobox', {
+      name: 'Filter',
+      exact: true,
+    })
+    .first();
+
+  const nameFields = await page.locator('label:has-text("Name")');
+
+  await nameFields.last().fill('test');
+
+  await firstFilterInput.pressSequentially('Relative humidity 209 < 42 ');
+
+  // unfocus so combobox menu is not blocking add new filter button
+  await firstFilterInput.blur();
+
+  await page.getByRole('button', { name: 'Save' }).click();
+
+  const element = page.locator('input[value="test 1"]'); // Adjust the selector as necessary
+
+  // Assert that the element exists
+  await expect(element).toBeVisible();
+});

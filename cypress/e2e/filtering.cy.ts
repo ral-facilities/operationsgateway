@@ -539,6 +539,12 @@ describe('Filtering Component', () => {
       });
     });
 
+    it('display favourite filters', () => {
+      cy.findByDisplayValue('test 1').should('exist');
+      cy.findByDisplayValue('test 2').should('exist');
+      cy.findByDisplayValue('test 3').should('exist');
+    });
+
     it('renders the save button as disabled if name field is empty', () => {
       cy.findByRole('button', { name: 'Add new favourite filter' }).click();
       cy.findByText('Add Favourite filter').should('exist');

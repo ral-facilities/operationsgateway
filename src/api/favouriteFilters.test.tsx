@@ -1,10 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { FavouriteFilter } from '../app.types';
+import { FavouriteFilterPost } from '../app.types';
 import { hooksWrapperWithProviders } from '../testUtils';
 import { useAddFavouriteFilter } from './favouriteFilters';
 
 describe('session api functions', () => {
-  let mockData: FavouriteFilter;
+  let mockData: FavouriteFilterPost;
   beforeEach(() => {
     mockData = {
       name: 'test',

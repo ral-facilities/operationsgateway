@@ -9,8 +9,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
-  DateTimePicker,
   DateTimeValidationError,
+  DesktopDateTimePicker,
   LocalizationProvider,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
@@ -291,7 +291,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             </Typography>
           </Grid>
           <Grid item>
-            <DateTimePicker
+            <DesktopDateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerFromDate}
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
@@ -392,7 +392,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             </Typography>
           </Grid>
           <Grid item>
-            <DateTimePicker
+            <DesktopDateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerToDate}
               minDateTime={
