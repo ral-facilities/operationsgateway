@@ -106,7 +106,9 @@ export const ColourMapSelect = (
 
       {colourMapNames.map((mapNames, index) => {
         return [
-          <ListSubheader>{colourMapTypeNames[index]}</ListSubheader>,
+          <ListSubheader key={colourMapTypeNames[index]}>
+            {colourMapTypeNames[index]}
+          </ListSubheader>,
           mapNames?.map((colourMap) => (
             <MenuItem key={colourMap} value={colourMap}>
               {colourMap}

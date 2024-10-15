@@ -82,7 +82,7 @@ Cypress.Commands.add('dragAndDrop', (subject, target) => {
     });
 });
 
-let mockedRequests = [];
+let mockedRequests: Request[] = [];
 
 Cypress.Commands.add('clearMocks', () => {
   mockedRequests = [];
@@ -136,3 +136,53 @@ Cypress.Commands.add('findBrowserMockedRequests', ({ method, url }) => {
     }
   });
 });
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    msw: { worker: any; http: any; matchRequestUrl: any; HttpResponse: any };
+  }
+}
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      dragAndDrop(subject: string, target: string): Chainable<unknown>;
+      /**
+       * Clear all mocks
+       * @example cy.clearMocks()
+       */
+      clearMocks(): Chainable<unknown>;
+      /**
+       * Use before findBrowserMockedRequests for checking specific requests were sent
+       * @example cy.startSnoopingBrowserMockedRequest()
+       */
+      startSnoopingBrowserMockedRequest(): Chainable<unknown>;
+      /**
+       * Returns a request that was recorded after 'startSnoopingBrowserMockedRequest' was called
+       * 
+       * URL is a pattern matching URL that uses the same behavior as handlers URL matching
+       * e.g. '* /events/groups/:groupId' without the space
+       * @example cy.findBrowserMockedRequests({
+                    method: 'POST',
+                    url: '/v1/catalogue-categories',
+                  }).should(async (postRequests) => {
+                    expect(postRequests.length).equal(1);
+                    const request = postRequests[0];
+                    expect(JSON.stringify(await request.json())).equal(
+                      '{"name":"test","is_leaf":false}'
+                    );
+                  });
+       */
+      findBrowserMockedRequests({
+        method,
+        url,
+      }: {
+        method: string;
+        url: string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }): Chainable<any>;
+    }
+  }
+}

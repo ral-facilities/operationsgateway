@@ -180,59 +180,59 @@ const Plot = (props: PlotProps) => {
     setOptionsString((oldOptionsString) => {
       const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
       // change any options here to preserve any options chart.js adds
-      options?.plugins?.title && (options.plugins.title.text = title);
-      options?.scales?.x && (options.scales.x.min = xMinimum);
-      options?.scales?.x && (options.scales.x.max = xMaximum);
-      options?.plugins?.zoom?.limits?.x &&
-        (options.plugins.zoom.limits.x = {
+      if (options?.plugins?.title) options.plugins.title.text = title;
+      if (options?.scales?.x) options.scales.x.min = xMinimum;
+      if (options?.scales?.x) options.scales.x.max = xMaximum;
+      if (options?.plugins?.zoom?.limits?.x)
+        options.plugins.zoom.limits.x = {
           min: xMinimum ?? 'original',
           max: xMaximum ?? 'original',
-        });
-      options?.scales?.x && (options.scales.x.type = XAxisScale);
-      options?.scales?.x?.grid && (options.scales.x.grid.display = gridVisible);
-      options?.scales?.x?.title &&
-        (options.scales.x.title.display = axesLabelsVisible);
-      options?.scales?.x?.title &&
-        (options.scales.x.title.text = XAxisDisplayName ?? XAxis);
-      options?.scales?.y && (options.scales.y.min = leftYAxisMinimum);
-      options?.scales?.y && (options.scales.y.max = leftYAxisMaximum);
-      options?.plugins?.zoom?.limits?.y &&
-        (options.plugins.zoom.limits.y = {
+        };
+      if (options?.scales?.x) options.scales.x.type = XAxisScale;
+      if (options?.scales?.x?.grid) options.scales.x.grid.display = gridVisible;
+      if (options?.scales?.x?.title)
+        options.scales.x.title.display = axesLabelsVisible;
+      if (options?.scales?.x?.title)
+        options.scales.x.title.text = XAxisDisplayName ?? XAxis;
+      if (options?.scales?.y) options.scales.y.min = leftYAxisMinimum;
+      if (options?.scales?.y) options.scales.y.max = leftYAxisMaximum;
+      if (options?.plugins?.zoom?.limits?.y)
+        options.plugins.zoom.limits.y = {
           min: leftYAxisMinimum ?? 'original',
           max: leftYAxisMaximum ?? 'original',
-        });
-      options?.scales?.y && (options.scales.y.type = leftYAxisScale);
-      options?.scales?.y?.grid && (options.scales.y.grid.display = gridVisible);
-      options?.scales?.y &&
-        (options.scales.y.display = selectedPlotChannels.some(
+        };
+      if (options?.scales?.y) options.scales.y.type = leftYAxisScale;
+      if (options?.scales?.y?.grid) options.scales.y.grid.display = gridVisible;
+      if (options?.scales?.y)
+        options.scales.y.display = selectedPlotChannels.some(
           (channel) =>
             channel.options.yAxis === 'left' && channel.options.visible
-        ));
-      options?.scales?.y &&
-        (options.scales.y.title = {
+        );
+      if (options?.scales?.y)
+        options.scales.y.title = {
           display: Boolean(leftYAxisLabel),
           text: leftYAxisLabel,
-        });
-      options?.scales?.y2 && (options.scales.y2.min = rightYAxisMinimum);
-      options?.scales?.y2 && (options.scales.y2.max = rightYAxisMaximum);
-      options?.plugins?.zoom?.limits?.y2 &&
-        (options.plugins.zoom.limits.y2 = {
+        };
+      if (options?.scales?.y2) options.scales.y2.min = rightYAxisMinimum;
+      if (options?.scales?.y2) options.scales.y2.max = rightYAxisMaximum;
+      if (options?.plugins?.zoom?.limits?.y2)
+        options.plugins.zoom.limits.y2 = {
           min: rightYAxisMinimum ?? 'original',
           max: rightYAxisMaximum ?? 'original',
-        });
-      options?.scales?.y2 && (options.scales.y2.type = rightYAxisScale);
-      options?.scales?.y2 &&
-        (options.scales.y2.display = selectedPlotChannels.some(
+        };
+      if (options?.scales?.y2) options.scales.y2.type = rightYAxisScale;
+      if (options?.scales?.y2)
+        options.scales.y2.display = selectedPlotChannels.some(
           (channel) =>
             channel.options.yAxis === 'right' && channel.options.visible
-        ));
-      options?.scales?.y2?.grid &&
-        (options.scales.y2.grid.display = gridVisible);
-      options?.scales?.y2 &&
-        (options.scales.y2.title = {
+        );
+      if (options?.scales?.y2?.grid)
+        options.scales.y2.grid.display = gridVisible;
+      if (options?.scales?.y2)
+        options.scales.y2.title = {
           display: Boolean(rightYAxisLabel),
           text: rightYAxisLabel,
-        });
+        };
       return JSON.stringify(options);
     });
   }, [

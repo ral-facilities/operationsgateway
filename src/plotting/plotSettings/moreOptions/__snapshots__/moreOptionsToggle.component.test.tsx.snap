@@ -74,6 +74,7 @@ exports[`MoreOptionsToggle > renders correctly when options box open and passes 
       >
         channel={
   "name": "shotnum",
+  "units": "mm",
   "options": {
     "visible": true,
     "colour": "colour-0",
@@ -84,6 +85,7 @@ exports[`MoreOptionsToggle > renders correctly when options box open and passes 
 selectedPlotChannels=[
   {
     "name": "shotnum",
+    "units": "mm",
     "options": {
       "visible": true,
       "colour": "colour-0",
@@ -93,6 +95,7 @@ selectedPlotChannels=[
   },
   {
     "name": "activeArea",
+    "units": "mm",
     "options": {
       "visible": true,
       "colour": "colour-1",
@@ -102,6 +105,7 @@ selectedPlotChannels=[
   },
   {
     "name": "activeExperiment",
+    "units": "mm",
     "options": {
       "visible": true,
       "colour": "colour-2",

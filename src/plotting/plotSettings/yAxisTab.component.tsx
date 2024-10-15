@@ -406,7 +406,7 @@ const YAxisTab = (props: YAxisTabProps) => {
               value: channel.systemName,
             }))}
           fullWidth
-          role="autocomplete"
+          data-testid="data-channels-autocomplete"
           inputValue={autocompleteValue}
           value={null}
           onInputChange={(_, newInputValue, reason) => {

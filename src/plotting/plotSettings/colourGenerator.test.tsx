@@ -1,7 +1,7 @@
 import ColourGenerator, { COLOUR_ORDER } from './colourGenerator';
 
 describe('ColourGenerator', () => {
-  let colourGenerator;
+  let colourGenerator: ColourGenerator;
 
   beforeEach(() => {
     colourGenerator = new ColourGenerator();

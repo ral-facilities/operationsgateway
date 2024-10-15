@@ -68,6 +68,7 @@ describe('y-axis tab', () => {
   it('renders correctly with selected channels', () => {
     props.selectedPlotChannels = testScalarChannels.map((channel) => ({
       name: channel.systemName,
+      units: 'mm',
       displayName: channel.name,
       options: {
         visible: true,
@@ -127,7 +128,7 @@ describe('y-axis tab', () => {
   it('allows user to add channels on the y-axis (keyboard only)', async () => {
     createView();
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('data-channels-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -155,7 +156,7 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByRole('button', { name: 'Right' }));
 
-    const autocomplete = screen.getByRole('autocomplete');
+    const autocomplete = screen.getByTestId('data-channels-autocomplete');
     const input = within(autocomplete).getByRole('combobox');
 
     await user.type(input, 'Channel_');
@@ -213,6 +214,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,
@@ -237,6 +239,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,
@@ -247,6 +250,7 @@ describe('y-axis tab', () => {
       },
       {
         name: 'CHANNEL_DEFGH',
+        units: 'cm',
         displayName: 'Channel_DEFGH',
         options: {
           visible: true,
@@ -262,6 +266,7 @@ describe('y-axis tab', () => {
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith([
       {
         name: 'CHANNEL_DEFGH',
+        units: 'cm',
         displayName: 'Channel_DEFGH',
         options: {
           visible: true,
@@ -279,6 +284,7 @@ describe('y-axis tab', () => {
     props.selectedPlotChannels = [
       {
         name: 'CHANNEL_ABCDE',
+        units: 'mm',
         displayName: 'Channel_ABCDE',
         options: {
           visible: true,

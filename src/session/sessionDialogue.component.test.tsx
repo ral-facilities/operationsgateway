@@ -1,5 +1,6 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
+import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import SessionDialogue, {
   SessionDialogueProps,
@@ -7,7 +8,7 @@ import SessionDialogue, {
 
 describe('session dialogue', () => {
   let props: SessionDialogueProps;
-  let user;
+  let user: UserEvent;
   const onClose = vi.fn();
   const onChangeSessionName = vi.fn();
   const onChangeSessionSummary = vi.fn();
@@ -32,7 +33,7 @@ describe('session dialogue', () => {
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
 
-      user = userEvent; // Assigning userEvent to 'user'
+      user = userEvent.setup();
     });
 
     afterEach(() => {
@@ -101,12 +102,12 @@ describe('session dialogue', () => {
 
   describe('edit  session dialogue', () => {
     const sessionData = {
+      _id: '1',
       name: 'edit name',
       summary: 'edit summary',
-      session: {},
-      auto_saved: false,
-      _id: '1',
       timestamp: '',
+      auto_saved: false,
+      session: {} as ImportSessionType,
     };
     beforeEach(() => {
       props = {
@@ -122,7 +123,7 @@ describe('session dialogue', () => {
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       };
 
-      user = userEvent; // Assigning userEvent to 'user'
+      user = userEvent.setup();
     });
 
     afterEach(() => {

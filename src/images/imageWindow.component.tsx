@@ -1,15 +1,15 @@
+import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
+import { useImage } from '../api/images';
+import { useAppDispatch } from '../state/hooks';
+import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
+import ThumbnailSelector from '../windows/thumbnailSelector.component';
+import { ImageButtons } from '../windows/windowButtons.component';
 import WindowPortal, {
   WindowPortal as WindowPortalClass,
 } from '../windows/windowPortal.component';
-import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
-import { Grid, Backdrop, CircularProgress } from '@mui/material';
-import ImageView from './imageView.component';
-import { ImageButtons } from '../windows/windowButtons.component';
-import { useImage } from '../api/images';
 import FalseColourPanel from './falseColourPanel.component';
-import ThumbnailSelector from '../windows/thumbnailSelector.component';
-import { useAppDispatch } from '../state/hooks';
+import ImageView from './imageView.component';
 
 interface ImageWindowProps {
   onClose: () => void;

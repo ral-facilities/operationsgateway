@@ -6,7 +6,7 @@ import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
 
 describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;
-  let props: WindowPortalProps;
+  let props: Omit<WindowPortalProps, 'children'>;
   const onClose = vi.fn();
   const mockAddEventListener = vi.fn();
   const mockRemoveEventListener = vi.fn();

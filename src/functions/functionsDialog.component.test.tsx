@@ -27,7 +27,6 @@ describe('FunctionsDialog', () => {
     props = {
       open: true,
       onClose: onClose,
-      flashingFunctionValue: '',
     };
     user = userEvent.setup();
   });

@@ -1,13 +1,18 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { staticChannels } from '../../api/channels';
 import { FullScalarChannelMetadata } from '../../app.types';
 import { testScalarChannels } from '../../testUtils';
-import type { PlotSettingsControllerProps } from './plotSettingsController.component';
+import { ChartTypeButtonsProps } from './chartTypeButtons.component';
+import { PlotSettingsControllerProps } from './plotSettingsController.component';
+import { PlotSettingsTextFieldProps } from './plotSettingsTextField.component';
+import { XAxisTabProps } from './xAxisTab.component';
+import { YAxisTabProps } from './yAxisTab.component';
 
 describe('Plot Settings component', () => {
   let props: PlotSettingsControllerProps;
-  let user: ReturnType<typeof userEvent.setup>;
+  let user: UserEvent;
+  const changePlotTitle = vi.fn();
   const changePlotType = vi.fn();
   const changeXAxis = vi.fn();
   const changeXAxisScale = vi.fn();
@@ -20,13 +25,15 @@ describe('Plot Settings component', () => {
   const changeLeftYAxisMaximum = vi.fn();
   const changeRightYAxisMinimum = vi.fn();
   const changeRightYAxisMaximum = vi.fn();
-  const changePlotTitle = vi.fn();
+  const changeSelectedColours = vi.fn();
+  const changeRemainingColours = vi.fn();
 
   const createView = async () => {
     // need to import like this in order for the doMock's to work
     const PlotSettingsController = (
       await vi.importActual('./plotSettingsController.component')
     ).default;
+    // @ts-expect-error Type not known as not importing normally
     return render(<PlotSettingsController {...props} />);
   };
 
@@ -36,6 +43,7 @@ describe('Plot Settings component', () => {
         staticChannels['timestamp'] as FullScalarChannelMetadata,
       ],
       allChannels: testScalarChannels,
+      plotTitle: 'Initial title',
       changePlotTitle,
       plotType: 'scatter',
       changePlotType,
@@ -59,6 +67,10 @@ describe('Plot Settings component', () => {
       changeLeftYAxisMaximum,
       changeRightYAxisMinimum,
       changeRightYAxisMaximum,
+      selectedColours: [],
+      remainingColours: [],
+      changeSelectedColours,
+      changeRemainingColours,
     };
 
     user = userEvent.setup({ delay: null });
@@ -73,7 +85,7 @@ describe('Plot Settings component', () => {
       vi.resetModules();
       vi.doMock('./plotSettingsTextField.component', () => {
         return {
-          default: (props) => (
+          default: (props: PlotSettingsTextFieldProps) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <mock-plotSettingsTextField data-testid="mock-plotSettingsTextField">
@@ -90,7 +102,7 @@ describe('Plot Settings component', () => {
 
       vi.doMock('./chartTypeButtons.component', () => {
         return {
-          default: (props) => (
+          default: (props: ChartTypeButtonsProps) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <mock-chartTypeButtons data-testid="mock-chartTypeButtons">
@@ -107,7 +119,7 @@ describe('Plot Settings component', () => {
 
       vi.doMock('./xAxisTab.component', () => {
         return {
-          default: (props) => (
+          default: (props: XAxisTabProps) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <mock-xAxisTab data-testid="mock-xAxisTab">
@@ -124,7 +136,7 @@ describe('Plot Settings component', () => {
 
       vi.doMock('./yAxisTab.component', () => {
         return {
-          default: (props) => (
+          default: (props: YAxisTabProps) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             <mock-yAxisTab data-testid="mock-yAxisTab">

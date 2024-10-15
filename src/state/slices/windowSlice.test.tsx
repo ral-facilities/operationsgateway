@@ -16,6 +16,7 @@ describe('windowSlice', () => {
       state = initialState;
 
       vi.spyOn(global.crypto, 'randomUUID').mockImplementation(
+        // @ts-expect-error Format is intentionally different to uuid v4
         () => `${++uuidCount}`
       );
     });

@@ -8,8 +8,8 @@ import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {
   const changeRecordId = vi.fn();
-  let channelName;
-  let recordId;
+  let channelName: string;
+  let recordId: string;
 
   beforeEach(() => {
     channelName = 'CHANNEL_BCDEF';

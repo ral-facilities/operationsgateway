@@ -1,12 +1,12 @@
-import React from 'react';
-import { useState } from 'react';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import { Close, Search } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
-  Grid,
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   InputAdornment,
   Radio,
   RadioGroup,
@@ -15,17 +15,16 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Search, Close } from '@mui/icons-material';
-import {
-  XAxisScale,
-  FullScalarChannelMetadata,
-  timeChannelName,
-} from '../../app.types';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { isBefore, isValid } from 'date-fns';
+import React, { useState } from 'react';
+import {
+  FullScalarChannelMetadata,
+  timeChannelName,
+  XAxisScale,
+} from '../../app.types';
 import PlotSettingsTextField from './plotSettingsTextField.component';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 const StyledClose = styled(Close)(() => ({
   cursor: 'pointer',
@@ -366,7 +365,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   value: channel.systemName,
                 }))}
               fullWidth
-              role="autocomplete"
+              data-testid="x-axis-autocomplete"
               onInputChange={(_, newInputValue, reason) => {
                 if (reason === 'input') {
                   setXAxisInputVal(newInputValue);
