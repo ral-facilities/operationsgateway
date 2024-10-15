@@ -99,6 +99,7 @@ test('should be able to add a multiple filters', async ({ page }) => {
 
 test('CRU favourite filter', async ({ page }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
+
   await page.getByText('Favourite filters').click();
 
   await page.getByRole('button', { name: 'Add new favourite filter' }).click();
