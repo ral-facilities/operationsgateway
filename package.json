@@ -83,7 +83,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.25.1",
     "@eslint/compat": "^1.1.1",
-    "@playwright/test": "1.47.0",
+    "@playwright/test": "1.48.0",
     "@tanstack/eslint-plugin-query": "^5.53.0",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/dom": "10.4.0",
