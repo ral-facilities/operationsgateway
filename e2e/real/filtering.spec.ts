@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -31,7 +31,7 @@ test('should be able to add a single filter with a complex filter', async ({
 }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
 
-  await expect(page.getByRole('dialog', { name: 'Filters' })).toBeVisible();
+  await expect(page.getByText('Enter filter')).toBeVisible();
 
   const filterInput = page.getByRole('combobox', {
     name: 'Filter',
@@ -57,7 +57,7 @@ test('should be able to add a single filter with a complex filter', async ({
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(page.getByRole('dialog', { name: 'Filters' })).not.toBeVisible();
+  await expect(page.getByText('Enter filter')).not.toBeVisible();
 
   await expect(page.getByText('1–19 of 19')).toBeVisible();
 });
@@ -65,7 +65,7 @@ test('should be able to add a single filter with a complex filter', async ({
 test('should be able to add a multiple filters', async ({ page }) => {
   await page.getByRole('button', { name: 'Filters' }).click();
 
-  await expect(page.getByRole('dialog', { name: 'Filters' })).toBeVisible();
+  await expect(page.getByText('Enter filter')).toBeVisible();
 
   const firstFilterInput = page
     .getByRole('combobox', {
@@ -92,7 +92,7 @@ test('should be able to add a multiple filters', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(page.getByRole('dialog', { name: 'Filters' })).not.toBeVisible();
+  await expect(page.getByText('Enter filter')).not.toBeVisible();
 
   await expect(page.getByText('1–7 of 7')).toBeVisible();
 });
