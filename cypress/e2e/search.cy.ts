@@ -1,17 +1,5 @@
 import { HttpResponse } from 'msw';
-import { formatDateTimeForApi } from '../support/util';
-
-function getParamsFromUrl(url: string) {
-  const paramsString = url.split('?')[1];
-  const paramMap = new Map();
-  paramsString.split('&').forEach(function (part) {
-    const keyValPair = part.split('=');
-    const key = keyValPair[0];
-    const val = decodeURIComponent(keyValPair[1]);
-    paramMap.set(key, val);
-  });
-  return paramMap;
-}
+import { formatDateTimeForApi, getParamsFromUrl } from '../support/util';
 
 function getConditionsFromParams(params: Map<string, string>) {
   const conditionsString = params.get('conditions');
