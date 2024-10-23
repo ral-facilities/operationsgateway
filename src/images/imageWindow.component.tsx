@@ -1,6 +1,6 @@
 import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
-import { useImage } from '../api/images';
+import { useImage, useImageCrosshair } from '../api/images';
 import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
@@ -8,7 +8,7 @@ import { ImageButtons } from '../windows/windowButtons.component';
 import WindowPortal, {
   WindowPortal as WindowPortalClass,
 } from '../windows/windowPortal.component';
-import FalseColourPanel from './falseColourPanel.component';
+import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
 
 interface ImageWindowProps {
@@ -28,6 +28,10 @@ const ImageWindow = (props: ImageWindowProps) => {
   );
   const [lowerLevel, setLowerLevel] = React.useState<number | undefined>(0);
   const [upperLevel, setUpperLevel] = React.useState<number | undefined>(255);
+  const [crosshairsMode, setCrosshairsMode] = React.useState(false);
+  const [crosshair, setCrosshair] = React.useState<
+    { x: number; y: number } | undefined
+  >(undefined);
 
   const { data: image, isLoading: imageLoading } = useImage(
     recordId,
@@ -39,10 +43,30 @@ const ImageWindow = (props: ImageWindowProps) => {
     }
   );
 
+  const { data: crosshairData } = useImageCrosshair(
+    recordId,
+    channelName,
+    crosshair,
+    crosshairsMode
+  );
+
+  React.useEffect(() => {
+    if (crosshairsMode && crosshairData && typeof crosshair === 'undefined') {
+      setCrosshair({
+        x: crosshairData.column.position,
+        y: crosshairData.row.position,
+      });
+    } else if (!crosshairsMode) {
+      // reset when we switch out of the mode
+      setCrosshair(undefined);
+    }
+  }, [crosshair, crosshairData, crosshairsMode]);
+
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
+    setCrosshairsMode(false);
   }, []);
 
   const updateImageConfig = React.useCallback(
@@ -111,17 +135,26 @@ const ImageWindow = (props: ImageWindowProps) => {
                 changeRecordId={updateImageConfig}
               />
               <Grid item>
-                <ImageView image={image} title={title} viewReset={viewFlag} />
+                <ImageView
+                  image={image}
+                  title={title}
+                  viewReset={viewFlag}
+                  crosshairsMode={crosshairsMode}
+                  crosshair={crosshair}
+                  changeCrosshair={setCrosshair}
+                />
               </Grid>
             </Grid>
             <Grid item>
-              <FalseColourPanel
+              <ImageControlsPanel
                 colourMap={colourMap}
                 lowerLevel={lowerLevel}
                 upperLevel={upperLevel}
+                crosshairsMode={crosshairsMode}
                 changeColourMap={setColourMap}
                 changeLowerLevel={setLowerLevel}
                 changeUpperLevel={setUpperLevel}
+                changeCrosshairsMode={setCrosshairsMode}
               />
             </Grid>
           </Grid>

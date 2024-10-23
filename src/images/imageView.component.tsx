@@ -4,10 +4,48 @@ export interface ImageViewProps {
   image: string | undefined;
   title: string;
   viewReset: boolean;
+  crosshairsMode: boolean;
+  crosshair?: { x: number; y: number };
+  changeCrosshair: (value: { x: number; y: number }) => void;
 }
 
+const drawCrosshair = (
+  crosshair: { x: number; y: number },
+  canvas: HTMLCanvasElement
+): void => {
+  const ctx = canvas.getContext('2d');
+
+  if (ctx?.strokeStyle) ctx.strokeStyle = 'red';
+  if (ctx?.lineWidth) ctx.lineWidth = 1;
+  if (ctx?.lineCap) ctx.lineCap = 'square';
+
+  const { width: overlayWidth, height: overlayHeight } =
+    canvas.getBoundingClientRect();
+  // clear the overlay
+  ctx?.clearRect(0, 0, overlayWidth, overlayHeight);
+
+  // draw vertical line
+  ctx?.beginPath();
+  ctx?.moveTo(crosshair.x + 0.5, 0.5); // adding half a pixel makes the lines sharper, see: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_linewidth_example
+  ctx?.lineTo(crosshair.x + 0.5, overlayHeight + 0.5);
+  ctx?.stroke();
+
+  // draw horizontal line
+  ctx?.beginPath();
+  ctx?.moveTo(0.5, crosshair.y + 0.5);
+  ctx?.lineTo(overlayWidth + 0.5, crosshair.y + 0.5);
+  ctx?.stroke();
+};
+
 const ImageView = (props: ImageViewProps) => {
-  const { image, viewReset, title } = props;
+  const {
+    image,
+    viewReset,
+    title,
+    crosshairsMode,
+    crosshair,
+    changeCrosshair,
+  } = props;
 
   const overlayPropsRef = React.useRef<{
     startX: number;
@@ -49,8 +87,68 @@ const ImageView = (props: ImageViewProps) => {
   React.useEffect(() => {
     if (overlay && img) {
       img.onload = () => {
-        overlay.width = img.width;
-        overlay.height = img.height;
+        overlay.style.width = `${img.width}px`;
+        overlay.style.height = `${img.height}px`;
+        overlay.style.imageRendering = 'pixelated';
+
+        // from: https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+        // although we simplify that code into doing all the canvas manip in the resize func
+        const onResize: ResizeObserverCallback = (entries) => {
+          if (overlay) {
+            for (const entry of entries) {
+              let width;
+              let height;
+              let dpr =
+                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1;
+              if (entry.devicePixelContentBoxSize) {
+                // NOTE: Only this path gives the correct answer
+                // The other paths are imperfect fallbacks
+                // for browsers that don't provide anyway to do this
+                width = entry.devicePixelContentBoxSize[0].inlineSize;
+                height = entry.devicePixelContentBoxSize[0].blockSize;
+                dpr = 1; // it's already in width and height
+              } else if (entry.contentBoxSize) {
+                if (entry.contentBoxSize[0]) {
+                  width = entry.contentBoxSize[0].inlineSize;
+                  height = entry.contentBoxSize[0].blockSize;
+                } else {
+                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+                  width = entry.contentBoxSize.inlineSize;
+                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+                  height = entry.contentBoxSize.blockSize;
+                }
+              } else {
+                width = entry.contentRect.width;
+                height = entry.contentRect.height;
+              }
+              const displayWidth = Math.round(width * dpr);
+              const displayHeight = Math.round(height * dpr);
+
+              overlay.width = displayWidth;
+              overlay.height = displayHeight;
+
+              const ctx = overlay.getContext('2d');
+              ctx?.setTransform(1, 0, 0, 1, 0, 0);
+              ctx?.scale(
+                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1,
+                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1
+              );
+            }
+          }
+        };
+
+        const resizeObserver = new ResizeObserver(onResize);
+        try {
+          // only call us of the number of device pixels changed
+          resizeObserver.observe(overlay, { box: 'device-pixel-content-box' });
+        } catch {
+          // device-pixel-content-box is not supported so fallback to this
+          resizeObserver.observe(overlay, { box: 'content-box' });
+        }
+
+        return () => {
+          resizeObserver.disconnect();
+        };
       };
     }
   }, [img, image, overlay]);
@@ -59,6 +157,24 @@ const ImageView = (props: ImageViewProps) => {
     setPan([0, 0]);
     setZoom(1);
   }, [viewReset]);
+
+  React.useEffect(() => {
+    if (crosshairsMode) {
+      setPan([0, 0]);
+      setZoom(1);
+    } else if (overlay) {
+      const { width: overlayWidth, height: overlayHeight } =
+        overlay.getBoundingClientRect();
+      const ctx = overlay.getContext('2d');
+      ctx?.clearRect(0, 0, overlayWidth, overlayHeight);
+    }
+  }, [crosshairsMode, overlay]);
+
+  React.useEffect(() => {
+    if (crosshair && overlay) {
+      drawCrosshair(crosshair, overlay);
+    }
+  }, [crosshair, overlay]);
 
   const mouseDownHandler: React.MouseEventHandler = React.useCallback(
     (e) => {
@@ -104,8 +220,7 @@ const ImageView = (props: ImageViewProps) => {
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
 
-      const originalWidth = overlay.width;
-      const originalHeight = overlay.height;
+      const { width: overlayWidth, height: overlayHeight } = rect;
 
       if (overlayProps.isZooming) {
         // calculate the rectangle width/height based
@@ -116,11 +231,11 @@ const ImageView = (props: ImageViewProps) => {
         const ctx = overlay.getContext('2d');
         if (ctx?.strokeStyle) ctx.strokeStyle = 'red';
         // clear the overlay
-        ctx?.clearRect(0, 0, originalWidth, originalHeight);
+        ctx?.clearRect(0, 0, overlayWidth, overlayHeight);
 
         // enforce a zoom region that matches the original ratio of the image
 
-        const aspectRatio = originalWidth / originalHeight;
+        const aspectRatio = overlayWidth / overlayHeight;
 
         const h2 = Math.abs(width) / aspectRatio;
         const w2 = Math.abs(height) * aspectRatio;
@@ -137,8 +252,8 @@ const ImageView = (props: ImageViewProps) => {
         // draw a new rect from the start position
         // to the current mouse position
         ctx?.strokeRect(
-          overlayProps.startX,
-          overlayProps.startY,
+          overlayProps.startX + 0.5, // adding half a pixel makes lines sharper, see: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors#a_linewidth_example
+          overlayProps.startY + 0.5,
           adjustedWidth,
           adjustedHeight
         );
@@ -157,8 +272,8 @@ const ImageView = (props: ImageViewProps) => {
           // make sure pan doesn't go out of bounds
           if (newX > 0) newX = 0;
           if (newY > 0) newY = 0;
-          if (-originalWidth * (zoom - 1) > newX) newX = oldPan[0];
-          if (-originalHeight * (zoom - 1) > newY) newY = oldPan[1];
+          if (-overlayWidth * (zoom - 1) > newX) newX = oldPan[0];
+          if (-overlayHeight * (zoom - 1) > newY) newY = oldPan[1];
 
           return [newX, newY];
         });
@@ -187,17 +302,20 @@ const ImageView = (props: ImageViewProps) => {
         const boxLeft = prevWidth < 0 ? startX - boxWidth : startX;
         const boxTop = prevHeight < 0 ? startY - boxHeight : startY;
 
+        const { width: overlayWidth, height: overlayHeight } =
+          overlay.getBoundingClientRect();
+
         // don't perform zoom if zoom box is too small, or if zoom box is out of bounds
         if (
           (boxWidth > 10 || boxHeight > 10) &&
-          boxLeft + boxWidth < overlay.width + 10 &&
-          boxTop + boxHeight < overlay.height + 10 &&
+          boxLeft + boxWidth < overlayWidth + 10 &&
+          boxTop + boxHeight < overlayHeight + 10 &&
           boxLeft > -10 &&
           boxTop > -10
         ) {
           // zoomFactor is the same for both axis due to us enforcing same aspect ratio
           // so arbitrarily pick one of width or height here
-          const zoomFactor = overlay.width / boxWidth;
+          const zoomFactor = overlayWidth / boxWidth;
 
           setZoom((oldZoom) => zoomFactor * oldZoom);
           setPan((oldPan) => {
@@ -207,10 +325,10 @@ const ImageView = (props: ImageViewProps) => {
             // make sure pan doesn't go out of bounds
             if (newX > 0) newX = 0;
             if (newY > 0) newY = 0;
-            if (-overlay.width * (zoomFactor * zoom - 1) > newX)
-              newX = -overlay.width * (zoomFactor * zoom - 1);
-            if (-overlay.height * (zoomFactor * zoom - 1) > newY)
-              newY = -overlay.height * (zoomFactor * zoom - 1);
+            if (-overlayWidth * (zoomFactor * zoom - 1) > newX)
+              newX = -overlayWidth * (zoomFactor * zoom - 1);
+            if (-overlayHeight * (zoomFactor * zoom - 1) > newY)
+              newY = -overlayHeight * (zoomFactor * zoom - 1);
 
             return [newX, newY];
           });
@@ -218,7 +336,7 @@ const ImageView = (props: ImageViewProps) => {
 
         // clear the overlay
         const ctx = overlay.getContext('2d');
-        ctx?.clearRect(0, 0, overlay.width, overlay.height);
+        ctx?.clearRect(0, 0, overlayWidth, overlayHeight);
       }
       if (overlayProps.isPanning) {
         overlayProps.isPanning = false;
@@ -235,6 +353,25 @@ const ImageView = (props: ImageViewProps) => {
     [overlay, overlayProps, zoom]
   );
 
+  const mouseClickHandler: React.MouseEventHandler = React.useCallback(
+    (e) => {
+      if (e.button !== 0) {
+        // not left mouse click - ignore
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+
+      const rect = overlay?.getBoundingClientRect();
+
+      changeCrosshair({
+        x: Math.round(e.clientX - (rect?.left ?? 0)),
+        y: Math.round(e.clientY - (rect?.top ?? 0)),
+      });
+    },
+    [changeCrosshair, overlay]
+  );
+
   return (
     <div style={{ position: 'relative' }}>
       <canvas
@@ -246,7 +383,7 @@ const ImageView = (props: ImageViewProps) => {
         style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
       />
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
-        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        {}
         <img
           src={image}
           alt={title}
@@ -256,11 +393,14 @@ const ImageView = (props: ImageViewProps) => {
             transformOrigin: 'top left',
             imageRendering: 'pixelated',
           }}
-          onMouseDown={mouseDownHandler}
-          onMouseMove={mouseMoveHandler}
-          onMouseUp={mouseUpOutHandler}
-          // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-          onMouseOut={mouseUpOutHandler}
+          {...(!crosshairsMode
+            ? {
+                onMouseDown: mouseDownHandler,
+                onMouseMove: mouseMoveHandler,
+                onMouseUp: mouseUpOutHandler,
+                onMouseOut: mouseUpOutHandler,
+              }
+            : { onClick: mouseClickHandler })}
         />
       </div>
     </div>

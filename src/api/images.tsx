@@ -98,6 +98,44 @@ export const fetchColourMaps = async (
     });
 };
 
+interface CrosshairDimensionType {
+  position: number;
+  intensity: { x: number[]; y: number[] };
+  fwhm: number;
+}
+
+interface CrosshairResponse {
+  row: CrosshairDimensionType;
+  column: CrosshairDimensionType;
+}
+
+// TODO: name
+export const fetchCrosshair = async (
+  apiUrl: string,
+  recordId: string,
+  channelName: string,
+  functionsState: APIFunctionState,
+  position?: { x: number; y: number }
+): Promise<CrosshairResponse> => {
+  const params = new URLSearchParams();
+
+  functionsState.functions.forEach((func) => {
+    params.append('functions', JSON.stringify(func));
+  });
+  if (position) params.set('position', `[${position.x},${position.y}]`);
+
+  return axios
+    .get(`${apiUrl}/images/${recordId}/${channelName}/crosshair`, {
+      params,
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const useImage = (
   recordId: string,
   channelName: string,
@@ -153,5 +191,24 @@ export const useColourMaps = (): UseQueryResult<
     queryFn: () => {
       return fetchColourMaps(apiUrl);
     },
+  });
+};
+
+export const useImageCrosshair = (
+  recordId: string,
+  channelName: string,
+  position: { x: number; y: number } | undefined,
+  enabled: boolean
+): UseQueryResult<CrosshairResponse, AxiosError> => {
+  const { functions } = useAppSelector(selectQueryParams);
+  const { apiUrl } = useAppSelector(selectUrls);
+
+  return useQuery({
+    queryKey: ['imageCrosshair', recordId, channelName, position, functions],
+
+    queryFn: () => {
+      return fetchCrosshair(apiUrl, recordId, channelName, functions, position);
+    },
+    enabled,
   });
 };

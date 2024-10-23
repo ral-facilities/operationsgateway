@@ -16,6 +16,7 @@ import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
+import imageCrosshairJson from './imageCrosshair.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -370,5 +371,19 @@ export const handlers = [
       },
       { status: 400 }
     );
+  }),
+  http.get('/images/:recordId/:channelName/crosshair', async ({ request }) => {
+    const url = new URL(request.url);
+    const position = url.searchParams.get('position');
+
+    // if position is null, then return the "centroid" we have in the mock data
+    // otherwise, the position is given to us via the position param
+    if (position) {
+      const positionArr = JSON.parse(position);
+      imageCrosshairJson.column.position = positionArr[0];
+      imageCrosshairJson.row.position = positionArr[1];
+    }
+
+    return HttpResponse.json(imageCrosshairJson, { status: 200 });
   }),
 ];

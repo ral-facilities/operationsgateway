@@ -2,10 +2,10 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { flushPromises, renderComponentWithProviders } from '../testUtils';
-import FalseColourPanel from './falseColourPanel.component';
+import ImageControlsPanel from './imageControlsPanel.component';
 
-describe('False colour panel component', () => {
-  let props: React.ComponentProps<typeof FalseColourPanel>;
+describe('Image controls panel component', () => {
+  let props: React.ComponentProps<typeof ImageControlsPanel>;
   const changeColourMap = vi.fn();
   const changeLowerLevel = vi.fn();
   const changeUpperLevel = vi.fn();
@@ -28,7 +28,7 @@ describe('False colour panel component', () => {
   });
 
   const createView = () => {
-    return renderComponentWithProviders(<FalseColourPanel {...props} />);
+    return renderComponentWithProviders(<ImageControlsPanel {...props} />);
   };
 
   it('renders correctly', async () => {

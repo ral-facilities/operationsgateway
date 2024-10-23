@@ -19,7 +19,7 @@ import {
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
-} from './images/falseColourPanel.component';
+} from './images/imageControlsPanel.component';
 
 export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
 
