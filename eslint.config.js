@@ -73,15 +73,9 @@ export default tseslint.config(
       ...jsxA11yPlugin.configs.recommended.rules,
     },
   },
-  // eslint-plugin-testing-library doesn't support flat config properly yet
-  // https://github.com/testing-library/eslint-plugin-testing-library/issues/899
   {
     files: ['**/?*test.{js,ts,jsx,tsx}'],
-    plugins: {
-      'testing-library': fixupPluginRules({
-        rules: reactTestingLibraryPlugin.rules,
-      }),
-    },
-    rules: reactTestingLibraryPlugin.configs.react.rules,
+    plugins: reactTestingLibraryPlugin.configs['flat/react'].plugins,
+    rules: reactTestingLibraryPlugin.configs['flat/react'].rules,
   }
 );
