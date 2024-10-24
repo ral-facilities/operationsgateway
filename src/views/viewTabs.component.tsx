@@ -44,7 +44,7 @@ function a11yProps(label: TabValue) {
   };
 }
 
-const StyledTab = styled(Tab)(({ theme }) => ({
+export const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
   fontWeight: theme.typography.fontWeightBold,
   fontSize: theme.typography.pxToRem(16),

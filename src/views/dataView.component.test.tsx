@@ -59,14 +59,14 @@ describe('Data View', () => {
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
 
-    const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+    const dialogue = await screen.findByRole('dialog');
+
+    expect(within(dialogue).getByText('Enter filter')).toBeInTheDocument();
     expect(dialogue).toBeVisible();
 
     await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
 
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole('dialog', { name: 'Filters' })
-    );
+    await waitForElementToBeRemoved(() => screen.queryByText('Enter filter'));
   });
 
   it('opens the filter dialogue when the filter button in a data header is clicked', async () => {
@@ -93,7 +93,9 @@ describe('Data View', () => {
       name: 'Shot Number',
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
-    const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+    const dialogue = await screen.findByRole('dialog');
+
+    expect(within(dialogue).getByText('Enter filter')).toBeInTheDocument();
     expect(dialogue).toBeVisible();
   });
 
