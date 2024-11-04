@@ -1,9 +1,10 @@
-import { AddCircle, Delete, Warning } from '@mui/icons-material';
+import { AddCircle, Delete, Favorite, Warning } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
+  Checkbox,
   Chip,
   Dialog,
   DialogActions,
@@ -31,7 +32,7 @@ import {
 import { selectSearchParams } from '../state/slices/searchSlice';
 import { StyledTab } from '../views/viewTabs.component';
 import DeleteFavouriteFilterDialogue from './deleteFavouriteFilterDialogue.component';
-import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
+import FavouriteFilterDialogue from './favouriteFilterDialogue.component';
 import FilterInput from './filterInput.component';
 import { parseFilter, Token } from './filterParser';
 
@@ -72,6 +73,32 @@ function a11yProps(label: TabValue) {
     'aria-controls': `${label}-tabpanel`,
   };
 }
+
+const areTokenArraysEqual = (arr1: Token[], arr2: Token[]): boolean => {
+  if (arr1.length !== arr2.length) return false;
+  return arr1.every((token1, index) => {
+    const token2 = arr2[index];
+    return (
+      token1.type === token2.type &&
+      token1.value === token2.value &&
+      token1.label === token2.label
+    );
+  });
+};
+
+// Function to remove duplicate Token[] arrays from the combined list
+const uniqueTokenArrays = (tokenArrays: Token[][]): Token[][] => {
+  const uniqueList: Token[][] = [];
+  tokenArrays.forEach((tokenArray) => {
+    const isDuplicate = uniqueList.some((uniqueArray) =>
+      areTokenArraysEqual(uniqueArray, tokenArray)
+    );
+    if (!isDuplicate) {
+      uniqueList.push(tokenArray);
+    }
+  });
+  return uniqueList;
+};
 
 export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   const { children, ref, ...restProps } = props;
@@ -208,6 +235,23 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const [selectedFavouriteFilter, setSelectedFavouriteFilter] = React.useState<
     FavouriteFilter | undefined
   >(undefined);
+
+  const [selectedFavouriteFilterIds, setSelectedFavouriteFilterIds] =
+    React.useState<string[]>([]);
+
+  const { data: favouriteFilterData } = useFavouriteFilters();
+
+  // Function to handle checkbox changes
+  const handleCheckboxChange = (data: FavouriteFilter, checked: boolean) => {
+    if (checked) {
+      setSelectedFavouriteFilterIds((prev) => [...prev, data._id]);
+    } else {
+      setSelectedFavouriteFilterIds((prev) =>
+        prev.filter((id) => id !== data._id)
+      );
+    }
+  };
+
   const [tabValue, setTabValue] = React.useState<TabValue>('Filters');
 
   const handleTabChange = (
@@ -234,9 +278,18 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     },
   });
 
+  const tokenisedFavouriteFilters: Token[] | undefined = favouriteFilterData
+    ? favouriteFilterData?.map((filter) => ({
+        type: 'favouriteFilter',
+        value: filter.filter,
+        label: filter.name,
+      }))
+    : [];
+
   const handleClose = React.useCallback(() => {
     onClose();
     setTabValue('Filters');
+    setSelectedFavouriteFilterIds([]);
   }, [onClose]);
 
   React.useEffect(() => {
@@ -245,10 +298,22 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   }, [appliedFilters]);
 
   const handleChangeValue = React.useCallback(
-    (index: number) => (value: Token[]) =>
-      setFilters((filters) => {
-        return [...filters.slice(0, index), value, ...filters.slice(index + 1)];
-      }),
+    (index: number) => (value: Token[]) => {
+      const parsedValue = value.flatMap((token) => {
+        if (token.type === 'favouriteFilter') {
+          return JSON.parse(token.value) as Token[]; // Parse the value as Token[]
+        }
+        return token; // Keep other tokens unchanged
+      });
+
+      return setFilters((filters) => {
+        return [
+          ...filters.slice(0, index),
+          parsedValue,
+          ...filters.slice(index + 1),
+        ];
+      });
+    },
     []
   );
   const handleChangeError = React.useCallback(
@@ -290,7 +355,19 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   // remove any "empty" filters as they're not necessary
   // just need to make sure there's at least one empty array in the
   // case of no filters applied
-  let newFilters = filters.filter((f) => f.length > 0);
+
+  const selectedFavouriteFilters: FavouriteFilter[] = selectedFavouriteFilterIds
+    .map((id) => favouriteFilterData?.find((filter) => filter._id === id))
+    .filter((filter): filter is FavouriteFilter => filter !== undefined);
+
+  const uniqueCombinedFiltersList = uniqueTokenArrays([
+    ...filters,
+    ...(selectedFavouriteFilters.map((filter) =>
+      JSON.parse(filter.filter)
+    ) as Token[][]),
+  ]);
+
+  let newFilters = uniqueCombinedFiltersList.filter((f) => f.length > 0);
   if (newFilters.length === 0) newFilters = [[]];
 
   const applyFilters = React.useCallback(() => {
@@ -314,15 +391,15 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     ) {
       setDisplayingWarningMessage(false);
       dispatch(changeAppliedFilters(newFilters));
-      onClose();
+      handleClose();
     }
   }, [
-    dispatch,
+    newFilters,
     displayingWarningMessage,
-    onClose,
     queryClient,
     searchParams,
-    newFilters,
+    dispatch,
+    handleClose,
   ]);
 
   // this should run after applyFilters is called and incomingCount
@@ -349,7 +426,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       } else {
         setDisplayingWarningMessage(false);
         dispatch(changeAppliedFilters(newFilters));
-        onClose();
+        handleClose();
       }
     }
     // deliberately only want this use effect to be called when incomingCount or incomingFilters changes
@@ -357,14 +434,23 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
-  const { data: favouriteFilterData } = useFavouriteFilters();
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
         <StyledTab value="Filters" label="Filters" {...a11yProps('Filters')} />
         <StyledTab
           value="Favourite filters"
-          label="Favourite filters"
+          label={
+            <Box display="flex" alignItems="center">
+              Favourite filters
+              <Chip
+                label={selectedFavouriteFilters.length}
+                size="small"
+                color="primary"
+                sx={{ ml: 1 }} // Adds a margin between the text and chip
+              />
+            </Box>
+          }
           {...a11yProps('Favourite filters')}
         />
       </Tabs>
@@ -388,6 +474,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                       <Grid item xs>
                         <FilterInput
                           channels={channels ?? []}
+                          favouriteFilter={tokenisedFavouriteFilters ?? []}
                           value={filter}
                           setValue={handleChangeValue(index)}
                           error={errors[index]}
@@ -409,6 +496,22 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           aria-label={`Delete filter ${index}`}
                         >
                           <Delete />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={0.6} mt={0.5}>
+                        <IconButton
+                          onClick={() => {
+                            setFavouriteFiltersType('post');
+                            setSelectedFavouriteFilter({
+                              _id: '',
+                              name: '',
+                              filter: JSON.stringify(filter),
+                            });
+                          }}
+                          size="small"
+                          aria-label={`Add as favourite filter`}
+                        >
+                          <Favorite />
                         </IconButton>
                       </Grid>
                     </Grid>
@@ -449,9 +552,24 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               </Grid>
               <Grid item container flexDirection="column" mt={1} rowSpacing={1}>
                 {favouriteFilterData?.map((data) => {
+                  const isChecked = selectedFavouriteFilters.some(
+                    (filter) => filter._id === data._id
+                  );
+
                   return (
                     <Grid item container spacing={1} key={data._id}>
-                      <Grid item xs={5.5}>
+                      <Grid item xs={0.5}>
+                        <Checkbox
+                          checked={isChecked}
+                          onChange={(e) =>
+                            handleCheckboxChange(data, e.target.checked)
+                          }
+                          inputProps={{
+                            'aria-label': `Select ${data.name} favourite filter`,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={5}>
                         <TextField
                           fullWidth
                           inputProps={{
@@ -471,9 +589,10 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           size="small"
                         />
                       </Grid>
-                      <Grid item xs={5.5}>
+                      <Grid item xs={5}>
                         <FilterInput
                           channels={channels ?? []}
+                          favouriteFilter={tokenisedFavouriteFilters ?? []}
                           value={JSON.parse(data.filter) as Token[]}
                           setValue={() => {}}
                           setError={() => {}}
@@ -511,17 +630,6 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 })}
               </Grid>
 
-              <FavouriteFiltersDialogue
-                open={!!favouriteFiltersType}
-                requestType={
-                  favouriteFiltersType === false ? 'post' : favouriteFiltersType
-                }
-                selectedFavouriteFilter={selectedFavouriteFilter}
-                onClose={() => {
-                  setFavouriteFiltersType(false);
-                }}
-                channels={channels ?? []}
-              />
               <DeleteFavouriteFilterDialogue
                 open={openDeleteDialogue}
                 onClose={() => {
@@ -531,63 +639,74 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                 favouriteFilter={selectedFavouriteFilter}
               />
             </TabPanel>
+            <FavouriteFilterDialogue
+              open={!!favouriteFiltersType}
+              requestType={
+                favouriteFiltersType === false ? 'post' : favouriteFiltersType
+              }
+              selectedFavouriteFilter={selectedFavouriteFilter}
+              onClose={() => {
+                setFavouriteFiltersType(false);
+              }}
+              channels={channels ?? []}
+              tokenisedFavouriteFilters={tokenisedFavouriteFilters}
+            />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
-        {tabValue !== 'Favourite filters' &&
-          (displayingWarningMessage ? (
-            <Tooltip
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    backgroundColor: 'yellow',
-                    color: 'black',
-                    border: '1px solid black',
-                  },
+        {displayingWarningMessage ? (
+          <Tooltip
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  backgroundColor: 'yellow',
+                  color: 'black',
+                  border: '1px solid black',
                 },
-              }}
-              arrow
-              placement="bottom"
-              title={
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    cursor: 'pointer',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
-                  <div>
-                    <Typography variant="caption" align="center">
-                      {`This search will return over ${recordLimitWarning}
-                      results.`}
-                    </Typography>
-                    <br />
-                    <Typography variant="caption" align="center">
-                      Click Apply again to continue
-                    </Typography>
-                  </div>
-                </Box>
-              }
-            >
-              <Button
-                disabled={errors.some((e) => e !== undefined)}
-                onClick={() => applyFilters()}
+              },
+            }}
+            arrow
+            placement="bottom"
+            title={
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  cursor: 'pointer',
+                  overflow: 'hidden',
+                }}
               >
-                Apply
-              </Button>
-            </Tooltip>
-          ) : (
+                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                <div>
+                  <Typography variant="caption" align="center">
+                    {`This search will return over ${recordLimitWarning}
+                      results.`}
+                  </Typography>
+                  <br />
+                  <Typography variant="caption" align="center">
+                    Click Apply again to continue
+                  </Typography>
+                </div>
+              </Box>
+            }
+          >
             <Button
               disabled={errors.some((e) => e !== undefined)}
               onClick={() => applyFilters()}
             >
               Apply
             </Button>
-          ))}
+          </Tooltip>
+        ) : (
+          <Button
+            disabled={errors.some((e) => e !== undefined)}
+            onClick={() => applyFilters()}
+          >
+            Apply
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

@@ -24,12 +24,13 @@ import { FilterPageHelp } from './filterDialogue.component';
 import FilterInput from './filterInput.component';
 import { Token } from './filterParser';
 
-export interface FavouriteFiltersDialogueProps {
+export interface FavouriteFilterDialogueProps {
   open: boolean;
   onClose: () => void;
   channels: Token[];
   requestType: 'post' | 'patch';
   selectedFavouriteFilter?: FavouriteFilter;
+  tokenisedFavouriteFilters: Token[];
 }
 
 interface FavouriteFilterTokenised {
@@ -42,9 +43,15 @@ interface FavouriteFilterError {
   filter?: string;
 }
 
-const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
-  const { open, onClose, channels, requestType, selectedFavouriteFilter } =
-    props;
+const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
+  const {
+    open,
+    onClose,
+    channels,
+    requestType,
+    selectedFavouriteFilter,
+    tokenisedFavouriteFilters,
+  } = props;
   const [favouriteFilter, setFavouriteFilter] =
     React.useState<FavouriteFilterTokenised>({ name: '', filter: [] });
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
@@ -57,14 +64,22 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
       filter: undefined,
     });
 
+  const updateInputIndex = React.useRef<number | undefined>(undefined);
+
   React.useEffect(() => {
+    // Check if the modal is open and selectedFavouriteFilter is available
     if (open && selectedFavouriteFilter) {
+      const newFilter = JSON.parse(selectedFavouriteFilter.filter) as Token[];
+      // Update the favourite filter state
       setFavouriteFilter({
         name: selectedFavouriteFilter.name,
-        filter: JSON.parse(selectedFavouriteFilter.filter) as Token[],
+        filter: newFilter,
       });
+
+      // Track the current selectedFavouriteFilter in the ref
+      updateInputIndex.current = newFilter.length;
     }
-  }, [selectedFavouriteFilter, open]);
+  }, [selectedFavouriteFilter, open, setFavouriteFilter]);
 
   const handleClose = React.useCallback(() => {
     onClose();
@@ -74,7 +89,16 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
   }, [onClose]);
 
   const handleChangeValue = (value: Token[]) => {
-    setFavouriteFilter((prevfilter) => ({ ...prevfilter, filter: value }));
+    const parsedValue = value.flatMap((token) => {
+      if (token.type === 'favouriteFilter') {
+        return JSON.parse(token.value) as Token[]; // Parse the value as Token[]
+      }
+      return token; // Keep other tokens unchanged
+    });
+    setFavouriteFilter((prevfilter) => ({
+      ...prevfilter,
+      filter: parsedValue,
+    }));
     setErrorMessage(undefined);
   };
 
@@ -172,9 +196,11 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
               <FilterInput
                 channels={channels}
                 value={favouriteFilter.filter}
+                favouriteFilter={tokenisedFavouriteFilters ?? []}
                 setValue={handleChangeValue}
                 error={favouriteFilterError.filter}
                 setError={handleChangeError}
+                updateInputIndex={updateInputIndex.current}
               />
             </Grid>
           </Grid>
@@ -216,4 +242,4 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
   );
 };
 
-export default FavouriteFiltersDialogue;
+export default FavouriteFilterDialogue;

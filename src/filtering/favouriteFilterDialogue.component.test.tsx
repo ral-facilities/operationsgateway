@@ -6,7 +6,7 @@ import { FavouriteFilter } from '../app.types';
 import favouriteFiltersJson from '../mocks/favouriteFilters.json';
 import { RootState } from '../state/store';
 import { renderComponentWithProviders, waitForRequest } from '../testUtils';
-import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
+import FavouriteFiltersDialogue from './favouriteFilterDialogue.component';
 
 describe('Favorite filter dialogue component', () => {
   let props: React.ComponentProps<typeof FavouriteFiltersDialogue>;
@@ -35,6 +35,11 @@ describe('Favorite filter dialogue component', () => {
         { type: 'channel', value: 'type', label: 'type' },
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
       ],
+      tokenisedFavouriteFilters: favouriteFiltersJson.map((filter) => ({
+        type: 'favouriteFilter',
+        value: filter.filter,
+        label: filter.name,
+      })),
     };
   });
 
@@ -72,6 +77,31 @@ describe('Favorite filter dialogue component', () => {
       const filter = screen.getByRole('combobox', { name: 'Filter' });
 
       await user.type(filter, 'sh{enter}={enter}1{enter}', {
+        delay: null,
+      });
+
+      expect(screen.getByRole('button', { name: 'Save' })).not.toBeDisabled();
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+      const request = await pendingRequest;
+      params.set('name', 'test');
+      params.set(
+        'filter',
+        '[{"type":"channel","value":"shotnum","label":"Shot Number"},{"type":"compop","value":"=","label":"="},{"type":"number","value":"1","label":"1"}]'
+      );
+      expect(new URL(request.url).searchParams).toEqual(params);
+    });
+
+    it('add a new favourite filter with an existing favourite filter', async () => {
+      const pendingRequest = waitForRequest('POST', '/users/filters');
+      const params = new URLSearchParams();
+      createView();
+
+      const nameInput = screen.getByLabelText('Name');
+      await user.type(nameInput, 'test');
+
+      const filter = screen.getByRole('combobox', { name: 'Filter' });
+
+      await user.type(filter, 'test 2{enter}', {
         delay: null,
       });
 

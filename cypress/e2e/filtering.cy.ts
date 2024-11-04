@@ -435,6 +435,45 @@ describe('Filtering Component', () => {
       cy.get('input[role="combobox"]').should('have.value', 'INVALID');
     });
 
+    it('add a new favourite filter', () => {
+      cy.contains('Filter').click();
+
+      cy.findByRole('combobox', { name: 'Filter' }).type(
+        'sh{enter}={enter}1{enter}'
+      );
+
+      cy.findByRole('button', { name: 'Add as favourite filter' })
+        .first()
+        .click();
+
+      cy.findAllByLabelText('Name').last().type('test');
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Save' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'POST',
+        url: '/users/filters',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('name=');
+        expect(request.url.toString()).to.contain('filter=');
+
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+
+        expect(paramMap.get('name')).equal('test');
+        expect(paramMap.get('filter')).equal(
+          '[{"type":"channel","value":"shotnum","label":"Shot+Number"},{"type":"compop","value":"=","label":"="},{"type":"number","value":"1","label":"1"}]'
+        );
+      });
+    });
+
     it('lets a user create multiple filters and delete them', () => {
       cy.contains('Filter').click();
 
@@ -539,6 +578,37 @@ describe('Filtering Component', () => {
       });
     });
 
+    it('add a new favourite filter using favourite filter option in menu', () => {
+      cy.findByRole('checkbox', {
+        name: 'Select test 2 favourite filter',
+      }).click();
+
+      cy.findByRole('dialog').within(() => {
+        cy.findByText('Filters').click();
+      });
+      cy.findByRole('combobox', { name: 'Filter' }).type('test 2{enter}');
+
+      cy.findByRole('button', { name: 'Apply' }).should('not.be.disabled');
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Apply' }).click();
+
+      cy.findByRole('table').should('be.visible');
+
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          expect(request.url.toString()).to.contain(
+            `conditions=${encodeURIComponent(
+              '{"$and":[{"metadata.shotnum":{"$eq":1}}]}'
+            )}`
+          );
+        }
+      );
+    });
     it('display favourite filters', () => {
       cy.findByDisplayValue('test 1').should('exist');
       cy.findByDisplayValue('test 2').should('exist');
@@ -626,9 +696,7 @@ describe('Filtering Component', () => {
       cy.findByRole('button', {
         name: 'Edit test 1 favourite filter',
       }).click();
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}'); // Equivalent to {arrowright}
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
@@ -672,9 +740,7 @@ describe('Filtering Component', () => {
         "There have been no changes made. Please change a field's value or press Close to exit."
       ).should('exist');
       cy.findByRole('button', { name: 'Save' }).should('be.disabled');
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}'); // Equivalent to {arrowright}
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
-      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
       cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
