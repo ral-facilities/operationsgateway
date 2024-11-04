@@ -387,7 +387,7 @@ export const handlers = [
     if (id === '66f2e06a41a3fe93d6c81395') {
       return HttpResponse.json({ detail: 'error' }, { status: 400 });
     }
-    return HttpResponse.json({ status: 204 });
+    return HttpResponse.json(undefined, { status: 204 });
   }),
 
   http.get('/users/filters', async () => {

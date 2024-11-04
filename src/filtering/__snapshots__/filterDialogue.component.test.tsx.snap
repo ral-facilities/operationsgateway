@@ -1034,7 +1034,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                           class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
                         >
                           <button
-                            aria-label="Add as favourite filter 0"
+                            aria-label="Add as favourite filter"
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
