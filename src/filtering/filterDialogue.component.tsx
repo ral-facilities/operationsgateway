@@ -25,7 +25,7 @@ import {
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
 import { selectSearchParams } from '../state/slices/searchSlice';
-import { StyledTab } from '../views/viewTabs.component';
+import { a11yProps, StyledTab, TabPanel } from '../views/viewTabs.component';
 import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
 import FilterInput from './filterInput.component';
 import { parseFilter, Token } from './filterParser';
@@ -37,36 +37,6 @@ interface FilterDialogueProps {
 }
 
 type TabValue = 'Filters' | 'Favourite filters';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  value: TabValue;
-  label: TabValue;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, label, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== label}
-      id={`${label}-tabpanel`}
-      aria-labelledby={`${label}-tab`}
-      style={{ width: '100%' }}
-      {...other}
-    >
-      {value === label && <Box>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(label: TabValue) {
-  return {
-    id: `${label}-tab`,
-    'aria-controls': `${label}-tabpanel`,
-  };
-}
 
 export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   const { children, ref, ...restProps } = props;
@@ -346,19 +316,33 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   }, [incomingCount, incomingFilters]);
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="lg"
+      PaperProps={{ 'aria-label': 'Filters' }}
+      fullWidth
+    >
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
-        <StyledTab value="Filters" label="Filters" {...a11yProps('Filters')} />
+        <StyledTab
+          value="Filters"
+          label="Filters"
+          {...a11yProps<TabValue>('Filters')}
+        />
         <StyledTab
           value="Favourite filters"
           label="Favourite filters"
-          {...a11yProps('Favourite filters')}
+          {...a11yProps<TabValue>('Favourite filters')}
         />
       </Tabs>
       <DialogContent>
         <Grid container columnSpacing={2}>
           <Grid item container xs={12}>
-            <TabPanel value={tabValue} label={'Filters'}>
+            <TabPanel<TabValue>
+              value={tabValue}
+              label={'Filters'}
+              style={{ width: '100%' }}
+            >
               <Grid item container xs>
                 <Grid
                   container
@@ -420,7 +404,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               </Grid>
             </TabPanel>
 
-            <TabPanel value={tabValue} label={'Favourite filters'}>
+            <TabPanel<TabValue>
+              value={tabValue}
+              label={'Favourite filters'}
+              style={{ width: '100%' }}
+            >
               <Grid item xs>
                 <Button
                   onClick={() => {

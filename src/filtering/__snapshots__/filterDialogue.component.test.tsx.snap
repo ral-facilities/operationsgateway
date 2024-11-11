@@ -35,6 +35,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
       tabindex="-1"
     >
       <div
+        aria-label="Filters"
         aria-labelledby=":r3:"
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
         role="dialog"
@@ -215,6 +216,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
       tabindex="-1"
     >
       <div
+        aria-label="Filters"
         aria-labelledby=":r0:"
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
         role="dialog"
