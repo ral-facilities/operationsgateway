@@ -59,7 +59,7 @@ describe('Data View', () => {
 
     await user.click(screen.getByRole('button', { name: 'Filters' }));
 
-    const dialogue = await screen.findByRole('dialog');
+    const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
 
     expect(within(dialogue).getByText('Enter filter')).toBeInTheDocument();
     expect(dialogue).toBeVisible();

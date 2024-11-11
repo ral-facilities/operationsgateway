@@ -3,8 +3,8 @@
   "recordLimitWarning": -1,
   "routes": [
     {
-      "section": "Homepage",
-      "link": "/operationsgateway",
+      "section": "OperationsGateway",
+      "link": "/og",
       "displayName": "OperationsGateway",
       "order": 0
     }
