@@ -3,7 +3,7 @@ import { FavouriteFilterPost } from '../app.types';
 import { hooksWrapperWithProviders } from '../testUtils';
 import { useAddFavouriteFilter } from './favouriteFilters';
 
-describe('session api functions', () => {
+describe('favourite filters api functions', () => {
   let mockData: FavouriteFilterPost;
   beforeEach(() => {
     mockData = {
