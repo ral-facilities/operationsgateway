@@ -6,6 +6,8 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 import { connect, Provider } from 'react-redux';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import UsersTable from './admin/users/usersTable.component';
 import './App.css';
 import { MicroFrontendId } from './app.types';
 import OGThemeProvider from './ogThemeProvider.component';
@@ -17,6 +19,11 @@ import { RootState, store } from './state/store';
 import ViewTabs from './views/viewTabs.component';
 import OpenWindows from './windows/openWindows.component';
 import { WindowContextProvider } from './windows/windowContext';
+
+export const paths = {
+  any: '*',
+  adminUsers: '/admin/users',
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,7 +48,7 @@ function mapPreloaderStateToProps(state: RootState): { loading: boolean } {
 
 export const ConnectedPreloader = connect(mapPreloaderStateToProps)(Preloader);
 
-const App: React.FunctionComponent = () => {
+const Layout: React.FunctionComponent = () => {
   const dispatch = store.dispatch;
   React.useEffect(() => {
     dispatch(configureApp());
@@ -80,7 +87,7 @@ const App: React.FunctionComponent = () => {
                     <Preloader loading={true}>Finished loading</Preloader>
                   }
                 >
-                  <ViewTabs />
+                  <Outlet />
                   {/* Open windows is it's own component so that the open windows are always mounted
                   no matter which other components the user has mounted in ViewTabs etc. */}
                   <OpenWindows />
@@ -96,4 +103,15 @@ const App: React.FunctionComponent = () => {
   );
 };
 
-export default App;
+const router = createBrowserRouter([
+  {
+    Component: Layout,
+    children: [
+      { path: paths.any, Component: ViewTabs },
+      { path: paths.adminUsers, Component: UsersTable },
+    ],
+  },
+]);
+export default function App() {
+  return <RouterProvider router={router} />;
+}

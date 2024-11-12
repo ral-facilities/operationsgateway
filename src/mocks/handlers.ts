@@ -16,6 +16,7 @@ import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
+import usersJson from './users.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -370,5 +371,8 @@ export const handlers = [
       },
       { status: 400 }
     );
+  }),
+  http.get('/users', () => {
+    return HttpResponse.json(usersJson, { status: 200 });
   }),
 ];

@@ -7,6 +7,14 @@ import { flushPromises } from './testUtils';
 vi.mock('loglevel');
 
 describe('App', () => {
+  beforeEach(() => {
+    // Ignore: React Router Future Flag Warnings
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it('renders without crashing', async () => {
     const el = document.createElement('div');
     const root = createRoot(el);

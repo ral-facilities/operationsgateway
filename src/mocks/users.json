@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "user1",
+    "sha256_password": "2d8d693177ac44895fc02c009ec3f6af32e51eb00783c17000d7051d1662b93a",
+    "auth_type": "local",
+    "authorised_routes": ["/submit/hdf POST", "/submit/manifest POST"]
+  },
+  {
+    "_id": "user2",
+    "sha256_password": "84fddf351d19ac7b514b63f9ab5945b2381a617bbf7f47043d4515b760792cd9",
+    "auth_type": "FedID",
+    "authorised_routes": ["/records/{id_} DELETE", "/experiments POST"]
+  },
+  {
+    "_id": "user3",
+    "sha256_password": null,
+    "auth_type": "local",
+    "authorised_routes": ["/users POST", "/users PATCH"]
+  },
+  {
+    "_id": "user4",
+    "sha256_password": null,
+    "auth_type": "FedID",
+    "authorised_routes": ["/users/{id_} DELETE"]
+  },
+  {
+    "_id": "user5",
+    "sha256_password": "45ac76b48c434ea38f7f2b5145e0b9e21b795b029fc1f7cd7eb66c18be8d6c3a",
+    "auth_type": "local",
+    "authorised_routes": null
+  },
+  {
+    "_id": "user6",
+    "sha256_password": null,
+    "auth_type": "FedID",
+    "authorised_routes": null
+  },
+  {
+    "_id": "user7",
+    "sha256_password": null,
+    "auth_type": "local"
+  },
+  {
+    "_id": "user8",
+    "sha256_password": null,
+    "auth_type": "FedID"
+  },
+  {
+    "_id": "user9",
+    "sha256_password": null,
+    "auth_type": "local",
+    "authorised_routes": [
+      "/submit/hdf POST",
+      "/submit/manifest POST",
+      "/records/{id_} DELETE",
+      "/experiments POST",
+      "/users POST",
+      "/users PATCH",
+      "/users/{id_} DELETE"
+    ]
+  },
+  {
+    "_id": "user10",
+    "sha256_password": "2f3d6931abcf4795fc02c0abdc3f7af32e51eb03723c17abc7051e1662b93a",
+    "auth_type": "FedID",
+    "authorised_routes": []
+  },
+  {
+    "_id": "user11",
+    "sha256_password": "3d8d693277aecc44855fc02c109ec3e2d5d64eb00763c17458d7551d1763b83b",
+    "auth_type": "local",
+    "authorised_routes": ["/users POST", "/users PATCH"]
+  }
+]
