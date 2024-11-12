@@ -338,9 +338,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       <DialogContent>
         <Grid container columnSpacing={2}>
           <Grid item container xs={12}>
-            <TabPanel<TabValue>
+            <TabPanel
               value={tabValue}
-              label={'Filters'}
+              label={'Filters' satisfies TabValue}
               style={{ width: '100%' }}
             >
               <Grid item container xs>
@@ -404,9 +404,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               </Grid>
             </TabPanel>
 
-            <TabPanel<TabValue>
+            <TabPanel
               value={tabValue}
-              label={'Favourite filters'}
+              label={'Favourite filters' satisfies TabValue}
               style={{ width: '100%' }}
             >
               <Grid item xs>
