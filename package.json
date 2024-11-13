@@ -9,6 +9,7 @@
     "@emotion/react": "11.13.0",
     "@emotion/styled": "11.13.0",
     "@hello-pangea/dnd": "^17.0.0",
+    "@hookform/resolvers": "^3.9.1",
     "@mui/base": "5.0.0-beta.40",
     "@mui/icons-material": "5.16.2",
     "@mui/material": "5.16.2",
@@ -36,11 +37,13 @@
     "react": "18.3.1",
     "react-colorful": "5.6.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.53.2",
     "react-redux": "9.1.2",
     "react-router-dom": "^6.28.0",
     "single-spa-react": "6.0.2",
     "typescript": "5.6.2",
-    "vite": "^5.4.6"
+    "vite": "^5.4.6",
+    "zod": "^3.23.8"
   },
   "resolutions": {
     "@testing-library/react/@testing-library/dom": "10.4.0",
