@@ -312,7 +312,11 @@ export interface APIError {
   detail: string | APIErrorResponse[];
 }
 
-export interface FavouriteFilter {
+export interface FavouriteFilterPost {
   name: string;
   filter: string;
+}
+
+export interface FavouriteFilter extends FavouriteFilterPost {
+  _id: string;
 }

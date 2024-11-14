@@ -19,6 +19,7 @@ interface FilterInputProps {
   error?: string;
   setError: (error?: string) => void;
   flashingFilterValue?: string;
+  readOnly?: boolean;
 }
 
 export const useClickHandler = (props: {
@@ -302,8 +303,15 @@ const filterOptions = createFilterOptions<Token>({
 });
 
 const FilterInput = (props: FilterInputProps) => {
-  const { channels, value, setValue, error, setError, flashingFilterValue } =
-    props;
+  const {
+    channels,
+    value,
+    setValue,
+    error,
+    setError,
+    flashingFilterValue,
+    readOnly,
+  } = props;
   const options = React.useMemo(() => {
     return [...operators, ...channels];
   }, [channels]);
@@ -362,6 +370,7 @@ const FilterInput = (props: FilterInputProps) => {
       autoHighlight
       filterOptions={filterOptions}
       multiple
+      readOnly={readOnly}
       options={options}
       freeSolo
       size="small"
@@ -409,6 +418,8 @@ const FilterInput = (props: FilterInputProps) => {
             'data-id': 'Input',
             startAdornment: tags.slice(0, inputIndex),
             endAdornment: tags.slice(inputIndex),
+            readOnly: readOnly,
+            disabled: readOnly,
           }}
         />
       )}

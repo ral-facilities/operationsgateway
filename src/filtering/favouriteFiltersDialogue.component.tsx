@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useAddFavouriteFilter } from '../api/favouriteFilters';
-import { FavouriteFilter } from '../app.types';
+import { FavouriteFilterPost } from '../app.types';
 import { FilterPageHelp } from './filterDialogue.component';
 import FilterInput from './filterInput.component';
 import { Token } from './filterParser';
@@ -60,7 +60,7 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
   const { mutateAsync: addFavouriteFilter } = useAddFavouriteFilter();
 
   const handleSubmit = React.useCallback(() => {
-    const data: FavouriteFilter = {
+    const data: FavouriteFilterPost = {
       name: favouriteFilter.name,
       filter: JSON.stringify(
         favouriteFilter.filter.length === 0 ? '' : favouriteFilter.filter
