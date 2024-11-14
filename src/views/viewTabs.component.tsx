@@ -15,36 +15,41 @@ import DataView from './dataView.component';
 
 type TabValue = 'Data' | 'Plots';
 
-interface TabPanelProps {
+export interface TabPanelProps<T> {
   children?: React.ReactNode;
-  value: TabValue;
-  label: TabValue;
+  value: T | false;
+  label: T | false;
+  style?: React.CSSProperties;
 }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, label, ...other } = props;
-
+export function TabPanel<T>({
+  children,
+  value,
+  label,
+  style,
+  ...other
+}: TabPanelProps<T>) {
   return (
     <div
       role="tabpanel"
       hidden={value !== label}
       id={`${label}-tabpanel`}
       aria-labelledby={`${label}-tab`}
+      style={style}
       {...other}
     >
       {value === label && <Box>{children}</Box>}
     </div>
   );
 }
-
-function a11yProps(label: TabValue) {
+export function a11yProps<T>(label: T) {
   return {
     id: `${label}-tab`,
     'aria-controls': `${label}-tabpanel`,
   };
 }
 
-const StyledTab = styled(Tab)(({ theme }) => ({
+export const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
   fontWeight: theme.typography.fontWeightBold,
   fontSize: theme.typography.pxToRem(16),
@@ -170,8 +175,16 @@ const ViewTabs = () => {
           }}
         >
           <Tabs value={value} onChange={handleChange} aria-label="view tabs">
-            <StyledTab value="Data" label="Data" {...a11yProps('Data')} />
-            <StyledTab value="Plots" label="Plots" {...a11yProps('Plots')} />
+            <StyledTab
+              value="Data"
+              label="Data"
+              {...a11yProps<TabValue>('Data')}
+            />
+            <StyledTab
+              value="Plots"
+              label="Plots"
+              {...a11yProps<TabValue>('Plots')}
+            />
           </Tabs>
           <Box marginLeft="auto" sx={{ display: 'flex' }}>
             <SessionSaveButtons
@@ -184,10 +197,10 @@ const ViewTabs = () => {
             <ExportButton />
           </Box>
         </Box>
-        <TabPanel value={value} label={'Data'}>
+        <TabPanel value={value} label={'Data' satisfies TabValue}>
           <DataView sessionId={loadedSessionId} />
         </TabPanel>
-        <TabPanel value={value} label={'Plots'}>
+        <TabPanel value={value} label={'Plots' satisfies TabValue}>
           <PlotList />
         </TabPanel>
         <SessionDialogue

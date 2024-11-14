@@ -371,4 +371,7 @@ export const handlers = [
       { status: 400 }
     );
   }),
+  http.post('/users/filters', async () => {
+    return HttpResponse.json('1', { status: 201 });
+  }),
 ];
