@@ -3057,6 +3057,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chartjs-plugin-annotation@npm:3.1.0":
+  version: 3.1.0
+  resolution: "chartjs-plugin-annotation@npm:3.1.0"
+  peerDependencies:
+    chart.js: ">=4.0.0"
+  checksum: 10c0/5494a008a013888b122ac6754c1314e100b6368f55110f08401e3cbdb5969b372ece9569ed3b166b8fbad8c2dc84f15795602079613e2f5f65f787a0931bd676
+  languageName: node
+  linkType: hard
+
 "chartjs-plugin-zoom@npm:2.0.0":
   version: 2.0.0
   resolution: "chartjs-plugin-zoom@npm:2.0.0"
@@ -6941,6 +6950,7 @@ __metadata:
     axios: "npm:1.7.4"
     browserslist-to-esbuild: "npm:^2.1.1"
     chart.js: "npm:4.4.1"
+    chartjs-plugin-annotation: "npm:3.1.0"
     chartjs-plugin-zoom: "npm:2.0.0"
     cross-env: "npm:7.0.3"
     cypress: "npm:13.15.0"

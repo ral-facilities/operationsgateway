@@ -10,6 +10,7 @@ import WindowPortal, {
 } from '../windows/windowPortal.component';
 import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
+import ImagePlot from './imagePlot.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -128,21 +129,37 @@ const ImageWindow = (props: ImageWindowProps) => {
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
           <Grid container item wrap="nowrap" spacing={1}>
-            <Grid container item spacing={1} xs="auto">
-              <ThumbnailSelector
-                channelName={channelName}
-                recordId={recordId}
-                changeRecordId={updateImageConfig}
-              />
+            <Grid container item spacing={1} xs="auto" wrap="nowrap">
               <Grid item>
-                <ImageView
-                  image={image}
-                  title={title}
-                  viewReset={viewFlag}
-                  crosshairsMode={crosshairsMode}
-                  crosshair={crosshair}
-                  changeCrosshair={setCrosshair}
+                <ThumbnailSelector
+                  channelName={channelName}
+                  recordId={recordId}
+                  changeRecordId={updateImageConfig}
                 />
+              </Grid>
+              <Grid container item wrap="nowrap">
+                <Grid item xs="auto">
+                  <ImageView
+                    image={image}
+                    title={title}
+                    viewReset={viewFlag}
+                    crosshairsMode={crosshairsMode}
+                    crosshair={crosshair}
+                    changeCrosshair={setCrosshair}
+                  />
+                </Grid>
+
+                <Grid
+                  item
+                  xs="auto"
+                  style={{ display: crosshairsMode ? 'flex' : 'none' }}
+                >
+                  <ImagePlot
+                    data={crosshairData?.column.intensity ?? { x: [], y: [] }}
+                    crosshair={crosshair ?? { x: 0, y: 0 }}
+                    image={image}
+                  />
+                </Grid>
               </Grid>
             </Grid>
             <Grid item>

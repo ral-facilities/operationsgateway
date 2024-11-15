@@ -98,7 +98,7 @@ export const fetchColourMaps = async (
     });
 };
 
-interface CrosshairDimensionType {
+export interface CrosshairDimensionType {
   position: number;
   intensity: { x: number[]; y: number[] };
   fwhm: number;
