@@ -227,13 +227,11 @@ export class WindowPortal extends React.PureComponent<
           waitForElm(".chartjs-chart").then((canvases) => {
             for (const canvas of canvases) {
               if (canvas && canvas.getContext('2d')) {
-                console.log("canvas.dataset.data", canvas.dataset.data);
                 const chart = new Chart(canvas.getContext('2d'), {
                   type: canvas.dataset.type,
                   data: JSON.parse(canvas.dataset.data),
                   options: addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options)),
                 });
-                window.chart = chart;
 
                 const observer = new MutationObserver(mutations => {
                   for(let mutation of mutations) {
@@ -253,6 +251,10 @@ export class WindowPortal extends React.PureComponent<
                       else if(mutation.attributeName === "data-view"){
                         chart.resetZoom("none");
                         chart.update("none");
+                      }
+                      else if(mutation.attributeName === "data-resize"){
+                        const sizeInfo = JSON.parse(canvas.dataset.resize);
+                        chart.resize(sizeInfo.width, sizeInfo.height);
                       }
                     }
                   }

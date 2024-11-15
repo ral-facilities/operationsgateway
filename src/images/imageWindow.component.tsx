@@ -10,7 +10,7 @@ import WindowPortal, {
 } from '../windows/windowPortal.component';
 import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
-import ImagePlot from './imagePlot.component';
+import { XImagePlot, YImagePlot } from './imagePlot.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -137,26 +137,39 @@ const ImageWindow = (props: ImageWindowProps) => {
                   changeRecordId={updateImageConfig}
                 />
               </Grid>
-              <Grid container item wrap="nowrap">
-                <Grid item xs="auto">
-                  <ImageView
-                    image={image}
-                    title={title}
-                    viewReset={viewFlag}
-                    crosshairsMode={crosshairsMode}
-                    crosshair={crosshair}
-                    changeCrosshair={setCrosshair}
-                  />
-                </Grid>
+              <Grid container item wrap="nowrap" direction="column">
+                <Grid container item wrap="nowrap" pl="29px">
+                  <Grid item xs="auto">
+                    <ImageView
+                      image={image}
+                      title={title}
+                      viewReset={viewFlag}
+                      crosshairsMode={crosshairsMode}
+                      crosshair={crosshair}
+                      changeCrosshair={setCrosshair}
+                    />
+                  </Grid>
 
+                  <Grid
+                    item
+                    xs="auto"
+                    style={{ display: crosshairsMode ? 'flex' : 'none' }}
+                  >
+                    <YImagePlot
+                      data={crosshairData?.column.intensity ?? { x: [], y: [] }}
+                      crosshairPosition={crosshair?.y ?? 0}
+                      image={image}
+                    />
+                  </Grid>
+                </Grid>
                 <Grid
                   item
                   xs="auto"
                   style={{ display: crosshairsMode ? 'flex' : 'none' }}
                 >
-                  <ImagePlot
-                    data={crosshairData?.column.intensity ?? { x: [], y: [] }}
-                    crosshair={crosshair ?? { x: 0, y: 0 }}
+                  <XImagePlot
+                    data={crosshairData?.row.intensity ?? { x: [], y: [] }}
+                    crosshairPosition={crosshair?.x ?? 0}
                     image={image}
                   />
                 </Grid>
