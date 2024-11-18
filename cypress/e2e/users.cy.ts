@@ -169,7 +169,7 @@ describe('Users', () => {
     });
   });
 
-  describe('modify authorised routes ', () => {
+  describe('modify authorised routes', () => {
     beforeEach(() => {
       cy.visit('/admin/users');
       cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
@@ -210,6 +210,36 @@ describe('Users', () => {
           );
         }
       );
+    });
+  });
+
+  describe('delete users', () => {
+    beforeEach(() => {
+      cy.visit('/admin/users');
+      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
+      cy.findByText('Delete').click();
+    });
+
+    afterEach(() => {
+      cy.clearMocks();
+    });
+
+    it('sends a delete request when an admin deletes a user', () => {
+      cy.findAllByTestId('delete-user-name').should('have.text', 'user1');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'DELETE',
+        url: '/users/:id',
+      }).should((deleteRequests) => {
+        expect(deleteRequests.length).equal(1);
+        const request = deleteRequests[0];
+
+        expect(request.url.toString()).to.contain('user1');
+      });
     });
   });
 });

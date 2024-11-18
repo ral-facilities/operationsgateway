@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import {
@@ -20,6 +21,7 @@ import { MRT_Localization_EN } from 'material-react-table/locales/en';
 import React from 'react';
 import { useUsers } from '../../api/user';
 import { User } from '../../app.types';
+import DeleteUserDialogue from './deleteUserDialogue.component';
 import UserDialogue from './userDialogue.component';
 
 export const AUTHORISED_ROUTE_LIST = [
@@ -37,7 +39,7 @@ function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
 
   const [requestType, setRequestType] = React.useState<
-    'patchPassword' | 'patchAuthorisedRoutes' | 'post'
+    'patchPassword' | 'patchAuthorisedRoutes' | 'post' | 'delete' | false
   >('post');
   const [selectedUser, setSelectedUser] = React.useState<User | undefined>(
     undefined
@@ -194,10 +196,36 @@ function UsersTable() {
               </MenuItem>,
             ]
           : []),
+        <MenuItem
+          key="delete"
+          aria-label={`Delete user ${row.original._id}`}
+          onClick={() => {
+            setRequestType('delete');
+            setSelectedUser(row.original);
+            closeMenu();
+          }}
+          sx={{ m: 0 }}
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
+        </MenuItem>,
       ];
     },
   });
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <MaterialReactTable table={table} />
+      <DeleteUserDialogue
+        open={requestType === 'delete'}
+        onClose={() => {
+          setRequestType(false);
+        }}
+        selectedUser={selectedUser}
+      />
+    </>
+  );
 }
 
 export default UsersTable;

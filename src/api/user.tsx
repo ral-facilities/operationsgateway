@@ -85,3 +85,31 @@ export const useEditUser = (): UseMutationResult<
     },
   });
 };
+
+const deleteUser = (apiUrl: string, userId: string): Promise<void> => {
+  return axios
+    .delete(`${apiUrl}/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useDeleteUser = (): UseMutationResult<
+  void,
+  AxiosError,
+  string
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userId: string) => deleteUser(apiUrl, userId),
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Users'] });
+    },
+  });
+};

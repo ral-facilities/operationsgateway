@@ -414,4 +414,19 @@ export const handlers = [
     const body = (await request.json()) as User;
     return HttpResponse.json(body._id, { status: 201 });
   }),
+
+  http.delete('/users/:id', async ({ params }) => {
+    const { id } = params;
+    const validId = usersJson.map((user) => user._id);
+    if (validId.includes(id as string)) {
+      return new HttpResponse(null, { status: 204 });
+    } else {
+      return HttpResponse.json(
+        {
+          detail: `username field must exist in the database. You put: '${id}'`,
+        },
+        { status: 400 }
+      );
+    }
+  }),
 ];
