@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { User } from '../app.types';
+import { User, UserPatch } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
@@ -49,6 +49,34 @@ export const useAddUser = (): UseMutationResult<string, AxiosError, User> => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (user: User) => addUser(apiUrl, user),
+    onError: (error) => {
+      console.log('Got error ' + error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Users'] });
+    },
+  });
+};
+
+const editUser = (apiUrl: string, user: UserPatch): Promise<string> => {
+  return axios
+    .patch<string>(`${apiUrl}/users`, user, {
+      headers: {
+        Authorization: `Bearer ${readSciGatewayToken()}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const useEditUser = (): UseMutationResult<
+  string,
+  AxiosError,
+  UserPatch
+> => {
+  const { apiUrl } = useAppSelector(selectUrls);
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (user: UserPatch) => editUser(apiUrl, user),
     onError: (error) => {
       console.log('Got error ' + error.message);
     },

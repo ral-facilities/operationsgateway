@@ -1,6 +1,16 @@
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Button, Chip, Stack } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import PasswordIcon from '@mui/icons-material/Password';
+import {
+  Box,
+  Button,
+  Chip,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  Stack,
+} from '@mui/material';
 import {
   MaterialReactTable,
   MRT_ColumnDef,
@@ -26,8 +36,11 @@ export const AUTH_TYPE_LIST = ['local', 'FedID'];
 function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
 
-  const [requestType, setRequestType] = React.useState<'patch' | 'post'>(
-    'post'
+  const [requestType, setRequestType] = React.useState<
+    'patchPassword' | 'patchAuthorisedRoutes' | 'post'
+  >('post');
+  const [selectedUser, setSelectedUser] = React.useState<User | undefined>(
+    undefined
   );
 
   // Define the columns for the table
@@ -70,7 +83,7 @@ function UsersTable() {
     enableColumnOrdering: true,
     enableColumnResizing: false,
     enableFacetedValues: true,
-    enableRowActions: false,
+    enableRowActions: true,
     enableStickyHeader: true,
     enableRowSelection: false,
     enableDensityToggle: false,
@@ -106,7 +119,10 @@ function UsersTable() {
         <>
           <UserDialogue
             open={true}
-            requestType={requestType}
+            selectedUser={selectedUser}
+            requestType={requestType === 'post' ? 'post' : 'patch'}
+            passwordOnly={requestType === 'patchPassword'}
+            authorisedRoutesOnly={requestType === 'patchAuthorisedRoutes'}
             onClose={() => {
               table.setCreatingRow(null);
             }}
@@ -140,6 +156,46 @@ function UsersTable() {
         </Button>
       </Box>
     ),
+    renderRowActionMenuItems: ({ closeMenu, row }) => {
+      return [
+        <MenuItem
+          key="modify_authorised_routes"
+          aria-label={`Edit user ${row.original._id} authorised routes`}
+          onClick={() => {
+            setRequestType('patchAuthorisedRoutes');
+            setSelectedUser(row.original);
+            table.setCreatingRow(true);
+            closeMenu();
+          }}
+          sx={{ m: 0 }}
+        >
+          <ListItemIcon>
+            <EditIcon />
+          </ListItemIcon>
+          <ListItemText>Modify Authorised Routes</ListItemText>
+        </MenuItem>,
+        ...(row.original.auth_type === 'local'
+          ? [
+              <MenuItem
+                key="change_password"
+                aria-label={`Change user ${row.original._id} password`}
+                onClick={() => {
+                  setRequestType('patchPassword');
+                  setSelectedUser(row.original);
+                  table.setCreatingRow(true);
+                  closeMenu();
+                }}
+                sx={{ m: 0 }}
+              >
+                <ListItemIcon>
+                  <PasswordIcon />
+                </ListItemIcon>
+                <ListItemText>Change Password</ListItemText>
+              </MenuItem>,
+            ]
+          : []),
+      ];
+    },
   });
   return <MaterialReactTable table={table} />;
 }

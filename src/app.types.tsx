@@ -318,3 +318,10 @@ export interface User {
   auth_type: string;
   authorised_routes?: string[] | null;
 }
+
+export interface UserPatch {
+  _id: string; // Maps the `username` field in Python, which has an alias "_id"
+  updated_password?: string | null;
+  add_authorised_routes?: string[] | null;
+  remove_authorised_routes?: string[] | null;
+}

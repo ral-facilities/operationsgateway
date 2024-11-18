@@ -243,7 +243,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
     >
       <table
         class="MuiTable-root MuiTable-stickyHeader css-1y6k1sx-MuiTable-root"
-        style="--header-_id-size: 180; --col-_id-size: 180; --header-auth_type-size: 180; --col-auth_type-size: 180; --header-authorised_routes-size: 180; --col-authorised_routes-size: 180;"
+        style="--header-mrt_row_actions-size: 70; --col-mrt_row_actions-size: 70; --header-_id-size: 180; --col-_id-size: 180; --header-auth_type-size: 180; --col-auth_type-size: 180; --header-authorised_routes-size: 180; --col-authorised_routes-size: 180;"
       >
         <thead
           class="MuiTableHead-root css-dk8izd-MuiTableHead-root"
@@ -253,10 +253,34 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
           >
             <th
               aria-sort="none"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-8xigsx-MuiTableCell-root"
+              colspan="1"
+              data-index="0"
+              scope="col"
+            >
+              <div
+                class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
+              >
+                <div
+                  class="Mui-TableHeadCell-Content-Labels MuiBox-root css-4ng264"
+                >
+                  <div
+                    class="Mui-TableHeadCell-Content-Wrapper MuiBox-root css-bbxzxe"
+                  >
+                    Actions
+                  </div>
+                </div>
+                <div
+                  class="Mui-TableHeadCell-Content-Actions MuiBox-root css-epvm6"
+                />
+              </div>
+            </th>
+            <th
+              aria-sort="none"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-39cen7-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
-              data-index="0"
+              data-index="1"
               scope="col"
             >
               <div
@@ -416,7 +440,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-3651zu-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
-              data-index="1"
+              data-index="2"
               scope="col"
             >
               <div
@@ -582,7 +606,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-1hnlvkg-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
-              data-index="2"
+              data-index="3"
               scope="col"
             >
               <div
@@ -750,7 +774,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
         >
           <tr>
             <td
-              colspan="3"
+              colspan="4"
             >
               <p
                 class="MuiTypography-root MuiTypography-body1 css-dc4hy6-MuiTypography-root"

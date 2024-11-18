@@ -409,4 +409,9 @@ export const handlers = [
     }
     return HttpResponse.json(body._id, { status: 201 });
   }),
+
+  http.patch('/users', async ({ request }) => {
+    const body = (await request.json()) as User;
+    return HttpResponse.json(body._id, { status: 201 });
+  }),
 ];
