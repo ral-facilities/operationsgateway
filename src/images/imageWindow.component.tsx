@@ -67,7 +67,8 @@ const ImageWindow = (props: ImageWindowProps) => {
 
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
-    setCrosshairsMode(false);
+    // reset back to centroid
+    setCrosshair(undefined);
   }, []);
 
   const updateImageConfig = React.useCallback(
@@ -85,6 +86,7 @@ const ImageWindow = (props: ImageWindowProps) => {
           : {}),
       };
       dispatch(updateWindow(configToSave));
+      setCrosshair(undefined);
     },
     [imageConfig, dispatch]
   );
@@ -153,7 +155,15 @@ const ImageWindow = (props: ImageWindowProps) => {
                   <Grid
                     item
                     xs="auto"
-                    style={{ display: crosshairsMode ? 'flex' : 'none' }}
+                    style={{
+                      // display: none means it takes up no space in the UI
+                      display: crosshairsMode ? 'flex' : 'none',
+                      // visibility: hidden means it takes up space but just isn't visible
+                      visibility:
+                        image && crosshairData && crosshair
+                          ? 'visible'
+                          : 'hidden',
+                    }}
                   >
                     <YImagePlot
                       data={crosshairData?.column.intensity ?? { x: [], y: [] }}
@@ -165,7 +175,15 @@ const ImageWindow = (props: ImageWindowProps) => {
                 <Grid
                   item
                   xs="auto"
-                  style={{ display: crosshairsMode ? 'flex' : 'none' }}
+                  style={{
+                    // display: none means it takes up no space in the UI
+                    display: crosshairsMode ? 'flex' : 'none',
+                    // visibility: hidden means it takes up space but just isn't visible
+                    visibility:
+                      image && crosshairData && crosshair
+                        ? 'visible'
+                        : 'hidden',
+                  }}
                 >
                   <XImagePlot
                     data={crosshairData?.row.intensity ?? { x: [], y: [] }}

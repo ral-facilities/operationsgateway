@@ -82,6 +82,7 @@ const ImageView = (props: ImageViewProps) => {
   const imgRef = React.useCallback((node: HTMLImageElement) => {
     setImg(node);
   }, []);
+  const crosshairRef = React.useRef(crosshair);
 
   // set up the overlay
   React.useEffect(() => {
@@ -133,13 +134,15 @@ const ImageView = (props: ImageViewProps) => {
                 overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1,
                 overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1
               );
+              if (crosshairRef.current)
+                drawCrosshair(crosshairRef.current, overlay);
             }
           }
         };
 
         const resizeObserver = new ResizeObserver(onResize);
         try {
-          // only call us of the number of device pixels changed
+          // only call if the number of device pixels changed
           resizeObserver.observe(overlay, { box: 'device-pixel-content-box' });
         } catch {
           // device-pixel-content-box is not supported so fallback to this
@@ -171,6 +174,7 @@ const ImageView = (props: ImageViewProps) => {
   }, [crosshairsMode, overlay]);
 
   React.useEffect(() => {
+    crosshairRef.current = crosshair;
     if (crosshair && overlay) {
       drawCrosshair(crosshair, overlay);
     }
