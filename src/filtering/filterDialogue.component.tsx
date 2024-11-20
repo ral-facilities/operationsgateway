@@ -21,7 +21,7 @@ import React from 'react';
 import { useChannels } from '../api/channels';
 import { useFavouriteFilters } from '../api/favouriteFilters';
 import { useIncomingRecordCount } from '../api/records';
-import { timeChannelName } from '../app.types';
+import { FavouriteFilter, timeChannelName } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import {
@@ -168,8 +168,12 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const [errors, setErrors] = React.useState<(string | undefined)[]>(
     appliedFilters.map(() => undefined)
   );
-  const [favouriteFiltersOpen, setFavouriteFiltersOpen] =
-    React.useState<boolean>(false);
+  const [favouriteFiltersType, setFavouriteFiltersType] = React.useState<
+    false | 'post' | 'patch'
+  >(false);
+
+  const [selectedFavouriteFilters, setSelectedFavouriteFilters] =
+    React.useState<FavouriteFilter | undefined>(undefined);
   const [tabValue, setTabValue] = React.useState<TabValue>('Filters');
 
   const handleTabChange = (
@@ -418,7 +422,8 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               <Grid item xs>
                 <Button
                   onClick={() => {
-                    setFavouriteFiltersOpen(true);
+                    setSelectedFavouriteFilters(undefined);
+                    setFavouriteFiltersType('post');
                   }}
                   variant="outlined"
                   size="small"
@@ -463,6 +468,10 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                       <Grid item xs={0.5}>
                         <Tooltip title={`Edit ${data.name}`}>
                           <IconButton
+                            onClick={() => {
+                              setSelectedFavouriteFilters(data);
+                              setFavouriteFiltersType('patch');
+                            }}
                             aria-label={`Edit ${data.name} favourite filter`}
                           >
                             <EditIcon />
@@ -484,9 +493,13 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               </Grid>
 
               <FavouriteFiltersDialogue
-                open={favouriteFiltersOpen}
+                open={!!favouriteFiltersType}
+                requestType={
+                  favouriteFiltersType === false ? 'post' : favouriteFiltersType
+                }
+                selectedFavouriteFilter={selectedFavouriteFilters}
                 onClose={() => {
-                  setFavouriteFiltersOpen(false);
+                  setFavouriteFiltersType(false);
                 }}
                 channels={channels ?? []}
               />

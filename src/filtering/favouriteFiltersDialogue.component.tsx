@@ -1,16 +1,25 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
+  FormHelperText,
   Grid,
   TextField,
 } from '@mui/material';
 import React from 'react';
-import { useAddFavouriteFilter } from '../api/favouriteFilters';
-import { FavouriteFilterPost } from '../app.types';
+import {
+  useAddFavouriteFilter,
+  useEditFavouriteFilter,
+} from '../api/favouriteFilters';
+import {
+  FavouriteFilter,
+  FavouriteFilterPatch,
+  FavouriteFilterPost,
+} from '../app.types';
 import { FilterPageHelp } from './filterDialogue.component';
 import FilterInput from './filterInput.component';
 import { Token } from './filterParser';
@@ -19,6 +28,8 @@ export interface FavouriteFiltersDialogueProps {
   open: boolean;
   onClose: () => void;
   channels: Token[];
+  requestType: 'post' | 'patch';
+  selectedFavouriteFilter?: FavouriteFilter;
 }
 
 interface FavouriteFilterTokenised {
@@ -32,9 +43,13 @@ interface FavouriteFilterError {
 }
 
 const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
-  const { open, onClose, channels } = props;
+  const { open, onClose, channels, requestType, selectedFavouriteFilter } =
+    props;
   const [favouriteFilter, setFavouriteFilter] =
     React.useState<FavouriteFilterTokenised>({ name: '', filter: [] });
+  const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
+    undefined
+  );
 
   const [favouriteFilterError, setFavouriteFilterError] =
     React.useState<FavouriteFilterError>({
@@ -42,14 +57,26 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
       filter: undefined,
     });
 
+  React.useEffect(() => {
+    if (open && selectedFavouriteFilter) {
+      setFavouriteFilter({
+        name: selectedFavouriteFilter.name,
+        filter: JSON.parse(selectedFavouriteFilter.filter) as Token[],
+      });
+    }
+  }, [selectedFavouriteFilter, open]);
+
   const handleClose = React.useCallback(() => {
     onClose();
     setFavouriteFilterError({ name: undefined, filter: undefined });
     setFavouriteFilter({ name: '', filter: [] });
+    setErrorMessage(undefined);
   }, [onClose]);
 
-  const handleChangeValue = (value: Token[]) =>
+  const handleChangeValue = (value: Token[]) => {
     setFavouriteFilter((prevfilter) => ({ ...prevfilter, filter: value }));
+    setErrorMessage(undefined);
+  };
 
   const handleChangeError = (value?: string) =>
     setFavouriteFilterError((prevfilterError) => ({
@@ -58,13 +85,12 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
     }));
 
   const { mutateAsync: addFavouriteFilter } = useAddFavouriteFilter();
+  const { mutateAsync: editFavouriteFilter } = useEditFavouriteFilter();
 
-  const handleSubmit = React.useCallback(() => {
+  const handleAddSubmit = React.useCallback(() => {
     const data: FavouriteFilterPost = {
       name: favouriteFilter.name,
-      filter: JSON.stringify(
-        favouriteFilter.filter.length === 0 ? '' : favouriteFilter.filter
-      ),
+      filter: JSON.stringify(favouriteFilter.filter),
     };
 
     addFavouriteFilter(data).then(() => {
@@ -77,9 +103,46 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
     handleClose,
   ]);
 
+  const handleEditSubmit = React.useCallback(() => {
+    if (selectedFavouriteFilter) {
+      const data: FavouriteFilterPost = {
+        name: favouriteFilter.name,
+        filter: JSON.stringify(favouriteFilter.filter),
+      };
+
+      const isNameUpdated = selectedFavouriteFilter.name !== data.name;
+
+      const isFilterUpdated = selectedFavouriteFilter.filter !== data.filter;
+
+      const editData: FavouriteFilterPatch = {};
+
+      if (isNameUpdated) editData.name = data.name;
+      if (isFilterUpdated) editData.filter = data.filter;
+      if (isNameUpdated || isFilterUpdated) {
+        editFavouriteFilter({
+          id: selectedFavouriteFilter._id,
+          favouriteFilter: editData,
+        }).then(() => {
+          handleClose();
+        });
+      } else {
+        setErrorMessage(
+          "There have been no changes made. Please change a field's value or press Close to exit."
+        );
+      }
+    }
+  }, [
+    editFavouriteFilter,
+    selectedFavouriteFilter,
+    favouriteFilter,
+    handleClose,
+  ]);
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
-      <DialogTitle>Add Favourite filter</DialogTitle>
+      <DialogTitle>
+        {requestType === 'post' ? 'Add' : 'Edit'} Favourite filter
+      </DialogTitle>
       <DialogContent>
         <Grid container sx={{ mt: 1 }}>
           <Grid
@@ -100,6 +163,7 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
                     ...prevfilter,
                     name: e.target.value,
                   }));
+                  setErrorMessage(undefined);
                 }}
                 size="small"
               />
@@ -121,16 +185,33 @@ const FavouriteFiltersDialogue = (props: FavouriteFiltersDialogueProps) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button
-          onClick={handleSubmit}
+          onClick={requestType === 'post' ? handleAddSubmit : handleEditSubmit}
           disabled={
             favouriteFilter.filter.length === 0 ||
             !favouriteFilter.name ||
-            !!favouriteFilterError.filter
+            !!favouriteFilterError.filter ||
+            errorMessage !== undefined
           }
         >
           Save
         </Button>
       </DialogActions>
+
+      {errorMessage && (
+        <Box
+          sx={{
+            mx: 3,
+            marginBottom: 3,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <FormHelperText sx={{ marginBottom: 2, textAlign: 'center' }} error>
+            {errorMessage}
+          </FormHelperText>
+        </Box>
+      )}
     </Dialog>
   );
 };

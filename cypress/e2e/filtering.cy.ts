@@ -575,5 +575,114 @@ describe('Filtering Component', () => {
       cy.findByRole('combobox', { name: 'Filter' }).blur();
       cy.findByRole('button', { name: 'Save' }).should('be.disabled');
     });
+
+    it('edits a favourite filter (name)', () => {
+      cy.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      }).click();
+      cy.findAllByLabelText('Name').last().clear();
+      cy.findAllByLabelText('Name').last().type('test');
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Save' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'PATCH',
+        url: '/users/filters/:id',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('name=');
+
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+
+        expect(paramMap.get('name')).equal('test');
+      });
+    });
+
+    it('display error when values have not be changed and bee clear if name is changed', () => {
+      cy.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      }).click();
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+      cy.findByRole('button', { name: 'Save' }).click();
+      cy.findByText(
+        "There have been no changes made. Please change a field's value or press Close to exit."
+      ).should('exist');
+      cy.findByRole('button', { name: 'Save' }).should('be.disabled');
+
+      cy.findAllByLabelText('Name').last().clear();
+      cy.findAllByLabelText('Name').last().type('test');
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+    });
+
+    it('edits a favourite filter (filter)', () => {
+      cy.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      }).click();
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}'); // Equivalent to {arrowright}
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+
+      cy.findByRole('combobox', { name: 'Filter' }).type(
+        'sh{enter}={enter}1{enter}'
+      );
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+
+      cy.startSnoopingBrowserMockedRequest();
+      cy.findByRole('button', { name: 'Save' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'PATCH',
+        url: '/users/filters/:id',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('filter=');
+
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+
+        expect(paramMap.get('filter')).equal(
+          '[{"type":"channel","value":"shotnum","label":"Shot+Number"},{"type":"compop","value":"=","label":"="},{"type":"number","value":"1","label":"1"}]'
+        );
+      });
+    });
+
+    it('display error when values have not be changed and bee clear if filter is changed', () => {
+      cy.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      }).click();
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+      cy.findByRole('button', { name: 'Save' }).click();
+      cy.findByText(
+        "There have been no changes made. Please change a field's value or press Close to exit."
+      ).should('exist');
+      cy.findByRole('button', { name: 'Save' }).should('be.disabled');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}'); // Equivalent to {arrowright}
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{rightarrow}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+      cy.findByRole('combobox', { name: 'Filter' }).type('{backspace}');
+
+      cy.findByRole('combobox', { name: 'Filter' }).type(
+        'sh{enter}={enter}1{enter}'
+      );
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+    });
   });
 });

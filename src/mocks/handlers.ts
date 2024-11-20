@@ -376,6 +376,11 @@ export const handlers = [
     return HttpResponse.json('1', { status: 201 });
   }),
 
+  http.patch('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+    return HttpResponse.json(`Updated ${id}`, { status: 200 });
+  }),
+
   http.get('/users/filters', async () => {
     return HttpResponse.json(favouriteFiltersJson, { status: 201 });
   }),
