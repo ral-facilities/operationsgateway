@@ -384,7 +384,7 @@ export const handlers = [
   http.delete('/users/filters/:id', async ({ params }) => {
     const { id } = params;
 
-    if (id === '66f2e06a41a3fe93d6c81395') {
+    if (id === favouriteFiltersJson[2]._id) {
       return HttpResponse.json({ detail: 'error' }, { status: 400 });
     }
     return HttpResponse.json(undefined, { status: 204 });
