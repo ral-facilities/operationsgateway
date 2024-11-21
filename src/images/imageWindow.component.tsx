@@ -139,7 +139,12 @@ const ImageWindow = (props: ImageWindowProps) => {
                   changeRecordId={updateImageConfig}
                 />
               </Grid>
-              <Grid container item wrap="nowrap" direction="column">
+              <Grid
+                container
+                item
+                wrap="nowrap"
+                direction={crosshairsMode ? 'column' : 'row'}
+              >
                 <Grid container item wrap="nowrap" pl="29px">
                   <Grid item xs="auto">
                     <ImageView
@@ -170,26 +175,41 @@ const ImageWindow = (props: ImageWindowProps) => {
                     />
                   </Grid>
                 </Grid>
-                <Grid
-                  item
-                  xs="auto"
-                  style={{
-                    // display: none means it takes up no space in the UI
-                    display: crosshairsMode ? 'flex' : 'none',
-                    // visibility: hidden means it takes up space but just isn't visible
-                    visibility:
-                      crosshairData && crosshair ? 'visible' : 'hidden',
-                  }}
-                >
-                  <XImagePlot
-                    data={crosshairData?.row.intensity ?? { x: [], y: [] }}
-                    crosshairPosition={crosshair?.x ?? 0}
-                    image={image}
-                  />
+                <Grid container item wrap="nowrap" spacing={1}>
+                  <Grid
+                    item
+                    xs="auto"
+                    style={{
+                      // display: none means it takes up no space in the UI
+                      display: crosshairsMode ? 'flex' : 'none',
+                      // visibility: hidden means it takes up space but just isn't visible
+                      visibility:
+                        crosshairData && crosshair ? 'visible' : 'hidden',
+                    }}
+                  >
+                    <XImagePlot
+                      data={crosshairData?.row.intensity ?? { x: [], y: [] }}
+                      crosshairPosition={crosshair?.x ?? 0}
+                      image={image}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <ImageControlsPanel
+                      colourMap={colourMap}
+                      lowerLevel={lowerLevel}
+                      upperLevel={upperLevel}
+                      crosshairsMode={crosshairsMode}
+                      changeColourMap={setColourMap}
+                      changeLowerLevel={setLowerLevel}
+                      changeUpperLevel={setUpperLevel}
+                      changeCrosshairsMode={setCrosshairsMode}
+                      crosshairData={crosshairData}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <ImageControlsPanel
                 colourMap={colourMap}
                 lowerLevel={lowerLevel}
@@ -201,7 +221,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                 changeCrosshairsMode={setCrosshairsMode}
                 crosshairData={crosshairData}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
 
