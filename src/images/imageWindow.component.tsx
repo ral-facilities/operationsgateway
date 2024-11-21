@@ -160,9 +160,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                       display: crosshairsMode ? 'flex' : 'none',
                       // visibility: hidden means it takes up space but just isn't visible
                       visibility:
-                        image && crosshairData && crosshair
-                          ? 'visible'
-                          : 'hidden',
+                        crosshairData && crosshair ? 'visible' : 'hidden',
                     }}
                   >
                     <YImagePlot
@@ -180,9 +178,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                     display: crosshairsMode ? 'flex' : 'none',
                     // visibility: hidden means it takes up space but just isn't visible
                     visibility:
-                      image && crosshairData && crosshair
-                        ? 'visible'
-                        : 'hidden',
+                      crosshairData && crosshair ? 'visible' : 'hidden',
                   }}
                 >
                   <XImagePlot
@@ -203,6 +199,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                 changeLowerLevel={setLowerLevel}
                 changeUpperLevel={setUpperLevel}
                 changeCrosshairsMode={setCrosshairsMode}
+                crosshairData={crosshairData}
               />
             </Grid>
           </Grid>

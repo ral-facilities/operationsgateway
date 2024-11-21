@@ -170,7 +170,7 @@ const ImagePlot = (
       img.src = image;
       setImageElement(img);
 
-      if (img.naturalWidth && img.naturalHeight)
+      if (img.naturalWidth && img.naturalHeight) {
         setResizeString(
           JSON.stringify(
             type === 'x'
@@ -182,17 +182,18 @@ const ImagePlot = (
           )
         );
 
-      const limit = {
-        min: 0,
-        max: (type === 'x' ? img.naturalWidth : img.naturalHeight) - 1,
-      };
-      if (chartOptions.scales?.[type])
-        // use Object.assign here as otherwise typescript gets unhappy about chartOptions.scales?.[type] potentially being undefined
-        // so can't use a normal chartOptions.scales.[type] = command as it won't allow potential undefined on the LHS
-        Object.assign(chartOptions.scales?.[type], {
-          ...chartOptions.scales?.[type],
-          ...limit,
-        });
+        const limit = {
+          min: 0,
+          max: (type === 'x' ? img.naturalWidth : img.naturalHeight) - 1,
+        };
+        if (chartOptions.scales?.[type])
+          // use Object.assign here as otherwise typescript gets unhappy about chartOptions.scales?.[type] potentially being undefined
+          // so can't use a normal chartOptions.scales.[type] = command as it won't allow potential undefined on the LHS
+          Object.assign(chartOptions.scales?.[type], {
+            ...chartOptions.scales?.[type],
+            ...limit,
+          });
+      }
     }
     setOptionsString(JSON.stringify(chartOptions));
   }, [chartOptions, crosshairPosition, data, image, type]);

@@ -13,6 +13,7 @@ import {
   Slider,
   Stack,
   Switch,
+  Typography,
 } from '@mui/material';
 import React from 'react';
 import {
@@ -20,6 +21,7 @@ import {
   FalseColourParams,
   useColourBar,
   useColourMaps,
+  useImageCrosshair,
 } from '../api/images';
 
 const marks = [
@@ -63,6 +65,7 @@ interface ImageControlsPanelProps extends FalseColourParams {
   changeColourMap: (colourMap: string | undefined) => void;
   changeLowerLevel: (value: number | undefined) => void;
   changeUpperLevel: (value: number | undefined) => void;
+  crosshairData: ReturnType<typeof useImageCrosshair>['data'];
 }
 
 export function filterNamesWithSuffixR(
@@ -132,6 +135,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
     changeLowerLevel,
     changeUpperLevel,
     changeCrosshairsMode,
+    crosshairData,
   } = props;
 
   const { data: colourMaps } = useColourMaps();
@@ -266,6 +270,17 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
             }
             label="Centroid / Cross Hairs"
           />
+
+          {crosshairsMode && crosshairData && (
+            <>
+              <Typography>
+                Position: ({crosshairData.column.position},{' '}
+                {crosshairData.row.position})
+              </Typography>
+              <Typography>X FWHM: {crosshairData.column.fwhm}</Typography>
+              <Typography>Y FWHM: {crosshairData.row.fwhm}</Typography>
+            </>
+          )}
         </FormGroup>
 
         <FormControl disabled={!enabled}>
