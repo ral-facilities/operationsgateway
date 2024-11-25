@@ -19,6 +19,8 @@ describe('Image view component', () => {
     Object.defineProperty(global.Image.prototype, 'width', {
       get: () => 300,
     });
+    global.HTMLCanvasElement.prototype.getBoundingClientRect = () =>
+      new DOMRect(0, 0, 300, 200); // match image dimensions
   });
 
   beforeEach(() => {
@@ -26,6 +28,8 @@ describe('Image view component', () => {
       image: 'testSrc',
       title: 'Test image',
       viewReset: false,
+      crosshairsMode: false,
+      changeCrosshair: vi.fn(),
     };
   });
 

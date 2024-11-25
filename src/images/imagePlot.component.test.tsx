@@ -1,39 +1,44 @@
 import { render } from '@testing-library/react';
-import React from 'react';
-import ImagePlot, { ImagePlotProps } from './imagePlot.component';
+import { ImagePlotProps, XImagePlot, YImagePlot } from './imagePlot.component';
+import imageCrosshairJson from '../mocks/imageCrosshair.json';
 
-describe('Trace plot component', () => {
+describe('Image plot component', () => {
   let props: ImagePlotProps;
 
   beforeEach(() => {
     props = {
-      trace: {
-        _id: 'test',
-        x: [1, 2, 3],
-        y: [5, 6, 4],
-      },
-      title: 'scatter plot',
-      canvasRef: React.createRef<HTMLCanvasElement>(),
-      viewReset: false,
-      pointsVisible: false,
+      image:
+        '/9j/4AAQSkZJRgABAQAAAQABAAD/4gIoSUNDX1BST0ZJTEUAAQEAAAIYAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAHRyWFlaAAABZAAAABRnWFlaAAABeAAAABRiWFlaAAABjAAAABRyVFJDAAABoAAAAChnVFJDAAABoAAAAChiVFJDAAABoAAAACh3dHB0AAAByAAAABRjcHJ0AAAB3AAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAFgAAAAcAHMAUgBHAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAAAA+EAAC2z3BhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABYWVogAAAAAAAA9tYAAQAAAADTLW1sdWMAAAAAAAAAAQAAAAxlblVTAAAAIAAAABwARwBvAG8AZwBsAGUAIABJAG4AYwAuACAAMgAwADEANv/bAEMAAwICAwICAwMDAwQDAwQFCAUFBAQFCgcHBggMCgwMCwoLCw0OEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFP/bAEMBAwQEBQQFCQUFCRQNCw0UFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFP/AABEIABkAGQMBIgACEQEDEQH/xAAbAAABBAMAAAAAAAAAAAAAAAAFAAYICQECB//EACYQAAICAgICAQQDAQAAAAAAAAECAwQFBhESABMHISIxQRQVFkL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8ArB1DXTt+24bBLfpYpsnchpi9kpvTWr+xwvslf/lF55J/QB8fGX+GasFvP2MbscN3XtetNUy+SlgCPXYSMkZSNXYTLKVIjKN9SD39a/cR2iYbGZHDM9ajjc3szW2iGOy981Ilg6p0eIB4vbIzl16+wkAD7G7crYLgdP0nIfEuxZLNQXa23x2n9mLpasktC4/EX9lJJIa7FllYS9GEqnotbpzLyGCtXb8BFrWbNOvae7XetWtxTyQiJ2SaCOZeyBmCkCQAgMRyD9fA3kg/mqvrNbHbjHl9bxeK2d7dSXXr2Nyzu7UQAEhlpB5BFzXeJgz+vj1qqqeWIj54BrSs3DrO54HMWI3lr4/IV7ciRcdmWORWIHP054H78f2U+QdO1nHf5vUKuYyeq5anWfYTm/VXuWraDk+hoy6xRxP2aPkMSWIk7gADlR/J8x4B/dM1Qy9rHR47+TJWo0o6gs3EVJp+pYhmVWYDqGCAdj9sa/j8BvebeLwP/9k=',
+      data: imageCrosshairJson.column.intensity,
+      crosshairPosition: 1,
     };
+
+    Object.defineProperty(HTMLImageElement.prototype, 'naturalHeight', {
+      get: () => 100,
+    });
+    Object.defineProperty(HTMLImageElement.prototype, 'naturalWidth', {
+      get: () => 100,
+    });
   });
 
-  it('renders a canvas element with the correct attributes passed the correct props', () => {
-    // emulate loading first with no data from the query and then getting data
+  it('renders a canvas element with the correct attributes passed the correct props for an X axis plot', () => {
+    // emulate loading first with no image from the query and then the image loading
     const { rerender, asFragment } = render(
-      <ImagePlot {...props} trace={{ _id: '0', x: [], y: [] }} />
+      <XImagePlot {...props} image={undefined} />
     );
 
-    rerender(<ImagePlot {...props} />);
+    rerender(<XImagePlot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('updates data object correctly when points are set to visible', () => {
-    const { rerender, asFragment } = render(<ImagePlot {...props} />);
+  it('renders a canvas element with the correct attributes passed the correct props for a Y axis plot', () => {
+    // emulate loading first with no image from the query and then the image loading
+    const { rerender, asFragment } = render(
+      <YImagePlot {...props} image={undefined} />
+    );
 
-    rerender(<ImagePlot {...props} pointsVisible />);
+    rerender(<YImagePlot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();
   });

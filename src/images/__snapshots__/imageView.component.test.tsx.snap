@@ -7,9 +7,7 @@ exports[`Image view component > renders an image and a canvas overlay 1`] = `
   >
     <canvas
       data-testid="overlay"
-      height="200"
-      style="position: absolute; z-index: 2; pointer-events: none;"
-      width="300"
+      style="position: absolute; z-index: 2; pointer-events: none; width: 300px; height: 200px; image-rendering: pixelated;"
     />
     <div
       style="display: inline-block; overflow: hidden;"
