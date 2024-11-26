@@ -57,13 +57,31 @@ describe('Filter dialogue component', () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('opens and closes Add new favourite filter dialogue', async () => {
+  it('opens and closes edit favourite filter dialogue', async () => {
     createView();
 
     await user.click(screen.getByText('Favourite filters'));
     await user.click(
       await screen.findByRole('button', {
         name: 'Edit test 1 favourite filter',
+      })
+    );
+
+    expect(screen.getAllByText('Close').length).toEqual(2);
+
+    await user.click(screen.getAllByText('Close')[1]);
+    await waitFor(() => {
+      expect(screen.getAllByText('Close').length).toEqual(1);
+    });
+  });
+
+  it('opens and closes delete favourite filter dialogue', async () => {
+    createView();
+
+    await user.click(screen.getByText('Favourite filters'));
+    await user.click(
+      await screen.findByRole('button', {
+        name: 'Delete test 1 favourite filter',
       })
     );
 
