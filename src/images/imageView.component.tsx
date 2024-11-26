@@ -359,10 +359,6 @@ const ImageView = (props: ImageViewProps) => {
 
   const mouseClickHandler: React.MouseEventHandler = React.useCallback(
     (e) => {
-      if (e.button !== 0) {
-        // not left mouse click - ignore
-        return;
-      }
       e.preventDefault();
       e.stopPropagation();
 
@@ -387,7 +383,6 @@ const ImageView = (props: ImageViewProps) => {
         style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
       />
       <div style={{ display: 'inline-block', overflow: 'hidden' }}>
-        {}
         <img
           src={image}
           alt={title}
