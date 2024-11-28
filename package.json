@@ -98,7 +98,7 @@
     "cypress-delete-downloads-folder": "^0.0.5",
     "eslint": "9.13.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-cypress": "4.0.0",
+    "eslint-plugin-cypress": "4.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
