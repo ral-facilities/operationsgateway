@@ -109,7 +109,6 @@ interface CrosshairResponse {
   column: CrosshairDimensionType;
 }
 
-// TODO: name
 export const fetchCrosshair = async (
   apiUrl: string,
   recordId: string,

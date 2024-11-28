@@ -209,19 +209,6 @@ const ImageWindow = (props: ImageWindowProps) => {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <Grid item>
-              <ImageControlsPanel
-                colourMap={colourMap}
-                lowerLevel={lowerLevel}
-                upperLevel={upperLevel}
-                crosshairsMode={crosshairsMode}
-                changeColourMap={setColourMap}
-                changeLowerLevel={setLowerLevel}
-                changeUpperLevel={setUpperLevel}
-                changeCrosshairsMode={setCrosshairsMode}
-                crosshairData={crosshairData}
-              />
-            </Grid> */}
           </Grid>
         </Grid>
 

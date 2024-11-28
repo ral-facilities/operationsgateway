@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import colourMapsJson from '../mocks/colourMaps.json';
+import imageCrosshairJson from '../mocks/imageCrosshair.json';
 
 import { RootState } from '../state/store';
 import {
@@ -7,7 +8,12 @@ import {
   hooksWrapperWithProviders,
   waitForRequest,
 } from '../testUtils';
-import { useColourBar, useColourMaps, useImage } from './images';
+import {
+  useColourBar,
+  useColourMaps,
+  useImage,
+  useImageCrosshair,
+} from './images';
 
 describe('images api functions', () => {
   afterEach(() => {
@@ -209,6 +215,83 @@ describe('images api functions', () => {
 
     it.todo(
       'sends axios request to fetch colourmaps and throws an appropriate error on failure'
+    );
+  });
+
+  describe('useImageCrosshair', () => {
+    let params: URLSearchParams;
+
+    let state: RootState;
+
+    beforeEach(() => {
+      params = new URLSearchParams();
+      state = getInitialState();
+    });
+
+    it('sends request to fetch crosshair info for centroid and returns successful response', async () => {
+      const { result } = renderHook(
+        () => useImageCrosshair('1', 'TEST', undefined, true),
+        {
+          wrapper: hooksWrapperWithProviders(),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(imageCrosshairJson);
+    });
+
+    it('sends request to fetch crosshair info for a function with position set and returns successful response', async () => {
+      state = {
+        ...state,
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'b',
+              expression: [
+                {
+                  type: 'channel',
+                  label: 'CHANNEL_EFGHI',
+                  value: 'CHANNEL_EFGHI',
+                },
+              ],
+              dataType: 'image',
+              channels: ['CHANNEL_EFGHI'],
+            },
+          ],
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/images/1/TEST/crosshair');
+
+      const { result } = renderHook(
+        () => useImageCrosshair('1', 'TEST', { x: 1, y: 2 }, true),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append(
+        'functions',
+        JSON.stringify({ name: 'b', expression: 'CHANNEL_EFGHI' })
+      );
+      params.set('position', '[1,2]');
+
+      expect(result.current.data).toEqual(imageCrosshairJson);
+      expect(new URL(request.url).searchParams).toEqual(params);
+    });
+
+    it.todo(
+      'sends axios request to fetch crosshair info and throws an appropriate error on failure'
     );
   });
 });
