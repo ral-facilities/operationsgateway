@@ -51,7 +51,7 @@ test('scalar functions can be plotted', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   expect(
     await chart.screenshot({
       type: 'png',

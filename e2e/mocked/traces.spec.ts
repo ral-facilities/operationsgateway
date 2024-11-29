@@ -30,7 +30,7 @@ test('user can show points for the trace', async ({ page }) => {
 
   await popup.getByRole('button', { name: 'Show points' }).click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
@@ -51,11 +51,11 @@ test('user can zoom and pan the trace', async ({ page }) => {
       .click(),
   ]);
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   await chart.click();
 
   // test drag to zoom
-  await popup.dragAndDrop('#my-chart', '#my-chart', {
+  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
     sourcePosition: {
       x: 250,
       y: 180,
@@ -73,7 +73,7 @@ test('user can zoom and pan the trace', async ({ page }) => {
   await popup.mouse.wheel(-10, 0);
 
   await popup.keyboard.down('Shift');
-  await popup.dragAndDrop('#my-chart', '#my-chart', {
+  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
     sourcePosition: {
       x: 150,
       y: 150,
@@ -126,7 +126,7 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
       .click(),
   ]);
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // wait for first chart to load before loading new chart
   await chart.click();
