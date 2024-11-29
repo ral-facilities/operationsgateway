@@ -12,6 +12,7 @@ import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.compo
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
+import favouriteFiltersJson from './favouriteFilters.json';
 import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
 import recordsJson from './records.json';
@@ -371,6 +372,27 @@ export const handlers = [
       },
       { status: 400 }
     );
+  }),
+  http.post('/users/filters', async () => {
+    return HttpResponse.json('1', { status: 201 });
+  }),
+
+  http.patch('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+    return HttpResponse.json(`Updated ${id}`, { status: 200 });
+  }),
+
+  http.delete('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+
+    if (id === favouriteFiltersJson[2]._id) {
+      return HttpResponse.json({ detail: 'error' }, { status: 400 });
+    }
+    return HttpResponse.json(undefined, { status: 204 });
+  }),
+
+  http.get('/users/filters', async () => {
+    return HttpResponse.json(favouriteFiltersJson, { status: 201 });
   }),
   http.get('/images/:recordId/:channelName/crosshair', async ({ request }) => {
     const url = new URL(request.url);

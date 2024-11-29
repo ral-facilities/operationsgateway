@@ -311,3 +311,14 @@ export interface APIErrorResponse {
 export interface APIError {
   detail: string | APIErrorResponse[];
 }
+
+export interface FavouriteFilterPost {
+  name: string;
+  filter: string;
+}
+
+export type FavouriteFilterPatch = Partial<FavouriteFilterPost>;
+
+export interface FavouriteFilter extends FavouriteFilterPost {
+  _id: string;
+}

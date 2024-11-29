@@ -1,4 +1,6 @@
 import { AddCircle, Delete, Warning } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Button,
@@ -6,18 +8,20 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   Divider,
   Grid,
   IconButton,
+  Tabs,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { useChannels } from '../api/channels';
+import { useFavouriteFilters } from '../api/favouriteFilters';
 import { useIncomingRecordCount } from '../api/records';
-import { timeChannelName } from '../app.types';
+import { FavouriteFilter, timeChannelName } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectRecordLimitWarning } from '../state/slices/configSlice';
 import {
@@ -25,14 +29,19 @@ import {
   selectAppliedFilters,
 } from '../state/slices/filterSlice';
 import { selectSearchParams } from '../state/slices/searchSlice';
+import { a11yProps, StyledTab, TabPanel } from '../views/viewTabs.component';
+import DeleteFavouriteFilterDialogue from './deleteFavouriteFilterDialogue.component';
+import FavouriteFiltersDialogue from './favouriteFiltersDialogue.component';
 import FilterInput from './filterInput.component';
-import { Token, parseFilter } from './filterParser';
+import { parseFilter, Token } from './filterParser';
 
 interface FilterDialogueProps {
   open: boolean;
   onClose: () => void;
   flashingFilterValue?: string;
 }
+
+type TabValue = 'Filters' | 'Favourite filters';
 
 export const Heading = (props: React.ComponentProps<typeof Typography>) => {
   const { children, ref, ...restProps } = props;
@@ -54,6 +63,102 @@ export const Body = (props: React.ComponentProps<typeof Typography>) => (
   </Typography>
 );
 
+export const FilterPageHelp = () => {
+  const helpPageOperators = [
+    '=',
+    '!=',
+    '>',
+    '<',
+    '>=',
+    '<=',
+    'is null',
+    'is not null',
+    'and',
+    'or',
+    'not',
+    '(',
+    ')',
+  ];
+  return (
+    <Grid item xs>
+      <Heading>Filter help</Heading>
+      <Body>
+        In the box, start typing data channel names, numbers, mathematical
+        symbols such as{' '}
+        <Chip
+          label=">"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and{' '}
+        <Chip
+          label="<="
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and keywords such as{' '}
+        <Chip
+          label="AND"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mx: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />
+        ,{' '}
+        <Chip
+          label="OR"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            mr: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />{' '}
+        and{' '}
+        <Chip
+          label="NOT"
+          size="small"
+          sx={{
+            fontSize: '0.8125rem',
+            ml: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }}
+        />
+        . The Wizard will suggest suitable options and indicate using a grey box
+        when each item has been recognised. Function names are not currently
+        supported in filters.
+      </Body>
+      <Heading>Operators included</Heading>
+      <Body>
+        <Box display="flex" flexWrap="wrap" gap={1}>
+          {helpPageOperators.map((operator, _index) => (
+            <React.Fragment key={operator}>
+              <Chip
+                label={operator}
+                size="small"
+                sx={{
+                  fontSize: '0.8125rem',
+                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                }}
+              />
+            </React.Fragment>
+          ))}
+        </Box>
+      </Body>
+    </Grid>
+  );
+};
+
 const FilterDialogue = (props: FilterDialogueProps) => {
   const { open, onClose, flashingFilterValue } = props;
   const dispatch = useAppDispatch();
@@ -64,6 +169,23 @@ const FilterDialogue = (props: FilterDialogueProps) => {
   const [errors, setErrors] = React.useState<(string | undefined)[]>(
     appliedFilters.map(() => undefined)
   );
+  const [favouriteFiltersType, setFavouriteFiltersType] = React.useState<
+    false | 'post' | 'patch'
+  >(false);
+
+  const [openDeleteDialogue, setOpenDeleteDialogue] =
+    React.useState<boolean>(false);
+  const [selectedFavouriteFilter, setSelectedFavouriteFilter] = React.useState<
+    FavouriteFilter | undefined
+  >(undefined);
+  const [tabValue, setTabValue] = React.useState<TabValue>('Filters');
+
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newValue: TabValue
+  ) => {
+    setTabValue(newValue);
+  };
   const { data: channels } = useChannels({
     select: (channels) => {
       return channels
@@ -81,6 +203,11 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         );
     },
   });
+
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setTabValue('Filters');
+  }, [onClose]);
 
   React.useEffect(() => {
     setFilters(appliedFilters);
@@ -200,205 +327,255 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomingCount, incomingFilters]);
 
-  const helpPageOperators = [
-    '=',
-    '!=',
-    '>',
-    '<',
-    '>=',
-    '<=',
-    'is null',
-    'is not null',
-    'and',
-    'or',
-    'not',
-    '(',
-    ')',
-  ];
+  const { data: favouriteFilterData } = useFavouriteFilters();
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle>Filters</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="lg"
+      PaperProps={{ 'aria-label': 'Filters' }}
+      fullWidth
+    >
+      <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
+        <StyledTab
+          value="Filters"
+          label="Filters"
+          {...a11yProps<TabValue>('Filters')}
+        />
+        <StyledTab
+          value="Favourite filters"
+          label="Favourite filters"
+          {...a11yProps<TabValue>('Favourite filters')}
+        />
+      </Tabs>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid container item xs pr={1} flexDirection="column" rowSpacing={1}>
-            <Heading mt={1}>Enter filter</Heading>
-            {filters.map((filter, index) => (
-              <Grid container item key={index}>
-                <Grid item xs>
-                  <FilterInput
-                    channels={channels ?? []}
-                    value={filter}
-                    setValue={handleChangeValue(index)}
-                    error={errors[index]}
-                    setError={handleChangeError(index)}
-                    flashingFilterValue={flashingFilterValue}
-                  />
-                </Grid>
-                <Grid item xs={0.6} mt={0.5}>
-                  <IconButton
-                    onClick={() => {
-                      setFilters((filters) =>
-                        filters.filter((_, i) => i !== index)
-                      );
-                      setErrors((errors) =>
-                        errors.filter((_, i) => i !== index)
-                      );
-                    }}
-                    size="small"
-                    aria-label={`Delete filter ${index}`}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            ))}
+          <Grid item container xs={12}>
+            <TabPanel
+              value={tabValue}
+              label={'Filters' satisfies TabValue}
+              style={{ width: '100%' }}
+            >
+              <Grid item container xs>
+                <Grid
+                  container
+                  item
+                  xs={12}
+                  sm={6}
+                  pr={1}
+                  flexDirection="column"
+                  rowSpacing={1}
+                >
+                  <Heading mt={1}>Enter filter</Heading>
+                  {filters.map((filter, index) => (
+                    <Grid container item key={index}>
+                      <Grid item xs>
+                        <FilterInput
+                          channels={channels ?? []}
+                          value={filter}
+                          setValue={handleChangeValue(index)}
+                          error={errors[index]}
+                          setError={handleChangeError(index)}
+                          flashingFilterValue={flashingFilterValue}
+                        />
+                      </Grid>
+                      <Grid item xs={0.6} mt={0.5}>
+                        <IconButton
+                          onClick={() => {
+                            setFilters((filters) =>
+                              filters.filter((_, i) => i !== index)
+                            );
+                            setErrors((errors) =>
+                              errors.filter((_, i) => i !== index)
+                            );
+                          }}
+                          size="small"
+                          aria-label={`Delete filter ${index}`}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  ))}
 
-            <Grid item>
-              <Button
-                onClick={() => {
-                  setFilters((filters) => [...filters, []]);
-                  setErrors((errors) => [...errors, undefined]);
-                }}
-                variant="outlined"
-                size="small"
-                startIcon={<AddCircle />}
-              >
-                Add new filter
-              </Button>
-            </Grid>
-          </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs>
-            <Heading>Filter help</Heading>
-            <Body>
-              In the box, start typing data channel names, numbers, mathematical
-              symbols such as{' '}
-              <Chip
-                label=">"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and{' '}
-              <Chip
-                label="<="
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and keywords such as{' '}
-              <Chip
-                label="AND"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mx: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />
-              ,{' '}
-              <Chip
-                label="OR"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  mr: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />{' '}
-              and{' '}
-              <Chip
-                label="NOT"
-                size="small"
-                sx={{
-                  fontSize: '0.8125rem',
-                  ml: 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                }}
-              />
-              . The Wizard will suggest suitable options and indicate using a
-              grey box when each item has been recognised. Function names are
-              not currently supported in filters.
-            </Body>
-            <Heading>Operators included</Heading>
-            <Body>
-              <Box display="flex" flexWrap="wrap" gap={1}>
-                {helpPageOperators.map((operator, _index) => (
-                  <React.Fragment key={operator}>
-                    <Chip
-                      label={operator}
-                      size="small"
-                      sx={{
-                        fontSize: '0.8125rem',
-                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                  <Grid item>
+                    <Button
+                      onClick={() => {
+                        setFilters((filters) => [...filters, []]);
+                        setErrors((errors) => [...errors, undefined]);
                       }}
-                    />
-                  </React.Fragment>
-                ))}
-              </Box>
-            </Body>
+                      variant="outlined"
+                      size="small"
+                      startIcon={<AddCircle />}
+                    >
+                      Add new filter
+                    </Button>
+                  </Grid>
+                </Grid>
+                <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+                <FilterPageHelp />
+              </Grid>
+            </TabPanel>
+
+            <TabPanel
+              value={tabValue}
+              label={'Favourite filters' satisfies TabValue}
+              style={{ width: '100%' }}
+            >
+              <Grid item xs>
+                <Button
+                  onClick={() => {
+                    setSelectedFavouriteFilter(undefined);
+                    setFavouriteFiltersType('post');
+                  }}
+                  variant="outlined"
+                  size="small"
+                  startIcon={<AddCircle />}
+                >
+                  Add new favourite filter
+                </Button>
+              </Grid>
+              <Grid item container flexDirection="column" mt={1} rowSpacing={1}>
+                {favouriteFilterData?.map((data) => {
+                  return (
+                    <Grid item container spacing={1} key={data._id}>
+                      <Grid item xs={5.5}>
+                        <TextField
+                          fullWidth
+                          inputProps={{
+                            readOnly: true,
+                            disabled: true,
+                          }}
+                          sx={{
+                            // change label and border color when readonly
+                            '&:has([readonly]) ': {
+                              '& .MuiOutlinedInput-notchedOutline': {
+                                borderColor: '#cecece',
+                              },
+                            },
+                          }}
+                          label="Name"
+                          value={data.name}
+                          size="small"
+                        />
+                      </Grid>
+                      <Grid item xs={5.5}>
+                        <FilterInput
+                          channels={channels ?? []}
+                          value={JSON.parse(data.filter) as Token[]}
+                          setValue={() => {}}
+                          setError={() => {}}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid item xs={0.5}>
+                        <Tooltip title={`Edit ${data.name}`}>
+                          <IconButton
+                            onClick={() => {
+                              setSelectedFavouriteFilter(data);
+                              setFavouriteFiltersType('patch');
+                            }}
+                            aria-label={`Edit ${data.name} favourite filter`}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                      <Grid item xs={0.5}>
+                        <Tooltip title={`Delete ${data.name}`}>
+                          <IconButton
+                            onClick={() => {
+                              setSelectedFavouriteFilter(data);
+                              setOpenDeleteDialogue(true);
+                            }}
+                            aria-label={`Delete ${data.name} favourite filter`}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+
+              <FavouriteFiltersDialogue
+                open={!!favouriteFiltersType}
+                requestType={
+                  favouriteFiltersType === false ? 'post' : favouriteFiltersType
+                }
+                selectedFavouriteFilter={selectedFavouriteFilter}
+                onClose={() => {
+                  setFavouriteFiltersType(false);
+                }}
+                channels={channels ?? []}
+              />
+              <DeleteFavouriteFilterDialogue
+                open={openDeleteDialogue}
+                onClose={() => {
+                  setOpenDeleteDialogue(false);
+                  setSelectedFavouriteFilter(undefined);
+                }}
+                favouriteFilter={selectedFavouriteFilter}
+              />
+            </TabPanel>
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-        {displayingWarningMessage ? (
-          <Tooltip
-            componentsProps={{
-              tooltip: {
-                sx: {
-                  backgroundColor: 'yellow',
-                  color: 'black',
-                  border: '1px solid black',
+        <Button onClick={handleClose}>Close</Button>
+        {tabValue !== 'Favourite filters' &&
+          (displayingWarningMessage ? (
+            <Tooltip
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    backgroundColor: 'yellow',
+                    color: 'black',
+                    border: '1px solid black',
+                  },
                 },
-              },
-            }}
-            arrow
-            placement="bottom"
-            title={
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  cursor: 'pointer',
-                  overflow: 'hidden',
-                }}
-              >
-                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
-                <div>
-                  <Typography variant="caption" align="center">
-                    {`This search will return over ${recordLimitWarning}
+              }}
+              arrow
+              placement="bottom"
+              title={
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    cursor: 'pointer',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                  <div>
+                    <Typography variant="caption" align="center">
+                      {`This search will return over ${recordLimitWarning}
                       results.`}
-                  </Typography>
-                  <br />
-                  <Typography variant="caption" align="center">
-                    Click Apply again to continue
-                  </Typography>
-                </div>
-              </Box>
-            }
-          >
+                    </Typography>
+                    <br />
+                    <Typography variant="caption" align="center">
+                      Click Apply again to continue
+                    </Typography>
+                  </div>
+                </Box>
+              }
+            >
+              <Button
+                disabled={errors.some((e) => e !== undefined)}
+                onClick={() => applyFilters()}
+              >
+                Apply
+              </Button>
+            </Tooltip>
+          ) : (
             <Button
               disabled={errors.some((e) => e !== undefined)}
               onClick={() => applyFilters()}
             >
               Apply
             </Button>
-          </Tooltip>
-        ) : (
-          <Button
-            disabled={errors.some((e) => e !== undefined)}
-            onClick={() => applyFilters()}
-          >
-            Apply
-          </Button>
-        )}
+          ))}
       </DialogActions>
     </Dialog>
   );
