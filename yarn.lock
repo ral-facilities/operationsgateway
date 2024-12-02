@@ -1810,11 +1810,11 @@ __metadata:
   linkType: hard
 
 "@types/eslint-plugin-jsx-a11y@npm:^6":
-  version: 6.9.0
-  resolution: "@types/eslint-plugin-jsx-a11y@npm:6.9.0"
+  version: 6.10.0
+  resolution: "@types/eslint-plugin-jsx-a11y@npm:6.10.0"
   dependencies:
     "@types/eslint": "npm:*"
-  checksum: 10c0/50e5f9a70e50218abae57cf9b8dc60a55e3fe1721a5912f96b26c6030b8c198694342d897a5425691601b27506589558f6ebcc93b80f602d5851936e95c8d84c
+  checksum: 10c0/ec494e0ea56a0a10140316a74463eb8a6ac5ed02d7408ef91444f7c0c9bc875866a9d0be7a761f1631ea543c2413b1db947bf7cb1df9d936171e5d82f71c6772
   languageName: node
   linkType: hard
 
