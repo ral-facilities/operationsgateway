@@ -144,6 +144,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                 item
                 wrap="nowrap"
                 direction={crosshairsMode ? 'column' : 'row'}
+                data-testid="image-panel"
               >
                 <Grid container item wrap="nowrap" pl="29px">
                   <Grid item xs="auto">

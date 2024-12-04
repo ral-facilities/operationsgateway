@@ -233,7 +233,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
   );
 
   return (
-    <Paper>
+    <Paper data-testid="image-controls-panel">
       <Stack direction="column" sx={{ width: 300 }} spacing={1} padding={2}>
         <FormGroup>
           <FormControlLabel

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+// import imageCrosshairJson from '../../src/mocks/imageCrosshair.json';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -448,4 +449,293 @@ test('user can set their default colourmap', async ({ page }) => {
       type: 'png',
     })
   ).toMatchSnapshot();
+});
+
+test('user can use crosshairs mode and view intensity graphs', async ({
+  page,
+  browserName,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // use image parent div as this is what crops the image to the correct size
+  const imageDiv = await popup
+    .locator('div', {
+      has: image,
+    })
+    // last is to get the most specific div i.e. direct parent
+    .last();
+
+  // get into cross hairs mode
+  expect(
+    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+  // // wait for chart animations to execute
+  // await popup.waitForTimeout(1000);
+
+  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // see msw mock imageCrosshair.json
+  const centroidPosition = [226, 187];
+  const FWHMs = [61, 56];
+  expect(
+    await popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  expect(await popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  expect(await popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  // check that clicking the image changes the crosshairs position & causes a data fetch
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await image.click({
+    position: { x: 100, y: browserName === 'chromium' ? 301 : 300 },
+  });
+
+  expect(await popup.getByText('Position: (100, 300)')).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // check reset view goes back to the centroid
+  await popup.locator('text=Reset View').click();
+
+  expect(
+    await popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // can switch out of crosshairs mode and crosshair disappears
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+
+  expect(
+    await imageDiv.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  await expect(charts.first()).not.toBeVisible();
+  await expect(charts.last()).not.toBeVisible();
+});
+
+test('user can switch images via thumbnails whilst in crosshairs mode', async ({
+  page,
+  browserName,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const oldImage = await popup.getByAltText(imgAltText);
+
+  // get into cross hairs mode
+  expect(
+    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  expect(
+    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  // expect intensity plots to be drawn
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // click to move the crosshair so we check when switching images it resets to the new image's centroid
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await oldImage.click({
+    position: { x: 200, y: browserName === 'chromium' ? 201 : 200 },
+  });
+  expect(await popup.getByText('Position: (200, 200)')).toBeVisible();
+
+  await page.evaluate(async () => {
+    // from: https://stackoverflow.com/a/49434653 - generate "random" bell curve
+    function create_intensity_plot(min: number, max: number) {
+      // from https://stackoverflow.com/a/19303725 - basic seeded "random" number generator
+      let seed = 1;
+      function random() {
+        const x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+      }
+
+      const n = 10000;
+      const step = 1;
+      const data: Record<number, number> = {};
+
+      const randn_bm = (min, max, skew) => {
+        let u = 0,
+          v = 0;
+        while (u === 0) u = random(); //Converting [0,1) to (0,1)
+        while (v === 0) v = random();
+        let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
+        num = num / 10.0 + 0.5; // Translate to 0 -> 1
+        if (num > 1 || num < 0) num = randn_bm(min, max, skew); // resample between 0 and 1 if out of range
+        num = Math.pow(num, skew); // Skew
+        num *= max - min; // Stretch to fill range
+        num += min; // offset to min
+        return num;
+      };
+
+      const round_to_precision = (x, precision) => {
+        const y = +x + (precision === undefined ? 0.5 : precision / 2);
+        return y - (y % (precision === undefined ? 1 : +precision));
+      };
+
+      // Seed data with a bunch of 0s
+      for (let j = min; j < max; j += step) {
+        data[j] = 0;
+      }
+
+      // Create n samples between min and max
+      for (let i = 0; i < n; i += step) {
+        const rand_num = randn_bm(min, max, 1);
+        const rounded = round_to_precision(rand_num, step);
+        data[rounded] += 1;
+      }
+
+      // Count number of samples at each increment
+      let points: { x: number; y: number }[] = [];
+      for (const [key, val] of Object.entries(data)) {
+        points.push({
+          x: parseFloat(key),
+          y: val / n <= 20 / n ? random() * (1 / n) * 20 : val / n, // make the tail a bit "wiggly"
+        });
+      }
+
+      // Sort
+      points = points.sort(function (a, b) {
+        if (a.x < b.x) return -1;
+        if (a.x > b.x) return 1;
+        return 0;
+      });
+
+      const unnormalised_y = points.map((v) => v.y);
+
+      const y_min = Math.min(...unnormalised_y);
+      const y_max = Math.max(...unnormalised_y);
+
+      const normalised_y = unnormalised_y.map((n) =>
+        Math.round(((n - y_min) / (y_max - y_min)) * 255)
+      );
+
+      const intensity_data: { x: number[]; y: number[] } = {
+        x: points.map((v) => v.x),
+        y: normalised_y,
+      };
+
+      return intensity_data;
+    }
+
+    const { msw } = window;
+
+    msw.worker.use(
+      msw.http.get('/images/:recordId/:channelName/crosshair', async () => {
+        const responseJson = {
+          row: {
+            position: 250,
+            intensity: create_intensity_plot(0, 656), // 656 = height of image
+            fwhm: 79,
+          },
+          column: {
+            position: 320,
+            intensity: create_intensity_plot(0, 494), // 494 = width of image
+            fwhm: 22,
+          },
+        };
+        return msw.HttpResponse.json(responseJson, { status: 200 });
+      })
+    );
+  });
+
+  await popup
+    .getByAltText('Channel_BCDEF image', { exact: false })
+    .last()
+    .click();
+
+  const centroidPosition = [320, 250];
+  const FWHMs = [22, 79];
+  expect(
+    await popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  expect(await popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  expect(await popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // check that crosshair is repositioned and new intensity plots load & are positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
