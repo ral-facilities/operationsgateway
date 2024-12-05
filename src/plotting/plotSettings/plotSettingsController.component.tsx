@@ -8,41 +8,13 @@ import {
   XAxisScale,
   YAxisScale,
 } from '../../app.types';
+import { a11yProps, TabPanel } from '../../views/viewTabs.component';
 import ChartTypeButtons from './chartTypeButtons.component';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 import XAxisTab from './xAxisTab.component';
 import YAxisTab from './yAxisTab.component';
 
 type TabValue = 'X' | 'Y';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  value: TabValue;
-  label: TabValue;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, label, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== label}
-      id={`${label}-tabpanel`}
-      aria-labelledby={`${label}-tab`}
-      {...other}
-    >
-      {value === label && <Box>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(label: TabValue) {
-  return {
-    id: `${label}-tab`,
-    'aria-controls': `${label}-tabpanel`,
-  };
-}
 
 const StyledTab = styled(Tab)(() => ({
   minHeight: 30,
@@ -224,13 +196,13 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
               aria-label="tabs"
               sx={{ height: 30, minHeight: 30 }}
             >
-              <StyledTab value="X" label="X" {...a11yProps('X')} />
-              <StyledTab value="Y" label="Y" {...a11yProps('Y')} />
+              <StyledTab value="X" label="X" {...a11yProps<TabValue>('X')} />
+              <StyledTab value="Y" label="Y" {...a11yProps<TabValue>('Y')} />
             </Tabs>
           </Box>
         )}
         {XAxis !== timeChannelName ? (
-          <TabPanel value={XYTabValue} label={'X'}>
+          <TabPanel value={XYTabValue} label={'X' satisfies TabValue}>
             {XAxisConfig}
           </TabPanel>
         ) : (
@@ -244,7 +216,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
           </Paper>
         )}
         {XAxis !== timeChannelName ? (
-          <TabPanel value={XYTabValue} label={'Y'}>
+          <TabPanel value={XYTabValue} label={'Y' satisfies TabValue}>
             {YAxisConfig}
           </TabPanel>
         ) : (

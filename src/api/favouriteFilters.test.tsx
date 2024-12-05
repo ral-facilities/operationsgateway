@@ -34,10 +34,6 @@ describe('favourite filters api functions', () => {
 
       expect(result.current.data).toEqual('1');
     });
-
-    it.todo(
-      'sends axios request to add favourite filters for a user and throws an appropriate error on failure'
-    );
   });
 
   describe('useEditFavouriteFilter', () => {
@@ -61,10 +57,6 @@ describe('favourite filters api functions', () => {
 
       expect(result.current.data).toEqual('Updated 1');
     });
-
-    it.todo(
-      'sends axios request to edit favourite filters for a user and throws an appropriate error on failure'
-    );
   });
 
   describe('useDeleteFavouriteFilter', () => {
@@ -82,9 +74,5 @@ describe('favourite filters api functions', () => {
 
       expect(result.current.data).toEqual('');
     });
-
-    it.todo(
-      'sends axios request to delete user favourite Filter and throws an appropriate error on failure'
-    );
   });
 });

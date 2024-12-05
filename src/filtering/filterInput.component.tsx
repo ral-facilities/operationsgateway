@@ -452,8 +452,8 @@ const FilterInput = (props: FilterInputProps) => {
           label="Filter"
           error={(error?.length ?? 0) > 0}
           helperText={error}
-          onKeyDown={keydownHandler}
-          onClick={clickHandler}
+          onKeyDown={readOnly ? undefined : keydownHandler}
+          onClick={readOnly ? undefined : clickHandler}
           InputProps={{
             ...params.InputProps,
             // we need this data-id so we can tell when a user is clicking between

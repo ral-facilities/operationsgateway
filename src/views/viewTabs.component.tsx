@@ -197,10 +197,10 @@ const ViewTabs = () => {
             <ExportButton />
           </Box>
         </Box>
-        <TabPanel value={value} label={'Data'}>
+        <TabPanel value={value} label={'Data' satisfies TabValue}>
           <DataView sessionId={loadedSessionId} />
         </TabPanel>
-        <TabPanel<TabValue> value={value} label={'Plots'}>
+        <TabPanel value={value} label={'Plots' satisfies TabValue}>
           <PlotList />
         </TabPanel>
         <SessionDialogue
