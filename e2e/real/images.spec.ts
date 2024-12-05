@@ -290,6 +290,79 @@ test('user can set their default colourmap', async ({ page }) => {
   ).toMatchSnapshot();
 });
 
+test('user can use crosshairs mode and view intensity graphs', async ({
+  page,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+
+  // get into cross hairs mode
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  const centroidPosition = [101, 95];
+  const FWHMs = [55, 52];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  // check that clicking the image changes the crosshairs position & causes a data fetch
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await image.click({
+    position: { x: 150, y: 51 },
+  });
+
+  await expect(popup.getByText('Position: (150, 50)')).toBeVisible();
+  const newFWHMs = [5, 50];
+  await expect(popup.getByText(`X FWHM: ${newFWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${newFWHMs[1]}`)).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel from the screenshot as it's not important
+        '[data-testid="image-controls-panel"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+});
+
 test('user can export image', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
