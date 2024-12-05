@@ -52,6 +52,8 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
@@ -59,12 +61,12 @@ test('user can change the false colour parameters of an image', async ({
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).toBeChecked();
 
   const slider = await popup.getByRole('slider', {
@@ -91,7 +93,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
+  await expect(slider.nth(0)).toHaveValue(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
@@ -106,7 +108,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
+  await expect(slider.nth(1)).toHaveValue(`${0.8 * 255}`);
 
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
@@ -145,14 +147,16 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).not.toBeChecked();
 
   // wait for new image to have loaded
@@ -181,9 +185,12 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
-  const oldImageSrc = await popup
-    .getByAltText((await popup.title()).split(' - ')[1])
-    .getAttribute('src');
+  const oldImage = await popup.getByAltText(
+    (await popup.title()).split(' - ')[1]
+  );
+  // assert src has loaded before storing the old image src
+  await expect(oldImage).toHaveAttribute('src');
+  const oldImageSrc = await oldImage.getAttribute('src');
 
   await popup
     .getByAltText('PM-201-PA1-CAM-2 image', { exact: false })

@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-// import imageCrosshairJson from '../../src/mocks/imageCrosshair.json';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -112,6 +111,8 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
@@ -143,7 +144,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
+  await expect(slider.nth(0)).toHaveValue(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
@@ -158,7 +159,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
+  await expect(slider.nth(1)).toHaveValue(`${0.8 * 255}`);
 
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
@@ -194,20 +195,30 @@ test('user can change the false colour to use reverse', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
-  const oldImageSrc = await image.getAttribute('src');
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
+  let oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+  await image.click();
+  oldImageSrc = await image.getAttribute('src');
+
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).toBeChecked();
+
   // wait for new image to have loaded
   await expect
     .poll(async () => await image.getAttribute('src'))
@@ -240,6 +251,8 @@ test('user can change the false colour to colourmap in extended list', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
   await popup
@@ -282,14 +295,16 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).not.toBeChecked();
 
   // wait for new image to have loaded
@@ -379,9 +394,12 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
-  const oldImageSrc = await popup
-    .getByAltText((await popup.title()).split(' - ')[1])
-    .getAttribute('src');
+  const oldImage = await popup.getByAltText(
+    (await popup.title()).split(' - ')[1]
+  );
+  // assert src has loaded before storing the old image src
+  await expect(oldImage).toHaveAttribute('src');
+  const oldImageSrc = await oldImage.getAttribute('src');
 
   await popup
     .getByAltText('Channel_BCDEF image', { exact: false })
@@ -474,20 +492,18 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     .last();
 
   // get into cross hairs mode
-  expect(
-    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).toBeChecked();
 
   const charts = await popup.locator('.chartjs-chart');
   await expect(charts).toHaveCount(2);
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
-  // // wait for chart animations to execute
-  // await popup.waitForTimeout(1000);
 
   // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
   expect(
@@ -502,13 +518,13 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   // see msw mock imageCrosshair.json
   const centroidPosition = [226, 187];
   const FWHMs = [61, 56];
-  expect(
-    await popup.getByText(
+  await expect(
+    popup.getByText(
       `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
     )
   ).toBeVisible();
-  expect(await popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
-  expect(await popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
@@ -517,7 +533,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     position: { x: 100, y: browserName === 'chromium' ? 301 : 300 },
   });
 
-  expect(await popup.getByText('Position: (100, 300)')).toBeVisible();
+  await expect(popup.getByText('Position: (100, 300)')).toBeVisible();
 
   expect(
     await popup.getByTestId('image-panel').screenshot({
@@ -531,8 +547,8 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   // check reset view goes back to the centroid
   await popup.locator('text=Reset View').click();
 
-  expect(
-    await popup.getByText(
+  await expect(
+    popup.getByText(
       `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
     )
   ).toBeVisible();
@@ -548,8 +564,8 @@ test('user can use crosshairs mode and view intensity graphs', async ({
 
   // can switch out of crosshairs mode and crosshair disappears
   await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).not.toBeChecked();
 
   expect(
@@ -578,12 +594,12 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   const oldImage = await popup.getByAltText(imgAltText);
 
   // get into cross hairs mode
-  expect(
-    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).toBeChecked();
 
   // expect intensity plots to be drawn
@@ -609,7 +625,7 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   await oldImage.click({
     position: { x: 200, y: browserName === 'chromium' ? 201 : 200 },
   });
-  expect(await popup.getByText('Position: (200, 200)')).toBeVisible();
+  await expect(popup.getByText('Position: (200, 200)')).toBeVisible();
 
   await page.evaluate(async () => {
     // from: https://stackoverflow.com/a/49434653 - generate "random" bell curve
@@ -718,13 +734,13 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
 
   const centroidPosition = [320, 250];
   const FWHMs = [22, 79];
-  expect(
-    await popup.getByText(
+  await expect(
+    popup.getByText(
       `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
     )
   ).toBeVisible();
-  expect(await popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
-  expect(await popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
 
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
