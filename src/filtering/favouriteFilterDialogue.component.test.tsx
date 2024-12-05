@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 import { act } from 'react';
 import { FavouriteFilter } from '../app.types';
 import favouriteFiltersJson from '../mocks/favouriteFilters.json';
@@ -10,7 +10,7 @@ import FavouriteFiltersDialogue from './favouriteFilterDialogue.component';
 
 describe('Favorite filter dialogue component', () => {
   let props: React.ComponentProps<typeof FavouriteFiltersDialogue>;
-  let user;
+  let user: UserEvent;
 
   const createView = (
     initialState?: Partial<RootState>,
@@ -40,6 +40,9 @@ describe('Favorite filter dialogue component', () => {
         value: filter.filter,
         label: filter.name,
       })),
+      existingFavouriteFilterNames: favouriteFiltersJson.map(
+        (filter) => filter.name
+      ),
     };
   });
 
@@ -157,6 +160,37 @@ describe('Favorite filter dialogue component', () => {
         expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
       });
     });
+
+    it('displays and clears duplicate name error', async () => {
+      createView();
+
+      const nameInput = screen.getByLabelText('Name');
+      await user.type(nameInput, 'test 1');
+
+      const filter = screen.getByRole('combobox', { name: 'Filter' });
+
+      await user.type(filter, 'sh{enter}={enter}1{enter}', {
+        delay: null,
+      });
+
+      expect(screen.getByRole('button', { name: 'Save' })).not.toBeDisabled();
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
+
+      expect(
+        screen.getByText(
+          'A filter with this name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+
+      await user.type(nameInput, '2');
+
+      expect(
+        screen.queryByText(
+          'A filter with this name already exists. Please choose a different name.'
+        )
+      ).not.toBeInTheDocument();
+    });
   });
 
   describe('Edit dialog', () => {
@@ -194,15 +228,38 @@ describe('Favorite filter dialogue component', () => {
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
+    it('displays and clears duplicate name error', async () => {
+      createView();
+
+      const nameInput = screen.getByLabelText('Name');
+      await user.clear(nameInput);
+      await user.type(nameInput, 'test 2');
+
+      expect(screen.getByRole('button', { name: 'Save' })).not.toBeDisabled();
+      await user.click(screen.getByRole('button', { name: 'Save' }));
+      expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled();
+
+      expect(
+        screen.getByText(
+          'A filter with this name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+
+      await user.type(nameInput, '2');
+
+      expect(
+        screen.queryByText(
+          'A filter with this name already exists. Please choose a different name.'
+        )
+      ).not.toBeInTheDocument();
+    });
+
     it('edits a new favourite filter (filter)', async () => {
       const pendingRequest = waitForRequest('PATCH', '/users/filters/:id');
       const params = new URLSearchParams();
       createView();
 
       const filter = screen.getByRole('combobox', { name: 'Filter' });
-      await user.type(filter, '{arrowright}');
-      await user.type(filter, '{arrowright}');
-      await user.type(filter, '{arrowright}');
       await user.type(filter, '{backspace}');
       await user.type(filter, '{backspace}');
       await user.type(filter, '{backspace}');
@@ -260,9 +317,6 @@ describe('Favorite filter dialogue component', () => {
       ).toBeInTheDocument();
 
       const filter = screen.getByRole('combobox', { name: 'Filter' });
-      await user.type(filter, '{arrowright}');
-      await user.type(filter, '{arrowright}');
-      await user.type(filter, '{arrowright}');
       await user.type(filter, '{backspace}');
       await user.type(filter, '{backspace}');
       await user.type(filter, '{backspace}');

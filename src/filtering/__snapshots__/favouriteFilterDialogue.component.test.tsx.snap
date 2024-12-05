@@ -403,13 +403,13 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
       tabindex="-1"
     >
       <div
-        aria-labelledby=":rs:"
+        aria-labelledby=":r10:"
         class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
         role="dialog"
       >
         <h2
           class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root css-bdhsul-MuiTypography-root-MuiDialogTitle-root"
-          id=":rs:"
+          id=":r10:"
         >
           Edit
            Favourite filter
@@ -432,8 +432,8 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
                   <label
                     class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                     data-shrink="true"
-                    for=":rt:"
-                    id=":rt:-label"
+                    for=":r11:"
+                    id=":r11:-label"
                   >
                     Name
                   </label>
@@ -443,7 +443,7 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
                     <input
                       aria-invalid="false"
                       class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
-                      id=":rt:"
+                      id=":r11:"
                       type="text"
                       value="test 1"
                     />
@@ -474,8 +474,8 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
                     <label
                       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
                       data-shrink="true"
-                      for=":ru:"
-                      id=":ru:-label"
+                      for=":r12:"
+                      id=":r12:-label"
                     >
                       Filter
                     </label>
@@ -559,7 +559,7 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
                         autocapitalize="none"
                         autocomplete="off"
                         class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
-                        id=":ru:"
+                        id=":r12:"
                         role="combobox"
                         spellcheck="false"
                         type="text"

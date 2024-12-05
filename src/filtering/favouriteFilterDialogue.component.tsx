@@ -31,6 +31,7 @@ export interface FavouriteFilterDialogueProps {
   requestType: 'post' | 'patch';
   selectedFavouriteFilter?: FavouriteFilter;
   tokenisedFavouriteFilters: Token[];
+  existingFavouriteFilterNames: string[];
 }
 
 interface FavouriteFilterTokenised {
@@ -51,6 +52,7 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
     requestType,
     selectedFavouriteFilter,
     tokenisedFavouriteFilters,
+    existingFavouriteFilterNames,
   } = props;
   const [favouriteFilter, setFavouriteFilter] =
     React.useState<FavouriteFilterTokenised>({ name: '', filter: [] });
@@ -111,11 +113,30 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
   const { mutateAsync: addFavouriteFilter } = useAddFavouriteFilter();
   const { mutateAsync: editFavouriteFilter } = useEditFavouriteFilter();
 
+  const handleDuplicateNameError = React.useCallback(
+    (name: string) => {
+      let hasError = false;
+
+      if (existingFavouriteFilterNames.includes(name)) {
+        hasError = true;
+        setFavouriteFilterError((prevError) => ({
+          ...prevError,
+          name: 'A filter with this name already exists. Please choose a different name.',
+        }));
+      }
+      return hasError;
+    },
+    [existingFavouriteFilterNames]
+  );
+
   const handleAddSubmit = React.useCallback(() => {
     const data: FavouriteFilterPost = {
       name: favouriteFilter.name,
       filter: JSON.stringify(favouriteFilter.filter),
     };
+
+    const hasError = handleDuplicateNameError(data.name);
+    if (hasError) return;
 
     addFavouriteFilter(data).then(() => {
       handleClose();
@@ -125,6 +146,7 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
     favouriteFilter.filter,
     favouriteFilter.name,
     handleClose,
+    handleDuplicateNameError,
   ]);
 
   const handleEditSubmit = React.useCallback(() => {
@@ -140,7 +162,11 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
 
       const editData: FavouriteFilterPatch = {};
 
-      if (isNameUpdated) editData.name = data.name;
+      if (isNameUpdated) {
+        const hasError = handleDuplicateNameError(data.name);
+        if (hasError) return;
+        editData.name = data.name;
+      }
       if (isFilterUpdated) editData.filter = data.filter;
       if (isNameUpdated || isFilterUpdated) {
         editFavouriteFilter({
@@ -156,9 +182,11 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
       }
     }
   }, [
-    editFavouriteFilter,
     selectedFavouriteFilter,
-    favouriteFilter,
+    favouriteFilter.name,
+    favouriteFilter.filter,
+    handleDuplicateNameError,
+    editFavouriteFilter,
     handleClose,
   ]);
 
@@ -187,8 +215,14 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
                     ...prevfilter,
                     name: e.target.value,
                   }));
+                  setFavouriteFilterError((prevError) => ({
+                    ...prevError,
+                    name: undefined,
+                  }));
                   setErrorMessage(undefined);
                 }}
+                error={!!favouriteFilterError.name}
+                helperText={favouriteFilterError.name}
                 size="small"
               />
             </Grid>
@@ -216,6 +250,7 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
             favouriteFilter.filter.length === 0 ||
             !favouriteFilter.name ||
             !!favouriteFilterError.filter ||
+            !!favouriteFilterError.name ||
             errorMessage !== undefined
           }
         >

@@ -469,9 +469,14 @@ const FilterInput = (props: FilterInputProps) => {
         />
       )}
       renderOption={(props, option) => (
-        // ensure we use the value and not the label as the key
-        // as theoretically only value has to be unique
-        <li {...props} key={option.value}>
+        // Ensure we use the value and not the label as the key,
+        // as theoretically only value has to be unique. However,
+        // since a favourite filter value could be duplicate, the name
+        // (which is unique) should be appended to it to ensure the key is unique.
+        <li
+          {...props}
+          key={`${option.value}${option.type === 'favouriteFilter' ? option.label : ''}`}
+        >
           {option.label}
         </li>
       )}

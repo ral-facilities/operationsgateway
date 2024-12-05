@@ -248,6 +248,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
     },
   });
 
+  const existingFavouriteFilterNames =
+    favouriteFilterData?.map((filter) => filter.name) ?? [];
+
   const tokenisedFavouriteFilters: Token[] | undefined = favouriteFilterData
     ? favouriteFilterData?.map((filter) => ({
         type: 'favouriteFilter',
@@ -638,6 +641,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               }}
               channels={channels ?? []}
               tokenisedFavouriteFilters={tokenisedFavouriteFilters}
+              existingFavouriteFilterNames={existingFavouriteFilterNames}
             />
           </Grid>
         </Grid>

@@ -578,6 +578,30 @@ describe('Filtering Component', () => {
       });
     });
 
+    it('displays and clears duplicate name error (add)', () => {
+      cy.findByRole('button', { name: 'Add new favourite filter' }).click();
+      cy.findAllByLabelText('Name').last().type('test 1');
+      cy.findByRole('combobox', { name: 'Filter' }).type(
+        'sh{enter}={enter}1{enter}'
+      );
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+
+      cy.findByRole('button', { name: 'Save' }).click();
+
+      cy.findByRole('button', { name: 'Save' }).should('be.disabled');
+
+      cy.findByText(
+        'A filter with this name already exists. Please choose a different name.'
+      ).should('exist');
+
+      cy.findAllByLabelText('Name').last().type('2');
+
+      cy.findByText(
+        'A filter with this name already exists. Please choose a different name.'
+      ).should('not.exist');
+    });
+
     it('add a new favourite filter using favourite filter option in menu', () => {
       cy.findByRole('checkbox', {
         name: 'Select test 2 favourite filter',
@@ -673,6 +697,30 @@ describe('Filtering Component', () => {
 
         expect(paramMap.get('name')).equal('test');
       });
+    });
+
+    it('displays and clears duplicate name error (edit)', () => {
+      cy.findByRole('button', {
+        name: 'Edit test 1 favourite filter',
+      }).click();
+      cy.findAllByLabelText('Name').last().clear();
+      cy.findAllByLabelText('Name').last().type('test 2');
+
+      cy.findByRole('button', { name: 'Save' }).should('not.be.disabled');
+
+      cy.findByRole('button', { name: 'Save' }).click();
+
+      cy.findByRole('button', { name: 'Save' }).should('be.disabled');
+
+      cy.findByText(
+        'A filter with this name already exists. Please choose a different name.'
+      ).should('exist');
+
+      cy.findAllByLabelText('Name').last().type('2');
+
+      cy.findByText(
+        'A filter with this name already exists. Please choose a different name.'
+      ).should('not.exist');
     });
 
     it('display error when values have not be changed and bee clear if name is changed', () => {
