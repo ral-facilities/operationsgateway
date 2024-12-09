@@ -41,7 +41,7 @@
     "vite": "^5.4.6"
   },
   "resolutions": {
-    "@testing-library/react/@testing-library/dom": "10.4.0",
+    "@types/react": "18.3.3",
     "@mui/x-date-pickers@^6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
   },
   "scripts": {
