@@ -135,9 +135,6 @@ test('CRUD favourite filter', async ({ page }) => {
 
   // Edit the filter by replacing 42 with 40
   await firstFilterInput.click(); // Focus on the filter input
-  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
-  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
-  await firstFilterInput.press('ArrowRight'); // Navigate to the end of the input
   await firstFilterInput.press('Backspace'); // Remove '42'
   await firstFilterInput.pressSequentially('40'); // Type '4'
   await firstFilterInput.press('Enter'); // Confirm the new filter value
