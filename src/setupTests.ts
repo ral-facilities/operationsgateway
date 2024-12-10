@@ -27,7 +27,13 @@ afterAll(() => server.close());
 if (typeof window.URL.createObjectURL === 'undefined') {
   // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
   Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
+    value: () => 'blob:testObjectUrl',
+  });
+}
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {},
   });
 }
 

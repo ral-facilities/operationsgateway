@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { FunctionOperator, ValidateFunctionState } from '../app.types';
 import functionTokenJson from '../mocks/functionTokens.json';
 import { hooksWrapperWithProviders } from '../testUtils';
@@ -98,10 +98,10 @@ describe('useValidateFunctions', () => {
     });
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate([functions[3]]);
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBeFalsy();
+    await act(async () => {
+      await expect(
+        result.current.mutateAsync([functions[3]])
+      ).rejects.toThrowError();
     });
 
     expect(result.current.error?.response?.data).toEqual({
@@ -116,10 +116,10 @@ describe('useValidateFunctions', () => {
     });
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate([functions[2]]);
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBeFalsy();
+    await act(async () => {
+      await expect(
+        result.current.mutateAsync([functions[2]])
+      ).rejects.toThrowError();
     });
 
     expect(result.current.error?.response?.data).toEqual({
