@@ -42,7 +42,7 @@ describe('images api functions', () => {
 
       params.set('original_image', 'true');
 
-      expect(result.current.data).toEqual('testObjectUrl');
+      expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -88,7 +88,7 @@ describe('images api functions', () => {
         JSON.stringify({ name: 'b', expression: 'CHANNEL_EFGHI' })
       );
 
-      expect(result.current.data).toEqual('testObjectUrl');
+      expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams.toString()).toEqual(
         params.toString()
       );
@@ -112,7 +112,7 @@ describe('images api functions', () => {
 
       params.set('original_image', 'true');
 
-      expect(result.current.data).toEqual('testObjectUrl');
+      expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -144,7 +144,7 @@ describe('images api functions', () => {
       params.set('lower_level', '5');
       params.set('upper_level', '200');
 
-      expect(result.current.data).toEqual('testObjectUrl');
+      expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -185,7 +185,7 @@ describe('images api functions', () => {
       params.set('lower_level', '5');
       params.set('upper_level', '200');
 
-      expect(result.current.data).toEqual('testObjectUrl');
+      expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
