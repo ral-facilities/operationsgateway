@@ -84,7 +84,7 @@
   "packageManager": "yarn@4.5.0",
   "devDependencies": {
     "@eslint/compat": "1.2.4",
-    "@playwright/test": "1.48.0",
+    "@playwright/test": "1.49.0",
     "@tanstack/eslint-plugin-query": "5.62.1",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/dom": "10.4.0",
