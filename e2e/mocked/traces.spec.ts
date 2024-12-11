@@ -37,6 +37,9 @@ test('user can show points for the trace', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -99,6 +102,9 @@ test('user can zoom and pan the trace', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
@@ -112,6 +118,9 @@ test('user can zoom and pan the trace', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -163,6 +172,9 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

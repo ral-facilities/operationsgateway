@@ -38,6 +38,9 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
@@ -81,6 +84,9 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -150,6 +156,9 @@ test('user can zoom and pan the graph', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
@@ -163,6 +172,9 @@ test('user can zoom and pan the graph', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -217,6 +229,9 @@ test('plots multiple channels on the y axis', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -258,6 +273,9 @@ test('user can hide gridlines and axes labels', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -298,10 +316,12 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
   const chart = await popup.locator('#my-chart');
 
-  // eslint-disable-next-line jest/no-conditional-expect
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
@@ -347,6 +367,9 @@ test('user can add min and max limits to x- and y-axis', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
@@ -397,6 +420,9 @@ test('user can change line style of plotted channels', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -452,6 +478,9 @@ test('user can change the marker style and size of plotted channels', async ({
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -501,6 +530,9 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
@@ -547,6 +579,9 @@ test('user can change the line width of plotted channels', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -628,6 +663,9 @@ test('user can plot channels on the right y axis', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -652,6 +690,9 @@ test('user can customize left y axis label', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -677,6 +718,9 @@ test('user can customize right y axis label', async ({ page }) => {
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -710,6 +754,9 @@ test('user can customize both left and right y axis labels', async ({
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
