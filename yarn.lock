@@ -1843,6 +1843,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/hammerjs@npm:^2.0.45":
+  version: 2.0.46
+  resolution: "@types/hammerjs@npm:2.0.46"
+  checksum: 10c0/f3c1cb20dc2f0523f7b8c76065078544d50d8ae9b0edc1f62fed657210ed814266ff2dfa835d2c157a075991001eec3b64c88bf92e3e6e895c0db78d05711d06
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.15":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -2955,14 +2962,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-plugin-zoom@npm:2.0.0":
-  version: 2.0.0
-  resolution: "chartjs-plugin-zoom@npm:2.0.0"
+"chartjs-plugin-zoom@npm:2.2.0":
+  version: 2.2.0
+  resolution: "chartjs-plugin-zoom@npm:2.2.0"
   dependencies:
+    "@types/hammerjs": "npm:^2.0.45"
     hammerjs: "npm:^2.0.8"
   peerDependencies:
     chart.js: ">=3.2.0"
-  checksum: 10c0/bf0cabe716e69b26fe6df761a4aef85690827a49fe88b0967f003019de0baba011ef96c02ca2bb5388d47b623e4a73315956f200b227d22971608be634707655
+  checksum: 10c0/15817e912dcc0c62e66121d10c7f1af04cd788c8c831b9ed8f822e2835501b8816143e10b5b4f286a9afddc91492c3d7104b49e7226a3fb682b94412f9ee4087
   languageName: node
   linkType: hard
 
@@ -6759,7 +6767,7 @@ __metadata:
     browserslist: "npm:4.24.2"
     browserslist-to-esbuild: "npm:2.1.1"
     chart.js: "npm:4.4.1"
-    chartjs-plugin-zoom: "npm:2.0.0"
+    chartjs-plugin-zoom: "npm:2.2.0"
     cross-env: "npm:7.0.3"
     cypress: "npm:13.16.0"
     cypress-delete-downloads-folder: "npm:0.0.5"

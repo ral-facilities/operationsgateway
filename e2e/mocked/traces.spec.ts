@@ -64,8 +64,8 @@ test('user can zoom and pan the trace', async ({ page }) => {
       y: 180,
     },
     targetPosition: {
-      x: 395,
-      y: 270,
+      x: 385,
+      y: 260,
     },
   });
 
