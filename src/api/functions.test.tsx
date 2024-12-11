@@ -101,12 +101,14 @@ describe('useValidateFunctions', () => {
     await act(async () => {
       await expect(
         result.current.mutateAsync([functions[3]])
-      ).rejects.toThrowError();
-    });
-
-    expect(result.current.error?.response?.data).toEqual({
-      detail:
-        "Error at index 0: 'centre' accepts {'waveform'} type(s), 'scalar' provided",
+      ).rejects.toMatchObject({
+        response: {
+          data: {
+            detail:
+              "Error at index 0: 'centre' accepts {'waveform'} type(s), 'scalar' provided",
+          },
+        },
+      });
     });
   });
 

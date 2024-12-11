@@ -89,6 +89,9 @@ describe('Data View', () => {
       await flushPromises();
     });
 
+    await screen.findByRole('progressbar');
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+
     const shotnumHeader = await screen.findByRole('columnheader', {
       name: 'Shot Number',
     });
@@ -99,7 +102,7 @@ describe('Data View', () => {
     expect(dialogue).toBeVisible();
   });
 
-  it('opens the functions dialogue when the functions button in a data header is clicked', async () => {
+  it('opens the functions dialogue when the functions button is clicked and closes when the close button is clicked', async () => {
     const user = userEvent.setup();
     const state = {
       ...getInitialState(),
@@ -120,6 +123,9 @@ describe('Data View', () => {
       createView(state);
       await flushPromises();
     });
+
+    await screen.findByRole('progressbar');
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     const functionAHeader = await screen.findByRole('columnheader', {
       name: 'a',
