@@ -65,6 +65,7 @@ const config: PlaywrightTestConfig = {
             name: 'E2E tests',
             use: {
               ...devices['Desktop Chrome'],
+              channel: 'chromium',
               // Use prepared auth state.
               storageState: 'e2e/real/.auth/user.json',
             },
@@ -98,6 +99,7 @@ const config: PlaywrightTestConfig = {
             name: 'chromium',
             use: {
               ...devices['Desktop Chrome'],
+              channel: 'chromium',
             },
             testDir: './e2e/mocked',
           },

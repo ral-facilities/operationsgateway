@@ -7,6 +7,9 @@ test('plots a time vs channel graph', async ({ page }) => {
   await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
+  // wait for data to load before switching tabs
+  await expect(page.getByRole('progressbar')).toBeVisible();
+  await expect(page.getByRole('progressbar')).not.toBeVisible();
 
   await page.locator('text=Plots').click();
 
@@ -32,9 +35,15 @@ test('plots a time vs channel graph', async ({ page }) => {
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
   const chart = await popup.locator('.chartjs-chart');
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
     // 150 pixels would only be very minor changes, so it's safe to ignore
   ).toMatchSnapshot({ maxDiffPixels: 150 });
@@ -48,6 +57,9 @@ test('plots a channel vs channel graph', async ({ page }) => {
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
+  // wait for data to load before switching tabs
+  await expect(page.getByRole('progressbar')).toBeVisible();
+  await expect(page.getByRole('progressbar')).not.toBeVisible();
 
   await page.locator('text=Plots').click();
 
@@ -79,9 +91,15 @@ test('plots a channel vs channel graph', async ({ page }) => {
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
   const chart = await popup.locator('.chartjs-chart');
+  // need this to wait for canvas animations to execute
+  await popup.waitForTimeout(1000);
+
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

@@ -47,6 +47,9 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
@@ -65,6 +68,9 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

@@ -75,6 +75,78 @@ describe('Filter dialogue component', () => {
     });
   });
 
+  it('opens and closes favourite filter dialogue from filters tab', async () => {
+    createView();
+
+    const filter = screen.getByRole('combobox', { name: 'Filter' });
+    await user.type(filter, 'test 1{enter}');
+
+    await user.click(
+      (
+        await screen.findAllByRole('button', {
+          name: 'Add as favourite filter',
+        })
+      )[0]
+    );
+
+    expect(screen.getAllByText('Close').length).toEqual(2);
+
+    await user.click(screen.getAllByText('Close')[1]);
+    await waitFor(() => {
+      expect(screen.getAllByText('Close').length).toEqual(1);
+    });
+  });
+
+  it('dispatches changeAppliedFilters and onClose when apply button is clicked and checks checkboxes can be selected and deselected (filters and favouriteFilters)', async () => {
+    const { store } = createView();
+
+    const filter = screen.getByRole('combobox', { name: 'Filter' });
+    await user.type(filter, 'test 2{enter}');
+
+    await user.click(screen.getByText('Favourite filters'));
+
+    await user.click(
+      await screen.findByRole('checkbox', {
+        name: `Select test 1 favourite filter`,
+      })
+    );
+
+    await user.click(
+      await screen.findByRole('checkbox', {
+        name: `Select test 1 favourite filter`,
+      })
+    );
+    await user.click(
+      await screen.findByRole('checkbox', {
+        name: `Select test 2 favourite filter`,
+      })
+    );
+
+    expect(screen.getByText('Apply')).not.toBeDisabled();
+    await user.click(screen.getByText('Apply'));
+
+    expect(store.getState().filter.appliedFilters).toStrictEqual([
+      [
+        {
+          label: 'Shot Number',
+          type: 'channel',
+          value: 'shotnum',
+        },
+        {
+          label: '=',
+          type: 'compop',
+          value: '=',
+        },
+        {
+          label: '1',
+          type: 'number',
+          value: '1',
+        },
+      ],
+    ]);
+    expect(props.onClose).toHaveBeenCalled();
+  });
+
   it('opens and closes delete favourite filter dialogue', async () => {
     createView();
 

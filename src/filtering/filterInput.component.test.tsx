@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import favouriteFiltersJson from '../mocks/favouriteFilters.json';
 import FilterInput from './filterInput.component';
 import { operators, Token } from './filterParser';
 
@@ -22,6 +23,11 @@ describe('Filter input component', () => {
         { type: 'channel', value: 'type', label: 'type' },
         { type: 'channel', value: 'shotnum', label: 'Shot Number' },
       ],
+      favouriteFilter: favouriteFiltersJson.map((filter) => ({
+        type: 'favouriteFilter',
+        value: filter.filter,
+        label: filter.name,
+      })),
     };
     window.Element.prototype.getBoundingClientRect =
       originalGetBoundingClientRect;
@@ -61,6 +67,26 @@ describe('Filter input component', () => {
 
     expect(props.setValue).toHaveBeenCalledWith([
       { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+    ]);
+    expect(props.setError).toHaveBeenCalledWith(undefined);
+  });
+
+  it('user can type in favourite filter to the filter', async () => {
+    const user = userEvent.setup();
+    render(<FilterInput {...props} />);
+
+    const filter = screen.getByLabelText('Filter');
+
+    await user.type(filter, 'test 1');
+    await user.type(filter, '{enter}');
+
+    expect(props.setValue).toHaveBeenCalledWith([
+      {
+        label: 'test 1',
+        type: 'favouriteFilter',
+        value:
+          '[{"type":"channel","value":"activeExperiment","label":"Active Experiment"},{"type":"compop","value":">","label":">"},{"type":"number","value":"3","label":"3"}]',
+      },
     ]);
     expect(props.setError).toHaveBeenCalledWith(undefined);
   });
@@ -191,7 +217,7 @@ describe('Filter input component', () => {
 
     const filter = screen.getByLabelText('Filter');
 
-    await user.type(filter, 'test');
+    await user.type(filter, 'test 4');
     await user.type(filter, '{enter}');
 
     expect(props.setValue).not.toHaveBeenCalled();
