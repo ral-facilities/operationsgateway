@@ -5,9 +5,9 @@
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "3.0.0",
-    "@emotion/cache": "11.13.0",
-    "@emotion/react": "11.13.0",
-    "@emotion/styled": "11.13.0",
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
     "@hello-pangea/dnd": "17.0.0",
     "@mui/base": "5.0.0-beta.40",
     "@mui/icons-material": "5.16.2",
