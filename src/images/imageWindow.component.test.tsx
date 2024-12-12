@@ -29,8 +29,10 @@ vi.mock('./imageView.component', () => ({
   ),
 }));
 
-vi.mock('./imagePlot.component', () => {
+vi.mock('./imagePlot.component', async () => {
+  const imagePlot = await vi.importActual('./imagePlot.component');
   return {
+    ...imagePlot,
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     XImagePlot: () => <mock-XImagePlot data-testid="mock-x-image-plot" />,

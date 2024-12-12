@@ -3,6 +3,19 @@ import React from 'react';
 import type { ChartData, ChartOptions } from 'chart.js';
 import { CrosshairDimensionType } from '../api/images';
 
+// In order for the plot area to match pixel to pixel to the image
+// we need to offset/adjust for the width/height of the axis ticks.
+// These were determined by trial and error aka how small can they be
+// before the axis tick labels start to get cut off
+/**
+ * The width offset for XImagePlot
+ */
+export const XIMAGEPLOT_OFFSET = 29;
+/**
+ * The height offset for YImagePlot
+ */
+export const YIMAGEPLOT_OFFSET = 22;
+
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
   crosshairPosition: number;
@@ -30,7 +43,6 @@ const YChartOptions: ChartOptions<'line'> = {
   scales: {
     y: {
       type: 'linear',
-      // min max get set based on image size in useEffect
       ticks: { padding: 0, align: 'start' },
       reverse: true,
     },
@@ -54,7 +66,6 @@ const XChartOptions: ChartOptions<'line'> = {
     },
     x: {
       type: 'linear',
-      // min max get set based on image size in useEffect
       ticks: { padding: 0, align: 'end' },
     },
   },
@@ -121,14 +132,14 @@ const ImagePlot = (
       type === 'x'
         ? {
             width: imageElement?.naturalWidth
-              ? imageElement.naturalWidth + 29
+              ? imageElement.naturalWidth + XIMAGEPLOT_OFFSET
               : 200,
             height: 200,
           }
         : {
             width: 200,
             height: imageElement?.naturalHeight
-              ? imageElement.naturalHeight + 22
+              ? imageElement.naturalHeight + YIMAGEPLOT_OFFSET
               : 200,
           }
     )
@@ -175,10 +186,10 @@ const ImagePlot = (
           JSON.stringify(
             type === 'x'
               ? {
-                  width: img.naturalWidth + 29,
+                  width: img.naturalWidth + XIMAGEPLOT_OFFSET,
                   height: 200,
                 }
-              : { width: 200, height: img.naturalHeight + 22 }
+              : { width: 200, height: img.naturalHeight + YIMAGEPLOT_OFFSET }
           )
         );
 
