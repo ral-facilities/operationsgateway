@@ -252,10 +252,6 @@ export class WindowPortal extends React.PureComponent<
                         chart.resetZoom("none");
                         chart.update("none");
                       }
-                      else if(mutation.attributeName === "data-resize"){
-                        const sizeInfo = JSON.parse(canvas.dataset.resize);
-                        chart.resize(sizeInfo.width, sizeInfo.height);
-                      }
                     }
                   }
                 });

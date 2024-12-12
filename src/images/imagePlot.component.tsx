@@ -23,7 +23,8 @@ export interface ImagePlotProps {
 }
 
 const commonChartOptions: ChartOptions<'line'> = {
-  responsive: false,
+  responsive: true, // we don't actually care about resizing - this is just here to help when switching between retina & non-retina displays
+  resizeDelay: 1, // delay by 1ms to ensure that the initial centroid crosshair annotation gets drawn
   maintainAspectRatio: false,
   interaction: {
     mode: 'index',
@@ -50,7 +51,7 @@ const YChartOptions: ChartOptions<'line'> = {
       type: 'linear',
       min: 0,
       max: 255,
-      ticks: { padding: 0 },
+      ticks: { padding: 0, count: 5, precision: 0 },
     },
   },
 };
@@ -60,7 +61,7 @@ const XChartOptions: ChartOptions<'line'> = {
   scales: {
     y: {
       type: 'linear',
-      ticks: { padding: 0 },
+      ticks: { padding: 0, count: 5, precision: 0 },
       min: 0,
       max: 255,
     },
@@ -105,7 +106,7 @@ const ImagePlot = (
 ) => {
   const { data, crosshairPosition, image, type, chartOptions } = props;
 
-  const [imageElement, setImageElement] = React.useState<HTMLImageElement>();
+  const [imageDims, setImageDims] = React.useState({ width: 200, height: 200 });
 
   // set the initial options
   const [optionsString, setOptionsString] = React.useState(
@@ -125,24 +126,6 @@ const ImagePlot = (
         },
       ],
     } satisfies ChartData<'line'>)
-  );
-
-  const [resizeString, setResizeString] = React.useState(
-    JSON.stringify(
-      type === 'x'
-        ? {
-            width: imageElement?.naturalWidth
-              ? imageElement.naturalWidth + XIMAGEPLOT_OFFSET
-              : 200,
-            height: 200,
-          }
-        : {
-            width: 200,
-            height: imageElement?.naturalHeight
-              ? imageElement.naturalHeight + YIMAGEPLOT_OFFSET
-              : 200,
-          }
-    )
   );
 
   React.useEffect(() => {
@@ -179,19 +162,9 @@ const ImagePlot = (
     if (image) {
       const img = new Image();
       img.src = image;
-      setImageElement(img);
 
       if (img.naturalWidth && img.naturalHeight) {
-        setResizeString(
-          JSON.stringify(
-            type === 'x'
-              ? {
-                  width: img.naturalWidth + XIMAGEPLOT_OFFSET,
-                  height: 200,
-                }
-              : { width: 200, height: img.naturalHeight + YIMAGEPLOT_OFFSET }
-          )
-        );
+        setImageDims({ width: img.naturalWidth, height: img.naturalHeight });
 
         const limit = {
           min: 0,
@@ -211,14 +184,27 @@ const ImagePlot = (
 
   /* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */
   return (
-    <canvas
-      className="chartjs-chart"
-      width={JSON.parse(resizeString).width}
-      height={JSON.parse(resizeString).height}
-      data-options={optionsString}
-      data-data={dataString}
-      data-type={'line'}
-      data-resize={resizeString}
-    />
+    <div
+      style={
+        type === 'x'
+          ? {
+              width: imageDims.width + XIMAGEPLOT_OFFSET,
+              height: 200,
+            }
+          : {
+              width: 200,
+              height: imageDims.height + YIMAGEPLOT_OFFSET,
+            }
+      }
+    >
+      <canvas
+        className="chartjs-chart"
+        width={200}
+        height={200}
+        data-options={optionsString}
+        data-data={dataString}
+        data-type={'line'}
+      />
+    </div>
   );
 };
