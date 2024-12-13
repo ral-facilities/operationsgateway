@@ -11,18 +11,6 @@ describe('Image plot component', () => {
       data: imageCrosshairJson.column.intensity,
       crosshairPosition: 1,
     };
-
-    vi.spyOn(
-      CanvasRenderingContext2D.prototype,
-      'measureText'
-    ).mockImplementation((text) => {
-      return {
-        ...window.TextMetrics.prototype,
-        width: text.length * 7,
-        fontBoundingBoxAscent: 7,
-        fontBoundingBoxDescent: 7,
-      };
-    });
   });
 
   it('renders a canvas element with the correct attributes passed the correct props for an X axis plot', () => {

@@ -321,16 +321,6 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
 
-  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel from the screenshot as it's not important
-        '[data-testid="image-controls-panel"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
-
   const centroidPosition = [101, 95];
   const FWHMs = [55, 52];
   await expect(
@@ -340,6 +330,16 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   ).toBeVisible();
   await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
   await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
@@ -357,8 +357,8 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     await popup.getByTestId('image-panel').screenshot({
       type: 'png',
       style:
-        // hide image controls panel from the screenshot as it's not important
-        '[data-testid="image-controls-panel"] { display: none !important; }',
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

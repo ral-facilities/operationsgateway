@@ -1,6 +1,6 @@
 import React from 'react';
 // only import types as we don't actually run any chart.js code in React
-import { Chart, type ChartData, type ChartOptions } from 'chart.js';
+import { type ChartData, type ChartOptions } from 'chart.js';
 import { CrosshairDimensionType } from '../api/images';
 
 // In order for the plot area to match pixel to pixel to the image
@@ -10,11 +10,11 @@ import { CrosshairDimensionType } from '../api/images';
 /**
  * The width offset for XImagePlot
  */
-export let XIMAGEPLOT_OFFSET = 0;
+export const XIMAGEPLOT_OFFSET = 29;
 /**
  * The height offset for YImagePlot
  */
-export let YIMAGEPLOT_OFFSET = 0;
+export const YIMAGEPLOT_OFFSET = 22;
 
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
@@ -105,24 +105,6 @@ const ImagePlot = (
 ) => {
   const { data, crosshairPosition, imageDims, type, chartOptions } = props;
 
-  const canvasRef = React.useRef<HTMLCanvasElement>(null);
-
-  // work out X and Y image offsets based on axis label text rendering
-  React.useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const context = canvas.getContext('2d')!;
-      context.font = `${Chart.defaults.font.weight ?? ''} ${Chart.defaults.font.size}px ${Chart.defaults.font.family}`;
-      const metrics = context.measureText('255');
-      XIMAGEPLOT_OFFSET =
-        metrics.width + (Chart.defaults.scale.grid.tickLength ?? 0);
-      YIMAGEPLOT_OFFSET =
-        metrics.fontBoundingBoxAscent +
-        metrics.fontBoundingBoxDescent +
-        (Chart.defaults.scale.grid.tickLength ?? 0);
-    }
-  }, []);
-
   // set the initial options
   const [optionsString, setOptionsString] = React.useState(
     JSON.stringify(chartOptions)
@@ -212,7 +194,6 @@ const ImagePlot = (
       }
     >
       <canvas
-        ref={canvasRef}
         className="chartjs-chart"
         width={200}
         height={200}
