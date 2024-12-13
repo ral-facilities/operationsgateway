@@ -95,6 +95,8 @@ const ImageWindow = (props: ImageWindowProps) => {
     [imageConfig, dispatch]
   );
 
+  const [imageDims, setImageDims] = React.useState({ width: 0, height: 0 });
+
   return (
     <WindowPortal
       ref={imageWindowRef}
@@ -164,6 +166,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                       crosshairsMode={crosshairsMode}
                       crosshair={crosshair}
                       changeCrosshair={setCrosshair}
+                      changeImageDims={setImageDims}
                     />
                   </Grid>
 
@@ -180,8 +183,8 @@ const ImageWindow = (props: ImageWindowProps) => {
                   >
                     <YImagePlot
                       data={crosshairData?.column.intensity ?? { x: [], y: [] }}
-                      crosshairPosition={crosshair?.y ?? 0}
-                      image={image}
+                      crosshairPosition={crosshair?.y}
+                      imageDims={imageDims}
                     />
                   </Grid>
                 </Grid>
@@ -199,8 +202,8 @@ const ImageWindow = (props: ImageWindowProps) => {
                   >
                     <XImagePlot
                       data={crosshairData?.row.intensity ?? { x: [], y: [] }}
-                      crosshairPosition={crosshair?.x ?? 0}
-                      image={image}
+                      crosshairPosition={crosshair?.x}
+                      imageDims={imageDims}
                     />
                   </Grid>
                   <Grid item>

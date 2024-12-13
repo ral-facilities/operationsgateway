@@ -30,6 +30,7 @@ describe('Image view component', () => {
       viewReset: false,
       crosshairsMode: false,
       changeCrosshair: vi.fn(),
+      changeImageDims: vi.fn(),
     };
   });
 
@@ -40,6 +41,10 @@ describe('Image view component', () => {
     await flushPromises();
 
     expect(asFragment()).toMatchSnapshot();
+    expect(props.changeImageDims).toHaveBeenCalledWith({
+      width: 300,
+      height: 200,
+    });
   });
 
   describe('Zoom mode', () => {

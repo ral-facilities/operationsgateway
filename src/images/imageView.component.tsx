@@ -7,6 +7,7 @@ export interface ImageViewProps {
   crosshairsMode: boolean;
   crosshair?: { x: number; y: number };
   changeCrosshair: (value: { x: number; y: number }) => void;
+  changeImageDims: (value: { width: number; height: number }) => void;
 }
 
 const drawCrosshair = (
@@ -45,6 +46,7 @@ const ImageView = (props: ImageViewProps) => {
     crosshairsMode,
     crosshair,
     changeCrosshair,
+    changeImageDims,
   } = props;
 
   const overlayPropsRef = React.useRef<{
@@ -88,6 +90,7 @@ const ImageView = (props: ImageViewProps) => {
   React.useEffect(() => {
     if (overlay && img) {
       img.onload = () => {
+        changeImageDims({ width: img.width, height: img.height });
         overlay.style.width = `${img.width}px`;
         overlay.style.height = `${img.height}px`;
         overlay.style.imageRendering = 'pixelated';
@@ -154,7 +157,7 @@ const ImageView = (props: ImageViewProps) => {
         };
       };
     }
-  }, [img, image, overlay]);
+  }, [img, image, overlay, changeImageDims]);
 
   React.useEffect(() => {
     setPan([0, 0]);

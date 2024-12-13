@@ -1,6 +1,6 @@
 import React from 'react';
 // only import types as we don't actually run any chart.js code in React
-import type { ChartData, ChartOptions } from 'chart.js';
+import { Chart, type ChartData, type ChartOptions } from 'chart.js';
 import { CrosshairDimensionType } from '../api/images';
 
 // In order for the plot area to match pixel to pixel to the image
@@ -10,21 +10,20 @@ import { CrosshairDimensionType } from '../api/images';
 /**
  * The width offset for XImagePlot
  */
-export const XIMAGEPLOT_OFFSET = 29;
+export let XIMAGEPLOT_OFFSET = 0;
 /**
  * The height offset for YImagePlot
  */
-export const YIMAGEPLOT_OFFSET = 22;
+export let YIMAGEPLOT_OFFSET = 0;
 
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
-  crosshairPosition: number;
-  image?: string;
+  crosshairPosition?: number;
+  imageDims: { width: number; height: number };
 }
 
 const commonChartOptions: ChartOptions<'line'> = {
   responsive: true, // we don't actually care about resizing - this is just here to help when switching between retina & non-retina displays
-  resizeDelay: 1, // delay by 1ms to ensure that the initial centroid crosshair annotation gets drawn
   maintainAspectRatio: false,
   interaction: {
     mode: 'index',
@@ -73,11 +72,11 @@ const XChartOptions: ChartOptions<'line'> = {
 };
 
 export const XImagePlot = (props: ImagePlotProps) => {
-  const { data, image, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition } = props;
   return (
     <ImagePlot
       data={data}
-      image={image}
+      imageDims={imageDims}
       crosshairPosition={crosshairPosition}
       type="x"
       chartOptions={XChartOptions}
@@ -86,11 +85,11 @@ export const XImagePlot = (props: ImagePlotProps) => {
 };
 
 export const YImagePlot = (props: ImagePlotProps) => {
-  const { data, image, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition } = props;
   return (
     <ImagePlot
       data={data}
-      image={image}
+      imageDims={imageDims}
       crosshairPosition={crosshairPosition}
       type="y"
       chartOptions={YChartOptions}
@@ -104,9 +103,25 @@ const ImagePlot = (
     chartOptions: ChartOptions<'line'>;
   }
 ) => {
-  const { data, crosshairPosition, image, type, chartOptions } = props;
+  const { data, crosshairPosition, imageDims, type, chartOptions } = props;
 
-  const [imageDims, setImageDims] = React.useState({ width: 200, height: 200 });
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+
+  // work out X and Y image offsets based on axis label text rendering
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const context = canvas.getContext('2d')!;
+      context.font = `${Chart.defaults.font.weight ?? ''} ${Chart.defaults.font.size}px ${Chart.defaults.font.family}`;
+      const metrics = context.measureText('255');
+      XIMAGEPLOT_OFFSET =
+        metrics.width + (Chart.defaults.scale.grid.tickLength ?? 0);
+      YIMAGEPLOT_OFFSET =
+        metrics.fontBoundingBoxAscent +
+        metrics.fontBoundingBoxDescent +
+        (Chart.defaults.scale.grid.tickLength ?? 0);
+    }
+  }, []);
 
   // set the initial options
   const [optionsString, setOptionsString] = React.useState(
@@ -143,9 +158,15 @@ const ImagePlot = (
         ],
       } satisfies ChartData<'line'>)
     );
+  }, [data]);
 
-    if (chartOptions.plugins?.annotation)
-      chartOptions.plugins.annotation.annotations = {
+  React.useEffect(() => {
+    // need to create a deep clone so that any common options between x and y charts
+    // can be updated without a race condition (e.g. annotations)
+    const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
+
+    if (newChartOptions.plugins?.annotation && crosshairPosition)
+      newChartOptions.plugins.annotation.annotations = {
         line: {
           type: 'line',
           ...(type === 'x'
@@ -159,28 +180,21 @@ const ImagePlot = (
         },
       };
 
-    if (image) {
-      const img = new Image();
-      img.src = image;
-
-      if (img.naturalWidth && img.naturalHeight) {
-        setImageDims({ width: img.naturalWidth, height: img.naturalHeight });
-
-        const limit = {
-          min: 0,
-          max: (type === 'x' ? img.naturalWidth : img.naturalHeight) - 1,
-        };
-        if (chartOptions.scales?.[type])
-          // use Object.assign here as otherwise typescript gets unhappy about chartOptions.scales?.[type] potentially being undefined
-          // so can't use a normal chartOptions.scales.[type] = command as it won't allow potential undefined on the LHS
-          Object.assign(chartOptions.scales?.[type], {
-            ...chartOptions.scales?.[type],
-            ...limit,
-          });
-      }
+    if (imageDims.width && imageDims.height) {
+      const limit = {
+        min: 0,
+        max: (type === 'x' ? imageDims.width : imageDims.height) - 1,
+      };
+      if (newChartOptions.scales?.[type])
+        // use Object.assign here as otherwise typescript gets unhappy about chartOptions.scales?.[type] potentially being undefined
+        // so can't use a normal chartOptions.scales.[type] = command as it won't allow potential undefined on the LHS
+        Object.assign(newChartOptions.scales?.[type], {
+          ...newChartOptions.scales?.[type],
+          ...limit,
+        });
     }
-    setOptionsString(JSON.stringify(chartOptions));
-  }, [chartOptions, crosshairPosition, data, image, type]);
+    setOptionsString(JSON.stringify(newChartOptions));
+  }, [chartOptions, crosshairPosition, imageDims, type]);
 
   /* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */
   return (
@@ -198,6 +212,7 @@ const ImagePlot = (
       }
     >
       <canvas
+        ref={canvasRef}
         className="chartjs-chart"
         width={200}
         height={200}
