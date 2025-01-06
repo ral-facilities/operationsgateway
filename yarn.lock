@@ -6419,9 +6419,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:2.6.7":
-  version: 2.6.7
-  resolution: "msw@npm:2.6.7"
+"msw@npm:2.7.0":
+  version: 2.7.0
+  resolution: "msw@npm:2.7.0"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.1"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -6432,12 +6432,12 @@ __metadata:
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
     "@types/statuses": "npm:^2.0.4"
-    chalk: "npm:^4.1.2"
     graphql: "npm:^16.8.1"
     headers-polyfill: "npm:^4.0.2"
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     path-to-regexp: "npm:^6.3.0"
+    picocolors: "npm:^1.1.1"
     strict-event-emitter: "npm:^0.5.1"
     type-fest: "npm:^4.26.1"
     yargs: "npm:^17.7.2"
@@ -6448,7 +6448,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/5c61a63043771de8222b03ea90fc5ed4faa2fb9e6e1df12dbe7065414339bc63f76c728f07890e65aec677bb1da7afcababaea51029e3a6bb5906932e6f4b803
+  checksum: 10c0/14fb8299dcb6bcf2c6b3777a3127ed6be795a281598394022650b82889f1b70e0ada96559fefead351b18ed5db4e0a3a64367b758dd64f74dea63edc8eb2b551
   languageName: node
   linkType: hard
 
@@ -6739,7 +6739,7 @@ __metadata:
     jsdom: "npm:25.0.1"
     lint-staged: "npm:15.2.0"
     loglevel: "npm:1.9.1"
-    msw: "npm:2.6.7"
+    msw: "npm:2.7.0"
     prettier: "npm:3.4.2"
     react: "npm:18.3.1"
     react-colorful: "npm:5.6.1"
