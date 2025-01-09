@@ -26,7 +26,7 @@ describe('Plot component', () => {
       leftYAxisScale: 'linear',
       rightYAxisScale: 'logarithmic',
       XAxis: 'test x-axis',
-      canvasRef: React.createRef<HTMLCanvasElement>(),
+      chartRef: React.createRef<HTMLCanvasElement>(),
       viewReset: false,
       gridVisible: true,
       axesLabelsVisible: true,

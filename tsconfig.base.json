@@ -4,7 +4,7 @@
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    
+
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -23,6 +23,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "plotly.js-dist": ["./node_modules/@types/plotly.js"]
+    }
   },
-  "include": ["src"],
+  "include": ["src"]
 }

@@ -35,20 +35,19 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
     changeSelectedPlotChannels,
   } = props;
 
-  const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dashed', 'dotted'];
-  const MARKER_STYLE_VALUES: MarkerStyle[] = [
-    'circle',
-    'cross',
-    'crossRot',
-    'dash',
-    'line',
-    'rect',
-    'rectRounded',
-    'rectRot',
-    'star',
-    'triangle',
-    false,
-  ];
+  const LINE_STYLE_VALUES: LineStyle[] = ['solid', 'dash', 'dot'];
+  const MARKER_STYLE_VALUES: Record<string, MarkerStyle> = {
+    circle: 'circle',
+    square: 'square',
+    triangle: 'triangle-up',
+    diamond: 'diamond',
+    cross: 'cross-thin',
+    x: 'x-thin',
+    line: 'line-ew',
+    star: 'star',
+    asterisk: 'asterisk',
+    none: false,
+  };
 
   const changeChannelOption = React.useCallback(
     <K extends keyof SelectedPlotChannel['options']>(
@@ -210,22 +209,21 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               } marker style`,
             }}
           >
-            {MARKER_STYLE_VALUES.map((style) => {
-              if (!style) {
+            {Object.entries(MARKER_STYLE_VALUES).map(
+              ([styleDisplayName, styleValue]) => {
+                const capitalised =
+                  styleDisplayName.charAt(0).toUpperCase() +
+                  styleDisplayName.slice(1);
                 return (
-                  <option key="none" value={'false'}>
-                    None
+                  <option
+                    key={styleDisplayName}
+                    value={styleValue === false ? 'false' : styleValue}
+                  >
+                    {capitalised}
                   </option>
                 );
               }
-              const capitalised =
-                style.charAt(0).toUpperCase() + style.slice(1);
-              return (
-                <option key={style} value={style}>
-                  {capitalised}
-                </option>
-              );
-            })}
+            )}
           </NativeSelect>
         </Box>
       </Grid>
@@ -269,8 +267,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               let newValue = parseInt(event.target.value);
               if (newValue < 1) {
                 newValue = 1;
-              } else if (newValue > 10) {
-                newValue = 10;
+              } else if (newValue > 15) {
+                newValue = 15;
               }
               changeChannelOption('markerSize', newValue);
             }}

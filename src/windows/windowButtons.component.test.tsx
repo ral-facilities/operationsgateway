@@ -74,7 +74,7 @@ describe('Window buttons components', () => {
           },
         ],
         XAxis: 'timestamp',
-        canvasRef: {
+        chartRef: {
           current: canvas,
         },
         title: 'test',
@@ -146,7 +146,7 @@ describe('Window buttons components', () => {
     });
 
     it('does nothing when export button is clicked if canvasRef is null', async () => {
-      plotButtonsProps.canvasRef.current = null;
+      plotButtonsProps.chartRef.current = null;
       render(<PlotButtons {...plotButtonsProps} />);
 
       await user.click(screen.getByRole('button', { name: 'Export Plot' }));

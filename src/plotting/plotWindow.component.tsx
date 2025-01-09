@@ -118,7 +118,7 @@ const PlotWindow = (props: PlotWindowProps) => {
     setOpen(false);
   }, []);
 
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const chartRef = React.useRef<HTMLDivElement | null>(null);
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     selectedPlotChannels,
@@ -319,7 +319,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             <Grid item mr={1} mt={1}>
               <PlotButtons
                 data={records}
-                canvasRef={canvasRef}
+                chartRef={chartRef}
                 title={plotTitle}
                 XAxis={XAxis}
                 gridVisible={gridVisible}
@@ -342,7 +342,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             XAxisScale={XAxisScale}
             leftYAxisScale={leftYAxisScale}
             rightYAxisScale={rightYAxisScale}
-            canvasRef={canvasRef}
+            chartRef={chartRef}
             gridVisible={gridVisible}
             axesLabelsVisible={axesLabelsVisible}
             xMinimum={xMinimum}

@@ -3,11 +3,13 @@ import {
   PlotDataset,
   PlotType,
   SelectedPlotChannel,
+  timeChannelName,
   XAxisScale,
   YAxisScale,
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
-import type { ChartDataset, ChartOptions } from 'chart.js';
+import Plotly from 'plotly.js-dist';
+import { Box, useTheme } from '@mui/material';
 
 export interface PlotProps {
   datasets: PlotDataset[];
@@ -19,7 +21,7 @@ export interface PlotProps {
   rightYAxisScale: YAxisScale;
   XAxis?: string;
   XAxisDisplayName?: string;
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  chartRef: React.MutableRefObject<HTMLDivElement | null>;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
   xMinimum?: number;
@@ -44,7 +46,7 @@ const Plot = (props: PlotProps) => {
     rightYAxisScale,
     XAxis,
     XAxisDisplayName,
-    canvasRef,
+    chartRef,
     gridVisible,
     axesLabelsVisible,
     xMinimum,
@@ -58,183 +60,132 @@ const Plot = (props: PlotProps) => {
     viewReset,
   } = props;
 
-  // set the initial options
-  const [optionsString, setOptionsString] = React.useState(
-    JSON.stringify({
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: 'point',
-        intersect: false,
-      },
-      plugins: {
-        title: {
-          display: true,
-          text: title,
-        },
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            drag: {
-              enabled: true,
-              threshold: 15,
-            },
-            mode: 'xy',
-          },
-          pan: {
-            enabled: true,
-            mode: 'xy',
-            modifierKey: 'shift',
-          },
-          limits: {
-            x: {
-              min: xMinimum ?? 'original',
-              max: xMaximum ?? 'original',
-            },
-            y: {
-              min: leftYAxisMinimum ?? 'original',
-              max: leftYAxisMaximum ?? 'original',
-            },
-            y2: {
-              min: rightYAxisMinimum ?? 'original',
-              max: rightYAxisMaximum ?? 'original',
-            },
-          },
-        },
-      },
-      scales: {
-        x: {
-          type: XAxisScale,
-          time: {
-            displayFormats: {
-              millisecond: 'HH:mm:ss:SSS',
-              second: 'HH:mm:ss',
-              minute: 'HH:mm',
-              hour: 'd MMM ha',
-              day: 'd MMM',
-              week: 'd MMM',
-              month: 'MMM yyyy',
-              quarter: 'MMM yyyy',
-              year: 'yyyy',
-            },
-            tooltipFormat: 'yyyy-MM-dd HH:mm:ss',
-          },
-          title: {
-            display: axesLabelsVisible,
-            text: XAxisDisplayName ?? XAxis,
-          },
-          grid: {
-            display: gridVisible,
-          },
-          min: xMinimum,
-          max: xMaximum,
-        },
-        y: {
-          type: leftYAxisScale,
-          display: true,
-          position: 'left',
-          grid: {
-            display: gridVisible,
-          },
-          min: leftYAxisMinimum,
-          max: leftYAxisMaximum,
-          title: {
-            display: Boolean(leftYAxisLabel),
-            text: leftYAxisLabel,
-          },
-        },
-        y2: {
-          type: rightYAxisScale,
-          display: selectedPlotChannels.some(
-            (channel) => channel.options.yAxis === 'right'
-          ),
-          position: 'right',
-          grid: {
-            display: gridVisible,
-          },
-          min: rightYAxisMinimum,
-          max: rightYAxisMaximum,
-          title: {
-            display: Boolean(rightYAxisLabel),
-            text: rightYAxisLabel,
-          },
-        },
-      },
-      transitions: {
-        zoom: {
-          animation: {
-            duration: 250,
-          },
-        },
-      },
-    } satisfies ChartOptions<PlotType>)
+  const theme = useTheme();
+
+  const [plotlyLayoutString, setPlotlyLayoutString] = React.useState(
+    JSON.stringify({} satisfies Partial<Plotly.Layout>)
   );
-  const [dataString, setDataString] = React.useState(JSON.stringify(datasets));
+
+  const [plotlyConfigString] = React.useState(
+    JSON.stringify({
+      scrollZoom: true,
+      displaylogo: false,
+      displayModeBar: false,
+      responsive: true,
+      showAxisDragHandles: false,
+    } satisfies Partial<Plotly.Config>)
+  );
+
+  const [plotlyDataString, setPlotlyDataString] = React.useState(
+    JSON.stringify(datasets satisfies Plotly.Data[])
+  );
 
   React.useEffect(() => {
-    setOptionsString((oldOptionsString) => {
-      const options: ChartOptions<PlotType> = JSON.parse(oldOptionsString);
-      // change any options here to preserve any options chart.js adds
-      if (options?.plugins?.title) options.plugins.title.text = title;
-      if (options?.scales?.x) options.scales.x.min = xMinimum;
-      if (options?.scales?.x) options.scales.x.max = xMaximum;
-      if (options?.plugins?.zoom?.limits?.x)
-        options.plugins.zoom.limits.x = {
-          min: xMinimum ?? 'original',
-          max: xMaximum ?? 'original',
-        };
-      if (options?.scales?.x) options.scales.x.type = XAxisScale;
-      if (options?.scales?.x?.grid) options.scales.x.grid.display = gridVisible;
-      if (options?.scales?.x?.title)
-        options.scales.x.title.display = axesLabelsVisible;
-      if (options?.scales?.x?.title)
-        options.scales.x.title.text = XAxisDisplayName ?? XAxis;
-      if (options?.scales?.y) options.scales.y.min = leftYAxisMinimum;
-      if (options?.scales?.y) options.scales.y.max = leftYAxisMaximum;
-      if (options?.plugins?.zoom?.limits?.y)
-        options.plugins.zoom.limits.y = {
-          min: leftYAxisMinimum ?? 'original',
-          max: leftYAxisMaximum ?? 'original',
-        };
-      if (options?.scales?.y) options.scales.y.type = leftYAxisScale;
-      if (options?.scales?.y?.grid) options.scales.y.grid.display = gridVisible;
-      if (options?.scales?.y)
-        options.scales.y.display = selectedPlotChannels.some(
-          (channel) =>
-            channel.options.yAxis === 'left' && channel.options.visible
-        );
-      if (options?.scales?.y)
-        options.scales.y.title = {
-          display: Boolean(leftYAxisLabel),
-          text: leftYAxisLabel,
-        };
-      if (options?.scales?.y2) options.scales.y2.min = rightYAxisMinimum;
-      if (options?.scales?.y2) options.scales.y2.max = rightYAxisMaximum;
-      if (options?.plugins?.zoom?.limits?.y2)
-        options.plugins.zoom.limits.y2 = {
-          min: rightYAxisMinimum ?? 'original',
-          max: rightYAxisMaximum ?? 'original',
-        };
-      if (options?.scales?.y2) options.scales.y2.type = rightYAxisScale;
-      if (options?.scales?.y2)
-        options.scales.y2.display = selectedPlotChannels.some(
-          (channel) =>
-            channel.options.yAxis === 'right' && channel.options.visible
-        );
-      if (options?.scales?.y2?.grid)
-        options.scales.y2.grid.display = gridVisible;
-      if (options?.scales?.y2)
-        options.scales.y2.title = {
-          display: Boolean(rightYAxisLabel),
-          text: rightYAxisLabel,
-        };
-      return JSON.stringify(options);
-    });
+    const fontColour = theme.palette.mode === 'dark' ? '#ADBABD' : '#444';
+    const lineColour =
+      theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
+
+    const xMin =
+      XAxisScale === 'log' && xMinimum ? Math.log10(xMinimum) : xMinimum;
+    const xMax =
+      XAxisScale === 'log' && xMaximum ? Math.log10(xMaximum) : xMaximum;
+    const leftYAxisMin =
+      leftYAxisScale === 'log' && leftYAxisMinimum
+        ? Math.log10(leftYAxisMinimum)
+        : leftYAxisMinimum;
+    const leftYAxisMax =
+      leftYAxisScale === 'log' && leftYAxisMaximum
+        ? Math.log10(leftYAxisMaximum)
+        : leftYAxisMaximum;
+    const rightYAxisMin =
+      rightYAxisScale === 'log' && rightYAxisMinimum
+        ? Math.log10(rightYAxisMinimum)
+        : rightYAxisMinimum;
+    const rightYAxisMax =
+      rightYAxisScale === 'log' && rightYAxisMaximum
+        ? Math.log10(rightYAxisMaximum)
+        : rightYAxisMaximum;
+    setPlotlyLayoutString(
+      JSON.stringify({
+        title: {
+          text: title,
+        },
+        margin: {
+          l: 55,
+          r: 50,
+          b: 10,
+          t: 40,
+        },
+        uirevision: `${viewReset}`,
+        paper_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
+        plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
+        font: {
+          color: fontColour,
+        },
+        legend: {
+          orientation: 'h',
+          x: 0.5,
+          yanchor: 'bottom',
+          xanchor: 'center',
+          yref: 'container',
+        },
+        xaxis: {
+          title: {
+            text: axesLabelsVisible ? (XAxisDisplayName ?? XAxis) : undefined,
+            font: { color: fontColour },
+            standoff: 0,
+          },
+          type: XAxisScale,
+          showgrid: gridVisible,
+          range: [xMin ?? null, xMax ?? null],
+          autorange: XAxisScale !== 'date',
+          color: lineColour,
+          gridcolor: lineColour,
+          tickfont: { color: fontColour },
+          automargin: true,
+        },
+        yaxis: {
+          title: {
+            text: axesLabelsVisible ? leftYAxisLabel : undefined,
+            font: { color: fontColour },
+            standoff: 0,
+          },
+          type: leftYAxisScale,
+          showgrid: gridVisible,
+          visible: selectedPlotChannels.some(
+            (channel) =>
+              channel.options.yAxis === 'left' && channel.options.visible
+          ),
+          range: [leftYAxisMin ?? null, leftYAxisMax ?? null],
+          autorange: true,
+          color: lineColour,
+          gridcolor: lineColour,
+          tickfont: { color: fontColour },
+          automargin: true,
+        },
+        yaxis2: {
+          title: {
+            text: axesLabelsVisible ? rightYAxisLabel : undefined,
+            font: { color: fontColour },
+            standoff: 0,
+          },
+          type: rightYAxisScale,
+          visible: selectedPlotChannels.some(
+            (channel) =>
+              channel.options.yAxis === 'right' && channel.options.visible
+          ),
+          side: 'right',
+          overlaying: 'y',
+          showgrid: gridVisible,
+          range: [rightYAxisMin ?? null, rightYAxisMax ?? null],
+          autorange: true,
+          color: lineColour,
+          gridcolor: lineColour,
+          tickfont: { color: fontColour },
+          automargin: true,
+        },
+      } satisfies Partial<Plotly.Layout>)
+    );
   }, [
     XAxis,
     XAxisScale,
@@ -253,12 +204,14 @@ const Plot = (props: PlotProps) => {
     XAxisDisplayName,
     leftYAxisLabel,
     rightYAxisLabel,
+    viewReset,
+    theme,
   ]);
 
   React.useEffect(() => {
-    setDataString(
-      JSON.stringify({
-        datasets: datasets.map((dataset) => {
+    setPlotlyDataString(
+      JSON.stringify(
+        datasets.map((dataset) => {
           const {
             options: channelConfig,
             displayName,
@@ -268,49 +221,56 @@ const Plot = (props: PlotProps) => {
           ) ?? {};
           const lineStyle = channelConfig?.lineStyle ?? 'solid';
           const lineWidth = channelConfig?.lineWidth ?? 3;
-          const markerStyle = channelConfig?.markerStyle ?? 'circle';
-          const markerSize = channelConfig?.markerSize ?? 3;
-          const markerColour = channelConfig?.markerColour;
+          const markerStyle = channelConfig?.markerStyle
+            ? channelConfig.markerStyle
+            : 'circle';
+          const markerSize = channelConfig?.markerSize ?? 6;
           const displayNameWithUnits = units
             ? `${displayName} (${units})`
             : `${displayName}`;
 
           return {
-            label: displayNameWithUnits ?? dataset.name,
-            data: dataset.data,
-            parsing: {
-              yAxisKey: dataset.name,
-              xAxisKey: XAxis,
-            },
-            yAxisID:
+            type: 'scatter',
+            mode:
+              type === 'line'
+                ? channelConfig?.markerStyle === false
+                  ? 'lines'
+                  : 'lines+markers'
+                : 'markers',
+            name: displayNameWithUnits ?? dataset.name,
+            x: dataset.data.map((point) => point[XAxis ?? timeChannelName]),
+            y: dataset.data.map((point) => point[dataset.name]),
+            yaxis:
               channelConfig && channelConfig.yAxis === 'right' ? 'y2' : 'y',
-            borderColor:
-              channelConfig && !channelConfig.visible
-                ? 'rgba(0,0,0,0)'
-                : channelConfig?.colour,
-            backgroundColor:
-              channelConfig && !channelConfig.visible
-                ? 'rgba(0,0,0,0)'
-                : channelConfig?.colour,
-            borderDash:
-              lineStyle === 'dashed'
-                ? [5 + (lineWidth - 3), 5 + (lineWidth - 3)]
-                : lineStyle === 'dotted'
-                  ? [0, 5 + (lineWidth - 3)]
-                  : undefined,
-            borderCapStyle: lineStyle === 'dotted' ? 'round' : undefined,
-            borderWidth: lineWidth,
-            pointBorderWidth: 1 + Math.max(0, (markerSize - 3) / 2),
-            pointStyle: markerStyle,
-            pointRadius: markerSize,
-            pointHoverRadius: markerSize + 1,
-            pointBackgroundColor: markerColour,
-            pointBorderColor: markerColour,
-          } satisfies ChartDataset<PlotType, PlotDataset['data']>;
-        }),
-      })
+            marker: {
+              color: channelConfig?.colour,
+              opacity: channelConfig?.markerStyle === false ? 0 : 1,
+              size: markerSize,
+              symbol: markerStyle,
+              line: {
+                color: channelConfig?.colour,
+                width: 1,
+              },
+            },
+            hovertemplate:
+              XAxisScale === 'date'
+                ? `(%{x:%Y-%m-%d %H:%M:%S}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`
+                : `(%{x}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`,
+            line: {
+              color:
+                channelConfig && !channelConfig.visible
+                  ? 'rgba(0,0,0,0)'
+                  : channelConfig?.colour,
+              width: lineWidth,
+              dash: lineStyle,
+            },
+            showlegend: channelConfig && !channelConfig.visible ? false : true,
+            hoverinfo: channelConfig && !channelConfig.visible ? 'none' : 'all',
+          } satisfies Partial<Plotly.PlotData>;
+        })
+      )
     );
-  }, [datasets, XAxis, selectedPlotChannels]);
+  }, [datasets, XAxis, selectedPlotChannels, type, XAxisScale]);
 
   return (
     <div
@@ -320,17 +280,14 @@ const Plot = (props: PlotProps) => {
         maxWidth: '100%',
       }}
     >
-      {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
-      <canvas
-        className="chartjs-chart"
-        ref={canvasRef}
-        width="400"
-        height="400"
-        data-options={optionsString}
-        data-data={dataString}
-        data-type={type}
-        data-view={viewReset}
-      ></canvas>
+      {/* This div is turned into a Plotly.js plot via code in windowPortal.component.tsx */}
+      <Box
+        ref={chartRef}
+        className="plotly-chart"
+        data-config={plotlyConfigString}
+        data-layout={plotlyLayoutString}
+        data-data={plotlyDataString}
+      ></Box>
     </div>
   );
 };

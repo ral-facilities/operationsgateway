@@ -8,12 +8,13 @@ import {
   Waveform,
   XAxisScale,
 } from '../app.types';
+import Plotly from 'plotly.js-dist';
 
 export const formatTooltipLabel = (
   label: number,
   scale: XAxisScale
 ): number | string => {
-  if (scale === 'time') {
+  if (scale === 'date') {
     return format(label, 'yyyy-MM-dd HH:mm:ss');
   }
   return label;
@@ -21,22 +22,17 @@ export const formatTooltipLabel = (
 
 /**
  *  Exports the graph as PNG
- *  @param canvas The canvas element to export
+ *  @param el The element of the plot to export
  *  @param title The title of the plot (for the file name)
  */
-function exportChart(canvas: HTMLCanvasElement | null, title: string): void {
-  if (canvas) {
-    const dataUrl = canvas.toDataURL('image/png');
-
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = `${title}.png`;
-
-    link.style.display = 'none';
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+function exportChart(el: HTMLDivElement | null, title: string): void {
+  if (el) {
+    Plotly.downloadImage(el, {
+      format: 'png',
+      filename: title,
+      width: null,
+      height: null,
+    });
   }
 }
 
@@ -142,7 +138,7 @@ export const constructDataRows = (
     return headerRow.map((header) => {
       if (Object.keys(dataRow).includes(header)) {
         return header === timeChannelName
-          ? formatTooltipLabel(dataRow[header], 'time')
+          ? formatTooltipLabel(dataRow[header], 'date')
           : dataRow[header];
       }
       return '';
@@ -222,7 +218,7 @@ interface CommonButtonsProps {
 
 export interface PlotButtonsProps extends CommonButtonsProps {
   data?: PlotDataset[];
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  chartRef: React.MutableRefObject<HTMLDivElement | null>;
   XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -236,7 +232,7 @@ export interface PlotButtonsProps extends CommonButtonsProps {
 export const PlotButtons = (props: PlotButtonsProps) => {
   const {
     data,
-    canvasRef,
+    chartRef,
     title,
     XAxis,
     gridVisible,
@@ -258,7 +254,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
         {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
       </Button>
       <Button onClick={() => savePlot()}>Save</Button>
-      <Button onClick={() => exportChart(canvasRef.current, title)}>
+      <Button onClick={() => exportChart(chartRef.current, title)}>
         Export Plot
       </Button>
       <Button
@@ -272,7 +268,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
 
 export interface TraceButtonsProps extends CommonButtonsProps {
   data?: Waveform;
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  chartRef: React.MutableRefObject<HTMLDivElement | null>;
   pointsVisible: boolean;
   togglePointsVisibility: () => void;
 }
@@ -280,7 +276,7 @@ export interface TraceButtonsProps extends CommonButtonsProps {
 export const TraceButtons = (props: TraceButtonsProps) => {
   const {
     data,
-    canvasRef,
+    chartRef,
     title,
     resetView,
     pointsVisible,
@@ -293,7 +289,7 @@ export const TraceButtons = (props: TraceButtonsProps) => {
       <Button onClick={() => togglePointsVisibility()}>
         {pointsVisible ? 'Hide Points' : 'Show Points'}
       </Button>
-      <Button onClick={() => exportChart(canvasRef.current, title)}>
+      <Button onClick={() => exportChart(chartRef.current, title)}>
         Export Plot
       </Button>
       <Button onClick={() => exportTraceData(title, data)}>

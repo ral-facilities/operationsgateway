@@ -61,7 +61,7 @@ export const plotSlice = createSlice({
         title: newPlotTitle,
         plotType: 'scatter',
         XAxis: timeChannelName,
-        XAxisScale: 'time',
+        XAxisScale: 'date',
         selectedPlotChannels: [],
         leftYAxisScale: 'linear',
         rightYAxisScale: 'linear',

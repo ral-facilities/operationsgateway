@@ -98,6 +98,15 @@ export class WindowPortal extends React.PureComponent<
       chartjsDateFnsScript.defer = false;
       externalWindow.document.head.appendChild(chartjsDateFnsScript);
 
+      const plotlyjsScript = document.createElement('script');
+      plotlyjsScript.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js';
+      plotlyjsScript.crossOrigin = 'anonymous';
+      plotlyjsScript.referrerPolicy = 'no-referrer';
+      plotlyjsScript.async = false;
+      plotlyjsScript.defer = false;
+      externalWindow.document.head.appendChild(plotlyjsScript);
+
       const chartjsCode = document.createElement('script');
       chartjsCode.type = 'text/javascript';
 
@@ -117,10 +126,7 @@ export class WindowPortal extends React.PureComponent<
        * React in the main window to the Chart.js code. We do this by using data-* attributes on the canvas element,
        * which React can set (see plot.component.tsx). The MutationObserver thus watches for changes to the canvas object,
        * which then updates Chart.js if necessary
-       * `addLegendAndTooltipFilters` - given a Chart.js options object, this returns the object with the legend and tooltip filter functions filled
-       * which filter out datasets that have been set to transparent (which is done via the show/hide buttons)
        */
-      /* eslint-disable no-irregular-whitespace */
       const code = `
       function waitForElm(selector) {
         return new Promise(resolve => {
@@ -142,69 +148,8 @@ export class WindowPortal extends React.PureComponent<
         });
       }
 
-      function addLegendAndTooltipFilters(options) {
-        return {
-          ...options,
-          plugins: {
-            ...options?.plugins,
-            legend: {
-              ...options?.plugins?.legend,
-              labels: {
-                ...options?.plugins?.legend?.labels,
-                filter: function filterLabels(item) {
-                  if (item.fillStyle && item.fillStyle === "rgba(0,0,0,0)") return false;
-                  else if (item.strokeStyle && item.strokeStyle === "rgba(0,0,0,0)") return false;
-                  else return true;
-                },
-              },
-              onClick: (evt, legendItem, legend) => {
-                const index = legendItem.datasetIndex;
-                Chart.defaults.plugins.legend.onClick(evt, legendItem, legend);
-
-                const ci = legend.chart;
-      
-                // only show relevant y axis if at least 1 dataset is visible on it 
-                const scale = ci.getDatasetMeta(index).yAxisID;
-                const datasetsVisibleOnAxis = ci.getSortedVisibleDatasetMetas().some((dataset) => dataset.yAxisID === scale);
-                
-                ci.options.scales[scale].display = datasetsVisibleOnAxis;
-                ci.update("none");
-              },
-            },
-            tooltip: {
-              ...options?.plugins?.tooltip,
-              filter: function filterTooltips(item) {
-                if (item.dataset.borderColor && item.dataset.borderColor === "rgba(0,0,0,0)") return false;
-                else if (item.dataset.backgroundColor && item.dataset.backgroundColor === "rgba(0,0,0,0)") return false;
-                else return true;
-              },
-            },
-          },
-          scales: {
-            ...options?.scales,
-            y: {
-              ...options?.scales?.y,
-              ...(options?.scales?.y?.ticks?.z === 1 ? {
-                ticks: {
-                  ...options?.scales?.y?.ticks,
-                  z: 0,
-                  callback: (tickValue, index, ticks) => {
-                    const stringifiedTick = tickValue.toString();
-                    // pad ticks with Figure space/U+2007 character
-                    // it's the space of 1 numerical digit and isn't stripped by Chart.js
-                    // lets us pad out smaller numbers to ensure alignment with
-                    // both 8-bit & 16-bit image intensity plot
-                    return stringifiedTick.padEnd(5, ' ');
-                  },
-                }
-              } : {})
-            }
-          },
-        };
-      }
-
-      var waitForChartJS = setInterval(function () {
-        if (typeof Chart !== 'undefined' && typeof Hammer !== 'undefined' && typeof ChartZoom !== 'undefined' && Chart._adapters._date.prototype._id === 'date-fns') { 
+      var waitForPlotlyJs = setInterval(function () {
+        if (typeof Plotly !== 'undefined') { 
           const lightModeColor = Chart.defaults.color;
           const lightModeBorderColor = Chart.defaults.borderColor;
 
@@ -245,49 +190,31 @@ export class WindowPortal extends React.PureComponent<
             attributes: true
           });
           
-          waitForElm(".chartjs-chart").then((canvases) => {
-            for (const canvas of canvases) {
-              if (canvas && canvas.getContext('2d')) {
-                const chart = new Chart(canvas.getContext('2d'), {
-                  type: canvas.dataset.type,
-                  data: JSON.parse(canvas.dataset.data),
-                  options: addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options)),
-                });
+          waitForElm(".plotly-chart").then((divs) => {
+            for (const div of divs) {
+              if (div) {
+                Plotly.newPlot(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config)).then((plot) => window.plot = plot);
 
                 const observer = new MutationObserver(mutations => {
                   for(let mutation of mutations) {
                     if (mutation.type === 'attributes') {
-                      if(mutation.attributeName === "data-options"){
-                        chart.options = addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options));
-                        chart.update("none");
-                      }
-                      else if(mutation.attributeName === "data-data"){
-                        chart.data = JSON.parse(canvas.dataset.data);
-                        chart.update("none");
-                      }
-                      else if(mutation.attributeName === "data-type"){
-                        chart.config.type = canvas.dataset.type;
-                        chart.update();
-                      }
-                      else if(mutation.attributeName === "data-view"){
-                        chart.resetZoom("none");
-                        chart.update("none");
+                      if(mutation.attributeName === "data-layout" || mutation.attributeName === "data-data" || mutation.attributeName === "data-config"){
+                        Plotly.react(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config));
                       }
                     }
                   }
                 });
         
-                observer.observe(canvas, {
+                observer.observe(div, {
                   attributes: true
                 });
               }
-            }            
+            }   
           });
-          clearInterval(waitForChartJS);
+          clearInterval(waitForPlotlyJs);
         }
       }, 10);
       `;
-      /* eslint-enable no-irregular-whitespace */
       chartjsCode.text = code;
       externalWindow.document.head.appendChild(chartjsCode);
 

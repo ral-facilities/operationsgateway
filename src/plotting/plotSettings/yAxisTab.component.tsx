@@ -332,11 +332,7 @@ const YAxisTab = (props: YAxisTabProps) => {
               control={<Radio />}
               label="Linear"
             />
-            <FormControlLabel
-              value="logarithmic"
-              control={<Radio />}
-              label="Log"
-            />
+            <FormControlLabel value="log" control={<Radio />} label="Log" />
           </RadioGroup>
         </FormControl>
       </Grid>

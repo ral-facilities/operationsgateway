@@ -88,23 +88,23 @@ const XAxisTab = (props: XAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
-    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'time'
+    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'date'
       ? '' + initialXMinimum
       : ''
   );
   const [xMaximum, setXMaximum] = React.useState<string>(
-    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'time'
+    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'date'
       ? '' + initialXMaximum
       : ''
   );
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    typeof initialXMinimum !== 'undefined' && XAxisScale === 'time'
+    typeof initialXMinimum !== 'undefined' && XAxisScale === 'date'
       ? new Date(initialXMinimum)
       : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    typeof initialXMaximum !== 'undefined' && XAxisScale === 'time'
+    typeof initialXMaximum !== 'undefined' && XAxisScale === 'date'
       ? new Date(initialXMaximum)
       : null
   );
@@ -123,7 +123,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   React.useEffect(() => {
-    if (XAxisScale !== 'time') {
+    if (XAxisScale !== 'date') {
       const parsedXMinimum = parseFloat(xMinimum);
       if (!Number.isNaN(parsedXMinimum)) {
         changeXMinimum(parsedXMinimum);
@@ -134,7 +134,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [XAxisScale, changeXMinimum, xMinimum]);
 
   React.useEffect(() => {
-    if (XAxisScale !== 'time') {
+    if (XAxisScale !== 'date') {
       const parsedXMaximum = parseFloat(xMaximum);
       if (!Number.isNaN(parsedXMaximum)) {
         changeXMaximum(parsedXMaximum);
@@ -145,7 +145,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [XAxisScale, changeXMaximum, xMaximum]);
 
   React.useEffect(() => {
-    if (XAxisScale === 'time') {
+    if (XAxisScale === 'date') {
       if (fromDate) {
         const unixTimestamp = fromDate.getTime();
         if (!Number.isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
@@ -156,7 +156,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [fromDate, changeXMinimum, XAxisScale]);
 
   React.useEffect(() => {
-    if (XAxisScale === 'time') {
+    if (XAxisScale === 'date') {
       if (toDate) {
         const unixTimestamp = toDate.getTime();
         if (!Number.isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
@@ -206,7 +206,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           mouseEvent="onMouseDown"
         >
           <Grid item xs={6}>
-            {XAxisScale === 'time' ? (
+            {XAxisScale === 'date' ? (
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
@@ -264,7 +264,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           mouseEvent="onMouseDown"
         >
           <Grid item xs={6}>
-            {XAxisScale === 'time' ? (
+            {XAxisScale === 'date' ? (
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
@@ -344,11 +344,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                   control={<Radio />}
                   label="Linear"
                 />
-                <FormControlLabel
-                  value="logarithmic"
-                  control={<Radio />}
-                  label="Log"
-                />
+                <FormControlLabel value="log" control={<Radio />} label="Log" />
               </RadioGroup>
             </FormControl>
           </Grid>

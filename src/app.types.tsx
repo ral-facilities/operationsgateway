@@ -1,6 +1,6 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
-import type { CartesianScaleTypeRegistry } from 'chart.js';
 import { ImportSessionType } from './state/store';
+import type { AxisType, Dash } from 'plotly.js';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -195,15 +195,9 @@ export interface WindowConfig {
 
 export type PlotType = 'scatter' | 'line';
 
-export type XAxisScale = Extract<
-  keyof CartesianScaleTypeRegistry,
-  'linear' | 'logarithmic' | 'time'
->;
+export type XAxisScale = Extract<AxisType, 'linear' | 'log' | 'date'>;
 
-export type YAxisScale = Extract<
-  keyof CartesianScaleTypeRegistry,
-  'linear' | 'logarithmic'
->;
+export type YAxisScale = Extract<AxisType, 'linear' | 'log'>;
 
 export type PlotDataset = {
   name: string;
@@ -223,23 +217,21 @@ export type SelectedPlotChannel = {
     markerStyle?: MarkerStyle;
     markerSize?: number;
     colour: string;
-    markerColour?: string | undefined;
     yAxis: 'left' | 'right';
   };
 };
 
-export type LineStyle = 'solid' | 'dashed' | 'dotted';
+export type LineStyle = Dash;
 export type MarkerStyle =
   | 'circle'
-  | 'cross'
-  | 'crossRot'
-  | 'dash'
-  | 'line'
-  | 'rect'
-  | 'rectRounded'
-  | 'rectRot'
+  | 'cross-thin'
+  | 'x-thin'
+  | 'line-ew'
+  | 'square'
+  | 'diamond'
   | 'star'
-  | 'triangle'
+  | 'asterisk'
+  | 'triangle-up'
   | false;
 
 // Update this whenever we have a new icon for a specific column
