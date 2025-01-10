@@ -180,7 +180,6 @@ export class WindowPortal extends React.PureComponent<
               },
             },
           },
-          ...options,
           scales: {
             ...options?.scales,
             y: {
