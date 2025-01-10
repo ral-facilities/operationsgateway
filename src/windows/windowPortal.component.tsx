@@ -120,6 +120,7 @@ export class WindowPortal extends React.PureComponent<
        * `addLegendAndTooltipFilters` - given a Chart.js options object, this returns the object with the legend and tooltip filter functions filled
        * which filter out datasets that have been set to transparent (which is done via the show/hide buttons)
        */
+      /* eslint-disable no-irregular-whitespace */
       const code = `
       function waitForElm(selector) {
         return new Promise(resolve => {
@@ -178,6 +179,27 @@ export class WindowPortal extends React.PureComponent<
                 else return true;
               },
             },
+          },
+          ...options,
+          scales: {
+            ...options?.scales,
+            y: {
+              ...options?.scales?.y,
+              ...(options?.scales?.y?.ticks?.z === 1 ? {
+                ticks: {
+                  ...options?.scales?.y?.ticks,
+                  z: 0,
+                  callback: (tickValue, index, ticks) => {
+                    const stringifiedTick = tickValue.toString();
+                    // pad ticks with Figure space/U+2007 character
+                    // it's the space of 1 numerical digit and isn't stripped by Chart.js
+                    // lets us pad out smaller numbers to ensure alignment with
+                    // both 8-bit & 16-bit image intensity plot
+                    return stringifiedTick.padEnd(5, ' ');
+                  },
+                }
+              } : {})
+            }
           },
         };
       }
@@ -266,6 +288,7 @@ export class WindowPortal extends React.PureComponent<
         }
       }, 10);
       `;
+      /* eslint-enable no-irregular-whitespace */
       chartjsCode.text = code;
       externalWindow.document.head.appendChild(chartjsCode);
 

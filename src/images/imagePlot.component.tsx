@@ -10,7 +10,7 @@ import { CrosshairDimensionType } from '../api/images';
 /**
  * The width offset for XImagePlot
  */
-export const XIMAGEPLOT_OFFSET = 29;
+export const XIMAGEPLOT_OFFSET = 42; // 42 needed for 16-bit images (theoretically have 5 digits on the intensity axis)
 /**
  * The height offset for YImagePlot
  */
@@ -49,8 +49,7 @@ const YChartOptions: ChartOptions<'line'> = {
     x: {
       type: 'linear',
       min: 0,
-      max: 255,
-      ticks: { padding: 0, count: 5, precision: 0 },
+      ticks: { padding: 0 },
     },
   },
 };
@@ -60,13 +59,16 @@ const XChartOptions: ChartOptions<'line'> = {
   scales: {
     y: {
       type: 'linear',
-      ticks: { padding: 0, count: 5, precision: 0 },
+      ticks: {
+        padding: 0,
+        z: 1,
+      },
       min: 0,
-      max: 255,
+      position: 'right',
     },
     x: {
       type: 'linear',
-      ticks: { padding: 0, align: 'end' },
+      ticks: { padding: 0, align: 'start' },
     },
   },
 };
@@ -185,10 +187,10 @@ const ImagePlot = (
         type === 'x'
           ? {
               width: imageDims.width + XIMAGEPLOT_OFFSET,
-              height: 200,
+              height: 300,
             }
           : {
-              width: 200,
+              width: 300,
               height: imageDims.height + YIMAGEPLOT_OFFSET,
             }
       }

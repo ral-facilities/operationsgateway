@@ -10,11 +10,7 @@ import WindowPortal, {
 } from '../windows/windowPortal.component';
 import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
-import {
-  XIMAGEPLOT_OFFSET,
-  XImagePlot,
-  YImagePlot,
-} from './imagePlot.component';
+import { XImagePlot, YImagePlot } from './imagePlot.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -152,12 +148,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                 direction={crosshairsMode ? 'column' : 'row'}
                 data-testid="image-panel"
               >
-                <Grid
-                  container
-                  item
-                  wrap="nowrap"
-                  pl={`${XIMAGEPLOT_OFFSET}px`}
-                >
+                <Grid container item wrap="nowrap">
                   <Grid item xs="auto">
                     <ImageView
                       image={image}
