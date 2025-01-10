@@ -11,6 +11,9 @@ test.beforeEach(async ({ page }) => {
   // add trace channel to the table so we can click on a trace
   await page.getByRole('button', { name: 'Data channels' }).click();
 
+  // check that channels have loaded before searching for our channels to add
+  await expect(page.getByRole('button', { name: 'system' })).toBeVisible();
+
   await page
     .getByRole('combobox', { name: 'Search data channels' })
     .fill('PA1-CAM');
@@ -18,7 +21,17 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  for (const row of await page.getByRole('checkbox').all()) await row.check();
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page.getByRole('combobox', { name: 'Search data channels' }).fill('');
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CAM-2');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -297,7 +310,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
     page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+      .getByAltText('D100 front-end FF image', { exact: false })
       .first()
       .click(),
   ]);
@@ -321,8 +334,8 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
 
-  const centroidPosition = [101, 95];
-  const FWHMs = [55, 52];
+  const centroidPosition = [734, 516];
+  const FWHMs = [214, 201];
   await expect(
     popup.getByText(
       `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
@@ -345,11 +358,11 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
   // i.e. clicking top left-most pixel results in (0,0)
   await image.click({
-    position: { x: 150, y: 51 },
+    position: { x: 750, y: 301 },
   });
 
-  await expect(popup.getByText('Position: (150, 50)')).toBeVisible();
-  const newFWHMs = [5, 50];
+  await expect(popup.getByText('Position: (750, 300)')).toBeVisible();
+  const newFWHMs = [204, 180];
   await expect(popup.getByText(`X FWHM: ${newFWHMs[0]}`)).toBeVisible();
   await expect(popup.getByText(`Y FWHM: ${newFWHMs[1]}`)).toBeVisible();
 
