@@ -43,15 +43,12 @@ jobs:
           node-version: 22
           cache: 'yarn'
       - name: Install dependencies
-        # Ubuntu 16+ does not install libgconf-2-4 by default, so we need to install it ourselves (for Cypress)
-        run: |
-          sudo apt-get install libgconf-2-4
-          yarn --immutable
+        run: yarn --immutable
       - name: Run e2e tests
         run: yarn e2e
       - name: Upload Cypress screenshots
         if: failure()
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
         with:
           name: OperationsGateway Screenshots
           path: cypress/screenshots
@@ -72,7 +69,7 @@ jobs:
         run: yarn playwright:test:mocked
 
       - name: Upload test report
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
         if: always()
         with:
           name: playwright-report-mocked-tests
@@ -220,7 +217,7 @@ jobs:
         run: yarn playwright:test:real
 
       - name: Upload test report
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
         if: always()
         with:
           name: playwright-report-real-tests
