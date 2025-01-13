@@ -17,7 +17,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddUser, useEditUser } from '../../api/user';
-import { APIError, User, UserPatch } from '../../app.types';
+import { APIError, UserPatch, UserPost, type User } from '../../app.types';
 import { AUTH_TYPE_LIST, AUTHORISED_ROUTE_LIST } from './usersTable.component';
 
 export interface UserDialogueProps {
@@ -71,7 +71,7 @@ const UserDialogue = (props: UserDialogueProps) => {
 
   const isNotAdding = requestType !== 'post' && selectedUser;
 
-  const initialUser: User = React.useMemo(
+  const initialUser: UserPost = React.useMemo(
     () =>
       isNotAdding
         ? { ...selectedUser, sha256_password: '' }
@@ -95,7 +95,7 @@ const UserDialogue = (props: UserDialogueProps) => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<User>({
+  } = useForm<UserPost>({
     resolver: zodResolver(userSchema),
     defaultValues: initialUser,
   });
@@ -115,7 +115,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   const { mutateAsync: addUser, isPending: isAddPending } = useAddUser();
   const { mutateAsync: editUser, isPending: isEditPending } = useEditUser();
   const handleAddUser = React.useCallback(
-    async (user: User) => {
+    async (user: UserPost) => {
       addUser(user)
         .then(() => handleClose())
         .catch((error: AxiosError) => {
@@ -142,7 +142,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   );
 
   const handleEditUser = React.useCallback(
-    async (user: User) => {
+    async (user: UserPost) => {
       if (!selectedUser) return;
 
       const patchUsers: UserPatch = { _id: selectedUser._id };
@@ -194,8 +194,8 @@ const UserDialogue = (props: UserDialogueProps) => {
     ]
   );
 
-  const onSubmit = (data: User) => {
-    const newData: User = {
+  const onSubmit = (data: UserPost) => {
+    const newData: UserPost = {
       ...data,
       ...(data.sha256_password && {
         sha256_password: data.sha256_password,

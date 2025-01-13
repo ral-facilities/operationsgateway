@@ -6,7 +6,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { User, UserPatch } from '../app.types';
+import { User, UserPatch, UserPost } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
@@ -34,7 +34,7 @@ export const useUsers = (): UseQueryResult<User[], AxiosError> => {
   });
 };
 
-const addUser = (apiUrl: string, user: User): Promise<string> => {
+const addUser = (apiUrl: string, user: UserPost): Promise<string> => {
   return axios
     .post<string>(`${apiUrl}/users`, user, {
       headers: {
@@ -44,11 +44,15 @@ const addUser = (apiUrl: string, user: User): Promise<string> => {
     .then((response) => response.data);
 };
 
-export const useAddUser = (): UseMutationResult<string, AxiosError, User> => {
+export const useAddUser = (): UseMutationResult<
+  string,
+  AxiosError,
+  UserPost
+> => {
   const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (user: User) => addUser(apiUrl, user),
+    mutationFn: (user: UserPost) => addUser(apiUrl, user),
     onError: (error) => {
       console.log('Got error ' + error.message);
     },
