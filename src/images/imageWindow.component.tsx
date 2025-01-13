@@ -1,6 +1,6 @@
 import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
-import { useImage } from '../api/images';
+import { useImage, useImageCrosshair } from '../api/images';
 import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
@@ -8,8 +8,9 @@ import { ImageButtons } from '../windows/windowButtons.component';
 import WindowPortal, {
   WindowPortal as WindowPortalClass,
 } from '../windows/windowPortal.component';
-import FalseColourPanel from './falseColourPanel.component';
+import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
+import { XImagePlot, YImagePlot } from './imagePlot.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -28,6 +29,10 @@ const ImageWindow = (props: ImageWindowProps) => {
   );
   const [lowerLevel, setLowerLevel] = React.useState<number | undefined>(0);
   const [upperLevel, setUpperLevel] = React.useState<number | undefined>(255);
+  const [crosshairsMode, setCrosshairsMode] = React.useState(false);
+  const [crosshair, setCrosshair] = React.useState<
+    { x: number; y: number } | undefined
+  >(undefined);
 
   const { data: image, isLoading: imageLoading } = useImage(
     recordId,
@@ -39,10 +44,31 @@ const ImageWindow = (props: ImageWindowProps) => {
     }
   );
 
+  const { data: crosshairData } = useImageCrosshair(
+    recordId,
+    channelName,
+    crosshair,
+    crosshairsMode
+  );
+
+  React.useEffect(() => {
+    if (crosshairsMode && crosshairData && typeof crosshair === 'undefined') {
+      setCrosshair({
+        x: crosshairData.column.position,
+        y: crosshairData.row.position,
+      });
+    } else if (!crosshairsMode) {
+      // reset when we switch out of the mode
+      setCrosshair(undefined);
+    }
+  }, [crosshair, crosshairData, crosshairsMode]);
+
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
+    // reset back to centroid
+    setCrosshair(undefined);
   }, []);
 
   const updateImageConfig = React.useCallback(
@@ -60,9 +86,12 @@ const ImageWindow = (props: ImageWindowProps) => {
           : {}),
       };
       dispatch(updateWindow(configToSave));
+      setCrosshair(undefined);
     },
     [imageConfig, dispatch]
   );
+
+  const [imageDims, setImageDims] = React.useState({ width: 0, height: 0 });
 
   return (
     <WindowPortal
@@ -104,25 +133,86 @@ const ImageWindow = (props: ImageWindowProps) => {
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
           <Grid container item wrap="nowrap" spacing={1}>
-            <Grid container item spacing={1} xs="auto">
-              <ThumbnailSelector
-                channelName={channelName}
-                recordId={recordId}
-                changeRecordId={updateImageConfig}
-              />
+            <Grid container item spacing={1} xs="auto" wrap="nowrap">
               <Grid item>
-                <ImageView image={image} title={title} viewReset={viewFlag} />
+                <ThumbnailSelector
+                  channelName={channelName}
+                  recordId={recordId}
+                  changeRecordId={updateImageConfig}
+                />
               </Grid>
-            </Grid>
-            <Grid item>
-              <FalseColourPanel
-                colourMap={colourMap}
-                lowerLevel={lowerLevel}
-                upperLevel={upperLevel}
-                changeColourMap={setColourMap}
-                changeLowerLevel={setLowerLevel}
-                changeUpperLevel={setUpperLevel}
-              />
+              <Grid
+                container
+                item
+                wrap="nowrap"
+                direction={crosshairsMode ? 'column' : 'row'}
+                spacing={crosshairsMode ? 0 : 1}
+                data-testid="image-panel"
+              >
+                <Grid container item wrap="nowrap" spacing={1}>
+                  <Grid item xs="auto">
+                    <ImageView
+                      image={image}
+                      title={title}
+                      viewReset={viewFlag}
+                      crosshairsMode={crosshairsMode}
+                      crosshair={crosshair}
+                      changeCrosshair={setCrosshair}
+                      changeImageDims={setImageDims}
+                    />
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs="auto"
+                    style={{
+                      // display: none means it takes up no space in the UI
+                      display: crosshairsMode ? 'flex' : 'none',
+                      // visibility: hidden means it takes up space but just isn't visible
+                      visibility:
+                        crosshairData && crosshair ? 'visible' : 'hidden',
+                    }}
+                  >
+                    <YImagePlot
+                      data={crosshairData?.column.intensity ?? { x: [], y: [] }}
+                      crosshairPosition={crosshair?.y}
+                      imageDims={imageDims}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container item wrap="nowrap" spacing={1}>
+                  <Grid
+                    item
+                    xs="auto"
+                    style={{
+                      // display: none means it takes up no space in the UI
+                      display: crosshairsMode ? 'flex' : 'none',
+                      // visibility: hidden means it takes up space but just isn't visible
+                      visibility:
+                        crosshairData && crosshair ? 'visible' : 'hidden',
+                    }}
+                  >
+                    <XImagePlot
+                      data={crosshairData?.row.intensity ?? { x: [], y: [] }}
+                      crosshairPosition={crosshair?.x}
+                      imageDims={imageDims}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <ImageControlsPanel
+                      colourMap={colourMap}
+                      lowerLevel={lowerLevel}
+                      upperLevel={upperLevel}
+                      crosshairsMode={crosshairsMode}
+                      changeColourMap={setColourMap}
+                      changeLowerLevel={setLowerLevel}
+                      changeUpperLevel={setUpperLevel}
+                      changeCrosshairsMode={setCrosshairsMode}
+                      crosshairData={crosshairData}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

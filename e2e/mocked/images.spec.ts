@@ -111,6 +111,8 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
@@ -142,7 +144,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
+  await expect(slider.nth(0)).toHaveValue(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
@@ -157,7 +159,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
+  await expect(slider.nth(1)).toHaveValue(`${0.8 * 255}`);
 
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
@@ -193,20 +195,30 @@ test('user can change the false colour to use reverse', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
-  const oldImageSrc = await image.getAttribute('src');
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
+  let oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
   await popup.getByLabel('Colour Map').click();
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+  await image.click();
+  oldImageSrc = await image.getAttribute('src');
+
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).toBeChecked();
+
   // wait for new image to have loaded
   await expect
     .poll(async () => await image.getAttribute('src'))
@@ -239,6 +251,8 @@ test('user can change the false colour to colourmap in extended list', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
   await popup
@@ -281,14 +295,16 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).not.toBeChecked();
 
   // wait for new image to have loaded
@@ -378,9 +394,12 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
-  const oldImageSrc = await popup
-    .getByAltText((await popup.title()).split(' - ')[1])
-    .getAttribute('src');
+  const oldImage = await popup.getByAltText(
+    (await popup.title()).split(' - ')[1]
+  );
+  // assert src has loaded before storing the old image src
+  await expect(oldImage).toHaveAttribute('src');
+  const oldImageSrc = await oldImage.getAttribute('src');
 
   await popup
     .getByAltText('Channel_BCDEF image', { exact: false })
@@ -448,4 +467,298 @@ test('user can set their default colourmap', async ({ page }) => {
       type: 'png',
     })
   ).toMatchSnapshot();
+});
+
+test('user can use crosshairs mode and view intensity graphs', async ({
+  page,
+  browserName,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // use image parent div as this is what crops the image to the correct size
+  const imageDiv = await popup
+    .locator('div', {
+      has: image,
+    })
+    // last is to get the most specific div i.e. direct parent
+    .last();
+
+  // get into cross hairs mode
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // see msw mock imageCrosshair.json
+  const centroidPosition = [226, 187];
+  const FWHMs = [61, 56];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // check that clicking the image changes the crosshairs position & causes a data fetch
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await image.click({
+    position: { x: 100, y: browserName === 'chromium' ? 301 : 300 },
+  });
+
+  await expect(popup.getByText('Position: (100, 300)')).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // check reset view goes back to the centroid
+  await popup.locator('text=Reset View').click();
+
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // can switch out of crosshairs mode and crosshair disappears
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+
+  expect(
+    await imageDiv.screenshot({
+      type: 'png',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  await expect(charts.first()).not.toBeVisible();
+  await expect(charts.last()).not.toBeVisible();
+});
+
+test('user can switch images via thumbnails whilst in crosshairs mode', async ({
+  page,
+  browserName,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const oldImage = await popup.getByAltText(imgAltText);
+
+  // get into cross hairs mode
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  // expect intensity plots to be drawn
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid
+
+  let centroidPosition = [226, 187];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // click to move the crosshair so we check when switching images it resets to the new image's centroid
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await oldImage.click({
+    position: { x: 200, y: browserName === 'chromium' ? 201 : 200 },
+  });
+  await expect(popup.getByText('Position: (200, 200)')).toBeVisible();
+
+  await page.evaluate(async () => {
+    // from: https://stackoverflow.com/a/49434653 - generate "random" bell curve
+    function create_intensity_plot(min: number, max: number) {
+      // from https://stackoverflow.com/a/19303725 - basic seeded "random" number generator
+      let seed = 1;
+      function random() {
+        const x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+      }
+
+      const n = 10000;
+      const step = 1;
+      const data: Record<number, number> = {};
+
+      const randn_bm = (min, max, skew) => {
+        let u = 0,
+          v = 0;
+        while (u === 0) u = random(); //Converting [0,1) to (0,1)
+        while (v === 0) v = random();
+        let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
+        num = num / 10.0 + 0.5; // Translate to 0 -> 1
+        if (num > 1 || num < 0) num = randn_bm(min, max, skew); // resample between 0 and 1 if out of range
+        num = Math.pow(num, skew); // Skew
+        num *= max - min; // Stretch to fill range
+        num += min; // offset to min
+        return num;
+      };
+
+      const round_to_precision = (x, precision) => {
+        const y = +x + (precision === undefined ? 0.5 : precision / 2);
+        return y - (y % (precision === undefined ? 1 : +precision));
+      };
+
+      // Seed data with a bunch of 0s
+      for (let j = min; j < max; j += step) {
+        data[j] = 0;
+      }
+
+      // Create n samples between min and max
+      for (let i = 0; i < n; i += step) {
+        const rand_num = randn_bm(min, max, 1);
+        const rounded = round_to_precision(rand_num, step);
+        data[rounded] += 1;
+      }
+
+      // Count number of samples at each increment
+      let points: { x: number; y: number }[] = [];
+      for (const [key, val] of Object.entries(data)) {
+        points.push({
+          x: parseFloat(key),
+          y: val / n <= 20 / n ? random() * (1 / n) * 20 : val / n, // make the tail a bit "wiggly"
+        });
+      }
+
+      // Sort
+      points = points.sort(function (a, b) {
+        if (a.x < b.x) return -1;
+        if (a.x > b.x) return 1;
+        return 0;
+      });
+
+      const unnormalised_y = points.map((v) => v.y);
+
+      const y_min = Math.min(...unnormalised_y);
+      const y_max = Math.max(...unnormalised_y);
+
+      const normalised_y = unnormalised_y.map((n) =>
+        Math.round(((n - y_min) / (y_max - y_min)) * 255)
+      );
+
+      const intensity_data: { x: number[]; y: number[] } = {
+        x: points.map((v) => v.x),
+        y: normalised_y,
+      };
+
+      return intensity_data;
+    }
+
+    const { msw } = window;
+
+    msw.worker.use(
+      msw.http.get('/images/:recordId/:channelName/crosshair', async () => {
+        const responseJson = {
+          row: {
+            position: 250,
+            intensity: create_intensity_plot(0, 656), // 656 = height of image
+            fwhm: 79,
+          },
+          column: {
+            position: 320,
+            intensity: create_intensity_plot(0, 494), // 494 = width of image
+            fwhm: 22,
+          },
+        };
+        return msw.HttpResponse.json(responseJson, { status: 200 });
+      })
+    );
+  });
+
+  await popup
+    .getByAltText('Channel_BCDEF image', { exact: false })
+    .last()
+    .click();
+
+  centroidPosition = [320, 250];
+  const FWHMs = [22, 79];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  // check that crosshair is repositioned and new intensity plots load & are positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });

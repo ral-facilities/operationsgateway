@@ -9,8 +9,6 @@ import React from 'react';
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
-// need to mock <canvas> for plotting
-import 'jest-canvas-mock';
 import { Provider } from 'react-redux';
 import { staticChannels } from './api/channels';
 import {

@@ -869,7 +869,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                 Rows per page
               </label>
               <div
-                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary  css-1mmm5cp-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary css-1mmm5cp-MuiInputBase-root-MuiInput-root-MuiSelect-root"
               >
                 <div
                   aria-controls=":rj:"
