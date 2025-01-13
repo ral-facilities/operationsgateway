@@ -39,7 +39,7 @@
     "react-colorful": "5.6.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
-    "react-redux": "9.1.2",
+    "react-redux": "9.2.0",
     "react-router-dom": "7.1.1",
     "single-spa-react": "6.0.2",
     "typescript": "5.6.2",

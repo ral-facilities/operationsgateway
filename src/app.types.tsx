@@ -318,6 +318,13 @@ export interface User {
   authorised_routes?: string[] | null;
 }
 
+export interface UserPost {
+  _id: string; // Maps the `username` field in Python, which has an alias "_id"
+  auth_type: string;
+  sha256_password?: string;
+  authorised_routes?: string[] | null;
+}
+
 export interface FavouriteFilterPost {
   name: string;
   filter: string;

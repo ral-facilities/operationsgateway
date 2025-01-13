@@ -6,8 +6,8 @@ import {
   ExperimentParams,
   isChannelScalar,
   Record,
-  User,
   ValidateFunctionPost,
+  type UserPost,
 } from '../app.types';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import channelsJson from './channels.json';
@@ -380,7 +380,7 @@ export const handlers = [
   }),
 
   http.post('/users', async ({ request }) => {
-    const body = (await request.json()) as User;
+    const body = (await request.json()) as UserPost;
 
     if (body.auth_type === 'local' && !body.sha256_password) {
       return HttpResponse.json(

@@ -17,7 +17,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddUser } from '../../api/user';
-import { APIError, User } from '../../app.types';
+import { APIError, User, type UserPost } from '../../app.types';
 import { AUTH_TYPE_LIST, AUTHORISED_ROUTE_LIST } from './usersTable.component';
 
 export interface UserDialogueProps {
@@ -58,7 +58,7 @@ const userSchema = z.object({
 const UserDialogue = (props: UserDialogueProps) => {
   const { open, onClose, requestType } = props;
 
-  const initialUser: User = {
+  const initialUser: UserPost = {
     _id: '',
     sha256_password: '',
     auth_type: 'local',
@@ -75,7 +75,7 @@ const UserDialogue = (props: UserDialogueProps) => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<User>({
+  } = useForm<UserPost>({
     resolver: zodResolver(userSchema),
     defaultValues: initialUser,
   });
@@ -120,8 +120,8 @@ const UserDialogue = (props: UserDialogueProps) => {
     [addUser, handleClose, setError]
   );
 
-  const onSubmit = (data: User) => {
-    const newData: User = {
+  const onSubmit = (data: UserPost) => {
+    const newData: UserPost = {
       ...data,
       ...(data.sha256_password && {
         sha256_password: data.sha256_password,

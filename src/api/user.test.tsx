@@ -29,7 +29,7 @@ describe('useAddUser', () => {
     });
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate(usersJson[0]);
+    result.current.mutate({ ...usersJson[0], sha256_password: 'test' });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBeTruthy();
