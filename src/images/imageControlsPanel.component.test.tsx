@@ -2,22 +2,27 @@ import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { flushPromises, renderComponentWithProviders } from '../testUtils';
-import FalseColourPanel from './falseColourPanel.component';
+import ImageControlsPanel from './imageControlsPanel.component';
+import imageCrosshairJson from '../mocks/imageCrosshair.json';
 
-describe('False colour panel component', () => {
-  let props: React.ComponentProps<typeof FalseColourPanel>;
+describe('Image controls panel component', () => {
+  let props: React.ComponentProps<typeof ImageControlsPanel>;
   const changeColourMap = vi.fn();
   const changeLowerLevel = vi.fn();
   const changeUpperLevel = vi.fn();
+  const changeCrosshairsMode = vi.fn();
 
   beforeEach(() => {
     props = {
       colourMap: 'cividis',
       lowerLevel: 0,
       upperLevel: 255,
+      crosshairsMode: false,
+      crosshairData: undefined,
       changeColourMap,
       changeLowerLevel,
       changeUpperLevel,
+      changeCrosshairsMode,
     };
 
     vi.clearAllMocks();
@@ -28,7 +33,7 @@ describe('False colour panel component', () => {
   });
 
   const createView = () => {
-    return renderComponentWithProviders(<FalseColourPanel {...props} />);
+    return renderComponentWithProviders(<ImageControlsPanel {...props} />);
   };
 
   it('renders correctly', async () => {
@@ -93,7 +98,7 @@ describe('False colour panel component', () => {
     expect(changeUpperLevel).toHaveBeenCalledWith(50);
   });
 
-  it('can be disabled and re-enabled', async () => {
+  it('false colour can be disabled and re-enabled', async () => {
     const user = userEvent.setup();
     createView();
 
@@ -231,5 +236,50 @@ describe('False colour panel component', () => {
 
     expect(changeColourMap).toHaveBeenCalledWith('afmhot');
     expect(reverseColourSwitch).toBeDisabled();
+  });
+
+  it('calls changeCrosshairsMode when crosshair checkbox is clicked', async () => {
+    const user = userEvent.setup();
+    createView();
+
+    // "load" requests
+    await flushPromises();
+
+    const crosshairsSwitch = screen.getByRole('checkbox', {
+      name: 'Centroid / Cross Hairs',
+    });
+
+    expect(crosshairsSwitch).not.toBeChecked();
+
+    await user.click(crosshairsSwitch);
+
+    expect(props.changeCrosshairsMode).toHaveBeenCalled();
+  });
+
+  it('renders crosshairs info when crosshairs mode is active', async () => {
+    props.crosshairData = imageCrosshairJson;
+    props.crosshairsMode = true;
+    createView();
+
+    // "load" requests
+    await flushPromises();
+
+    expect(
+      screen.getByRole('checkbox', {
+        name: 'Centroid / Cross Hairs',
+      })
+    ).toBeChecked();
+
+    expect(
+      screen.getByText(
+        `Position: (${imageCrosshairJson.column.position}, ${imageCrosshairJson.row.position})`
+      )
+    ).toBeVisible();
+    expect(
+      screen.getByText(`X FWHM: ${imageCrosshairJson.column.fwhm}`)
+    ).toBeVisible();
+    expect(
+      screen.getByText(`Y FWHM: ${imageCrosshairJson.row.fwhm}`)
+    ).toBeVisible();
   });
 });

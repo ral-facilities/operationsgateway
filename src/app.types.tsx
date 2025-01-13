@@ -317,3 +317,14 @@ export interface User {
   auth_type: string;
   authorised_routes?: string[] | null;
 }
+
+export interface FavouriteFilterPost {
+  name: string;
+  filter: string;
+}
+
+export type FavouriteFilterPatch = Partial<FavouriteFilterPost>;
+
+export interface FavouriteFilter extends FavouriteFilterPost {
+  _id: string;
+}

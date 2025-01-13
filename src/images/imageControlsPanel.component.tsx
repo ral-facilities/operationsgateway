@@ -13,6 +13,7 @@ import {
   Slider,
   Stack,
   Switch,
+  Typography,
 } from '@mui/material';
 import React from 'react';
 import {
@@ -20,6 +21,7 @@ import {
   FalseColourParams,
   useColourBar,
   useColourMaps,
+  useImageCrosshair,
 } from '../api/images';
 
 const marks = [
@@ -57,10 +59,13 @@ const marks = [
   },
 ];
 
-interface FalseColourPanelProps extends FalseColourParams {
+interface ImageControlsPanelProps extends FalseColourParams {
+  crosshairsMode: boolean;
+  changeCrosshairsMode: (value: boolean) => void;
   changeColourMap: (colourMap: string | undefined) => void;
   changeLowerLevel: (value: number | undefined) => void;
   changeUpperLevel: (value: number | undefined) => void;
+  crosshairData: ReturnType<typeof useImageCrosshair>['data'];
 }
 
 export function filterNamesWithSuffixR(
@@ -120,14 +125,17 @@ export const ColourMapSelect = (
   );
 };
 
-const FalseColourPanel = (props: FalseColourPanelProps) => {
+const ImageControlsPanel = (props: ImageControlsPanelProps) => {
   const {
     colourMap,
     lowerLevel,
     upperLevel,
+    crosshairsMode,
     changeColourMap,
     changeLowerLevel,
     changeUpperLevel,
+    changeCrosshairsMode,
+    crosshairData,
   } = props;
 
   const { data: colourMaps } = useColourMaps();
@@ -191,6 +199,13 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
     setExtendedColourMap(checked);
   };
 
+  const handleChangeCrosshairMode = (
+    _event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    changeCrosshairsMode(checked);
+  };
+
   const handleColourMapChange = (event: SelectChangeEvent<unknown>) => {
     const newValue = event.target.value as string;
     setSelectColourMap(newValue);
@@ -218,7 +233,7 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   );
 
   return (
-    <Paper>
+    <Paper data-testid="image-controls-panel">
       <Stack direction="column" sx={{ width: 300 }} spacing={1} padding={2}>
         <FormGroup>
           <FormControlLabel
@@ -246,6 +261,26 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
             }
             label="Show extended colourmap options"
           />
+          <FormControlLabel
+            control={
+              <Switch
+                checked={crosshairsMode}
+                onChange={handleChangeCrosshairMode}
+              />
+            }
+            label="Centroid / Cross Hairs"
+          />
+
+          {crosshairsMode && crosshairData && (
+            <>
+              <Typography>
+                Position: ({crosshairData.column.position},{' '}
+                {crosshairData.row.position})
+              </Typography>
+              <Typography>X FWHM: {crosshairData.column.fwhm}</Typography>
+              <Typography>Y FWHM: {crosshairData.row.fwhm}</Typography>
+            </>
+          )}
         </FormGroup>
 
         <FormControl disabled={!enabled}>
@@ -295,4 +330,4 @@ const FalseColourPanel = (props: FalseColourPanelProps) => {
   );
 };
 
-export default FalseColourPanel;
+export default ImageControlsPanel;
