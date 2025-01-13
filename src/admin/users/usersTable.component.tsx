@@ -22,7 +22,6 @@ const AUTH_TYPE_LIST = ['local', 'FedID'];
 function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
 
-  console.log('trigeer');
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
     {

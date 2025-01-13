@@ -4,6 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { TextEncoder } from 'util';
+// need to mock <canvas> for plotting
 import 'vitest-canvas-mock';
 import failOnConsole from 'vitest-fail-on-console';
 import { server } from './mocks/server';
@@ -27,7 +28,13 @@ afterAll(() => server.close());
 if (typeof window.URL.createObjectURL === 'undefined') {
   // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
   Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'testObjectUrl',
+    value: () => 'blob:testObjectUrl',
+  });
+}
+if (typeof window.URL.revokeObjectURL === 'undefined') {
+  // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
+  Object.defineProperty(window.URL, 'revokeObjectURL', {
+    value: () => {},
   });
 }
 

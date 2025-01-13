@@ -60,13 +60,13 @@ describe('Data View', () => {
     await user.click(screen.getByRole('button', { name: 'Filters' }));
 
     const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+
+    expect(within(dialogue).getByText('Enter filter')).toBeInTheDocument();
     expect(dialogue).toBeVisible();
 
     await user.click(within(dialogue).getByRole('button', { name: 'Close' }));
 
-    await waitForElementToBeRemoved(() =>
-      screen.queryByRole('dialog', { name: 'Filters' })
-    );
+    await waitForElementToBeRemoved(() => screen.queryByText('Enter filter'));
   });
 
   it('opens the filter dialogue when the filter button in a data header is clicked', async () => {
@@ -89,15 +89,20 @@ describe('Data View', () => {
       await flushPromises();
     });
 
+    await screen.findByRole('progressbar');
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
+
     const shotnumHeader = await screen.findByRole('columnheader', {
       name: 'Shot Number',
     });
     await user.click(within(shotnumHeader).getByLabelText('open filters'));
-    const dialogue = await screen.findByRole('dialog', { name: 'Filters' });
+    const dialogue = await screen.findByRole('dialog');
+
+    expect(within(dialogue).getByText('Enter filter')).toBeInTheDocument();
     expect(dialogue).toBeVisible();
   });
 
-  it('opens the functions dialogue when the functions button in a data header is clicked', async () => {
+  it('opens the functions dialogue when the functions button is clicked and closes when the close button is clicked', async () => {
     const user = userEvent.setup();
     const state = {
       ...getInitialState(),
@@ -118,6 +123,9 @@ describe('Data View', () => {
       createView(state);
       await flushPromises();
     });
+
+    await screen.findByRole('progressbar');
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     const functionAHeader = await screen.findByRole('columnheader', {
       name: 'a',

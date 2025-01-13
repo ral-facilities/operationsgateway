@@ -58,14 +58,15 @@ describe('Window portal component', () => {
 
     /* eslint-disable testing-library/no-node-access */
     const scriptTags = newDocument.querySelectorAll('script');
-    expect(scriptTags).toHaveLength(5);
+    expect(scriptTags).toHaveLength(6);
     expect(scriptTags[0].src).toContain('Chart.js');
     expect(scriptTags[1].src).toContain('hammer.js');
     expect(scriptTags[2].src).toContain('chartjs-plugin-zoom');
-    expect(scriptTags[3].src).toContain('chartjs-adapter-date-fns');
+    expect(scriptTags[3].src).toContain('chartjs-plugin-annotation');
+    expect(scriptTags[4].src).toContain('chartjs-adapter-date-fns');
 
-    expect(scriptTags[4].type).toEqual('text/javascript');
-    expect(scriptTags[4].textContent).toBeTruthy();
+    expect(scriptTags[5].type).toEqual('text/javascript');
+    expect(scriptTags[5].textContent).toBeTruthy();
     /* eslint-enable testing-library/no-node-access */
 
     unmount();

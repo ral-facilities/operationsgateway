@@ -14,11 +14,14 @@ import { ParserError, Token, operators, parseFilter } from './filterParser';
 
 interface FilterInputProps {
   channels: Token[];
+  favouriteFilter: Token[];
   value: Token[];
   setValue: (value: Token[]) => void;
   error?: string;
   setError: (error?: string) => void;
   flashingFilterValue?: string;
+  readOnly?: boolean;
+  updateInputIndex?: number;
 }
 
 export const useClickHandler = (props: {
@@ -269,7 +272,23 @@ export const useOnChange = <T extends Token | FunctionToken>({
       }
 
       if (reason === 'selectOption') {
-        setInputIndex((prevIndex) => prevIndex + 1);
+        // Check if any of the selected tokens is a 'favouriteFilter'
+        const favouriteFilterTokens = (newValue as T[]).filter(
+          (token) => token.type === 'favouriteFilter'
+        );
+
+        // If we have any favourite filters, parse the value of the last one
+        if (favouriteFilterTokens.length > 0) {
+          const lastFavouriteFilter =
+            favouriteFilterTokens[favouriteFilterTokens.length - 1]; // Get the last favourite filter for demonstration
+          const parsedValue: Token[] = JSON.parse(lastFavouriteFilter.value); // Parse the value of the last favourite filter
+          const cursorPositionChange = parsedValue.length; // Length of the parsed value
+
+          // Move the cursor by the length of the parsed value
+          setInputIndex((prevIndex) => prevIndex + cursorPositionChange);
+        } else {
+          setInputIndex((prevIndex) => prevIndex + 1); // Move cursor for other cases
+        }
       }
 
       if (reason === 'removeOption') {
@@ -302,14 +321,39 @@ const filterOptions = createFilterOptions<Token>({
 });
 
 const FilterInput = (props: FilterInputProps) => {
-  const { channels, value, setValue, error, setError, flashingFilterValue } =
-    props;
-  const options = React.useMemo(() => {
-    return [...operators, ...channels];
-  }, [channels]);
+  const {
+    channels,
+    value,
+    setValue,
+    error,
+    setError,
+    flashingFilterValue,
+    readOnly,
+    favouriteFilter,
+    updateInputIndex,
+  } = props;
+
+  const autocompleteOptions = React.useMemo(() => {
+    const groupedOptions = [
+      ...favouriteFilter.map((option) => ({
+        ...option,
+      })),
+      ...operators.map((option) => ({ ...option })),
+      ...channels.map((option) => ({ ...option })),
+    ];
+
+    return groupedOptions;
+  }, [channels, favouriteFilter]);
+
   const [inputValue, setInputValue] = React.useState<string>('');
   // on load, set input position to the end
   const [inputIndex, setInputIndex] = React.useState<number>(value.length);
+
+  React.useEffect(() => {
+    if (updateInputIndex) {
+      setInputIndex(updateInputIndex);
+    }
+  }, [updateInputIndex]);
 
   const keydownHandler = useKeydownHandler<Token>({
     inputValue,
@@ -318,7 +362,7 @@ const FilterInput = (props: FilterInputProps) => {
     value,
     setValue,
     setError,
-    options: channels,
+    options: [...channels, ...favouriteFilter],
     operators,
     setInputValue,
     enableCustomStringHandling: true,
@@ -362,7 +406,8 @@ const FilterInput = (props: FilterInputProps) => {
       autoHighlight
       filterOptions={filterOptions}
       multiple
-      options={options}
+      readOnly={readOnly}
+      options={autocompleteOptions}
       freeSolo
       size="small"
       fullWidth
@@ -392,14 +437,23 @@ const FilterInput = (props: FilterInputProps) => {
         ));
         return null;
       }}
+      groupBy={(option) => {
+        if (typeof option !== 'string' && option.type === 'favouriteFilter') {
+          return 'Favourite Filters';
+        }
+        if (typeof option !== 'string' && option.type === 'channel') {
+          return 'Channels';
+        }
+        return 'Operators';
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
           label="Filter"
           error={(error?.length ?? 0) > 0}
           helperText={error}
-          onKeyDown={keydownHandler}
-          onClick={clickHandler}
+          onKeyDown={readOnly ? undefined : keydownHandler}
+          onClick={readOnly ? undefined : clickHandler}
           InputProps={{
             ...params.InputProps,
             // we need this data-id so we can tell when a user is clicking between
@@ -409,13 +463,20 @@ const FilterInput = (props: FilterInputProps) => {
             'data-id': 'Input',
             startAdornment: tags.slice(0, inputIndex),
             endAdornment: tags.slice(inputIndex),
+            readOnly: readOnly,
+            disabled: readOnly,
           }}
         />
       )}
       renderOption={(props, option) => (
-        // ensure we use the value and not the label as the key
-        // as theoretically only value has to be unique
-        <li {...props} key={option.value}>
+        // Ensure we use the value and not the label as the key,
+        // as theoretically only value has to be unique. However,
+        // since a favourite filter value could be duplicate, the name
+        // (which is unique) should be appended to it to ensure the key is unique.
+        <li
+          {...props}
+          key={`${option.value}${option.type === 'favouriteFilter' ? option.label : ''}`}
+        >
           {option.label}
         </li>
       )}

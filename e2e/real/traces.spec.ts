@@ -35,7 +35,7 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
       .click(),
   ]);
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // wait for first chart to load
   await expect(popup.getByRole('progressbar')).toBeVisible();
@@ -47,6 +47,9 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 
@@ -65,6 +68,9 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   expect(
     await chart.screenshot({
       type: 'png',
+      style:
+        // hide plot buttons from the screenshot as it's not important & can mess up diffs
+        '[aria-label="plot actions"] { display: none !important; }',
     })
   ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
@@ -79,7 +85,7 @@ test('user can export trace image and data', async ({ page }) => {
       .click(),
   ]);
 
-  await popup.locator('#my-chart');
+  await popup.locator('.chartjs-chart');
 
   const title = await popup.title();
   const traceName = title.split(' - ')[1];

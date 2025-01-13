@@ -322,7 +322,7 @@ const Plot = (props: PlotProps) => {
     >
       {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
       <canvas
-        id="my-chart"
+        className="chartjs-chart"
         ref={canvasRef}
         width="400"
         height="400"
