@@ -34,7 +34,7 @@ test('plots a time vs channel graph', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
@@ -90,7 +90,7 @@ test('plots a channel vs channel graph', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 

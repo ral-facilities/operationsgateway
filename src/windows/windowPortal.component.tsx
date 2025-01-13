@@ -78,6 +78,16 @@ export class WindowPortal extends React.PureComponent<
       chartjsZoomScript.defer = false;
       externalWindow.document.head.appendChild(chartjsZoomScript);
 
+      const chartjsAnnotationScript =
+        externalWindow.document.createElement('script');
+      chartjsAnnotationScript.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/3.1.0/chartjs-plugin-annotation.min.js';
+      chartjsAnnotationScript.crossOrigin = 'anonymous';
+      chartjsAnnotationScript.referrerPolicy = 'no-referrer';
+      chartjsAnnotationScript.async = false;
+      chartjsAnnotationScript.defer = false;
+      externalWindow.document.head.appendChild(chartjsAnnotationScript);
+
       const chartjsDateFnsScript = document.createElement('script');
       // TODO: switch this to cdnjs once it's added - this is for consistency and so we can use renovate to update it
       chartjsDateFnsScript.src =
@@ -100,8 +110,8 @@ export class WindowPortal extends React.PureComponent<
       /**
        * This code in the below string (which gets inserted into the script tag)
        * does the following:
-       * `waitForElm` - given a selector, returns a promise that resolves with the element
-       * using a `MutationObserver` to inspect DOM changes - used to wait for Chart.js canvas element to be loaded by React
+       * `waitForElm` - given a selector, returns a promise that resolves with the elements
+       * using a `MutationObserver` to inspect DOM changes - used to wait for Chart.js canvas element(s) to be loaded by React
        * `waitForChartJS` - is a simple `setInterval` that checks if the chart.js object has loaded before running any Chart.js code
        * `MutationObserver` code - we need a way to pass the `data` and `options` variables from
        * React in the main window to the Chart.js code. We do this by using data-* attributes on the canvas element,
@@ -110,16 +120,17 @@ export class WindowPortal extends React.PureComponent<
        * `addLegendAndTooltipFilters` - given a Chart.js options object, this returns the object with the legend and tooltip filter functions filled
        * which filter out datasets that have been set to transparent (which is done via the show/hide buttons)
        */
+      /* eslint-disable no-irregular-whitespace */
       const code = `
       function waitForElm(selector) {
         return new Promise(resolve => {
-          if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
+          if (document.querySelectorAll(selector).length !== 0) {
+            return resolve(document.querySelectorAll(selector));
           }
   
           const observer = new MutationObserver(mutations => {
-            if (document.querySelector(selector)) {
-              resolve(document.querySelector(selector));
+            if (document.querySelectorAll(selector).length !== 0) {
+              resolve(document.querySelectorAll(selector));
               observer.disconnect();
             }
           });
@@ -169,6 +180,26 @@ export class WindowPortal extends React.PureComponent<
               },
             },
           },
+          scales: {
+            ...options?.scales,
+            y: {
+              ...options?.scales?.y,
+              ...(options?.scales?.y?.ticks?.z === 1 ? {
+                ticks: {
+                  ...options?.scales?.y?.ticks,
+                  z: 0,
+                  callback: (tickValue, index, ticks) => {
+                    const stringifiedTick = tickValue.toString();
+                    // pad ticks with Figure space/U+2007 character
+                    // it's the space of 1 numerical digit and isn't stripped by Chart.js
+                    // lets us pad out smaller numbers to ensure alignment with
+                    // both 8-bit & 16-bit image intensity plot
+                    return stringifiedTick.padEnd(5, ' ');
+                  },
+                }
+              } : {})
+            }
+          },
         };
       }
 
@@ -214,47 +245,49 @@ export class WindowPortal extends React.PureComponent<
             attributes: true
           });
           
-          waitForElm("#my-chart").then((canvas) => {
-            if (canvas && canvas.getContext('2d')) {
-              const chart = new Chart(canvas.getContext('2d'), {
-                type: canvas.dataset.type,
-                data: JSON.parse(canvas.dataset.data),
-                options: addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options)),
-              });
-              window.chart = chart;
+          waitForElm(".chartjs-chart").then((canvases) => {
+            for (const canvas of canvases) {
+              if (canvas && canvas.getContext('2d')) {
+                const chart = new Chart(canvas.getContext('2d'), {
+                  type: canvas.dataset.type,
+                  data: JSON.parse(canvas.dataset.data),
+                  options: addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options)),
+                });
 
-              const observer = new MutationObserver(mutations => {
-                for(let mutation of mutations) {
-                  if (mutation.type === 'attributes') {
-                    if(mutation.attributeName === "data-options"){
-                      chart.options = addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options));
-                      chart.update("none");
-                    }
-                    else if(mutation.attributeName === "data-data"){
-                      chart.data = JSON.parse(canvas.dataset.data);
-                      chart.update("none");
-                    }
-                    else if(mutation.attributeName === "data-type"){
-                      chart.config.type = canvas.dataset.type;
-                      chart.update();
-                    }
-                    else if(mutation.attributeName === "data-view"){
-                      chart.resetZoom("none");
-                      chart.update("none");
+                const observer = new MutationObserver(mutations => {
+                  for(let mutation of mutations) {
+                    if (mutation.type === 'attributes') {
+                      if(mutation.attributeName === "data-options"){
+                        chart.options = addLegendAndTooltipFilters(JSON.parse(canvas.dataset.options));
+                        chart.update("none");
+                      }
+                      else if(mutation.attributeName === "data-data"){
+                        chart.data = JSON.parse(canvas.dataset.data);
+                        chart.update("none");
+                      }
+                      else if(mutation.attributeName === "data-type"){
+                        chart.config.type = canvas.dataset.type;
+                        chart.update();
+                      }
+                      else if(mutation.attributeName === "data-view"){
+                        chart.resetZoom("none");
+                        chart.update("none");
+                      }
                     }
                   }
-                }
-              });
-      
-              observer.observe(canvas, {
-                attributes: true
-              });
-            }
+                });
+        
+                observer.observe(canvas, {
+                  attributes: true
+                });
+              }
+            }            
           });
           clearInterval(waitForChartJS);
         }
       }, 10);
       `;
+      /* eslint-enable no-irregular-whitespace */
       chartjsCode.text = code;
       externalWindow.document.head.appendChild(chartjsCode);
 

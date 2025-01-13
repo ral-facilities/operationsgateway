@@ -34,7 +34,7 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   expect(
     await chart.screenshot({
       type: 'png',
@@ -80,7 +80,7 @@ test('plots a shotnum vs channel graph with logarithmic scales', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   expect(
     await chart.screenshot({
       type: 'png',
@@ -108,11 +108,11 @@ test('user can zoom and pan the graph', async ({ page }) => {
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   await chart.click();
 
   // test drag to zoom
-  await popup.dragAndDrop('#my-chart', '#my-chart', {
+  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
     sourcePosition: {
       x: 250,
       y: 120,
@@ -130,7 +130,7 @@ test('user can zoom and pan the graph', async ({ page }) => {
   await popup.mouse.wheel(-10, 0);
 
   await popup.keyboard.down('Shift');
-  await popup.dragAndDrop('#my-chart', '#my-chart', {
+  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
     sourcePosition: {
       x: 150,
       y: 150,
@@ -221,7 +221,7 @@ test('plots multiple channels on the y axis', async ({ page }) => {
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
@@ -268,7 +268,7 @@ test('user can hide gridlines and axes labels', async ({ page }) => {
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   expect(
     await chart.screenshot({
@@ -314,7 +314,7 @@ test('user can add from and to dates to timestamp on x-axis', async ({
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   expect(
     await chart.screenshot({
@@ -363,7 +363,7 @@ test('user can add min and max limits to x- and y-axis', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   expect(
     await chart.screenshot({
       type: 'png',
@@ -412,7 +412,7 @@ test('user can change line style of plotted channels', async ({ page }) => {
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
@@ -470,7 +470,7 @@ test('user can change the marker style and size of plotted channels', async ({
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
@@ -526,7 +526,7 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
   expect(
     await chart.screenshot({
       type: 'png',
@@ -571,7 +571,7 @@ test('user can change the line width of plotted channels', async ({ page }) => {
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
@@ -655,7 +655,7 @@ test('user can plot channels on the right y axis', async ({ page }) => {
 
   await popup.locator('[aria-label="close settings"]').click();
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   // need this to wait for canvas animations to execute
   await popup.waitForTimeout(1000);
@@ -685,7 +685,7 @@ test('user can customize left y axis label', async ({ page }) => {
   await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
   await popup.getByRole('textbox', { name: 'Label' }).type('left y axis');
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   expect(
     await chart.screenshot({
@@ -713,7 +713,7 @@ test('user can customize right y axis label', async ({ page }) => {
   await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
   await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   expect(
     await chart.screenshot({
@@ -749,7 +749,7 @@ test('user can customize both left and right y axis labels', async ({
     .click();
   await popup.getByRole('textbox', { name: 'Label' }).type('right y axis');
 
-  const chart = await popup.locator('#my-chart');
+  const chart = await popup.locator('.chartjs-chart');
 
   expect(
     await chart.screenshot({

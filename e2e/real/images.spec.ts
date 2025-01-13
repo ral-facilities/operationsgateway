@@ -11,6 +11,9 @@ test.beforeEach(async ({ page }) => {
   // add trace channel to the table so we can click on a trace
   await page.getByRole('button', { name: 'Data channels' }).click();
 
+  // check that channels have loaded before searching for our channels to add
+  await expect(page.getByRole('button', { name: 'system' })).toBeVisible();
+
   await page
     .getByRole('combobox', { name: 'Search data channels' })
     .fill('PA1-CAM');
@@ -18,7 +21,17 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  for (const row of await page.getByRole('checkbox').all()) await row.check();
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page.getByRole('combobox', { name: 'Search data channels' }).fill('');
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CAM-2');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -52,6 +65,8 @@ test('user can change the false colour parameters of an image', async ({
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
@@ -59,12 +74,12 @@ test('user can change the false colour parameters of an image', async ({
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).not.toBeChecked();
   await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
   ).toBeChecked();
 
   const slider = await popup.getByRole('slider', {
@@ -91,7 +106,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(0).getAttribute('value')).toBe(`${0.4 * 255}`);
+  await expect(slider.nth(0)).toHaveValue(`${0.4 * 255}`);
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
@@ -106,7 +121,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  expect(await slider.nth(1).getAttribute('value')).toBe(`${0.8 * 255}`);
+  await expect(slider.nth(1)).toHaveValue(`${0.8 * 255}`);
 
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
@@ -145,14 +160,16 @@ test('user can disable false colour', async ({ page }) => {
   const imgAltText = title.split(' - ')[1];
 
   const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
   const oldImageSrc = await image.getAttribute('src');
 
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).toBeChecked();
   await popup.getByRole('checkbox', { name: 'False colour' }).click();
-  expect(
-    await popup.getByRole('checkbox', { name: 'False colour' })
+  await expect(
+    popup.getByRole('checkbox', { name: 'False colour' })
   ).not.toBeChecked();
 
   // wait for new image to have loaded
@@ -181,9 +198,12 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   const canvas = await popup.getByTestId('overlay');
 
-  const oldImageSrc = await popup
-    .getByAltText((await popup.title()).split(' - ')[1])
-    .getAttribute('src');
+  const oldImage = await popup.getByAltText(
+    (await popup.title()).split(' - ')[1]
+  );
+  // assert src has loaded before storing the old image src
+  await expect(oldImage).toHaveAttribute('src');
+  const oldImageSrc = await oldImage.getAttribute('src');
 
   await popup
     .getByAltText('PM-201-PA1-CAM-2 image', { exact: false })
@@ -281,6 +301,79 @@ test('user can set their default colourmap', async ({ page }) => {
       type: 'png',
     })
   ).toMatchSnapshot();
+});
+
+test('user can use crosshairs mode and view intensity graphs', async ({
+  page,
+}) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('D100 front-end FF image', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+
+  // get into cross hairs mode
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
+  ).toBeChecked();
+
+  const charts = await popup.locator('.chartjs-chart');
+  await expect(charts).toHaveCount(2);
+  await expect(charts.first()).toBeVisible();
+  await expect(charts.last()).toBeVisible();
+
+  const centroidPosition = [734, 516];
+  const FWHMs = [214, 201];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+  await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
+
+  // check that clicking the image changes the crosshairs position & causes a data fetch
+  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // i.e. clicking top left-most pixel results in (0,0)
+  await image.click({
+    position: { x: 750, y: 301 },
+  });
+
+  await expect(popup.getByText('Position: (750, 300)')).toBeVisible();
+  const newFWHMs = [204, 180];
+  await expect(popup.getByText(`X FWHM: ${newFWHMs[0]}`)).toBeVisible();
+  await expect(popup.getByText(`Y FWHM: ${newFWHMs[1]}`)).toBeVisible();
+
+  expect(
+    await popup.getByTestId('image-panel').screenshot({
+      type: 'png',
+      style:
+        // hide image controls panel & top buttons from the screenshot as it's not important
+        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
+    })
+  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can export image', async ({ page }) => {
