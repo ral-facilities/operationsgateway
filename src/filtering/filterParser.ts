@@ -10,6 +10,7 @@ type TokenType =
   | 'openparen'
   | 'closeparen'
   | 'channel'
+  | 'favouriteFilter'
   | 'unaryop';
 
 export interface Token {

@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "66f18358e754d901424d6d22",
+    "name": "test 1",
+    "filter": "[{\"type\":\"channel\",\"value\":\"activeExperiment\",\"label\":\"Active Experiment\"},{\"type\":\"compop\",\"value\":\">\",\"label\":\">\"},{\"type\":\"number\",\"value\":\"3\",\"label\":\"3\"}]"
+  },
+  {
+    "_id": "66f2b289641250b5f364361a",
+    "name": "test 2",
+    "filter": "[{\"type\":\"channel\",\"value\":\"shotnum\",\"label\":\"Shot Number\"},{\"type\":\"compop\",\"value\":\"=\",\"label\":\"=\"},{\"type\":\"number\",\"value\":\"1\",\"label\":\"1\"}]"
+  },
+  {
+    "_id": "66f2e06a41a3fe93d6c81395",
+    "name": "test 3",
+    "filter": "[{\"type\":\"channel\",\"value\":\"activeExperiment\",\"label\":\"Active Experiment\"},{\"type\":\"compop\",\"value\":\"=\",\"label\":\"=\"},{\"type\":\"number\",\"value\":\"1\",\"label\":\"1\"}]"
+  }
+]

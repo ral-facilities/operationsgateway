@@ -1,5 +1,11 @@
 import { QueryClient } from '@tanstack/react-query';
-import { act, screen, waitFor, within } from '@testing-library/react';
+import {
+  act,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  within,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import React from 'react';
@@ -775,6 +781,8 @@ describe('searchBar component', () => {
       await user.type(shotnumMax, '16');
 
       await user.click(screen.getByLabelText('close shot number search box'));
+
+      await waitForElementToBeRemoved(() => screen.queryByText('7 days'));
 
       // Max shots
 

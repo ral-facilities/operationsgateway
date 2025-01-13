@@ -1,16 +1,5 @@
 import { HttpResponse } from 'msw';
-
-function getParamsFromUrl(url: string) {
-  const paramsString = url.split('?')[1];
-  const paramMap = new Map();
-  paramsString.split('&').forEach(function (part) {
-    const keyValPair = part.split('=');
-    const key = keyValPair[0];
-    const val = decodeURIComponent(keyValPair[1]);
-    paramMap.set(key, val);
-  });
-  return paramMap;
-}
+import { getParamsFromUrl } from '../support/util';
 
 describe('Sessions', () => {
   beforeEach(() => {

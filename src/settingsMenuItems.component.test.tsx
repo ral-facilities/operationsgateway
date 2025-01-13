@@ -147,6 +147,7 @@ describe('Settings Menu Items component', () => {
       within(extendedDropdown).getByRole('option', { name: 'afmhot' })
     );
 
+    await waitFor(() => expect(extendedSelect).toHaveTextContent('afmhot'));
     expect(
       screen.getByRole('checkbox', {
         name: 'Reverse Colour',

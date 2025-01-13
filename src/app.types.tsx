@@ -314,7 +314,17 @@ export interface APIError {
 
 export interface User {
   _id: string; // Maps the `username` field in Python, which has an alias "_id"
-  sha256_password?: string | null;
   auth_type: string;
   authorised_routes?: string[] | null;
+}
+
+export interface FavouriteFilterPost {
+  name: string;
+  filter: string;
+}
+
+export type FavouriteFilterPatch = Partial<FavouriteFilterPost>;
+
+export interface FavouriteFilter extends FavouriteFilterPost {
+  _id: string;
 }

@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import { MockInstance } from 'vitest';
 import { RootState } from '../state/store';
@@ -76,17 +76,17 @@ describe('useExportData', () => {
     expect(axios.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate({
-      exportType: 'Selected Rows',
-      dataToExport: {
-        Scalars: true,
-        Images: false,
-        'Waveform CSVs': true,
-        'Waveform Images': false,
-      },
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'Selected Rows',
+        dataToExport: {
+          Scalars: true,
+          Images: false,
+          'Waveform CSVs': true,
+          'Waveform Images': false,
+        },
+      });
     });
-
-    await waitFor(() => result.current.isSuccess);
 
     const params = new URLSearchParams();
     params.append('order', 'metadata.timestamp desc');
@@ -126,7 +126,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
     expect(mockLink.download).toEqual('scwcdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -142,17 +142,17 @@ describe('useExportData', () => {
     expect(axios.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate({
-      exportType: 'All Rows',
-      dataToExport: {
-        Scalars: false,
-        Images: true,
-        'Waveform CSVs': false,
-        'Waveform Images': true,
-      },
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'All Rows',
+        dataToExport: {
+          Scalars: false,
+          Images: true,
+          'Waveform CSVs': false,
+          'Waveform Images': true,
+        },
+      });
     });
-
-    await waitFor(() => result.current.isSuccess);
 
     const params = new URLSearchParams();
 
@@ -192,7 +192,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
     expect(mockLink.download).toEqual('imwidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -208,14 +208,16 @@ describe('useExportData', () => {
     expect(axios.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate({
-      exportType: 'Visible Rows',
-      dataToExport: {
-        Scalars: true,
-        Images: false,
-        'Waveform CSVs': false,
-        'Waveform Images': false,
-      },
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'Visible Rows',
+        dataToExport: {
+          Scalars: true,
+          Images: false,
+          'Waveform CSVs': false,
+          'Waveform Images': false,
+        },
+      });
     });
 
     await waitFor(() => result.current.isSuccess);
@@ -257,7 +259,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
     expect(mockLink.download).toEqual('scdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -275,14 +277,16 @@ describe('useExportData', () => {
     expect(axios.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate({
-      exportType: 'All Rows',
-      dataToExport: {
-        Scalars: true,
-        Images: false,
-        'Waveform CSVs': false,
-        'Waveform Images': false,
-      },
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'All Rows',
+        dataToExport: {
+          Scalars: true,
+          Images: false,
+          'Waveform CSVs': false,
+          'Waveform Images': false,
+        },
+      });
     });
 
     await waitFor(() => result.current.isSuccess);
@@ -322,7 +326,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('testObjectUrl');
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
     expect(mockLink.download).toEqual('scdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
