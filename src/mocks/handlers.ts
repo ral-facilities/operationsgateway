@@ -13,8 +13,10 @@ import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.compo
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
+import favouriteFiltersJson from './favouriteFilters.json';
 import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
+import imageCrosshairJson from './imageCrosshair.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
 import usersJson from './users.json';
@@ -413,5 +415,41 @@ export const handlers = [
   http.patch('/users', async ({ request }) => {
     const body = (await request.json()) as User;
     return HttpResponse.json(body._id, { status: 201 });
+  }),
+
+  http.post('/users/filters', async () => {
+    return HttpResponse.json('1', { status: 201 });
+  }),
+
+  http.patch('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+    return HttpResponse.json(`Updated ${id}`, { status: 200 });
+  }),
+
+  http.delete('/users/filters/:id', async ({ params }) => {
+    const { id } = params;
+
+    if (id === favouriteFiltersJson[2]._id) {
+      return HttpResponse.json({ detail: 'error' }, { status: 400 });
+    }
+    return HttpResponse.json(undefined, { status: 204 });
+  }),
+
+  http.get('/users/filters', async () => {
+    return HttpResponse.json(favouriteFiltersJson, { status: 201 });
+  }),
+  http.get('/images/:recordId/:channelName/crosshair', async ({ request }) => {
+    const url = new URL(request.url);
+    const position = url.searchParams.get('position');
+
+    // if position is null, then return the "centroid" we have in the mock data
+    // otherwise, the position is given to us via the position param
+    if (position) {
+      const positionArr = JSON.parse(position);
+      imageCrosshairJson.column.position = positionArr[0];
+      imageCrosshairJson.row.position = positionArr[1];
+    }
+
+    return HttpResponse.json(imageCrosshairJson, { status: 200 });
   }),
 ];

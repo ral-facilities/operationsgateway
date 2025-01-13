@@ -3,7 +3,7 @@
 exports[`Window buttons components > Image buttons component > renders image buttons group 1`] = `
 <DocumentFragment>
   <div
-    aria-label="plot actions"
+    aria-label="image actions"
     class="MuiButtonGroup-root MuiButtonGroup-outlined css-edsu1d-MuiButtonGroup-root"
     role="group"
   >

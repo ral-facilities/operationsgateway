@@ -6,11 +6,12 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import React from 'react';
 import { connect, Provider } from 'react-redux';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 import UsersTable from './admin/users/usersTable.component';
 import './App.css';
 import { MicroFrontendId } from './app.types';
 import OGThemeProvider from './ogThemeProvider.component';
+import PageNotFoundComponent from './pageNotFound/pageNotFound.component';
 import Preloader from './preloader/preloader.component';
 import SettingsMenuItems from './settingsMenuItems.component';
 import { requestPluginRerender } from './state/scigateway.actions';
@@ -22,6 +23,7 @@ import { WindowContextProvider } from './windows/windowContext';
 
 export const paths = {
   any: '*',
+  admin: '/admin',
   adminUsers: '/admin/users',
 };
 
@@ -109,7 +111,18 @@ const router = createBrowserRouter(
       Component: Layout,
       children: [
         { path: paths.any, Component: ViewTabs },
-        { path: paths.adminUsers, Component: UsersTable },
+        {
+          path: paths.admin,
+          Component: Outlet,
+          ErrorBoundary: PageNotFoundComponent,
+          children: [
+            { path: paths.adminUsers, Component: UsersTable },
+            {
+              path: '*',
+              Component: PageNotFoundComponent,
+            },
+          ],
+        },
       ],
     },
   ],
@@ -124,12 +137,5 @@ const router = createBrowserRouter(
   }
 );
 export default function App() {
-  return (
-    <RouterProvider
-      future={{
-        v7_startTransition: true,
-      }}
-      router={router}
-    />
-  );
+  return <RouterProvider router={router} />;
 }
