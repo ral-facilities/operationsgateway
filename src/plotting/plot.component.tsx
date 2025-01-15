@@ -60,7 +60,9 @@ const Plot = (props: PlotProps) => {
     viewReset,
   } = props;
 
-  const theme = useTheme();
+  const {
+    palette: { mode: themeMode },
+  } = useTheme();
 
   const [plotlyLayoutString, setPlotlyLayoutString] = React.useState(
     JSON.stringify({} satisfies Partial<Plotly.Layout>)
@@ -81,9 +83,9 @@ const Plot = (props: PlotProps) => {
   );
 
   React.useEffect(() => {
-    const fontColour = theme.palette.mode === 'dark' ? '#ADBABD' : '#444';
+    const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
     const lineColour =
-      theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
+      themeMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
 
     const xMin =
       XAxisScale === 'log' && xMinimum ? Math.log10(xMinimum) : xMinimum;
@@ -143,6 +145,7 @@ const Plot = (props: PlotProps) => {
           gridcolor: lineColour,
           tickfont: { color: fontColour },
           automargin: true,
+          exponentformat: 'none',
         },
         yaxis: {
           title: {
@@ -162,6 +165,7 @@ const Plot = (props: PlotProps) => {
           gridcolor: lineColour,
           tickfont: { color: fontColour },
           automargin: true,
+          exponentformat: 'none',
         },
         yaxis2: {
           title: {
@@ -183,6 +187,7 @@ const Plot = (props: PlotProps) => {
           gridcolor: lineColour,
           tickfont: { color: fontColour },
           automargin: true,
+          exponentformat: 'none',
         },
       } satisfies Partial<Plotly.Layout>)
     );
@@ -205,7 +210,7 @@ const Plot = (props: PlotProps) => {
     leftYAxisLabel,
     rightYAxisLabel,
     viewReset,
-    theme,
+    themeMode,
   ]);
 
   React.useEffect(() => {
