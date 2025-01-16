@@ -257,7 +257,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
             size="small"
             inputProps={{
               min: 1,
-              max: 10,
+              max: 15,
               'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} marker size`,
             }}
             onFocus={(event) => {

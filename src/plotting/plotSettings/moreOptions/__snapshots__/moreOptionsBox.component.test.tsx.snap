@@ -63,14 +63,14 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
               Solid
             </option>
             <option
-              value="dashed"
+              value="dash"
             >
-              Dashed
+              Dash
             </option>
             <option
-              value="dotted"
+              value="dot"
             >
-              Dotted
+              Dot
             </option>
           </select>
           <svg
@@ -157,39 +157,34 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
               Circle
             </option>
             <option
-              value="cross"
+              value="square"
+            >
+              Square
+            </option>
+            <option
+              value="triangle-up"
+            >
+              Triangle
+            </option>
+            <option
+              value="diamond"
+            >
+              Diamond
+            </option>
+            <option
+              value="cross-thin"
             >
               Cross
             </option>
             <option
-              value="crossRot"
+              value="x-thin"
             >
-              CrossRot
+              X
             </option>
             <option
-              value="dash"
-            >
-              Dash
-            </option>
-            <option
-              value="line"
+              value="line-ew"
             >
               Line
-            </option>
-            <option
-              value="rect"
-            >
-              Rect
-            </option>
-            <option
-              value="rectRounded"
-            >
-              RectRounded
-            </option>
-            <option
-              value="rectRot"
-            >
-              RectRot
             </option>
             <option
               value="star"
@@ -197,9 +192,9 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
               Star
             </option>
             <option
-              value="triangle"
+              value="asterisk"
             >
-              Triangle
+              Asterisk
             </option>
             <option
               value="false"
@@ -243,7 +238,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
               aria-label="change activeArea marker size"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r1:"
-              max="10"
+              max="15"
               min="1"
               name="marker size"
               type="number"

@@ -63,7 +63,11 @@ describe('Image Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <ImageWindow onClose={vi.fn()} imageConfig={testImageConfig} />
+      <ImageWindow
+        onClose={vi.fn()}
+        imageConfig={testImageConfig}
+        imageWindowRef={{ current: null }}
+      />
     );
   };
 

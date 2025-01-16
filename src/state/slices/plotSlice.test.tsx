@@ -50,7 +50,7 @@ describe('plotSlice', () => {
           title: 'Untitled 2',
           plotType: 'scatter',
           XAxis: 'timestamp',
-          XAxisScale: 'time',
+          XAxisScale: 'date',
           selectedPlotChannels: [],
           leftYAxisScale: 'linear',
           rightYAxisScale: 'linear',

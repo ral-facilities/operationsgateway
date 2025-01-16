@@ -242,7 +242,7 @@ exports[`y-axis tab > renders correctly 1`] = `
                 class="PrivateSwitchBase-input css-1m9pwf3"
                 name="left y scale radio buttons group"
                 type="radio"
-                value="logarithmic"
+                value="log"
               />
               <span
                 class="css-hyxlzm"

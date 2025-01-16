@@ -1,36 +1,30 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Trace plot component > renders a canvas element with the correct attributes passed the correct props 1`] = `
+exports[`Trace plot component > renders a div element with the correct attributes passed the correct props 1`] = `
 <DocumentFragment>
   <div
     style="flex: 1 0 0px; max-height: calc(100vh - 38px); max-width: calc(100% - 150px);"
   >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"labels":[1,2,3],"datasets":[{"data":[5,6,4],"borderColor":"#1F77B4","borderWidth":1.5,"pointRadius":0,"pointHitRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"drag":{"enabled":true,"threshold":15},"wheel":{"enabled":true},"pinch":{"enabled":true},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":1,"max":3},"y":{"min":4,"max":6}}},"legend":{"display":false}},"scales":{"x":{"type":"linear","min":1,"max":3},"y":{"type":"linear","display":true,"position":"left","min":4,"max":6}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="line"
-      data-view="false"
-      height="400"
-      width="400"
+    <div
+      class="plotly-chart"
+      data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false}"
+      data-data="[{"type":"scatter","x":[1,2,3],"y":[5,6,4],"line":{"color":"#1F77B4","width":1.5},"mode":"lines"}]"
+      data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"scatter plot"},"margin":{"l":5,"r":5,"b":5,"t":35},"showlegend":false,"xaxis":{"type":"linear","exponentformat":"none","automargin":true,"range":[1,3],"maxallowed":3,"minallowed":1,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"yaxis":{"type":"linear","exponentformat":"none","automargin":true,"range":[4,6],"maxallowed":6,"minallowed":4,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"uirevision":"false","font":{"color":"#444"}}"
     />
   </div>
 </DocumentFragment>
 `;
 
-exports[`Trace plot component > updates data object correctly when points are set to visible 1`] = `
+exports[`Trace plot component > updates data object correctly when points are set to visible & renders in dark mode correctly 1`] = `
 <DocumentFragment>
   <div
     style="flex: 1 0 0px; max-height: calc(100vh - 38px); max-width: calc(100% - 150px);"
   >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"labels":[1,2,3],"datasets":[{"data":[5,6,4],"borderColor":"#1F77B4","borderWidth":1.5,"pointRadius":3,"pointHitRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"drag":{"enabled":true,"threshold":15},"wheel":{"enabled":true},"pinch":{"enabled":true},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":1,"max":3},"y":{"min":4,"max":6}}},"legend":{"display":false}},"scales":{"x":{"type":"linear","min":1,"max":3},"y":{"type":"linear","display":true,"position":"left","min":4,"max":6}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="line"
-      data-view="false"
-      height="400"
-      width="400"
+    <div
+      class="plotly-chart"
+      data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false}"
+      data-data="[{"type":"scatter","x":[1,2,3],"y":[5,6,4],"line":{"color":"#1F77B4","width":1.5},"mode":"lines+markers"}]"
+      data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"scatter plot"},"margin":{"l":5,"r":5,"b":5,"t":35},"showlegend":false,"xaxis":{"type":"linear","exponentformat":"none","automargin":true,"range":[1,3],"maxallowed":3,"minallowed":1,"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"yaxis":{"type":"linear","exponentformat":"none","automargin":true,"range":[4,6],"maxallowed":6,"minallowed":4,"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"uirevision":"false","font":{"color":"#ADBABD"}}"
     />
   </div>
 </DocumentFragment>

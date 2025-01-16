@@ -167,7 +167,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
                 class="PrivateSwitchBase-input css-1m9pwf3"
                 name="x scale radio buttons group"
                 type="radio"
-                value="logarithmic"
+                value="log"
               />
               <span
                 class="css-hyxlzm"

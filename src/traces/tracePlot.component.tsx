@@ -71,8 +71,6 @@ const TracePlot = (props: TracePlotProps) => {
     const lineColour =
       themeMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
 
-    console.log('trace.x.length', trace.x.length);
-
     setDataString(
       JSON.stringify([
         {

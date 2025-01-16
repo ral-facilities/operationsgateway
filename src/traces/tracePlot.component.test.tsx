@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import TracePlot, { TracePlotProps } from './tracePlot.component';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 describe('Trace plot component', () => {
   let props: TracePlotProps;
@@ -19,7 +20,7 @@ describe('Trace plot component', () => {
     };
   });
 
-  it('renders a canvas element with the correct attributes passed the correct props', () => {
+  it('renders a div element with the correct attributes passed the correct props', () => {
     // emulate loading first with no data from the query and then getting data
     const { rerender, asFragment } = render(
       <TracePlot {...props} trace={{ _id: '0', x: [], y: [] }} />
@@ -30,8 +31,14 @@ describe('Trace plot component', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('updates data object correctly when points are set to visible', () => {
-    const { rerender, asFragment } = render(<TracePlot {...props} />);
+  it('updates data object correctly when points are set to visible & renders in dark mode correctly', () => {
+    const { rerender, asFragment } = render(<TracePlot {...props} />, {
+      wrapper: ({ children }) => (
+        <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+          {children}
+        </ThemeProvider>
+      ),
+    });
 
     rerender(<TracePlot {...props} pointsVisible />);
 
