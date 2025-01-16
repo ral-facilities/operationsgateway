@@ -164,7 +164,6 @@ const ImagePlot = (
             width: 1,
           },
           mode: 'lines',
-
           ...(type === 'y'
             ? { hovertemplate: '(%{y}, %{x})<extra></extra>' }
             : {}), // need to reverse the hover tooltip as on y plot x & y axis are "reversed"

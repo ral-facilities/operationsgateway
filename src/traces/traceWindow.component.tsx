@@ -34,7 +34,7 @@ const TraceWindow = (props: TraceWindowProps) => {
     setPointsVisible((pointsVisible) => !pointsVisible);
   }, []);
 
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const chartRef = React.useRef<HTMLDivElement | null>(null);
 
   const { data: waveform, isLoading: waveformLoading } = useWaveform(
     recordId,
@@ -98,7 +98,7 @@ const TraceWindow = (props: TraceWindowProps) => {
           >
             <TraceButtons
               data={waveform}
-              canvasRef={canvasRef}
+              chartRef={chartRef}
               title={title}
               resetView={resetView}
               pointsVisible={pointsVisible}
@@ -113,7 +113,7 @@ const TraceWindow = (props: TraceWindowProps) => {
             />
             <TracePlot
               trace={waveform ?? { _id: '0', x: [], y: [] }}
-              canvasRef={canvasRef}
+              chartRef={chartRef}
               viewReset={viewFlag}
               title={title}
               pointsVisible={pointsVisible}

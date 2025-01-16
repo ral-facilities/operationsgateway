@@ -13,7 +13,7 @@ describe('Trace plot component', () => {
         y: [5, 6, 4],
       },
       title: 'scatter plot',
-      canvasRef: React.createRef<HTMLCanvasElement>(),
+      chartRef: React.createRef<HTMLDivElement>(),
       viewReset: false,
       pointsVisible: false,
     };

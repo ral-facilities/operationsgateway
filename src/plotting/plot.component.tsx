@@ -9,7 +9,7 @@ import {
 } from '../app.types';
 // only import types as we don't actually run any chart.js code in React
 import Plotly from 'plotly.js-dist';
-import { Box, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 
 export interface PlotProps {
   datasets: PlotDataset[];
@@ -286,13 +286,13 @@ const Plot = (props: PlotProps) => {
       }}
     >
       {/* This div is turned into a Plotly.js plot via code in windowPortal.component.tsx */}
-      <Box
+      <div
         ref={chartRef}
         className="plotly-chart"
         data-config={plotlyConfigString}
         data-layout={plotlyLayoutString}
         data-data={plotlyDataString}
-      ></Box>
+      ></div>
     </div>
   );
 };
