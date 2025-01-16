@@ -8,7 +8,7 @@ import {
   renderComponentWithProviders,
   testPlotConfigs,
 } from '../testUtils';
-import { WindowPortal } from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import PlotWindow from './plotWindow.component';
 
 vi.mock('../windows/windowPortal.component', async () => {

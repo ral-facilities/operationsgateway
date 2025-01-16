@@ -1,8 +1,7 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { render } from '@testing-library/react';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import type { WindowPortalProps } from './windowPortal.component';
-import WindowPortalWithTheme, { WindowPortal } from './windowPortal.component';
+import WindowPortal from './windowPortal.component';
 
 describe('Window portal component', () => {
   const TestComponent = () => <div id="test">Test</div>;
@@ -12,7 +11,6 @@ describe('Window portal component', () => {
   const mockRemoveEventListener = vi.fn();
   const mockWindowClose = vi.fn();
   let newDocument: Document;
-  const theme = createTheme({ palette: { mode: 'dark' } });
 
   Object.defineProperty(window, 'open', {
     value: vi.fn(() => {
@@ -27,7 +25,7 @@ describe('Window portal component', () => {
 
   const createView = () =>
     render(
-      <WindowPortal {...props} theme={theme}>
+      <WindowPortal {...props}>
         <TestComponent />
       </WindowPortal>
     );
@@ -92,7 +90,7 @@ describe('Window portal component', () => {
     const { rerender } = createView();
 
     rerender(
-      <WindowPortal {...props} title="new test title" theme={theme}>
+      <WindowPortal {...props} title="new test title">
         <TestComponent />
       </WindowPortal>
     );
@@ -108,7 +106,7 @@ describe('Window portal component', () => {
     const newMockOnClose = vi.fn();
 
     rerender(
-      <WindowPortal {...props} onClose={newMockOnClose} theme={theme}>
+      <WindowPortal {...props} onClose={newMockOnClose}>
         <TestComponent />
       </WindowPortal>
     );
@@ -121,38 +119,5 @@ describe('Window portal component', () => {
       'beforeunload',
       newMockOnClose
     );
-  });
-
-  it('changes colour theme on theme prop change', () => {
-    const { rerender } = createView();
-
-    const newTheme = createTheme({
-      palette: {
-        mode: 'light',
-      },
-    });
-
-    rerender(
-      <WindowPortal {...props} theme={newTheme}>
-        <TestComponent />
-      </WindowPortal>
-    );
-
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(newDocument.getElementById('themeElement')?.dataset.mode).toEqual(
-      'light'
-    );
-  });
-
-  it('renders with theme inherited from ThemeProvider', () => {
-    render(
-      <ThemeProvider theme={theme}>
-        <WindowPortalWithTheme {...props}>
-          <TestComponent />
-        </WindowPortalWithTheme>
-      </ThemeProvider>
-    );
-
-    expect(newDocument.body).toMatchSnapshot();
   });
 });

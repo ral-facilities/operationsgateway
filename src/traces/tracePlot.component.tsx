@@ -1,7 +1,11 @@
 import React from 'react';
 import { Waveform } from '../app.types';
-// only import types as we don't actually run any chart.js code in React
-import Plotly from 'plotly.js-dist';
+// only import types as we don't actually run any plotly.js code in React
+import type {
+  Config as PlotlyConfig,
+  Layout as PlotlyLayout,
+  PlotData as PlotlyPlotData,
+} from 'plotly.js';
 import { useTheme } from '@mui/material';
 
 export interface TracePlotProps {
@@ -18,7 +22,7 @@ const plotlyConfigString = JSON.stringify({
   displayModeBar: false,
   responsive: true,
   showAxisDragHandles: false,
-} satisfies Partial<Plotly.Config>);
+} satisfies Partial<PlotlyConfig>);
 
 const TracePlot = (props: TracePlotProps) => {
   const { trace, title, chartRef: chartRef, viewReset, pointsVisible } = props;
@@ -52,7 +56,7 @@ const TracePlot = (props: TracePlotProps) => {
           exponentformat: 'none',
           automargin: true,
         },
-      }) satisfies Partial<Plotly.Layout> as Partial<Plotly.Layout>,
+      }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
     [title]
   );
 
@@ -80,7 +84,7 @@ const TracePlot = (props: TracePlotProps) => {
             width: 1.5,
           },
           mode: pointsVisible ? 'lines+markers' : 'lines',
-        } satisfies Partial<Plotly.PlotData>,
+        } satisfies Partial<PlotlyPlotData>,
       ])
     );
     const xLimits = { min: Math.min(...trace.x), max: Math.max(...trace.x) };

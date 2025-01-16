@@ -5,15 +5,13 @@ import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { TraceButtons } from '../windows/windowButtons.component';
-import WindowPortal, {
-  WindowPortal as WindowPortalClass,
-} from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import TracePlot from './tracePlot.component';
 
 interface TraceWindowProps {
   onClose: () => void;
   traceConfig: TraceOrImageWindow;
-  traceWindowRef: React.RefObject<WindowPortalClass>;
+  traceWindowRef: React.RefObject<WindowPortal>;
 }
 
 const TraceWindow = (props: TraceWindowProps) => {
@@ -99,6 +97,7 @@ const TraceWindow = (props: TraceWindowProps) => {
             <TraceButtons
               data={waveform}
               chartRef={chartRef}
+              windowRef={traceWindowRef}
               title={title}
               resetView={resetView}
               pointsVisible={pointsVisible}

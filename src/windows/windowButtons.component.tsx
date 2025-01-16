@@ -8,7 +8,7 @@ import {
   Waveform,
   XAxisScale,
 } from '../app.types';
-import Plotly from 'plotly.js-dist';
+import WindowPortal from '../windows/windowPortal.component';
 
 export const formatTooltipLabel = (
   label: number,
@@ -22,12 +22,19 @@ export const formatTooltipLabel = (
 
 /**
  *  Exports the graph as PNG
+ *  @param chartWindow the window the chart is running in
  *  @param el The element of the plot to export
  *  @param title The title of the plot (for the file name)
  */
-function exportChart(el: HTMLDivElement | null, title: string): void {
-  if (el) {
-    Plotly.downloadImage(el, {
+function exportChart(
+  chartWindow: WindowPortal['state']['window'] | null | undefined,
+  el: HTMLDivElement | null,
+  title: string
+): void {
+  // use the window's Plotly library in favour of importing & using it here normally
+  // to reduce bundle size of main app window which doesn't need Plotly
+  if (chartWindow && chartWindow.Plotly && el) {
+    chartWindow.Plotly.downloadImage(el, {
       format: 'png',
       filename: title,
       width: null,
@@ -219,6 +226,7 @@ interface CommonButtonsProps {
 export interface PlotButtonsProps extends CommonButtonsProps {
   data?: PlotDataset[];
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
+  windowRef: React.RefObject<WindowPortal>;
   XAxis?: string;
   gridVisible: boolean;
   axesLabelsVisible: boolean;
@@ -233,6 +241,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
   const {
     data,
     chartRef,
+    windowRef,
     title,
     XAxis,
     gridVisible,
@@ -254,7 +263,11 @@ export const PlotButtons = (props: PlotButtonsProps) => {
         {axesLabelsVisible ? 'Hide Axes Labels' : 'Show Axes Labels'}
       </Button>
       <Button onClick={() => savePlot()}>Save</Button>
-      <Button onClick={() => exportChart(chartRef.current, title)}>
+      <Button
+        onClick={() =>
+          exportChart(windowRef.current?.state.window, chartRef.current, title)
+        }
+      >
         Export Plot
       </Button>
       <Button
@@ -269,6 +282,7 @@ export const PlotButtons = (props: PlotButtonsProps) => {
 export interface TraceButtonsProps extends CommonButtonsProps {
   data?: Waveform;
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
+  windowRef: React.RefObject<WindowPortal>;
   pointsVisible: boolean;
   togglePointsVisibility: () => void;
 }
@@ -277,6 +291,7 @@ export const TraceButtons = (props: TraceButtonsProps) => {
   const {
     data,
     chartRef,
+    windowRef,
     title,
     resetView,
     pointsVisible,
@@ -289,7 +304,11 @@ export const TraceButtons = (props: TraceButtonsProps) => {
       <Button onClick={() => togglePointsVisibility()}>
         {pointsVisible ? 'Hide Points' : 'Show Points'}
       </Button>
-      <Button onClick={() => exportChart(chartRef.current, title)}>
+      <Button
+        onClick={() =>
+          exportChart(windowRef.current?.state.window, chartRef.current, title)
+        }
+      >
         Export Plot
       </Button>
       <Button onClick={() => exportTraceData(title, data)}>

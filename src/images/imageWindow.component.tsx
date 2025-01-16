@@ -5,9 +5,7 @@ import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { ImageButtons } from '../windows/windowButtons.component';
-import WindowPortal, {
-  WindowPortal as WindowPortalClass,
-} from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
 import { XImagePlot, YImagePlot } from './imagePlot.component';
@@ -15,7 +13,7 @@ import { XImagePlot, YImagePlot } from './imagePlot.component';
 interface ImageWindowProps {
   onClose: () => void;
   imageConfig: TraceOrImageWindow;
-  imageWindowRef: React.RefObject<WindowPortalClass>;
+  imageWindowRef: React.RefObject<WindowPortal>;
 }
 
 const ImageWindow = (props: ImageWindowProps) => {

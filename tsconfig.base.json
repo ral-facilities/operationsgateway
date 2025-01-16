@@ -22,10 +22,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "plotly.js-dist": ["./node_modules/@types/plotly.js"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"]
 }

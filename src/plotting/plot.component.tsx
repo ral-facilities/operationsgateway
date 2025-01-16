@@ -7,8 +7,12 @@ import {
   XAxisScale,
   YAxisScale,
 } from '../app.types';
-// only import types as we don't actually run any chart.js code in React
-import Plotly from 'plotly.js-dist';
+// only import types as we don't actually run any plotly.js code in React
+import type {
+  Config as PlotlyConfig,
+  Layout as PlotlyLayout,
+  PlotData as PlotlyPlotData,
+} from 'plotly.js';
 import { useTheme } from '@mui/material';
 
 export interface PlotProps {
@@ -65,7 +69,7 @@ const Plot = (props: PlotProps) => {
   } = useTheme();
 
   const [plotlyLayoutString, setPlotlyLayoutString] = React.useState(
-    JSON.stringify({} satisfies Partial<Plotly.Layout>)
+    JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
   const [plotlyConfigString] = React.useState(
@@ -75,11 +79,11 @@ const Plot = (props: PlotProps) => {
       displayModeBar: false,
       responsive: true,
       showAxisDragHandles: false,
-    } satisfies Partial<Plotly.Config>)
+    } satisfies Partial<PlotlyConfig>)
   );
 
   const [plotlyDataString, setPlotlyDataString] = React.useState(
-    JSON.stringify(datasets satisfies Plotly.Data[])
+    JSON.stringify([])
   );
 
   React.useEffect(() => {
@@ -189,7 +193,7 @@ const Plot = (props: PlotProps) => {
           automargin: true,
           exponentformat: 'none',
         },
-      } satisfies Partial<Plotly.Layout>)
+      } satisfies Partial<PlotlyLayout>)
     );
   }, [
     XAxis,
@@ -271,7 +275,7 @@ const Plot = (props: PlotProps) => {
             },
             showlegend: channelConfig && !channelConfig.visible ? false : true,
             hoverinfo: channelConfig && !channelConfig.visible ? 'none' : 'all',
-          } satisfies Partial<Plotly.PlotData>;
+          } satisfies Partial<PlotlyPlotData>;
         })
       )
     );

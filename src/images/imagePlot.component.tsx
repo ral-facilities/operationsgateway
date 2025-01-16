@@ -1,6 +1,10 @@
 import React from 'react';
-// only import types as we don't actually run any chart.js code in React
-import Plotly from 'plotly.js-dist';
+// only import types as we don't actually run any plotly.js code in React
+import type {
+  Config as PlotlyConfig,
+  Layout as PlotlyLayout,
+  PlotData as PlotlyPlotData,
+} from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
 import { Box, useTheme } from '@mui/material';
 
@@ -23,12 +27,12 @@ export interface ImagePlotProps {
   imageDims: { width: number; height: number };
 }
 
-const plotlyConfig: Partial<Plotly.Config> = {
+const plotlyConfig: Partial<PlotlyConfig> = {
   displaylogo: false,
   displayModeBar: false,
 };
 
-const commonChartOptions: Partial<Plotly.Layout> = {
+const commonChartOptions: Partial<PlotlyLayout> = {
   showlegend: false,
   autosize: false,
   width: 300, // width to be adjusted later for x plot
@@ -44,7 +48,7 @@ const commonChartOptions: Partial<Plotly.Layout> = {
   plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
 };
 
-const YChartOptions: Partial<Plotly.Layout> = {
+const YChartOptions: Partial<PlotlyLayout> = {
   ...commonChartOptions,
   xaxis: {
     type: 'linear',
@@ -75,7 +79,7 @@ const YChartOptions: Partial<Plotly.Layout> = {
   },
 };
 
-const XChartOptions: Partial<Plotly.Layout> = {
+const XChartOptions: Partial<PlotlyLayout> = {
   ...commonChartOptions,
   xaxis: {
     type: 'linear',
@@ -136,7 +140,7 @@ export const YImagePlot = (props: ImagePlotProps) => {
 const ImagePlot = (
   props: ImagePlotProps & {
     type: 'x' | 'y';
-    chartOptions: Partial<Plotly.Layout>;
+    chartOptions: Partial<PlotlyLayout>;
   }
 ) => {
   const { data, crosshairPosition, imageDims, type, chartOptions } = props;
@@ -146,12 +150,10 @@ const ImagePlot = (
   } = useTheme();
 
   const [optionsString, setOptionsString] = React.useState(
-    JSON.stringify({} satisfies Partial<Plotly.Layout>)
+    JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
-  const [dataString, setDataString] = React.useState(
-    JSON.stringify([] satisfies Plotly.Data[])
-  );
+  const [dataString, setDataString] = React.useState(JSON.stringify([]));
 
   React.useEffect(() => {
     setDataString(
@@ -167,7 +169,7 @@ const ImagePlot = (
           ...(type === 'y'
             ? { hovertemplate: '(%{y}, %{x})<extra></extra>' }
             : {}), // need to reverse the hover tooltip as on y plot x & y axis are "reversed"
-        } satisfies Partial<Plotly.PlotData>,
+        } satisfies Partial<PlotlyPlotData>,
       ])
     );
   }, [data, type]);
@@ -179,7 +181,7 @@ const ImagePlot = (
 
     // need to create a deep clone so that any common options between x and y charts
     // can be updated without a race condition (e.g. annotations)
-    const newChartOptions: Partial<Plotly.Layout> = JSON.parse(
+    const newChartOptions: Partial<PlotlyLayout> = JSON.parse(
       JSON.stringify(chartOptions)
     );
 
@@ -237,7 +239,7 @@ const ImagePlot = (
     setOptionsString(JSON.stringify(newChartOptions));
   }, [chartOptions, crosshairPosition, imageDims, themeMode, type]);
 
-  /* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */
+  /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
   return (
     <Box
       className="plotly-chart"

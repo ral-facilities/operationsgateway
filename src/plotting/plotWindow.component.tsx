@@ -22,9 +22,7 @@ import {
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
-import WindowPortal, {
-  WindowPortal as WindowPortalClass,
-} from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
@@ -32,7 +30,7 @@ import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 interface PlotWindowProps {
   onClose: () => void;
   plotConfig: PlotConfig;
-  plotWindowRef: React.RefObject<WindowPortalClass>;
+  plotWindowRef: React.RefObject<WindowPortal>;
 }
 
 const drawerWidth = 300;
@@ -320,6 +318,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               <PlotButtons
                 data={records}
                 chartRef={chartRef}
+                windowRef={plotWindowRef}
                 title={plotTitle}
                 XAxis={XAxis}
                 gridVisible={gridVisible}
