@@ -4,7 +4,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import React from 'react';
 import {
   FullChannelMetadata,
@@ -16,9 +16,7 @@ import {
   timeChannelName,
   ValidateFunctionState,
 } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
 import { selectAppliedFunctions } from '../state/slices/functionsSlice';
 import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
 import { AppDispatch } from '../state/store';
@@ -26,6 +24,7 @@ import {
   roundNumber,
   TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
+import { ogApi } from './api';
 import { convertExpressionsToStrings } from './functions';
 
 interface ChannelsEndpoint {
@@ -62,27 +61,17 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
   },
 };
 
-const fetchChannels = (apiUrl: string): Promise<FullChannelMetadata[]> => {
-  return axios
-    .get<ChannelsEndpoint>(`${apiUrl}/channels`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
+const fetchChannels = async (): Promise<FullChannelMetadata[]> => {
+  const response = await ogApi.get<ChannelsEndpoint>(`/channels`);
+  const { channels } = response.data;
+  if (!channels || Object.keys(channels).length === 0) return [];
+  const convertedChannels: FullChannelMetadata[] = Object.entries(channels).map(
+    ([systemName, channel]) => ({
+      systemName,
+      ...channel,
     })
-    .then((response) => {
-      const { channels } = response.data;
-
-      if (!channels || Object.keys(channels).length === 0) return [];
-
-      const convertedChannels: FullChannelMetadata[] = Object.entries(
-        channels
-      ).map(([systemName, channel]) => ({
-        systemName,
-        ...channel,
-      }));
-
-      return [...Object.values(staticChannels), ...convertedChannels];
-    });
+  );
+  return [...Object.values(staticChannels), ...convertedChannels];
 };
 
 export interface ChannelSummary {
@@ -91,19 +80,12 @@ export interface ChannelSummary {
   recent_sample: { [timestamp: string]: string | number }[];
 }
 
-const fetchChannelSummary = (
-  apiUrl: string,
+const fetchChannelSummary = async (
   channel: string
 ): Promise<ChannelSummary> => {
-  return axios
-    .get(`${apiUrl}/channels/summary/${channel}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+  return ogApi
+    .get(`/channels/summary/${channel}`)
+    .then((response) => response.data);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
@@ -113,12 +95,10 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
     'queryKey'
   >
 ): UseQueryResult<T, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['channels'],
     queryFn: () => {
-      return fetchChannels(apiUrl);
+      return fetchChannels();
     },
 
     ...(options ?? {}),
@@ -128,7 +108,6 @@ export const useChannels = <T extends unknown = FullChannelMetadata[]>(
 export const useChannelSummary = (
   channel: string | undefined
 ): UseQueryResult<ChannelSummary, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const dataChannel =
     typeof channel !== 'undefined' && !(channel in staticChannels)
       ? channel
@@ -138,7 +117,7 @@ export const useChannelSummary = (
     queryKey: ['channelSummary', dataChannel],
 
     queryFn: () => {
-      return fetchChannelSummary(apiUrl, dataChannel);
+      return fetchChannelSummary(dataChannel);
     },
 
     enabled: dataChannel.length !== 0,

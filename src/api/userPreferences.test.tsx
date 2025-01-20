@@ -1,13 +1,13 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import axios from 'axios';
 import { setMockedPreferredColourMap } from '../mocks/handlers';
 import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import { hooksWrapperWithProviders } from '../testUtils';
+import { ogApi } from './api';
 import { useUpdateUserPreference, useUserPreference } from './userPreferences';
 
 describe('user preferences api functions', () => {
-  const axiosPost = vi.spyOn(axios, 'post');
-  const axiosDelete = vi.spyOn(axios, 'delete');
+  const axiosPost = vi.spyOn(ogApi, 'post');
+  const axiosDelete = vi.spyOn(ogApi, 'delete');
 
   afterEach(() => {
     vi.clearAllMocks();
@@ -46,10 +46,6 @@ describe('user preferences api functions', () => {
       });
       expect(result.current.data).toEqual(null);
     });
-
-    it.todo(
-      'sends axios request to fetch user preference and throws an appropriate error on failure'
-    );
   });
 
   describe('useUpdateUserPreference', () => {
@@ -90,9 +86,5 @@ describe('user preferences api functions', () => {
       expect(result.current.data).toEqual('');
       expect(axiosDelete).toHaveBeenCalled();
     });
-
-    it.todo(
-      'sends axios request to update user preference and throws an appropriate error on failure'
-    );
   });
 });

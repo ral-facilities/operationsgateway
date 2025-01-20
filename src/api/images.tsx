@@ -3,12 +3,11 @@ import {
   keepPreviousData,
   useQuery,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { APIFunctionState } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
+import { ogApi } from './api';
 
 export interface FalseColourParams {
   colourMap?: string;
@@ -21,7 +20,6 @@ export interface ColourMapsParams {
 }
 
 export const fetchImage = async (
-  apiUrl: string,
   recordId: string,
   channelName: string,
   functionsState: APIFunctionState,
@@ -47,12 +45,9 @@ export const fetchImage = async (
     params.append('functions', JSON.stringify(func));
   });
 
-  return axios
-    .get(`${apiUrl}/images/${recordId}/${channelName}`, {
+  return ogApi
+    .get(`/images/${recordId}/${channelName}`, {
       params,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
       responseType: 'blob',
     })
     .then((response) => {
@@ -61,7 +56,6 @@ export const fetchImage = async (
 };
 
 export const fetchColourBar = async (
-  apiUrl: string,
   falseColourParams: FalseColourParams
 ): Promise<string> => {
   const params = new URLSearchParams();
@@ -71,12 +65,9 @@ export const fetchColourBar = async (
   if (lowerLevel) params.set('lower_level', lowerLevel.toString());
   if (upperLevel) params.set('upper_level', upperLevel.toString());
 
-  return axios
-    .get(`${apiUrl}/images/colour_bar`, {
+  return ogApi
+    .get(`/images/colour_bar`, {
       params,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
       responseType: 'blob',
     })
     .then((response) => {
@@ -84,18 +75,10 @@ export const fetchColourBar = async (
     });
 };
 
-export const fetchColourMaps = async (
-  apiUrl: string
-): Promise<ColourMapsParams> => {
-  return axios
-    .get(`${apiUrl}/images/colourmap_names`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+export const fetchColourMaps = async (): Promise<ColourMapsParams> => {
+  return ogApi.get(`/images/colourmap_names`).then((response) => {
+    return response.data;
+  });
 };
 
 export const useImage = (
@@ -104,21 +87,11 @@ export const useImage = (
   falseColourParams?: FalseColourParams
 ): UseQueryResult<string, AxiosError> => {
   const { functions } = useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['images', recordId, channelName, functions, falseColourParams],
-
     queryFn: () => {
-      return fetchImage(
-        apiUrl,
-        recordId,
-        channelName,
-        functions,
-        falseColourParams
-      );
+      return fetchImage(recordId, channelName, functions, falseColourParams);
     },
-
     // set to display old image whilst new one is loading
     placeholderData: keepPreviousData,
   });
@@ -127,15 +100,11 @@ export const useImage = (
 export const useColourBar = (
   falseColourParams: FalseColourParams
 ): UseQueryResult<string, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['colourbar', falseColourParams],
-
     queryFn: () => {
-      return fetchColourBar(apiUrl, falseColourParams);
+      return fetchColourBar(falseColourParams);
     },
-
     // set to display old colour bar whilst new one is loading
     placeholderData: keepPreviousData,
   });
@@ -145,13 +114,10 @@ export const useColourMaps = (): UseQueryResult<
   ColourMapsParams,
   AxiosError
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['colourmaps'],
-
     queryFn: () => {
-      return fetchColourMaps(apiUrl);
+      return fetchColourMaps();
     },
   });
 };

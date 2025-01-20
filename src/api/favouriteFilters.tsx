@@ -5,18 +5,15 @@ import {
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import {
   FavouriteFilter,
   FavouriteFilterPatch,
   FavouriteFilterPost,
 } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { ogApi } from './api';
 
-const addFavouriteFilter = (
-  apiUrl: string,
+const addFavouriteFilter = async (
   favouriteFilter: FavouriteFilterPost
 ): Promise<string> => {
   const queryParams = new URLSearchParams();
@@ -24,15 +21,12 @@ const addFavouriteFilter = (
   queryParams.append('name', favouriteFilter.name);
   queryParams.append('filter', favouriteFilter.filter);
 
-  return axios
+  return ogApi
     .post<string>(
-      `${apiUrl}/users/filters`,
+      `/users/filters`,
       {},
       {
         params: queryParams,
-        headers: {
-          Authorization: `Bearer ${readSciGatewayToken()}`,
-        },
       }
     )
     .then((response) => response.data);
@@ -43,22 +37,17 @@ export const useAddFavouriteFilter = (): UseMutationResult<
   AxiosError,
   FavouriteFilterPost
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (favouriteFilter: FavouriteFilterPost) =>
-      addFavouriteFilter(apiUrl, favouriteFilter),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+      addFavouriteFilter(favouriteFilter),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favouriteFilters'] });
     },
   });
 };
 
-const editFavouriteFilter = (
-  apiUrl: string,
+const editFavouriteFilter = async (
   id: string,
   favouriteFilter: FavouriteFilterPatch
 ): Promise<string> => {
@@ -68,15 +57,12 @@ const editFavouriteFilter = (
   if (favouriteFilter.filter)
     queryParams.append('filter', favouriteFilter.filter);
 
-  return axios
+  return ogApi
     .patch<string>(
-      `${apiUrl}/users/filters/${id}`,
+      `/users/filters/${id}`,
       {},
       {
         params: queryParams,
-        headers: {
-          Authorization: `Bearer ${readSciGatewayToken()}`,
-        },
       }
     )
     .then((response) => response.data);
@@ -87,55 +73,34 @@ export const useEditFavouriteFilter = (): UseMutationResult<
   AxiosError,
   { id: string; favouriteFilter: FavouriteFilterPatch }
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, favouriteFilter }) =>
-      editFavouriteFilter(apiUrl, id, favouriteFilter),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+      editFavouriteFilter(id, favouriteFilter),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favouriteFilters'] });
     },
   });
 };
 
-const fetchFavouriteFilters = (apiUrl: string): Promise<FavouriteFilter[]> => {
-  return axios
-    .get(`${apiUrl}/users/filters`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+const fetchFavouriteFilters = async (): Promise<FavouriteFilter[]> => {
+  return ogApi.get(`/users/filters`).then((response) => response.data);
 };
 
 export const useFavouriteFilters = (): UseQueryResult<
   FavouriteFilter[],
   AxiosError
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['favouriteFilters'],
-
     queryFn: () => {
-      return fetchFavouriteFilters(apiUrl);
+      return fetchFavouriteFilters();
     },
   });
 };
 
-const deleteFavouriteFilter = (apiUrl: string, id: string): Promise<void> => {
-  return axios
-    .delete(`${apiUrl}/users/filters/${id}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => response.data);
+const deleteFavouriteFilter = async (id: string): Promise<void> => {
+  return ogApi.delete(`/users/filters/${id}`).then((response) => response.data);
 };
 
 export const useDeleteFavouriteFilter = (): UseMutationResult<
@@ -143,13 +108,9 @@ export const useDeleteFavouriteFilter = (): UseMutationResult<
   AxiosError,
   string
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteFavouriteFilter(apiUrl, id),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+    mutationFn: (id: string) => deleteFavouriteFilter(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['favouriteFilters'] });
     },

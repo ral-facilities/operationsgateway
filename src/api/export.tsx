@@ -1,12 +1,11 @@
-import axios, { AxiosError } from 'axios';
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
-import { selectSelectedRows } from '../state/slices/selectionSlice';
-import { selectQueryParams } from '../state/slices/searchSlice';
-import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
-import { readSciGatewayToken } from '../parseTokens';
+import { AxiosError } from 'axios';
 import { SearchParams, SortType } from '../app.types';
+import { useAppSelector } from '../state/hooks';
+import { selectQueryParams } from '../state/slices/searchSlice';
+import { selectSelectedRows } from '../state/slices/selectionSlice';
+import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
+import { ogApi } from './api';
 import { staticChannels } from './channels';
 
 interface DataToExport {
@@ -16,8 +15,7 @@ interface DataToExport {
   'Waveform Images': boolean;
 }
 
-export const exportData = (
-  apiUrl: string,
+export const exportData = async (
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
@@ -118,34 +116,24 @@ export const exportData = (
     );
   }
 
-  return axios
-    .get(`${apiUrl}/export`, {
-      params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-      responseType: 'blob',
-    })
-    .then((response) => {
-      const href = URL.createObjectURL(response.data);
-      const link = document.createElement('a');
-      link.href = href;
-      link.download = response.headers['content-disposition']
-        .split('filename=')[1]
-        .slice(1, -1);
-
-      link.style.display = 'none';
-
-      document.body.appendChild(link);
-      link.click();
-
-      link.remove();
-      URL.revokeObjectURL(href);
-    });
+  const response = await ogApi.get(`/export`, {
+    params: queryParams,
+    responseType: 'blob',
+  });
+  const href = URL.createObjectURL(response.data);
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = response.headers['content-disposition']
+    .split('filename=')[1]
+    .slice(1, -1);
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(href);
 };
 
 export const useExportData = (): UseMutationResult<void, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const selectedRows = useAppSelector(selectSelectedRows);
   const { searchParams, page, resultsPerPage, sort, filters } =
     useAppSelector(selectQueryParams);
@@ -171,7 +159,6 @@ export const useExportData = (): UseMutationResult<void, AxiosError> => {
             : 0;
 
       return exportData(
-        apiUrl,
         sort,
         searchParams,
         filters,
