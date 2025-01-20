@@ -81,6 +81,39 @@ export const fetchColourMaps = async (): Promise<ColourMapsParams> => {
   });
 };
 
+export interface CrosshairDimensionType {
+  position: number;
+  intensity: { x: number[]; y: number[] };
+  fwhm: number;
+}
+
+interface CrosshairResponse {
+  row: CrosshairDimensionType;
+  column: CrosshairDimensionType;
+}
+
+export const fetchCrosshair = async (
+  recordId: string,
+  channelName: string,
+  functionsState: APIFunctionState,
+  position?: { x: number; y: number }
+): Promise<CrosshairResponse> => {
+  const params = new URLSearchParams();
+
+  functionsState.functions.forEach((func) => {
+    params.append('functions', JSON.stringify(func));
+  });
+  if (position) params.set('position', `[${position.x},${position.y}]`);
+
+  return ogApi
+    .get(`/images/${recordId}/${channelName}/crosshair`, {
+      params,
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const useImage = (
   recordId: string,
   channelName: string,
@@ -119,5 +152,23 @@ export const useColourMaps = (): UseQueryResult<
     queryFn: () => {
       return fetchColourMaps();
     },
+  });
+};
+
+export const useImageCrosshair = (
+  recordId: string,
+  channelName: string,
+  position: { x: number; y: number } | undefined,
+  enabled: boolean
+): UseQueryResult<CrosshairResponse, AxiosError> => {
+  const { functions } = useAppSelector(selectQueryParams);
+
+  return useQuery({
+    queryKey: ['imageCrosshair', recordId, channelName, position, functions],
+
+    queryFn: () => {
+      return fetchCrosshair(recordId, channelName, functions, position);
+    },
+    enabled,
   });
 };
