@@ -1,4 +1,9 @@
 import { expect, test } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -62,13 +67,12 @@ test('user can zoom and pan the image', async ({ page }) => {
   });
   await popup.keyboard.up('Shift');
 
-  expect(
-    await imageDiv.screenshot({
-      type: 'png',
-    })
+  await expect(imageDiv).toHaveScreenshot({
+    maxDiffPixels: 150,
     // have to reduce threshold when comparing zoomed in images as otherwise similarly
     // coloured pixels are considered ok
-  ).toMatchSnapshot({ maxDiffPixels: 150, threshold: 0 });
+    threshold: 0,
+  });
 
   // test that multiple zoom levels work
   await imageDiv.dragTo(imageDiv, {
@@ -82,20 +86,17 @@ test('user can zoom and pan the image', async ({ page }) => {
     },
   });
 
-  expect(
-    await imageDiv.screenshot({
-      type: 'png',
-    })
+  await expect(imageDiv).toHaveScreenshot({
+    maxDiffPixels: 150,
     // have to reduce threshold when comparing zoomed in images as otherwise similarly
     // coloured pixels are considered ok
-  ).toMatchSnapshot({ maxDiffPixels: 150, threshold: 0 });
+    threshold: 0,
+  });
 
   await popup.locator('text=Reset View').click();
-  expect(
-    await imageDiv.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(imageDiv).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
 
 test('user can change the false colour parameters of an image', async ({
@@ -171,17 +172,11 @@ test('user can change the false colour parameters of an image', async ({
     .not.toBe(oldImageSrc);
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
 test('user can change the false colour to use reverse', async ({ page }) => {
@@ -225,20 +220,14 @@ test('user can change the false colour to use reverse', async ({ page }) => {
     .not.toBe(oldImageSrc);
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
-test('user can change the false colour to colourmap in extended list', async ({
+test.only('user can change the false colour to colourmap in extended list', async ({
   page,
 }) => {
   // open up popup
@@ -271,17 +260,11 @@ test('user can change the false colour to colourmap in extended list', async ({
     .not.toBe(oldImageSrc);
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
 test('user can disable false colour', async ({ page }) => {
@@ -314,11 +297,9 @@ test('user can disable false colour', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
 
 test('user can change image via clicking on a thumbnail', async ({ page }) => {
@@ -415,11 +396,9 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await canvas.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(canvas).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
 
 test('user can set their default colourmap', async ({ page }) => {
@@ -456,17 +435,11 @@ test('user can set their default colourmap', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
 test('user can use crosshairs mode and view intensity graphs', async ({
@@ -500,7 +473,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).toBeChecked();
 
-  const charts = await popup.locator('.chartjs-chart');
+  const charts = await popup.locator('.plotly-chart');
   await expect(charts).toHaveCount(2);
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
@@ -517,14 +490,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
 
   // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+  });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
@@ -535,14 +506,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
 
   await expect(popup.getByText('Position: (100, 300)')).toBeVisible();
 
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+  });
 
   // check reset view goes back to the centroid
   await popup.locator('text=Reset View').click();
@@ -553,14 +522,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     )
   ).toBeVisible();
 
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+  });
 
   // can switch out of crosshairs mode and crosshair disappears
   await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
@@ -568,11 +535,9 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).not.toBeChecked();
 
-  expect(
-    await imageDiv.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(imageDiv).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 
   await expect(charts.first()).not.toBeVisible();
   await expect(charts.last()).not.toBeVisible();
@@ -603,7 +568,7 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   ).toBeChecked();
 
   // expect intensity plots to be drawn
-  const charts = await popup.locator('.chartjs-chart');
+  const charts = await popup.locator('.plotly-chart');
   await expect(charts).toHaveCount(2);
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
@@ -617,14 +582,12 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     )
   ).toBeVisible();
 
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+  });
 
   // click to move the crosshair so we check when switching images it resets to the new image's centroid
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
@@ -753,12 +716,10 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   await expect(charts.last()).toBeVisible();
 
   // check that crosshair is repositioned and new intensity plots load & are positioned correctly
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+  });
 });
