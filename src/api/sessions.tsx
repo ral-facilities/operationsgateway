@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import { readSciGatewayToken } from '../parseTokens';
 import { ogApi } from './api';
 
@@ -59,6 +60,9 @@ export const useEditSession = (): UseMutationResult<
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (session: SessionResponse) => editSession(session),
+    onError: (error) => {
+      handleOG_APIError(error);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessionList'] });
       queryClient.invalidateQueries({ queryKey: ['session'] });

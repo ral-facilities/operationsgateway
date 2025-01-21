@@ -9,6 +9,7 @@ import {
   Switch,
 } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { FalseColourParams, useColourMaps } from './api/images';
@@ -16,6 +17,7 @@ import {
   useUpdateUserPreference,
   useUserPreference,
 } from './api/userPreferences';
+import handleOG_APIError from './handleOG_APIError';
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
@@ -80,31 +82,35 @@ const SettingsMenuItems = () => {
   const changePreferredColourMap = (
     ...params: Parameters<typeof mutatePreferredColourMap>
   ): Promise<void> => {
-    return mutatePreferredColourMap(...params).then(() => {
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          return (
-            // technically, we only need to invalidate records queries where there is an image channel in the projection
-            // but I think passing that info into the query is more effort than just invalidating everything
-            (query.queryKey[0] === 'records' &&
-              // need to check for page to only invalidate table queries and not plot queries
-              'page' in (query.queryKey[1] as object)) ||
-            query.queryKey[0] === 'thumbnails' ||
-            query.queryKey[0] === 'channelSummary' ||
-            // we only need to invalidate the following queries if they didn't
-            // manually select a colour map
-            (query.queryKey[0] === 'images' &&
-              (typeof query.queryKey[3] === 'undefined' ||
-                typeof (query.queryKey[3] as FalseColourParams).colourMap ===
-                  'undefined')) ||
-            (query.queryKey[0] === 'colourbar' &&
-              (typeof query.queryKey[1] === 'undefined' ||
-                typeof (query.queryKey[1] as FalseColourParams).colourMap ===
-                  'undefined'))
-          );
-        },
+    return mutatePreferredColourMap(...params)
+      .then(() => {
+        queryClient.invalidateQueries({
+          predicate: (query) => {
+            return (
+              // technically, we only need to invalidate records queries where there is an image channel in the projection
+              // but I think passing that info into the query is more effort than just invalidating everything
+              (query.queryKey[0] === 'records' &&
+                // need to check for page to only invalidate table queries and not plot queries
+                'page' in (query.queryKey[1] as object)) ||
+              query.queryKey[0] === 'thumbnails' ||
+              query.queryKey[0] === 'channelSummary' ||
+              // we only need to invalidate the following queries if they didn't
+              // manually select a colour map
+              (query.queryKey[0] === 'images' &&
+                (typeof query.queryKey[3] === 'undefined' ||
+                  typeof (query.queryKey[3] as FalseColourParams).colourMap ===
+                    'undefined')) ||
+              (query.queryKey[0] === 'colourbar' &&
+                (typeof query.queryKey[1] === 'undefined' ||
+                  typeof (query.queryKey[1] as FalseColourParams).colourMap ===
+                    'undefined'))
+            );
+          },
+        });
+      })
+      .catch((error: AxiosError) => {
+        handleOG_APIError(error);
       });
-    });
   };
 
   const handleColourMapChange = (event: SelectChangeEvent<unknown>) => {

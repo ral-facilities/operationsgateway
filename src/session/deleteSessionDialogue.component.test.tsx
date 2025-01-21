@@ -67,6 +67,19 @@ describe('delete session dialogue', () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('displays error message if the User session is no found', async () => {
+    props = {
+      ...props,
+      sessionData: { ...sessionData, _id: '3' },
+    };
+    createView();
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    await user.click(continueButton);
+    const helperTexts = screen.getByText('User session cannot be found');
+    expect(helperTexts).toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
   it('calls handleDeleteSession when continue button is clicked with a valid session name', async () => {
     createView();
     const continueButton = screen.getByRole('button', { name: 'Continue' });

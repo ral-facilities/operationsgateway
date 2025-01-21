@@ -31,8 +31,6 @@ export const ogApi = axios.create();
 ogApi.interceptors.request.use(async (config) => {
   const settingsData = await settings;
   config.baseURL = settingsData ? settingsData.apiUrl : '';
-  // const settingsData = await settings;
-  // config.baseURL = settingsData ? settingsData.apiUrl : '';
   config.headers['Authorization'] = `Bearer ${readSciGatewayToken()}`;
   return config;
 });

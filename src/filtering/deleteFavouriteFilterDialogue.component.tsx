@@ -7,7 +7,7 @@ import {
   DialogTitle,
   FormHelperText,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { AxiosError } from 'axios';
 import { useDeleteFavouriteFilter } from '../api/favouriteFilters';
@@ -24,14 +24,12 @@ const DeleteFavouriteFilterDialogue = (
 ) => {
   const { open, onClose, favouriteFilter } = props;
 
-  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
     undefined
   );
 
   const handleClose = React.useCallback(() => {
     onClose();
-    setError(false);
     setErrorMessage(undefined);
   }, [onClose]);
 
@@ -44,11 +42,9 @@ const DeleteFavouriteFilterDialogue = (
           handleClose();
         })
         .catch((error: AxiosError) => {
-          setError(true);
           setErrorMessage((error.response?.data as { detail: string }).detail);
         });
     } else {
-      setError(true);
       setErrorMessage('No data provided, Please refresh and try again');
     }
   }, [deleteFavouriteFilter, handleClose, favouriteFilter]);
@@ -65,11 +61,14 @@ const DeleteFavouriteFilterDialogue = (
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
-        <Button disabled={error} onClick={handleDeleteFavouriteFilter}>
+        <Button
+          disabled={errorMessage !== undefined}
+          onClick={handleDeleteFavouriteFilter}
+        >
           Continue
         </Button>
       </DialogActions>
-      {error && (
+      {errorMessage !== undefined && (
         <Box
           sx={{
             mx: 3,

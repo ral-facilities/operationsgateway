@@ -1,10 +1,12 @@
 import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import type { AxiosError } from 'axios';
 import { format, parseISO } from 'date-fns';
 import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { ImportSessionType } from '../state/store';
@@ -94,9 +96,13 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
           auto_saved: true,
         };
         if (!autoSaveSessionId) {
-          saveSession(sessionData).then((repsonse) => {
-            onChangeAutoSaveSessionId(repsonse);
-          });
+          saveSession(sessionData)
+            .then((repsonse) => {
+              onChangeAutoSaveSessionId(repsonse);
+            })
+            .catch((error: AxiosError) => {
+              handleOG_APIError(error);
+            });
         } else {
           editSession({
             _id: autoSaveSessionId,

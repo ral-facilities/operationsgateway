@@ -1,6 +1,7 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { SearchParams, SortType } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedRows } from '../state/slices/selectionSlice';
@@ -167,6 +168,9 @@ export const useExportData = (): UseMutationResult<void, AxiosError> => {
         dataToExport,
         exportType === 'Selected Rows' ? selectedRows : undefined
       );
+    },
+    onError: (error) => {
+      handleOG_APIError(error);
     },
   });
 };
