@@ -5,9 +5,10 @@ import { NotificationType } from './state/scigateway.actions';
 
 const handleOG_APIError = (error: AxiosError, broadcast = true): void => {
   const status = error.response?.status;
-  const message = error.response?.data
-    ? ((error.response.data as APIError).detail ?? error.message)
-    : error.message;
+
+  const errorDetail = (error.response?.data as APIError)?.detail;
+
+  const message = typeof errorDetail === 'string' ? errorDetail : error.message;
 
   log.error(message);
   // Don't broadcast any error for an authentication issue - navigating via homepage links causes

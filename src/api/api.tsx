@@ -40,20 +40,17 @@ ogApi.interceptors.response.use(
   (error) => {
     const originalRequest = error.config;
 
-    const errorMessage: string = error.response?.data
-      ? Array.isArray((error.response.data as APIError).detail)
-        ? ''
-        : ((
-            (error.response.data as APIError).detail as string
-          )?.toLocaleLowerCase() ?? error.message)
-      : error.message;
+    const errorDetail = (error.response.data as APIError)?.detail;
+
+    const errorMessage =
+      typeof errorDetail === 'string' ? errorDetail : error.message;
 
     // Check if the token is invalid and needs refreshing
     // only allow a request to be retried once. Don't retry if not logged
     // in, it should not have been accessible
     if (
       error.response?.status === 403 &&
-      errorMessage.includes('expired token') &&
+      errorMessage.includes('invalid token') &&
       !originalRequest._retried &&
       localStorage.getItem('scigateway:token')
     ) {
