@@ -43,7 +43,9 @@ ogApi.interceptors.response.use(
     const errorDetail = (error.response.data as APIError)?.detail;
 
     const errorMessage =
-      typeof errorDetail === 'string' ? errorDetail : error.message;
+      typeof errorDetail === 'string'
+        ? errorDetail.toLocaleLowerCase()
+        : error.message;
 
     // Check if the token is invalid and needs refreshing
     // only allow a request to be retried once. Don't retry if not logged

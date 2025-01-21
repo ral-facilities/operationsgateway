@@ -6,6 +6,8 @@ export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
 export const timeChannelName = 'timestamp';
 
+export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
+
 export interface Record {
   _id: string;
   metadata: RecordMetadata;

@@ -5,10 +5,10 @@ import {
   Channel,
   ExperimentParams,
   isChannelScalar,
+  PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
 } from '../app.types';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';

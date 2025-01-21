@@ -17,13 +17,12 @@ import {
   useUpdateUserPreference,
   useUserPreference,
 } from './api/userPreferences';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from './app.types';
 import handleOG_APIError from './handleOG_APIError';
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
 } from './images/imageControlsPanel.component';
-
-export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
 
 const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(
