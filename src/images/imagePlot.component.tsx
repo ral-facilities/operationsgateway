@@ -30,6 +30,7 @@ export interface ImagePlotProps {
 const plotlyConfig: Partial<PlotlyConfig> = {
   displaylogo: false,
   displayModeBar: false,
+  showTips: false,
 };
 
 const commonChartOptions: Partial<PlotlyLayout> = {

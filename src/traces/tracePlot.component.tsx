@@ -22,6 +22,7 @@ const plotlyConfigString = JSON.stringify({
   displayModeBar: false,
   responsive: true,
   showAxisDragHandles: false,
+  showTips: false,
 } satisfies Partial<PlotlyConfig>);
 
 const TracePlot = (props: TracePlotProps) => {

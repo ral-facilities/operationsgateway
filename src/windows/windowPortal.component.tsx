@@ -85,14 +85,14 @@ export default class WindowPortal extends React.PureComponent<
           if (document.querySelectorAll(selector).length !== 0) {
             return resolve(document.querySelectorAll(selector));
           }
-  
+
           const observer = new MutationObserver(mutations => {
             if (document.querySelectorAll(selector).length !== 0) {
               resolve(document.querySelectorAll(selector));
               observer.disconnect();
             }
           });
-  
+
           observer.observe(document.body, {
             childList: true,
             subtree: true
@@ -105,18 +105,23 @@ export default class WindowPortal extends React.PureComponent<
           waitForElm(".plotly-chart").then((divs) => {
             for (const div of divs) {
               if (div) {
-                Plotly.newPlot(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config)).then((plot) => window.plot = plot);
+                Plotly.newPlot(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config));
 
                 const observer = new MutationObserver(mutations => {
                   for(let mutation of mutations) {
                     if (mutation.type === 'attributes') {
-                      if(mutation.attributeName === "data-layout" || mutation.attributeName === "data-data" || mutation.attributeName === "data-config"){
+                      // ensure plotly plot is correct size initially
+                      if (div.scrollWidth > window.innerWidth || div.scrollHeight > window.innerHeight) {
+                        window.dispatchEvent(new Event('resize'));
+                      }
+
+                      if(mutation.attributeName === "data-data" || mutation.attributeName === "data-layout" || mutation.attributeName === "data-config"){
                         Plotly.react(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config));
                       }
                     }
                   }
                 });
-        
+
                 observer.observe(div, {
                   attributes: true
                 });

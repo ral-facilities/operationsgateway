@@ -79,6 +79,7 @@ const Plot = (props: PlotProps) => {
       displayModeBar: false,
       responsive: true,
       showAxisDragHandles: false,
+      showTips: false,
     } satisfies Partial<PlotlyConfig>)
   );
 
@@ -115,12 +116,15 @@ const Plot = (props: PlotProps) => {
       JSON.stringify({
         title: {
           text: title,
+          // @ts-expect-error this property does exist in plotly.js & in the docs, just types are wrong
+          automargin: true,
+          yref: 'paper',
         },
         margin: {
-          l: 55,
-          r: 50,
-          b: 10,
-          t: 40,
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
         },
         uirevision: `${viewReset}`,
         paper_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
@@ -139,12 +143,12 @@ const Plot = (props: PlotProps) => {
           title: {
             text: axesLabelsVisible ? (XAxisDisplayName ?? XAxis) : undefined,
             font: { color: fontColour },
-            standoff: 0,
           },
           type: XAxisScale,
           showgrid: gridVisible,
           range: [xMin ?? null, xMax ?? null],
-          autorange: XAxisScale !== 'date',
+          minallowed: xMin,
+          maxallowed: xMax,
           color: lineColour,
           gridcolor: lineColour,
           tickfont: { color: fontColour },
@@ -155,7 +159,6 @@ const Plot = (props: PlotProps) => {
           title: {
             text: axesLabelsVisible ? leftYAxisLabel : undefined,
             font: { color: fontColour },
-            standoff: 0,
           },
           type: leftYAxisScale,
           showgrid: gridVisible,
@@ -164,10 +167,12 @@ const Plot = (props: PlotProps) => {
               channel.options.yAxis === 'left' && channel.options.visible
           ),
           range: [leftYAxisMin ?? null, leftYAxisMax ?? null],
-          autorange: true,
+          minallowed: leftYAxisMin,
+          maxallowed: leftYAxisMax,
           color: lineColour,
           gridcolor: lineColour,
           tickfont: { color: fontColour },
+          tickprefix: axesLabelsVisible && leftYAxisLabel ? ' ' : undefined, // add a bit of spacing between axis label & tick labels
           automargin: true,
           exponentformat: 'none',
         },
@@ -175,7 +180,6 @@ const Plot = (props: PlotProps) => {
           title: {
             text: axesLabelsVisible ? rightYAxisLabel : undefined,
             font: { color: fontColour },
-            standoff: 0,
           },
           type: rightYAxisScale,
           visible: selectedPlotChannels.some(
@@ -186,10 +190,12 @@ const Plot = (props: PlotProps) => {
           overlaying: 'y',
           showgrid: gridVisible,
           range: [rightYAxisMin ?? null, rightYAxisMax ?? null],
-          autorange: true,
+          minallowed: rightYAxisMin,
+          maxallowed: rightYAxisMax,
           color: lineColour,
           gridcolor: lineColour,
           tickfont: { color: fontColour },
+          ticksuffix: axesLabelsVisible && rightYAxisLabel ? ' ' : undefined, // add a bit of spacing between axis label & tick labels
           automargin: true,
           exponentformat: 'none',
         },
@@ -249,11 +255,14 @@ const Plot = (props: PlotProps) => {
             name: displayNameWithUnits ?? dataset.name,
             x: dataset.data.map((point) => point[XAxis ?? timeChannelName]),
             y: dataset.data.map((point) => point[dataset.name]),
-            yaxis:
-              channelConfig && channelConfig.yAxis === 'right' ? 'y2' : 'y',
+            yaxis: channelConfig?.yAxis === 'right' ? 'y2' : 'y',
             marker: {
               color: channelConfig?.colour,
-              opacity: channelConfig?.markerStyle === false ? 0 : 1,
+              opacity:
+                channelConfig?.markerStyle === false ||
+                channelConfig?.visible === false
+                  ? 0
+                  : 1,
               size: markerSize,
               symbol: markerStyle,
               line: {
@@ -261,43 +270,41 @@ const Plot = (props: PlotProps) => {
                 width: 1,
               },
             },
-            hovertemplate:
-              XAxisScale === 'date'
-                ? `(%{x:%Y-%m-%d %H:%M:%S}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`
-                : `(%{x}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`,
             line: {
               color:
-                channelConfig && !channelConfig.visible
+                channelConfig?.visible === false
                   ? 'rgba(0,0,0,0)'
                   : channelConfig?.colour,
               width: lineWidth,
               dash: lineStyle,
             },
-            showlegend: channelConfig && !channelConfig.visible ? false : true,
-            hoverinfo: channelConfig && !channelConfig.visible ? 'none' : 'all',
+            ...(channelConfig?.visible === false
+              ? {
+                  showlegend: false,
+                  hoverinfo: 'skip',
+                }
+              : {
+                  showlegend: true, // explicitly set to true to ensure legend visible for plots with only 1 trace
+                  hovertemplate:
+                    XAxisScale === 'date'
+                      ? `(%{x|%Y-%m-%d %H:%M:%S}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`
+                      : `(%{x}, %{y}) ${displayNameWithUnits ?? dataset.name}<extra></extra>`,
+                }),
           } satisfies Partial<PlotlyPlotData>;
         })
       )
     );
   }, [datasets, XAxis, selectedPlotChannels, type, XAxisScale]);
 
+  // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx
   return (
     <div
-      style={{
-        flex: '1 0 0',
-        maxHeight: 'calc(100% - 38px)',
-        maxWidth: '100%',
-      }}
-    >
-      {/* This div is turned into a Plotly.js plot via code in windowPortal.component.tsx */}
-      <div
-        ref={chartRef}
-        className="plotly-chart"
-        data-config={plotlyConfigString}
-        data-layout={plotlyLayoutString}
-        data-data={plotlyDataString}
-      ></div>
-    </div>
+      ref={chartRef}
+      className="plotly-chart"
+      data-config={plotlyConfigString}
+      data-layout={plotlyLayoutString}
+      data-data={plotlyDataString}
+    ></div>
   );
 };
 

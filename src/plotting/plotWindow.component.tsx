@@ -110,11 +110,15 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
+    // Plotly is only responsive to window resize events, so fake one to resize plot on drawer open/close
+    plotWindowRef.current?.state?.window?.dispatchEvent(new Event('resize'));
     setOpen(true);
-  }, []);
+  }, [plotWindowRef]);
   const handleDrawerClose = React.useCallback(() => {
+    // Plotly is only responsive to window resize events, so fake one to resize plot on drawer open/close
+    plotWindowRef.current?.state?.window?.dispatchEvent(new Event('resize'));
     setOpen(false);
-  }, []);
+  }, [plotWindowRef]);
 
   const chartRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -331,29 +335,40 @@ const PlotWindow = (props: PlotWindowProps) => {
               />
             </Grid>
           </Grid>
-          <Plot
-            datasets={records ?? []}
-            selectedPlotChannels={selectedPlotChannels}
-            title={plotTitle}
-            type={plotType}
-            XAxis={XAxis}
-            XAxisDisplayName={XAxisDisplayName}
-            XAxisScale={XAxisScale}
-            leftYAxisScale={leftYAxisScale}
-            rightYAxisScale={rightYAxisScale}
-            chartRef={chartRef}
-            gridVisible={gridVisible}
-            axesLabelsVisible={axesLabelsVisible}
-            xMinimum={xMinimum}
-            xMaximum={xMaximum}
-            leftYAxisMinimum={leftYAxisMinimum}
-            leftYAxisMaximum={leftYAxisMaximum}
-            rightYAxisMinimum={rightYAxisMinimum}
-            rightYAxisMaximum={rightYAxisMaximum}
-            leftYAxisLabel={leftYAxisLabel}
-            rightYAxisLabel={rightYAxisLabel}
-            viewReset={viewFlag}
-          />
+          <Grid
+            item
+            ml={1}
+            mr={1}
+            mt={1}
+            xs
+            sx={{
+              height: '100%', // needed for webkit to be able to calc height correctly
+            }}
+          >
+            <Plot
+              datasets={records ?? []}
+              selectedPlotChannels={selectedPlotChannels}
+              title={plotTitle}
+              type={plotType}
+              XAxis={XAxis}
+              XAxisDisplayName={XAxisDisplayName}
+              XAxisScale={XAxisScale}
+              leftYAxisScale={leftYAxisScale}
+              rightYAxisScale={rightYAxisScale}
+              chartRef={chartRef}
+              gridVisible={gridVisible}
+              axesLabelsVisible={axesLabelsVisible}
+              xMinimum={xMinimum}
+              xMaximum={xMaximum}
+              leftYAxisMinimum={leftYAxisMinimum}
+              leftYAxisMaximum={leftYAxisMaximum}
+              rightYAxisMinimum={rightYAxisMinimum}
+              rightYAxisMaximum={rightYAxisMaximum}
+              leftYAxisLabel={leftYAxisLabel}
+              rightYAxisLabel={rightYAxisLabel}
+              viewReset={viewFlag}
+            />
+          </Grid>
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop
