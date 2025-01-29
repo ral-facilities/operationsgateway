@@ -39,7 +39,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     onChangeAutoSaveSessionId,
   } = props;
 
-  const { mutate: editSession } = useEditSession();
+  const { mutateAsync: editSession } = useEditSession();
   const { mutateAsync: saveSession } = useSaveSession();
 
   const autoSaveTimeout = React.useRef<ReturnType<typeof setInterval> | null>(
@@ -68,7 +68,9 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
         timestamp: loadedSessionData.timestamp,
         name: loadedSessionData.name,
       };
-      editSession(session);
+      editSession(session).catch((error: AxiosError) => {
+        handleOG_APIError(error);
+      });
     } else {
       onSaveAsSessionClick();
     }
@@ -108,6 +110,8 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
             _id: autoSaveSessionId,
             timestamp: loadedSessionData.timestamp,
             ...sessionData,
+          }).catch((error: AxiosError) => {
+            handleOG_APIError(error);
           });
         }
       }, AUTO_SAVE_INTERVAL_MS);
