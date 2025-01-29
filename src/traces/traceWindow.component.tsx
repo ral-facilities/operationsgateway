@@ -3,7 +3,9 @@ import React from 'react';
 import { useWaveform } from '../api/waveforms';
 import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
-import ThumbnailSelector from '../windows/thumbnailSelector.component';
+import ThumbnailSelector, {
+  thumbnailSelectorWidth,
+} from '../windows/thumbnailSelector.component';
 import { TraceButtons } from '../windows/windowButtons.component';
 import WindowPortal from '../windows/windowPortal.component';
 import TracePlot from './tracePlot.component';
@@ -79,12 +81,24 @@ const TraceWindow = (props: TraceWindowProps) => {
         })}
         spacing={0}
       >
+        <Grid container item xs="auto">
+          <ThumbnailSelector
+            channelName={channelName}
+            recordId={recordId}
+            changeRecordId={updateTraceConfig}
+          />
+        </Grid>
         <Grid
           container
           item
           direction="column"
           wrap="nowrap"
-          sx={{ width: '100%', position: 'relative', height: '100%' }}
+          xs
+          sx={{
+            width: `calc(100% - ${thumbnailSelectorWidth}px)`,
+            position: 'relative',
+            height: '100%',
+          }}
         >
           <Grid
             container
@@ -92,7 +106,9 @@ const TraceWindow = (props: TraceWindowProps) => {
             justifyContent="flex-end"
             wrap="nowrap"
             mt={1}
-            ml={-1}
+            mr={1}
+            ml={1}
+            xs="auto"
           >
             <TraceButtons
               data={waveform}
@@ -104,12 +120,14 @@ const TraceWindow = (props: TraceWindowProps) => {
               togglePointsVisibility={togglePointsVisibility}
             />
           </Grid>
-          <Grid container item wrap="nowrap" flexGrow={1}>
-            <ThumbnailSelector
-              channelName={channelName}
-              recordId={recordId}
-              changeRecordId={updateTraceConfig}
-            />
+          <Grid
+            item
+            m={1}
+            xs
+            sx={{
+              height: 'calc(100% - 60px)',
+            }}
+          >
             <TracePlot
               trace={waveform ?? { _id: '0', x: [], y: [] }}
               chartRef={chartRef}

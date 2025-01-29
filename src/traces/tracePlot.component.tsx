@@ -39,12 +39,15 @@ const TracePlot = (props: TracePlotProps) => {
         plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
         title: {
           text: title,
+          // @ts-expect-error this property does exist in plotly.js & in the docs, just types are wrong
+          automargin: true,
+          yref: 'paper',
         },
         margin: {
-          l: 5,
-          r: 5,
-          b: 5,
-          t: 35,
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
         },
         showlegend: false,
         xaxis: {
@@ -118,23 +121,15 @@ const TracePlot = (props: TracePlotProps) => {
     setOptionsString(JSON.stringify(chartOptions));
   }, [chartOptions, trace, pointsVisible, viewReset, themeMode]);
 
+  // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx
   return (
     <div
-      style={{
-        flex: '1 0 0',
-        maxHeight: 'calc(100vh - 38px)',
-        maxWidth: 'calc(100% - 150px)',
-      }}
-    >
-      {/* This div is turned into a Plotly.js plot via code in windowPortal.component.tsx */}
-      <div
-        ref={chartRef}
-        className="plotly-chart"
-        data-config={plotlyConfigString}
-        data-layout={plotlyLayoutString}
-        data-data={plotlyDataString}
-      ></div>
-    </div>
+      ref={chartRef}
+      className="plotly-chart"
+      data-config={plotlyConfigString}
+      data-layout={plotlyLayoutString}
+      data-data={plotlyDataString}
+    ></div>
   );
 };
 

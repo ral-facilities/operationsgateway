@@ -101,19 +101,16 @@ test('user can zoom and pan the graph', async ({ page }) => {
   await chart.dragTo(chart, {
     force: true, // need to force: true here because of .dragcover element covers the plot
     sourcePosition: {
-      x: 220,
-      y: 80,
+      x: 200,
+      y: 70,
     },
     targetPosition: {
-      x: 450,
-      y: 150,
+      x: 500,
+      y: 170,
     },
   });
 
   await chart.hover(); // hover chart to move mouse to center of chart to make the scroll out consistent
-  await popup.mouse.wheel(0, 20);
-  await popup.mouse.wheel(0, 20);
-  await popup.mouse.wheel(0, 20);
   await popup.mouse.wheel(0, 20);
 
   await popup.keyboard.down('Shift');
@@ -124,8 +121,8 @@ test('user can zoom and pan the graph', async ({ page }) => {
       y: 150,
     },
     targetPosition: {
-      x: 70,
-      y: 70,
+      x: 90,
+      y: 80,
     },
   });
   await popup.keyboard.up('Shift');

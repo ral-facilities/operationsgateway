@@ -105,13 +105,16 @@ export default class WindowPortal extends React.PureComponent<
           waitForElm(".plotly-chart").then((divs) => {
             for (const div of divs) {
               if (div) {
-                Plotly.newPlot(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config));
+                Plotly.newPlot(div, JSON.parse(div.dataset.data), JSON.parse(div.dataset.layout), JSON.parse(div.dataset.config)).then(() => {
+                  // ensure plotly plot is correct size initially
+                  window.dispatchEvent(new Event('resize'));
+                });
 
                 const observer = new MutationObserver(mutations => {
                   for(let mutation of mutations) {
                     if (mutation.type === 'attributes') {
                       // ensure plotly plot is correct size initially
-                      if (div.scrollWidth > window.innerWidth || div.scrollHeight > window.innerHeight) {
+                      if (window.document.body.scrollHeight > window.document.body.offsetHeight) {
                         window.dispatchEvent(new Event('resize'));
                       }
 

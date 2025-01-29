@@ -227,7 +227,7 @@ test('user can change the false colour to use reverse', async ({ page }) => {
   await expect(colourbar).toHaveScreenshot();
 });
 
-test.only('user can change the false colour to colourmap in extended list', async ({
+test('user can change the false colour to colourmap in extended list', async ({
   page,
 }) => {
   // open up popup
@@ -452,6 +452,11 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
 
+  // if this test is run in parallel on firefox the screenshot renders differently
+  // so adjust the size of the page to ensure consistent rendering
+  if (browserName === 'firefox')
+    await popup.setViewportSize({ width: 600, height: 800 });
+
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
 
@@ -494,7 +499,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+      path.join(__dirname, 'screenshotIgnoreStyles.css'),
   });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
@@ -510,7 +515,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+      path.join(__dirname, 'screenshotIgnoreStyles.css'),
   });
 
   // check reset view goes back to the centroid
@@ -526,7 +531,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+      path.join(__dirname, 'screenshotIgnoreStyles.css'),
   });
 
   // can switch out of crosshairs mode and crosshair disappears
@@ -552,6 +557,11 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+
+  // if this test is run in parallel on firefox the screenshot renders differently
+  // so adjust the size of the page to ensure consistent rendering
+  if (browserName === 'firefox')
+    await popup.setViewportSize({ width: 600, height: 800 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -586,7 +596,7 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+      path.join(__dirname, 'screenshotIgnoreStyles.css'),
   });
 
   // click to move the crosshair so we check when switching images it resets to the new image's centroid
@@ -720,6 +730,6 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'intensityPlotIgnoreStyles.css'),
+      path.join(__dirname, 'screenshotIgnoreStyles.css'),
   });
 });
