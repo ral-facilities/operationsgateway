@@ -135,6 +135,36 @@ describe('handleOG_APIError', () => {
     });
   });
 
+  it('logs generic message if the error is a 503', () => {
+    error = {
+      isAxiosError: true,
+      response: {
+        data: {},
+        status: 503,
+        statusText: 'Internal Server Error',
+        headers: {},
+        // @ts-expect-error: not needed for test
+        config: {},
+      },
+      name: 'Test error name',
+      message: 'Test error message',
+      toJSON: vi.fn(),
+    };
+
+    handleOG_APIError(error);
+
+    expect(log.error).toHaveBeenCalledWith('Test error message');
+    expect(events.length).toBe(1);
+    expect(events[0].detail).toEqual({
+      type: NotificationType,
+      payload: {
+        severity: 'error',
+        message:
+          'Something went wrong, please contact the system administrator',
+      },
+    });
+  });
+
   it('logs network error message if there is no response', () => {
     error = {
       isAxiosError: true,

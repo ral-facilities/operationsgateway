@@ -23,7 +23,7 @@ const handleOG_APIError = (error: AxiosError, broadcast = true): void => {
       // No response so it's a network error
       broadcastMessage =
         'Network Error, please reload the page or try again later';
-    else if (status === 500)
+    else if (status && status >= 500 && status < 600)
       broadcastMessage =
         'Something went wrong, please contact the system administrator';
     else broadcastMessage = message;
