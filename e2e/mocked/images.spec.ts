@@ -499,7 +499,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
@@ -515,7 +515,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 
   // check reset view goes back to the centroid
@@ -531,7 +531,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 
   // can switch out of crosshairs mode and crosshair disappears
@@ -596,7 +596,7 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 
   // click to move the crosshair so we check when switching images it resets to the new image's centroid
@@ -730,6 +730,6 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
     maxDiffPixels: 150,
     stylePath:
       // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 });

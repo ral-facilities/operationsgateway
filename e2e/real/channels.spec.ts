@@ -48,11 +48,9 @@ test('should be able to view the channel summary', async ({ page }) => {
   await expect(
     page.getByText('Most recent data date: 2023-06-05 16:00:00')
   ).toBeVisible();
-  expect(
-    await page.getByRole('table', { name: 'recent data' }).screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({
+  await expect(
+    await page.getByRole('table', { name: 'recent data' })
+  ).toHaveScreenshot({
     maxDiffPixels: 150,
   });
 
@@ -68,11 +66,9 @@ test('should be able to view the channel summary', async ({ page }) => {
   await expect(
     page.getByText('Most recent data date: 2023-06-05 16:00:00')
   ).toBeVisible();
-  expect(
-    await page.getByRole('table', { name: 'recent data' }).screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({
+  await expect(
+    await page.getByRole('table', { name: 'recent data' })
+  ).toHaveScreenshot({
     maxDiffPixels: 150,
   });
 });

@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 test('plots a time vs channel graph', async ({ page }) => {
   await page.goto('/');
@@ -34,19 +39,15 @@ test('plots a time vs channel graph', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('.chartjs-chart');
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
+  const chart = await popup.locator('.plotly-chart');
 
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
+  await expect(chart).toHaveScreenshot({
     // 150 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+    maxDiffPixels: 150,
+    stylePath:
+      // hide plot buttons from the screenshot as it's not important & can mess up diffs
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });
 
 test('plots a channel vs channel graph', async ({ page }) => {
@@ -90,16 +91,12 @@ test('plots a channel vs channel graph', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('.chartjs-chart');
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
+  const chart = await popup.locator('.plotly-chart');
 
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide plot buttons from the screenshot as it's not important & can mess up diffs
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });

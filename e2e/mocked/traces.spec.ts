@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { triggerAsyncId } from 'async_hooks';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -46,8 +45,8 @@ test('user can show points for the trace', async ({ page }) => {
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
-      // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 });
 
@@ -104,8 +103,8 @@ test('user can zoom and pan the trace', async ({ page }) => {
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
-      // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 
   await popup.locator('text=Reset View').click();
@@ -113,8 +112,8 @@ test('user can zoom and pan the trace', async ({ page }) => {
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
-      // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 });
 
@@ -162,7 +161,7 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
-      // hide image controls panel & top buttons from the screenshot as it's not important
-      path.join(__dirname, 'screenshotIgnoreStyles.css'),
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 });
