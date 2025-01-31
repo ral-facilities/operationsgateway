@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import type { PlotlyHTMLElement } from 'plotly.js';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
   page,
@@ -110,8 +111,21 @@ test('user can zoom and pan the graph', async ({ page }) => {
     },
   });
 
+  // setup so we wait for mouse wheel zoom out to happen before panning
+  chart.evaluate((chart: PlotlyHTMLElement) => {
+    window['plotly_redraws'] = 0;
+    chart.on('plotly_relayout', () => {
+      window['plotly_redraws'] += 1;
+      chart.removeAllListeners('plotly_relayout');
+    });
+  });
+
+  const watchDog = popup.waitForFunction(() => window['plotly_redraws'] > 0);
+
   await chart.hover(); // hover chart to move mouse to center of chart to make the scroll out consistent
   await popup.mouse.wheel(0, 20);
+
+  await watchDog;
 
   await popup.keyboard.down('Shift');
   await chart.dragTo(chart, {
