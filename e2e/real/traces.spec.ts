@@ -101,7 +101,7 @@ test('user can export trace image and data', async ({ page }) => {
   const title = await popup.title();
   const traceName = title.split(' - ')[1];
 
-  const downloadImagePromise = page.waitForEvent('download');
+  const downloadImagePromise = popup.waitForEvent('download');
   await popup.getByRole('button', { name: 'Export Plot', exact: true }).click();
 
   const downloadedImage = await downloadImagePromise;
