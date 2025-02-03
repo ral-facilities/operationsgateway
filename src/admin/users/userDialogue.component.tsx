@@ -17,7 +17,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddUser } from '../../api/user';
-import { APIError, User, type UserPost } from '../../app.types';
+import { APIError, type UserPost } from '../../app.types';
 import { AUTH_TYPE_LIST, AUTHORISED_ROUTE_LIST } from './usersTable.component';
 
 export interface UserDialogueProps {
@@ -94,7 +94,7 @@ const UserDialogue = (props: UserDialogueProps) => {
 
   const { mutateAsync: addUser, isPending: isAddPending } = useAddUser();
   const handleAddUser = React.useCallback(
-    async (user: User) => {
+    async (user: UserPost) => {
       addUser(user)
         .then(() => handleClose())
         .catch((error: AxiosError) => {

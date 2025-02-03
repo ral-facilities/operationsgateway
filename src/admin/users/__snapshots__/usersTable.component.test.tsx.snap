@@ -239,11 +239,11 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="MuiTableContainer-root css-1jv9xuu-MuiTableContainer-root"
+      class="MuiTableContainer-root css-1xl5pck-MuiTableContainer-root"
     >
       <table
         class="MuiTable-root MuiTable-stickyHeader css-1y6k1sx-MuiTable-root"
-        style="--header-_id-size: 180; --col-_id-size: 180; --header-auth_type-size: 180; --col-auth_type-size: 180; --header-authorised_routes-size: 180; --col-authorised_routes-size: 180;"
+        style="--header-username-size: 180; --col-username-size: 180; --header-auth_type-size: 180; --col-auth_type-size: 180; --header-authorised_routes-size: 180; --col-authorised_routes-size: 180;"
       >
         <thead
           class="MuiTableHead-root css-dk8izd-MuiTableHead-root"
@@ -253,7 +253,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
           >
             <th
               aria-sort="none"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-39cen7-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-hy179q-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
               data-index="0"
