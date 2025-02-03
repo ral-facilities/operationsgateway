@@ -74,7 +74,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   const initialUser: UserPost = React.useMemo(
     () =>
       isNotAdding
-        ? { ...selectedUser, sha256_password: '' }
+        ? { ...selectedUser, _id: selectedUser.username, sha256_password: '' }
         : {
             _id: '',
             sha256_password: '',
@@ -145,7 +145,7 @@ const UserDialogue = (props: UserDialogueProps) => {
     async (user: UserPost) => {
       if (!selectedUser) return;
 
-      const patchUsers: UserPatch = { _id: selectedUser._id };
+      const patchUsers: UserPatch = { _id: selectedUser.username };
 
       if (passwordOnly && !user.sha256_password) {
         setError('sha256_password', {

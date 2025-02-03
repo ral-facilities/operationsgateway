@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { User } from '../app.types';
+import type { UsersDict } from '../app.types';
 import usersJson from '../mocks/users.json';
 import { hooksWrapperWithProviders } from '../testUtils';
 import { useAddUser, useEditUser, useUsers } from './user';
@@ -13,13 +13,9 @@ describe('useUsers', () => {
     await waitFor(() => {
       expect(result.current.isSuccess).toBeTruthy();
     });
-    const expected: User[] = usersJson;
+    const expected: UsersDict = { users: usersJson };
     expect(result.current.data).toEqual(expected);
   });
-
-  it.todo(
-    'sends axios request to fetch users and throws an appropriate error on failure'
-  );
 });
 
 describe('useAddUser', () => {
@@ -29,13 +25,17 @@ describe('useAddUser', () => {
     });
     expect(result.current.isIdle).toBe(true);
 
-    result.current.mutate({ ...usersJson[0], sha256_password: 'test' });
+    result.current.mutate({
+      ...usersJson[0],
+      _id: usersJson[0].username,
+      sha256_password: 'test',
+    });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBeTruthy();
     });
 
-    expect(result.current.data).toEqual(usersJson[0]._id);
+    expect(result.current.data).toEqual(usersJson[0].username);
   });
 
   it.todo(
