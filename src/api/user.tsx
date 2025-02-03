@@ -1,11 +1,11 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { User } from '../app.types';
+import { type UsersDict } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 
-const getUsers = (apiUrl: string): Promise<User[]> => {
+const getUsers = async (apiUrl: string): Promise<UsersDict> => {
   return axios
     .get(`${apiUrl}/users`, {
       headers: {
@@ -17,7 +17,7 @@ const getUsers = (apiUrl: string): Promise<User[]> => {
     });
 };
 
-export const useUsers = (): UseQueryResult<User[], AxiosError> => {
+export const useUsers = (): UseQueryResult<UsersDict, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery({

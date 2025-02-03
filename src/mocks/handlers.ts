@@ -375,7 +375,7 @@ export const handlers = [
     );
   }),
   http.get('/users', () => {
-    return HttpResponse.json(usersJson, { status: 200 });
+    return HttpResponse.json({ users: usersJson }, { status: 200 });
   }),
 
   http.post('/users/filters', async () => {

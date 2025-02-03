@@ -25,8 +25,8 @@ function UsersTable() {
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
     {
-      accessorKey: '_id',
-      header: 'User ID',
+      accessorKey: 'username',
+      header: 'Username',
     },
 
     {
@@ -57,7 +57,7 @@ function UsersTable() {
 
   const table = useMaterialReactTable({
     columns,
-    data: userData ?? [],
+    data: userData?.users ?? [],
     // Features
     enableColumnOrdering: true,
     enableColumnResizing: false,
@@ -84,7 +84,7 @@ function UsersTable() {
     },
     state: {
       pagination: { pageSize: 15, pageIndex: 0 },
-      showProgressBars: userDataLoading, //or showSkeletons
+      showProgressBars: userDataLoading,
     },
     // MUI
     muiPaginationProps: {
@@ -92,6 +92,12 @@ function UsersTable() {
       rowsPerPageOptions: [15, 30, 45],
       shape: 'rounded',
       variant: 'outlined',
+    },
+    muiTableContainerProps: {
+      // Page height - unknown - app bar height - footer height - additional
+      sx: {
+        height: `calc(100vh - 8px - 64px - 24px - 250px)`,
+      },
     },
   });
   return <MaterialReactTable table={table} />;

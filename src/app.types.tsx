@@ -313,9 +313,13 @@ export interface APIError {
 }
 
 export interface User {
-  _id: string; // Maps the `username` field in Python, which has an alias "_id"
+  username: string;
   auth_type: string;
   authorised_routes?: string[] | null;
+}
+
+export interface UsersDict {
+  users: User[];
 }
 
 export interface FavouriteFilterPost {
