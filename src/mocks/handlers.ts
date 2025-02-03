@@ -376,7 +376,7 @@ export const handlers = [
     );
   }),
   http.get('/users', () => {
-    return HttpResponse.json(usersJson, { status: 200 });
+    return HttpResponse.json({ users: usersJson }, { status: 200 });
   }),
 
   http.post('/users', async ({ request }) => {
@@ -419,7 +419,7 @@ export const handlers = [
 
   http.delete('/users/:id', async ({ params }) => {
     const { id } = params;
-    const validId = usersJson.map((user) => user._id);
+    const validId = usersJson.map((user) => user.username);
     if (validId.includes(id as string)) {
       return new HttpResponse(null, { status: 204 });
     } else {

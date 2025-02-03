@@ -41,6 +41,7 @@ function UsersTable() {
   const [requestType, setRequestType] = React.useState<
     'patchPassword' | 'patchAuthorisedRoutes' | 'post' | 'delete' | false
   >('post');
+
   const [selectedUser, setSelectedUser] = React.useState<User | undefined>(
     undefined
   );
@@ -48,7 +49,7 @@ function UsersTable() {
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
     {
-      accessorKey: '_id',
+      accessorKey: 'username',
       header: 'Username',
     },
 
@@ -80,7 +81,7 @@ function UsersTable() {
 
   const table = useMaterialReactTable({
     columns,
-    data: userData ?? [],
+    data: userData?.users ?? [],
     // Features
     enableColumnOrdering: true,
     enableColumnResizing: false,
@@ -107,7 +108,7 @@ function UsersTable() {
     },
     state: {
       pagination: { pageSize: 15, pageIndex: 0 },
-      showProgressBars: userDataLoading, //or showSkeletons
+      showProgressBars: userDataLoading,
     },
     // MUI
     muiPaginationProps: {
@@ -115,6 +116,12 @@ function UsersTable() {
       rowsPerPageOptions: [15, 30, 45],
       shape: 'rounded',
       variant: 'outlined',
+    },
+    muiTableContainerProps: {
+      // Page height - unknown - app bar height - footer height - additional
+      sx: {
+        height: `calc(100vh - 8px - 64px - 24px - 250px)`,
+      },
     },
     renderCreateRowDialogContent: ({ table }) => {
       return (
@@ -162,7 +169,7 @@ function UsersTable() {
       return [
         <MenuItem
           key="modify_authorised_routes"
-          aria-label={`Edit user ${row.original._id} authorised routes`}
+          aria-label={`Edit user ${row.original.username} authorised routes`}
           onClick={() => {
             setRequestType('patchAuthorisedRoutes');
             setSelectedUser(row.original);
@@ -180,7 +187,7 @@ function UsersTable() {
           ? [
               <MenuItem
                 key="change_password"
-                aria-label={`Change user ${row.original._id} password`}
+                aria-label={`Change user ${row.original.username} password`}
                 onClick={() => {
                   setRequestType('patchPassword');
                   setSelectedUser(row.original);
@@ -198,7 +205,7 @@ function UsersTable() {
           : []),
         <MenuItem
           key="delete"
-          aria-label={`Delete user ${row.original._id}`}
+          aria-label={`Delete user ${row.original.username}`}
           onClick={() => {
             setRequestType('delete');
             setSelectedUser(row.original);
@@ -217,13 +224,15 @@ function UsersTable() {
   return (
     <>
       <MaterialReactTable table={table} />
-      <DeleteUserDialogue
-        open={requestType === 'delete'}
-        onClose={() => {
-          setRequestType(false);
-        }}
-        selectedUser={selectedUser}
-      />
+      {selectedUser && (
+        <DeleteUserDialogue
+          open={requestType === 'delete'}
+          onClose={() => {
+            setRequestType(false);
+          }}
+          selectedUser={selectedUser}
+        />
+      )}
     </>
   );
 }

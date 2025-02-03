@@ -14,7 +14,7 @@ import { APIError, User } from '../../app.types';
 export interface DeleteUserDialogueProps {
   open: boolean;
   onClose: () => void;
-  selectedUser?: User;
+  selectedUser: User;
 }
 
 const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
@@ -32,18 +32,14 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
   }, [onClose]);
 
   const handleDeleteUser = React.useCallback(() => {
-    if (selectedUser) {
-      deleteUser(selectedUser._id)
-        .then(() => {
-          handleClose();
-        })
-        .catch((error: AxiosError) => {
-          const errorDetail = (error.response?.data as APIError).detail;
-          setErrorMessage(errorDetail as string);
-        });
-    } else {
-      setErrorMessage('No data provided, Please refresh and try again');
-    }
+    deleteUser(selectedUser.username)
+      .then(() => {
+        handleClose();
+      })
+      .catch((error: AxiosError) => {
+        const errorDetail = (error.response?.data as APIError).detail;
+        setErrorMessage(errorDetail as string);
+      });
   }, [deleteUser, handleClose, selectedUser]);
 
   return (
@@ -51,7 +47,8 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
       <DialogTitle>Delete User</DialogTitle>
       <DialogContent>
         Are you sure you want to delete{' '}
-        <strong data-testid="delete-user-name">{selectedUser?._id}</strong>?
+        <strong data-testid="delete-user-name">{selectedUser?.username}</strong>
+        ?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>

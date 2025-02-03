@@ -6,12 +6,12 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { User, UserPatch, UserPost } from '../app.types';
+import { UserPatch, UserPost, type UsersDict } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectUrls } from '../state/slices/configSlice';
 
-const getUsers = (apiUrl: string): Promise<User[]> => {
+const getUsers = async (apiUrl: string): Promise<UsersDict> => {
   return axios
     .get(`${apiUrl}/users`, {
       headers: {
@@ -23,7 +23,7 @@ const getUsers = (apiUrl: string): Promise<User[]> => {
     });
 };
 
-export const useUsers = (): UseQueryResult<User[], AxiosError> => {
+export const useUsers = (): UseQueryResult<UsersDict, AxiosError> => {
   const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery({
@@ -34,7 +34,7 @@ export const useUsers = (): UseQueryResult<User[], AxiosError> => {
   });
 };
 
-const addUser = (apiUrl: string, user: UserPost): Promise<string> => {
+const addUser = async (apiUrl: string, user: UserPost): Promise<string> => {
   return axios
     .post<string>(`${apiUrl}/users`, user, {
       headers: {
@@ -62,7 +62,7 @@ export const useAddUser = (): UseMutationResult<
   });
 };
 
-const editUser = (apiUrl: string, user: UserPatch): Promise<string> => {
+const editUser = async (apiUrl: string, user: UserPatch): Promise<string> => {
   return axios
     .patch<string>(`${apiUrl}/users`, user, {
       headers: {

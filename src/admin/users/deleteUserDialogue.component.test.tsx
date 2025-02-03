@@ -42,25 +42,10 @@ describe('delete user dialogue', () => {
     });
   });
 
-  it('displays warning message when user data is not loaded', async () => {
-    props = {
-      ...props,
-      selectedUser: undefined,
-    };
-    createView();
-    const continueButton = screen.getByRole('button', { name: 'Continue' });
-    await user.click(continueButton);
-    const helperTexts = screen.getByText(
-      'No data provided, Please refresh and try again'
-    );
-    expect(helperTexts).toBeInTheDocument();
-    expect(onClose).not.toHaveBeenCalled();
-  });
-
   it('displays warning message when user data does not exist in database', async () => {
     props = {
       ...props,
-      selectedUser: { ...UsersJson[0], _id: 'test' },
+      selectedUser: { ...UsersJson[0], username: 'test' },
     };
     createView();
 
