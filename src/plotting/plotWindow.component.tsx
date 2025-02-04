@@ -94,6 +94,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [remainingColours, setRemainingColours] = React.useState<string[]>(
     plotConfig.remainingColours
   );
+  const [skipNonBusinessHours, setSkipNonBusinessHours] =
+    React.useState<boolean>(plotConfig.skipNonBusinessHours);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -273,6 +275,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
                 changeRemainingColours={setRemainingColours}
+                skipNonBusinessHours={skipNonBusinessHours}
+                changeSkipNonBusinessHours={setSkipNonBusinessHours}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -367,6 +371,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               leftYAxisLabel={leftYAxisLabel}
               rightYAxisLabel={rightYAxisLabel}
               viewReset={viewFlag}
+              skipNonBusinessHours={skipNonBusinessHours}
             />
           </Grid>
         </Grid>

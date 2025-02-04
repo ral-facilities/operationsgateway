@@ -16,6 +16,7 @@ import {
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { isAfter, isBefore, isEqual, isValid } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
 import { ExperimentParams } from '../../app.types';
@@ -283,7 +284,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
       <CalendarMonth
         sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }}
       />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
         <Grid container columns={2} direction="column">
           <Grid item>
             <Typography noWrap sx={{ fontWeight: 'bold' }}>

@@ -36,6 +36,7 @@ export interface PlotProps {
   leftYAxisLabel?: string;
   rightYAxisLabel?: string;
   viewReset: boolean;
+  skipNonBusinessHours: boolean;
 }
 
 const Plot = (props: PlotProps) => {
@@ -61,6 +62,7 @@ const Plot = (props: PlotProps) => {
     leftYAxisLabel,
     rightYAxisLabel,
     viewReset,
+    skipNonBusinessHours,
   } = props;
 
   const {
@@ -148,6 +150,14 @@ const Plot = (props: PlotProps) => {
           range: [xMin ?? null, xMax ?? null],
           minallowed: xMin,
           maxallowed: xMax,
+          ...(XAxisScale === 'date' && skipNonBusinessHours
+            ? {
+                rangebreaks: [
+                  { pattern: 'day of week', bounds: ['sat', 'mon'] }, // skips from saturday to monday
+                  { pattern: 'hour', bounds: [18, 9] }, // skips from 6pm to 9am
+                ],
+              }
+            : {}),
           color: lineColour,
           gridcolor: lineColour,
           tickfont: { color: fontColour },
@@ -220,6 +230,7 @@ const Plot = (props: PlotProps) => {
     rightYAxisLabel,
     viewReset,
     themeMode,
+    skipNonBusinessHours,
   ]);
 
   React.useEffect(() => {

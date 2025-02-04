@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { isBefore, isValid } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 import React, { useState } from 'react';
 import {
   FullScalarChannelMetadata,
@@ -199,7 +200,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   const [toOpen, setToOpen] = useState(false);
 
   return (
-    <Grid container spacing={1} mt={1}>
+    <Grid container spacing={1} mt={0}>
       <Grid container item spacing={1}>
         <ClickAwayListener
           onClickAway={() => setFromOpen(false)}
@@ -207,7 +208,10 @@ const XAxisTab = (props: XAxisTabProps) => {
         >
           <Grid item xs={6}>
             {XAxisScale === 'date' ? (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={enGB}
+              >
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
                   value={fromDate}
@@ -329,7 +333,7 @@ const XAxisTab = (props: XAxisTabProps) => {
         <>
           <Grid item>
             <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
+              <FormLabel id="x-scale-group-label" sx={{ mr: 2 }}>
                 Scale
               </FormLabel>
               <RadioGroup
@@ -341,10 +345,26 @@ const XAxisTab = (props: XAxisTabProps) => {
               >
                 <FormControlLabel
                   value="linear"
-                  control={<Radio />}
+                  control={
+                    <Radio
+                      sx={{
+                        padding: 0.5,
+                      }}
+                    />
+                  }
                   label="Linear"
                 />
-                <FormControlLabel value="log" control={<Radio />} label="Log" />
+                <FormControlLabel
+                  value="log"
+                  control={
+                    <Radio
+                      sx={{
+                        padding: 0.5,
+                      }}
+                    />
+                  }
+                  label="Log"
+                />
               </RadioGroup>
             </FormControl>
           </Grid>
