@@ -3,7 +3,7 @@ import {
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { parseISO } from 'date-fns';
 import {
   APIFunctionState,
@@ -21,14 +21,13 @@ import {
 } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
+import { ogApi } from './api';
 import { staticChannels } from './channels';
 
 const fetchRecords = async (
-  apiUrl: string,
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
@@ -127,12 +126,9 @@ const fetchRecords = async (
     );
   }
 
-  return axios
-    .get(`${apiUrl}/records`, {
+  return ogApi
+    .get(`/records`, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => {
       const records: Record[] = response.data;
@@ -140,8 +136,7 @@ const fetchRecords = async (
     });
 };
 
-const fetchRecordCountQuery = (
-  apiUrl: string,
+const fetchRecordCountQuery = async (
   searchParams: SearchParams,
   filters: string[],
   functionsState: APIFunctionState,
@@ -209,8 +204,8 @@ const fetchRecordCountQuery = (
     queryParams.append('conditions', JSON.stringify(query));
   }
 
-  return axios
-    .get(`${apiUrl}/records/count`, {
+  return ogApi
+    .get(`/records/count`, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
@@ -219,8 +214,7 @@ const fetchRecordCountQuery = (
     .then((response) => response.data);
 };
 
-export const fetchRangeRecordConverterQuery = (
-  apiUrl: string,
+export const fetchRangeRecordConverterQuery = async (
   fromDate: string | undefined,
   toDate: string | undefined,
   shotnumMin: number | undefined,
@@ -251,24 +245,22 @@ export const fetchRangeRecordConverterQuery = (
     queryParams.append('shotnum_range', JSON.stringify(shotnumObj));
   }
 
-  return axios
-    .get(`${apiUrl}/records/range_converter`, {
+  return ogApi
+    .get(`/records/range_converter`, {
       params: queryParams,
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
     .then((response) => {
-      if (response.data) {
-        let inputRange;
-        if (fromDate || toDate) {
-          inputRange = { from: fromDate, to: toDate };
-        }
-        if (shotnumMin || shotnumMax) {
-          inputRange = { min: shotnumMin, max: shotnumMax };
-        }
-        return { ...inputRange, ...response.data };
+      let inputRange;
+      if (fromDate || toDate) {
+        inputRange = { from: fromDate, to: toDate };
       }
+      if (shotnumMin || shotnumMax) {
+        inputRange = { min: shotnumMin, max: shotnumMax };
+      }
+      return { ...inputRange, ...response.data };
     });
 };
 
@@ -277,14 +269,11 @@ export const useDateToShotnumConverter = (
   toDate: string | undefined,
   enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['dateToShotnumConverter', { fromDate, toDate }],
 
     queryFn: () => {
       return fetchRangeRecordConverterQuery(
-        apiUrl,
         fromDate,
         toDate,
         undefined,
@@ -301,13 +290,10 @@ export const useShotnumToDateConverter = (
   shotnumMax: number | undefined,
   enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
     queryFn: () =>
       fetchRangeRecordConverterQuery(
-        apiUrl,
         undefined,
         undefined,
         shotnumMin,
@@ -322,7 +308,6 @@ export const useRecordsPaginated = (): UseQueryResult<
 > => {
   const { searchParams, page, resultsPerPage, sort, filters, functions } =
     useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
   const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
   return useQuery({
@@ -355,7 +340,6 @@ export const useRecordsPaginated = (): UseQueryResult<
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage;
       return fetchRecords(
-        apiUrl,
         sort,
         searchParams,
         filters,
@@ -443,7 +427,6 @@ export const usePlotRecords = (
   selectedPlotChannels: SelectedPlotChannel[],
   XAxis?: string
 ): UseQueryResult<PlotDataset[], AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters, functions } =
     useAppSelector(selectQueryParams);
   const parsedXAxis = XAxis ?? timeChannelName;
@@ -483,7 +466,6 @@ export const usePlotRecords = (
         };
       }
       return fetchRecords(
-        apiUrl,
         sort as SortType,
         searchParams,
         filters,
@@ -533,7 +515,6 @@ export const useThumbnails = (
 ): UseQueryResult<Record[], AxiosError> => {
   const { searchParams, sort, filters, functions } =
     useAppSelector(selectQueryParams);
-  const { apiUrl } = useAppSelector(selectUrls);
 
   return useQuery({
     queryKey: [
@@ -564,7 +545,6 @@ export const useThumbnails = (
       const startIndex = page * resultsPerPage;
       const stopIndex = startIndex + resultsPerPage;
       return fetchRecords(
-        apiUrl,
         sort,
         searchParams,
         filters,
@@ -580,7 +560,6 @@ export const useThumbnails = (
 };
 
 export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const { searchParams, filters, functions } =
     useAppSelector(selectQueryParams);
   const queryClient = useQueryClient();
@@ -598,7 +577,6 @@ export const useRecordCount = (): UseQueryResult<number, AxiosError> => {
         projection: string[];
       };
       return fetchRecordCountQuery(
-        apiUrl,
         searchParams,
         filters,
         functions,
@@ -623,7 +601,6 @@ export const useIncomingRecordCount = (
   filters?: string[],
   searchParams?: SearchParams
 ): UseQueryResult<number, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const {
     filters: storeFilters,
     searchParams: storeSearchParams,
@@ -665,7 +642,6 @@ export const useIncomingRecordCount = (
       };
 
       return fetchRecordCountQuery(
-        apiUrl,
         searchParams,
         filters,
         functions,

@@ -23,9 +23,5 @@ describe('channels api functions', () => {
 
       expect(result.current.data).toEqual(expected);
     });
-
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
   });
 });

@@ -219,10 +219,6 @@ describe('channels api functions', () => {
 
       expect(result.current.data).toEqual([]);
     });
-
-    it.todo(
-      'sends axios request to fetch channels and throws an appropriate error on failure'
-    );
   });
 
   describe('getScalarChannels', () => {
@@ -310,10 +306,6 @@ describe('channels api functions', () => {
 
       expect(result.current.data).toEqual([]);
     });
-
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
   });
 
   describe('useChannelSummary', () => {
@@ -363,10 +355,6 @@ describe('channels api functions', () => {
       expect(result.current.isPending).toBeTruthy();
       expect(requestSent).toBe(false);
     });
-
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
   });
 
   describe('useScalarChannels', () => {
