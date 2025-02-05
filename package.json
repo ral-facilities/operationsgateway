@@ -116,7 +116,7 @@
     "serve-static": "1.16.0",
     "start-server-and-test": "2.0.0",
     "typescript-eslint": "8.18.0",
-    "vitest": "2.1.8",
+    "vitest": "2.1.9",
     "vitest-canvas-mock": "0.3.3",
     "vitest-fail-on-console": "0.7.1"
   },
