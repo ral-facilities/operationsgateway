@@ -24,6 +24,7 @@ import {
   ValidateFunctionState,
 } from '../app.types';
 import { Heading } from '../filtering/filterDialogue.component';
+import handleOG_APIError from '../handleOG_APIError';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   changeAppliedFunctions,
@@ -218,7 +219,10 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
     (error: AxiosError) => {
       const errorCode = (error.response?.data as APIError).detail;
 
-      if (typeof errorCode === 'string' && !errorCode.includes(':')) return;
+      if (typeof errorCode === 'string' && !errorCode.includes(':')) {
+        handleOG_APIError(error);
+        return;
+      }
       const parsedErrors = parseErrorCode(errorCode);
       parsedErrors.forEach((error) => {
         const { index, errorMessage, isNameError } = error;

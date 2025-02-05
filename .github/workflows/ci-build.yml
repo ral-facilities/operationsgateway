@@ -27,7 +27,7 @@ jobs:
         run: yarn test
       - name: Upload unit test coverage
         if: success()
-        uses: codecov/codecov-action@1e68e06f1dbfde0e4cefc87efeba9e4643565303 # v5
+        uses: codecov/codecov-action@13ce06bfc6bbe3ecf90edbbf1bc32fe5978ca1d3 # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
@@ -77,7 +77,7 @@ jobs:
           retention-days: 10
   playwright-tests-real:
     name: E2E Tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
@@ -92,18 +92,18 @@ jobs:
       - name: Install python-ldap dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsasl2-dev python3.9-dev libldap2-dev libssl-dev
+          sudo apt-get install -y libsasl2-dev libldap2-dev libssl-dev
 
       # Setup Python and environment dependencies (via cache)
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5
         with:
-          python-version: 3.9
+          python-version: 3.11
       - name: Load Pip cache
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
         with:
           path: ~/.cache/pip
-          key: ubuntu-20.04-pip-3.9-${{ env.pythonLocation }}-${{ hashFiles('operationsgateway-api/.github/ci_requirements.txt') }}
+          key: ${{ runner.os }}-pip-3.11-${{ env.pythonLocation }}-${{ hashFiles('operationsgateway-api/.github/ci_requirements.txt') }}
       - name: Install Poetry
         run: pip install -r .github/ci_requirements.txt
         working-directory: ./operationsgateway-api
@@ -112,7 +112,17 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@5a87bd81f88e2a8b195f8b7b656f5cda1350815a # 1.11.0
         with:
-          mongodb-version: '5.0'
+          mongodb-version: '7.0'
+
+        # Used to install mongoimport when Ubuntu 22.04 is used, identified at https://github.com/actions/runner-images/issues/6626#issuecomment-1327744126
+      - name: Install MongoDB Database Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg
+          wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-database-tools
 
         # Configure correct paths in config files
       - name: Configure private key path
@@ -138,7 +148,7 @@ jobs:
         uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
         with:
           path: ~/.cache/pypoetry/virtualenvs
-          key: ubuntu-20.04-poetry-3.9-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+          key: ${{ runner.os }}-poetry-3.11-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
         run: poetry install --without simulated-data
         working-directory: ./operationsgateway-api

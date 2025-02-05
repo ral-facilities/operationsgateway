@@ -1,31 +1,18 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { ExperimentParams } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { ogApi } from './api';
 
-const fetchExperiment = (apiUrl: string): Promise<ExperimentParams[]> => {
-  return axios
-    .get(`${apiUrl}/experiments`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+const fetchExperiment = async (): Promise<ExperimentParams[]> => {
+  return ogApi.get(`/experiments`).then((response) => response.data);
 };
 
 export const useExperiment = (): UseQueryResult<
   ExperimentParams[],
   AxiosError
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['experiments'],
-
-    queryFn: () => fetchExperiment(apiUrl),
+    queryFn: () => fetchExperiment(),
   });
 };

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import axios from 'axios';
 import { MockInstance } from 'vitest';
+import { ogApi } from '../../api/api';
 import UsersJson from '../../mocks/users.json';
 import { renderComponentWithProviders } from '../../testUtils';
 import UserDialogue, { UserDialogueProps } from './userDialogue.component';
@@ -27,7 +27,7 @@ describe('userDialogue', () => {
     let axiosPostSpy: MockInstance;
 
     beforeEach(() => {
-      axiosPostSpy = vi.spyOn(axios, 'post');
+      axiosPostSpy = vi.spyOn(ogApi, 'post');
     });
     afterEach(() => {
       vi.clearAllMocks();
@@ -79,20 +79,12 @@ describe('userDialogue', () => {
 
       await user.click(screen.getByText('Submit'));
 
-      expect(axiosPostSpy).toHaveBeenCalledWith(
-        '/users',
-        {
-          _id: 'new_user',
-          auth_type: 'local',
-          authorised_routes: ['/submit/hdf POST', '/users PATCH'],
-          sha256_password: 'secure_password',
-        },
-        {
-          headers: {
-            Authorization: 'Bearer null',
-          },
-        }
-      );
+      expect(axiosPostSpy).toHaveBeenCalledWith('/users', {
+        _id: 'new_user',
+        auth_type: 'local',
+        authorised_routes: ['/submit/hdf POST', '/users PATCH'],
+        sha256_password: 'secure_password',
+      });
     });
 
     it('adds user successfully (fedId)', async () => {
@@ -107,18 +99,10 @@ describe('userDialogue', () => {
 
       await user.click(screen.getByText('Submit'));
 
-      expect(axiosPostSpy).toHaveBeenCalledWith(
-        '/users',
-        {
-          _id: 'new_user',
-          auth_type: 'FedID',
-        },
-        {
-          headers: {
-            Authorization: 'Bearer null',
-          },
-        }
-      );
+      expect(axiosPostSpy).toHaveBeenCalledWith('/users', {
+        _id: 'new_user',
+        auth_type: 'FedID',
+      });
     });
 
     it('adds user successfully (fedId) switch from local to fedId', async () => {
@@ -135,18 +119,10 @@ describe('userDialogue', () => {
 
       await user.click(screen.getByText('Submit'));
 
-      expect(axiosPostSpy).toHaveBeenCalledWith(
-        '/users',
-        {
-          _id: 'new_user',
-          auth_type: 'FedID',
-        },
-        {
-          headers: {
-            Authorization: 'Bearer null',
-          },
-        }
-      );
+      expect(axiosPostSpy).toHaveBeenCalledWith('/users', {
+        _id: 'new_user',
+        auth_type: 'FedID',
+      });
     });
 
     it('displays error when adding a user without a password for "local" auth_type', async () => {
@@ -215,7 +191,7 @@ describe('userDialogue', () => {
       props.passwordOnly = true;
       props.selectedUser = UsersJson[0];
       props.requestType = 'patch';
-      axiosPatchSpy = vi.spyOn(axios, 'patch');
+      axiosPatchSpy = vi.spyOn(ogApi, 'patch');
     });
     afterEach(() => {
       vi.clearAllMocks();
@@ -243,18 +219,10 @@ describe('userDialogue', () => {
 
       await user.click(screen.getByText('Submit'));
 
-      expect(axiosPatchSpy).toHaveBeenCalledWith(
-        '/users',
-        {
-          _id: 'user1',
-          updated_password: 'secure_password',
-        },
-        {
-          headers: {
-            Authorization: 'Bearer null',
-          },
-        }
-      );
+      expect(axiosPatchSpy).toHaveBeenCalledWith('/users', {
+        _id: 'user1',
+        updated_password: 'secure_password',
+      });
     });
   });
   describe('modify authorised routes', () => {
@@ -264,7 +232,7 @@ describe('userDialogue', () => {
       props.authorisedRoutesOnly = true;
       props.selectedUser = UsersJson[0];
       props.requestType = 'patch';
-      axiosPatchSpy = vi.spyOn(axios, 'patch');
+      axiosPatchSpy = vi.spyOn(ogApi, 'patch');
     });
     afterEach(() => {
       vi.clearAllMocks();
@@ -301,19 +269,11 @@ describe('userDialogue', () => {
 
       await user.click(screen.getByText('Submit'));
 
-      expect(axiosPatchSpy).toHaveBeenCalledWith(
-        '/users',
-        {
-          _id: 'user1',
-          add_authorised_routes: ['/users PATCH'],
-          remove_authorised_routes: ['/submit/hdf POST'],
-        },
-        {
-          headers: {
-            Authorization: 'Bearer null',
-          },
-        }
-      );
+      expect(axiosPatchSpy).toHaveBeenCalledWith('/users', {
+        _id: 'user1',
+        add_authorised_routes: ['/users PATCH'],
+        remove_authorised_routes: ['/submit/hdf POST'],
+      });
     });
   });
 });

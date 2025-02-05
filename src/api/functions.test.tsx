@@ -16,10 +16,6 @@ describe('useFunctionsTokens', () => {
     const expected: FunctionOperator[] = functionTokenJson;
     expect(result.current.data).toEqual(expected);
   });
-
-  it.todo(
-    'sends axios request to fetch functions tokens and throws an appropriate error on failure'
-  );
 });
 
 describe('useValidateFunctions', () => {
