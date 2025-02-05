@@ -4,17 +4,28 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect, Provider } from 'react-redux';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 import UsersTable from './admin/users/usersTable.component';
+import {
+  clearFailedAuthRequestsQueue,
+  retryFailedAuthRequests,
+} from './api/api';
 import './App.css';
 import { MicroFrontendId } from './app.types';
+import handleOG_APIError from './handleOG_APIError';
 import OGThemeProvider from './ogThemeProvider.component';
 import PageNotFoundComponent from './pageNotFound/pageNotFound.component';
 import Preloader from './preloader/preloader.component';
+import retryOG_APIErrors from './retryOG_APIErrors';
 import SettingsMenuItems from './settingsMenuItems.component';
-import { requestPluginRerender } from './state/scigateway.actions';
+import {
+  broadcastSignOut,
+  requestPluginRerender,
+  tokenRefreshed,
+} from './state/scigateway.actions';
 import { configureApp } from './state/slices/configSlice';
 import { RootState, store } from './state/store';
 import ViewTabs from './views/viewTabs.component';
@@ -32,12 +43,15 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: true,
       staleTime: 300000,
+      retry: (failureCount, error) => {
+        return retryOG_APIErrors(failureCount, error as AxiosError);
+      },
     },
   },
-  // TODO: implement proper error handling
+
   queryCache: new QueryCache({
     onError: (error) => {
-      console.log('Got error ' + error.message);
+      handleOG_APIError(error as AxiosError);
     },
   }),
 });
@@ -67,7 +81,8 @@ const Layout: React.FunctionComponent = () => {
     const action = (e as CustomEvent).detail;
     if (requestPluginRerender.match(action)) {
       forceUpdate();
-    }
+    } else if (tokenRefreshed.match(action)) retryFailedAuthRequests();
+    else if (broadcastSignOut.match(action)) clearFailedAuthRequestsQueue();
   }
 
   React.useEffect(() => {

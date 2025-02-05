@@ -6,7 +6,8 @@ import {
   DialogTitle,
   FormHelperText,
 } from '@mui/material';
-import React, { useState } from 'react';
+import type { AxiosError } from 'axios';
+import React from 'react';
 import { useDeleteSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
 
@@ -22,7 +23,6 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
   const { open, onClose, sessionData, loadedSessionId, onDeleteLoadedSession } =
     props;
 
-  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
     undefined
   );
@@ -38,12 +38,10 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
           }
           onClose();
         })
-        .catch((error) => {
-          setError(true);
-          setErrorMessage(error.message);
+        .catch((error: AxiosError) => {
+          setErrorMessage((error.response?.data as { detail: string }).detail);
         });
     } else {
-      setError(true);
       setErrorMessage('No data provided, Please refresh and try again');
     }
   }, [
@@ -54,18 +52,32 @@ const DeleteSessionDialogue = (props: DeleteSessionDialogueProps) => {
     sessionData,
   ]);
 
+  const handleClose = React.useCallback(() => {
+    onClose();
+    setErrorMessage(undefined);
+  }, [onClose]);
+
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg">
+    <Dialog open={open} onClose={handleClose} maxWidth="lg">
       <DialogTitle>Delete Session</DialogTitle>
       <DialogContent>
         Are you sure you want to delete{' '}
         <strong data-testid="delete-session-name">{sessionData?.name}</strong>?
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-        <Button onClick={handleDeleteSession}>Continue</Button>
-        {error && <FormHelperText error>{errorMessage}</FormHelperText>}
+        <Button onClick={handleClose}>Close</Button>
+        <Button
+          disabled={errorMessage !== undefined}
+          onClick={handleDeleteSession}
+        >
+          Continue
+        </Button>
       </DialogActions>
+      {errorMessage !== undefined && (
+        <FormHelperText sx={{ textAlign: 'center' }} error>
+          {errorMessage}
+        </FormHelperText>
+      )}
     </Dialog>
   );
 };

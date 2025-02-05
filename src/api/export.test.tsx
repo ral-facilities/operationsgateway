@@ -1,8 +1,8 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
-import axios from 'axios';
 import { MockInstance } from 'vitest';
 import { RootState } from '../state/store';
 import { getInitialState, hooksWrapperWithProviders } from '../testUtils';
+import { ogApi } from './api';
 import { useExportData } from './export';
 
 describe('useExportData', () => {
@@ -59,7 +59,7 @@ describe('useExportData', () => {
       else return document.body.originalAppendChild(node);
     });
 
-    axiosGetSpy = vi.spyOn(axios, 'get');
+    axiosGetSpy = vi.spyOn(ogApi, 'get');
   });
 
   afterEach(() => {
@@ -73,7 +73,7 @@ describe('useExportData', () => {
       wrapper: hooksWrapperWithProviders(state),
     });
 
-    expect(axios.get).not.toHaveBeenCalled();
+    expect(ogApi.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
     await act(async () => {
@@ -120,9 +120,6 @@ describe('useExportData', () => {
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
-      headers: {
-        Authorization: 'Bearer null',
-      },
       responseType: 'blob',
     });
 
@@ -139,7 +136,7 @@ describe('useExportData', () => {
       wrapper: hooksWrapperWithProviders(state),
     });
 
-    expect(axios.get).not.toHaveBeenCalled();
+    expect(ogApi.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
     await act(async () => {
@@ -186,9 +183,6 @@ describe('useExportData', () => {
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
-      headers: {
-        Authorization: 'Bearer null',
-      },
       responseType: 'blob',
     });
 
@@ -205,7 +199,7 @@ describe('useExportData', () => {
       wrapper: hooksWrapperWithProviders(state),
     });
 
-    expect(axios.get).not.toHaveBeenCalled();
+    expect(ogApi.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
     await act(async () => {
@@ -253,9 +247,6 @@ describe('useExportData', () => {
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
-      headers: {
-        Authorization: 'Bearer null',
-      },
       responseType: 'blob',
     });
 
@@ -274,7 +265,7 @@ describe('useExportData', () => {
       wrapper: hooksWrapperWithProviders(state),
     });
 
-    expect(axios.get).not.toHaveBeenCalled();
+    expect(ogApi.get).not.toHaveBeenCalled();
     expect(result.current.isIdle).toBe(true);
 
     await act(async () => {
@@ -320,9 +311,6 @@ describe('useExportData', () => {
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
-      headers: {
-        Authorization: 'Bearer null',
-      },
       responseType: 'blob',
     });
 
@@ -333,8 +321,4 @@ describe('useExportData', () => {
     expect(mockLinkClick).toHaveBeenCalled();
     expect(mockLinkRemove).toHaveBeenCalled();
   });
-
-  it.todo(
-    'sends request to export data and throws an appropriate error on failure'
-  );
 });

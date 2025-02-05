@@ -5,24 +5,20 @@ import {
   useQueryClient,
   UseQueryResult,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { ogApi } from './api';
 
-const saveSession = (apiUrl: string, session: Session): Promise<string> => {
+const saveSession = async (session: Session): Promise<string> => {
   const queryParams = new URLSearchParams();
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
 
-  return axios
-    .post<string>(`${apiUrl}/sessions`, session.session, {
+  return ogApi
+    .post<string>(`/sessions`, session.session, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => response.data);
 };
@@ -32,35 +28,25 @@ export const useSaveSession = (): UseMutationResult<
   AxiosError,
   Session
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (session: Session) => saveSession(apiUrl, session),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+    mutationFn: (session: Session) => saveSession(session),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };
 
-const editSession = (
-  apiUrl: string,
-  session: SessionResponse
-): Promise<string> => {
+const editSession = async (session: SessionResponse): Promise<string> => {
   const queryParams = new URLSearchParams();
 
   queryParams.append('name', session.name);
   queryParams.append('summary', session.summary);
   queryParams.append('auto_saved', session.auto_saved.toString());
 
-  return axios
-    .patch<string>(`${apiUrl}/sessions/${session._id}`, session.session, {
+  return ogApi
+    .patch<string>(`/sessions/${session._id}`, session.session, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => response.data);
 };
@@ -70,13 +56,9 @@ export const useEditSession = (): UseMutationResult<
   AxiosError,
   SessionResponse
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (session: SessionResponse) => editSession(apiUrl, session),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+    mutationFn: (session: SessionResponse) => editSession(session),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessionList'] });
       queryClient.invalidateQueries({ queryKey: ['session'] });
@@ -84,16 +66,9 @@ export const useEditSession = (): UseMutationResult<
   });
 };
 
-const deleteSession = (
-  apiUrl: string,
-  session: SessionResponse
-): Promise<void> => {
-  return axios
-    .delete(`${apiUrl}/sessions/${session._id}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
+const deleteSession = async (session: SessionResponse): Promise<void> => {
+  return ogApi
+    .delete(`/sessions/${session._id}`)
     .then((response) => response.data);
 };
 
@@ -102,73 +77,51 @@ export const useDeleteSession = (): UseMutationResult<
   AxiosError,
   SessionResponse
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (session: SessionResponse) => deleteSession(apiUrl, session),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+    mutationFn: (session: SessionResponse) => deleteSession(session),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };
 
-const fetchSessionList = (apiUrl: string): Promise<SessionListItem[]> => {
-  return axios
-    .get(`${apiUrl}/sessions/list`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+const fetchSessionList = async (): Promise<SessionListItem[]> => {
+  return ogApi.get(`/sessions/list`).then((response) => response.data);
 };
 
 export const useSessionList = (): UseQueryResult<
   SessionListItem[],
   AxiosError
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['sessionList'],
-
     queryFn: () => {
-      return fetchSessionList(apiUrl);
+      return fetchSessionList();
     },
   });
 };
 
-const fetchSession = (
-  apiUrl: string,
+const fetchSession = async (
   sessionId: string | undefined
 ): Promise<SessionResponse> => {
-  return axios
-    .get(`${apiUrl}/sessions/${sessionId}`, {
+  return ogApi
+    .get(`/sessions/${sessionId}`, {
       headers: {
         Authorization: `Bearer ${readSciGatewayToken()}`,
       },
     })
-    .then((response) => {
-      return response.data;
-    });
+    .then((response) => response.data);
 };
 
 export const useSession = (
   session_id: string | undefined
 ): UseQueryResult<SessionResponse, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['session', session_id],
-
     queryFn: () => {
-      return fetchSession(apiUrl, session_id);
+      return fetchSession(session_id);
     },
-
     enabled: typeof session_id !== 'undefined',
   });
 };

@@ -5,11 +5,11 @@ import {
   Channel,
   ExperimentParams,
   isChannelScalar,
+  PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
   type UserPost,
 } from '../app.types';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
@@ -69,10 +69,12 @@ export const handlers = [
   http.delete('/sessions/:id', async ({ params }) => {
     const { id } = params;
 
-    const validId = [1, 2, 3, 4];
-    if (validId.includes(Number(id))) {
-      return new HttpResponse(null, { status: 204 });
-    } else HttpResponse.json(null, { status: 422 });
+    if (id === sessionsJson[2]._id)
+      return HttpResponse.json(
+        { detail: 'User session cannot be found' },
+        { status: 404 }
+      );
+    return new HttpResponse(null, { status: 204 });
   }),
   http.get('/sessions/list', async () => {
     return HttpResponse.json(sessionsJson, { status: 200 });
