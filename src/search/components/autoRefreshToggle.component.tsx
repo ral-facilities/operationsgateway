@@ -7,7 +7,7 @@ interface AutoRefreshToggleProps {
 }
 
 const DEFAULT_AUTO_REFRESH_ENABLED = true;
-const AUTO_REFRESH_INTERVAL_MS = 1000 * 60;
+const AUTO_REFRESH_INTERVAL_MS = 1000 * 30;
 
 function AutoRefreshToggle({
   enabled,
@@ -22,7 +22,6 @@ function AutoRefreshToggle({
 
   React.useEffect(() => {
     if (!enabled) return;
-
     if (autoRefreshTimeout.current) {
       clearInterval(autoRefreshTimeout.current);
     }

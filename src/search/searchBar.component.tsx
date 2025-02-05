@@ -645,7 +645,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
             </Grid>
             <Grid item>
               <AutoRefreshToggle
-                enabled={Boolean(timeframeRange)}
+                enabled={true}
                 onRequestRefresh={refreshData}
               />
             </Grid>
