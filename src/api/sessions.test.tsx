@@ -50,10 +50,6 @@ describe('session api functions', () => {
 
       expect(result.current.data).toEqual('1');
     });
-
-    it.todo(
-      'sends axios request to post user session and throws an appropriate error on failure'
-    );
   });
 
   describe('useEditSession', () => {
@@ -71,10 +67,6 @@ describe('session api functions', () => {
 
       expect(result.current.data).toEqual('1');
     });
-
-    it.todo(
-      'sends axios request to patch user session and throws an appropriate error on failure'
-    );
   });
 
   describe('useDeleteSession', () => {
@@ -92,10 +84,6 @@ describe('session api functions', () => {
 
       expect(result.current.data).toEqual('');
     });
-
-    it.todo(
-      'sends axios request to delete user session and throws an appropriate error on failure'
-    );
   });
 
   describe('useSessionList', () => {
@@ -110,10 +98,6 @@ describe('session api functions', () => {
       const expected: SessionListItem[] = sessionsListJSON;
       expect(result.current.data).toEqual(expected);
     });
-
-    it.todo(
-      'sends axios request to fetch sessions and throws an appropriate error on failure'
-    );
   });
 
   describe('useSession', () => {
@@ -138,9 +122,5 @@ describe('session api functions', () => {
       expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
     });
-
-    it.todo(
-      'sends axios request to fetch sessions and throws an appropriate error on failure'
-    );
   });
 });
