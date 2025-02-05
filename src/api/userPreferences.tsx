@@ -5,23 +5,16 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import axios, { AxiosError, isAxiosError } from 'axios';
-import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { AxiosError, isAxiosError } from 'axios';
+import { ogApi } from './api';
 
 // make all these functions generic, as we can store multiple types as user preferences
 
 export const fetchUserPreference = async <T,>(
-  apiUrl: string,
   name: string
 ): Promise<T | null> => {
-  return axios
-    .get(`${apiUrl}/users/preferences/${name}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
+  return ogApi
+    .get(`/users/preferences/${name}`)
     .then((response) => {
       return response.data;
     })
@@ -38,68 +31,40 @@ export const fetchUserPreference = async <T,>(
 export const useUserPreference = <T,>(
   name: string
 ): UseQueryResult<T | null, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['userPreference', name],
-
     queryFn: () => {
-      return fetchUserPreference<T>(apiUrl, name);
+      return fetchUserPreference<T>(name);
     },
   });
 };
 
 export const updateUserPreference = async <T,>(
-  apiUrl: string,
   name: string,
   value: T
 ): Promise<T> => {
-  return axios
-    .post(
-      `${apiUrl}/users/preferences`,
-      { name, value },
-      {
-        headers: {
-          Authorization: `Bearer ${readSciGatewayToken()}`,
-        },
-      }
-    )
-    .then((response) => {
-      return response.data;
-    });
+  return ogApi.post(`/users/preferences`, { name, value }).then((response) => {
+    return response.data;
+  });
 };
 
-export const deleteUserPreference = async (
-  apiUrl: string,
-  name: string
-): Promise<null> => {
-  return axios
-    .delete(`${apiUrl}/users/preferences/${name}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+export const deleteUserPreference = async (name: string): Promise<null> => {
+  return ogApi.delete(`/users/preferences/${name}`).then((response) => {
+    return response.data;
+  });
 };
 
 export const useUpdateUserPreference = <T,>(
   name: string
 ): UseMutationResult<T | null, AxiosError, { value: T }> => {
   const queryClient = useQueryClient();
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useMutation({
     mutationFn: ({ value }: { value: T }) => {
       if (value !== null) {
-        return updateUserPreference(apiUrl, name, value);
+        return updateUserPreference(name, value);
       } else {
-        return deleteUserPreference(apiUrl, name);
+        return deleteUserPreference(name);
       }
-    },
-    onError: (error) => {
-      console.log('Got error ' + error.message);
     },
     onSuccess: (_data, vars) => {
       queryClient.setQueryData(['userPreference', name], vars.value);

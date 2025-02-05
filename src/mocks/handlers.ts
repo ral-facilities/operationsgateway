@@ -5,19 +5,19 @@ import {
   Channel,
   ExperimentParams,
   isChannelScalar,
+  PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
 } from '../app.types';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../settingsMenuItems.component';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
 import favouriteFiltersJson from './favouriteFilters.json';
 import functionsTokensJson from './functionTokens.json';
 import functionsJson from './functions.json';
+import imageCrosshairJson from './imageCrosshair.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
-import imageCrosshairJson from './imageCrosshair.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
@@ -67,10 +67,12 @@ export const handlers = [
   http.delete('/sessions/:id', async ({ params }) => {
     const { id } = params;
 
-    const validId = [1, 2, 3, 4];
-    if (validId.includes(Number(id))) {
-      return new HttpResponse(null, { status: 204 });
-    } else HttpResponse.json(null, { status: 422 });
+    if (id === sessionsJson[2]._id)
+      return HttpResponse.json(
+        { detail: 'User session cannot be found' },
+        { status: 404 }
+      );
+    return new HttpResponse(null, { status: 204 });
   }),
   http.get('/sessions/list', async () => {
     return HttpResponse.json(sessionsJson, { status: 200 });

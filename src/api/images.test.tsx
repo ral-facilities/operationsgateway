@@ -153,10 +153,6 @@ describe('images api functions', () => {
       expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
-
-    it.todo(
-      'sends axios request to fetch image and throws an appropriate error on failure'
-    );
   });
 
   describe('useColourBar', () => {
@@ -194,10 +190,6 @@ describe('images api functions', () => {
       expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
-
-    it.todo(
-      'sends axios request to fetch colourbar and throws an appropriate error on failure'
-    );
   });
 
   describe('useColourMaps', () => {
@@ -212,10 +204,6 @@ describe('images api functions', () => {
 
       expect(result.current.data).toEqual(colourMapsJson);
     });
-
-    it.todo(
-      'sends axios request to fetch colourmaps and throws an appropriate error on failure'
-    );
   });
 
   describe('useImageCrosshair', () => {

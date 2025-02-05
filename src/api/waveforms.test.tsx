@@ -83,9 +83,5 @@ describe('waveform api functions', () => {
         y: [2, 10, 8, 7, 1, 4, 5, 3, 6, 9],
       });
     });
-
-    it.todo(
-      'sends axios request to fetch waveform and throws an appropriate error on failure'
-    );
   });
 });

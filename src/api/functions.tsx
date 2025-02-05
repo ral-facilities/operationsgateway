@@ -4,16 +4,14 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import {
   APIFunctionState,
   DataType,
   FunctionOperator,
   ValidateFunctionState,
 } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { ogApi } from './api';
 
 export function convertExpressionsToStrings(
   functionStates: ValidateFunctionState[]
@@ -42,47 +40,31 @@ export function convertExpressionsToStrings(
   };
 }
 
-const getFunctionsTokens = (apiUrl: string): Promise<FunctionOperator[]> => {
-  return axios
-    .get(`${apiUrl}/functions/tokens`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+const getFunctionsTokens = async (): Promise<FunctionOperator[]> => {
+  return ogApi.get(`/functions/tokens`).then((response) => {
+    return response.data;
+  });
 };
 
 export const useFunctionsTokens = (): UseQueryResult<
   FunctionOperator[],
   AxiosError
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['FunctionTokens'],
     queryFn: () => {
-      return getFunctionsTokens(apiUrl);
+      return getFunctionsTokens();
     },
   });
 };
 
-const postValidateFunctions = (
-  apiUrl: string,
+const postValidateFunctions = async (
   functions: ValidateFunctionState[]
 ): Promise<DataType[]> => {
   const formattedFunctions = convertExpressionsToStrings(functions).functions;
-
-  return axios
-    .post(`${apiUrl}/functions/validate`, formattedFunctions, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+  return ogApi
+    .post(`/functions/validate`, formattedFunctions)
+    .then((response) => response.data);
 };
 
 export const useValidateFunctions = (): UseMutationResult<
@@ -90,11 +72,9 @@ export const useValidateFunctions = (): UseMutationResult<
   AxiosError,
   ValidateFunctionState[]
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useMutation({
     mutationFn: (functions: ValidateFunctionState[]) => {
-      return postValidateFunctions(apiUrl, functions);
+      return postValidateFunctions(functions);
     },
   });
 };
