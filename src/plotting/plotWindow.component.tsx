@@ -26,6 +26,7 @@ import WindowPortal from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import { selectWorkingHours } from '../state/slices/configSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -139,6 +140,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const XAxisDisplayName = channelsNullChecked.find(
     (channel) => channel.systemName === XAxis
   )?.name;
+
+  const workingHours = useAppSelector(selectWorkingHours);
 
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
@@ -371,6 +374,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               leftYAxisLabel={leftYAxisLabel}
               rightYAxisLabel={rightYAxisLabel}
               viewReset={viewFlag}
+              workingHours={workingHours}
               skipNonBusinessHours={skipNonBusinessHours}
             />
           </Grid>

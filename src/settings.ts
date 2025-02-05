@@ -1,4 +1,9 @@
-import { PluginRoute } from './state/scigateway.actions';
+import type { PluginRoute } from './state/scigateway.actions';
+
+export interface WorkingHours {
+  start: number;
+  end: number;
+}
 
 export interface OperationsGatewaySettings {
   apiUrl: string;
@@ -6,6 +11,7 @@ export interface OperationsGatewaySettings {
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;
+  workingHours?: WorkingHours;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;

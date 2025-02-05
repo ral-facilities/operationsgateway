@@ -13,6 +13,7 @@ import type {
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
 import { useTheme } from '@mui/material';
+import type { WorkingHours } from '../settings';
 
 export interface PlotProps {
   datasets: PlotDataset[];
@@ -36,6 +37,7 @@ export interface PlotProps {
   leftYAxisLabel?: string;
   rightYAxisLabel?: string;
   viewReset: boolean;
+  workingHours: WorkingHours;
   skipNonBusinessHours: boolean;
 }
 
@@ -62,6 +64,7 @@ const Plot = (props: PlotProps) => {
     leftYAxisLabel,
     rightYAxisLabel,
     viewReset,
+    workingHours,
     skipNonBusinessHours,
   } = props;
 
@@ -154,7 +157,10 @@ const Plot = (props: PlotProps) => {
             ? {
                 rangebreaks: [
                   { pattern: 'day of week', bounds: ['sat', 'mon'] }, // skips from saturday to monday
-                  { pattern: 'hour', bounds: [18, 9] }, // skips from 6pm to 9am
+                  {
+                    pattern: 'hour',
+                    bounds: [workingHours.end, workingHours.start],
+                  }, // skips from end to start as defined in the config
                 ],
               }
             : {}),
@@ -231,6 +237,8 @@ const Plot = (props: PlotProps) => {
     viewReset,
     themeMode,
     skipNonBusinessHours,
+    workingHours.end,
+    workingHours.start,
   ]);
 
   React.useEffect(() => {
