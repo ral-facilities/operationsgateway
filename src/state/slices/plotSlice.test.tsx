@@ -58,6 +58,7 @@ describe('plotSlice', () => {
           axesLabelsVisible: true,
           selectedColours: [],
           remainingColours: COLOUR_ORDER.map((colour) => colour),
+          skipNonBusinessHours: false,
           ...DEFAULT_WINDOW_VARS,
         } satisfies PlotConfig,
       });

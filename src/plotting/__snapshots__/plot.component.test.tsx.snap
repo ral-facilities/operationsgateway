@@ -76,3 +76,14 @@ exports[`Plot component > updates layout and data options correctly (linear axes
   />
 </DocumentFragment>
 `;
+
+exports[`Plot component > updates layout object correctly by by setting rangebreaks for skip business hours feature 1`] = `
+<DocumentFragment>
+  <div
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined","x":[1,2,3],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[2,4,6],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[3,6,9],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"text":"timestamp","font":{"color":"#444"}},"type":"date","showgrid":true,"range":[null,null],"rangebreaks":[{"pattern":"day of week","bounds":["sat","mon"]},{"pattern":"hour","bounds":[18,9]}],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
+</DocumentFragment>
+`;
