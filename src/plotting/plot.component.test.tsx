@@ -4,6 +4,7 @@ import { testPlotDatasets } from '../testUtils';
 import Plot, { PlotProps } from './plot.component';
 import { deepCopySelectedPlotChannels } from './util';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { timeChannelName } from '../app.types';
 
 describe('Plot component', () => {
   let props: PlotProps;
@@ -26,7 +27,7 @@ describe('Plot component', () => {
       XAxisScale: 'date',
       leftYAxisScale: 'linear',
       rightYAxisScale: 'log',
-      XAxis: 'test x-axis',
+      XAxis: timeChannelName,
       chartRef: React.createRef<HTMLDivElement>(),
       viewReset: false,
       gridVisible: true,
@@ -147,6 +148,16 @@ describe('Plot component', () => {
     const newSelectedPlotChannels = [...props.selectedPlotChannels];
     newSelectedPlotChannels[0].options.yAxis = 'right';
     props.selectedPlotChannels = newSelectedPlotChannels;
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates data object correctly when XAxis is not set (aka when user switches from timeseries to XY plot)', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    props.XAxis = undefined;
+    props.XAxisScale = 'linear';
     rerender(<Plot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();

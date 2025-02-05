@@ -3,7 +3,6 @@ import {
   PlotDataset,
   PlotType,
   SelectedPlotChannel,
-  timeChannelName,
   XAxisScale,
   YAxisScale,
 } from '../app.types';
@@ -253,7 +252,7 @@ const Plot = (props: PlotProps) => {
                   : 'lines+markers'
                 : 'markers',
             name: displayNameWithUnits ?? dataset.name,
-            x: dataset.data.map((point) => point[XAxis ?? timeChannelName]),
+            x: XAxis ? dataset.data.map((point) => point[XAxis]) : [],
             y: dataset.data.map((point) => point[dataset.name]),
             yaxis: channelConfig?.yAxis === 'right' ? 'y2' : 'y',
             marker: {
