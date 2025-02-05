@@ -10,6 +10,7 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
+import type { AxiosError } from 'axios';
 import React from 'react';
 import {
   useAddFavouriteFilter,
@@ -20,6 +21,7 @@ import {
   FavouriteFilterPatch,
   FavouriteFilterPost,
 } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import { FilterPageHelp } from './filterDialogue.component';
 import FilterInput from './filterInput.component';
 import { Token } from './filterParser';
@@ -138,9 +140,13 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
     const hasError = handleDuplicateNameError(data.name);
     if (hasError) return;
 
-    addFavouriteFilter(data).then(() => {
-      handleClose();
-    });
+    addFavouriteFilter(data)
+      .then(() => {
+        handleClose();
+      })
+      .catch((error: AxiosError) => {
+        handleOG_APIError(error);
+      });
   }, [
     addFavouriteFilter,
     favouriteFilter.filter,
@@ -172,9 +178,13 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
         editFavouriteFilter({
           id: selectedFavouriteFilter._id,
           favouriteFilter: editData,
-        }).then(() => {
-          handleClose();
-        });
+        })
+          .then(() => {
+            handleClose();
+          })
+          .catch((error: AxiosError) => {
+            handleOG_APIError(error);
+          });
       } else {
         setErrorMessage(
           "There have been no changes made. Please change a field's value or press Close to exit."

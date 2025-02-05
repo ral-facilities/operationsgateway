@@ -5,43 +5,27 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { type UserPost, type UsersDict } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
-import { useAppSelector } from '../state/hooks';
-import { selectUrls } from '../state/slices/configSlice';
+import { ogApi } from './api';
 
-const getUsers = async (apiUrl: string): Promise<UsersDict> => {
-  return axios
-    .get(`${apiUrl}/users`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => {
-      return response.data;
-    });
+const getUsers = async (): Promise<UsersDict> => {
+  return ogApi.get(`/users`).then((response) => {
+    return response.data;
+  });
 };
 
 export const useUsers = (): UseQueryResult<UsersDict, AxiosError> => {
-  const { apiUrl } = useAppSelector(selectUrls);
-
   return useQuery({
     queryKey: ['Users'],
     queryFn: () => {
-      return getUsers(apiUrl);
+      return getUsers();
     },
   });
 };
 
-const addUser = (apiUrl: string, user: UserPost): Promise<string> => {
-  return axios
-    .post<string>(`${apiUrl}/users`, user, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => response.data);
+const addUser = async (user: UserPost): Promise<string> => {
+  return ogApi.post<string>(`/users`, user).then((response) => response.data);
 };
 
 export const useAddUser = (): UseMutationResult<
@@ -49,13 +33,9 @@ export const useAddUser = (): UseMutationResult<
   AxiosError,
   UserPost
 > => {
-  const { apiUrl } = useAppSelector(selectUrls);
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (user: UserPost) => addUser(apiUrl, user),
-    onError: (error) => {
-      console.log('Got error ' + error.message);
-    },
+    mutationFn: (user: UserPost) => addUser(user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['Users'] });
     },

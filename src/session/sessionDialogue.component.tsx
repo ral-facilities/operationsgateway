@@ -6,10 +6,12 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import type { AxiosError } from 'axios';
+import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 
@@ -45,7 +47,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
   const { mutateAsync: saveSession } = useSaveSession();
   const { mutateAsync: editSession } = useEditSession();
 
-  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | undefined>(
     undefined
   );
@@ -73,13 +74,10 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           onChangeLoadedSessionId(response);
           handleClose();
         })
-        .catch((error) => {
-          setError(true);
-          console.log(error.message);
-          setErrorMessage(error.message);
+        .catch((error: AxiosError) => {
+          handleOG_APIError(error);
         });
     } else {
-      setError(true);
       setErrorMessage('Please enter a name');
     }
   }, [
@@ -106,19 +104,16 @@ const SessionDialogue = (props: SessionDialogueProps) => {
 
       editSession(session)
         .then(() => handleClose())
-        .catch((error) => {
-          setError(true);
-          console.log(error.message);
-          setErrorMessage(error.message);
+        .catch((error: AxiosError) => {
+          handleOG_APIError(error);
         });
     } else {
-      setError(true);
       setErrorMessage('Please enter a name');
     }
   }, [sessionName, sessionData, sessionSummary, editSession, handleClose]);
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="lg">
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
       <DialogTitle>
         {requestType === 'create' ? 'Save Session' : 'Edit Session'}
       </DialogTitle>
@@ -126,20 +121,20 @@ const SessionDialogue = (props: SessionDialogueProps) => {
         <TextField
           label="Name"
           required={true}
-          sx={{ width: '100%', margin: '4px' }}
+          sx={{ width: '100%', mt: 1 }}
           value={sessionName ?? ''}
-          error={error}
-          helperText={error && errorMessage}
+          error={!!errorMessage}
+          helperText={errorMessage}
           onChange={(event) => {
             onChangeSessionName(
               event.target.value ? event.target.value : undefined
             );
-            setError(false); // Reset the error when the user makes changes
+            setErrorMessage(undefined); // Reset the error when the user makes changes
           }}
         />
         <TextField
           label="Summary"
-          sx={{ width: '100%', margin: '4px' }}
+          sx={{ width: '100%', mt: 1 }}
           multiline
           value={sessionSummary}
           onChange={(event) => {
@@ -152,6 +147,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button
+          disabled={errorMessage !== undefined}
           onClick={
             requestType === 'create'
               ? handleExportCreateSession

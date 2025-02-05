@@ -179,10 +179,6 @@ describe('records api functions', () => {
         incomingRecordCountResult.current.data
       );
     });
-
-    it.todo(
-      'sends axios request to fetch record count and throws an appropriate error on failure'
-    );
   });
 
   describe('useShotnumToDateConverter', () => {
@@ -219,9 +215,6 @@ describe('records api functions', () => {
       expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
     });
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
   });
 
   describe('useDateToShotnumConverter', () => {
@@ -258,9 +251,6 @@ describe('records api functions', () => {
       expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
     });
-    it.todo(
-      'sends axios request to fetch records and throws an appropriate error on failure'
-    );
   });
 
   describe('useIncomingRecordCount', () => {
@@ -425,10 +415,6 @@ describe('records api functions', () => {
       );
       expect(result.current.data).toEqual(recordsJson.length);
     });
-
-    it.todo(
-      'sends axios request to fetch incoming record count and throws an appropriate error on failure'
-    );
   });
 
   describe('useRecordsPaginated', () => {
