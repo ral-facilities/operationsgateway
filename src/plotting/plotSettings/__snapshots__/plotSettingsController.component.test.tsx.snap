@@ -90,7 +90,7 @@ changeXAxis=undefined
     "type": "scalar"
   }
 ]
-XAxisScale="time"
+XAxisScale="date"
 XAxis="timestamp"
 changeXAxis=undefined
 changeXAxisScale=undefined
@@ -176,7 +176,7 @@ initialRightYAxisMinimum=undefined
 initialRightYAxisMaximum=undefined
 changeRightYAxisMinimum=undefined
 changeRightYAxisMaximum=undefined
-leftYAxisScale="logarithmic"
+leftYAxisScale="log"
 changeLeftYAxisScale=undefined
 rightYAxisScale="linear"
 changeRightYAxisScale=undefined
@@ -534,7 +534,7 @@ initialRightYAxisMinimum=undefined
 initialRightYAxisMaximum=undefined
 changeRightYAxisMinimum=undefined
 changeRightYAxisMaximum=undefined
-leftYAxisScale="logarithmic"
+leftYAxisScale="log"
 changeLeftYAxisScale=undefined
 rightYAxisScale="linear"
 changeRightYAxisScale=undefined

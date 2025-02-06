@@ -44,7 +44,7 @@ describe('x-axis tab', () => {
   });
 
   it('renders correctly with timestamp x axis', () => {
-    props.XAxisScale = 'time';
+    props.XAxisScale = 'date';
     props.XAxis = 'timestamp';
     const { asFragment } = createView();
 
@@ -63,7 +63,7 @@ describe('x-axis tab', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeXAxisScale).toHaveBeenCalledWith('logarithmic');
+    expect(changeXAxisScale).toHaveBeenCalledWith('log');
   });
 
   it('allows user to select an x-axis (keyboard only)', async () => {
@@ -185,7 +185,7 @@ describe('x-axis tab', () => {
     describe('date-time values', () => {
       beforeEach(() => {
         props.XAxis = 'timestamp';
-        props.XAxisScale = 'time';
+        props.XAxisScale = 'date';
       });
 
       it('lets user change the fromDate field and calls relevant onchange method', async () => {

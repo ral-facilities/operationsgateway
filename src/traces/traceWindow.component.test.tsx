@@ -44,7 +44,11 @@ describe('Trace Window component', () => {
 
   const createView = () => {
     return renderComponentWithProviders(
-      <TraceWindow onClose={vi.fn()} traceConfig={testTraceConfig} />
+      <TraceWindow
+        onClose={vi.fn()}
+        traceConfig={testTraceConfig}
+        traceWindowRef={{ current: null }}
+      />
     );
   };
 

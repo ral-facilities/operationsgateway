@@ -940,13 +940,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@kurkle/color@npm:^0.3.0":
-  version: 0.3.2
-  resolution: "@kurkle/color@npm:0.3.2"
-  checksum: 10c0/a9e8e3e35dcd59dec4dd4f0105919c05e24823a96347bcf152965c29e48d6290b66d5fb96c071875db752e10930724c48ce6d338fefbd65e0ce5082d5c78970e
-  languageName: node
-  linkType: hard
-
 "@mswjs/interceptors@npm:^0.37.0":
   version: 0.37.3
   resolution: "@mswjs/interceptors@npm:0.37.3"
@@ -1805,13 +1798,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hammerjs@npm:^2.0.45":
-  version: 2.0.46
-  resolution: "@types/hammerjs@npm:2.0.46"
-  checksum: 10c0/f3c1cb20dc2f0523f7b8c76065078544d50d8ae9b0edc1f62fed657210ed814266ff2dfa835d2c157a075991001eec3b64c88bf92e3e6e895c0db78d05711d06
-  languageName: node
-  linkType: hard
-
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.15":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -1832,6 +1818,13 @@ __metadata:
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
   checksum: 10c0/b1b863ac34a2c2172fbe0807a1ec4d5cb684e48d422d15ec95980b81475fac4fdb3768a8b13eef39130203a7c04340fc167bae057c7ebcafd7dec9fe6c36aeb1
+  languageName: node
+  linkType: hard
+
+"@types/plotly.js@npm:2.35.1":
+  version: 2.35.1
+  resolution: "@types/plotly.js@npm:2.35.1"
+  checksum: 10c0/c941c6bee0a0c291ae6d5e7cac8a938f357e4958f122d4e0ad6704d3cfd330ba4134b3fc6ae98186a07c4677cecd85f7756f14a55de095a7e1a9db6ceb108ec2
   languageName: node
   linkType: hard
 
@@ -2967,36 +2960,6 @@ __metadata:
   version: 5.4.1
   resolution: "chalk@npm:5.4.1"
   checksum: 10c0/b23e88132c702f4855ca6d25cb5538b1114343e41472d5263ee8a37cccfccd9c4216d111e1097c6a27830407a1dc81fecdf2a56f2c63033d4dbbd88c10b0dcef
-  languageName: node
-  linkType: hard
-
-"chart.js@npm:4.4.1":
-  version: 4.4.1
-  resolution: "chart.js@npm:4.4.1"
-  dependencies:
-    "@kurkle/color": "npm:^0.3.0"
-  checksum: 10c0/ef0cd10118bfa66695b109cbb331be99193b19f1ac2bb7f35f8c71aa45a355f17d1c87d5fa6727a2b026ace4c7fa8ab557e9f61a9f13f1f39f58500bbd0c26d1
-  languageName: node
-  linkType: hard
-
-"chartjs-plugin-annotation@npm:3.1.0":
-  version: 3.1.0
-  resolution: "chartjs-plugin-annotation@npm:3.1.0"
-  peerDependencies:
-    chart.js: ">=4.0.0"
-  checksum: 10c0/5494a008a013888b122ac6754c1314e100b6368f55110f08401e3cbdb5969b372ece9569ed3b166b8fbad8c2dc84f15795602079613e2f5f65f787a0931bd676
-  languageName: node
-  linkType: hard
-
-"chartjs-plugin-zoom@npm:2.2.0":
-  version: 2.2.0
-  resolution: "chartjs-plugin-zoom@npm:2.2.0"
-  dependencies:
-    "@types/hammerjs": "npm:^2.0.45"
-    hammerjs: "npm:^2.0.8"
-  peerDependencies:
-    chart.js: ">=3.2.0"
-  checksum: 10c0/15817e912dcc0c62e66121d10c7f1af04cd788c8c831b9ed8f822e2835501b8816143e10b5b4f286a9afddc91492c3d7104b49e7226a3fb682b94412f9ee4087
   languageName: node
   linkType: hard
 
@@ -5024,13 +4987,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hammerjs@npm:^2.0.8":
-  version: 2.0.8
-  resolution: "hammerjs@npm:2.0.8"
-  checksum: 10c0/5c95e5774b5ea49492cb3fa8f1949aea67048a0b84af33acb555e7139abfcf3c83aca2b83e0c5008755bc230166df7b5e469d1e3eb6746c48f215f3672609fed
-  languageName: node
-  linkType: hard
-
 "has-bigints@npm:^1.0.2":
   version: 1.1.0
   resolution: "has-bigints@npm:1.1.0"
@@ -6798,6 +6754,7 @@ __metadata:
     "@testing-library/user-event": "npm:14.5.2"
     "@types/eslint-plugin-jsx-a11y": "npm:6.10.0"
     "@types/node": "npm:22.13.0"
+    "@types/plotly.js": "npm:2.35.1"
     "@types/react": "npm:18.3.3"
     "@types/react-dom": "npm:18.3.0"
     "@typescript-eslint/typescript-estree": "npm:8.18.0"
@@ -6806,9 +6763,6 @@ __metadata:
     axios: "npm:1.7.4"
     browserslist: "npm:4.24.2"
     browserslist-to-esbuild: "npm:2.1.1"
-    chart.js: "npm:4.4.1"
-    chartjs-plugin-annotation: "npm:3.1.0"
-    chartjs-plugin-zoom: "npm:2.2.0"
     cross-env: "npm:7.0.3"
     cypress: "npm:13.16.0"
     cypress-delete-downloads-folder: "npm:0.0.5"

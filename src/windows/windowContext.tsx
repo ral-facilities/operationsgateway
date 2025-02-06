@@ -1,7 +1,7 @@
 import React from 'react';
-import { WindowPortal as WindowPortalClass } from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 
-export type WindowsRefType = Record<string, React.RefObject<WindowPortalClass>>;
+export type WindowsRefType = Record<string, React.RefObject<WindowPortal>>;
 
 // do some type fiddling to allow ref to be mutable, initialise and then remove the null type
 const initWindowsRef: React.MutableRefObject<WindowsRefType | null> =

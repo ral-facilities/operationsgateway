@@ -117,7 +117,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     (value?: string) => {
       changeXAxis(value);
       if (value === timeChannelName) {
-        changeXAxisScale('time');
+        changeXAxisScale('date');
       } else {
         changeXAxisScale('linear');
       }

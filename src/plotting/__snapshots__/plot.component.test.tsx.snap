@@ -1,109 +1,78 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Plot component > renders a canvas element with the correct attributes passed the correct props for a scatter plot 1`] = `
+exports[`Plot component > renders a div element with the correct attributes passed the correct props for a scatter plot 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-0","backgroundColor":"colour-0","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":"original","max":"original"},"y":{"min":"original","max":"original"},"y2":{"min":"original","max":"original"}}}},"scales":{"x":{"type":"time","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":true,"text":"test x-axis"},"grid":{"display":true}},"y":{"type":"linear","display":true,"position":"left","grid":{"display":true},"title":{"display":false}},"y2":{"type":"logarithmic","display":false,"position":"right","grid":{"display":true},"title":{"display":false}}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="scatter"
-      data-view="false"
-      height="400"
-      width="400"
-    />
-  </div>
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined","x":[1,2,3],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[2,4,6],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[3,6,9],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#ADBABD"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"text":"timestamp","font":{"color":"#ADBABD"}},"type":"date","showgrid":true,"range":[null,null],"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#ADBABD"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#ADBABD"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"},"automargin":true,"exponentformat":"none"}}"
+  />
 </DocumentFragment>
 `;
 
-exports[`Plot component > updates data object correctly by setting borderDash property on dashed lines 1`] = `
+exports[`Plot component > updates data object correctly by setting opacity to 0 for lines that are hidden & setting marker style to false 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-0","backgroundColor":"colour-0","borderDash":[5,5],"borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":"original","max":"original"},"y":{"min":"original","max":"original"},"y2":{"min":"original","max":"original"}}}},"scales":{"x":{"type":"time","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":true,"text":"test x-axis"},"grid":{"display":true}},"y":{"type":"linear","display":true,"position":"left","grid":{"display":true},"title":{"display":false}},"y2":{"type":"logarithmic","display":false,"position":"right","grid":{"display":true},"title":{"display":false}}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="scatter"
-      data-view="false"
-      height="400"
-      width="400"
-    />
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Plot component > updates data object correctly by setting borderDash, pointRadius and borderCapStyle properties on dotted lines 1`] = `
-<DocumentFragment>
-  <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-0","backgroundColor":"colour-0","borderDash":[0,5],"borderCapStyle":"round","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":"original","max":"original"},"y":{"min":"original","max":"original"},"y2":{"min":"original","max":"original"}}}},"scales":{"x":{"type":"time","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":true,"text":"test x-axis"},"grid":{"display":true}},"y":{"type":"linear","display":true,"position":"left","grid":{"display":true},"title":{"display":false}},"y2":{"type":"logarithmic","display":false,"position":"right","grid":{"display":true},"title":{"display":false}}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="scatter"
-      data-view="false"
-      height="400"
-      width="400"
-    />
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Plot component > updates data object correctly by setting opacity to 0 for lines that are hidden 1`] = `
-<DocumentFragment>
-  <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"rgba(0,0,0,0)","backgroundColor":"rgba(0,0,0,0)","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":"original","max":"original"},"y":{"min":"original","max":"original"},"y2":{"min":"original","max":"original"}}}},"scales":{"x":{"type":"time","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":true,"text":"test x-axis"},"grid":{"display":true}},"y":{"type":"linear","display":true,"position":"left","grid":{"display":true},"title":{"display":false}},"y2":{"type":"logarithmic","display":false,"position":"right","grid":{"display":true},"title":{"display":false}}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="scatter"
-      data-view="false"
-      height="400"
-      width="400"
-    />
-  </div>
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"lines","name":"undefined","x":[1,2,3],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":0,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"rgba(0,0,0,0)","width":3,"dash":"solid"},"showlegend":false,"hoverinfo":"skip"},{"type":"scatter","mode":"lines+markers","name":"undefined","x":[2,4,6],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"lines+markers","name":"undefined","x":[3,6,9],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"text":"timestamp","font":{"color":"#444"}},"type":"date","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
 </DocumentFragment>
 `;
 
 exports[`Plot component > updates data object correctly by setting the y axis correctly for right Y axis selected channels 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"test x-axis"},"yAxisID":"y2","borderColor":"colour-0","backgroundColor":"colour-0","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"scatter plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":"original","max":"original"},"y":{"min":"original","max":"original"},"y2":{"min":"original","max":"original"}}}},"scales":{"x":{"type":"time","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":true,"text":"test x-axis"},"grid":{"display":true}},"y":{"type":"linear","display":true,"position":"left","grid":{"display":true},"title":{"display":false}},"y2":{"type":"logarithmic","display":true,"position":"right","grid":{"display":true},"title":{"display":false}}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="scatter"
-      data-view="false"
-      height="400"
-      width="400"
-    />
-  </div>
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined","x":[1,2,3],"y":[2,3,4],"yaxis":"y2","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[2,4,6],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[3,6,9],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"text":"timestamp","font":{"color":"#444"}},"type":"date","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":true,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
 </DocumentFragment>
 `;
 
-exports[`Plot component > updates options object correctly 1`] = `
+exports[`Plot component > updates data object correctly when XAxis is not set (aka when user switches from timeseries to XY plot) 1`] = `
 <DocumentFragment>
   <div
-    style="flex: 1 0 0px; max-height: calc(100% - 38px); max-width: 100%;"
-  >
-    <canvas
-      class="chartjs-chart"
-      data-data="{"datasets":[{"label":"undefined (mg)","data":[{"timestamp":1,"shotnum":2},{"timestamp":2,"shotnum":3},{"timestamp":3,"shotnum":4}],"parsing":{"yAxisKey":"shotnum","xAxisKey":"new test x-axis"},"yAxisID":"y","borderColor":"colour-0","backgroundColor":"colour-0","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined (mg)","data":[{"timestamp":2,"activeArea":4},{"timestamp":4,"activeArea":6},{"timestamp":6,"activeArea":8}],"parsing":{"yAxisKey":"activeArea","xAxisKey":"new test x-axis"},"yAxisID":"y","borderColor":"colour-1","backgroundColor":"colour-1","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4},{"label":"undefined (mg)","data":[{"timestamp":3,"activeExperiment":6},{"timestamp":6,"activeExperiment":9},{"timestamp":9,"activeExperiment":12}],"parsing":{"yAxisKey":"activeExperiment","xAxisKey":"new test x-axis"},"yAxisID":"y","borderColor":"colour-2","backgroundColor":"colour-2","borderWidth":3,"pointBorderWidth":1,"pointStyle":"circle","pointRadius":3,"pointHoverRadius":4}]}"
-      data-options="{"responsive":true,"maintainAspectRatio":false,"interaction":{"mode":"point","intersect":false},"plugins":{"title":{"display":true,"text":"line plot"},"zoom":{"zoom":{"wheel":{"enabled":true},"pinch":{"enabled":true},"drag":{"enabled":true,"threshold":15},"mode":"xy"},"pan":{"enabled":true,"mode":"xy","modifierKey":"shift"},"limits":{"x":{"min":10,"max":20},"y":{"min":30,"max":40},"y2":{"min":50,"max":60}}}},"scales":{"x":{"type":"linear","time":{"displayFormats":{"millisecond":"HH:mm:ss:SSS","second":"HH:mm:ss","minute":"HH:mm","hour":"d MMM ha","day":"d MMM","week":"d MMM","month":"MMM yyyy","quarter":"MMM yyyy","year":"yyyy"},"tooltipFormat":"yyyy-MM-dd HH:mm:ss"},"title":{"display":false,"text":"new test x-axis"},"grid":{"display":false},"min":10,"max":20},"y":{"type":"logarithmic","display":true,"position":"left","grid":{"display":false},"title":{"display":false},"min":30,"max":40},"y2":{"type":"linear","display":false,"position":"right","grid":{"display":false},"title":{"display":false},"min":50,"max":60}},"transitions":{"zoom":{"animation":{"duration":250}}}}"
-      data-type="line"
-      data-view="true"
-      height="400"
-      width="400"
-    />
-  </div>
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined","x":[],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
+</DocumentFragment>
+`;
+
+exports[`Plot component > updates data object correctly when changing the line & marker style options 1`] = `
+<DocumentFragment>
+  <div
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined","x":[1,2,3],"y":[2,3,4],"yaxis":"y","marker":{"color":"magenta","opacity":1,"size":10,"symbol":"star","line":{"color":"magenta","width":1}},"line":{"color":"magenta","width":5,"dash":"dashdot"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[2,4,6],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined","x":[3,6,9],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x|%Y-%m-%d %H:%M:%S}, %{y}) undefined<extra></extra>"}]"
+    data-layout="{"title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"false","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"text":"timestamp","font":{"color":"#444"}},"type":"date","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":true,"visible":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":true,"range":[null,null],"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
+</DocumentFragment>
+`;
+
+exports[`Plot component > updates layout and data object correctly (log axes) 1`] = `
+<DocumentFragment>
+  <div
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"markers","name":"undefined (mg)","x":[null,null,null],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined (mg)","x":[null,null,null],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"},{"type":"scatter","mode":"markers","name":"undefined (mg)","x":[null,null,null],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"}]"
+    data-layout="{"title":{"text":"line plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"true","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"font":{"color":"#444"}},"type":"log","showgrid":false,"range":[1,1.3010299956639813],"minallowed":1,"maxallowed":1.3010299956639813,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"log","showgrid":false,"visible":true,"range":[1.4771212547196624,1.6020599913279625],"minallowed":1.4771212547196624,"maxallowed":1.6020599913279625,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"log","visible":false,"side":"right","overlaying":"y","showgrid":false,"range":[1.6989700043360187,1.7781512503836436],"minallowed":1.6989700043360187,"maxallowed":1.7781512503836436,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
+</DocumentFragment>
+`;
+
+exports[`Plot component > updates layout and data options correctly (linear axes) 1`] = `
+<DocumentFragment>
+  <div
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","mode":"lines+markers","name":"undefined (mg)","x":[null,null,null],"y":[2,3,4],"yaxis":"y","marker":{"color":"colour-0","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-0","width":1}},"line":{"color":"colour-0","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"},{"type":"scatter","mode":"lines+markers","name":"undefined (mg)","x":[null,null,null],"y":[4,6,8],"yaxis":"y","marker":{"color":"colour-1","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-1","width":1}},"line":{"color":"colour-1","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"},{"type":"scatter","mode":"lines+markers","name":"undefined (mg)","x":[null,null,null],"y":[6,9,12],"yaxis":"y","marker":{"color":"colour-2","opacity":1,"size":6,"symbol":"circle","line":{"color":"colour-2","width":1}},"line":{"color":"colour-2","width":3,"dash":"solid"},"showlegend":true,"hovertemplate":"(%{x}, %{y}) undefined (mg)<extra></extra>"}]"
+    data-layout="{"title":{"text":"line plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"uirevision":"true","paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","font":{"color":"#444"},"legend":{"orientation":"h","x":0.5,"yanchor":"bottom","xanchor":"center","yref":"container"},"xaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":false,"range":[10,20],"minallowed":10,"maxallowed":20,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis":{"title":{"font":{"color":"#444"}},"type":"linear","showgrid":false,"visible":true,"range":[30,40],"minallowed":30,"maxallowed":40,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"},"yaxis2":{"title":{"font":{"color":"#444"}},"type":"linear","visible":false,"side":"right","overlaying":"y","showgrid":false,"range":[50,60],"minallowed":50,"maxallowed":60,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"},"automargin":true,"exponentformat":"none"}}"
+  />
 </DocumentFragment>
 `;
