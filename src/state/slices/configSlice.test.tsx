@@ -6,6 +6,7 @@ import ConfigReducer, {
   loadPluginHostSetting,
   loadRecordLimitWarningSetting,
   loadUrls,
+  loadWorkingHoursSetting,
   settingsLoaded,
 } from './configSlice';
 
@@ -71,6 +72,17 @@ describe('configSlice', () => {
 
       expect(updatedState.recordLimitWarning).toEqual(10);
     });
+
+    it('should set workingHours property when loadWorkingHoursSetting action is sent', () => {
+      expect(state.workingHours).toEqual({ start: 9, end: 18 });
+
+      const updatedState = ConfigReducer(
+        state,
+        loadWorkingHoursSetting({ start: 10, end: 17 })
+      );
+
+      expect(updatedState.workingHours).toEqual({ start: 10, end: 17 });
+    });
   });
 
   describe('Actions', () => {
@@ -78,7 +90,7 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost and settingsLoaded actions are sent', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost, loadWorkingHoursSetting and settingsLoaded actions are sent', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -92,12 +104,13 @@ describe('configSlice', () => {
             },
           ],
           pluginHost: 'http://localhost:3000/',
+          workingHours: { start: 10, end: 17 },
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(4);
+      expect(actions.length).toEqual(5);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -107,10 +120,13 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(
         loadPluginHostSetting('http://localhost:3000/')
       );
+      expect(actions).toContainEqual(
+        loadWorkingHoursSetting({ start: 10, end: 17 })
+      );
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting actions when they're not defined", async () => {
+    it("doesn't send loadPluginHostSetting, loadWorkingHoursSetting actions when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -132,6 +148,9 @@ describe('configSlice', () => {
       expect(actions.length).toEqual(3);
       expect(
         actions.every(({ type }) => type !== loadPluginHostSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadWorkingHoursSetting.type)
       ).toBe(true);
 
       expect(actions).toContainEqual(settingsLoaded());

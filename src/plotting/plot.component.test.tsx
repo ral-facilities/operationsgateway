@@ -32,6 +32,8 @@ describe('Plot component', () => {
       viewReset: false,
       gridVisible: true,
       axesLabelsVisible: true,
+      workingHours: { start: 9, end: 18 },
+      skipNonBusinessHours: false,
     };
   });
 
@@ -148,6 +150,15 @@ describe('Plot component', () => {
     const newSelectedPlotChannels = [...props.selectedPlotChannels];
     newSelectedPlotChannels[0].options.yAxis = 'right';
     props.selectedPlotChannels = newSelectedPlotChannels;
+    rerender(<Plot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('updates layout object correctly by by setting rangebreaks for skip business hours feature', () => {
+    const { rerender, asFragment } = render(<Plot {...props} />);
+
+    props.skipNonBusinessHours = true;
     rerender(<Plot {...props} />);
 
     expect(asFragment()).toMatchSnapshot();

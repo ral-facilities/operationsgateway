@@ -30,6 +30,7 @@ export interface PlotConfig extends WindowConfig {
   axesLabelsVisible: boolean;
   selectedColours: string[];
   remainingColours: string[];
+  skipNonBusinessHours: boolean;
 }
 
 // Define a type for the slice state
@@ -69,6 +70,7 @@ export const plotSlice = createSlice({
         axesLabelsVisible: true,
         selectedColours: [],
         remainingColours: COLOUR_ORDER.map((colour) => colour),
+        skipNonBusinessHours: false,
         ...DEFAULT_WINDOW_VARS,
       };
     },

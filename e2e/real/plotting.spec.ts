@@ -26,7 +26,7 @@ test('plots a time vs channel graph', async ({ page }) => {
 
   await popup.locator('label:has-text("Title")').fill('Test time plot');
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('209');
 

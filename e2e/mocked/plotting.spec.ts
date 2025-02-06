@@ -16,7 +16,7 @@ test('plots a time vs shotnum graph and change the plot colour', async ({
 
   await popup.locator('label:has-text("Title")').fill('Test time plot');
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
@@ -241,7 +241,7 @@ test('user can add from and to dates to timestamp on x-axis', async ({
 
   await popup.locator('label:has-text("Title")').fill('Test time plot');
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
@@ -316,7 +316,7 @@ test('user can change line style of plotted channels', async ({ page }) => {
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
@@ -363,7 +363,7 @@ test('user can change the marker style and size of plotted channels', async ({
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
@@ -420,7 +420,7 @@ test('changes to and from dateTimes to use 0 seconds and 59 seconds respectively
 
   await popup.locator('label:has-text("Title")').fill('Test time plot');
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
 
@@ -461,7 +461,7 @@ test('user can change the line width of plotted channels', async ({ page }) => {
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   await popup.locator('label:has-text("Search all channels")').fill('ABCDE');
 
@@ -527,7 +527,7 @@ test('user can plot channels on the right y axis', async ({ page }) => {
     page.locator('text=Create a plot').click(),
   ]);
 
-  await popup.locator('[aria-label="line chart"]').click();
+  await popup.locator('[aria-label="Line Chart"]').click();
 
   // users can add channels to the right y axis directly when "right" is selected as the axis
   await popup.locator('text=Right').click();
@@ -676,4 +676,60 @@ test('scalar functions can be plotted', async ({ page }) => {
 
   await popup.locator('label:has-text("Search")').fill('a');
   await popup.getByRole('option', { name: 'a', exact: true });
+});
+
+test('user can skip non-business hours on a timeseries plot', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  // MSW wont start immediately here, so wait for page to load first
+  await expect(page.locator('text=Plots')).toBeVisible();
+
+  await page.evaluate(async () => {
+    const { msw } = window;
+
+    const response = await fetch('/records');
+    const responseBody = await response.json();
+
+    const modifiedRecordsJson = responseBody.map((record, i) => {
+      const newRecord = JSON.parse(JSON.stringify(record));
+      const date = new Date(newRecord.metadata.timestamp);
+      date.setHours(i % 2 !== 0 ? 12 : 0); // set some timestamps to working hours and some to non-working hours
+      newRecord.metadata.timestamp = date
+        .toLocaleString('sv-SE')
+        .replace(' ', 'T');
+      return newRecord;
+    });
+
+    msw.worker.use(
+      msw.http.get('/records', async () =>
+        msw.HttpResponse.json(modifiedRecordsJson, { status: 200 })
+      )
+    );
+  });
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.locator('label:has-text("Search all channels")').fill('Shot Num');
+
+  await popup.getByRole('option', { name: 'Shot Number', exact: true }).click();
+
+  await popup
+    .getByRole('checkbox', { name: 'Skip Non-Business Hours' })
+    .click();
+
+  await popup.locator('[aria-label="close settings"]').click();
+
+  // wait for open settings button to be visible i.e. menu is fully closed
+  await popup.locator('[aria-label="open settings"]').click({ trial: true });
+
+  const chart = await popup.locator('.plotly-chart');
+  await expect(chart).toHaveScreenshot({ maxDiffPixels: 150 });
 });

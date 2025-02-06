@@ -31,13 +31,47 @@ changeXAxis=undefined
       </mock-charttypebuttons>
     </div>
     <div
+      class="MuiGrid-root MuiGrid-item css-yu75kd-MuiGrid-root"
+    >
+      <label
+        class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+      >
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeSmall css-1diaq70-MuiSwitch-root"
+        >
+          <span
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
+          >
+            <input
+              class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+            />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          />
+        </span>
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+        >
+          Skip Non-Business Hours
+        </span>
+      </label>
+    </div>
+    <div
       class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
     >
       <div
         class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-9axob7-MuiPaper-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-d3w48x-MuiTypography-root"
         >
           X Axis Config
         </p>
@@ -105,7 +139,7 @@ changeXMaximum=undefined
         class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-ibczwg-MuiPaper-root"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-d3w48x-MuiTypography-root"
         >
           Y Axes Config
         </p>

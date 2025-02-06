@@ -27,6 +27,7 @@ describe('Plot Settings component', () => {
   const changeRightYAxisMaximum = vi.fn();
   const changeSelectedColours = vi.fn();
   const changeRemainingColours = vi.fn();
+  const changeSkipNonBusinessHours = vi.fn();
 
   const createView = async () => {
     // need to import like this in order for the doMock's to work
@@ -71,6 +72,8 @@ describe('Plot Settings component', () => {
       remainingColours: [],
       changeSelectedColours,
       changeRemainingColours,
+      skipNonBusinessHours: false,
+      changeSkipNonBusinessHours,
     };
 
     user = userEvent.setup({ delay: null });
@@ -224,5 +227,17 @@ describe('Plot Settings component', () => {
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
     expect(changeXMinimum).toHaveBeenCalledWith(undefined);
     expect(changeXMaximum).toHaveBeenCalledWith(undefined);
+  });
+
+  it('lets the user skip non-business hours', async () => {
+    props.XAxis = 'timestamp';
+    props.XAxisScale = 'date';
+    await createView();
+
+    await user.click(
+      screen.getByRole('checkbox', { name: 'Skip Non-Business Hours' })
+    );
+
+    expect(changeSkipNonBusinessHours).toHaveBeenCalledWith(true);
   });
 });

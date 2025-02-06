@@ -3,7 +3,7 @@
 exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
 <DocumentFragment>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1w7ngrt-MuiGrid-root"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-98dqc1-MuiGrid-root"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
@@ -98,7 +98,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
         class="MuiFormControl-root css-qtsj9i-MuiFormControl-root"
       >
         <label
-          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-7dax6m-MuiFormLabel-root"
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-t8wj1j-MuiFormLabel-root"
           id="x-scale-group-label"
         >
           Scale
@@ -112,7 +112,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1dt26j0-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 checked=""
@@ -161,7 +161,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
             class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-vqmohf-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1dt26j0-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 class="PrivateSwitchBase-input css-1m9pwf3"
@@ -339,7 +339,7 @@ exports[`x-axis tab > renders correctly with arbitrary x axis 1`] = `
 exports[`x-axis tab > renders correctly with timestamp x axis 1`] = `
 <DocumentFragment>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1w7ngrt-MuiGrid-root"
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-98dqc1-MuiGrid-root"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"

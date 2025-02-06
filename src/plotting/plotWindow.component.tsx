@@ -26,6 +26,7 @@ import WindowPortal from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import { selectWorkingHours } from '../state/slices/configSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -94,6 +95,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [remainingColours, setRemainingColours] = React.useState<string[]>(
     plotConfig.remainingColours
   );
+  const [skipNonBusinessHours, setSkipNonBusinessHours] =
+    React.useState<boolean>(plotConfig.skipNonBusinessHours);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -137,6 +140,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const XAxisDisplayName = channelsNullChecked.find(
     (channel) => channel.systemName === XAxis
   )?.name;
+
+  const workingHours = useAppSelector(selectWorkingHours);
 
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
@@ -273,6 +278,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
                 changeRemainingColours={setRemainingColours}
+                skipNonBusinessHours={skipNonBusinessHours}
+                changeSkipNonBusinessHours={setSkipNonBusinessHours}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -367,6 +374,8 @@ const PlotWindow = (props: PlotWindowProps) => {
               leftYAxisLabel={leftYAxisLabel}
               rightYAxisLabel={rightYAxisLabel}
               viewReset={viewFlag}
+              workingHours={workingHours}
+              skipNonBusinessHours={skipNonBusinessHours}
             />
           </Grid>
         </Grid>
