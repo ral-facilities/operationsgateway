@@ -306,24 +306,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/core@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@date-io/core@npm:3.0.0"
-  checksum: 10c0/c8a725ad5729b38d3f73b7c2bf852ac18a980d6b610832db9f87eb6821e6377854112ba4b5f8510d3e3f49d5290a50dd79ae7724bbafeb146bfdfb5b4c8a13ed
+"@date-io/core@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@date-io/core@npm:3.2.0"
+  checksum: 10c0/e320e5eb1dc5cdafbebdb5b3a4c80fcf18cef1ccf39bd57e63de7826c966b89814c984b59f7fb1fc3f7650859fb0ba890e39b0e77bfb671f4b01991432ccc06e
   languageName: node
   linkType: hard
 
-"@date-io/date-fns@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@date-io/date-fns@npm:3.0.0"
+"@date-io/date-fns@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@date-io/date-fns@npm:3.2.0"
   dependencies:
-    "@date-io/core": "npm:^3.0.0"
+    "@date-io/core": "npm:^3.2.0"
   peerDependencies:
     date-fns: ^3.2.0
   peerDependenciesMeta:
     date-fns:
       optional: true
-  checksum: 10c0/0393a924a4e39b35ba2f1840c54746717c8f5563d182ddbe3a6c534910ecf02c7f9c5e32ed8eadd0cb9fd9b78bb9230c74ae0ea777c5b4b9da632420be1f8911
+  checksum: 10c0/f618e5669ae6add13e092f0479d213e4e4a88084c06c578b7e7e47ef956acfbb2d6732bb57c778572893620579ebbbe0bd5fea90f3dbc4e987a43394a8f265e1
   languageName: node
   linkType: hard
 
@@ -6730,7 +6730,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "operationsgateway@workspace:."
   dependencies:
-    "@date-io/date-fns": "npm:3.0.0"
+    "@date-io/date-fns": "npm:3.2.0"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
