@@ -32,11 +32,11 @@ test('should be able to view the channel summary', async ({ page }) => {
     page.getByText('First data date: 2023-06-05 08:00:00')
   ).toBeVisible();
   await expect(
-    page.getByText('Most recent data date: 2023-06-05 16:00:00')
+    page.getByText('Most recent data date: 2023-06-06 12:00:00')
   ).toBeVisible();
 
-  await expect(page.getByText('0.00921039736398388')).toBeVisible();
-  await expect(page.getByText('0.009568768723096999')).toBeVisible();
+  await expect(page.getByText('0.010819347534479341')).toBeVisible();
+  await expect(page.getByText('0.009791612121640918')).toBeVisible();
 
   // image channel
   await page.getByRole('button', { name: 'D100 pre-amp 1 FF [micro]' }).click();
@@ -46,7 +46,7 @@ test('should be able to view the channel summary', async ({ page }) => {
     page.getByText('First data date: 2023-06-05 08:00:00')
   ).toBeVisible();
   await expect(
-    page.getByText('Most recent data date: 2023-06-05 16:00:00')
+    page.getByText('Most recent data date: 2023-06-06 12:00:00')
   ).toBeVisible();
   await expect(
     await page.getByRole('table', { name: 'recent data' })
@@ -64,7 +64,7 @@ test('should be able to view the channel summary', async ({ page }) => {
     page.getByText('First data date: 2023-06-05 08:00:00')
   ).toBeVisible();
   await expect(
-    page.getByText('Most recent data date: 2023-06-05 16:00:00')
+    page.getByText('Most recent data date: 2023-06-06 12:00:00')
   ).toBeVisible();
   await expect(
     await page.getByRole('table', { name: 'recent data' })
