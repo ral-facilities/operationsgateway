@@ -109,7 +109,7 @@
     "globals": "15.14.0",
     "jsdom": "25.0.1",
     "lint-staged": "15.4.3",
-    "prettier": "3.4.2",
+    "prettier": "3.5.0",
     "serve": "14.2.0",
     "serve-static": "1.16.0",
     "start-server-and-test": "2.0.10",
