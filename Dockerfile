@@ -1,7 +1,7 @@
 # Dockerfile to build and serve OperationsGateway
 
 # Build stage
-FROM node:22.14.0-alpine3.20@sha256:1e66ecd64923eccc612124cf3d464c0e3f3eeb5290ff8220fffb71dee2af683e as builder
+FROM node:22.14.0-alpine3.20@sha256:40be979442621049f40b1d51a26b55e281246b5de4e5f51a18da7beb6e17e3f9 as builder
 
 WORKDIR /operationsgateway-build
 
