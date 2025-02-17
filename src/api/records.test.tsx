@@ -425,7 +425,9 @@ describe('records api functions', () => {
     });
 
     it('sends request to fetch records, returns successful response and uses a select function to format the results', async () => {
-      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(
+        new Date('2024-07-02 12:00:00')
+      );
 
       const pendingRequest = waitForRequest('GET', '/records');
 
@@ -557,7 +559,9 @@ describe('records api functions', () => {
     });
 
     it('uses a select function to format the results', async () => {
-      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(
+        new Date('2024-07-02 12:00:00')
+      );
 
       const pendingRequest = waitForRequest('GET', '/records');
 
@@ -784,7 +788,9 @@ describe('records api functions', () => {
     });
 
     it('sends request to fetch records with a projection and returns successful response', async () => {
-      vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+      vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(
+        new Date('2024-07-02 12:00:00')
+      );
 
       const pendingRequest = waitForRequest('GET', '/records');
 
