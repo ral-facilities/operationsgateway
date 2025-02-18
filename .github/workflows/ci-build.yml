@@ -100,7 +100,7 @@ jobs:
         with:
           python-version: 3.11
       - name: Load Pip cache
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-3.11-${{ env.pythonLocation }}-${{ hashFiles('operationsgateway-api/.github/ci_requirements.txt') }}
@@ -145,7 +145,7 @@ jobs:
 
       # Load Poetry virtual environment dependencies and install API dependencies
       - name: Load Poetry cache
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
+        uses: actions/cache@0c907a75c2c80ebcb7f088228285e798b750cf8f # v4
         with:
           path: ~/.cache/pypoetry/virtualenvs
           key: ${{ runner.os }}-poetry-3.11-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
