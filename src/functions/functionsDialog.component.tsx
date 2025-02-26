@@ -424,7 +424,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button
-          disabled={Object.keys(errors).length !== 0 || functions.length === 0}
+          disabled={Object.keys(errors).length !== 0}
           onClick={() => {
             applyFunctions(functions);
           }}
