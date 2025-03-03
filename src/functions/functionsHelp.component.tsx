@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableRow,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import { FunctionOperator } from '../app.types';
 import { Body, Heading } from '../filtering/filterDialogue.component';
@@ -107,7 +108,12 @@ const FunctionsHelp = (props: FunctionsHelpProps) => {
         . The Wizard will suggest suitable options and indicate using a grey box
         when each item has been recognised.
       </Body>
-      <Heading>Functions and operators included </Heading>
+      <Heading>
+        Functions and operators included{' '}
+        <Typography variant="caption" component="span" fontWeight="normal">
+          (Hover over name for more information)
+        </Typography>
+      </Heading>
       <TableContainer component={Paper}>
         <Table>
           <TableBody>

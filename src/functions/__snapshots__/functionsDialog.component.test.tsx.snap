@@ -285,7 +285,13 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
               >
-                Functions and operators included 
+                Functions and operators included
+                 
+                <span
+                  class="MuiTypography-root MuiTypography-caption css-ifxngq-MuiTypography-root"
+                >
+                  (Hover over name for more information)
+                </span>
               </h3>
               <div
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-11xur9t-MuiPaper-root-MuiTableContainer-root"
