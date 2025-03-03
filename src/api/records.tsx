@@ -100,10 +100,19 @@ const fetchRecords = async (
     queryParams.append('functions', JSON.stringify(func));
   });
 
-  functionsState.channels.forEach((channel) => {
-    if (!projection?.includes(channel)) {
-      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
-    }
+  const functionChannels = new Set(
+    functionsState.functionsWithChannels
+      .filter((func) => projection?.includes(func.name))
+      .flatMap((func) => func.channels)
+  );
+
+  // Ensure `functionChannels` does not contain channels already in `projection`
+  const uniqueFunctionChannels = Array.from(functionChannels).filter(
+    (channel) => !projection?.includes(channel)
+  );
+
+  uniqueFunctionChannels.forEach((channel) => {
+    existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
   });
 
   if (existsConditions.length > 0 || searchObj.length > 0) {
@@ -183,12 +192,6 @@ const fetchRecordCountQuery = async (
       if (!(channel in staticChannels)) {
         existsConditions.push({ [key]: { $exists: true } });
       }
-    }
-  });
-
-  functionsState.channels.forEach((channel) => {
-    if (!projection?.includes(channel)) {
-      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
     }
   });
 

@@ -317,56 +317,6 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
-    it('can set functions params via the store', async () => {
-      state = {
-        ...getInitialState(),
-        search: {
-          ...getInitialState().search,
-          searchParams: {
-            ...getInitialState().search.searchParams,
-            dateRange: {
-              fromDate: '2022-01-01 00:00:00',
-              toDate: '2022-01-02 00:00:00',
-            },
-            maxShots: MAX_SHOTS_VALUES[0],
-          },
-        },
-        functions: {
-          appliedFunctions: [
-            {
-              id: '1',
-              name: 'a',
-              expression: [{ type: 'number', label: '1', value: '1' }],
-              dataType: 'scalar',
-              channels: ['CHANNEL_1', 'CHANNEL_2'],
-            },
-          ],
-        },
-      };
-
-      const pendingRequest = waitForRequest('GET', '/records/count');
-
-      const { result } = renderHook(() => useIncomingRecordCount(), {
-        wrapper: hooksWrapperWithProviders(state),
-      });
-
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
-
-      const request = await pendingRequest;
-
-      params.append(
-        'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
-      );
-
-      expect(new URL(request.url).searchParams.toString()).toEqual(
-        params.toString()
-      );
-      expect(result.current.data).toEqual(recordsJson.length);
-    });
-
     it('can set search and filter params via the store', async () => {
       state = {
         ...getInitialState(),
@@ -463,7 +413,7 @@ describe('records api functions', () => {
         table: {
           ...getInitialState().table,
           sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
-          selectedColumnIds: [timeChannelName, 'CHANNEL_1'],
+          selectedColumnIds: [timeChannelName, 'CHANNEL_1', 'a'],
         },
         search: {
           ...getInitialState().search,

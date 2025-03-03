@@ -292,6 +292,10 @@ export interface ValidateFunctionPost {
   expression: string;
 }
 
+export interface ValidateFunctionPostWithChannels extends ValidateFunctionPost {
+  channels: string[];
+}
+
 export interface ValidateFunctionState {
   id: string;
   name: string;
@@ -301,7 +305,7 @@ export interface ValidateFunctionState {
 }
 
 export interface APIFunctionState {
-  channels: string[];
+  functionsWithChannels: ValidateFunctionPostWithChannels[];
   functions: ValidateFunctionPost[];
 }
 export interface APIErrorResponse {

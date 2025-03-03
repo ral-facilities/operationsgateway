@@ -135,6 +135,10 @@ describe('useExportData', () => {
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders({
         ...state,
+        table: {
+          ...state.table,
+          selectedColumnIds: ['timestamp', 'ChannelA', 'ChannelB', 'a'],
+        },
         functions: {
           appliedFunctions: [
             {
@@ -169,6 +173,7 @@ describe('useExportData', () => {
     params.append('projection', 'metadata.timestamp');
     params.append('projection', 'channels.ChannelA');
     params.append('projection', 'channels.ChannelB');
+    params.append('projection', 'channels.a');
     params.append('functions', JSON.stringify({ name: 'a', expression: '1' }));
 
     params.append(
