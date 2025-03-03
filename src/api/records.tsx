@@ -19,7 +19,6 @@ import {
   SortType,
   timeChannelName,
 } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
@@ -207,9 +206,6 @@ const fetchRecordCountQuery = async (
   return ogApi
     .get(`/records/count`, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => response.data);
 };
@@ -248,9 +244,6 @@ export const fetchRangeRecordConverterQuery = async (
   return ogApi
     .get(`/records/range_converter`, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => {
       let inputRange;

@@ -7,7 +7,6 @@ import {
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { Session, SessionListItem, SessionResponse } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
 import { ogApi } from './api';
 
 const saveSession = async (session: Session): Promise<string> => {
@@ -105,13 +104,7 @@ export const useSessionList = (): UseQueryResult<
 const fetchSession = async (
   sessionId: string | undefined
 ): Promise<SessionResponse> => {
-  return ogApi
-    .get(`/sessions/${sessionId}`, {
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
-    })
-    .then((response) => response.data);
+  return ogApi.get(`/sessions/${sessionId}`).then((response) => response.data);
 };
 
 export const useSession = (
