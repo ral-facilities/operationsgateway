@@ -29,7 +29,12 @@ export const AUTHORISED_ROUTE_LIST = [
   '/experiments POST',
   '/users POST',
   '/users PATCH',
+  '/users GET',
   '/users/{id_} DELETE',
+  '/maintenance GET',
+  '/maintenance POST',
+  '/maintenance/scheduled GET',
+  '/maintenance/scheduled POST',
 ];
 
 export const AUTH_TYPE_LIST = ['local', 'FedID'];
@@ -46,10 +51,7 @@ function UsersTable() {
 
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
-    {
-      accessorKey: 'username',
-      header: 'Username',
-    },
+    { accessorKey: 'username', header: 'Username' },
 
     {
       accessorKey: 'auth_type',
@@ -96,14 +98,9 @@ function UsersTable() {
     positionToolbarAlertBanner: 'bottom',
     autoResetPageIndex: false,
     // Localisation
-    localization: {
-      ...MRT_Localization_EN,
-    },
+    localization: { ...MRT_Localization_EN },
     // State
-    initialState: {
-      showColumnFilters: true,
-      showGlobalFilter: true,
-    },
+    initialState: { showColumnFilters: true, showGlobalFilter: true },
     state: {
       pagination: { pageSize: 15, pageIndex: 0 },
       showProgressBars: userDataLoading,
@@ -117,9 +114,7 @@ function UsersTable() {
     },
     muiTableContainerProps: {
       // Page height - unknown - app bar height - footer height - additional
-      sx: {
-        height: `calc(100vh - 8px - 64px - 24px - 250px)`,
-      },
+      sx: { height: `calc(100vh - 8px - 64px - 24px - 250px)` },
     },
     renderCreateRowDialogContent: ({ table }) => {
       return (
