@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -35,23 +40,26 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
       .click(),
   ]);
 
-  const chart = await popup.locator('.chartjs-chart');
+  const chart = await popup.locator('.plotly-chart');
 
   // wait for first chart to load
   await expect(popup.getByRole('progressbar')).toBeVisible();
   await expect(popup.getByRole('progressbar')).not.toBeVisible();
 
-  // wait for canvas animations to execute
+  // ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  // wait for plot to resize correctly
   await popup.waitForTimeout(1000);
 
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await popup.mouse.move(0, 0); // move mouse out of way to remove any tooltips
+
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide plot buttons from the screenshot as it's not important & can mess up diffs
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 
   await popup
     .getByAltText('NSO-P4-SP waveform', { exact: false })
@@ -62,17 +70,20 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   await expect(popup.getByRole('progressbar')).toBeVisible();
   await expect(popup.getByRole('progressbar')).not.toBeVisible();
 
-  // wait for canvas animations to execute
+  // ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  // wait for plot to resize correctly
   await popup.waitForTimeout(1000);
 
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await popup.mouse.move(0, 0); // move mouse out of way to remove any tooltips
+
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide plot buttons from the screenshot as it's not important & can mess up diffs
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });
 
 test('user can export trace image and data', async ({ page }) => {
@@ -85,12 +96,12 @@ test('user can export trace image and data', async ({ page }) => {
       .click(),
   ]);
 
-  await popup.locator('.chartjs-chart');
+  await popup.locator('.plotly-chart');
 
   const title = await popup.title();
   const traceName = title.split(' - ')[1];
 
-  const downloadImagePromise = page.waitForEvent('download');
+  const downloadImagePromise = popup.waitForEvent('download');
   await popup.getByRole('button', { name: 'Export Plot', exact: true }).click();
 
   const downloadedImage = await downloadImagePromise;
