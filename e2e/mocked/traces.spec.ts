@@ -1,4 +1,10 @@
 import { expect, test } from '@playwright/test';
+import path from 'path';
+import type { PlotlyHTMLElement } from 'plotly.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -28,20 +34,21 @@ test('user can show points for the trace', async ({ page }) => {
       .click(),
   ]);
 
+  const chart = await popup.locator('.plotly-chart');
+  // ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
+  await popup.locator('text=Reset View').click();
+
   await popup.getByRole('button', { name: 'Show points' }).click();
 
-  const chart = await popup.locator('.chartjs-chart');
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
-
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });
 
 test('user can zoom and pan the trace', async ({ page }) => {
@@ -54,29 +61,46 @@ test('user can zoom and pan the trace', async ({ page }) => {
       .click(),
   ]);
 
-  const chart = await popup.locator('.chartjs-chart');
-  await chart.click();
+  const chart = await popup.locator('.plotly-chart');
+  // ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
+  await popup.locator('text=Reset View').click();
+  await popup.waitForTimeout(1000);
 
   // test drag to zoom
-  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
+  await chart.dragTo(chart, {
+    force: true, // need to force: true here because of .dragcover element covers the plot
     sourcePosition: {
-      x: 250,
-      y: 180,
+      x: 150,
+      y: 130,
     },
     targetPosition: {
       x: 385,
-      y: 260,
+      y: 320,
     },
   });
 
-  await popup.mouse.wheel(-10, 0);
-  await popup.mouse.wheel(-10, 0);
-  await popup.mouse.wheel(-10, 0);
-  await popup.mouse.wheel(-10, 0);
-  await popup.mouse.wheel(-10, 0);
+  // setup so we wait for mouse wheel zoom out to happen before panning
+  chart.evaluate((chart: PlotlyHTMLElement) => {
+    window['plotly_redraws'] = 0;
+    chart.on('plotly_relayout', () => {
+      window['plotly_redraws'] += 1;
+      chart.removeAllListeners('plotly_relayout');
+    });
+  });
+
+  const watchDog = popup.waitForFunction(() => window['plotly_redraws'] > 0);
+
+  await chart.hover(); // hover chart to move mouse to center of chart to make the scroll in consistent
+  await popup.mouse.wheel(0, -20);
+
+  await watchDog;
 
   await popup.keyboard.down('Shift');
-  await popup.dragAndDrop('.chartjs-chart', '.chartjs-chart', {
+  await chart.dragTo(chart, {
+    force: true, // need to force: true here because of .dragcover element covers the plot
     sourcePosition: {
       x: 150,
       y: 150,
@@ -88,41 +112,23 @@ test('user can zoom and pan the trace', async ({ page }) => {
   });
   await popup.keyboard.up('Shift');
 
-  // click far side of chart to remove any tooltips
-  await chart.click({
-    position: {
-      x: 400,
-      y: 200,
-    },
-    delay: 1000,
+  await popup.mouse.move(0, 0); // move mouse out of way to remove any tooltips
+
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
 
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await popup.locator('text=Reset View').click();
 
-  await popup.locator('text=Reset View').click({
-    // delay helps remove tooltips from the plot
-    delay: 1000,
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
-
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
 });
 
 test('user can change trace via clicking on a thumbnail', async ({ page }) => {
@@ -135,7 +141,7 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
       .click(),
   ]);
 
-  const chart = await popup.locator('.chartjs-chart');
+  const chart = await popup.locator('.plotly-chart');
 
   // wait for first chart to load before loading new chart
   await chart.click();
@@ -166,15 +172,10 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
     .last()
     .click();
 
-  // need this to wait for canvas animations to execute
-  await popup.waitForTimeout(1000);
-
-  expect(
-    await chart.screenshot({
-      type: 'png',
-      style:
-        // hide plot buttons from the screenshot as it's not important & can mess up diffs
-        '[aria-label="plot actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });

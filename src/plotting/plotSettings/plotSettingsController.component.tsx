@@ -1,4 +1,14 @@
-import { Box, Grid, Paper, styled, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Grid,
+  Paper,
+  styled,
+  Switch,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import {
   FullScalarChannelMetadata,
@@ -62,6 +72,8 @@ export interface PlotSettingsControllerProps {
   remainingColours: string[];
   changeSelectedColours: (selected: string[]) => void;
   changeRemainingColours: (remaining: string[]) => void;
+  skipNonBusinessHours: boolean;
+  changeSkipNonBusinessHours: (value: boolean) => void;
 }
 
 const PlotSettingsController = (props: PlotSettingsControllerProps) => {
@@ -102,6 +114,8 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     remainingColours,
     changeSelectedColours,
     changeRemainingColours,
+    skipNonBusinessHours,
+    changeSkipNonBusinessHours,
   } = props;
 
   const [XYTabValue, setXYTabValue] = React.useState<TabValue>('X');
@@ -117,7 +131,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     (value?: string) => {
       changeXAxis(value);
       if (value === timeChannelName) {
-        changeXAxisScale('time');
+        changeXAxisScale('date');
       } else {
         changeXAxisScale('linear');
       }
@@ -126,6 +140,13 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
     },
     [changeXAxis, changeXMinimum, changeXMaximum, changeXAxisScale]
   );
+
+  const handleSkipNonBusinessHoursChange = (
+    _event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    changeSkipNonBusinessHours(checked);
+  };
 
   const YAxisConfig = (
     <YAxisTab
@@ -187,6 +208,20 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
           changeXAxis={handleXAxisChange}
         />
       </Grid>
+      {XAxis === timeChannelName && (
+        <Grid item ml={1}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={skipNonBusinessHours}
+                onChange={handleSkipNonBusinessHoursChange}
+                size="small"
+              ></Switch>
+            }
+            label="Skip Non-Business Hours"
+          />
+        </Grid>
+      )}
       <Grid item>
         {XAxis !== timeChannelName && (
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -211,7 +246,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
             variant="outlined"
             sx={{ padding: 1, marginBottom: 1 }}
           >
-            <Typography>X Axis Config</Typography>
+            <Typography sx={{ mb: -0.5 }}>X Axis Config</Typography>
             {XAxisConfig}
           </Paper>
         )}
@@ -221,7 +256,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
           </TabPanel>
         ) : (
           <Paper elevation={0} variant="outlined" sx={{ padding: 1 }}>
-            <Typography>Y Axes Config</Typography>
+            <Typography sx={{ mb: -0.5 }}>Y Axes Config</Typography>
             {YAxisConfig}
           </Paper>
         )}

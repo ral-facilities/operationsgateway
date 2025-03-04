@@ -5,9 +5,7 @@ import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { ImageButtons } from '../windows/windowButtons.component';
-import WindowPortal, {
-  WindowPortal as WindowPortalClass,
-} from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import ImageControlsPanel from './imageControlsPanel.component';
 import ImageView from './imageView.component';
 import { XImagePlot, YImagePlot } from './imagePlot.component';
@@ -15,7 +13,7 @@ import { XImagePlot, YImagePlot } from './imagePlot.component';
 interface ImageWindowProps {
   onClose: () => void;
   imageConfig: TraceOrImageWindow;
-  imageWindowRef: React.RefObject<WindowPortalClass>;
+  imageWindowRef: React.RefObject<WindowPortal>;
 }
 
 const ImageWindow = (props: ImageWindowProps) => {
@@ -112,106 +110,95 @@ const ImageWindow = (props: ImageWindowProps) => {
           height: '100%',
           backgroundColor: theme.palette.background.default,
         })}
-        spacing={0}
+        spacing={1}
+        wrap="nowrap"
       >
+        <Grid container item xs="auto">
+          <ThumbnailSelector
+            channelName={channelName}
+            recordId={recordId}
+            changeRecordId={updateImageConfig}
+          />
+        </Grid>
         <Grid
           container
           item
           direction="column"
           wrap="nowrap"
-          sx={{ width: '100%', position: 'relative', height: '100%' }}
+          xs="auto"
+          spacing={1}
         >
+          <Grid container item justifyContent="flex-end" wrap="nowrap" mt={1}>
+            <ImageButtons data={image} title={title} resetView={resetView} />
+          </Grid>
           <Grid
             container
             item
-            justifyContent="flex-end"
             wrap="nowrap"
-            mt={1}
-            mb={1}
-            ml={-1}
+            direction={crosshairsMode ? 'column' : 'row'}
+            spacing={crosshairsMode ? 0 : 1}
+            data-testid="image-panel"
+            xs="auto"
           >
-            <ImageButtons data={image} title={title} resetView={resetView} />
-          </Grid>
-          <Grid container item wrap="nowrap" spacing={1}>
-            <Grid container item spacing={1} xs="auto" wrap="nowrap">
-              <Grid item>
-                <ThumbnailSelector
-                  channelName={channelName}
-                  recordId={recordId}
-                  changeRecordId={updateImageConfig}
+            <Grid container item wrap="nowrap" spacing={1}>
+              <Grid item xs="auto">
+                <ImageView
+                  image={image}
+                  title={title}
+                  viewReset={viewFlag}
+                  crosshairsMode={crosshairsMode}
+                  crosshair={crosshair}
+                  changeCrosshair={setCrosshair}
+                  changeImageDims={setImageDims}
                 />
               </Grid>
-              <Grid
-                container
-                item
-                wrap="nowrap"
-                direction={crosshairsMode ? 'column' : 'row'}
-                spacing={crosshairsMode ? 0 : 1}
-                data-testid="image-panel"
-              >
-                <Grid container item wrap="nowrap" spacing={1}>
-                  <Grid item xs="auto">
-                    <ImageView
-                      image={image}
-                      title={title}
-                      viewReset={viewFlag}
-                      crosshairsMode={crosshairsMode}
-                      crosshair={crosshair}
-                      changeCrosshair={setCrosshair}
-                      changeImageDims={setImageDims}
-                    />
-                  </Grid>
 
-                  <Grid
-                    item
-                    xs="auto"
-                    style={{
-                      // display: none means it takes up no space in the UI
-                      display: crosshairsMode ? 'flex' : 'none',
-                      // visibility: hidden means it takes up space but just isn't visible
-                      visibility:
-                        crosshairData && crosshair ? 'visible' : 'hidden',
-                    }}
-                  >
-                    <YImagePlot
-                      data={crosshairData?.column.intensity ?? { x: [], y: [] }}
-                      crosshairPosition={crosshair?.y}
-                      imageDims={imageDims}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container item wrap="nowrap" spacing={1}>
-                  <Grid
-                    item
-                    xs="auto"
-                    style={{
-                      // display: none means it takes up no space in the UI
-                      display: crosshairsMode ? 'flex' : 'none',
-                      // visibility: hidden means it takes up space but just isn't visible
-                      visibility:
-                        crosshairData && crosshair ? 'visible' : 'hidden',
-                    }}
-                  >
-                    <XImagePlot
-                      data={crosshairData?.row.intensity ?? { x: [], y: [] }}
-                      crosshairPosition={crosshair?.x}
-                      imageDims={imageDims}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <ImageControlsPanel
-                      colourMap={colourMap}
-                      lowerLevel={lowerLevel}
-                      upperLevel={upperLevel}
-                      crosshairsMode={crosshairsMode}
-                      changeColourMap={setColourMap}
-                      changeLowerLevel={setLowerLevel}
-                      changeUpperLevel={setUpperLevel}
-                      changeCrosshairsMode={setCrosshairsMode}
-                      crosshairData={crosshairData}
-                    />
-                  </Grid>
-                </Grid>
+              <Grid
+                item
+                xs="auto"
+                style={{
+                  // display: none means it takes up no space in the UI
+                  display: crosshairsMode ? 'flex' : 'none',
+                  // visibility: hidden means it takes up space but just isn't visible
+                  visibility: crosshairData && crosshair ? 'visible' : 'hidden',
+                }}
+              >
+                <YImagePlot
+                  data={crosshairData?.column.intensity ?? { x: [], y: [] }}
+                  crosshairPosition={crosshair?.y}
+                  imageDims={imageDims}
+                />
+              </Grid>
+            </Grid>
+            <Grid container item wrap="nowrap" spacing={1}>
+              <Grid
+                item
+                xs="auto"
+                style={{
+                  // display: none means it takes up no space in the UI
+                  display: crosshairsMode ? 'flex' : 'none',
+                  // visibility: hidden means it takes up space but just isn't visible
+                  visibility: crosshairData && crosshair ? 'visible' : 'hidden',
+                }}
+              >
+                <XImagePlot
+                  data={crosshairData?.row.intensity ?? { x: [], y: [] }}
+                  crosshairPosition={crosshair?.x}
+                  imageDims={imageDims}
+                />
+              </Grid>
+              <Grid item mb={1}>
+                <ImageControlsPanel
+                  colourMap={colourMap}
+                  lowerLevel={lowerLevel}
+                  upperLevel={upperLevel}
+                  crosshairsMode={crosshairsMode}
+                  changeColourMap={setColourMap}
+                  changeLowerLevel={setLowerLevel}
+                  changeUpperLevel={setUpperLevel}
+                  changeCrosshairsMode={setCrosshairsMode}
+                  crosshairData={crosshairData}
+                />
               </Grid>
             </Grid>
           </Grid>

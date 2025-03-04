@@ -311,7 +311,9 @@ describe('searchBar component', () => {
   });
 
   it('sends default search parameters when none are amended by the user', async () => {
-    vi.useFakeTimers().setSystemTime(new Date('2024-07-02 12:00:00'));
+    vi.useFakeTimers({
+      toFake: ['Date', 'setTimeout', 'clearTimeout'],
+    }).setSystemTime(new Date('2024-07-02 12:00:00'));
 
     user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
@@ -657,7 +659,15 @@ describe('searchBar component', () => {
         advanceTimers: vi.advanceTimersByTime,
       });
 
-      vi.useFakeTimers().setSystemTime(new Date('2022-01-11 00:05'));
+      vi.useFakeTimers({
+        toFake: [
+          'Date',
+          'setInterval',
+          'clearInterval',
+          'setTimeout',
+          'clearTimeout',
+        ],
+      }).setSystemTime(new Date('2022-01-11 00:05'));
     });
 
     afterEach(() => {

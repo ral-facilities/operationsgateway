@@ -22,17 +22,16 @@ import {
 } from '../app.types';
 import { usePlotRecords } from '../api/records';
 import { useScalarChannels } from '../api/channels';
-import WindowPortal, {
-  WindowPortal as WindowPortalClass,
-} from '../windows/windowPortal.component';
+import WindowPortal from '../windows/windowPortal.component';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { useAppSelector, useAppDispatch } from '../state/hooks';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import { selectWorkingHours } from '../state/slices/configSlice';
 
 interface PlotWindowProps {
   onClose: () => void;
   plotConfig: PlotConfig;
-  plotWindowRef: React.RefObject<WindowPortalClass>;
+  plotWindowRef: React.RefObject<WindowPortal>;
 }
 
 const drawerWidth = 300;
@@ -96,6 +95,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const [remainingColours, setRemainingColours] = React.useState<string[]>(
     plotConfig.remainingColours
   );
+  const [skipNonBusinessHours, setSkipNonBusinessHours] =
+    React.useState<boolean>(plotConfig.skipNonBusinessHours);
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
 
   const toggleGridVisibility = React.useCallback(() => {
@@ -112,13 +113,17 @@ const PlotWindow = (props: PlotWindowProps) => {
 
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = React.useCallback(() => {
+    // Plotly is only responsive to window resize events, so fake one to resize plot on drawer open/close
+    plotWindowRef.current?.state?.window?.dispatchEvent(new Event('resize'));
     setOpen(true);
-  }, []);
+  }, [plotWindowRef]);
   const handleDrawerClose = React.useCallback(() => {
+    // Plotly is only responsive to window resize events, so fake one to resize plot on drawer open/close
+    plotWindowRef.current?.state?.window?.dispatchEvent(new Event('resize'));
     setOpen(false);
-  }, []);
+  }, [plotWindowRef]);
 
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const chartRef = React.useRef<HTMLDivElement | null>(null);
 
   const { data: records, isLoading: recordsLoading } = usePlotRecords(
     selectedPlotChannels,
@@ -135,6 +140,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const XAxisDisplayName = channelsNullChecked.find(
     (channel) => channel.systemName === XAxis
   )?.name;
+
+  const workingHours = useAppSelector(selectWorkingHours);
 
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
@@ -271,6 +278,8 @@ const PlotWindow = (props: PlotWindowProps) => {
                 remainingColours={remainingColours}
                 changeSelectedColours={setSelectedColours}
                 changeRemainingColours={setRemainingColours}
+                skipNonBusinessHours={skipNonBusinessHours}
+                changeSkipNonBusinessHours={setSkipNonBusinessHours}
               />
             </Box>
             {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
@@ -319,7 +328,8 @@ const PlotWindow = (props: PlotWindowProps) => {
             <Grid item mr={1} mt={1}>
               <PlotButtons
                 data={records}
-                canvasRef={canvasRef}
+                chartRef={chartRef}
+                windowRef={plotWindowRef}
                 title={plotTitle}
                 XAxis={XAxis}
                 gridVisible={gridVisible}
@@ -332,29 +342,42 @@ const PlotWindow = (props: PlotWindowProps) => {
               />
             </Grid>
           </Grid>
-          <Plot
-            datasets={records ?? []}
-            selectedPlotChannels={selectedPlotChannels}
-            title={plotTitle}
-            type={plotType}
-            XAxis={XAxis}
-            XAxisDisplayName={XAxisDisplayName}
-            XAxisScale={XAxisScale}
-            leftYAxisScale={leftYAxisScale}
-            rightYAxisScale={rightYAxisScale}
-            canvasRef={canvasRef}
-            gridVisible={gridVisible}
-            axesLabelsVisible={axesLabelsVisible}
-            xMinimum={xMinimum}
-            xMaximum={xMaximum}
-            leftYAxisMinimum={leftYAxisMinimum}
-            leftYAxisMaximum={leftYAxisMaximum}
-            rightYAxisMinimum={rightYAxisMinimum}
-            rightYAxisMaximum={rightYAxisMaximum}
-            leftYAxisLabel={leftYAxisLabel}
-            rightYAxisLabel={rightYAxisLabel}
-            viewReset={viewFlag}
-          />
+          <Grid
+            item
+            ml={1}
+            mr={1}
+            mt={1}
+            xs
+            sx={{
+              height: '100%', // needed for webkit to be able to calc height correctly
+            }}
+          >
+            <Plot
+              datasets={records ?? []}
+              selectedPlotChannels={selectedPlotChannels}
+              title={plotTitle}
+              type={plotType}
+              XAxis={XAxis}
+              XAxisDisplayName={XAxisDisplayName}
+              XAxisScale={XAxisScale}
+              leftYAxisScale={leftYAxisScale}
+              rightYAxisScale={rightYAxisScale}
+              chartRef={chartRef}
+              gridVisible={gridVisible}
+              axesLabelsVisible={axesLabelsVisible}
+              xMinimum={xMinimum}
+              xMaximum={xMaximum}
+              leftYAxisMinimum={leftYAxisMinimum}
+              leftYAxisMaximum={leftYAxisMaximum}
+              rightYAxisMinimum={rightYAxisMinimum}
+              rightYAxisMaximum={rightYAxisMaximum}
+              leftYAxisLabel={leftYAxisLabel}
+              rightYAxisLabel={rightYAxisLabel}
+              viewReset={viewFlag}
+              workingHours={workingHours}
+              skipNonBusinessHours={skipNonBusinessHours}
+            />
+          </Grid>
         </Grid>
         {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
         <Backdrop

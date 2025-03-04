@@ -43,14 +43,14 @@ describe('Window buttons components', () => {
   });
 
   describe('Plot buttons component', () => {
-    const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
+    const chartEl = document.createElement('div');
     let plotButtonsProps: PlotButtonsProps;
 
     const toggleGridVisibility = vi.fn();
     const toggleAxesLabelsVisibility = vi.fn();
     const savePlot = vi.fn();
     const resetView = vi.fn();
+    const downloadImage = vi.fn();
 
     beforeEach(() => {
       plotButtonsProps = {
@@ -74,8 +74,13 @@ describe('Window buttons components', () => {
           },
         ],
         XAxis: 'timestamp',
-        canvasRef: {
-          current: canvas,
+        chartRef: {
+          current: chartEl,
+        },
+        windowRef: {
+          current: {
+            state: { window: { ...window, Plotly: { downloadImage } } },
+          },
         },
         title: 'test',
         gridVisible: true,
@@ -118,40 +123,44 @@ describe('Window buttons components', () => {
       expect(screen.getByText('Show Axes Labels')).toBeInTheDocument();
     });
 
-    it('generates PNG file when export button is clicked', async () => {
+    it("calls the pop window's Plotly.downloadImage when export button is clicked", async () => {
       render(<PlotButtons {...plotButtonsProps} />);
-
-      // have to mock after render otherwise it fails to render our component
-      document.createElement = vi.fn().mockImplementation((tag) => {
-        if (tag === 'a') return mockLink;
-        else return document.originalCreateElement(tag);
-      });
-      document.body.appendChild = vi.fn().mockImplementation((node) => {
-        if (!(node instanceof Node)) return mockLink;
-        else return document.body.originalAppendChild(node);
-      });
 
       await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-      expect(document.createElement).toHaveBeenCalledWith('a');
-
-      expect(canvasToDataURLSpy).toHaveBeenCalled();
-      expect(mockLink.href).toEqual('data:image/png;base64,00');
-      expect(mockLink.download).toEqual('test.png');
-      expect(mockLink.target).toEqual('_blank');
-      expect(mockLink.style.display).toEqual('none');
-
-      expect(mockLinkClick).toHaveBeenCalled();
-      expect(mockLinkRemove).toHaveBeenCalled();
+      expect(downloadImage).toHaveBeenCalledWith(chartEl, {
+        format: 'png',
+        width: null,
+        height: null,
+        filename: 'test',
+      });
     });
 
-    it('does nothing when export button is clicked if canvasRef is null', async () => {
-      plotButtonsProps.canvasRef.current = null;
+    it('does nothing when export button is clicked if windowRef is null', async () => {
+      plotButtonsProps.windowRef.current = null;
       render(<PlotButtons {...plotButtonsProps} />);
 
       await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-      expect(canvasToDataURLSpy).not.toHaveBeenCalled();
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if chartRef is null', async () => {
+      plotButtonsProps.chartRef.current = null;
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if Plotly is undefined', async () => {
+      plotButtonsProps.windowRef.current!.state!.window!.Plotly = undefined;
+      render(<PlotButtons {...plotButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
     });
 
     it('generates csv file when export data button is clicked', async () => {
@@ -239,12 +248,12 @@ describe('Window buttons components', () => {
   });
 
   describe('Trace buttons component', () => {
-    const canvas = document.createElement('canvas');
-    const canvasToDataURLSpy = vi.spyOn(canvas, 'toDataURL');
+    const chartEl = document.createElement('div');
     let traceButtonsProps: TraceButtonsProps;
 
     const togglePointsVisibility = vi.fn();
     const resetView = vi.fn();
+    const downloadImage = vi.fn();
 
     beforeEach(() => {
       traceButtonsProps = {
@@ -253,8 +262,13 @@ describe('Window buttons components', () => {
           x: [1, 2, 3],
           y: [5, 6, 4],
         },
-        canvasRef: {
-          current: canvas,
+        chartRef: {
+          current: chartEl,
+        },
+        windowRef: {
+          current: {
+            state: { window: { ...window, Plotly: { downloadImage } } },
+          },
         },
         title: 'test',
         resetView,
@@ -282,37 +296,41 @@ describe('Window buttons components', () => {
     it('generates PNG file when export button is clicked', async () => {
       render(<TraceButtons {...traceButtonsProps} />);
 
-      // have to mock after render otherwise it fails to render our component
-      document.createElement = vi.fn().mockImplementation((tag) => {
-        if (tag === 'a') return mockLink;
-        else return document.originalCreateElement(tag);
-      });
-      document.body.appendChild = vi.fn().mockImplementation((node) => {
-        if (!(node instanceof Node)) return mockLink;
-        else return document.body.originalAppendChild(node);
-      });
-
       await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-      expect(document.createElement).toHaveBeenCalledWith('a');
-
-      expect(canvasToDataURLSpy).toHaveBeenCalled();
-      expect(mockLink.href).toEqual('data:image/png;base64,00');
-      expect(mockLink.download).toEqual('test.png');
-      expect(mockLink.target).toEqual('_blank');
-      expect(mockLink.style.display).toEqual('none');
-
-      expect(mockLinkClick).toHaveBeenCalled();
-      expect(mockLinkRemove).toHaveBeenCalled();
+      expect(downloadImage).toHaveBeenCalledWith(chartEl, {
+        format: 'png',
+        width: null,
+        height: null,
+        filename: 'test',
+      });
     });
 
-    it('does nothing when export button is clicked if canvasRef is null', async () => {
-      traceButtonsProps.canvasRef.current = null;
+    it('does nothing when export button is clicked if windowRef is null', async () => {
+      traceButtonsProps.windowRef.current = null;
       render(<TraceButtons {...traceButtonsProps} />);
 
       await user.click(screen.getByRole('button', { name: 'Export Plot' }));
 
-      expect(canvasToDataURLSpy).not.toHaveBeenCalled();
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if chartRef is null', async () => {
+      traceButtonsProps.chartRef.current = null;
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if Plotly is not defined', async () => {
+      traceButtonsProps.windowRef.current!.state!.window!.Plotly = undefined;
+      render(<TraceButtons {...traceButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
     });
 
     it('generates csv file when export data button is clicked', async () => {
@@ -680,7 +698,7 @@ describe('constructDataRows', () => {
 describe('formatTooltipLabel function', () => {
   it('formats timestamp correctly', () => {
     const label = 1640995200000;
-    const result = formatTooltipLabel(label, 'time');
+    const result = formatTooltipLabel(label, 'date');
     expect(result).toEqual('2022-01-01 00:00:00');
   });
 

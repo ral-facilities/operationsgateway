@@ -1,5 +1,5 @@
 import { ScatterPlot, ShowChart } from '@mui/icons-material';
-import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Stack, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import React from 'react';
 import { PlotType, timeChannelName } from '../../app.types';
 
@@ -51,11 +51,18 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
         exclusive
         onChange={handleChangePlotVariant}
         aria-label="chart type"
+        size="small"
       >
-        <ToggleButton value="timeseries" sx={{ textTransform: 'none' }}>
+        <ToggleButton
+          value="timeseries"
+          sx={{ textTransform: 'none', padding: '5px 6px' }}
+        >
           Timeseries
         </ToggleButton>
-        <ToggleButton value="xy" sx={{ textTransform: 'none' }}>
+        <ToggleButton
+          value="xy"
+          sx={{ textTransform: 'none', padding: '5px 6px' }}
+        >
           XY
         </ToggleButton>
       </ToggleButtonGroup>
@@ -65,13 +72,52 @@ const ChartTypeButtons = (props: ChartTypeButtonsProps) => {
           exclusive
           onChange={handleChangeChartType}
           aria-label="timeseries chart type"
+          size="small"
         >
-          <ToggleButton value="scatter" aria-label="scatter chart">
-            <ScatterPlot />
-          </ToggleButton>
-          <ToggleButton value="line" aria-label="line chart">
-            <ShowChart />
-          </ToggleButton>
+          <Tooltip
+            title="Scatter Chart"
+            arrow
+            enterDelay={300}
+            enterNextDelay={300}
+            slotProps={{
+              popper: {
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [0, -8],
+                    },
+                  },
+                ],
+              },
+            }}
+          >
+            <ToggleButton value="scatter" sx={{ padding: 0.5 }}>
+              <ScatterPlot />
+            </ToggleButton>
+          </Tooltip>
+          <Tooltip
+            title="Line Chart"
+            arrow
+            enterDelay={300}
+            enterNextDelay={300}
+            slotProps={{
+              popper: {
+                modifiers: [
+                  {
+                    name: 'offset',
+                    options: {
+                      offset: [0, -8],
+                    },
+                  },
+                ],
+              },
+            }}
+          >
+            <ToggleButton value="line" sx={{ padding: 0.5 }}>
+              <ShowChart />
+            </ToggleButton>
+          </Tooltip>
         </ToggleButtonGroup>
       )}
     </Stack>

@@ -6,7 +6,7 @@ import AutoRefreshToggle, {
 
 describe('AutoRefreshToggle', () => {
   beforeEach(() => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
   });
 
   afterEach(() => {
