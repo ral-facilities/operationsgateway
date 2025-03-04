@@ -15,7 +15,9 @@ describe('View Tabs', () => {
   });
 
   it('renders correctly', () => {
-    vi.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
+    vi.useFakeTimers({
+      toFake: ['Date'],
+    }).setSystemTime(new Date('2024-07-15 12:00:00'));
     const { asFragment } = createView();
     expect(asFragment()).toMatchSnapshot();
   });

@@ -63,13 +63,13 @@ describe('Chart Type Buttons', () => {
       screen.getByRole('button', { pressed: true, name: 'Timeseries' })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { pressed: true, name: 'scatter chart' })
+      screen.getByRole('button', { pressed: true, name: 'Scatter Chart' })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { pressed: false, name: 'line chart' })
+      screen.getByRole('button', { pressed: false, name: 'Line Chart' })
     ).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'line chart' }));
+    await user.click(screen.getByRole('button', { name: 'Line Chart' }));
     expect(changePlotType).toHaveBeenCalledWith('line');
   });
 
@@ -78,10 +78,10 @@ describe('Chart Type Buttons', () => {
     render(<ChartTypeButtons {...props} />);
 
     expect(
-      screen.queryByRole('button', { name: 'scatter chart' })
+      screen.queryByRole('button', { name: 'Scatter Chart' })
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { pressed: false, name: 'line chart' })
+      screen.queryByRole('button', { pressed: false, name: 'Line Chart' })
     ).not.toBeInTheDocument();
   });
 });

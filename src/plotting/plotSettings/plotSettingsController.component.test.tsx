@@ -27,6 +27,7 @@ describe('Plot Settings component', () => {
   const changeRightYAxisMaximum = vi.fn();
   const changeSelectedColours = vi.fn();
   const changeRemainingColours = vi.fn();
+  const changeSkipNonBusinessHours = vi.fn();
 
   const createView = async () => {
     // need to import like this in order for the doMock's to work
@@ -51,7 +52,7 @@ describe('Plot Settings component', () => {
       changeXAxis,
       XAxisScale: 'linear',
       changeXAxisScale,
-      leftYAxisScale: 'logarithmic',
+      leftYAxisScale: 'log',
       rightYAxisScale: 'linear',
       changeLeftYAxisScale,
       changeRightYAxisScale,
@@ -71,6 +72,8 @@ describe('Plot Settings component', () => {
       remainingColours: [],
       changeSelectedColours,
       changeRemainingColours,
+      skipNonBusinessHours: false,
+      changeSkipNonBusinessHours,
     };
 
     user = userEvent.setup({ delay: null });
@@ -163,7 +166,7 @@ describe('Plot Settings component', () => {
 
     it('renders plot settings form correctly (timeseries plot)', async () => {
       props.XAxis = 'timestamp';
-      props.XAxisScale = 'time';
+      props.XAxisScale = 'date';
       const view = await createView();
 
       expect(view.asFragment()).toMatchSnapshot();
@@ -208,14 +211,14 @@ describe('Plot Settings component', () => {
     await user.click(screen.getByRole('button', { name: 'Timeseries' }));
 
     expect(changeXAxis).toHaveBeenCalledWith('timestamp');
-    expect(changeXAxisScale).toHaveBeenCalledWith('time');
+    expect(changeXAxisScale).toHaveBeenCalledWith('date');
     expect(changeXMinimum).toHaveBeenCalledWith(undefined);
     expect(changeXMaximum).toHaveBeenCalledWith(undefined);
   });
 
   it('sets the correct values when plot variant changed from timeseries to xy', async () => {
     props.XAxis = 'timestamp';
-    props.XAxisScale = 'time';
+    props.XAxisScale = 'date';
     await createView();
 
     await user.click(screen.getByRole('button', { name: 'XY' }));
@@ -224,5 +227,17 @@ describe('Plot Settings component', () => {
     expect(changeXAxisScale).toHaveBeenCalledWith('linear');
     expect(changeXMinimum).toHaveBeenCalledWith(undefined);
     expect(changeXMaximum).toHaveBeenCalledWith(undefined);
+  });
+
+  it('lets the user skip non-business hours', async () => {
+    props.XAxis = 'timestamp';
+    props.XAxisScale = 'date';
+    await createView();
+
+    await user.click(
+      screen.getByRole('checkbox', { name: 'Skip Non-Business Hours' })
+    );
+
+    expect(changeSkipNonBusinessHours).toHaveBeenCalledWith(true);
   });
 });
