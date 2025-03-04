@@ -1,138 +1,135 @@
 import React from 'react';
 import { Waveform } from '../app.types';
-// only import types as we don't actually run any chart.js code in React
-import type { ChartData, ChartOptions } from 'chart.js';
+// only import types as we don't actually run any plotly.js code in React
+import type {
+  Config as PlotlyConfig,
+  Layout as PlotlyLayout,
+  PlotData as PlotlyPlotData,
+} from 'plotly.js';
+import { useTheme } from '@mui/material';
 
 export interface TracePlotProps {
   trace: Waveform;
   title: string;
-  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  chartRef: React.MutableRefObject<HTMLDivElement | null>;
   viewReset: boolean;
   pointsVisible: boolean;
 }
 
-const TracePlot = (props: TracePlotProps) => {
-  const { trace, title, canvasRef, viewReset, pointsVisible } = props;
+const plotlyConfigString = JSON.stringify({
+  scrollZoom: true,
+  displaylogo: false,
+  displayModeBar: false,
+  responsive: true,
+  showAxisDragHandles: false,
+  showTips: false,
+} satisfies Partial<PlotlyConfig>);
 
-  const chartOptions: ChartOptions<'line'> = React.useMemo(
-    () => ({
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: 'point',
-        intersect: false,
-      },
-      plugins: {
+const TracePlot = (props: TracePlotProps) => {
+  const { trace, title, chartRef: chartRef, viewReset, pointsVisible } = props;
+
+  const {
+    palette: { mode: themeMode },
+  } = useTheme();
+
+  const chartOptions = React.useMemo(
+    () =>
+      ({
+        paper_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
+        plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
         title: {
-          display: true,
           text: title,
+          // @ts-expect-error this property does exist in plotly.js & in the docs, just types are wrong
+          automargin: true,
+          yref: 'paper',
         },
-        zoom: {
-          zoom: {
-            drag: {
-              enabled: true,
-              threshold: 15,
-            },
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: 'xy',
-          },
-          pan: {
-            enabled: true,
-            mode: 'xy',
-            modifierKey: 'shift',
-          },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
         },
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        x: {
+        showlegend: false,
+        xaxis: {
           type: 'linear',
+          exponentformat: 'none',
+          automargin: true,
         },
-        y: {
+        yaxis: {
           type: 'linear',
-          display: true,
-          position: 'left',
+          exponentformat: 'none',
+          automargin: true,
         },
-      },
-      transitions: {
-        zoom: {
-          animation: {
-            duration: 250,
-          },
-        },
-      },
-    }),
+      }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
     [title]
   );
 
   // set the initial options
-  const [optionsString, setOptionsString] = React.useState(
+  const [plotlyLayoutString, setOptionsString] = React.useState(
     JSON.stringify(chartOptions)
   );
-  const [dataString, setDataString] = React.useState('');
+  const [plotlyDataString, setDataString] = React.useState('');
 
   React.useEffect(() => {
+    const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
+    const lineColour =
+      themeMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
+
     setDataString(
-      JSON.stringify({
-        labels: trace.x,
-        datasets: [
-          {
-            data: trace.y,
-            borderColor: '#1F77B4', // same colour as trace thumbnails from the backend
-            borderWidth: 1.5,
-            pointRadius: pointsVisible ? 3 : 0,
-            pointHitRadius: 4, // ...but allow tooltips to act as if the points are there
+      JSON.stringify([
+        {
+          type: trace.x.length > 1000 ? 'scattergl' : 'scatter', // scattergl has better performance for traces with many points (uses HTML canvas instead of SVG)
+          x: trace.x,
+          y: trace.y,
+          line: {
+            color: '#1F77B4', // same colour as trace thumbnails from the backend
+            width: 1.5,
           },
-        ],
-      } satisfies ChartData<'line'>)
+          mode: pointsVisible ? 'lines+markers' : 'lines',
+        } satisfies Partial<PlotlyPlotData>,
+      ])
     );
     const xLimits = { min: Math.min(...trace.x), max: Math.max(...trace.x) };
     const yLimits = { min: Math.min(...trace.y), max: Math.max(...trace.y) };
-    if (chartOptions.plugins?.zoom)
-      chartOptions.plugins.zoom.limits = {
-        x: xLimits,
-        y: yLimits,
+    if (chartOptions.xaxis)
+      chartOptions.xaxis = {
+        ...chartOptions.xaxis,
+        range: [xLimits.min, xLimits.max],
+        maxallowed: xLimits.max,
+        minallowed: xLimits.min,
+        color: lineColour,
+        gridcolor: lineColour,
+        tickfont: { color: fontColour },
       };
-    if (chartOptions.scales?.['x'])
-      chartOptions.scales.x = {
-        ...chartOptions.scales.x,
-        ...xLimits,
+    if (chartOptions.yaxis)
+      chartOptions.yaxis = {
+        ...chartOptions.yaxis,
+        range: [yLimits.min, yLimits.max],
+        maxallowed: yLimits.max,
+        minallowed: yLimits.min,
+        color: lineColour,
+        gridcolor: lineColour,
+        tickfont: { color: fontColour },
       };
-    if (chartOptions.scales?.['y'])
-      chartOptions.scales.y = {
-        ...chartOptions.scales.y,
-        ...yLimits,
-      };
-    setOptionsString(JSON.stringify(chartOptions));
-  }, [chartOptions, trace, pointsVisible]);
 
+    chartOptions.uirevision = `${viewReset}`;
+
+    chartOptions.font = {
+      color: fontColour,
+    };
+
+    setOptionsString(JSON.stringify(chartOptions));
+  }, [chartOptions, trace, pointsVisible, viewReset, themeMode]);
+
+  // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx
   return (
     <div
-      style={{
-        flex: '1 0 0',
-        maxHeight: 'calc(100vh - 38px)',
-        maxWidth: 'calc(100% - 150px)',
-      }}
-    >
-      {/* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */}
-      <canvas
-        className="chartjs-chart"
-        ref={canvasRef}
-        width="400"
-        height="400"
-        data-options={optionsString}
-        data-data={dataString}
-        data-type={'line'}
-        data-view={viewReset}
-      ></canvas>
-    </div>
+      ref={chartRef}
+      className="plotly-chart"
+      data-config={plotlyConfigString}
+      data-layout={plotlyLayoutString}
+      data-data={plotlyDataString}
+    ></div>
   );
 };
 

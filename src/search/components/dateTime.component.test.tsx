@@ -1,4 +1,5 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import { enGB } from 'date-fns/locale';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { render, RenderResult, screen } from '@testing-library/react';
@@ -82,7 +83,7 @@ describe('CustomPickersDay function', () => {
     };
     const createView = (): RenderResult => {
       return render(
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
           <CustomPickersDay
             {...pickersDayProps}
             dayIsBetween={dayIsBetween}

@@ -43,7 +43,15 @@ describe('session buttons', () => {
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
     };
-    vi.useFakeTimers().setSystemTime(new Date('2024-07-15 12:00:00'));
+    vi.useFakeTimers({
+      toFake: [
+        'Date',
+        'setInterval',
+        'clearInterval',
+        'setTimeout',
+        'clearTimeout',
+      ],
+    }).setSystemTime(new Date('2024-07-15 12:00:00'));
 
     axiosPostSpy = vi.spyOn(ogApi, 'post');
     axiosPatchSpy = vi.spyOn(ogApi, 'patch');

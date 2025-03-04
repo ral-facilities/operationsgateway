@@ -51,13 +51,11 @@ test('scalar functions can be plotted', async ({ page }) => {
   // wait for open settings button to be visible i.e. menu is fully closed
   await popup.locator('[aria-label="open settings"]').click({ trial: true });
 
-  const chart = await popup.locator('.chartjs-chart');
-  expect(
-    await chart.screenshot({
-      type: 'png',
-    })
+  const chart = await popup.locator('.plotly-chart');
+  await expect(chart).toHaveScreenshot({
     // 150 pixels would only be very minor changes, so it's safe to ignore
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+    maxDiffPixels: 150,
+  });
 });
 
 test('creates multiple complex functions', async ({ page }) => {

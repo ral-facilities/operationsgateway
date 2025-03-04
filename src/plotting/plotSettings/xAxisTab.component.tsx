@@ -18,6 +18,7 @@ import { styled } from '@mui/material/styles';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { isBefore, isValid } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 import React, { useState } from 'react';
 import {
   FullScalarChannelMetadata,
@@ -88,23 +89,23 @@ const XAxisTab = (props: XAxisTabProps) => {
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
-    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'time'
+    typeof initialXMinimum !== 'undefined' && XAxisScale !== 'date'
       ? '' + initialXMinimum
       : ''
   );
   const [xMaximum, setXMaximum] = React.useState<string>(
-    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'time'
+    typeof initialXMaximum !== 'undefined' && XAxisScale !== 'date'
       ? '' + initialXMaximum
       : ''
   );
 
   const [fromDate, setFromDate] = React.useState<Date | null>(
-    typeof initialXMinimum !== 'undefined' && XAxisScale === 'time'
+    typeof initialXMinimum !== 'undefined' && XAxisScale === 'date'
       ? new Date(initialXMinimum)
       : null
   );
   const [toDate, setToDate] = React.useState<Date | null>(
-    typeof initialXMaximum !== 'undefined' && XAxisScale === 'time'
+    typeof initialXMaximum !== 'undefined' && XAxisScale === 'date'
       ? new Date(initialXMaximum)
       : null
   );
@@ -123,7 +124,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
 
   React.useEffect(() => {
-    if (XAxisScale !== 'time') {
+    if (XAxisScale !== 'date') {
       const parsedXMinimum = parseFloat(xMinimum);
       if (!Number.isNaN(parsedXMinimum)) {
         changeXMinimum(parsedXMinimum);
@@ -134,7 +135,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [XAxisScale, changeXMinimum, xMinimum]);
 
   React.useEffect(() => {
-    if (XAxisScale !== 'time') {
+    if (XAxisScale !== 'date') {
       const parsedXMaximum = parseFloat(xMaximum);
       if (!Number.isNaN(parsedXMaximum)) {
         changeXMaximum(parsedXMaximum);
@@ -145,7 +146,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [XAxisScale, changeXMaximum, xMaximum]);
 
   React.useEffect(() => {
-    if (XAxisScale === 'time') {
+    if (XAxisScale === 'date') {
       if (fromDate) {
         const unixTimestamp = fromDate.getTime();
         if (!Number.isNaN(unixTimestamp)) changeXMinimum(unixTimestamp);
@@ -156,7 +157,7 @@ const XAxisTab = (props: XAxisTabProps) => {
   }, [fromDate, changeXMinimum, XAxisScale]);
 
   React.useEffect(() => {
-    if (XAxisScale === 'time') {
+    if (XAxisScale === 'date') {
       if (toDate) {
         const unixTimestamp = toDate.getTime();
         if (!Number.isNaN(unixTimestamp)) changeXMaximum(unixTimestamp);
@@ -199,15 +200,18 @@ const XAxisTab = (props: XAxisTabProps) => {
   const [toOpen, setToOpen] = useState(false);
 
   return (
-    <Grid container spacing={1} mt={1}>
+    <Grid container spacing={1} mt={0}>
       <Grid container item spacing={1}>
         <ClickAwayListener
           onClickAway={() => setFromOpen(false)}
           mouseEvent="onMouseDown"
         >
           <Grid item xs={6}>
-            {XAxisScale === 'time' ? (
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {XAxisScale === 'date' ? (
+              <LocalizationProvider
+                dateAdapter={AdapterDateFns}
+                adapterLocale={enGB}
+              >
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
                   value={fromDate}
@@ -264,7 +268,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           mouseEvent="onMouseDown"
         >
           <Grid item xs={6}>
-            {XAxisScale === 'time' ? (
+            {XAxisScale === 'date' ? (
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
@@ -329,7 +333,7 @@ const XAxisTab = (props: XAxisTabProps) => {
         <>
           <Grid item>
             <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-              <FormLabel id="x-scale-group-label" sx={{ mr: 1 }}>
+              <FormLabel id="x-scale-group-label" sx={{ mr: 2 }}>
                 Scale
               </FormLabel>
               <RadioGroup
@@ -341,12 +345,24 @@ const XAxisTab = (props: XAxisTabProps) => {
               >
                 <FormControlLabel
                   value="linear"
-                  control={<Radio />}
+                  control={
+                    <Radio
+                      sx={{
+                        padding: 0.5,
+                      }}
+                    />
+                  }
                   label="Linear"
                 />
                 <FormControlLabel
-                  value="logarithmic"
-                  control={<Radio />}
+                  value="log"
+                  control={
+                    <Radio
+                      sx={{
+                        padding: 0.5,
+                      }}
+                    />
+                  }
                   label="Log"
                 />
               </RadioGroup>

@@ -41,7 +41,7 @@ describe('y-axis tab', () => {
       changeRightYAxisMinimum,
       changeRightYAxisMaximum,
       leftYAxisScale: 'linear',
-      rightYAxisScale: 'logarithmic',
+      rightYAxisScale: 'log',
       changeLeftYAxisScale,
       changeRightYAxisScale,
       initialSelectedColours: [],
@@ -105,7 +105,7 @@ describe('y-axis tab', () => {
 
     await user.click(screen.getByRole('radio', { name: 'Log' }));
 
-    expect(changeLeftYAxisScale).toHaveBeenCalledWith('logarithmic');
+    expect(changeLeftYAxisScale).toHaveBeenCalledWith('log');
   });
 
   it('renders Y scale radio buttons and calls changeRightYAxisScale on click when the axis selected is the right', async () => {

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppDispatch } from '../store';
-import { settings } from '../../settings';
+import { settings, type WorkingHours } from '../../settings';
 import { RootState } from '../store';
 
 interface URLs {
@@ -14,6 +14,7 @@ interface ConfigState {
   recordLimitWarning: number;
   pluginHost: string;
   settingsLoaded: boolean;
+  workingHours: WorkingHours;
 }
 
 // Define the initial state using that type
@@ -24,6 +25,7 @@ export const initialState: ConfigState = {
   recordLimitWarning: -1,
   pluginHost: '',
   settingsLoaded: false,
+  workingHours: { start: 9, end: 18 },
 };
 
 export const configSlice = createSlice({
@@ -44,6 +46,9 @@ export const configSlice = createSlice({
     loadRecordLimitWarningSetting: (state, action: PayloadAction<number>) => {
       state.recordLimitWarning = action.payload;
     },
+    loadWorkingHoursSetting: (state, action: PayloadAction<WorkingHours>) => {
+      state.workingHours = action.payload;
+    },
   },
 });
 
@@ -52,11 +57,14 @@ export const {
   loadPluginHostSetting,
   loadUrls,
   loadRecordLimitWarningSetting,
+  loadWorkingHoursSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
 export const selectRecordLimitWarning = (state: RootState) =>
   state.config.recordLimitWarning;
+export const selectWorkingHours = (state: RootState) =>
+  state.config.workingHours;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -76,6 +84,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['pluginHost'] !== undefined) {
       dispatch(loadPluginHostSetting(settingsResult['pluginHost']));
+    }
+
+    if (settingsResult['workingHours'] !== undefined) {
+      dispatch(loadWorkingHoursSetting(settingsResult['workingHours']));
     }
 
     dispatch(settingsLoaded());

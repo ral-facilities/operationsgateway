@@ -1,4 +1,9 @@
 import { expect, test } from '@playwright/test';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -133,17 +138,9 @@ test('user can change the false colour parameters of an image', async ({
     .not.toBe(oldImageSrc);
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({ maxDiffPixels: 150 });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
 test('user can disable false colour', async ({ page }) => {
@@ -179,11 +176,7 @@ test('user can disable false colour', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({ maxDiffPixels: 150 });
 });
 
 test('user can change image via clicking on a thumbnail', async ({ page }) => {
@@ -219,11 +212,7 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await canvas.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(canvas).toHaveScreenshot({ maxDiffPixels: 150 });
 });
 
 test('user can set their default colourmap', async ({ page }) => {
@@ -274,11 +263,7 @@ test('user can set their default colourmap', async ({ page }) => {
   const response = await recordsPromise;
 
   await expect(tableThumbnail).toBeAttached();
-  expect(
-    await tableThumbnail.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({
+  await expect(tableThumbnail).toHaveScreenshot({
     maxDiffPixels: 150,
   });
 
@@ -290,17 +275,9 @@ test('user can set their default colourmap', async ({ page }) => {
 
   await image.click();
 
-  expect(
-    await image.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(image).toHaveScreenshot({ maxDiffPixels: 150 });
 
-  expect(
-    await colourbar.screenshot({
-      type: 'png',
-    })
-  ).toMatchSnapshot();
+  await expect(colourbar).toHaveScreenshot();
 });
 
 test('user can use crosshairs mode and view intensity graphs', async ({
@@ -329,7 +306,7 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' })
   ).toBeChecked();
 
-  const charts = await popup.locator('.chartjs-chart');
+  const charts = await popup.locator('.plotly-chart');
   await expect(charts).toHaveCount(2);
   await expect(charts.first()).toBeVisible();
   await expect(charts.last()).toBeVisible();
@@ -345,14 +322,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
 
   // expect crosshairs to be drawn on image at the centroid & intensity plots to be drawn & positioned correctly
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
   // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
@@ -366,14 +341,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   await expect(popup.getByText(`X FWHM: ${newFWHMs[0]}`)).toBeVisible();
   await expect(popup.getByText(`Y FWHM: ${newFWHMs[1]}`)).toBeVisible();
 
-  expect(
-    await popup.getByTestId('image-panel').screenshot({
-      type: 'png',
-      style:
-        // hide image controls panel & top buttons from the screenshot as it's not important
-        '[data-testid="image-controls-panel"], [aria-label="image actions"] { display: none !important; }',
-    })
-  ).toMatchSnapshot({ maxDiffPixels: 150 });
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
 });
 
 test('user can export image', async ({ page }) => {

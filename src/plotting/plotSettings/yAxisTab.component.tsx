@@ -256,7 +256,7 @@ const YAxisTab = (props: YAxisTabProps) => {
   const currentAxisLabel = axis === 'left' ? leftYAxisLabel : rightYAxisLabel;
 
   return (
-    <Grid container spacing={1} mt={1}>
+    <Grid container spacing={1} mt={0}>
       <Grid item>
         <ToggleButtonGroup
           value={axis}
@@ -313,7 +313,7 @@ const YAxisTab = (props: YAxisTabProps) => {
       </Grid>
       <Grid container item wrap="nowrap">
         <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
-          <FormLabel id={`${axis}-y-scale-group-label`} sx={{ mr: 1 }}>
+          <FormLabel id={`${axis}-y-scale-group-label`} sx={{ mr: 2 }}>
             Scale
           </FormLabel>
           <RadioGroup
@@ -329,12 +329,18 @@ const YAxisTab = (props: YAxisTabProps) => {
           >
             <FormControlLabel
               value="linear"
-              control={<Radio />}
+              control={
+                <Radio
+                  sx={{
+                    padding: 0.5,
+                  }}
+                />
+              }
               label="Linear"
             />
             <FormControlLabel
-              value="logarithmic"
-              control={<Radio />}
+              value="log"
+              control={<Radio sx={{ padding: 0.5 }} />}
               label="Log"
             />
           </RadioGroup>

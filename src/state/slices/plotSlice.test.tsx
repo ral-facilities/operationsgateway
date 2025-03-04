@@ -50,7 +50,7 @@ describe('plotSlice', () => {
           title: 'Untitled 2',
           plotType: 'scatter',
           XAxis: 'timestamp',
-          XAxisScale: 'time',
+          XAxisScale: 'date',
           selectedPlotChannels: [],
           leftYAxisScale: 'linear',
           rightYAxisScale: 'linear',
@@ -58,6 +58,7 @@ describe('plotSlice', () => {
           axesLabelsVisible: true,
           selectedColours: [],
           remainingColours: COLOUR_ORDER.map((colour) => colour),
+          skipNonBusinessHours: false,
           ...DEFAULT_WINDOW_VARS,
         } satisfies PlotConfig,
       });

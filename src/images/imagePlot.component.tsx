@@ -1,7 +1,12 @@
 import React from 'react';
-// only import types as we don't actually run any chart.js code in React
-import { type ChartData, type ChartOptions } from 'chart.js';
+// only import types as we don't actually run any plotly.js code in React
+import type {
+  Config as PlotlyConfig,
+  Layout as PlotlyLayout,
+  PlotData as PlotlyPlotData,
+} from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
+import { Box, useTheme } from '@mui/material';
 
 // In order for the plot area to match pixel to pixel to the image
 // we need to offset/adjust for the width/height of the axis ticks.
@@ -10,11 +15,11 @@ import { CrosshairDimensionType } from '../api/images';
 /**
  * The width offset for XImagePlot
  */
-export const XIMAGEPLOT_OFFSET = 42; // 42 needed for 16-bit images (theoretically have 5 digits on the intensity axis)
+export const XIMAGEPLOT_OFFSET = 48; // 48 needed for 16-bit images (theoretically have 5 digits on the intensity axis)
 /**
  * The height offset for YImagePlot
  */
-export const YIMAGEPLOT_OFFSET = 22;
+export const YIMAGEPLOT_OFFSET = 20;
 
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
@@ -22,54 +27,88 @@ export interface ImagePlotProps {
   imageDims: { width: number; height: number };
 }
 
-const commonChartOptions: ChartOptions<'line'> = {
-  responsive: true, // we don't actually care about resizing - this is just here to help when switching between retina & non-retina displays
-  maintainAspectRatio: false,
-  interaction: {
-    mode: 'index',
-    intersect: true,
+const plotlyConfig: Partial<PlotlyConfig> = {
+  displaylogo: false,
+  displayModeBar: false,
+  showTips: false,
+};
+
+const commonChartOptions: Partial<PlotlyLayout> = {
+  showlegend: false,
+  autosize: false,
+  width: 300, // width to be adjusted later for x plot
+  height: 300, // height to be adjusted later for y plot
+  margin: {
+    l: 0,
+    r: 0,
+    b: 0,
+    t: 0,
+    pad: 0,
   },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    annotation: { annotations: {} },
+  paper_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
+  plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
+};
+
+const YChartOptions: Partial<PlotlyLayout> = {
+  ...commonChartOptions,
+  xaxis: {
+    type: 'linear',
+    fixedrange: true,
+    rangemode: 'tozero',
+    zeroline: false,
+    ticklen: 4,
+    exponentformat: 'none',
+    tickformat: 'd',
+    ticklabeloverflow: 'allow',
+  },
+  yaxis: {
+    type: 'linear',
+    fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklen: 4,
+    ticklabelposition: 'outside bottom',
+    ticklabeloverflow: 'allow',
+    // @ts-expect-error for some reason it's not accepting left as a value, when it's valid
+    automargin: 'left', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "left"
+    exponentformat: 'none',
+    tickformat: 'd',
+  },
+  margin: {
+    ...commonChartOptions.margin,
+    b: YIMAGEPLOT_OFFSET,
   },
 };
 
-const YChartOptions: ChartOptions<'line'> = {
+const XChartOptions: Partial<PlotlyLayout> = {
   ...commonChartOptions,
-  indexAxis: 'y',
-  scales: {
-    y: {
-      type: 'linear',
-      ticks: { padding: 0, align: 'start' },
-      reverse: true,
-    },
-    x: {
-      type: 'linear',
-      min: 0,
-      ticks: { padding: 0 },
-    },
+  xaxis: {
+    type: 'linear',
+    fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklabelposition: 'outside right',
+    ticklabeloverflow: 'allow',
+    ticklen: 4,
+    // @ts-expect-error for some reason it's not accepting bottom as a value, when it's valid
+    automargin: 'bottom', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "bottom"
+    exponentformat: 'none',
+    tickformat: 'd',
   },
-};
-
-const XChartOptions: ChartOptions<'line'> = {
-  ...commonChartOptions,
-  scales: {
-    y: {
-      type: 'linear',
-      ticks: {
-        padding: 0,
-        z: 1,
-      },
-      min: 0,
-      position: 'right',
-    },
-    x: {
-      type: 'linear',
-      ticks: { padding: 0, align: 'start' },
-    },
+  yaxis: {
+    type: 'linear',
+    fixedrange: true,
+    side: 'right',
+    rangemode: 'tozero',
+    zeroline: false,
+    ticklen: 4,
+    exponentformat: 'none',
+    tickformat: 'd',
+    ticklabeloverflow: 'allow',
+  },
+  margin: {
+    ...commonChartOptions.margin,
+    r: XIMAGEPLOT_OFFSET,
   },
 };
 
@@ -102,107 +141,117 @@ export const YImagePlot = (props: ImagePlotProps) => {
 const ImagePlot = (
   props: ImagePlotProps & {
     type: 'x' | 'y';
-    chartOptions: ChartOptions<'line'>;
+    chartOptions: Partial<PlotlyLayout>;
   }
 ) => {
   const { data, crosshairPosition, imageDims, type, chartOptions } = props;
 
-  // set the initial options
+  const {
+    palette: { mode: themeMode },
+  } = useTheme();
+
   const [optionsString, setOptionsString] = React.useState(
-    JSON.stringify(chartOptions)
+    JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
-  const [dataString, setDataString] = React.useState(
-    JSON.stringify({
-      labels: data.x,
-      datasets: [
-        {
-          data: data.y,
-          borderColor: 'red', // same colour as crosshairPosition
-          borderWidth: 1,
-          pointRadius: 0,
-          pointHitRadius: 2,
-        },
-      ],
-    } satisfies ChartData<'line'>)
-  );
+  const [dataString, setDataString] = React.useState(JSON.stringify([]));
 
   React.useEffect(() => {
     setDataString(
-      JSON.stringify({
-        labels: data.x,
-        datasets: [
-          {
-            data: data.y,
-            borderColor: 'red', // same colour as crosshairPosition
-            borderWidth: 1,
-            pointRadius: 0,
-            pointHitRadius: 2,
+      JSON.stringify([
+        {
+          x: data[type === 'x' ? 'x' : 'y'],
+          y: data[type === 'x' ? 'y' : 'x'],
+          line: {
+            color: 'red',
+            width: 1,
           },
-        ],
-      } satisfies ChartData<'line'>)
+          mode: 'lines',
+          ...(type === 'y'
+            ? { hovertemplate: '(%{y}, %{x})<extra></extra>' }
+            : {}), // need to reverse the hover tooltip as on y plot x & y axis are "reversed"
+        } satisfies Partial<PlotlyPlotData>,
+      ])
     );
-  }, [data]);
+  }, [data, type]);
 
   React.useEffect(() => {
+    const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
+    const lineColour =
+      themeMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
+
     // need to create a deep clone so that any common options between x and y charts
     // can be updated without a race condition (e.g. annotations)
-    const newChartOptions = JSON.parse(JSON.stringify(chartOptions));
+    const newChartOptions: Partial<PlotlyLayout> = JSON.parse(
+      JSON.stringify(chartOptions)
+    );
 
-    if (newChartOptions.plugins?.annotation && crosshairPosition)
-      newChartOptions.plugins.annotation.annotations = {
-        line: {
+    newChartOptions.font = { color: fontColour };
+    if (newChartOptions.xaxis) {
+      newChartOptions.xaxis.gridcolor = lineColour;
+      newChartOptions.xaxis.tickcolor = fontColour;
+      newChartOptions.xaxis.linecolor = fontColour;
+    }
+    if (newChartOptions.yaxis) {
+      newChartOptions.yaxis.gridcolor = lineColour;
+      newChartOptions.yaxis.tickcolor = fontColour;
+      newChartOptions.yaxis.linecolor = fontColour;
+    }
+
+    if (typeof crosshairPosition !== 'undefined')
+      newChartOptions.shapes = [
+        {
           type: 'line',
           ...(type === 'x'
-            ? { xMin: crosshairPosition, xMax: crosshairPosition }
+            ? {
+                x0: crosshairPosition,
+                x1: crosshairPosition,
+                yref: 'paper',
+                y0: 0,
+                y1: 1,
+              }
             : {
-                yMin: crosshairPosition,
-                yMax: crosshairPosition,
+                y0: crosshairPosition,
+                y1: crosshairPosition,
+                xref: 'paper',
+                x0: 0,
+                x1: 1,
               }),
-          borderColor: 'red',
-          borderWidth: 1,
+          line: {
+            color: 'red',
+            width: 1,
+          },
         },
-      };
+      ];
 
     if (imageDims.width && imageDims.height) {
-      const limit = {
-        min: 0,
-        max: (type === 'x' ? imageDims.width : imageDims.height) - 1,
+      const rangeMax = (type === 'x' ? imageDims.width : imageDims.height) - 1;
+      // need to reverse the range when it's a y plot
+      const range = type === 'x' ? [0, rangeMax] : [rangeMax, 0];
+      newChartOptions[`${type}axis`] = {
+        ...newChartOptions[`${type}axis`],
+        range,
       };
-      if (newChartOptions.scales?.[type])
-        // use Object.assign here as otherwise typescript gets unhappy about chartOptions.scales?.[type] potentially being undefined
-        // so can't use a normal chartOptions.scales.[type] = command as it won't allow potential undefined on the LHS
-        Object.assign(newChartOptions.scales?.[type], {
-          ...newChartOptions.scales?.[type],
-          ...limit,
-        });
+      if (type === 'x')
+        newChartOptions.width = imageDims.width + XIMAGEPLOT_OFFSET;
+      if (type === 'y')
+        newChartOptions.height = imageDims.height + YIMAGEPLOT_OFFSET;
     }
     setOptionsString(JSON.stringify(newChartOptions));
-  }, [chartOptions, crosshairPosition, imageDims, type]);
+  }, [chartOptions, crosshairPosition, imageDims, themeMode, type]);
 
-  /* This canvas is turned into a Chart.js plot via code in windowPortal.component.tsx */
+  /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
   return (
-    <div
-      style={
-        type === 'x'
-          ? {
-              width: imageDims.width + XIMAGEPLOT_OFFSET,
-              height: 300,
-            }
-          : {
-              width: 300,
-              height: imageDims.height + YIMAGEPLOT_OFFSET,
-            }
-      }
-    >
-      <canvas
-        className="chartjs-chart"
-        width={200}
-        height={200}
-        data-options={optionsString}
-        data-data={dataString}
-        data-type={'line'}
-      />
-    </div>
+    <Box
+      className="plotly-chart"
+      data-config={JSON.stringify(plotlyConfig)}
+      data-layout={optionsString}
+      data-data={dataString}
+      sx={{
+        '& .shape-group path': {
+          shapeRendering: 'crispEdges',
+        },
+      }}
+    ></Box>
   );
 };

@@ -52,27 +52,27 @@ describe('MoreOptionsBox', () => {
 
   it('allows user to change line style of a channel', async () => {
     const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
-    expected[1].options.lineStyle = 'dashed';
+    expected[1].options.lineStyle = 'dash';
 
     createView();
 
     const select = screen.getByLabelText(
       `change ${props.channel.name} line style`
     );
-    fireEvent.change(select, { target: { value: 'dashed' } });
+    fireEvent.change(select, { target: { value: 'dash' } });
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith(expected);
   });
 
   it('allows user to change marker style of a channel', async () => {
     const expected = deepCopySelectedPlotChannels(props.selectedPlotChannels);
-    expected[1].options.markerStyle = 'cross';
+    expected[1].options.markerStyle = 'square';
 
     createView();
 
     const select = screen.getByLabelText(
       `change ${props.channel.name} marker style`
     );
-    fireEvent.change(select, { target: { value: 'cross' } });
+    fireEvent.change(select, { target: { value: 'square' } });
     expect(changeSelectedPlotChannels).toHaveBeenCalledWith(expected);
   });
 
@@ -149,9 +149,9 @@ describe('MoreOptionsBox', () => {
 
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
-    // Won't allow for input out of specified range (now 1-10)
-    expected[1].options.markerSize = 10;
-    fireEvent.change(input, { target: { value: '11' } });
+    // Won't allow for input out of specified range (now 1-15)
+    expected[1].options.markerSize = 15;
+    fireEvent.change(input, { target: { value: '16' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
 
     expected[1].options.markerSize = 1;
