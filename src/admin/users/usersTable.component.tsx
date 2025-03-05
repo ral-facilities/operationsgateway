@@ -29,14 +29,12 @@ export const AUTHORISED_ROUTE_LIST = [
   '/submit/manifest POST',
   '/records/{id_} DELETE',
   '/experiments POST',
+  '/users GET',
   '/users POST',
   '/users PATCH',
-  '/users GET',
   '/users/{id_} DELETE',
-  '/maintenance GET',
   '/maintenance POST',
-  '/maintenance/scheduled GET',
-  '/maintenance/scheduled POST',
+  '/scheduled_maintenance POST',
 ];
 
 export const AUTH_TYPE_LIST = ['local', 'FedID'];

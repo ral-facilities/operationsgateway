@@ -258,6 +258,7 @@ const UserDialogue = (props: UserDialogueProps) => {
             label={'Username'}
             id="user-id"
             fullWidth
+            required
             disabled={requestType === 'patch'}
             autoComplete="new-password"
             margin="dense"
@@ -280,6 +281,7 @@ const UserDialogue = (props: UserDialogueProps) => {
               }
               autoComplete="new-password"
               fullWidth
+              required
               InputProps={{
                 endAdornment: (
                   <IconButton

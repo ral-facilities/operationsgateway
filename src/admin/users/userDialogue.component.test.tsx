@@ -51,24 +51,24 @@ describe('userDialogue', () => {
     it('displays password field only when auth_type is "local"', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'new_user');
-      expect(screen.getByLabelText('Password')).toBeInTheDocument();
+      await user.type(screen.getByLabelText('Username *'), 'new_user');
+      expect(screen.getByLabelText('Password *')).toBeInTheDocument();
     });
 
     it('does not displays password field only when auth_type is "local"', async () => {
       createView();
-      await user.type(screen.getByLabelText('Username'), 'new_user');
+      await user.type(screen.getByLabelText('Username *'), 'new_user');
       const [authType, _routes] = screen.getAllByRole('combobox');
       await user.click(authType);
       await user.click(await screen.findByText('FedID'));
-      expect(screen.queryByLabelText('Password')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('Password *')).not.toBeInTheDocument();
     });
 
     it('adds user successfully (local)', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'new_user');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'new_user');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
 
       const [_authType, routes] = screen.getAllByRole('combobox');
 
@@ -90,7 +90,7 @@ describe('userDialogue', () => {
     it('adds user successfully (fedId)', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'new_user');
+      await user.type(screen.getByLabelText('Username *'), 'new_user');
 
       const [authType, _routes] = screen.getAllByRole('combobox');
 
@@ -109,8 +109,8 @@ describe('userDialogue', () => {
       // This test that the password us removed if you switch from local to fedId
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'new_user');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'new_user');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
 
       const [authType, _routes] = screen.getAllByRole('combobox');
 
@@ -127,7 +127,7 @@ describe('userDialogue', () => {
 
     it('displays error when adding a user without a password for "local" auth_type', async () => {
       createView();
-      await user.type(screen.getByLabelText('Username'), 'local_user');
+      await user.type(screen.getByLabelText('Username *'), 'local_user');
       await user.click(screen.getByText('Submit'));
       expect(
         await screen.findByText(
@@ -139,8 +139,8 @@ describe('userDialogue', () => {
     it('displays error for duplicate username', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'test_dup');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'test_dup');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
       await user.click(screen.getByText('Submit'));
 
       expect(
@@ -153,8 +153,8 @@ describe('userDialogue', () => {
     it('displays backend error message', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'error');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'error');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
       await user.click(screen.getByText('Submit'));
 
       expect(await screen.findByText('Unknown error')).toBeInTheDocument();
@@ -163,8 +163,8 @@ describe('userDialogue', () => {
     it('displays general error when the error message is not a string', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'non_string_error');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'non_string_error');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
       await user.click(screen.getByText('Submit'));
 
       expect(
@@ -177,10 +177,10 @@ describe('userDialogue', () => {
     it('should show and hide password when clicking the visibility toggle', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Username'), 'testuser');
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Username *'), 'testuser');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
 
-      const passwordField = screen.getByLabelText('Password');
+      const passwordField = screen.getByLabelText('Password *');
       expect(passwordField).toHaveAttribute('type', 'password');
 
       const visibilityIcon = screen.getByLabelText('Show password');
@@ -225,7 +225,7 @@ describe('userDialogue', () => {
     it('changes password successfully', async () => {
       createView();
 
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
 
       await user.click(screen.getByText('Submit'));
 
@@ -239,7 +239,7 @@ describe('userDialogue', () => {
       props.selectedUser = UsersJson[8];
       createView();
 
-      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.type(screen.getByLabelText('Password *'), 'secure_password');
 
       await user.click(screen.getByText('Submit'));
 
