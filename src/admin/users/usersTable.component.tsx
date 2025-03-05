@@ -100,9 +100,12 @@ function UsersTable() {
     // Localisation
     localization: { ...MRT_Localization_EN },
     // State
-    initialState: { showColumnFilters: true, showGlobalFilter: true },
-    state: {
+    initialState: {
+      showColumnFilters: true,
+      showGlobalFilter: true,
       pagination: { pageSize: 15, pageIndex: 0 },
+    },
+    state: {
       showProgressBars: userDataLoading,
     },
     // MUI
