@@ -150,10 +150,20 @@ describe('userDialogue', () => {
       ).toBeInTheDocument();
     });
 
-    it('displays general error for unknown issues', async () => {
+    it('displays backend error message', async () => {
       createView();
 
       await user.type(screen.getByLabelText('Username'), 'error');
+      await user.type(screen.getByLabelText('Password'), 'secure_password');
+      await user.click(screen.getByText('Submit'));
+
+      expect(await screen.findByText('Unknown error')).toBeInTheDocument();
+    });
+
+    it('displays general error when the error message is not a string', async () => {
+      createView();
+
+      await user.type(screen.getByLabelText('Username'), 'non_string_error');
       await user.type(screen.getByLabelText('Password'), 'secure_password');
       await user.click(screen.getByText('Submit'));
 
@@ -224,7 +234,24 @@ describe('userDialogue', () => {
         updated_password: 'secure_password',
       });
     });
+
+    it('displays error backend message', async () => {
+      props.selectedUser = UsersJson[8];
+      createView();
+
+      await user.type(screen.getByLabelText('Password'), 'secure_password');
+
+      await user.click(screen.getByText('Submit'));
+
+      expect(axiosPatchSpy).toHaveBeenCalledWith('/users', {
+        _id: 'user9',
+        updated_password: 'secure_password',
+      });
+
+      expect(await screen.findByText('error')).toBeInTheDocument();
+    });
   });
+
   describe('modify authorised routes', () => {
     let axiosPatchSpy: MockInstance;
 

@@ -38,7 +38,9 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
       })
       .catch((error: AxiosError) => {
         const errorDetail = (error.response?.data as APIError).detail;
-        setErrorMessage(errorDetail as string);
+        let message = 'An unexpected error occurred. Please try again later.';
+        if (typeof errorDetail === 'string') message = errorDetail;
+        setErrorMessage(message);
       });
   }, [deleteUser, handleClose, selectedUser]);
 
@@ -53,10 +55,20 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button onClick={handleDeleteUser}>Continue</Button>
-        {errorMessage !== undefined && (
-          <FormHelperText error>{errorMessage}</FormHelperText>
-        )}
       </DialogActions>
+      {errorMessage !== undefined && (
+        <FormHelperText
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: 2,
+            mx: 1,
+          }}
+          error
+        >
+          {errorMessage}
+        </FormHelperText>
+      )}
     </Dialog>
   );
 };

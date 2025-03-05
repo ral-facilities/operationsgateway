@@ -58,6 +58,22 @@ describe('delete user dialogue', () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it('displays unexpected error message for non string error responses', async () => {
+    props = {
+      ...props,
+      selectedUser: { ...UsersJson[8] },
+    };
+    createView();
+
+    const continueButton = screen.getByRole('button', { name: 'Continue' });
+    await user.click(continueButton);
+    const helperTexts = await screen.findByText(
+      `An unexpected error occurred. Please try again later.`
+    );
+    expect(helperTexts).toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
   it('calls handleDeleteUser when continue button is clicked with a valid user name', async () => {
     createView();
     const continueButton = screen.getByRole('button', { name: 'Continue' });

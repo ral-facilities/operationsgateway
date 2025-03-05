@@ -89,10 +89,7 @@ describe('Users', () => {
           expect(postRequests.length).equal(1);
           const request = postRequests[0];
           expect(JSON.stringify(await request.json())).equal(
-            JSON.stringify({
-              _id: 'new_user',
-              auth_type: 'FedID',
-            })
+            JSON.stringify({ _id: 'new_user', auth_type: 'FedID' })
           );
         }
       );
@@ -115,8 +112,15 @@ describe('Users', () => {
       ).should('exist');
     });
 
-    it('displays general error for unknown issues', () => {
+    it('displays backend error message', () => {
       cy.findByLabelText('Username').type('error');
+      cy.findByLabelText('Password').type('secure_password');
+      cy.findByRole('button', { name: 'Submit' }).click();
+      cy.findByText('Unknown error').should('exist');
+    });
+
+    it('displays general error when the error message is not a string', () => {
+      cy.findByLabelText('Username').type('non_string_error');
       cy.findByLabelText('Password').type('secure_password');
       cy.findByRole('button', { name: 'Submit' }).click();
       cy.findByText(
@@ -227,8 +231,6 @@ describe('Users', () => {
   describe('delete users', () => {
     beforeEach(() => {
       cy.visit('/admin/users');
-      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
-      cy.findByText('Delete').click();
     });
 
     afterEach(() => {
@@ -236,6 +238,8 @@ describe('Users', () => {
     });
 
     it('sends a delete request when an admin deletes a user', () => {
+      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
+      cy.findByText('Delete').click();
       cy.findAllByTestId('delete-user-name').should('have.text', 'user1');
 
       cy.startSnoopingBrowserMockedRequest();
@@ -251,6 +255,18 @@ describe('Users', () => {
 
         expect(request.url.toString()).to.contain('user1');
       });
+    });
+
+    it('displays unexpected error message for non string error responses', () => {
+      cy.findAllByRole('button', { name: 'Row Actions' }).eq(8).click();
+      cy.findByText('Delete').click();
+      cy.findAllByTestId('delete-user-name').should('have.text', 'user9');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findByText('An unexpected error occurred. Please try again later.');
     });
   });
 });
