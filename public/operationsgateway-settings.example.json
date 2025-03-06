@@ -8,6 +8,13 @@
       "link": "/og",
       "displayName": "OperationsGateway",
       "order": 0
+    },
+    {
+      "section": "Admin",
+      "link": "/admin/users",
+      "displayName": "Users",
+      "admin": true,
+      "order": 1
     }
   ],
   "pluginHost": "http://localhost:3000"

@@ -1,0 +1,888 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UsersTable Snapshot > matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation2 css-1atu56z-MuiPaper-root"
+  >
+    <div
+      class="MuiBox-root css-1tbggly"
+    >
+      <div
+        class="Mui-ToolbarDropZone MuiBox-root css-1fwjva3"
+        style="opacity: 0; visibility: hidden;"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 css-p3gdy2-MuiTypography-root"
+        >
+          Drop to group by 
+        </p>
+      </div>
+      <div
+        class="MuiBox-root css-zrlv9q"
+      >
+        <span />
+        <div
+          class="MuiBox-root css-1p0wbhh"
+        >
+          <div
+            class="MuiCollapse-root MuiCollapse-horizontal MuiCollapse-entered css-1d98dbz-MuiCollapse-root"
+            style="min-width: 0px;"
+          >
+            <div
+              class="MuiCollapse-wrapper MuiCollapse-horizontal css-18w3a48-MuiCollapse-wrapper"
+            >
+              <div
+                class="MuiCollapse-wrapperInner MuiCollapse-horizontal css-14vyde3-MuiCollapse-wrapperInner"
+              >
+                <div
+                  class="MuiFormControl-root MuiTextField-root css-11sh9fj-MuiFormControl-root-MuiTextField-root"
+                >
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd css-1v8abvc-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="SearchIcon"
+                      focusable="false"
+                      style="margin-right: 4px;"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"
+                      />
+                    </svg>
+                    <input
+                      aria-invalid="false"
+                      autocomplete="new-password"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
+                      id=":r0:"
+                      placeholder="Search"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
+                    >
+                      <span
+                        aria-label="Clear search"
+                        class=""
+                        data-mui-internal-clone-element="true"
+                      >
+                        <button
+                          aria-label="Clear search"
+                          class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                          disabled=""
+                          tabindex="-1"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="CloseIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-ihdtdm"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiBox-root css-di3982"
+          >
+            <button
+              aria-label="Show/Hide filters"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              data-mui-internal-clone-element="true"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="FilterListOffIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M10.83 8H21V6H8.83zm5 5H18v-2h-4.17zM14 16.83V18h-4v-2h3.17l-3-3H6v-2h2.17l-3-3H3V6h.17L1.39 4.22 2.8 2.81l18.38 18.38-1.41 1.41z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <button
+              aria-label="Show/Hide columns"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+              data-mui-internal-clone-element="true"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="ViewColumnIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M14.67 5v14H9.33V5zm1 14H21V5h-5.33zm-7.34 0V5H3v14z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-19z4fjk-MuiCollapse-root"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          >
+            <span
+              aria-busy="true"
+              aria-label="Loading"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-qprkun-MuiLinearProgress-root"
+              role="progressbar"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate css-5ir5xx-MuiLinearProgress-bar1"
+              />
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate css-1r8wrcl-MuiLinearProgress-bar2"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiTableContainer-root css-1xl5pck-MuiTableContainer-root"
+    >
+      <table
+        class="MuiTable-root MuiTable-stickyHeader css-1y6k1sx-MuiTable-root"
+        style="--header-username-size: 180; --col-username-size: 180; --header-auth_type-size: 180; --col-auth_type-size: 180; --header-authorised_routes-size: 180; --col-authorised_routes-size: 180;"
+      >
+        <thead
+          class="MuiTableHead-root css-dk8izd-MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head css-7sv680-MuiTableRow-root"
+          >
+            <th
+              aria-sort="none"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-hy179q-MuiTableCell-root"
+              colspan="1"
+              data-can-sort="true"
+              data-index="0"
+              scope="col"
+            >
+              <div
+                class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
+              >
+                <div
+                  class="Mui-TableHeadCell-Content-Labels MuiBox-root css-68rqdf"
+                >
+                  <div
+                    class="Mui-TableHeadCell-Content-Wrapper MuiBox-root css-lapokc"
+                  >
+                    Username
+                  </div>
+                  <span
+                    aria-label="Sort by Username descending"
+                    class="MuiBadge-root css-1c32n2y-MuiBadge-root"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <span
+                      aria-label="Sort by Username descending"
+                      class="MuiButtonBase-root MuiTableSortLabel-root Mui-active css-118d58w-MuiButtonBase-root-MuiTableSortLabel-root"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                        data-testid="SyncAltIcon"
+                        focusable="false"
+                        style="transform: rotate(-90deg) scaleX(0.9) translateX(-1px);"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiBadge-badge MuiBadge-standard MuiBadge-invisible MuiBadge-anchorOriginTopRight MuiBadge-anchorOriginTopRightCircular MuiBadge-overlapCircular css-2v5rxe-MuiBadge-badge"
+                    >
+                      0
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="Mui-TableHeadCell-Content-Actions MuiBox-root css-epvm6"
+                >
+                  <button
+                    aria-label="Move"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1uxkzex-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    draggable="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="DragHandleIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 9H4v2h16zM4 15h16v-2H4z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label="Column Actions"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1p8dotb-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      style="transform: scale(0.9);"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+                style="min-height: 0px;"
+              >
+                <div
+                  class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                >
+                  <div
+                    class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                  >
+                    <div
+                      class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-jk1t0h-MuiFormControl-root-MuiTextField-root"
+                    >
+                      <div
+                        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-953pxc-MuiInputBase-root-MuiInput-root"
+                      >
+                        <input
+                          aria-invalid="false"
+                          aria-label="Filter by Username"
+                          autocomplete="new-password"
+                          class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-929hxt-MuiInputBase-input-MuiInput-input"
+                          id=":r7:"
+                          placeholder="Filter by Username"
+                          title="Filter by Username"
+                          type="text"
+                          value=""
+                        />
+                        <div
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+                        >
+                          <span
+                            aria-label="Clear filter"
+                            class=""
+                            data-mui-internal-clone-element="true"
+                          >
+                            <button
+                              aria-label="Clear filter"
+                              class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeSmall css-1so9ih7-MuiButtonBase-root-MuiIconButton-root"
+                              disabled=""
+                              tabindex="-1"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                                data-testid="CloseIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                />
+                              </svg>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th
+              aria-sort="none"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-3651zu-MuiTableCell-root"
+              colspan="1"
+              data-can-sort="true"
+              data-index="1"
+              scope="col"
+            >
+              <div
+                class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
+              >
+                <div
+                  class="Mui-TableHeadCell-Content-Labels MuiBox-root css-68rqdf"
+                >
+                  <div
+                    class="Mui-TableHeadCell-Content-Wrapper MuiBox-root css-lapokc"
+                  >
+                    Auth Type
+                  </div>
+                  <span
+                    aria-label="Sort by Auth Type descending"
+                    class="MuiBadge-root css-1c32n2y-MuiBadge-root"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <span
+                      aria-label="Sort by Auth Type descending"
+                      class="MuiButtonBase-root MuiTableSortLabel-root Mui-active css-118d58w-MuiButtonBase-root-MuiTableSortLabel-root"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                        data-testid="SyncAltIcon"
+                        focusable="false"
+                        style="transform: rotate(-90deg) scaleX(0.9) translateX(-1px);"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiBadge-badge MuiBadge-standard MuiBadge-invisible MuiBadge-anchorOriginTopRight MuiBadge-anchorOriginTopRightCircular MuiBadge-overlapCircular css-2v5rxe-MuiBadge-badge"
+                    >
+                      0
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="Mui-TableHeadCell-Content-Actions MuiBox-root css-epvm6"
+                >
+                  <button
+                    aria-label="Move"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1uxkzex-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    draggable="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="DragHandleIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 9H4v2h16zM4 15h16v-2H4z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label="Column Actions"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1p8dotb-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      style="transform: scale(0.9);"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+                style="min-height: 0px;"
+              >
+                <div
+                  class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                >
+                  <div
+                    class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                  >
+                    <div
+                      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-ka7ti6-MuiAutocomplete-root"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-jk1t0h-MuiFormControl-root-MuiTextField-root"
+                      >
+                        <div
+                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-953pxc-MuiInputBase-root-MuiInput-root"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-invalid="false"
+                            aria-label="Filter by Auth Type"
+                            autocapitalize="none"
+                            autocomplete="new-password"
+                            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-929hxt-MuiInputBase-input-MuiInput-input"
+                            id=":rc:"
+                            placeholder="Filter by Auth Type"
+                            role="combobox"
+                            spellcheck="false"
+                            title="Filter by Auth Type"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
+                          >
+                            <button
+                              aria-label="Clear"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
+                              tabindex="-1"
+                              title="Clear"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                                data-testid="CloseIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                />
+                              </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th
+              aria-sort="none"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-1hnlvkg-MuiTableCell-root"
+              colspan="1"
+              data-can-sort="true"
+              data-index="2"
+              scope="col"
+            >
+              <div
+                class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
+              >
+                <div
+                  class="Mui-TableHeadCell-Content-Labels MuiBox-root css-68rqdf"
+                >
+                  <div
+                    class="Mui-TableHeadCell-Content-Wrapper MuiBox-root css-lapokc"
+                  >
+                    Authorised Routes
+                  </div>
+                  <span
+                    aria-label="Sort by Authorised Routes descending"
+                    class="MuiBadge-root css-1c32n2y-MuiBadge-root"
+                    data-mui-internal-clone-element="true"
+                  >
+                    <span
+                      aria-label="Sort by Authorised Routes descending"
+                      class="MuiButtonBase-root MuiTableSortLabel-root Mui-active css-118d58w-MuiButtonBase-root-MuiTableSortLabel-root"
+                      role="button"
+                      tabindex="0"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                        data-testid="SyncAltIcon"
+                        focusable="false"
+                        style="transform: rotate(-90deg) scaleX(0.9) translateX(-1px);"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"
+                        />
+                      </svg>
+                    </span>
+                    <span
+                      class="MuiBadge-badge MuiBadge-standard MuiBadge-invisible MuiBadge-anchorOriginTopRight MuiBadge-anchorOriginTopRightCircular MuiBadge-overlapCircular css-2v5rxe-MuiBadge-badge"
+                    >
+                      0
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="Mui-TableHeadCell-Content-Actions MuiBox-root css-epvm6"
+                >
+                  <button
+                    aria-label="Move"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1uxkzex-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    draggable="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="DragHandleIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M20 9H4v2h16zM4 15h16v-2H4z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    aria-label="Column Actions"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1p8dotb-MuiButtonBase-root-MuiIconButton-root"
+                    data-mui-internal-clone-element="true"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="MoreVertIcon"
+                      focusable="false"
+                      style="transform: scale(0.9);"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+                      />
+                    </svg>
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+              </div>
+              <div
+                class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+                style="min-height: 0px;"
+              >
+                <div
+                  class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                >
+                  <div
+                    class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                  >
+                    <div
+                      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-ka7ti6-MuiAutocomplete-root"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-jk1t0h-MuiFormControl-root-MuiTextField-root"
+                      >
+                        <div
+                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-953pxc-MuiInputBase-root-MuiInput-root"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-invalid="false"
+                            aria-label="Filter by Authorised Routes"
+                            autocapitalize="none"
+                            autocomplete="new-password"
+                            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-929hxt-MuiInputBase-input-MuiInput-input"
+                            id=":rh:"
+                            placeholder="Filter by Authorised Routes"
+                            role="combobox"
+                            spellcheck="false"
+                            title="Filter by Authorised Routes"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            class="MuiAutocomplete-endAdornment css-p1olib-MuiAutocomplete-endAdornment"
+                          >
+                            <button
+                              aria-label="Clear"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
+                              tabindex="-1"
+                              title="Clear"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                                data-testid="CloseIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                />
+                              </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root css-1lxvlui-MuiTableBody-root"
+        >
+          <tr>
+            <td
+              colspan="3"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-dc4hy6-MuiTypography-root"
+              >
+                No records to display
+              </p>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot
+          class="MuiTableFooter-root css-131pszo-MuiTableFooter-root"
+        />
+      </table>
+    </div>
+    <div
+      class="MuiBox-root css-10gei56"
+    >
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-v9zqoq-MuiCollapse-root"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          >
+            <span
+              aria-busy="true"
+              aria-label="Loading"
+              class="MuiLinearProgress-root MuiLinearProgress-colorPrimary MuiLinearProgress-indeterminate css-qprkun-MuiLinearProgress-root"
+              role="progressbar"
+            >
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar1Indeterminate css-5ir5xx-MuiLinearProgress-bar1"
+              />
+              <span
+                class="MuiLinearProgress-bar MuiLinearProgress-barColorPrimary MuiLinearProgress-bar2Indeterminate css-1r8wrcl-MuiLinearProgress-bar2"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard css-dxfizy-MuiPaper-root-MuiAlert-root"
+              role="alert"
+            >
+              <div
+                class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+              >
+                <div
+                  class="MuiStack-root css-5kul5x-MuiStack-root"
+                >
+                  <div
+                    class="MuiBox-root css-k008qs"
+                  >
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-1llu0od"
+      >
+        <span />
+        <div
+          class="MuiBox-root css-qpxlqp"
+        >
+          <div
+            class="MuiTablePagination-root MuiBox-root css-8k4lth"
+          >
+            <div
+              class="MuiBox-root css-exd1zr"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-uqq6zz-MuiFormLabel-root-MuiInputLabel-root"
+                for="mrt-rows-per-page"
+              >
+                Rows per page
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInputBase-colorPrimary css-1mmm5cp-MuiInputBase-root-MuiInput-root-MuiSelect-root"
+              >
+                <div
+                  aria-controls=":rj:"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-label="Rows per page"
+                  class="MuiSelect-select MuiSelect-standard MuiInputBase-input MuiInput-input css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input"
+                  role="combobox"
+                  tabindex="0"
+                >
+                  15
+                </div>
+                <input
+                  aria-hidden="true"
+                  aria-invalid="false"
+                  class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                  id="mrt-rows-per-page"
+                  tabindex="-1"
+                  value="15"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+                  data-testid="ArrowDropDownIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <nav
+              aria-label="pagination navigation"
+              class="MuiPagination-root MuiPagination-outlined css-1oj2twp-MuiPagination-root"
+            >
+              <ul
+                class="MuiPagination-ul css-wjh20t-MuiPagination-ul"
+              >
+                <li>
+                  <button
+                    aria-label="Go to previous page"
+                    class="MuiButtonBase-root Mui-disabled MuiPaginationItem-root MuiPaginationItem-sizeMedium MuiPaginationItem-outlined MuiPaginationItem-rounded MuiPaginationItem-colorSecondary MuiPaginationItem-outlinedSecondary Mui-disabled MuiPaginationItem-previousNext css-iqeo3-MuiButtonBase-root-MuiPaginationItem-root"
+                    disabled=""
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiPaginationItem-icon css-g2z002-MuiSvgIcon-root-MuiPaginationItem-icon"
+                      data-testid="ChevronLeftIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    aria-label="Go to next page"
+                    class="MuiButtonBase-root Mui-disabled MuiPaginationItem-root MuiPaginationItem-sizeMedium MuiPaginationItem-outlined MuiPaginationItem-rounded MuiPaginationItem-colorSecondary MuiPaginationItem-outlinedSecondary Mui-disabled MuiPaginationItem-previousNext css-iqeo3-MuiButtonBase-root-MuiPaginationItem-root"
+                    disabled=""
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiPaginationItem-icon css-g2z002-MuiSvgIcon-root-MuiPaginationItem-icon"
+                      data-testid="ChevronRightIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

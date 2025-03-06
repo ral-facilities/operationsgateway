@@ -306,6 +306,16 @@ export interface APIError {
   detail: string | APIErrorResponse[];
 }
 
+export interface User {
+  username: string;
+  auth_type: string;
+  authorised_routes?: string[] | null;
+}
+
+export interface UsersDict {
+  users: User[];
+}
+
 export interface FavouriteFilterPost {
   name: string;
   filter: string;

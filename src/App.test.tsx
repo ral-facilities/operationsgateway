@@ -7,6 +7,9 @@ import { flushPromises } from './testUtils';
 vi.mock('loglevel');
 
 describe('App', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it('renders without crashing', async () => {
     const el = document.createElement('div');
     const root = createRoot(el);
