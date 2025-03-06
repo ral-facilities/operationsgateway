@@ -121,18 +121,16 @@ function UsersTable() {
     },
     renderCreateRowDialogContent: ({ table }) => {
       return (
-        <>
-          <UserDialogue
-            open={true}
-            selectedUser={selectedUser}
-            requestType={requestType === 'post' ? 'post' : 'patch'}
-            passwordOnly={requestType === 'patchPassword'}
-            authorisedRoutesOnly={requestType === 'patchAuthorisedRoutes'}
-            onClose={() => {
-              table.setCreatingRow(null);
-            }}
-          />
-        </>
+        <UserDialogue
+          open={true}
+          selectedUser={selectedUser}
+          requestType={requestType === 'post' ? 'post' : 'patch'}
+          passwordOnly={requestType === 'patchPassword'}
+          authorisedRoutesOnly={requestType === 'patchAuthorisedRoutes'}
+          onClose={() => {
+            table.setCreatingRow(null);
+          }}
+        />
       );
     },
     renderTopToolbarCustomActions: ({ table }) => (

@@ -37,10 +37,6 @@ describe('useAddUser', () => {
 
     expect(result.current.data).toEqual(usersJson[0].username);
   });
-
-  it.todo(
-    'sends axios request to add a user and throws an appropriate error on failure'
-  );
 });
 
 describe('useEditUser', () => {
@@ -63,10 +59,6 @@ describe('useEditUser', () => {
 
     expect(result.current.data).toEqual('test');
   });
-
-  it.todo(
-    'sends axios request to edit a user and throws an appropriate error on failure'
-  );
 });
 
 describe('useDeleteUser', () => {

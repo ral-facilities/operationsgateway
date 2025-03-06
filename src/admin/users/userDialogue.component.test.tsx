@@ -55,7 +55,7 @@ describe('userDialogue', () => {
       expect(screen.getByLabelText('Password *')).toBeInTheDocument();
     });
 
-    it('does not displays password field only when auth_type is "local"', async () => {
+    it('does not display password field only when auth_type is "FedID"', async () => {
       createView();
       await user.type(screen.getByLabelText('Username *'), 'new_user');
       const [authType, _routes] = screen.getAllByRole('combobox');
@@ -106,7 +106,7 @@ describe('userDialogue', () => {
     });
 
     it('adds user successfully (fedId) switch from local to fedId', async () => {
-      // This test that the password us removed if you switch from local to fedId
+      // This tests that the password is removed if you switch from local to fedId
       createView();
 
       await user.type(screen.getByLabelText('Username *'), 'new_user');
