@@ -90,7 +90,7 @@ const fetchRecords = async (
           : `channels.${channel}`;
       queryParams.append('projection', key);
 
-      if (!(channel in staticChannels)) {
+      if (channel !== timeChannelName) {
         existsConditions.push({ [key]: { $exists: true } });
       }
     }
@@ -189,7 +189,7 @@ const fetchRecordCountQuery = async (
           ? `metadata.${channel}`
           : `channels.${channel}`;
 
-      if (!(channel in staticChannels)) {
+      if (channel !== timeChannelName) {
         existsConditions.push({ [key]: { $exists: true } });
       }
     }

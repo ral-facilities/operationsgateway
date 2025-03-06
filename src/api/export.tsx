@@ -1,6 +1,11 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { SearchParams, SortType, type APIFunctionState } from '../app.types';
+import {
+  SearchParams,
+  SortType,
+  timeChannelName,
+  type APIFunctionState,
+} from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -75,7 +80,7 @@ export const exportData = async (
       channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
     queryParams.append('projection', key);
 
-    if (!(channel in staticChannels) && !is_function) {
+    if (channel !== timeChannelName && !is_function) {
       existsConditions.push({ [key]: { $exists: true } });
     }
   });

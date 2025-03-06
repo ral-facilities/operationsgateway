@@ -290,7 +290,7 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                 <span
                   class="MuiTypography-root MuiTypography-caption css-ifxngq-MuiTypography-root"
                 >
-                  (Hover over name for more information)
+                  (Hover over function name for more information)
                 </span>
               </h3>
               <div

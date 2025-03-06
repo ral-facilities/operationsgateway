@@ -111,7 +111,7 @@ const FunctionsHelp = (props: FunctionsHelpProps) => {
       <Heading>
         Functions and operators included{' '}
         <Typography variant="caption" component="span" fontWeight="normal">
-          (Hover over name for more information)
+          (Hover over function name for more information)
         </Typography>
       </Heading>
       <TableContainer component={Paper}>

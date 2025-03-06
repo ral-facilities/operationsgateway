@@ -317,9 +317,13 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson.length);
     });
 
-    it('can set search and filter params via the store', async () => {
+    it('can set search and filter params (excludes function from the projection) via the store', async () => {
       state = {
         ...getInitialState(),
+        table: {
+          ...getInitialState().table,
+          selectedColumnIds: [timeChannelName, 'a'],
+        },
         search: {
           ...getInitialState().search,
           searchParams: {
@@ -339,6 +343,17 @@ describe('records api functions', () => {
               operators.find((t) => t.value === '>')!,
               { type: 'number', value: '300', label: '300' },
             ],
+          ],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
+            },
           ],
         },
       };
@@ -638,9 +653,10 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$and":[{"metadata.shotnum":{"$gt":300}}],"$or":' +
-          JSON.stringify(existsConditions) +
-          '}'
+        JSON.stringify({
+          $and: [{ 'metadata.shotnum': { $gt: 300 } }],
+          $or: [{ 'metadata.shotnum': { $exists: true } }, ...existsConditions],
+        })
       );
 
       params.append('skip', '0');
