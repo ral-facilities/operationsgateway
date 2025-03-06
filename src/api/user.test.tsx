@@ -37,8 +37,4 @@ describe('useAddUser', () => {
 
     expect(result.current.data).toEqual(usersJson[0].username);
   });
-
-  it.todo(
-    'sends axios request to post user session and throws an appropriate error on failure'
-  );
 });

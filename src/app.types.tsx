@@ -1,6 +1,6 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
-import { ImportSessionType } from './state/store';
 import type { AxisType, Dash } from 'plotly.js';
+import { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -306,21 +306,18 @@ export interface APIError {
   detail: string | APIErrorResponse[];
 }
 
-export interface User {
-  username: string;
-  auth_type: string;
-  authorised_routes?: string[] | null;
-}
-
-export interface UsersDict {
-  users: User[];
-}
-
 export interface UserPost {
   _id: string; // Maps the `username` field in Python, which has an alias "_id"
   auth_type: string;
   sha256_password?: string;
   authorised_routes?: string[] | null;
+}
+export interface User extends Omit<UserPost, '_id' | 'sha256_password'> {
+  username: string;
+}
+
+export interface UsersDict {
+  users: User[];
 }
 
 export interface FavouriteFilterPost {
