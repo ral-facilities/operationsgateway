@@ -76,8 +76,4 @@ describe('useDeleteUser', () => {
 
     expect(result.current.data).toEqual('');
   });
-
-  it.todo(
-    'sends axios request to delete user session and throws an appropriate error on failure'
-  );
 });
