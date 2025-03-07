@@ -225,8 +225,8 @@ if (import.meta.env.DEV || import.meta.env.VITE_APP_INCLUDE_MSW === 'true') {
           const apiUrl = settingsResult.apiUrl;
           axios
             .post(`${apiUrl}/login`, {
-              username: 'frontend',
-              password: 'front',
+              username: import.meta.env.VITE_OG_API_USERNAME,
+              password: import.meta.env.VITE_OG_API_PASSWORD,
             })
             .then((response) => {
               window.localStorage.setItem(MicroFrontendToken, response.data);
