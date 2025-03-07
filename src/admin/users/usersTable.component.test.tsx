@@ -42,6 +42,60 @@ describe('UsersTable Snapshot', () => {
     });
   });
 
+  it('opens change password dialog and closes it correctly', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('user1')).toBeInTheDocument();
+    });
+
+    const addButtons = screen.getAllByRole('button', { name: 'Row Actions' });
+    await user.click(addButtons[0]);
+
+    await user.click(screen.getByText('Change Password'));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('dialog', { name: 'Change Password' })
+      ).toBeInTheDocument();
+    });
+
+    const closeButton = screen.getByRole('button', { name: 'Cancel' });
+    await user.click(closeButton);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: 'Change Password' })
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it('opens modify authorised routes dialog and closes it correctly', async () => {
+    createView();
+    await waitFor(() => {
+      expect(screen.getByText('user1')).toBeInTheDocument();
+    });
+
+    const addButtons = screen.getAllByRole('button', { name: 'Row Actions' });
+    await user.click(addButtons[0]);
+
+    await user.click(screen.getByText('Modify Authorised Routes'));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('dialog', { name: 'Modify Authorised Routes' })
+      ).toBeInTheDocument();
+    });
+
+    const closeButton = screen.getByRole('button', { name: 'Cancel' });
+    await user.click(closeButton);
+
+    await waitFor(() => {
+      expect(
+        screen.queryByRole('dialog', { name: 'Modify Authorised Routes' })
+      ).not.toBeInTheDocument();
+    });
+  });
+
   it('sets the table filters and clears the table filters', async () => {
     createView();
 

@@ -414,6 +414,11 @@ export const handlers = [
     return HttpResponse.json(body._id, { status: 201 });
   }),
 
+  http.patch('/users', async ({ request }) => {
+    const body = (await request.json()) as UserPost;
+    return HttpResponse.json(body._id, { status: 201 });
+  }),
+
   http.post('/users/filters', async () => {
     return HttpResponse.json('1', { status: 201 });
   }),

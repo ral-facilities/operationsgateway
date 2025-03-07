@@ -2,6 +2,7 @@ import { screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { MockInstance } from 'vitest';
 import { ogApi } from '../../api/api';
+import UsersJson from '../../mocks/users.json';
 import { renderComponentWithProviders } from '../../testUtils';
 import UserDialogue, { UserDialogueProps } from './userDialogue.component';
 
@@ -181,6 +182,98 @@ describe('userDialogue', () => {
       await user.click(hideVisibilityIcon);
 
       expect(passwordField).toHaveAttribute('type', 'password');
+    });
+  });
+  describe('change password', () => {
+    let axiosPatchSpy: MockInstance;
+
+    beforeEach(() => {
+      props.passwordOnly = true;
+      props.selectedUser = UsersJson[0];
+      props.requestType = 'patch';
+      axiosPatchSpy = vi.spyOn(ogApi, 'patch');
+    });
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('renders the component correctly', async () => {
+      createView();
+      expect(screen.getByText('Change Password')).toBeInTheDocument();
+    });
+
+    it('displays error when no password is supplied', async () => {
+      createView();
+      await user.click(screen.getByText('Submit'));
+      expect(
+        await screen.findByText(
+          'Password field is empty. Please enter a new password or close the dialog.'
+        )
+      ).toBeInTheDocument();
+    });
+
+    it('changes password successfully', async () => {
+      createView();
+
+      await user.type(screen.getByLabelText('Password'), 'secure_password');
+
+      await user.click(screen.getByText('Submit'));
+
+      expect(axiosPatchSpy).toHaveBeenCalledWith('/users', {
+        _id: 'user1',
+        updated_password: 'secure_password',
+      });
+    });
+  });
+  describe('modify authorised routes', () => {
+    let axiosPatchSpy: MockInstance;
+
+    beforeEach(() => {
+      props.authorisedRoutesOnly = true;
+      props.selectedUser = UsersJson[0];
+      props.requestType = 'patch';
+      axiosPatchSpy = vi.spyOn(ogApi, 'patch');
+    });
+    afterEach(() => {
+      vi.clearAllMocks();
+    });
+
+    it('renders the component correctly', async () => {
+      createView();
+      expect(screen.getByText('Modify Authorised Routes')).toBeInTheDocument();
+    });
+
+    it('displays error when no routes are changed', async () => {
+      createView();
+      await user.click(screen.getByText('Submit'));
+      expect(
+        await screen.findByText(
+          'Please modify the routes; these routes have not been edited.'
+        )
+      ).toBeInTheDocument();
+    });
+
+    it('modify authorised routes successfully', async () => {
+      createView();
+
+      const routes = screen.getByRole('combobox');
+
+      await user.click(routes);
+      await user.click(
+        await screen.findByRole('option', { name: '/submit/hdf POST' })
+      );
+      await user.click(routes);
+      await user.click(
+        await screen.findByRole('option', { name: '/users PATCH' })
+      );
+
+      await user.click(screen.getByText('Submit'));
+
+      expect(axiosPatchSpy).toHaveBeenCalledWith('/users', {
+        _id: 'user1',
+        add_authorised_routes: ['/users PATCH'],
+        remove_authorised_routes: ['/submit/hdf POST'],
+      });
     });
   });
 });

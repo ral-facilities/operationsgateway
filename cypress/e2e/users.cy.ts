@@ -139,4 +139,88 @@ describe('Users', () => {
       cy.findByLabelText('Password').should('have.attr', 'type', 'password');
     });
   });
+
+  describe('change password', () => {
+    beforeEach(() => {
+      cy.visit('/admin/users');
+      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
+      cy.findByText('Change Password').click();
+    });
+
+    afterEach(() => {
+      cy.clearMocks();
+    });
+
+    it('displays error when no password is supplied', () => {
+      cy.findByText('Submit').click();
+      cy.findByText(
+        'Password field is empty. Please enter a new password or close the dialog.'
+      ).should('be.visible');
+    });
+
+    it('update user password', () => {
+      cy.findByLabelText('Password').type('secure_password');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Submit' }).click();
+
+      cy.findBrowserMockedRequests({ method: 'PATCH', url: '/users' }).should(
+        async (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+          expect(JSON.stringify(await request.json())).equal(
+            JSON.stringify({
+              _id: 'user1',
+              updated_password: 'secure_password',
+            })
+          );
+        }
+      );
+    });
+  });
+
+  describe('modify authorised routes ', () => {
+    beforeEach(() => {
+      cy.visit('/admin/users');
+      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
+      cy.findByText('Modify Authorised Routes').click();
+    });
+
+    afterEach(() => {
+      cy.clearMocks();
+    });
+
+    it('displays error when no routes are changed', () => {
+      cy.findByText('Submit').click();
+      cy.findByText(
+        'Please modify the routes; these routes have not been edited.'
+      ).should('be.visible');
+    });
+
+    it('modifies authorised routes', () => {
+      cy.findByRole('combobox').click();
+      cy.findByRole('option', { name: '/submit/hdf POST' }).click();
+      cy.findAllByRole('combobox').last().click();
+      cy.findByRole('option', { name: '/users PATCH' }).click();
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Submit' }).click();
+
+      cy.findBrowserMockedRequests({ method: 'PATCH', url: '/users' }).should(
+        async (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+          expect(JSON.stringify(await request.json())).equal(
+            JSON.stringify({
+              _id: 'user1',
+              add_authorised_routes: ['/users PATCH'],
+              remove_authorised_routes: ['/submit/hdf POST'],
+            })
+          );
+        }
+      );
+    });
+  });
 });

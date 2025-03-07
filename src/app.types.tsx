@@ -310,11 +310,19 @@ export interface APIError {
   detail: string | APIErrorResponse[];
 }
 
+type AuthorisedRoutes = string[] | null;
+
 export interface UserPost {
   _id: string; // Maps the `username` field in Python, which has an alias "_id"
   auth_type: string;
   sha256_password?: string;
-  authorised_routes?: string[] | null;
+  authorised_routes?: AuthorisedRoutes;
+}
+
+export interface UserPatch extends Pick<UserPost, '_id'> {
+  updated_password?: string | null;
+  add_authorised_routes?: AuthorisedRoutes;
+  remove_authorised_routes?: AuthorisedRoutes;
 }
 export interface User extends Omit<UserPost, '_id' | 'sha256_password'> {
   username: string;

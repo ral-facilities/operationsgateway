@@ -16,14 +16,17 @@ import { AxiosError } from 'axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useAddUser } from '../../api/user';
-import { APIError, type UserPost } from '../../app.types';
+import { useAddUser, useEditUser } from '../../api/user';
+import { APIError, UserPatch, UserPost, type User } from '../../app.types';
 import { AUTH_TYPE_LIST, AUTHORISED_ROUTE_LIST } from './usersTable.component';
 
 export interface UserDialogueProps {
   onClose: () => void;
   open: boolean;
   requestType: 'post' | 'patch';
+  selectedUser?: User;
+  passwordOnly?: boolean;
+  authorisedRoutesOnly?: boolean;
 }
 
 interface BaseZodSchemaProps {
@@ -52,18 +55,35 @@ const userSchema = z.object({
   authorised_routes: z
     .array(z.string())
     .transform((val) => (val.length === 0 || !val ? undefined : val))
+    .nullable()
     .optional(),
 });
 
 const UserDialogue = (props: UserDialogueProps) => {
-  const { open, onClose, requestType } = props;
+  const {
+    open,
+    onClose,
+    requestType,
+    selectedUser,
+    passwordOnly,
+    authorisedRoutesOnly,
+  } = props;
 
-  const initialUser: UserPost = {
-    _id: '',
-    sha256_password: '',
-    auth_type: 'local',
-    authorised_routes: [],
-  };
+  const isNotAdding = requestType !== 'post' && selectedUser;
+
+  const initialUser: UserPost = React.useMemo(
+    () =>
+      isNotAdding
+        ? { ...selectedUser, _id: selectedUser.username, sha256_password: '' }
+        : {
+            _id: '',
+            sha256_password: '',
+            auth_type: 'local',
+            authorised_routes: [],
+          },
+
+    [isNotAdding, selectedUser]
+  );
 
   const {
     control,
@@ -93,6 +113,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   }, [clearErrors, onClose, reset]);
 
   const { mutateAsync: addUser, isPending: isAddPending } = useAddUser();
+  const { mutateAsync: editUser, isPending: isEditPending } = useEditUser();
   const handleAddUser = React.useCallback(
     async (user: UserPost) => {
       addUser(user)
@@ -120,6 +141,59 @@ const UserDialogue = (props: UserDialogueProps) => {
     [addUser, handleClose, setError]
   );
 
+  const handleEditUser = React.useCallback(
+    async (user: UserPost) => {
+      if (!selectedUser) return;
+
+      const patchUsers: UserPatch = { _id: selectedUser.username };
+
+      if (passwordOnly && !user.sha256_password) {
+        setError('sha256_password', {
+          message:
+            'Password field is empty. Please enter a new password or close the dialog.',
+        });
+        return;
+      }
+
+      if (passwordOnly) {
+        patchUsers.updated_password = user.sha256_password!;
+      }
+
+      if (authorisedRoutesOnly) {
+        const addedRoutes =
+          user.authorised_routes?.filter(
+            (route) => !selectedUser.authorised_routes?.includes(route)
+          ) ?? [];
+
+        const removedRoutes =
+          selectedUser.authorised_routes?.filter(
+            (route) => !user.authorised_routes?.includes(route)
+          ) ?? [];
+
+        if (addedRoutes.length === 0 && removedRoutes.length === 0) {
+          setError('authorised_routes', {
+            message:
+              'Please modify the routes; these routes have not been edited.',
+          });
+          return;
+        }
+
+        patchUsers.add_authorised_routes = addedRoutes;
+        patchUsers.remove_authorised_routes = removedRoutes;
+      }
+
+      editUser(patchUsers).then(() => handleClose());
+    },
+    [
+      authorisedRoutesOnly,
+      editUser,
+      handleClose,
+      passwordOnly,
+      selectedUser,
+      setError,
+    ]
+  );
+
   const onSubmit = (data: UserPost) => {
     const newData: UserPost = {
       ...data,
@@ -128,7 +202,11 @@ const UserDialogue = (props: UserDialogueProps) => {
       }),
     };
 
-    if (requestType === 'post') handleAddUser(newData);
+    if (requestType === 'post') {
+      handleAddUser(newData);
+    } else {
+      handleEditUser(newData);
+    }
   };
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -137,104 +215,120 @@ const UserDialogue = (props: UserDialogueProps) => {
     setShowPassword(!showPassword);
   };
 
+  const title = passwordOnly
+    ? 'Change Password'
+    : authorisedRoutesOnly
+      ? 'Modify Authorised Routes'
+      : 'Add User';
+
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Add User</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <Controller
-          name="auth_type"
-          control={control}
-          render={({ field }) => (
-            <Autocomplete
-              {...field}
-              options={AUTH_TYPE_LIST}
-              disableClearable
-              getOptionLabel={(option) => option}
-              onChange={(_, value) => field.onChange(value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Auth Type"
-                  margin="dense"
-                  fullWidth
-                  error={!!errors.auth_type}
-                  helperText={errors.auth_type?.message}
-                />
-              )}
-            />
-          )}
-        />
-
-        <TextField
-          {...register('_id')}
-          label={'Username'}
-          id="user-id"
-          fullWidth
-          autoComplete="new-password"
-          margin="dense"
-          error={!!errors._id}
-          helperText={errors._id?.message}
-        />
-        {userFormData.auth_type === 'local' && (
-          <TextField
-            {...register('sha256_password')}
-            label="Password"
-            id="user-password"
-            type={
-              //This prevents the browser autocomplete password
-              !userFormData.sha256_password
-                ? 'text'
-                : showPassword
-                  ? 'text'
-                  : 'password'
-            }
-            autoComplete="new-password"
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  onClick={togglePasswordVisibility}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </IconButton>
-              ),
-            }}
-            margin="dense"
-            error={!!errors.sha256_password}
-            helperText={errors.sha256_password?.message}
+        {requestType !== 'patch' && !passwordOnly && !authorisedRoutesOnly && (
+          <Controller
+            name="auth_type"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                {...field}
+                options={AUTH_TYPE_LIST}
+                disableClearable
+                getOptionLabel={(option) => option}
+                onChange={(_, value) => field.onChange(value)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Auth Type"
+                    margin="dense"
+                    fullWidth
+                    error={!!errors.auth_type}
+                    helperText={errors.auth_type?.message}
+                  />
+                )}
+              />
+            )}
           />
         )}
-        <Controller
-          name="authorised_routes"
-          control={control}
-          render={({ field }) => (
-            <Autocomplete
-              {...field}
-              value={field.value ?? undefined}
-              multiple
-              options={AUTHORISED_ROUTE_LIST}
-              getOptionLabel={(option) => option}
-              onChange={(_, value) => field.onChange(value)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Authorised Routes"
-                  margin="dense"
-                  fullWidth
-                  error={!!errors.authorised_routes}
-                  helperText={errors.authorised_routes?.message}
-                />
-              )}
+        {(passwordOnly || requestType === 'post') && (
+          <TextField
+            {...register('_id')}
+            label={'Username'}
+            id="user-id"
+            fullWidth
+            disabled={requestType === 'patch'}
+            autoComplete="new-password"
+            margin="dense"
+            error={!!errors._id}
+            helperText={errors._id?.message}
+          />
+        )}
+        {userFormData.auth_type === 'local' &&
+          (passwordOnly || requestType === 'post') && (
+            <TextField
+              {...register('sha256_password')}
+              label="Password"
+              id="user-password"
+              type={
+                !userFormData.sha256_password
+                  ? 'text'
+                  : showPassword
+                    ? 'text'
+                    : 'password'
+              }
+              autoComplete="new-password"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
+                    onClick={togglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                ),
+              }}
+              margin="dense"
+              error={!!errors.sha256_password}
+              helperText={errors.sha256_password?.message}
             />
           )}
-        />
+        {(authorisedRoutesOnly || requestType === 'post') && (
+          <Controller
+            name="authorised_routes"
+            control={control}
+            render={({ field }) => (
+              <Autocomplete
+                {...field}
+                value={field.value ?? undefined}
+                multiple
+                options={AUTHORISED_ROUTE_LIST}
+                getOptionLabel={(option) => option}
+                onChange={(_, value) => field.onChange(value)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Authorised Routes"
+                    margin="dense"
+                    fullWidth
+                    error={!!errors.authorised_routes}
+                    helperText={errors.authorised_routes?.message}
+                  />
+                )}
+              />
+            )}
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button
-          disabled={Object.values(errors).length !== 0 || isAddPending}
+          disabled={
+            Object.values(errors).length !== 0 || isAddPending || isEditPending
+          }
           onClick={handleSubmit(onSubmit)}
         >
           Submit
