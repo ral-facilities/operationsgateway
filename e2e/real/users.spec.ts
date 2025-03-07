@@ -1,4 +1,10 @@
 import { test as base, BrowserContext, expect, Page } from '@playwright/test';
+import dotenvx from '@dotenvx/dotenvx';
+
+dotenvx.config({
+  convention: 'nextjs',
+  quiet: true,
+});
 
 const adminAuthFile = 'e2e/real/.auth/admin.json';
 
@@ -15,8 +21,8 @@ const test = base.extend<{ adminPage: Page }>({
     // Perform login as admin
     const loginResponse = await request.post(`${apiUrl}/login`, {
       data: {
-        username: 'backend',
-        password: 'back', // Replace with actual admin credentials
+        username: process.env.VITE_OG_API_ADMIN_USERNAME,
+        password: process.env.VITE_OG_API_ADMIN_PASSWORD,
       },
     });
 

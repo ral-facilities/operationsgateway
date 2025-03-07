@@ -87,6 +87,7 @@
   ],
   "packageManager": "yarn@4.7.0",
   "devDependencies": {
+    "@dotenvx/dotenvx": "1.38.4",
     "@eslint/compat": "1.2.4",
     "@playwright/test": "1.49.0",
     "@tanstack/eslint-plugin-query": "5.66.0",
