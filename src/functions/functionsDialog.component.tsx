@@ -152,7 +152,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
         // Only update properties that exist in the update object
         const updatedFunctionState: ValidateFunctionState = {
           ...functions[index],
-          ...(update.name !== undefined && { name: update.name }),
+          ...(update.name !== undefined && { name: update.name.trim() }),
           ...(update.dataType !== undefined && { type: update.dataType }),
           ...(update.expression !== undefined && {
             expression: update.expression,
@@ -424,7 +424,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
         <Button
-          disabled={Object.keys(errors).length !== 0 || functions.length === 0}
+          disabled={Object.keys(errors).length !== 0}
           onClick={() => {
             applyFunctions(functions);
           }}

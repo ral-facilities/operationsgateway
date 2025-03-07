@@ -131,6 +131,91 @@ describe('useExportData', () => {
     expect(mockLinkRemove).toHaveBeenCalled();
   });
 
+  it('sends axios request to export selected rows and returns successful response (with functions)', async () => {
+    const { result } = renderHook(() => useExportData(), {
+      wrapper: hooksWrapperWithProviders({
+        ...state,
+        table: {
+          ...state.table,
+          selectedColumnIds: ['timestamp', 'ChannelA', 'ChannelB', 'a'],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: ['CHANNEL_1', 'CHANNEL_2'],
+            },
+          ],
+        },
+      }),
+    });
+
+    expect(ogApi.get).not.toHaveBeenCalled();
+    expect(result.current.isIdle).toBe(true);
+
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'Selected Rows',
+        dataToExport: {
+          Scalars: true,
+          Images: true,
+          'Waveform CSVs': true,
+          'Waveform Images': true,
+        },
+      });
+    });
+
+    const params = new URLSearchParams();
+    params.append('order', 'metadata.timestamp desc');
+    params.append('projection', 'metadata.timestamp');
+    params.append('projection', 'channels.ChannelA');
+    params.append('projection', 'channels.ChannelB');
+    params.append('projection', 'channels.a');
+    params.append('functions', JSON.stringify({ name: 'a', expression: '1' }));
+
+    params.append(
+      'conditions',
+      JSON.stringify({
+        $and: [
+          {
+            'metadata.timestamp': {
+              $gte: '2022-10-17T00:00:00',
+              $lte: '2022-11-04T23:59:59',
+            },
+          },
+          { _id: { $in: ['1', '2', '3'] } },
+        ],
+        $or: [
+          { 'channels.ChannelA': { $exists: true } },
+          { 'channels.ChannelB': { $exists: true } },
+          { 'channels.CHANNEL_1': { $exists: true } },
+          { 'channels.CHANNEL_2': { $exists: true } },
+        ],
+      })
+    );
+    params.append('export_scalars', 'true');
+    params.append('export_images', 'true');
+    params.append('export_waveform_csvs', 'true');
+    params.append('export_waveform_images', 'true');
+    params.append('skip', '0');
+    params.append('limit', '0');
+
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
+      params,
+      responseType: 'blob',
+    });
+
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.download).toEqual('scimwcwidownload.csv');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
+  });
+
   it('sends axios request to export all rows and returns successful response', async () => {
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),

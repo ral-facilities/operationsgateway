@@ -19,7 +19,6 @@ import {
   SortType,
   timeChannelName,
 } from '../app.types';
-import { readSciGatewayToken } from '../parseTokens';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
@@ -91,7 +90,7 @@ const fetchRecords = async (
           : `channels.${channel}`;
       queryParams.append('projection', key);
 
-      if (!(channel in staticChannels)) {
+      if (channel !== timeChannelName) {
         existsConditions.push({ [key]: { $exists: true } });
       }
     }
@@ -101,10 +100,19 @@ const fetchRecords = async (
     queryParams.append('functions', JSON.stringify(func));
   });
 
-  functionsState.channels.forEach((channel) => {
-    if (!projection?.includes(channel)) {
-      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
-    }
+  const functionChannels = new Set(
+    functionsState.functionsWithChannels
+      .filter((func) => projection?.includes(func.name))
+      .flatMap((func) => func.channels)
+  );
+
+  // Ensure `functionChannels` does not contain channels already in `projection`
+  const uniqueFunctionChannels = Array.from(functionChannels).filter(
+    (channel) => !projection?.includes(channel)
+  );
+
+  uniqueFunctionChannels.forEach((channel) => {
+    existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
   });
 
   if (existsConditions.length > 0 || searchObj.length > 0) {
@@ -181,15 +189,9 @@ const fetchRecordCountQuery = async (
           ? `metadata.${channel}`
           : `channels.${channel}`;
 
-      if (!(channel in staticChannels)) {
+      if (channel !== timeChannelName) {
         existsConditions.push({ [key]: { $exists: true } });
       }
-    }
-  });
-
-  functionsState.channels.forEach((channel) => {
-    if (!projection?.includes(channel)) {
-      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
     }
   });
 
@@ -207,9 +209,6 @@ const fetchRecordCountQuery = async (
   return ogApi
     .get(`/records/count`, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => response.data);
 };
@@ -248,9 +247,6 @@ export const fetchRangeRecordConverterQuery = async (
   return ogApi
     .get(`/records/range_converter`, {
       params: queryParams,
-      headers: {
-        Authorization: `Bearer ${readSciGatewayToken()}`,
-      },
     })
     .then((response) => {
       let inputRange;

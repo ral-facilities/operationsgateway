@@ -57,7 +57,12 @@ describe('functionsSlice', () => {
         },
       };
       expect(selectQueryFunctions(state)).toEqual({
-        channels: [],
+        functionsWithChannels: [
+          { channels: [], expression: '1', name: 'a' },
+          { channels: [], expression: 'a + 1', name: 'b' },
+          { channels: [], expression: '1', name: 'mean' },
+          { channels: [], expression: 'centre(1)', name: 'a' },
+        ],
         functions: [
           { expression: '1', name: 'a' },
           { expression: 'a + 1', name: 'b' },

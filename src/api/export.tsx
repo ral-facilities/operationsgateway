@@ -1,6 +1,11 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { SearchParams, SortType } from '../app.types';
+import {
+  SearchParams,
+  SortType,
+  timeChannelName,
+  type APIFunctionState,
+} from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
@@ -20,6 +25,7 @@ export const exportData = async (
   sort: SortType,
   searchParams: SearchParams,
   filters: string[],
+  functionsState: APIFunctionState,
   offsetParams?: {
     startIndex: number;
     stopIndex: number;
@@ -62,15 +68,40 @@ export const exportData = async (
   const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
   projection?.forEach((channel) => {
+    // Do not project on functions
+    let is_function = false;
+    functionsState.functions.forEach((func) => {
+      if (channel === func.name) is_function = true;
+    });
+
     // API recognises projection values as metadata.key or channel.key
     // Therefore, we must construct the appropriate parameter
     const key =
       channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
     queryParams.append('projection', key);
 
-    if (!(channel in staticChannels)) {
+    if (channel !== timeChannelName && !is_function) {
       existsConditions.push({ [key]: { $exists: true } });
     }
+  });
+
+  functionsState.functions.forEach((func) => {
+    queryParams.append('functions', JSON.stringify(func));
+  });
+
+  const functionChannels = new Set(
+    functionsState.functionsWithChannels
+      .filter((func) => projection?.includes(func.name))
+      .flatMap((func) => func.channels)
+  );
+
+  // Ensure `functionChannels` does not contain channels already in `projection`
+  const uniqueFunctionChannels = Array.from(functionChannels).filter(
+    (channel) => !projection?.includes(channel)
+  );
+
+  uniqueFunctionChannels.forEach((channel) => {
+    existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
   });
 
   if (selectedRows) {
@@ -136,7 +167,7 @@ export const exportData = async (
 
 export const useExportData = (): UseMutationResult<void, AxiosError> => {
   const selectedRows = useAppSelector(selectSelectedRows);
-  const { searchParams, page, resultsPerPage, sort, filters } =
+  const { searchParams, page, resultsPerPage, sort, filters, functions } =
     useAppSelector(selectQueryParams);
   const projection = useAppSelector(selectSelectedIdsIgnoreOrder);
 
@@ -163,6 +194,7 @@ export const useExportData = (): UseMutationResult<void, AxiosError> => {
         sort,
         searchParams,
         filters,
+        functions,
         { startIndex, stopIndex },
         projection,
         dataToExport,
