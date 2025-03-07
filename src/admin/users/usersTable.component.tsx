@@ -1,14 +1,18 @@
-import { Chip, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
+import { Box, Button, Chip, Stack } from '@mui/material';
 import {
   MaterialReactTable,
   MRT_ColumnDef,
   useMaterialReactTable,
 } from 'material-react-table';
 import { MRT_Localization_EN } from 'material-react-table/locales/en';
+import React from 'react';
 import { useUsers } from '../../api/user';
 import { User } from '../../app.types';
+import UserDialogue from './userDialogue.component';
 
-const AUTHORISED_ROUTE_LIST = [
+export const AUTHORISED_ROUTE_LIST = [
   '/submit/hdf POST',
   '/submit/manifest POST',
   '/records/{id_} DELETE',
@@ -23,9 +27,13 @@ const AUTHORISED_ROUTE_LIST = [
   '/maintenance/scheduled POST',
 ];
 
-const AUTH_TYPE_LIST = ['local', 'FedID'];
+export const AUTH_TYPE_LIST = ['local', 'FedID'];
 function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
+
+  const [requestType, setRequestType] = React.useState<'patch' | 'post'>(
+    'post'
+  );
 
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
@@ -47,7 +55,7 @@ function UsersTable() {
         return routes && routes.length > 0 ? (
           <Stack direction="column" spacing={1} flexWrap="wrap">
             {routes.map((route, index) => (
-              <Chip key={index} label={route} variant="outlined" />
+              <Chip key={index} label={route} />
             ))}
           </Stack>
         ) : (
@@ -94,6 +102,45 @@ function UsersTable() {
       // Page height - unknown - app bar height - footer height - additional
       sx: { height: `calc(100vh - 8px - 64px - 24px - 250px)` },
     },
+    renderCreateRowDialogContent: ({ table }) => {
+      return (
+        <>
+          <UserDialogue
+            open={true}
+            requestType={requestType}
+            onClose={() => {
+              table.setCreatingRow(null);
+            }}
+          />
+        </>
+      );
+    },
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Box>
+        <Button
+          startIcon={<AddIcon />}
+          sx={{ mx: '4px' }}
+          variant="outlined"
+          onClick={() => {
+            setRequestType('post');
+            table.setCreatingRow(true);
+          }}
+        >
+          Add User
+        </Button>
+        <Button
+          startIcon={<ClearIcon />}
+          sx={{ mx: '4px' }}
+          variant="outlined"
+          disabled={table.getState().columnFilters.length === 0}
+          onClick={() => {
+            table.resetColumnFilters();
+          }}
+        >
+          Clear Filters
+        </Button>
+      </Box>
+    ),
   });
   return <MaterialReactTable table={table} />;
 }

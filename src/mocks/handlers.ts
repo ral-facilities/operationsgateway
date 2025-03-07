@@ -8,6 +8,7 @@ import {
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
+  type UserPost,
 } from '../app.types';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
@@ -378,6 +379,39 @@ export const handlers = [
   }),
   http.get('/users', () => {
     return HttpResponse.json({ users: usersJson }, { status: 200 });
+  }),
+
+  http.post('/users', async ({ request }) => {
+    const body = (await request.json()) as UserPost;
+
+    if (body.auth_type === 'local' && !body.sha256_password) {
+      return HttpResponse.json(
+        {
+          detail:
+            'for the auth_type you put (local), a password is required. Please add this field',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (body._id === 'test_dup') {
+      return HttpResponse.json(
+        {
+          detail: `username field must not be the same as a pre existing user. You put: ${body._id} `,
+        },
+        { status: 400 }
+      );
+    }
+
+    if (body._id === 'error') {
+      return HttpResponse.json(
+        {
+          detail: 'Unknown error',
+        },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json(body._id, { status: 201 });
   }),
 
   http.post('/users/filters', async () => {
