@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
+import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import PasswordIcon from '@mui/icons-material/Password';
 import {
@@ -20,6 +21,7 @@ import { MRT_Localization_EN } from 'material-react-table/locales/en';
 import React from 'react';
 import { useUsers } from '../../api/user';
 import { User } from '../../app.types';
+import DeleteUserDialogue from './deleteUserDialogue.component';
 import UserDialogue from './userDialogue.component';
 
 export const AUTHORISED_ROUTE_LIST = [
@@ -27,14 +29,12 @@ export const AUTHORISED_ROUTE_LIST = [
   '/submit/manifest POST',
   '/records/{id_} DELETE',
   '/experiments POST',
+  '/users GET',
   '/users POST',
   '/users PATCH',
-  '/users GET',
   '/users/{id_} DELETE',
-  '/maintenance GET',
   '/maintenance POST',
-  '/maintenance/scheduled GET',
-  '/maintenance/scheduled POST',
+  '/scheduled_maintenance POST',
 ];
 
 export const AUTH_TYPE_LIST = ['local', 'FedID'];
@@ -42,7 +42,7 @@ function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
 
   const [requestType, setRequestType] = React.useState<
-    'patchPassword' | 'patchAuthorisedRoutes' | 'post'
+    'patchPassword' | 'patchAuthorisedRoutes' | 'post' | 'delete' | false
   >('post');
 
   const [selectedUser, setSelectedUser] = React.useState<User | undefined>(
@@ -100,9 +100,12 @@ function UsersTable() {
     // Localisation
     localization: { ...MRT_Localization_EN },
     // State
-    initialState: { showColumnFilters: true, showGlobalFilter: true },
-    state: {
+    initialState: {
+      showColumnFilters: true,
+      showGlobalFilter: true,
       pagination: { pageSize: 15, pageIndex: 0 },
+    },
+    state: {
       showProgressBars: userDataLoading,
     },
     // MUI
@@ -118,18 +121,16 @@ function UsersTable() {
     },
     renderCreateRowDialogContent: ({ table }) => {
       return (
-        <>
-          <UserDialogue
-            open={true}
-            selectedUser={selectedUser}
-            requestType={requestType === 'post' ? 'post' : 'patch'}
-            passwordOnly={requestType === 'patchPassword'}
-            authorisedRoutesOnly={requestType === 'patchAuthorisedRoutes'}
-            onClose={() => {
-              table.setCreatingRow(null);
-            }}
-          />
-        </>
+        <UserDialogue
+          open={true}
+          selectedUser={selectedUser}
+          requestType={requestType === 'post' ? 'post' : 'patch'}
+          passwordOnly={requestType === 'patchPassword'}
+          authorisedRoutesOnly={requestType === 'patchAuthorisedRoutes'}
+          onClose={() => {
+            table.setCreatingRow(null);
+          }}
+        />
       );
     },
     renderTopToolbarCustomActions: ({ table }) => (
@@ -196,10 +197,38 @@ function UsersTable() {
               </MenuItem>,
             ]
           : []),
+        <MenuItem
+          key="delete"
+          aria-label={`Delete user ${row.original.username}`}
+          onClick={() => {
+            setRequestType('delete');
+            setSelectedUser(row.original);
+            closeMenu();
+          }}
+          sx={{ m: 0 }}
+        >
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText>Delete</ListItemText>
+        </MenuItem>,
       ];
     },
   });
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <MaterialReactTable table={table} />
+      {selectedUser && (
+        <DeleteUserDialogue
+          open={requestType === 'delete'}
+          onClose={() => {
+            setRequestType(false);
+          }}
+          selectedUser={selectedUser}
+        />
+      )}
+    </>
+  );
 }
 
 export default UsersTable;

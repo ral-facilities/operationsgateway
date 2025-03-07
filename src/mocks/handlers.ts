@@ -23,9 +23,7 @@ import usersJson from './users.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
-  channels: {
-    [channel: string]: Channel | undefined;
-  };
+  channels: { [channel: string]: Channel | undefined };
 })[];
 const getRandomColourMap = function (colourMaps: ColourMapsParams) {
   const categoryKeys = Object.keys(colourMaps);
@@ -217,10 +215,7 @@ export const handlers = [
 
           return acc;
         },
-        {
-          fromDateRecord: dateRangeRecord[0],
-          toDateRecord: dateRangeRecord[0],
-        }
+        { fromDateRecord: dateRangeRecord[0], toDateRecord: dateRangeRecord[0] }
       );
 
       const reponseData = {
@@ -252,15 +247,9 @@ export const handlers = [
                 { '2022-01-29T00:00:00': 4 },
               ]
             : [
-                {
-                  '2022-01-31T00:00:00': channel?.thumbnail,
-                },
-                {
-                  '2022-01-30T00:00:00': channel?.thumbnail,
-                },
-                {
-                  '2022-01-29T00:00:00': channel?.thumbnail,
-                },
+                { '2022-01-31T00:00:00': channel?.thumbnail },
+                { '2022-01-30T00:00:00': channel?.thumbnail },
+                { '2022-01-29T00:00:00': channel?.thumbnail },
               ],
         },
         { status: 200 }
@@ -371,9 +360,7 @@ export const handlers = [
       );
     }
     return HttpResponse.json(
-      {
-        detail: `Error at index ${body.length - 1}: Invalid function`,
-      },
+      { detail: `Error at index ${body.length - 1}: Invalid function` },
       { status: 400 }
     );
   }),
@@ -404,19 +391,42 @@ export const handlers = [
     }
 
     if (body._id === 'error') {
-      return HttpResponse.json(
-        {
-          detail: 'Unknown error',
-        },
-        { status: 400 }
-      );
+      return HttpResponse.json({ detail: 'Unknown error' }, { status: 400 });
     }
+
+    if (body._id === 'non_string_error') {
+      return HttpResponse.json({ detail: [] }, { status: 400 });
+    }
+
     return HttpResponse.json(body._id, { status: 201 });
   }),
 
   http.patch('/users', async ({ request }) => {
     const body = (await request.json()) as UserPost;
+
+    if (body._id === usersJson[8].username) {
+      return HttpResponse.json({ detail: 'error' }, { status: 400 });
+    }
     return HttpResponse.json(body._id, { status: 201 });
+  }),
+
+  http.delete('/users/:id', async ({ params }) => {
+    const { id } = params;
+
+    if (id === usersJson[8].username) {
+      return HttpResponse.json({ detail: [] }, { status: 400 });
+    }
+    const validId = usersJson.map((user) => user.username);
+    if (validId.includes(id as string)) {
+      return new HttpResponse(null, { status: 204 });
+    } else {
+      return HttpResponse.json(
+        {
+          detail: `username field must exist in the database. You put: '${id}'`,
+        },
+        { status: 400 }
+      );
+    }
   }),
 
   http.post('/users/filters', async () => {

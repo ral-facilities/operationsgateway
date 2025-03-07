@@ -41,9 +41,7 @@ const OptionalStringSchema = z
 
 const MandatoryStringSchema = (props: BaseZodSchemaProps) =>
   z
-    .string({
-      required_error: props.errorMessage,
-    })
+    .string({ required_error: props.errorMessage })
     .trim()
     .min(1, { message: props.errorMessage });
 
@@ -120,22 +118,19 @@ const UserDialogue = (props: UserDialogueProps) => {
         .then(() => handleClose())
         .catch((error: AxiosError) => {
           const errorDetail = (error.response?.data as APIError).detail;
+          let field: 'root.formError' | 'sha256_password' | '_id' =
+            'root.formError';
+          let message = 'An unexpected error occurred. Please try again later.';
 
           if (typeof errorDetail === 'string') {
-            let field: 'root.formError' | 'sha256_password' | '_id' =
-              'root.formError';
-            let message: string = errorDetail;
-
             if (errorDetail.toLowerCase().includes('password')) {
               field = 'sha256_password';
             } else if (errorDetail.toLowerCase().includes('username')) {
               field = '_id';
-            } else {
-              message = 'An unexpected error occurred. Please try again later.';
             }
-
-            setError(field, { message });
+            message = errorDetail;
           }
+          setError(field, { message });
         });
     },
     [addUser, handleClose, setError]
@@ -182,7 +177,16 @@ const UserDialogue = (props: UserDialogueProps) => {
         patchUsers.remove_authorised_routes = removedRoutes;
       }
 
-      editUser(patchUsers).then(() => handleClose());
+      editUser(patchUsers)
+        .then(() => handleClose())
+        .catch((error: AxiosError) => {
+          const errorDetail = (error.response?.data as APIError).detail;
+          let message = 'An unexpected error occurred. Please try again later.';
+          if (typeof errorDetail === 'string') {
+            message = errorDetail;
+          }
+          setError('root.formError', { message });
+        });
     },
     [
       authorisedRoutesOnly,
@@ -197,9 +201,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   const onSubmit = (data: UserPost) => {
     const newData: UserPost = {
       ...data,
-      ...(data.sha256_password && {
-        sha256_password: data.sha256_password,
-      }),
+      ...(data.sha256_password && { sha256_password: data.sha256_password }),
     };
 
     if (requestType === 'post') {
@@ -256,6 +258,7 @@ const UserDialogue = (props: UserDialogueProps) => {
             label={'Username'}
             id="user-id"
             fullWidth
+            required
             disabled={requestType === 'patch'}
             autoComplete="new-password"
             margin="dense"
@@ -278,6 +281,7 @@ const UserDialogue = (props: UserDialogueProps) => {
               }
               autoComplete="new-password"
               fullWidth
+              required
               InputProps={{
                 endAdornment: (
                   <IconButton

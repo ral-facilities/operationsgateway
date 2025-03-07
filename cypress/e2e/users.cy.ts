@@ -33,21 +33,21 @@ describe('Users', () => {
     });
 
     it('displays password field only when auth_type is "local"', () => {
-      cy.findByLabelText('Username').type('new_user');
-      cy.findByLabelText('Password').should('exist');
+      cy.findByLabelText('Username *').type('new_user');
+      cy.findByLabelText('Password *').should('exist');
     });
 
     it('dose not displays password field only when auth_type is "FedID"', () => {
       cy.findAllByRole('combobox').first().click();
       cy.findByRole('option', { name: 'FedID' }).click();
 
-      cy.findByLabelText('Username').type('new_user');
-      cy.findByLabelText('Password').should('not.exist');
+      cy.findByLabelText('Username *').type('new_user');
+      cy.findByLabelText('Password *').should('not.exist');
     });
 
     it('adds user successfully (local)', () => {
-      cy.findByLabelText('Username').type('new_user');
-      cy.findByLabelText('Password').type('secure_password');
+      cy.findByLabelText('Username *').type('new_user');
+      cy.findByLabelText('Password *').type('secure_password');
 
       cy.findAllByRole('combobox').last().click();
       cy.findByRole('option', { name: '/submit/hdf POST' }).click();
@@ -75,7 +75,7 @@ describe('Users', () => {
     });
 
     it('adds user successfully (fedId)', () => {
-      cy.findByLabelText('Username').type('new_user');
+      cy.findByLabelText('Username *').type('new_user');
 
       cy.findAllByRole('combobox').first().click();
       cy.findByRole('option', { name: 'FedID' }).click();
@@ -89,17 +89,14 @@ describe('Users', () => {
           expect(postRequests.length).equal(1);
           const request = postRequests[0];
           expect(JSON.stringify(await request.json())).equal(
-            JSON.stringify({
-              _id: 'new_user',
-              auth_type: 'FedID',
-            })
+            JSON.stringify({ _id: 'new_user', auth_type: 'FedID' })
           );
         }
       );
     });
 
     it('displays error when adding a user without a password for "local" auth_type', () => {
-      cy.findByLabelText('Username').type('local_user');
+      cy.findByLabelText('Username *').type('local_user');
       cy.findByRole('button', { name: 'Submit' }).click();
       cy.findByText(
         'for the auth_type you put (local), a password is required. Please add this field'
@@ -107,17 +104,24 @@ describe('Users', () => {
     });
 
     it('displays error for duplicate username', () => {
-      cy.findByLabelText('Username').type('test_dup');
-      cy.findByLabelText('Password').type('secure_password');
+      cy.findByLabelText('Username *').type('test_dup');
+      cy.findByLabelText('Password *').type('secure_password');
       cy.findByRole('button', { name: 'Submit' }).click();
       cy.findByText(
         'username field must not be the same as a pre existing user. You put: test_dup'
       ).should('exist');
     });
 
-    it('displays general error for unknown issues', () => {
-      cy.findByLabelText('Username').type('error');
-      cy.findByLabelText('Password').type('secure_password');
+    it('displays backend error message', () => {
+      cy.findByLabelText('Username *').type('error');
+      cy.findByLabelText('Password *').type('secure_password');
+      cy.findByRole('button', { name: 'Submit' }).click();
+      cy.findByText('Unknown error').should('exist');
+    });
+
+    it('displays general error when the error message is not a string', () => {
+      cy.findByLabelText('Username *').type('non_string_error');
+      cy.findByLabelText('Password *').type('secure_password');
       cy.findByRole('button', { name: 'Submit' }).click();
       cy.findByText(
         'An unexpected error occurred. Please try again later.'
@@ -125,18 +129,18 @@ describe('Users', () => {
     });
 
     it('should show and hide password when clicking the visibility toggle', () => {
-      cy.findByLabelText('Username').type('testuser');
-      cy.findByLabelText('Password').type('secure_password');
+      cy.findByLabelText('Username *').type('testuser');
+      cy.findByLabelText('Password *').type('secure_password');
 
-      cy.findByLabelText('Password').should('have.attr', 'type', 'password');
+      cy.findByLabelText('Password *').should('have.attr', 'type', 'password');
 
       cy.findByLabelText('Show password').click();
 
-      cy.findByLabelText('Password').should('have.attr', 'type', 'text');
+      cy.findByLabelText('Password *').should('have.attr', 'type', 'text');
 
       cy.findByLabelText('Hide password').click();
 
-      cy.findByLabelText('Password').should('have.attr', 'type', 'password');
+      cy.findByLabelText('Password *').should('have.attr', 'type', 'password');
     });
   });
 
@@ -159,7 +163,7 @@ describe('Users', () => {
     });
 
     it('update user password', () => {
-      cy.findByLabelText('Password').type('secure_password');
+      cy.findByLabelText('Password *').type('secure_password');
 
       cy.startSnoopingBrowserMockedRequest();
 
@@ -180,7 +184,7 @@ describe('Users', () => {
     });
   });
 
-  describe('modify authorised routes ', () => {
+  describe('modify authorised routes', () => {
     beforeEach(() => {
       cy.visit('/admin/users');
       cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
@@ -221,6 +225,48 @@ describe('Users', () => {
           );
         }
       );
+    });
+  });
+
+  describe('delete users', () => {
+    beforeEach(() => {
+      cy.visit('/admin/users');
+    });
+
+    afterEach(() => {
+      cy.clearMocks();
+    });
+
+    it('sends a delete request when an admin deletes a user', () => {
+      cy.findAllByRole('button', { name: 'Row Actions' }).first().click();
+      cy.findByText('Delete').click();
+      cy.findAllByTestId('delete-user-name').should('have.text', 'user1');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findBrowserMockedRequests({
+        method: 'DELETE',
+        url: '/users/:id',
+      }).should((deleteRequests) => {
+        expect(deleteRequests.length).equal(1);
+        const request = deleteRequests[0];
+
+        expect(request.url.toString()).to.contain('user1');
+      });
+    });
+
+    it('displays unexpected error message for non string error responses', () => {
+      cy.findAllByRole('button', { name: 'Row Actions' }).eq(8).click();
+      cy.findByText('Delete').click();
+      cy.findAllByTestId('delete-user-name').should('have.text', 'user9');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Continue' }).click();
+
+      cy.findByText('An unexpected error occurred. Please try again later.');
     });
   });
 });

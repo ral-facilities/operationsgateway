@@ -59,3 +59,21 @@ export const useEditUser = (): UseMutationResult<
     },
   });
 };
+
+const deleteUser = async (userId: string): Promise<void> => {
+  return ogApi.delete(`/users/${userId}`).then((response) => response.data);
+};
+
+export const useDeleteUser = (): UseMutationResult<
+  void,
+  AxiosError,
+  string
+> => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userId: string) => deleteUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Users'] });
+    },
+  });
+};
