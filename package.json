@@ -85,7 +85,7 @@
   "browserslist": [
     "defaults"
   ],
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.7.0",
   "devDependencies": {
     "@eslint/compat": "1.2.4",
     "@playwright/test": "1.49.0",
