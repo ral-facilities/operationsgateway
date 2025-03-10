@@ -89,7 +89,7 @@
   "devDependencies": {
     "@dotenvx/dotenvx": "1.38.4",
     "@eslint/compat": "1.2.4",
-    "@playwright/test": "1.49.0",
+    "@playwright/test": "1.51.0",
     "@tanstack/eslint-plugin-query": "5.66.0",
     "@testing-library/cypress": "10.0.1",
     "@testing-library/dom": "10.4.0",
