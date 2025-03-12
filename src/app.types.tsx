@@ -34,22 +34,25 @@ export interface ScalarMetadata {
 
 export interface ImageMetadata {
   channel_dtype: 'image';
-  x_pixel_size: number;
-  x_pixel_units: string;
-  y_pixel_size: number;
-  y_pixel_units: string;
-  gain: number;
-  exposure_time_s: number;
+  x_pixel_size?: number;
+  x_pixel_units?: string;
+  y_pixel_size?: number;
+  y_pixel_units?: string;
+  gain?: number;
+  exposure_time_s?: number;
+  bit_depth?: number;
 }
 
 export interface WaveformMetadata {
   channel_dtype: 'waveform';
-  x_units: string;
-  y_units: string;
+  x_units?: string;
+  y_units?: string;
 }
 
 export interface RecordMetadata {
-  epac_ops_data_version: string;
+  epac_ops_data_version?: string;
+  // The backend timestamp type is Optional[any],
+  // but in the frontend, it will always be defined.
   timestamp: string;
   activeArea?: string;
   shotnum?: number;
