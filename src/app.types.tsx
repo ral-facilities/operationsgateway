@@ -23,7 +23,7 @@ export interface RecordRow {
   activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
-
+  channelMetadata: { [channel: string]: ChannelMetadata };
   [channel: string]: unknown;
 }
 
@@ -50,9 +50,7 @@ export interface WaveformMetadata {
 }
 
 export interface RecordMetadata {
-  epac_ops_data_version?: string;
-  // The backend timestamp type is Optional[any],
-  // but in the frontend, it will always be defined.
+  epac_ops_data_version: string;
   timestamp: string;
   activeArea?: string;
   shotnum?: number;

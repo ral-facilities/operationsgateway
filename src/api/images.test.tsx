@@ -153,6 +153,44 @@ describe('images api functions', () => {
       expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
+
+    it('sends request to fetch false colour image with bit depth and returns successful response', async () => {
+      const pendingRequest = waitForRequest('GET', '/images/1/TEST');
+
+      const { result } = renderHook(
+        () =>
+          useImage(
+            '1',
+            'TEST',
+            {
+              colourMap: 'red',
+              lowerLevel: 5,
+              upperLevel: 200,
+            },
+            12
+          ),
+        {
+          wrapper: hooksWrapperWithProviders(),
+        }
+      );
+
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
+
+      const request = await pendingRequest;
+
+      params.set('colourmap_name', 'red');
+      params.set('lower_level', '5');
+      params.set('upper_level', '200');
+      params.set('limit_bit_depth', '12');
+
+      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(new URL(request.url).searchParams).toEqual(params);
+    });
   });
 
   describe('useColourBar', () => {
@@ -162,16 +200,19 @@ describe('images api functions', () => {
       params = new URLSearchParams();
     });
 
-    it('sends request to fetch colourbar and returns successful response', async () => {
+    it('sends request to fetch colourbar with bit depth and returns successful response', async () => {
       const pendingRequest = waitForRequest('GET', '/images/colour_bar');
 
       const { result } = renderHook(
         () =>
-          useColourBar({
-            colourMap: 'red',
-            lowerLevel: 5,
-            upperLevel: 200,
-          }),
+          useColourBar(
+            {
+              colourMap: 'red',
+              lowerLevel: 5,
+              upperLevel: 200,
+            },
+            8
+          ),
         {
           wrapper: hooksWrapperWithProviders(),
         }
@@ -186,6 +227,7 @@ describe('images api functions', () => {
       params.set('colourmap_name', 'red');
       params.set('lower_level', '5');
       params.set('upper_level', '200');
+      params.set('limit_bit_depth', '8');
 
       expect(result.current.data).toEqual('blob:testObjectUrl');
       expect(new URL(request.url).searchParams).toEqual(params);

@@ -23,7 +23,8 @@ export const fetchImage = async (
   recordId: string,
   channelName: string,
   functionsState: APIFunctionState,
-  falseColourParams?: FalseColourParams
+  falseColourParams?: FalseColourParams,
+  limitBitDepth?: number
 ): Promise<string> => {
   const params = new URLSearchParams();
 
@@ -41,6 +42,9 @@ export const fetchImage = async (
   if (!falseColourParams || params.toString().length === 0)
     params.set('original_image', 'true');
 
+  if (typeof limitBitDepth === 'number')
+    params.set('limit_bit_depth', limitBitDepth.toString());
+
   functionsState.functions.forEach((func) => {
     params.append('functions', JSON.stringify(func));
   });
@@ -56,7 +60,8 @@ export const fetchImage = async (
 };
 
 export const fetchColourBar = async (
-  falseColourParams: FalseColourParams
+  falseColourParams: FalseColourParams,
+  limitBitDepth?: number
 ): Promise<string> => {
   const params = new URLSearchParams();
   const { colourMap, lowerLevel, upperLevel } = falseColourParams;
@@ -64,6 +69,9 @@ export const fetchColourBar = async (
   if (colourMap) params.set('colourmap_name', colourMap);
   if (lowerLevel) params.set('lower_level', lowerLevel.toString());
   if (upperLevel) params.set('upper_level', upperLevel.toString());
+
+  if (typeof limitBitDepth === 'number')
+    params.set('limit_bit_depth', limitBitDepth.toString());
 
   return ogApi
     .get(`/images/colour_bar`, {
@@ -117,13 +125,20 @@ export const fetchCrosshair = async (
 export const useImage = (
   recordId: string,
   channelName: string,
-  falseColourParams?: FalseColourParams
+  falseColourParams?: FalseColourParams,
+  limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
   const { functions } = useAppSelector(selectQueryParams);
   return useQuery({
     queryKey: ['images', recordId, channelName, functions, falseColourParams],
     queryFn: () => {
-      return fetchImage(recordId, channelName, functions, falseColourParams);
+      return fetchImage(
+        recordId,
+        channelName,
+        functions,
+        falseColourParams,
+        limitBitDepth
+      );
     },
     // set to display old image whilst new one is loading
     placeholderData: keepPreviousData,
@@ -131,12 +146,13 @@ export const useImage = (
 };
 
 export const useColourBar = (
-  falseColourParams: FalseColourParams
+  falseColourParams: FalseColourParams,
+  limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
   return useQuery({
     queryKey: ['colourbar', falseColourParams],
     queryFn: () => {
-      return fetchColourBar(falseColourParams);
+      return fetchColourBar(falseColourParams, limitBitDepth);
     },
     // set to display old colour bar whilst new one is loading
     placeholderData: keepPreviousData,
@@ -165,7 +181,6 @@ export const useImageCrosshair = (
 
   return useQuery({
     queryKey: ['imageCrosshair', recordId, channelName, position, functions],
-
     queryFn: () => {
       return fetchCrosshair(recordId, channelName, functions, position);
     },

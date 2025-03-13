@@ -24,40 +24,21 @@ import {
   useImageCrosshair,
 } from '../api/images';
 
-const marks = [
-  {
-    value: 0,
-    label: '0',
-  },
-  {
-    value: 31,
-  },
-  {
-    value: 63,
-    label: '63',
-  },
-  {
-    value: 95,
-  },
-  {
-    value: 127,
-    label: '127',
-  },
-  {
-    value: 159,
-  },
-  {
-    value: 191,
-    label: '191',
-  },
-  {
-    value: 223,
-  },
-  {
-    value: 255,
-    label: '255',
-  },
-];
+export const calculateUpperRangeFromBitDepth = (
+  bitDepth: number = 8
+): number => {
+  return 2 ** bitDepth - 1;
+};
+
+const generateSliderMarks = (bitDepth: number = 8) => {
+  const upperRange = calculateUpperRangeFromBitDepth(bitDepth);
+  const step = Math.round(upperRange / 8); // Divide range into 8 segments
+
+  return Array.from({ length: 9 }, (_, i) => ({
+    value: i === 8 ? upperRange : i * step, // Ensure last value is upperRange
+    label: i === 8 ? upperRange : i % 2 === 0 ? `${i * step}` : undefined, // Label every other mark
+  }));
+};
 
 interface ImageControlsPanelProps extends FalseColourParams {
   crosshairsMode: boolean;
@@ -66,6 +47,7 @@ interface ImageControlsPanelProps extends FalseColourParams {
   changeLowerLevel: (value: number | undefined) => void;
   changeUpperLevel: (value: number | undefined) => void;
   crosshairData: ReturnType<typeof useImageCrosshair>['data'];
+  bitDepth?: number;
 }
 
 export function filterNamesWithSuffixR(
@@ -136,18 +118,24 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
     changeUpperLevel,
     changeCrosshairsMode,
     crosshairData,
+    bitDepth,
   } = props;
 
   const { data: colourMaps } = useColourMaps();
-  const { data: colourBar } = useColourBar({
-    colourMap: colourMap,
-    lowerLevel: lowerLevel,
-    upperLevel: upperLevel,
-  });
+  const { data: colourBar } = useColourBar(
+    {
+      colourMap: colourMap,
+      lowerLevel: lowerLevel,
+      upperLevel: upperLevel,
+    },
+    bitDepth
+  );
 
   const [enabled, setEnabled] = React.useState(true);
   const [sliderLowerLevel, setSliderLowerLevel] = React.useState(0);
-  const [sliderUpperLevel, setSliderUpperLevel] = React.useState(255);
+  const [sliderUpperLevel, setSliderUpperLevel] = React.useState(
+    calculateUpperRangeFromBitDepth(bitDepth)
+  );
   const [selectColourMap, setSelectColourMap] = React.useState('');
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
@@ -305,7 +293,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
             aria-labelledby="range-slider-label"
             value={[sliderLowerLevel, sliderUpperLevel]}
             valueLabelDisplay="auto"
-            marks={marks}
+            marks={generateSliderMarks(bitDepth)}
             onChange={(_event, newValue) => {
               if (Array.isArray(newValue)) {
                 const [lower, upper] = newValue;
@@ -321,7 +309,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
               }
             }}
             min={0}
-            max={255}
+            max={calculateUpperRangeFromBitDepth(bitDepth)}
           />
         </FormControl>
         <img src={colourBar} alt="Colour bar" />

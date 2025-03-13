@@ -6,9 +6,11 @@ import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import WindowPortal from '../windows/windowPortal.component';
-import ImageControlsPanel from './imageControlsPanel.component';
-import ImageView from './imageView.component';
+import ImageControlsPanel, {
+  calculateUpperRangeFromBitDepth,
+} from './imageControlsPanel.component';
 import { XImagePlot, YImagePlot } from './imagePlot.component';
+import ImageView from './imageView.component';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -20,13 +22,19 @@ const ImageWindow = (props: ImageWindowProps) => {
   const { onClose, imageConfig, imageWindowRef } = props;
   const { channelName, recordId, title } = imageConfig;
 
+  // Type guard to check if imageConfig is of type 'image'
+  const bitDepth =
+    imageConfig.type === 'image' ? imageConfig.bitDepth : undefined;
+
   const dispatch = useAppDispatch();
 
   const [colourMap, setColourMap] = React.useState<string | undefined>(
     undefined
   );
   const [lowerLevel, setLowerLevel] = React.useState<number | undefined>(0);
-  const [upperLevel, setUpperLevel] = React.useState<number | undefined>(255);
+  const [upperLevel, setUpperLevel] = React.useState<number | undefined>(
+    calculateUpperRangeFromBitDepth(bitDepth)
+  );
   const [crosshairsMode, setCrosshairsMode] = React.useState(false);
   const [crosshair, setCrosshair] = React.useState<
     { x: number; y: number } | undefined
@@ -39,7 +47,8 @@ const ImageWindow = (props: ImageWindowProps) => {
       colourMap: colourMap,
       lowerLevel: lowerLevel,
       upperLevel: upperLevel,
-    }
+    },
+    bitDepth
   );
 
   const { data: crosshairData } = useImageCrosshair(
@@ -198,6 +207,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                   changeUpperLevel={setUpperLevel}
                   changeCrosshairsMode={setCrosshairsMode}
                   crosshairData={crosshairData}
+                  bitDepth={bitDepth}
                 />
               </Grid>
             </Grid>
