@@ -145,7 +145,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  await expect(slider.nth(0)).toHaveValue(`${0.4 * 255}`);
+  await expect(slider.nth(0)).toHaveValue('1635');
 
   const ulSliderThumb = await popup
     .locator('.MuiSlider-thumb', {
@@ -160,7 +160,7 @@ test('user can change the false colour parameters of an image', async ({
     },
   });
 
-  await expect(slider.nth(1)).toHaveValue(`${0.8 * 255}`);
+  await expect(slider.nth(1)).toHaveValue('3270');
 
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
