@@ -114,7 +114,7 @@
     "express": "4.21.2",
     "globals": "16.0.0",
     "jsdom": "26.0.0",
-    "lint-staged": "15.4.3",
+    "lint-staged": "15.5.0",
     "prettier": "3.5.0",
     "serve": "14.2.0",
     "start-server-and-test": "2.0.10",
