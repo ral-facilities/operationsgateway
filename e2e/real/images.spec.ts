@@ -143,6 +143,137 @@ test('user can change the false colour parameters of an image', async ({
   await expect(colourbar).toHaveScreenshot();
 });
 
+test('user can change the false colour parameters of an 12 bit image', async ({
+  page,
+}) => {
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:10');
+  await page.getByLabel('from, date-time input').fill('2023-06-06 12:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add trace channel to the table so we can click on a trace
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CM-202-CVC-CAM-1');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page.getByRole('combobox', { name: 'Search data channels' }).fill('');
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('PA1-CAM');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Remove this channel' }).click();
+
+  await page.getByRole('combobox', { name: 'Search data channels' }).fill('');
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CAM-2');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Remove this channel' }).click();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('Compressor output NF image', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
+  const oldImageSrc = await image.getAttribute('src');
+  const colourbar = await popup.getByAltText('Colour bar');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'cividis' }).click();
+
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).not.toBeChecked();
+  await popup.getByRole('checkbox', { name: 'Reverse Colour' }).click();
+  await expect(
+    popup.getByRole('checkbox', { name: 'Reverse Colour' })
+  ).toBeChecked();
+
+  const slider = await popup.getByRole('slider', {
+    name: 'Level Range',
+  });
+
+  const SliderRoot = await popup.locator('.MuiSlider-root', {
+    has: slider,
+  });
+
+  const llSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(0);
+
+  const sliderDims = await SliderRoot.boundingBox();
+
+  await llSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
+      x: (sliderDims?.width ?? 0) * 0.1,
+      y: sliderDims?.height ? sliderDims.height / 2 : 0,
+    },
+  });
+
+  await expect(slider.nth(0)).toHaveValue('397');
+
+  const ulSliderThumb = await popup
+    .locator('.MuiSlider-thumb', {
+      has: slider,
+    })
+    .nth(1);
+  await ulSliderThumb.dragTo(SliderRoot, {
+    targetPosition: {
+      // moving the slider to the target value in %
+      x: (sliderDims?.width ?? 0) * 0.8,
+      y: sliderDims?.height ? sliderDims.height / 2 : 0,
+    },
+  });
+
+  await expect(slider.nth(1)).toHaveValue(`3270`);
+
+  // blur to avoid focus tooltip appearing in snapshot
+  await slider.nth(0).blur();
+  await slider.nth(1).blur();
+
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
+  await image.click();
+
+  await expect(image).toHaveScreenshot({ maxDiffPixels: 150 });
+
+  await expect(colourbar).toHaveScreenshot();
+});
+
 test('user can disable false colour', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
