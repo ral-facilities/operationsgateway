@@ -151,7 +151,7 @@ test('user can change the false colour parameters of an 12 bit image', async ({
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
-  // add trace channel to the table so we can click on a trace
+  // add image channel to the table so we can click on an image
   await page.getByRole('button', { name: 'Data channels' }).click();
 
   await page
