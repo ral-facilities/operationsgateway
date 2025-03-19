@@ -1,6 +1,6 @@
 import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
-import { ImportSessionType } from './state/store';
 import type { AxisType, Dash } from 'plotly.js';
+import { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;
@@ -284,6 +284,10 @@ export interface ValidateFunctionPost {
   expression: string;
 }
 
+export interface ValidateFunctionPostWithChannels extends ValidateFunctionPost {
+  channels: string[];
+}
+
 export interface ValidateFunctionState {
   id: string;
   name: string;
@@ -293,7 +297,7 @@ export interface ValidateFunctionState {
 }
 
 export interface APIFunctionState {
-  channels: string[];
+  functionsWithChannels: ValidateFunctionPostWithChannels[];
   functions: ValidateFunctionPost[];
 }
 export interface APIErrorResponse {
@@ -304,6 +308,28 @@ export interface APIErrorResponse {
 }
 export interface APIError {
   detail: string | APIErrorResponse[];
+}
+
+type AuthorisedRoutes = string[] | null;
+
+export interface UserPost {
+  _id: string; // Maps the `username` field in Python, which has an alias "_id"
+  auth_type: string;
+  sha256_password?: string;
+  authorised_routes?: AuthorisedRoutes;
+}
+
+export interface UserPatch extends Pick<UserPost, '_id'> {
+  updated_password?: string | null;
+  add_authorised_routes?: AuthorisedRoutes;
+  remove_authorised_routes?: AuthorisedRoutes;
+}
+export interface User extends Omit<UserPost, '_id' | 'sha256_password'> {
+  username: string;
+}
+
+export interface UsersDict {
+  users: User[];
 }
 
 export interface FavouriteFilterPost {

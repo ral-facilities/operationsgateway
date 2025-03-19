@@ -1,0 +1,63 @@
+[
+  {
+    "username": "user1",
+    "auth_type": "local",
+    "authorised_routes": ["/submit/hdf POST", "/submit/manifest POST"]
+  },
+  {
+    "username": "user2",
+    "auth_type": "FedID",
+    "authorised_routes": ["/records/{id_} DELETE", "/experiments POST"]
+  },
+  {
+    "username": "user3",
+    "auth_type": "local",
+    "authorised_routes": ["/users POST", "/users PATCH"]
+  },
+  {
+    "username": "user4",
+    "auth_type": "FedID",
+    "authorised_routes": ["/users/{id_} DELETE"]
+  },
+  {
+    "username": "user5",
+    "auth_type": "local",
+    "authorised_routes": null
+  },
+  {
+    "username": "user6",
+    "auth_type": "FedID",
+    "authorised_routes": null
+  },
+  {
+    "username": "user7",
+    "auth_type": "local"
+  },
+  {
+    "username": "user8",
+    "auth_type": "FedID"
+  },
+  {
+    "username": "user9",
+    "auth_type": "local",
+    "authorised_routes": [
+      "/submit/hdf POST",
+      "/submit/manifest POST",
+      "/records/{id_} DELETE",
+      "/experiments POST",
+      "/users POST",
+      "/users PATCH",
+      "/users/{id_} DELETE"
+    ]
+  },
+  {
+    "username": "user10",
+    "auth_type": "FedID",
+    "authorised_routes": []
+  },
+  {
+    "username": "user11",
+    "auth_type": "local",
+    "authorised_routes": ["/users POST", "/users PATCH"]
+  }
+]

@@ -1,4 +1,10 @@
 import { test as setup } from '@playwright/test';
+import dotenvx from '@dotenvx/dotenvx';
+
+dotenvx.config({
+  convention: 'nextjs',
+  quiet: true,
+});
 
 const authFile = 'e2e/real/.auth/user.json';
 
@@ -11,8 +17,8 @@ setup('authenticate', async ({ request, page }) => {
   // Send authentication request. Replace with your own.
   const response = await request.post(`${apiUrl}/login`, {
     data: {
-      username: 'frontend',
-      password: 'front',
+      username: process.env.VITE_OG_API_USERNAME,
+      password: process.env.VITE_OG_API_PASSWORD,
     },
   });
   const token = await response.json();

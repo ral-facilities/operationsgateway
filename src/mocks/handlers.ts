@@ -8,6 +8,7 @@ import {
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
+  type UserPost,
 } from '../app.types';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
@@ -18,12 +19,11 @@ import functionsJson from './functions.json';
 import imageCrosshairJson from './imageCrosshair.json';
 import recordsJson from './records.json';
 import sessionsJson from './sessionsList.json';
+import usersJson from './users.json';
 
 // have to add undefined here due to how TS JSON parsing works
 type RecordsJSONType = (Omit<Record, 'channels'> & {
-  channels: {
-    [channel: string]: Channel | undefined;
-  };
+  channels: { [channel: string]: Channel | undefined };
 })[];
 const getRandomColourMap = function (colourMaps: ColourMapsParams) {
   const categoryKeys = Object.keys(colourMaps);
@@ -215,10 +215,7 @@ export const handlers = [
 
           return acc;
         },
-        {
-          fromDateRecord: dateRangeRecord[0],
-          toDateRecord: dateRangeRecord[0],
-        }
+        { fromDateRecord: dateRangeRecord[0], toDateRecord: dateRangeRecord[0] }
       );
 
       const reponseData = {
@@ -250,15 +247,9 @@ export const handlers = [
                 { '2022-01-29T00:00:00': 4 },
               ]
             : [
-                {
-                  '2022-01-31T00:00:00': channel?.thumbnail,
-                },
-                {
-                  '2022-01-30T00:00:00': channel?.thumbnail,
-                },
-                {
-                  '2022-01-29T00:00:00': channel?.thumbnail,
-                },
+                { '2022-01-31T00:00:00': channel?.thumbnail },
+                { '2022-01-30T00:00:00': channel?.thumbnail },
+                { '2022-01-29T00:00:00': channel?.thumbnail },
               ],
         },
         { status: 200 }
@@ -369,12 +360,75 @@ export const handlers = [
       );
     }
     return HttpResponse.json(
-      {
-        detail: `Error at index ${body.length - 1}: Invalid function`,
-      },
+      { detail: `Error at index ${body.length - 1}: Invalid function` },
       { status: 400 }
     );
   }),
+  http.get('/users', () => {
+    return HttpResponse.json({ users: usersJson }, { status: 200 });
+  }),
+
+  http.post('/users', async ({ request }) => {
+    const body = (await request.json()) as UserPost;
+
+    if (body.auth_type === 'local' && !body.sha256_password) {
+      return HttpResponse.json(
+        {
+          detail:
+            'for the auth_type you put (local), a password is required. Please add this field',
+        },
+        { status: 400 }
+      );
+    }
+
+    if (body._id === 'test_dup') {
+      return HttpResponse.json(
+        {
+          detail: `username field must not be the same as a pre existing user. You put: ${body._id} `,
+        },
+        { status: 400 }
+      );
+    }
+
+    if (body._id === 'error') {
+      return HttpResponse.json({ detail: 'Unknown error' }, { status: 400 });
+    }
+
+    if (body._id === 'non_string_error') {
+      return HttpResponse.json({ detail: [] }, { status: 400 });
+    }
+
+    return HttpResponse.json(body._id, { status: 201 });
+  }),
+
+  http.patch('/users', async ({ request }) => {
+    const body = (await request.json()) as UserPost;
+
+    if (body._id === usersJson[8].username) {
+      return HttpResponse.json({ detail: 'error' }, { status: 400 });
+    }
+    return HttpResponse.json(body._id, { status: 201 });
+  }),
+
+  http.delete('/users/:id', async ({ params }) => {
+    const { id } = params;
+
+    if (id === usersJson[8].username) {
+      return HttpResponse.json({ detail: [] }, { status: 400 });
+    }
+    const validId = usersJson.map((user) => user.username);
+    if (validId.includes(id as string)) {
+      return new HttpResponse(null, { status: 204 });
+    } else {
+      return HttpResponse.json(
+        {
+          detail: `username field must exist in the database. You put: '${id}'`,
+        },
+        { status: 400 }
+      );
+    }
+  }),
+
   http.post('/users/filters', async () => {
     return HttpResponse.json('1', { status: 201 });
   }),
