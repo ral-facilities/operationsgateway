@@ -130,7 +130,14 @@ export const useImage = (
 ): UseQueryResult<string, AxiosError> => {
   const { functions } = useAppSelector(selectQueryParams);
   return useQuery({
-    queryKey: ['images', recordId, channelName, functions, falseColourParams],
+    queryKey: [
+      'images',
+      recordId,
+      channelName,
+      functions,
+      falseColourParams,
+      limitBitDepth,
+    ],
     queryFn: () => {
       return fetchImage(
         recordId,
@@ -150,7 +157,7 @@ export const useColourBar = (
   limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
   return useQuery({
-    queryKey: ['colourbar', falseColourParams],
+    queryKey: ['colourbar', falseColourParams, limitBitDepth],
     queryFn: () => {
       return fetchColourBar(falseColourParams, limitBitDepth);
     },
