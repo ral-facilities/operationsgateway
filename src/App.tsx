@@ -120,37 +120,27 @@ const Layout: React.FunctionComponent = () => {
   );
 };
 
-const router = createBrowserRouter(
-  [
-    {
-      Component: Layout,
-      children: [
-        { path: paths.any, Component: ViewTabs },
-        {
-          path: paths.admin,
-          Component: Outlet,
-          ErrorBoundary: PageNotFoundComponent,
-          children: [
-            { path: paths.adminUsers, Component: UsersTable },
-            {
-              path: '*',
-              Component: PageNotFoundComponent,
-            },
-          ],
-        },
-      ],
-    },
-  ],
+const router = createBrowserRouter([
   {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true,
-    },
-  }
-);
+    Component: Layout,
+    children: [
+      { path: paths.any, Component: ViewTabs },
+      {
+        path: paths.admin,
+        Component: Outlet,
+        ErrorBoundary: PageNotFoundComponent,
+        children: [
+          { path: paths.adminUsers, Component: UsersTable },
+          {
+            path: '*',
+            Component: PageNotFoundComponent,
+          },
+        ],
+      },
+    ],
+  },
+]);
+
 export default function App() {
   return <RouterProvider router={router} />;
 }
