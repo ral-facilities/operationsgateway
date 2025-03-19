@@ -167,40 +167,6 @@ exports[`View Tabs > renders correctly 1`] = `
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
               </button>
-              <div
-                aria-hidden="true"
-                class="MuiBackdrop-root css-1wckrpe-MuiBackdrop-root"
-                style="opacity: 0; visibility: hidden;"
-              >
-                <div
-                  class="MuiBox-root css-1b15trw"
-                >
-                  <h6
-                    class="MuiTypography-root MuiTypography-h6 css-1wrli5b-MuiTypography-root"
-                  >
-                    Generating export data...
-                  </h6>
-                  <span
-                    class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1reeo09-MuiCircularProgress-root"
-                    role="progressbar"
-                    style="width: 40px; height: 40px;"
-                  >
-                    <svg
-                      class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
-                      viewBox="22 22 44 44"
-                    >
-                      <circle
-                        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
-                        cx="44"
-                        cy="44"
-                        fill="none"
-                        r="20.2"
-                        stroke-width="3.6"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -876,7 +842,7 @@ exports[`View Tabs > renders correctly 1`] = `
                   >
                     <tr
                       class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-                      data-rfd-droppable-context-id=":r9:"
+                      data-rfd-droppable-context-id=":ra:"
                       data-rfd-droppable-id="columns"
                     >
                       <th
@@ -962,7 +928,7 @@ exports[`View Tabs > renders correctly 1`] = `
                   />
                   <p
                     class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                    id=":rd:"
+                    id=":re:"
                   >
                     Rows per page:
                   </p>
@@ -970,12 +936,12 @@ exports[`View Tabs > renders correctly 1`] = `
                     class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
                   >
                     <div
-                      aria-controls=":re:"
+                      aria-controls=":rf:"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      aria-labelledby=":rd: :rc:"
+                      aria-labelledby=":re: :rd:"
                       class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                      id=":rc:"
+                      id=":rd:"
                       role="combobox"
                       tabindex="0"
                     >
