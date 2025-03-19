@@ -98,7 +98,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5
         with:
-          python-version: 3.11
+          python-version: '3.11'
       - name: Load Pip cache
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
         with:
@@ -147,8 +147,8 @@ jobs:
       - name: Load Poetry cache
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf # v4
         with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-3.11-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-3.11-${{ hashFiles('poetry.lock') }}
       - name: Install dependencies
         run: poetry install --without simulated-data
         working-directory: ./operationsgateway-api
