@@ -1,4 +1,3 @@
-import { fixupPluginRules } from '@eslint/compat';
 import eslint from '@eslint/js';
 import queryPlugin from '@tanstack/eslint-plugin-query';
 import prettierPlugin from 'eslint-config-prettier';
@@ -33,9 +32,7 @@ export default tseslint.config(
     },
     plugins: {
       react: reactPlugin,
-      // eslint-plugin-react-hooks doesn't support flat config properly yet
-      // https://github.com/facebook/react/issues/28313
-      'react-hooks': fixupPluginRules(reactHooksPlugin),
+      'react-hooks': reactHooksPlugin,
       '@tanstack/query': queryPlugin,
       'no-only-tests': noOnlyTestsPlugin,
       'jsx-a11y': jsxA11yPlugin,
@@ -67,8 +64,6 @@ export default tseslint.config(
       'react/prop-types': 'off',
       ...reactHooksPlugin.configs.recommended.rules,
       ...queryPlugin.configs.recommended.rules,
-      // Disable this due to the way the api url comes from redux - otherwise it would need to be added to all queryKey's
-      '@tanstack/query/exhaustive-deps': 'off',
       'no-only-tests/no-only-tests': 'error',
       ...jsxA11yPlugin.configs.recommended.rules,
     },

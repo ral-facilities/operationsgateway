@@ -88,7 +88,6 @@
   "packageManager": "yarn@4.7.0",
   "devDependencies": {
     "@dotenvx/dotenvx": "1.38.4",
-    "@eslint/compat": "1.2.4",
     "@playwright/test": "1.51.0",
     "@tanstack/eslint-plugin-query": "5.67.2",
     "@testing-library/cypress": "10.0.1",
@@ -109,7 +108,7 @@
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.2",
-    "eslint-plugin-react-hooks": "5.1.0",
+    "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-testing-library": "7.1.1",
     "express": "4.21.2",
     "globals": "16.0.0",
