@@ -228,8 +228,16 @@ jobs:
 
       - name: Upload test report
         uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
-        if: always()
+        if: ${{ always() }}
         with:
           name: playwright-report-real-tests
           path: playwright-report/
+          retention-days: 10
+
+      - name: Upload API logs if job fails
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4
+        if: ${{ failure() }}
+        with:
+          name: api-logs
+          path: operationsgateway-api/api-output.txt
           retention-days: 10
