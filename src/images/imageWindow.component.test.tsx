@@ -127,6 +127,7 @@ describe('Image Window component', () => {
         channelName: 'CHANNEL_BCDEF',
         recordId: '5',
         title: 'Image CHANNEL_BCDEF 5',
+        bitDepth: 16,
         ...DEFAULT_WINDOW_VARS,
       },
     });
@@ -134,7 +135,7 @@ describe('Image Window component', () => {
 
   it('dispatches updateWindow when new thumbnail is clicked (with bit depth)', async () => {
     if (testImageConfig.type === 'image') {
-      testImageConfig.bitDepth = 12;
+      testImageConfig.bitDepth = 16;
     }
     const user = userEvent.setup();
     const { store } = createView();
@@ -145,7 +146,7 @@ describe('Image Window component', () => {
     });
 
     const images = await screen.findAllByRole('img');
-    await user.click(images[1]);
+    await user.click(images[2]);
 
     expect(store.getState().windows).toStrictEqual({
       '1': {
@@ -153,9 +154,9 @@ describe('Image Window component', () => {
         open: true,
         type: 'image',
         channelName: 'CHANNEL_BCDEF',
-        recordId: '5',
-        title: 'Image CHANNEL_BCDEF 5',
-        bitDepth: 12,
+        recordId: '6',
+        title: 'Image CHANNEL_BCDEF 6',
+        bitDepth: 8,
         ...DEFAULT_WINDOW_VARS,
       },
     });

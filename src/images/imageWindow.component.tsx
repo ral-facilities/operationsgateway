@@ -79,7 +79,7 @@ const ImageWindow = (props: ImageWindowProps) => {
   }, []);
 
   const updateImageConfig = React.useCallback(
-    (newRecordId?: string) => {
+    (newRecordId?: string, newBitDepth?: number) => {
       const configToSave: TraceOrImageWindow = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
@@ -89,6 +89,7 @@ const ImageWindow = (props: ImageWindowProps) => {
           ? {
               recordId: newRecordId,
               title: `Image ${imageConfig.channelName} ${newRecordId}`,
+              bitDepth: newBitDepth,
             }
           : {}),
       };
@@ -126,7 +127,7 @@ const ImageWindow = (props: ImageWindowProps) => {
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
-            changeRecordId={updateImageConfig}
+            changeImageConfig={updateImageConfig}
           />
         </Grid>
         <Grid

@@ -140,6 +140,14 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
+  // Reset the lower and upper levels when the bit depth changes for the thumbnail selector
+  React.useEffect(() => {
+    setSliderLowerLevel(0);
+    setSliderUpperLevel(calculateUpperRangeFromBitDepth(bitDepth));
+    changeLowerLevel(0);
+    changeUpperLevel(calculateUpperRangeFromBitDepth(bitDepth));
+  }, [bitDepth, changeLowerLevel, changeUpperLevel]);
+
   const handleEnabledChange = (
     _event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
