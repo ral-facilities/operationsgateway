@@ -44,10 +44,13 @@ describe('Export', () => {
 
   it('should remember options when closed', () => {
     cy.findByRole('button', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Data' }).should('exist');
     cy.findByRole('radio', { name: 'Visible Rows' }).click();
     cy.findByRole('checkbox', { name: 'Images' }).click();
     cy.findByRole('button', { name: 'Cancel' }).click();
+    cy.findByRole('dialog', { name: 'Export Data' }).should('not.exist');
     cy.findByRole('button', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Data' }).should('exist');
     cy.findByRole('radio', { name: 'Visible Rows' }).should('be.checked');
     cy.findByRole('checkbox', { name: 'Images' }).should('be.checked');
   });
@@ -82,5 +85,57 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
 
     cy.readFile('./cypress/downloads/scdownload.csv').should('exist');
+  });
+
+  it('should be able to export a image channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
+    cy.findByRole('button', { name: 'Channel_BCDEF' }).click();
+    cy.findByRole('button', { name: 'Add this channel' }).click();
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+
+    cy.findByRole('button', { name: 'CHANNEL_BCDEF menu' }).click();
+    cy.findByRole('menuitem', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('exist');
+    cy.findByRole('button', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
+
+    cy.readFile('./cypress/downloads/scimwcwidownload.csv').should('exist');
+  });
+
+  it('should be able to export a waveform channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
+    cy.findByRole('button', { name: 'Channel_CDEFG' }).click();
+    cy.findByRole('button', { name: 'Add this channel' }).click();
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+
+    cy.findByRole('button', { name: 'CHANNEL_CDEFG menu' }).click();
+    cy.findByRole('menuitem', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('exist');
+    cy.findByRole('button', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
+
+    cy.readFile('./cypress/downloads/scimwcwidownload.csv').should('exist');
+  });
+
+  it('should not be able to export a scalar channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
+    cy.findByRole('button', { name: 'Channel_ABCDE' }).click();
+    cy.findByRole('button', { name: 'Add this channel' }).click();
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+
+    cy.findByRole('button', { name: 'CHANNEL_ABCDE menu' }).click();
+    cy.findByRole('menuitem', { name: 'Export' }).should('not.exist');
   });
 });

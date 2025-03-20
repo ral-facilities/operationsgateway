@@ -33,10 +33,14 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
         'Waveform Images': true,
       },
       selectedColumn: channelInfo.systemName,
-    }).catch((error: AxiosError) => {
-      handleOG_APIError(error);
-    });
-  }, [channelInfo.systemName, exportChannels]);
+    })
+      .then(() => {
+        onClose();
+      })
+      .catch((error: AxiosError) => {
+        handleOG_APIError(error);
+      });
+  }, [channelInfo.systemName, exportChannels, onClose]);
 
   return (
     <>

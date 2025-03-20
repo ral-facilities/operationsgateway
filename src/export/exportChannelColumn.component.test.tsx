@@ -13,6 +13,7 @@ describe('ExportChannelColumn', () => {
   let user: ReturnType<typeof userEvent.setup>;
   let props: ExportChannelColumnProps;
   const onClose = vi.fn();
+  const exportData = vi.fn().mockResolvedValue({});
 
   const createView = () => {
     renderComponentWithProviders(<ExportChannelColumn {...props} />);
@@ -30,7 +31,7 @@ describe('ExportChannelColumn', () => {
       },
     };
     vi.mocked(useExportData).mockReturnValue({
-      mutateAsync: vi.fn(),
+      mutateAsync: exportData,
     });
 
     user = userEvent.setup();
@@ -49,8 +50,7 @@ describe('ExportChannelColumn', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('handles export click', async () => {
-    const exportData = vi.fn().mockResolvedValue({});
+  it('should should pending message', async () => {
     vi.mocked(useExportData).mockReturnValue({
       mutateAsync: exportData,
       isPending: true,
@@ -71,5 +71,24 @@ describe('ExportChannelColumn', () => {
     });
 
     expect(screen.getByText('Generating export data...')).toBeVisible();
+  });
+
+  it('handles export click', async () => {
+    createView();
+
+    const exportButton = screen.getByText('Export');
+    await user.click(exportButton);
+    expect(exportData).toHaveBeenCalledWith({
+      exportType: 'All Rows',
+      dataToExport: {
+        Scalars: true,
+        Images: true,
+        'Waveform CSVs': true,
+        'Waveform Images': true,
+      },
+      selectedColumn: 'TEST-IMAGE',
+    });
+
+    expect(onClose).toHaveBeenCalled();
   });
 });
