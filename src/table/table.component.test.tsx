@@ -108,6 +108,66 @@ describe('Table', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('renders correctly with all columns displayed (scalar, image, and waveform channels)', async () => {
+    props.columnVisibility = {};
+    props.availableColumns = [
+      ...props.availableColumns,
+      {
+        header: 'test scalar',
+        id: 'testscalar',
+        accessorKey: 'testscalar',
+        meta: {
+          channelInfo: {
+            systemName: 'TEST-SCALAR',
+            name: 'Test Scalar',
+            path: '/test',
+            type: 'scalar',
+          },
+        },
+      },
+      {
+        header: 'test image',
+        id: 'testimage',
+        accessorKey: 'testimage',
+        meta: {
+          channelInfo: {
+            systemName: 'TEST-IMAGE',
+            name: 'Test Image',
+            path: '/image/test',
+            type: 'image',
+          },
+        },
+      },
+      {
+        header: 'test waveform',
+        id: 'testwaveform',
+        accessorKey: 'testwaveform',
+        meta: {
+          channelInfo: {
+            systemName: 'TEST-WAVEFORM',
+            name: 'Test Waveform',
+            path: '/waveform/test',
+            type: 'waveform',
+          },
+        },
+      },
+    ];
+
+    props.columnOrder = [
+      'timestamp',
+      'shotnum',
+      'activeArea',
+      'activeExperiment',
+      'testscalar',
+      'testimage',
+      'testwaveform',
+    ];
+
+    const view = createView();
+
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
   describe('displays a record count', () => {
     it('displays the total data count if maxShots > number of rows', () => {
       const recordCount = recordRows.length;

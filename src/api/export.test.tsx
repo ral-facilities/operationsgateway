@@ -279,6 +279,66 @@ describe('useExportData', () => {
     expect(mockLinkRemove).toHaveBeenCalled();
   });
 
+  it('sends axios request to export all rows for a single channel and returns successful response', async () => {
+    const { result } = renderHook(() => useExportData(), {
+      wrapper: hooksWrapperWithProviders(state),
+    });
+
+    expect(ogApi.get).not.toHaveBeenCalled();
+    expect(result.current.isIdle).toBe(true);
+
+    await act(async () => {
+      await result.current.mutateAsync({
+        exportType: 'All Rows',
+        dataToExport: {
+          Scalars: false,
+          Images: true,
+          'Waveform CSVs': false,
+          'Waveform Images': true,
+        },
+        selectedColumn: 'ChannelA',
+      });
+    });
+
+    const params = new URLSearchParams();
+
+    params.append('order', 'metadata.timestamp desc');
+    params.append('projection', 'channels.ChannelA');
+
+    params.append(
+      'conditions',
+      JSON.stringify({
+        $and: [
+          {
+            'metadata.timestamp': {
+              $gte: '2022-10-17T00:00:00',
+              $lte: '2022-11-04T23:59:59',
+            },
+          },
+        ],
+        $or: [{ 'channels.ChannelA': { $exists: true } }],
+      })
+    );
+    params.append('export_scalars', 'false');
+    params.append('export_images', 'true');
+    params.append('export_waveform_csvs', 'false');
+    params.append('export_waveform_images', 'true');
+    params.append('skip', '0');
+    params.append('limit', '1000');
+
+    expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
+      params,
+      responseType: 'blob',
+    });
+
+    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.download).toEqual('imwidownload.csv');
+    expect(mockLink.style.display).toEqual('none');
+
+    expect(mockLinkClick).toHaveBeenCalled();
+    expect(mockLinkRemove).toHaveBeenCalled();
+  });
+
   it('sends axios request to export visible rows and returns successful response', async () => {
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),

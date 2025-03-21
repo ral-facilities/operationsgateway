@@ -43,13 +43,13 @@ const ImageWindow = (props: ImageWindowProps) => {
   const { data: imageData, isLoading: imageLoadingStatus } = useImage(
     recordId,
     channelName,
+    imageConfig.type === 'image',
     {
       colourMap: colourMap,
       lowerLevel: lowerLevel,
       upperLevel: upperLevel,
     },
-    bitDepth,
-    imageConfig.type === 'image'
+    bitDepth
   );
 
   const { data: floatImageData, isLoading: floatImageLoadingStatus } =

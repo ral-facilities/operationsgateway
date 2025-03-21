@@ -6,6 +6,7 @@ import {
   MoreVert,
   WrapText,
 } from '@mui/icons-material';
+import DownloadIcon from '@mui/icons-material/Download';
 import {
   Box,
   Divider,
@@ -24,11 +25,14 @@ import {
 import React from 'react';
 import {
   FullChannelMetadata,
+  isChannelMetadataFloatImage,
+  isChannelMetadataImage,
   isChannelMetadataScalar,
   isChannelMetadataWaveform,
   Order,
   timeChannelName,
 } from '../../app.types';
+import ExportChannelColumn from '../../export/exportChannelColumn.component';
 
 export interface DataHeaderProps {
   disableSort?: boolean;
@@ -53,10 +57,11 @@ export interface ColumnMenuProps {
   onClose: (column: string) => void;
   onToggleWordWrap: (column: string) => void;
   wordWrap: boolean;
+  channelInfo?: FullChannelMetadata;
 }
 
 const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
-  const { dataKey, onClose, onToggleWordWrap, wordWrap } = props;
+  const { dataKey, onClose, onToggleWordWrap, wordWrap, channelInfo } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -67,7 +72,13 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const [openExportDialogue, setOpenExportDialogue] =
+    React.useState<boolean>(false);
+  const isWaveformOrImage =
+    !!channelInfo &&
+    (isChannelMetadataWaveform(channelInfo) ||
+      isChannelMetadataImage(channelInfo) ||
+      isChannelMetadataFloatImage(channelInfo));
   return (
     <div>
       <IconButton
@@ -102,6 +113,19 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
           </ListItemIcon>
           <ListItemText>Turn word wrap {wordWrap ? 'off' : 'on'}</ListItemText>
         </MenuItem>
+        {isWaveformOrImage && (
+          <MenuItem
+            onClick={() => {
+              setOpenExportDialogue(true);
+              handleClose();
+            }}
+          >
+            <ListItemIcon>
+              <DownloadIcon />
+            </ListItemIcon>
+            <ListItemText>Export</ListItemText>
+          </MenuItem>
+        )}
         {dataKey !== timeChannelName && (
           <MenuItem
             onClick={() => {
@@ -116,6 +140,13 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
           </MenuItem>
         )}
       </Menu>
+      {channelInfo && (
+        <ExportChannelColumn
+          open={openExportDialogue}
+          onClose={() => setOpenExportDialogue(false)}
+          channelInfo={channelInfo}
+        />
+      )}
     </div>
   );
 };
@@ -279,6 +310,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             onClose={onClose}
             wordWrap={wordWrap}
             onToggleWordWrap={onToggleWordWrap}
+            channelInfo={channelInfo}
           />
           <Divider
             onMouseDown={resizeHandler}

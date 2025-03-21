@@ -144,9 +144,9 @@ export const fetchCrosshair = async (
 export const useImage = (
   recordId: string,
   channelName: string,
+  enabled: boolean,
   falseColourParams?: FalseColourParams,
-  limitBitDepth?: number,
-  enabled: boolean
+  limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
   const { functions } = useAppSelector(selectQueryParams);
   return useQuery({

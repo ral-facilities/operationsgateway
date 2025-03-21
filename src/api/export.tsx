@@ -33,7 +33,8 @@ export const exportData = async (
   },
   projection?: string[],
   dataToExport?: DataToExport,
-  selectedRows?: string[]
+  selectedRows?: string[],
+  selectedColumn?: string
 ): Promise<void> => {
   const queryParams = new URLSearchParams();
 
@@ -68,7 +69,8 @@ export const exportData = async (
 
   const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
 
-  projection?.forEach((channel) => {
+  const channelProjection = selectedColumn ? [selectedColumn] : projection;
+  channelProjection?.forEach((channel) => {
     // Do not project on functions
     let is_function = false;
     functionsState.functions.forEach((func) => {
@@ -170,7 +172,15 @@ export const exportData = async (
   URL.revokeObjectURL(href);
 };
 
-export const useExportData = (): UseMutationResult<void, AxiosError> => {
+export const useExportData = (): UseMutationResult<
+  void,
+  AxiosError,
+  {
+    exportType: string;
+    dataToExport: DataToExport;
+    selectedColumn?: string;
+  }
+> => {
   const selectedRows = useAppSelector(selectSelectedRows);
   const { searchParams, page, resultsPerPage, sort, filters, functions } =
     useAppSelector(selectQueryParams);
@@ -181,11 +191,12 @@ export const useExportData = (): UseMutationResult<void, AxiosError> => {
   return useMutation({
     mutationKey: ['exportData'],
 
-    mutationFn: (params) => {
-      const { exportType, dataToExport } = params as {
-        exportType: string;
-        dataToExport: DataToExport;
-      };
+    mutationFn: (params: {
+      exportType: string;
+      dataToExport: DataToExport;
+      selectedColumn?: string;
+    }) => {
+      const { exportType, dataToExport, selectedColumn } = params;
       const startIndex =
         exportType === 'Visible Rows' ? page * resultsPerPage : 0;
       const stopIndex =
@@ -203,7 +214,8 @@ export const useExportData = (): UseMutationResult<void, AxiosError> => {
         { startIndex, stopIndex },
         projection,
         dataToExport,
-        exportType === 'Selected Rows' ? selectedRows : undefined
+        exportType === 'Selected Rows' ? selectedRows : undefined,
+        selectedColumn
       );
     },
     onError: (error) => {

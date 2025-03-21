@@ -1263,7 +1263,7 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rfd-droppable-context-id=":re:"
+            data-rfd-droppable-context-id=":ri:"
             data-rfd-droppable-id="columns"
           >
             <th
@@ -1439,7 +1439,7 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":ri:"
+          id=":rm:"
         >
           Rows per page:
         </p>
@@ -1447,12 +1447,12 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":rj:"
+            aria-controls=":rn:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":ri: :rh:"
+            aria-labelledby=":rm: :rl:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":rh:"
+            id=":rl:"
             role="combobox"
             tabindex="0"
           >
@@ -1547,7 +1547,7 @@ exports[`Record Table > renders correctly while loading 1`] = `
         >
           <tr
             class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rfd-droppable-context-id=":r8:"
+            data-rfd-droppable-context-id=":rc:"
             data-rfd-droppable-id="columns"
           >
             <th
@@ -1633,7 +1633,7 @@ exports[`Record Table > renders correctly while loading 1`] = `
         />
         <p
           class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":rc:"
+          id=":rg:"
         >
           Rows per page:
         </p>
@@ -1641,12 +1641,12 @@ exports[`Record Table > renders correctly while loading 1`] = `
           class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":rd:"
+            aria-controls=":rh:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":rc: :rb:"
+            aria-labelledby=":rg: :rf:"
             class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":rb:"
+            id=":rf:"
             role="combobox"
             tabindex="0"
           >
