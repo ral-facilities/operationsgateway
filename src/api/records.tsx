@@ -358,6 +358,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           shotnum: record.metadata.shotnum,
           activeArea: record.metadata.activeArea,
           activeExperiment: record.metadata.activeExperiment,
+          channelMetadata: {},
         };
 
         const keys = Object.keys(record.channels ?? {});
@@ -374,6 +375,7 @@ export const useRecordsPaginated = (): UseQueryResult<
             }
 
             recordRow[key] = channelData;
+            recordRow.channelMetadata[key] = channel.metadata;
           }
         });
 

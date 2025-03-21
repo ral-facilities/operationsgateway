@@ -21,13 +21,13 @@ import {
 interface ThumbnailSelectorProps {
   channelName: string;
   recordId: string;
-  changeRecordId: (recordId: string) => void;
+  changeImageConfig: (recordId: string, bitDepth?: number) => void;
 }
 
 export const thumbnailSelectorWidth = 150;
 
 const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
-  const { channelName, recordId, changeRecordId } = props;
+  const { channelName, recordId, changeImageConfig } = props;
 
   const { page: tablePage, resultsPerPage: tableResultsPerPage } =
     useAppSelector(selectQueryParams);
@@ -62,12 +62,16 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
             const channelData = thumbnailRecord.channels?.[channelName];
 
             if (typeof channelData === 'undefined') return null;
-
+            const bitDepth =
+              channelData.metadata &&
+              channelData.metadata.channel_dtype === 'image'
+                ? channelData.metadata.bit_depth
+                : undefined;
             return (
               <ListItemButton
                 key={thumbnailRecord._id}
                 selected={thumbnailRecord._id === recordId}
-                onClick={() => changeRecordId(thumbnailRecord._id)}
+                onClick={() => changeImageConfig(thumbnailRecord._id, bitDepth)}
               >
                 <Tooltip
                   title={`Timestamp: ${renderTimestamp(

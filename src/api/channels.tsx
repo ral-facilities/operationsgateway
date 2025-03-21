@@ -15,6 +15,7 @@ import {
   RecordRow,
   timeChannelName,
   ValidateFunctionState,
+  type ChannelMetadata,
 } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectAppliedFunctions } from '../state/slices/functionsSlice';
@@ -183,6 +184,15 @@ export const constructColumnDefs = (
           : isChannelMetadataImage(channel)
             ? ({ row, getValue }) => {
                 const value = getValue<string>();
+
+                const metadata: ChannelMetadata | undefined = (
+                  row.original as RecordRow
+                )['channelMetadata'][channel.systemName];
+                const bitDepth =
+                  metadata && metadata.channel_dtype === 'image'
+                    ? metadata.bit_depth
+                    : undefined;
+
                 return (
                   <TraceOrImageThumbnail
                     base64Data={value}
@@ -193,6 +203,7 @@ export const constructColumnDefs = (
                       dispatch(
                         openImageWindow({
                           recordId: (row.original as RecordRow)['_id'],
+                          bitDepth: bitDepth,
                           channelName: channel.systemName,
                         })
                       );

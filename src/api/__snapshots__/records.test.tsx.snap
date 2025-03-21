@@ -7,6 +7,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "1",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_ABCDE": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 1,
     "timestamp": "2022-01-01 00:00:00",
   },
@@ -15,6 +20,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "2",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_ABCDE": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 2,
     "timestamp": "2022-01-02 00:00:00",
   },
@@ -23,6 +33,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "3",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_ABCDE": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 3,
     "timestamp": "2022-01-03 00:00:00",
   },
@@ -31,6 +46,18 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "4",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_BCDEF": {
+        "bit_depth": 12,
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 4,
     "timestamp": "2022-01-04 00:00:00",
   },
@@ -39,6 +66,18 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "5",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_BCDEF": {
+        "bit_depth": 16,
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 5,
     "timestamp": "2022-01-05 00:00:00",
   },
@@ -47,6 +86,18 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "6",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_BCDEF": {
+        "bit_depth": 8,
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 6,
     "timestamp": "2022-01-06 00:00:00",
   },
@@ -55,6 +106,13 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "7",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_CDEFG": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+    },
     "shotnum": 7,
     "timestamp": "2022-01-07 00:00:00",
   },
@@ -63,6 +121,13 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "8",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_CDEFG": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+    },
     "shotnum": 8,
     "timestamp": "2022-01-08 00:00:00",
   },
@@ -71,6 +136,13 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "9",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_CDEFG": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+    },
     "shotnum": 9,
     "timestamp": "2022-01-09 00:00:00",
   },
@@ -79,6 +151,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "10",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_DEFGH": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 10,
     "timestamp": "2022-01-10 00:00:00",
   },
@@ -87,6 +164,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "11",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_DEFGH": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 9,
     "timestamp": "2022-01-11 00:00:00",
   },
@@ -95,6 +177,11 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "12",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_DEFGH": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 12,
     "timestamp": "2022-01-12 00:00:00",
   },
@@ -103,6 +190,17 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "13",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_EFGHI": {
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 13,
     "timestamp": "2022-01-13 00:00:00",
   },
@@ -111,6 +209,17 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "14",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_EFGHI": {
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 14,
     "timestamp": "2022-01-14 00:00:00",
   },
@@ -119,6 +228,17 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "15",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_EFGHI": {
+        "channel_dtype": "image",
+        "exposure_time_s": 0.001,
+        "gain": 5,
+        "v_pixel_size": 100,
+        "v_pixel_units": "nm",
+        "x_pixel_size": 100,
+        "x_pixel_units": "nm",
+      },
+    },
     "shotnum": 15,
     "timestamp": "2022-01-15 00:00:00",
   },
@@ -128,6 +248,16 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "16",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_FGHIJ": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+      "CHANNEL_GHIJK": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 16,
     "timestamp": "2022-01-16 00:00:00",
   },
@@ -137,6 +267,16 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "17",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_FGHIJ": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+      "CHANNEL_GHIJK": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 17,
     "timestamp": "2022-01-17 00:00:00",
   },
@@ -146,6 +286,16 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
     "_id": "18",
     "activeArea": undefined,
     "activeExperiment": undefined,
+    "channelMetadata": {
+      "CHANNEL_FGHIJ": {
+        "channel_dtype": "waveform",
+        "x_units": "x",
+        "y_units": "y",
+      },
+      "CHANNEL_GHIJK": {
+        "channel_dtype": "scalar",
+      },
+    },
     "shotnum": 18,
     "timestamp": "2022-01-18 00:00:00",
   },

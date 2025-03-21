@@ -3,11 +3,23 @@ import { DEFAULT_WINDOW_VARS, WindowConfig } from '../../app.types';
 import { RootState } from '../store';
 
 type WindowType = 'image' | 'trace';
-export interface TraceOrImageWindow extends WindowConfig {
+
+interface BaseWindowConfig extends WindowConfig {
   type: WindowType;
   recordId: string;
   channelName: string;
 }
+
+interface ImageWindow extends BaseWindowConfig {
+  type: 'image';
+  bitDepth?: number;
+}
+
+interface TraceWindow extends BaseWindowConfig {
+  type: 'trace';
+}
+
+export type TraceOrImageWindow = ImageWindow | TraceWindow;
 
 // Define a type for the slice state
 interface WindowState {
@@ -44,9 +56,13 @@ export const windowSlice = createSlice({
     },
     openImageWindow: (
       state,
-      action: PayloadAction<{ recordId: string; channelName: string }>
+      action: PayloadAction<{
+        recordId: string;
+        channelName: string;
+        bitDepth?: number;
+      }>
     ) => {
-      const { recordId, channelName } = action.payload;
+      const { recordId, channelName, bitDepth } = action.payload;
       const id = crypto.randomUUID();
       state[id] = {
         id: id,
@@ -54,6 +70,7 @@ export const windowSlice = createSlice({
         type: 'image',
         recordId,
         channelName,
+        bitDepth,
         title: `Image ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };

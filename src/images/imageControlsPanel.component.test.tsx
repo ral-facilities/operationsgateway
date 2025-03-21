@@ -1,9 +1,9 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import imageCrosshairJson from '../mocks/imageCrosshair.json';
 import { flushPromises, renderComponentWithProviders } from '../testUtils';
 import ImageControlsPanel from './imageControlsPanel.component';
-import imageCrosshairJson from '../mocks/imageCrosshair.json';
 
 describe('Image controls panel component', () => {
   let props: React.ComponentProps<typeof ImageControlsPanel>;
@@ -37,6 +37,16 @@ describe('Image controls panel component', () => {
   };
 
   it('renders correctly', async () => {
+    const { asFragment } = createView();
+
+    // "load" requests
+    await flushPromises();
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('renders correctly with bit depth 12', async () => {
+    props.bitDepth = 12;
     const { asFragment } = createView();
 
     // "load" requests
