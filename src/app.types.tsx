@@ -43,6 +43,14 @@ export interface ImageMetadata {
   bit_depth?: number;
 }
 
+export interface FloatImageMetadata {
+  channel_dtype: 'float_image';
+  x_pixel_size?: number;
+  x_pixel_units?: string;
+  y_pixel_size?: number;
+  y_pixel_units?: string;
+}
+
 export interface WaveformMetadata {
   channel_dtype: 'waveform';
   x_units?: string;
@@ -57,7 +65,7 @@ export interface RecordMetadata {
   activeExperiment?: string;
 }
 
-export type DataType = 'scalar' | 'image' | 'waveform';
+export type DataType = 'scalar' | 'image' | 'waveform' | 'float_image';
 
 export interface FullCommonChannelMetadata {
   systemName: string;
@@ -79,6 +87,11 @@ export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
   type: 'image';
 }
 
+export interface FullFloatImageChannelMetadata
+  extends FullCommonChannelMetadata {
+  type: 'float_image';
+}
+
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
   type: 'waveform';
   x_units?: string;
@@ -88,7 +101,8 @@ export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
 export type FullChannelMetadata =
   | FullScalarChannelMetadata
   | FullImageChannelMetadata
-  | FullWaveformChannelMetadata;
+  | FullWaveformChannelMetadata
+  | FullFloatImageChannelMetadata;
 
 // Type guards because TS can't deal with nested discriminated unions
 export const isChannelMetadataScalar = (
@@ -97,11 +111,18 @@ export const isChannelMetadataScalar = (
 export const isChannelMetadataImage = (
   c: FullChannelMetadata
 ): c is FullImageChannelMetadata => c.type === 'image';
+export const isChannelMetadataFloatImage = (
+  c: FullChannelMetadata
+): c is FullImageChannelMetadata => c.type === 'float_image';
 export const isChannelMetadataWaveform = (
   c: FullChannelMetadata
 ): c is FullWaveformChannelMetadata => c.type === 'waveform';
 
-export type ChannelMetadata = ScalarMetadata | ImageMetadata | WaveformMetadata;
+export type ChannelMetadata =
+  | ScalarMetadata
+  | ImageMetadata
+  | WaveformMetadata
+  | FloatImageMetadata;
 
 export interface ScalarChannel {
   metadata: ScalarMetadata;
@@ -114,13 +135,23 @@ export interface ImageChannel {
   thumbnail: string;
 }
 
+export interface FloatImageChannel {
+  metadata: FloatImageMetadata;
+  image_path: string;
+  thumbnail: string;
+}
+
 export interface WaveformChannel {
   metadata: WaveformMetadata;
   waveform_id: string;
   thumbnail: string;
 }
 
-export type Channel = ScalarChannel | ImageChannel | WaveformChannel;
+export type Channel =
+  | ScalarChannel
+  | ImageChannel
+  | WaveformChannel
+  | FloatImageChannel;
 
 // Type guards because TS can't deal with nested discriminated unions
 export const isChannelScalar = (c: Channel | undefined): c is ScalarChannel =>
