@@ -14,9 +14,10 @@ import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { ogApi } from './api';
 import { staticChannels } from './channels';
 
-interface DataToExport {
+export interface DataToExport {
   Scalars: boolean;
   Images: boolean;
+  'Float Image': boolean;
   'Waveform CSVs': boolean;
   'Waveform Images': boolean;
 }
@@ -125,6 +126,10 @@ export const exportData = async (
       JSON.stringify(dataToExport['Scalars'])
     );
     queryParams.append('export_images', JSON.stringify(dataToExport['Images']));
+    queryParams.append(
+      'export_float_images',
+      JSON.stringify(dataToExport['Float Image'])
+    );
     queryParams.append(
       'export_waveform_csvs',
       JSON.stringify(dataToExport['Waveform CSVs'])

@@ -48,6 +48,7 @@ interface ImageControlsPanelProps extends FalseColourParams {
   changeUpperLevel: (value: number | undefined) => void;
   crosshairData: ReturnType<typeof useImageCrosshair>['data'];
   bitDepth?: number;
+  isFloat?: boolean;
 }
 
 export function filterNamesWithSuffixR(
@@ -119,6 +120,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
     changeCrosshairsMode,
     crosshairData,
     bitDepth,
+    isFloat = false,
   } = props;
 
   const { data: colourMaps } = useColourMaps();
@@ -128,6 +130,7 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
       lowerLevel: lowerLevel,
       upperLevel: upperLevel,
     },
+    !isFloat,
     bitDepth
   );
 
@@ -232,12 +235,14 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
     <Paper data-testid="image-controls-panel">
       <Stack direction="column" sx={{ width: 300 }} spacing={1} padding={2}>
         <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={enabled} onChange={handleEnabledChange} />
-            }
-            label="False Colour"
-          />
+          {!isFloat && (
+            <FormControlLabel
+              control={
+                <Switch checked={enabled} onChange={handleEnabledChange} />
+              }
+              label="False Colour"
+            />
+          )}
           <FormControlLabel
             disabled={
               !colourMapsWithReverse?.includes(selectColourMap) || !enabled
@@ -257,24 +262,28 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
             }
             label="Show extended colourmap options"
           />
-          <FormControlLabel
-            control={
-              <Switch
-                checked={crosshairsMode}
-                onChange={handleChangeCrosshairMode}
-              />
-            }
-            label="Centroid / Cross Hairs"
-          />
-
-          {crosshairsMode && crosshairData && (
+          {!isFloat && (
             <>
-              <Typography>
-                Position: ({crosshairData.column.position},{' '}
-                {crosshairData.row.position})
-              </Typography>
-              <Typography>X FWHM: {crosshairData.column.fwhm}</Typography>
-              <Typography>Y FWHM: {crosshairData.row.fwhm}</Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={crosshairsMode}
+                    onChange={handleChangeCrosshairMode}
+                  />
+                }
+                label="Centroid / Cross Hairs"
+              />
+
+              {crosshairsMode && crosshairData && (
+                <>
+                  <Typography>
+                    Position: ({crosshairData.column.position},{' '}
+                    {crosshairData.row.position})
+                  </Typography>
+                  <Typography>X FWHM: {crosshairData.column.fwhm}</Typography>
+                  <Typography>Y FWHM: {crosshairData.row.fwhm}</Typography>
+                </>
+              )}
             </>
           )}
         </FormGroup>
@@ -292,35 +301,39 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
             />
           )}
         </FormControl>
-        <FormControl disabled={!enabled}>
-          <FormLabel id="range-slider-label" sx={{ margin: 'auto' }}>
-            Level Range
-          </FormLabel>
-          <Slider
-            disabled={!enabled}
-            aria-labelledby="range-slider-label"
-            value={[sliderLowerLevel, sliderUpperLevel]}
-            valueLabelDisplay="auto"
-            marks={generateSliderMarks(bitDepth)}
-            onChange={(_event, newValue) => {
-              if (Array.isArray(newValue)) {
-                const [lower, upper] = newValue;
-                setSliderLowerLevel(lower);
-                setSliderUpperLevel(upper);
-              }
-            }}
-            onChangeCommitted={(_event, newValue) => {
-              if (Array.isArray(newValue)) {
-                const [lower, upper] = newValue;
-                changeLowerLevel(lower);
-                changeUpperLevel(upper);
-              }
-            }}
-            min={0}
-            max={calculateUpperRangeFromBitDepth(bitDepth)}
-          />
-        </FormControl>
-        <img src={colourBar} alt="Colour bar" />
+        {!isFloat && (
+          <>
+            <FormControl disabled={!enabled}>
+              <FormLabel id="range-slider-label" sx={{ margin: 'auto' }}>
+                Level Range
+              </FormLabel>
+              <Slider
+                disabled={!enabled}
+                aria-labelledby="range-slider-label"
+                value={[sliderLowerLevel, sliderUpperLevel]}
+                valueLabelDisplay="auto"
+                marks={generateSliderMarks(bitDepth)}
+                onChange={(_event, newValue) => {
+                  if (Array.isArray(newValue)) {
+                    const [lower, upper] = newValue;
+                    setSliderLowerLevel(lower);
+                    setSliderUpperLevel(upper);
+                  }
+                }}
+                onChangeCommitted={(_event, newValue) => {
+                  if (Array.isArray(newValue)) {
+                    const [lower, upper] = newValue;
+                    changeLowerLevel(lower);
+                    changeUpperLevel(upper);
+                  }
+                }}
+                min={0}
+                max={calculateUpperRangeFromBitDepth(bitDepth)}
+              />
+            </FormControl>
+            <img src={colourBar} alt="Colour bar" />
+          </>
+        )}
       </Stack>
     </Paper>
   );

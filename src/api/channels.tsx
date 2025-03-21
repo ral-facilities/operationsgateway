@@ -9,6 +9,7 @@ import React from 'react';
 import {
   FullChannelMetadata,
   FullScalarChannelMetadata,
+  isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataScalar,
   isChannelMetadataWaveform,
@@ -181,7 +182,8 @@ export const constructColumnDefs = (
                 />
               );
             }
-          : isChannelMetadataImage(channel)
+          : isChannelMetadataImage(channel) ||
+              isChannelMetadataFloatImage(channel)
             ? ({ row, getValue }) => {
                 const value = getValue<string>();
 
@@ -192,7 +194,6 @@ export const constructColumnDefs = (
                   metadata && metadata.channel_dtype === 'image'
                     ? metadata.bit_depth
                     : undefined;
-
                 return (
                   <TraceOrImageThumbnail
                     base64Data={value}
@@ -205,6 +206,7 @@ export const constructColumnDefs = (
                           recordId: (row.original as RecordRow)['_id'],
                           bitDepth: bitDepth,
                           channelName: channel.systemName,
+                          isFloat: metadata.channel_dtype === 'float_image',
                         })
                       );
                     }}

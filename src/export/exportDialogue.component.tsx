@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { useExportData } from '../api/export';
+import { useExportData, type DataToExport } from '../api/export';
 
 export interface ExportDialogueProps {
   open: boolean;
@@ -31,12 +31,14 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
-  const [selectedExportContent, setSelectedExportContent] = React.useState({
-    Scalars: true,
-    Images: false,
-    'Waveform CSVs': false,
-    'Waveform Images': false,
-  });
+  const [selectedExportContent, setSelectedExportContent] =
+    React.useState<DataToExport>({
+      Scalars: true,
+      Images: false,
+      'Float Image': false,
+      'Waveform CSVs': false,
+      'Waveform Images': false,
+    });
 
   const handleExportClick = () =>
     mutate({

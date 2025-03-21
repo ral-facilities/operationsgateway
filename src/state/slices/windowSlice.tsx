@@ -2,7 +2,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_WINDOW_VARS, WindowConfig } from '../../app.types';
 import { RootState } from '../store';
 
-type WindowType = 'image' | 'trace';
+type WindowType = 'image' | 'trace' | 'float_image';
 
 interface BaseWindowConfig extends WindowConfig {
   type: WindowType;
@@ -15,11 +15,14 @@ interface ImageWindow extends BaseWindowConfig {
   bitDepth?: number;
 }
 
+interface FloatImageWindow extends BaseWindowConfig {
+  type: 'float_image';
+}
 interface TraceWindow extends BaseWindowConfig {
   type: 'trace';
 }
 
-export type TraceOrImageWindow = ImageWindow | TraceWindow;
+export type TraceOrImageWindow = ImageWindow | TraceWindow | FloatImageWindow;
 
 // Define a type for the slice state
 interface WindowState {
@@ -60,14 +63,20 @@ export const windowSlice = createSlice({
         recordId: string;
         channelName: string;
         bitDepth?: number;
+        isFloat?: boolean;
       }>
     ) => {
-      const { recordId, channelName, bitDepth } = action.payload;
+      const {
+        recordId,
+        channelName,
+        bitDepth,
+        isFloat = false,
+      } = action.payload;
       const id = crypto.randomUUID();
       state[id] = {
         id: id,
         open: true,
-        type: 'image',
+        type: isFloat ? 'float_image' : 'image',
         recordId,
         channelName,
         bitDepth,
@@ -91,7 +100,9 @@ export const selectTraceWindows = createSelector(selectWindows, (windows) =>
   Object.values(windows).filter((windows) => windows.type === 'trace')
 );
 export const selectImageWindows = createSelector(selectWindows, (windows) =>
-  Object.values(windows).filter((windows) => windows.type === 'image')
+  Object.values(windows).filter(
+    (windows) => windows.type === 'image' || windows.type === 'float_image'
+  )
 );
 
 export default windowSlice.reducer;
