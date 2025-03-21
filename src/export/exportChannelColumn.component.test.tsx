@@ -62,10 +62,10 @@ describe('ExportChannelColumn', () => {
     expect(exportData).toHaveBeenCalledWith({
       exportType: 'All Rows',
       dataToExport: {
-        Scalars: true,
+        Scalars: false,
         Images: true,
         'Waveform CSVs': true,
-        'Waveform Images': true,
+        'Waveform Images': false,
       },
       selectedColumn: 'TEST-IMAGE',
     });
@@ -81,10 +81,10 @@ describe('ExportChannelColumn', () => {
     expect(exportData).toHaveBeenCalledWith({
       exportType: 'All Rows',
       dataToExport: {
-        Scalars: true,
+        Scalars: false,
         Images: true,
         'Waveform CSVs': true,
-        'Waveform Images': true,
+        'Waveform Images': false,
       },
       selectedColumn: 'TEST-IMAGE',
     });

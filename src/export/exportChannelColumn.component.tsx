@@ -27,10 +27,10 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
     exportChannels({
       exportType: 'All Rows',
       dataToExport: {
-        Scalars: true,
+        Scalars: false,
         Images: true,
         'Waveform CSVs': true,
-        'Waveform Images': true,
+        'Waveform Images': false,
       },
       selectedColumn: channelInfo.systemName,
     })
@@ -47,7 +47,7 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
       <Dialog open={open} onClose={onClose} maxWidth="lg">
         <DialogTitle>Export Channel</DialogTitle>
         <DialogContent>
-          Do you want to export all files in the{' '}
+          Do you want to export all files for the channel{' '}
           <strong data-testid="export-channel-name">
             {channelInfo.name || channelInfo.systemName}
           </strong>
