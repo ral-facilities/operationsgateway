@@ -23,7 +23,7 @@ export interface RecordRow {
   activeArea?: string;
   shotnum?: number;
   activeExperiment?: string;
-
+  channelMetadata: { [channel: string]: ChannelMetadata };
   [channel: string]: unknown;
 }
 
@@ -34,18 +34,19 @@ export interface ScalarMetadata {
 
 export interface ImageMetadata {
   channel_dtype: 'image';
-  x_pixel_size: number;
-  x_pixel_units: string;
-  y_pixel_size: number;
-  y_pixel_units: string;
-  gain: number;
-  exposure_time_s: number;
+  x_pixel_size?: number;
+  x_pixel_units?: string;
+  y_pixel_size?: number;
+  y_pixel_units?: string;
+  gain?: number;
+  exposure_time_s?: number;
+  bit_depth?: number;
 }
 
 export interface WaveformMetadata {
   channel_dtype: 'waveform';
-  x_units: string;
-  y_units: string;
+  x_units?: string;
+  y_units?: string;
 }
 
 export interface RecordMetadata {

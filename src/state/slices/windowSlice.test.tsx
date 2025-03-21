@@ -61,6 +61,25 @@ describe('windowSlice', () => {
       });
     });
 
+    it('openImageWindow creates a image with the default options (with bit depth)', () => {
+      state = WindowReducer(
+        state,
+        openImageWindow({ recordId: '1', channelName: 'TEST', bitDepth: 12 })
+      );
+      expect(state).toEqual({
+        [uuidCount]: {
+          id: `${uuidCount}`,
+          open: true,
+          type: 'image',
+          recordId: '1',
+          channelName: 'TEST',
+          title: 'Image TEST 1',
+          bitDepth: 12,
+          ...DEFAULT_WINDOW_VARS,
+        } satisfies TraceOrImageWindow,
+      });
+    });
+
     it('closeWindow deletes the window from the state', () => {
       state = {
         'test uuid': {

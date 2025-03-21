@@ -7,7 +7,7 @@ import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {
-  const changeRecordId = vi.fn();
+  const changeImageConfig = vi.fn();
   let channelName: string;
   let recordId: string;
 
@@ -25,7 +25,7 @@ describe('Thumbnail selector component', () => {
       <ThumbnailSelector
         channelName={channelName}
         recordId={recordId}
-        changeRecordId={changeRecordId}
+        changeImageConfig={changeImageConfig}
       />,
       { preloadedState }
     );
@@ -62,7 +62,18 @@ describe('Thumbnail selector component', () => {
     expect(screen.getByText('11–18 of 18')).toBeInTheDocument();
   });
 
-  it('clicking on a thumbnail calls changeRecordId', async () => {
+  it('clicking on a thumbnail calls changeImageConfig (with bit_depth)', async () => {
+    const user = userEvent.setup();
+
+    createView();
+    const thumbnails = await screen.findAllByRole('img');
+
+    await user.click(thumbnails[0]);
+
+    expect(changeImageConfig).toHaveBeenCalledWith('4', 12);
+  });
+
+  it('clicking on a thumbnail calls changeImageConfig (waveform)', async () => {
     channelName = 'CHANNEL_CDEFG';
     recordId = '7';
     const user = userEvent.setup();
@@ -72,7 +83,7 @@ describe('Thumbnail selector component', () => {
 
     await user.click(thumbnails[0]);
 
-    expect(changeRecordId).toHaveBeenCalledWith('7');
+    expect(changeImageConfig).toHaveBeenCalledWith('7', undefined);
   });
 
   it('allows selection of 100 results when max shots is not 50', async () => {
