@@ -1,6 +1,8 @@
 import { HttpResponse, http } from 'msw';
 import colourbar from './colourbar.png';
 import colourbar_reverse from './colourbar_reverse.png';
+import float_image from './float_image.png';
+import float_image_reverse from './float_image_reverse.png';
 import { preferredColourMap } from './handlers';
 import image from './image.png';
 import image_reverse from './image_reverse.png';
@@ -89,6 +91,79 @@ export const browserHandlers = [
             // draw color
             if (originalImage) context.fillStyle = '#000';
             else if (colourmap) {
+              setFillStyleFromColourMap(context, colourmap);
+            } else if (preferredColourMap) {
+              setFillStyleFromColourMap(context, preferredColourMap);
+            }
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(async (blob) => {
+              if (blob) {
+                const arrayBuffer = await blob.arrayBuffer();
+
+                resolve(
+                  new HttpResponse(arrayBuffer, {
+                    headers: {
+                      'Content-Length': arrayBuffer.byteLength.toString(),
+                      'Content-Type': 'image/png',
+                    },
+                    status: 200,
+                  })
+                );
+              } else {
+                reject(new HttpResponse(null, { status: 500 }));
+              }
+            });
+          } else {
+            reject(new HttpResponse(null, { status: 500 }));
+          }
+        };
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+
+      return result;
+    } else {
+      // Convert png image to "ArrayBuffer".
+      const imageBuffer = await imageResponse.arrayBuffer();
+
+      return new HttpResponse(imageBuffer, {
+        headers: {
+          'Content-Length': imageBuffer.byteLength.toString(),
+          'Content-Type': 'image/png',
+        },
+        status: 200,
+      });
+    }
+  }),
+  http.get('/images/float/:recordId/:channelName', async ({ request }) => {
+    const url = new URL(request.url);
+    const colourmap = url.searchParams.get('colourmap_name');
+    const useInverseImage = colourmap?.endsWith('_r');
+    const imageToFetch = useInverseImage ? float_image_reverse : float_image;
+    const imageResponse = await fetch(imageToFetch);
+
+    // do some basic canvas manip to emulate original images/different false colour maps
+    if (colourmap || preferredColourMap) {
+      const imageUrl = window.URL.createObjectURL(await imageResponse.blob());
+      const canvas = window.document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      const result = await new Promise<HttpResponse>((resolve, reject) => {
+        const img = new Image();
+        img.onload = function () {
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          if (context) {
+            // draw image
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // set composite mode
+            context.globalCompositeOperation = 'color';
+
+            // draw color
+            if (colourmap) {
               setFillStyleFromColourMap(context, colourmap);
             } else if (preferredColourMap) {
               setFillStyleFromColourMap(context, preferredColourMap);

@@ -11,6 +11,11 @@
       "path": "/Channels/1",
       "type": "image"
     },
+    "CHANNEL_BCDEFX": {
+      "name": "Channel_BCDEFX",
+      "path": "/Channels/1",
+      "type": "float_image"
+    },
     "CHANNEL_CDEFG": {
       "name": "Channel_CDEFG",
       "path": "/Channels/1",
