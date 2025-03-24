@@ -87,24 +87,26 @@ export const exportData = async (
     }
   });
 
+  const functionDepFunctions = new Set(
+    functionsState.functionsWithDeps
+      .filter((func) => channelProjection?.includes(func.name))
+      .flatMap((func) => func.functions)
+  );
+
   functionsState.functions.forEach((func) => {
-    if (selectedColumn) {
-      if (selectedColumn === func.name)
-        queryParams.append('functions', JSON.stringify(func));
-    } else {
+    if (Array.from(functionDepFunctions).includes(func.name))
       queryParams.append('functions', JSON.stringify(func));
-    }
   });
 
   const functionChannels = new Set(
-    functionsState.functionsWithChannels
-      .filter((func) => projection?.includes(func.name))
+    functionsState.functionsWithDeps
+      .filter((func) => channelProjection?.includes(func.name))
       .flatMap((func) => func.channels)
   );
 
   // Ensure `functionChannels` does not contain channels already in `projection`
   const uniqueFunctionChannels = Array.from(functionChannels).filter(
-    (channel) => !projection?.includes(channel)
+    (channel) => !channelProjection?.includes(channel)
   );
 
   uniqueFunctionChannels.forEach((channel) => {

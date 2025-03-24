@@ -26,14 +26,14 @@ describe('functionsSlice', () => {
       },
       {
         id: '3',
-        name: 'mean',
+        name: 'c',
         expression: [{ type: 'number', label: '1', value: '1' }],
         dataType: 'scalar',
         channels: [],
       },
       {
         id: '4',
-        name: 'a',
+        name: 'd',
         expression: [
           { type: 'functionToken', label: 'centre', value: 'centre' },
           { type: 'functionToken', label: '(', value: '(' },
@@ -57,17 +57,49 @@ describe('functionsSlice', () => {
         },
       };
       expect(selectQueryFunctions(state)).toEqual({
-        functionsWithChannels: [
-          { channels: [], expression: '1', name: 'a' },
-          { channels: [], expression: 'a + 1', name: 'b' },
-          { channels: [], expression: '1', name: 'mean' },
-          { channels: [], expression: 'centre(1)', name: 'a' },
-        ],
         functions: [
-          { expression: '1', name: 'a' },
-          { expression: 'a + 1', name: 'b' },
-          { expression: '1', name: 'mean' },
-          { expression: 'centre(1)', name: 'a' },
+          {
+            expression: '1',
+            name: 'a',
+          },
+          {
+            expression: 'a + 1',
+            name: 'b',
+          },
+          {
+            expression: '1',
+            name: 'c',
+          },
+          {
+            expression: 'centre(1)',
+            name: 'd',
+          },
+        ],
+        functionsWithDeps: [
+          {
+            channels: [],
+            expression: '1',
+            functions: ['a'],
+            name: 'a',
+          },
+          {
+            channels: [],
+            expression: 'a + 1',
+            functions: ['b'],
+            name: 'b',
+          },
+          {
+            channels: [],
+            expression: '1',
+            functions: ['c'],
+            name: 'c',
+          },
+          {
+            channels: [],
+            expression: 'centre(1)',
+            functions: ['d'],
+            name: 'd',
+          },
         ],
       });
     });
