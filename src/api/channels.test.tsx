@@ -241,6 +241,11 @@ describe('channels api functions', () => {
           systemName: 'test_3',
           path: '/test_3',
         },
+        {
+          type: 'float_image',
+          systemName: 'test_1',
+          path: '/test_1',
+        },
       ];
     });
 
