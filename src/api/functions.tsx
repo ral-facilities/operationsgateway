@@ -32,17 +32,45 @@ export function convertExpressionsToStrings(
       // Remove any spaces around the double asterisk '**' (exponentiation operator)
       .replace(/\s*\*\*\s*/g, '**');
 
+  const getChannelsRecursively = (
+    expression: FunctionToken[],
+    allFunctions: ValidateFunctionState[]
+  ): string[] => {
+    let channels: string[] = [];
+
+    expression.forEach((exp) => {
+      if (exp.type === 'function') {
+        const foundFunction = allFunctions.find((fn) => fn.name === exp.value);
+        if (foundFunction) {
+          channels = [...channels, ...foundFunction.channels];
+          channels = [
+            ...channels,
+            ...getChannelsRecursively(foundFunction.expression, allFunctions),
+          ];
+        }
+      }
+    });
+
+    return Array.from(new Set(channels));
+  };
+
   const functions = functionStates.map(({ name, expression }) => ({
     name,
     expression: transformExpression(expression),
   }));
 
   const functionsWithChannels = functionStates.map(
-    ({ name, expression, channels }) => ({
-      name,
-      expression: transformExpression(expression),
-      channels,
-    })
+    ({ name, expression, channels }) => {
+      console.log(expression, functionStates);
+      return {
+        name,
+        expression: transformExpression(expression),
+        channels: [
+          ...(channels ?? []),
+          ...getChannelsRecursively(expression, functionStates),
+        ],
+      };
+    }
   );
 
   return {
