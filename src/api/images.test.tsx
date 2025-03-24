@@ -33,7 +33,7 @@ describe('images api functions', () => {
     it('sends request to fetch original image and returns successful response', async () => {
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST'), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true), {
         wrapper: hooksWrapperWithProviders(),
       });
 
@@ -75,7 +75,7 @@ describe('images api functions', () => {
       };
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST'), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true), {
         wrapper: hooksWrapperWithProviders(state),
       });
 
@@ -103,7 +103,7 @@ describe('images api functions', () => {
     it('sends request to fetch original image with empty false colour params and returns successful response', async () => {
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST', {}), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true, {}), {
         wrapper: hooksWrapperWithProviders(),
       });
 
@@ -127,7 +127,7 @@ describe('images api functions', () => {
 
       const { result } = renderHook(
         () =>
-          useImage('1', 'TEST', {
+          useImage('1', 'TEST', true, {
             colourMap: 'red',
             lowerLevel: 5,
             upperLevel: 200,
@@ -162,6 +162,7 @@ describe('images api functions', () => {
           useImage(
             '1',
             'TEST',
+            true,
             {
               colourMap: 'red',
               lowerLevel: 5,
@@ -211,6 +212,7 @@ describe('images api functions', () => {
               lowerLevel: 5,
               upperLevel: 200,
             },
+            true,
             8
           ),
         {

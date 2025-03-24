@@ -82,6 +82,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: true,
           Images: false,
+          'Float Image': false,
           'Waveform CSVs': true,
           'Waveform Images': false,
         },
@@ -113,6 +114,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'true');
     params.append('export_images', 'false');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
     params.append('export_waveform_images', 'false');
     params.append('skip', '0');
@@ -162,6 +164,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: true,
           Images: true,
+          'Float Image': false,
           'Waveform CSVs': true,
           'Waveform Images': true,
         },
@@ -198,6 +201,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'true');
     params.append('export_images', 'true');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
     params.append('export_waveform_images', 'true');
     params.append('skip', '0');
@@ -230,6 +234,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: false,
           Images: true,
+          'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
         },
@@ -261,6 +266,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'false');
     params.append('export_images', 'true');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'true');
     params.append('skip', '0');
@@ -293,6 +299,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: false,
           Images: true,
+          'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
         },
@@ -321,6 +328,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'false');
     params.append('export_images', 'true');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'true');
     params.append('skip', '0');
@@ -353,6 +361,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: true,
           Images: false,
+          'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
         },
@@ -385,6 +394,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'true');
     params.append('export_images', 'false');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
     params.append('skip', '25');
@@ -419,6 +429,7 @@ describe('useExportData', () => {
         dataToExport: {
           Scalars: true,
           Images: false,
+          'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
         },
@@ -451,6 +462,7 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'true');
     params.append('export_images', 'false');
+    params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
 
