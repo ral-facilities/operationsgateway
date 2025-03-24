@@ -88,7 +88,12 @@ export const exportData = async (
   });
 
   functionsState.functions.forEach((func) => {
-    queryParams.append('functions', JSON.stringify(func));
+    if (selectedColumn) {
+      if (selectedColumn === func.name)
+        queryParams.append('functions', JSON.stringify(func));
+    } else {
+      queryParams.append('functions', JSON.stringify(func));
+    }
   });
 
   const functionChannels = new Set(

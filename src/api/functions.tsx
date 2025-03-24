@@ -61,7 +61,6 @@ export function convertExpressionsToStrings(
 
   const functionsWithChannels = functionStates.map(
     ({ name, expression, channels }) => {
-      console.log(expression, functionStates);
       return {
         name,
         expression: transformExpression(expression),
