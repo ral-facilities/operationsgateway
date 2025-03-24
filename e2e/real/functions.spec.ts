@@ -109,3 +109,59 @@ test('creates multiple complex functions', async ({ page }) => {
     timeout: 200000,
   });
 });
+
+test('create a function that depends on another function and display it without displaying the dependent one', async ({
+  page,
+}) => {
+  await page.goto('/');
+  // Complex function take extra time to process in the backend
+  test.slow();
+
+  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+
+  await page.getByRole('radio', { name: 'Unlimited' }).click();
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  await page.getByRole('button', { name: 'Functions' }).click();
+
+  const nameFields = await page.locator('label:has-text("Name")');
+  const expressionFields = await page.locator('label:has-text("Expression")');
+
+  await nameFields.first().fill('test');
+  await expressionFields.first().fill('centre');
+  await expressionFields.first().press('Enter');
+  await expressionFields.first().fill('(');
+  await expressionFields.first().press('Enter');
+  await expressionFields.first().fill('D100 HJ photodiode trace');
+  await expressionFields.first().press('Enter');
+  await expressionFields.first().fill(')');
+  await expressionFields.first().press('Enter');
+
+  await page.getByRole('button', { name: 'Add new function' }).click();
+
+  await nameFields.last().fill('test_2');
+
+  await expressionFields.last().fill('test');
+  await expressionFields.last().press('Enter');
+  await expressionFields.last().fill('+');
+  await expressionFields.last().press('Enter');
+  await expressionFields.last().fill('Mean');
+  await expressionFields.last().press('Enter');
+  await expressionFields.last().fill('(');
+  await expressionFields.last().press('Enter');
+  await expressionFields.last().fill('D100 HJ photodiode trace');
+  await expressionFields.last().press('Enter');
+  await expressionFields.last().fill(')');
+  await expressionFields.last().press('Enter');
+
+  await page.getByRole('checkbox', { name: 'test Checkbox' }).click();
+
+  // Click on the apply button
+  await page.getByRole('button', { name: 'Apply' }).click();
+
+  await expect(page.getByText('12.035422071878786')).toBeVisible({
+    timeout: 200000,
+  });
+});
