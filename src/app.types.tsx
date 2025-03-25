@@ -113,7 +113,7 @@ export const isChannelMetadataImage = (
 ): c is FullImageChannelMetadata => c.type === 'image';
 export const isChannelMetadataFloatImage = (
   c: FullChannelMetadata
-): c is FullImageChannelMetadata => c.type === 'float_image';
+): c is FullFloatImageChannelMetadata => c.type === 'float_image';
 export const isChannelMetadataWaveform = (
   c: FullChannelMetadata
 ): c is FullWaveformChannelMetadata => c.type === 'waveform';
@@ -160,7 +160,7 @@ export const isChannelImage = (c: Channel | undefined): c is ImageChannel =>
   c?.metadata?.channel_dtype === 'image';
 export const isChannelFloatImage = (
   c: Channel | undefined
-): c is ImageChannel => c?.metadata?.channel_dtype === 'float_image';
+): c is FloatImageChannel => c?.metadata?.channel_dtype === 'float_image';
 export const isChannelWaveform = (
   c: Channel | undefined
 ): c is WaveformChannel => c?.metadata?.channel_dtype === 'waveform';
