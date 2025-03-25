@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
 import { useWaveform } from '../api/waveforms';
 import { useAppDispatch } from '../state/hooks';
-import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
+import { WindowConfigType, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector, {
   thumbnailSelectorWidth,
 } from '../windows/thumbnailSelector.component';
@@ -12,7 +12,7 @@ import TracePlot from './tracePlot.component';
 
 interface TraceWindowProps {
   onClose: () => void;
-  traceConfig: TraceOrImageWindow;
+  traceConfig: WindowConfigType;
   traceWindowRef: React.RefObject<WindowPortal>;
 }
 
@@ -43,7 +43,7 @@ const TraceWindow = (props: TraceWindowProps) => {
 
   const updateTraceConfig = React.useCallback(
     (newRecordId?: string) => {
-      const configToSave: TraceOrImageWindow = {
+      const configToSave: WindowConfigType = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
         // this would open up a new window, which we don't want

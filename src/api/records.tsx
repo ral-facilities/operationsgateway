@@ -11,6 +11,7 @@ import {
   isChannelFloatImage,
   isChannelImage,
   isChannelScalar,
+  isChannelVector,
   isChannelWaveform,
   PlotDataset,
   Record,
@@ -374,7 +375,8 @@ export const useRecordsPaginated = (): UseQueryResult<
             } else if (
               isChannelImage(channel) ||
               isChannelWaveform(channel) ||
-              isChannelFloatImage(channel)
+              isChannelFloatImage(channel) ||
+              isChannelVector(channel)
             ) {
               channelData = channel.thumbnail;
             }

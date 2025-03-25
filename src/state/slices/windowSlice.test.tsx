@@ -4,7 +4,8 @@ import WindowReducer, {
   initialState,
   openImageWindow,
   openTraceWindow,
-  TraceOrImageWindow,
+  openVectorWindow,
+  WindowConfigType,
 } from './windowSlice';
 
 describe('windowSlice', () => {
@@ -39,7 +40,7 @@ describe('windowSlice', () => {
           channelName: 'TEST',
           title: 'Trace TEST 1',
           ...DEFAULT_WINDOW_VARS,
-        } satisfies TraceOrImageWindow,
+        } satisfies WindowConfigType,
       });
     });
 
@@ -57,7 +58,7 @@ describe('windowSlice', () => {
           channelName: 'TEST',
           title: 'Image TEST 1',
           ...DEFAULT_WINDOW_VARS,
-        } satisfies TraceOrImageWindow,
+        } satisfies WindowConfigType,
       });
     });
 
@@ -76,7 +77,43 @@ describe('windowSlice', () => {
           title: 'Image TEST 1',
           bitDepth: 12,
           ...DEFAULT_WINDOW_VARS,
-        } satisfies TraceOrImageWindow,
+        } satisfies WindowConfigType,
+      });
+    });
+
+    it('openImageWindow creates a float image with the default options', () => {
+      state = WindowReducer(
+        state,
+        openImageWindow({ recordId: '1', channelName: 'TEST', isFloat: true })
+      );
+      expect(state).toEqual({
+        [uuidCount]: {
+          id: `${uuidCount}`,
+          open: true,
+          type: 'float_image',
+          recordId: '1',
+          channelName: 'TEST',
+          title: 'Image TEST 1',
+          ...DEFAULT_WINDOW_VARS,
+        } satisfies WindowConfigType,
+      });
+    });
+
+    it('openVectorWindow creates a float image with the default options', () => {
+      state = WindowReducer(
+        state,
+        openVectorWindow({ recordId: '1', channelName: 'TEST' })
+      );
+      expect(state).toEqual({
+        [uuidCount]: {
+          id: `${uuidCount}`,
+          open: true,
+          type: 'vector',
+          recordId: '1',
+          channelName: 'TEST',
+          title: 'Vector TEST 1',
+          ...DEFAULT_WINDOW_VARS,
+        } satisfies WindowConfigType,
       });
     });
 

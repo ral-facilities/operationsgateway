@@ -2,7 +2,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DEFAULT_WINDOW_VARS, WindowConfig } from '../../app.types';
 import { RootState } from '../store';
 
-type WindowType = 'image' | 'trace' | 'float_image';
+type WindowType = 'image' | 'trace' | 'float_image' | 'vector';
 
 interface BaseWindowConfig extends WindowConfig {
   type: WindowType;
@@ -18,15 +18,24 @@ interface ImageWindow extends BaseWindowConfig {
 interface FloatImageWindow extends BaseWindowConfig {
   type: 'float_image';
 }
+
 interface TraceWindow extends BaseWindowConfig {
   type: 'trace';
 }
 
-export type TraceOrImageWindow = ImageWindow | TraceWindow | FloatImageWindow;
+interface VectorWindow extends BaseWindowConfig {
+  type: 'vector';
+}
+
+export type WindowConfigType =
+  | ImageWindow
+  | TraceWindow
+  | FloatImageWindow
+  | VectorWindow;
 
 // Define a type for the slice state
 interface WindowState {
-  [title: string]: TraceOrImageWindow;
+  [title: string]: WindowConfigType;
 }
 
 // Define the initial state using that type
@@ -34,10 +43,8 @@ export const initialState: WindowState = {};
 
 export const windowSlice = createSlice({
   name: 'windows',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    // Use the PayloadAction type to declare the contents of `action.payload`
     closeWindow: (state, action: PayloadAction<string>) => {
       delete state[action.payload];
     },
@@ -84,17 +91,37 @@ export const windowSlice = createSlice({
         ...DEFAULT_WINDOW_VARS,
       };
     },
-    updateWindow: (state, action: PayloadAction<TraceOrImageWindow>) => {
+    openVectorWindow: (
+      state,
+      action: PayloadAction<{ recordId: string; channelName: string }>
+    ) => {
+      const { recordId, channelName } = action.payload;
+      const id = crypto.randomUUID();
+      state[id] = {
+        id: id,
+        open: true,
+        type: 'vector',
+        recordId,
+        channelName,
+        title: `Vector ${channelName} ${recordId}`,
+        ...DEFAULT_WINDOW_VARS,
+      };
+    },
+    updateWindow: (state, action: PayloadAction<WindowConfigType>) => {
       const windowConfig = action.payload;
       state[windowConfig.id] = windowConfig;
     },
   },
 });
 
-export const { openTraceWindow, openImageWindow, closeWindow, updateWindow } =
-  windowSlice.actions;
+export const {
+  openTraceWindow,
+  openImageWindow,
+  openVectorWindow,
+  closeWindow,
+  updateWindow,
+} = windowSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const selectWindows = (state: RootState) => state.windows;
 export const selectTraceWindows = createSelector(selectWindows, (windows) =>
   Object.values(windows).filter((windows) => windows.type === 'trace')
@@ -103,6 +130,9 @@ export const selectImageWindows = createSelector(selectWindows, (windows) =>
   Object.values(windows).filter(
     (windows) => windows.type === 'image' || windows.type === 'float_image'
   )
+);
+export const selectVectorWindows = createSelector(selectWindows, (windows) =>
+  Object.values(windows).filter((windows) => windows.type === 'vector')
 );
 
 export default windowSlice.reducer;

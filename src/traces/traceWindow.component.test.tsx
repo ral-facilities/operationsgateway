@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
-import { TraceOrImageWindow } from '../state/slices/windowSlice';
+import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import TraceWindow from './traceWindow.component';
 
@@ -24,7 +24,7 @@ vi.mock('./tracePlot.component', () => {
 });
 
 describe('Trace Window component', () => {
-  let testTraceConfig: TraceOrImageWindow;
+  let testTraceConfig: WindowConfigType;
 
   beforeEach(() => {
     testTraceConfig = {

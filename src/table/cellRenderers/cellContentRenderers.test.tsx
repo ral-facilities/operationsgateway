@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
-  TraceOrImageThumbnail,
+  Base64ImageThumbnail,
   renderTimestamp,
   roundNumber,
 } from './cellContentRenderers';
@@ -82,7 +82,7 @@ describe('cell content renderers', () => {
   describe('renderImage', () => {
     it('returns an img tag with the correct src and alt attributes', () => {
       const view = render(
-        <TraceOrImageThumbnail base64Data="base64" alt="alt text" />
+        <Base64ImageThumbnail base64Data="base64" alt="alt text" />
       );
       expect(view.asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -97,7 +97,7 @@ describe('cell content renderers', () => {
 
     it('returns null when src is undefined', () => {
       const view = render(
-        <TraceOrImageThumbnail base64Data={undefined} alt="alt text" />
+        <Base64ImageThumbnail base64Data={undefined} alt="alt text" />
       );
       expect(view.asFragment()).toMatchInlineSnapshot(`<DocumentFragment />`);
     });
@@ -106,7 +106,7 @@ describe('cell content renderers', () => {
       const user = userEvent.setup();
       const onClick = vi.fn();
       render(
-        <TraceOrImageThumbnail
+        <Base64ImageThumbnail
           base64Data="base64"
           alt="alt text"
           onClick={onClick}

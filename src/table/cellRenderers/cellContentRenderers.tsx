@@ -28,7 +28,7 @@ export const roundNumber = (
   return rounded;
 };
 
-export const TraceOrImageThumbnail = React.forwardRef(
+export const Base64ImageThumbnail = React.forwardRef(
   (
     props: {
       base64Data: string | undefined;
@@ -47,7 +47,7 @@ export const TraceOrImageThumbnail = React.forwardRef(
     ) : null;
   }
 );
-TraceOrImageThumbnail.displayName = 'TraceOrImageThumbnail';
+Base64ImageThumbnail.displayName = 'Base64ImageThumbnail';
 
 export const renderTimestamp = (serverTimestamp: string) => {
   const date = parseISO(serverTimestamp);

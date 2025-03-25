@@ -23,6 +23,13 @@
       "x_units": "X",
       "y_units": "Y"
     },
+    "CHANNEL_CDEFGX": {
+      "name": "Channel_CDEFGX",
+      "path": "/Channels/1",
+      "type": "vector",
+      "x_units": "X",
+      "y_units": "Y"
+    },
     "CHANNEL_DEFGH": {
       "name": "Channel_DEFGH",
       "path": "/Channels/2",

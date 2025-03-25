@@ -399,6 +399,40 @@ describe('Record Table', () => {
     });
   });
 
+  it('opens image window when a vector thumbnail is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    act(() => {
+      // Channel_BCDEFX is a image channel
+      store.dispatch(selectColumn('CHANNEL_CDEFGX'));
+    });
+
+    await user.click(
+      (
+        await screen.findAllByAltText('Channel_CDEFGX vector', {
+          exact: false,
+        })
+      )[0]
+    );
+
+    expect(store.getState().windows).toEqual({
+      [uuidCount]: {
+        id: `${uuidCount}`,
+        open: true,
+        type: 'vector',
+        recordId: '15',
+        channelName: 'CHANNEL_CDEFGX',
+        title: 'Vector CHANNEL_CDEFGX 15',
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
+  });
+
   it.todo('updates available columns when data from backend changes');
 });
 

@@ -54,7 +54,7 @@ export interface FloatImageMetadata {
 export interface VectorMetadata {
   channel_dtype: 'vector';
   units?: string;
-  labels?: string;
+  labels?: string[];
 }
 
 export interface WaveformMetadata {
@@ -129,10 +129,10 @@ export const isChannelMetadataImage = (
 ): c is FullImageChannelMetadata => c.type === 'image';
 export const isChannelMetadataFloatImage = (
   c: FullChannelMetadata
-): c is FullImageChannelMetadata => c.type === 'float_image';
+): c is FullFloatImageChannelMetadata => c.type === 'float_image';
 export const isChannelMetadataVector = (
   c: FullChannelMetadata
-): c is FullImageChannelMetadata => c.type === 'vector';
+): c is FullVectorChannelMetadata => c.type === 'vector';
 export const isChannelMetadataWaveform = (
   c: FullChannelMetadata
 ): c is FullWaveformChannelMetadata => c.type === 'waveform';
@@ -183,12 +183,13 @@ export type Channel =
 // Type guards because TS can't deal with nested discriminated unions
 export const isChannelScalar = (c: Channel | undefined): c is ScalarChannel =>
   c?.metadata?.channel_dtype === 'scalar';
-export const isChannelImage = (c: Channel | undefined): c is ImageChannel =>
-  c?.metadata?.channel_dtype === 'image';
+export const isChannelImage = (
+  c: Channel | undefined
+): c is FloatImageChannel => c?.metadata?.channel_dtype === 'image';
 export const isChannelFloatImage = (
   c: Channel | undefined
 ): c is ImageChannel => c?.metadata?.channel_dtype === 'float_image';
-export const isChannelVector = (c: Channel | undefined): c is ImageChannel =>
+export const isChannelVector = (c: Channel | undefined): c is VectorChannel =>
   c?.metadata?.channel_dtype === 'vector';
 export const isChannelWaveform = (
   c: Channel | undefined

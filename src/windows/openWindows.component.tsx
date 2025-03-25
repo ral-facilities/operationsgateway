@@ -11,7 +11,7 @@ import {
   closeWindow,
   selectImageWindows,
   selectTraceWindows,
-  TraceOrImageWindow,
+  WindowConfigType,
 } from '../state/slices/windowSlice';
 import TraceWindow from '../traces/traceWindow.component';
 import { WindowContext } from './windowContext';
@@ -40,7 +40,7 @@ const OpenWindows = () => {
           />
         );
       })}
-      {openTraces.map((window: TraceOrImageWindow) => {
+      {openTraces.map((window: WindowConfigType) => {
         if (!windowsRef.current[window.id])
           windowsRef.current[window.id] = React.createRef();
         return (
@@ -54,7 +54,7 @@ const OpenWindows = () => {
           />
         );
       })}
-      {openImages.map((window: TraceOrImageWindow) => {
+      {openImages.map((window: WindowConfigType) => {
         if (!windowsRef.current[window.id])
           windowsRef.current[window.id] = React.createRef();
         return (
