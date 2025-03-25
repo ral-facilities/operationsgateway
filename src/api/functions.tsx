@@ -32,22 +32,61 @@ export function convertExpressionsToStrings(
       // Remove any spaces around the double asterisk '**' (exponentiation operator)
       .replace(/\s*\*\*\s*/g, '**');
 
+  const getDepsRecursively = (
+    expression: FunctionToken[],
+    allFunctions: ValidateFunctionState[],
+    seen = new Set<string>()
+  ): { channels: string[]; functions: string[] } => {
+    const channels = new Set<string>();
+    const functions = new Set<string>();
+
+    expression.forEach((exp) => {
+      if (exp.type === 'function' && !seen.has(exp.value)) {
+        seen.add(exp.value); // Avoid infinite recursion
+
+        const foundFunction = allFunctions.find((fn) => fn.name === exp.value);
+        if (foundFunction) {
+          foundFunction.channels.forEach((ch) => channels.add(ch));
+          functions.add(foundFunction.name);
+
+          const deps = getDepsRecursively(
+            foundFunction.expression,
+            allFunctions,
+            seen
+          );
+          deps.channels.forEach((ch) => channels.add(ch));
+          deps.functions.forEach((fn) => functions.add(fn));
+        }
+      }
+    });
+
+    return {
+      channels: Array.from(channels),
+      functions: Array.from(functions),
+    };
+  };
+
   const functions = functionStates.map(({ name, expression }) => ({
     name,
     expression: transformExpression(expression),
   }));
 
   const functionsWithChannels = functionStates.map(
-    ({ name, expression, channels }) => ({
-      name,
-      expression: transformExpression(expression),
-      channels,
-    })
+    ({ name, expression, channels }) => {
+      const { functions: depFunctions, channels: depChannels } =
+        getDepsRecursively(expression, functionStates);
+      return {
+        name,
+        expression: transformExpression(expression),
+        channels: [...(channels ?? []), ...depChannels],
+        functions: [name, ...depFunctions],
+      };
+    }
   );
 
   return {
     functions,
-    functionsWithChannels,
+    functionsWithDeps: functionsWithChannels,
   };
 }
 const getFunctionsTokens = async (): Promise<FunctionOperator[]> => {

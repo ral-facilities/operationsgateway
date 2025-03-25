@@ -319,8 +319,9 @@ export interface ValidateFunctionPost {
   expression: string;
 }
 
-export interface ValidateFunctionPostWithChannels extends ValidateFunctionPost {
+export interface ValidateFunctionPostWithDeps extends ValidateFunctionPost {
   channels: string[];
+  functions: string[];
 }
 
 export interface ValidateFunctionState {
@@ -332,7 +333,7 @@ export interface ValidateFunctionState {
 }
 
 export interface APIFunctionState {
-  functionsWithChannels: ValidateFunctionPostWithChannels[];
+  functionsWithDeps: ValidateFunctionPostWithDeps[];
   functions: ValidateFunctionPost[];
 }
 export interface APIErrorResponse {

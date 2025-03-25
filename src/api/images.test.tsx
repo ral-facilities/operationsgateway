@@ -200,7 +200,6 @@ describe('images api functions', () => {
 
     beforeEach(() => {
       params = new URLSearchParams();
-      state = getInitialState();
     });
 
     it('sends request to fetch float image and returns successful response', async () => {

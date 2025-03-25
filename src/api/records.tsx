@@ -102,7 +102,7 @@ const fetchRecords = async (
   });
 
   const functionChannels = new Set(
-    functionsState.functionsWithChannels
+    functionsState.functionsWithDeps
       .filter((func) => projection?.includes(func.name))
       .flatMap((func) => func.channels)
   );

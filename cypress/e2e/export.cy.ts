@@ -97,13 +97,16 @@ describe('Export', () => {
 
     cy.findByRole('button', { name: 'Add Channels' }).click();
 
+    cy.findByText('2022-01-04 00:00:00').should('exist');
+
     cy.findByRole('button', { name: 'CHANNEL_BCDEF menu' }).click();
+    cy.findByRole('menu').should('exist');
     cy.findByRole('menuitem', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('exist');
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/scimwcwidownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
   });
 
   it('should be able to export a waveform channel', () => {
@@ -116,13 +119,15 @@ describe('Export', () => {
 
     cy.findByRole('button', { name: 'Add Channels' }).click();
 
+    cy.findByText('2022-01-04 00:00:00').should('exist');
+
     cy.findByRole('button', { name: 'CHANNEL_CDEFG menu' }).click();
     cy.findByRole('menuitem', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('exist');
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/scimwcwidownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
   });
 
   it('should not be able to export a scalar channel', () => {
