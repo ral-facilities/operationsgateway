@@ -1,9 +1,9 @@
 import createCache from '@emotion/cache';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
+import type Plotly from 'plotly.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import type Plotly from 'plotly.js';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
@@ -58,7 +58,7 @@ export default class WindowPortal extends React.PureComponent<
       // we do this so that all the Plotly.js code which relies on window references the correct window (i.e. the popup)
       const plotlyjsScript = document.createElement('script');
       plotlyjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly-gl2d.min.js'; // need the gl2d bundle so include scattergl for traces optimisation
+        'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js'; // need the main bundle so include scattergl for traces optimisation and bars charts for vectors
       plotlyjsScript.crossOrigin = 'anonymous';
       plotlyjsScript.referrerPolicy = 'no-referrer';
       plotlyjsScript.async = false;
