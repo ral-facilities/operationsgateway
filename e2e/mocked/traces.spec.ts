@@ -19,7 +19,9 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_CDEFG' }).click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_CDEFG', exact: true })
+    .click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
