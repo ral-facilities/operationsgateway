@@ -63,6 +63,24 @@ vi.mock('../images/imageWindow.component', () => {
   };
 });
 
+// need to mock to avoid errors
+vi.mock('../vectors/vectorWindow.component', () => {
+  return {
+    default: (props) => (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      <mock-vectorWindow data-testid="mock-vectorWindow">
+        {Object.entries(props).map(
+          ([propName, propValue]) =>
+            `${propName}=${JSON.stringify(propValue, null, 2)}\n`
+        )}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
+      </mock-vectorWindow>
+    ),
+  };
+});
+
 const windowsRef: React.MutableRefObject<WindowsRefType | null> =
   React.createRef();
 
@@ -105,6 +123,15 @@ describe('Open Windows component', () => {
         title: 'Image TEST 1',
         ...DEFAULT_WINDOW_VARS,
       },
+      vector_window: {
+        id: 'vector_window',
+        open: true,
+        type: 'vector',
+        recordId: '1',
+        channelName: 'TEST',
+        title: 'Vector TEST 1',
+        ...DEFAULT_WINDOW_VARS,
+      },
     };
     const view = createView();
 
@@ -116,6 +143,7 @@ describe('Open Windows component', () => {
       'test-plot-id-2': { current: null },
       trace_window: { current: null },
       image_window: { current: null },
+      vector_window: { current: null },
     });
   });
 });

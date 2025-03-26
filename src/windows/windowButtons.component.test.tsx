@@ -10,6 +10,8 @@ import {
   PlotButtonsProps,
   TraceButtons,
   TraceButtonsProps,
+  VectorButtons,
+  VectorButtonsProps,
 } from './windowButtons.component';
 
 describe('Window buttons components', () => {
@@ -391,6 +393,129 @@ describe('Window buttons components', () => {
     });
   });
 
+  describe('Vector buttons component', () => {
+    const chartEl = document.createElement('div');
+    let vectorButtonsProps: VectorButtonsProps;
+
+    const resetView = vi.fn();
+    const downloadImage = vi.fn();
+
+    beforeEach(() => {
+      vectorButtonsProps = {
+        data: {
+          data: [1, 2, 3, 4, 5],
+        },
+        labels: ['label1', 'label2', 'label3', 'label4', 'label5'],
+        units: 'test',
+        chartRef: {
+          current: chartEl,
+        },
+        windowRef: {
+          current: {
+            state: { window: { ...window, Plotly: { downloadImage } } },
+          },
+        },
+        title: 'test',
+        resetView,
+      };
+    });
+
+    it('renders trace buttons group', () => {
+      const view = render(<VectorButtons {...vectorButtonsProps} />);
+
+      expect(view.asFragment()).toMatchSnapshot();
+    });
+
+    it('generates PNG file when export button is clicked', async () => {
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).toHaveBeenCalledWith(chartEl, {
+        format: 'png',
+        width: null,
+        height: null,
+        filename: 'test',
+      });
+    });
+
+    it('does nothing when export button is clicked if windowRef is null', async () => {
+      vectorButtonsProps.windowRef.current = null;
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if chartRef is null', async () => {
+      vectorButtonsProps.chartRef.current = null;
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('does nothing when export button is clicked if Plotly is not defined', async () => {
+      vectorButtonsProps.windowRef.current!.state!.window!.Plotly = undefined;
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Export Plot' }));
+
+      expect(downloadImage).not.toHaveBeenCalled();
+    });
+
+    it('generates csv file when export data button is clicked', async () => {
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      // have to mock after render otherwise it fails to render our component
+      document.createElement = vi.fn().mockImplementation((tag) => {
+        if (tag === 'a') return mockLink;
+        else return document.originalCreateElement(tag);
+      });
+      document.body.appendChild = vi.fn().mockImplementation((node) => {
+        if (!(node instanceof Node)) return mockLink;
+        else return document.body.originalAppendChild(node);
+      });
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(document.createElement).toHaveBeenCalledWith('a');
+
+      expect(mockLink.href).toEqual(
+        'data:text/csv;charset=utf-8,label%20(test),height%0Alabel1,1%0Alabel2,2%0Alabel3,3%0Alabel4,4%0Alabel5,5'
+      );
+      expect(mockLink.download).toEqual('test.csv');
+      expect(mockLink.target).toEqual('_blank');
+      expect(mockLink.style.display).toEqual('none');
+
+      expect(mockLinkClick).toHaveBeenCalled();
+      expect(mockLinkRemove).toHaveBeenCalled();
+    });
+
+    it('does nothing when export data button is clicked if data is not correct', async () => {
+      vectorButtonsProps.data = undefined;
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      const createElementSpy = vi.spyOn(document, 'createElement');
+
+      await user.click(
+        screen.getByRole('button', { name: 'Export Plot Data' })
+      );
+
+      expect(createElementSpy).not.toHaveBeenCalledWith('a');
+    });
+
+    it('calls resetView when Reset View button clicked', async () => {
+      render(<VectorButtons {...vectorButtonsProps} />);
+
+      await user.click(screen.getByRole('button', { name: 'Reset View' }));
+      expect(resetView).toHaveBeenCalled();
+    });
+  });
   describe('Image buttons component', () => {
     let imageButtonsProps: ImageButtonsProps;
 

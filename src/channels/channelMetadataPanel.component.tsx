@@ -17,6 +17,7 @@ import { useChannelSummary } from '../api/channels';
 import {
   FullChannelMetadata,
   isChannelMetadataScalar,
+  isChannelMetadataVector,
   isChannelMetadataWaveform,
 } from '../app.types';
 import {
@@ -116,7 +117,8 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
           <Body>{displayedChannel.description}</Body>
         )}
         <Body>Channel type: {displayedChannel.type}</Body>
-        {isChannelMetadataScalar(displayedChannel) &&
+        {(isChannelMetadataScalar(displayedChannel) ||
+          isChannelMetadataVector(displayedChannel)) &&
           displayedChannel.units && (
             <Body>Units: {displayedChannel.units}</Body>
           )}

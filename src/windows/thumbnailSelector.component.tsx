@@ -26,13 +26,16 @@ import {
 interface ThumbnailSelectorProps {
   channelName: string;
   recordId: string;
-  changeImageConfig: (recordId: string, bitDepth?: number) => void;
+  changeWindowConfig: (recordId: string, bitDepth?: number) => void;
+  vectorLimit?: number;
+  vectorSkip?: number;
 }
 
 export const thumbnailSelectorWidth = 150;
 
 const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
-  const { channelName, recordId, changeImageConfig } = props;
+  const { channelName, recordId, changeWindowConfig, vectorLimit, vectorSkip } =
+    props;
 
   const { page: tablePage, resultsPerPage: tableResultsPerPage } =
     useAppSelector(selectQueryParams);
@@ -43,7 +46,13 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
     React.useState(tableResultsPerPage);
 
   const { data: thumbnailsCount } = useRecordCount();
-  const { data: thumbnails } = useThumbnails(channelName, page, resultsPerPage);
+  const { data: thumbnails } = useThumbnails(
+    channelName,
+    page,
+    resultsPerPage,
+    vectorSkip,
+    vectorLimit
+  );
 
   return (
     <Grid
@@ -76,7 +85,9 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
               <ListItemButton
                 key={thumbnailRecord._id}
                 selected={thumbnailRecord._id === recordId}
-                onClick={() => changeImageConfig(thumbnailRecord._id, bitDepth)}
+                onClick={() =>
+                  changeWindowConfig(thumbnailRecord._id, bitDepth)
+                }
               >
                 <Tooltip
                   title={`Timestamp: ${renderTimestamp(

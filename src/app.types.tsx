@@ -105,6 +105,7 @@ export interface FullFloatImageChannelMetadata
 
 export interface FullVectorChannelMetadata extends FullCommonChannelMetadata {
   type: 'vector';
+  units?: string;
 }
 
 export interface FullWaveformChannelMetadata extends FullCommonChannelMetadata {
@@ -198,6 +199,10 @@ export interface Waveform {
   _id: string;
   x: number[];
   y: number[];
+}
+
+export interface Vector {
+  data: number[];
 }
 
 export type Order = 'asc' | 'desc';

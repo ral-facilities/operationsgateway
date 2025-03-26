@@ -91,9 +91,7 @@ describe('Image controls panel component', () => {
   it('renders range level slider, changes lower level on change and changes higher level on change', async () => {
     createView();
 
-    const sliderInput = screen.getAllByRole('slider', {
-      name: 'Level Range',
-    });
+    const sliderInput = screen.getAllByRole('slider');
 
     const lowerSliderInput = sliderInput[0];
 

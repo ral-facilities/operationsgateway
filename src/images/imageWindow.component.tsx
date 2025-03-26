@@ -141,7 +141,7 @@ const ImageWindow = (props: ImageWindowProps) => {
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
-            changeImageConfig={updateImageConfig}
+            changeWindowConfig={updateImageConfig}
           />
         </Grid>
         <Grid

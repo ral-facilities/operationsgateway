@@ -121,5 +121,26 @@ imageWindowRef={
 }
 
   </mock-imagewindow>
+  <mock-vectorwindow
+    data-testid="mock-vectorWindow"
+  >
+    vectorConfig={
+  "id": "vector_window",
+  "open": true,
+  "type": "vector",
+  "recordId": "1",
+  "channelName": "TEST",
+  "title": "Vector TEST 1",
+  "innerWidth": 600,
+  "innerHeight": 400,
+  "screenX": 200,
+  "screenY": 200
+}
+onClose=undefined
+vectorWindowRef={
+  "current": null
+}
+
+  </mock-vectorwindow>
 </DocumentFragment>
 `;

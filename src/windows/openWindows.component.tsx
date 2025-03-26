@@ -11,15 +11,18 @@ import {
   closeWindow,
   selectImageWindows,
   selectTraceWindows,
+  selectVectorWindows,
   WindowConfigType,
 } from '../state/slices/windowSlice';
 import TraceWindow from '../traces/traceWindow.component';
+import VectorWindow from '../vectors/vectorWindow.component';
 import { WindowContext } from './windowContext';
 
 const OpenWindows = () => {
   const openPlots = Object.values(useAppSelector(selectOpenPlots));
   const openTraces = Object.values(useAppSelector(selectTraceWindows));
   const openImages = Object.values(useAppSelector(selectImageWindows));
+  const openVectors = Object.values(useAppSelector(selectVectorWindows));
   const dispatch = useAppDispatch();
 
   const windowsRef = React.useContext(WindowContext);
@@ -65,6 +68,20 @@ const OpenWindows = () => {
               dispatch(closeWindow(window.id));
             }}
             imageWindowRef={windowsRef.current[window.id]}
+          />
+        );
+      })}
+      {openVectors.map((window: WindowConfigType) => {
+        if (!windowsRef.current[window.id])
+          windowsRef.current[window.id] = React.createRef();
+        return (
+          <VectorWindow
+            key={window.id}
+            vectorConfig={window}
+            onClose={() => {
+              dispatch(closeWindow(window.id));
+            }}
+            vectorWindowRef={windowsRef.current[window.id]}
           />
         );
       })}

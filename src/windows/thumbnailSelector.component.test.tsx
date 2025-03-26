@@ -7,7 +7,7 @@ import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ThumbnailSelector from './thumbnailSelector.component';
 
 describe('Thumbnail selector component', () => {
-  const changeImageConfig = vi.fn();
+  const changeWindowConfig = vi.fn();
   let channelName: string;
   let recordId: string;
 
@@ -25,7 +25,7 @@ describe('Thumbnail selector component', () => {
       <ThumbnailSelector
         channelName={channelName}
         recordId={recordId}
-        changeImageConfig={changeImageConfig}
+        changeWindowConfig={changeWindowConfig}
       />,
       { preloadedState }
     );
@@ -62,7 +62,7 @@ describe('Thumbnail selector component', () => {
     expect(screen.getByText('11–18 of 18')).toBeInTheDocument();
   });
 
-  it('clicking on a thumbnail calls changeImageConfig (with bit_depth)', async () => {
+  it('clicking on a thumbnail calls changeWindowConfig (with bit_depth)', async () => {
     const user = userEvent.setup();
 
     createView();
@@ -70,10 +70,10 @@ describe('Thumbnail selector component', () => {
 
     await user.click(thumbnails[0]);
 
-    expect(changeImageConfig).toHaveBeenCalledWith('4', 12);
+    expect(changeWindowConfig).toHaveBeenCalledWith('4', 12);
   });
 
-  it('clicking on a thumbnail calls changeImageConfig (waveform)', async () => {
+  it('clicking on a thumbnail calls changeWindowConfig (waveform)', async () => {
     channelName = 'CHANNEL_CDEFG';
     recordId = '7';
     const user = userEvent.setup();
@@ -83,7 +83,7 @@ describe('Thumbnail selector component', () => {
 
     await user.click(thumbnails[0]);
 
-    expect(changeImageConfig).toHaveBeenCalledWith('7', undefined);
+    expect(changeWindowConfig).toHaveBeenCalledWith('7', undefined);
   });
 
   it('allows selection of 100 results when max shots is not 50', async () => {

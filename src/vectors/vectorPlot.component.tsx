@@ -1,5 +1,5 @@
 import React from 'react';
-import { Waveform } from '../app.types';
+import { type Vector } from '../app.types';
 // only import types as we don't actually run any plotly.js code in React
 import { useTheme } from '@mui/material';
 import type {
@@ -8,12 +8,13 @@ import type {
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
 
-export interface TracePlotProps {
-  trace: Waveform;
+export interface VectorPlotProps {
+  vector: Vector;
+  labels: string[];
+  units?: string;
   title: string;
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
   viewReset: boolean;
-  pointsVisible: boolean;
 }
 
 const plotlyConfigString = JSON.stringify({
@@ -25,9 +26,8 @@ const plotlyConfigString = JSON.stringify({
   showTips: false,
 } satisfies Partial<PlotlyConfig>);
 
-const TracePlot = (props: TracePlotProps) => {
-  const { trace, title, chartRef: chartRef, viewReset, pointsVisible } = props;
-
+const VectorPlot = (props: VectorPlotProps) => {
+  const { vector, labels, units, title, chartRef: chartRef, viewReset } = props;
   const {
     palette: { mode: themeMode },
   } = useTheme();
@@ -51,17 +51,16 @@ const TracePlot = (props: TracePlotProps) => {
         },
         showlegend: false,
         xaxis: {
-          type: 'linear',
           exponentformat: 'none',
           automargin: true,
+          title: { text: units ? `units: ${units}` : undefined },
         },
         yaxis: {
-          type: 'linear',
           exponentformat: 'none',
           automargin: true,
         },
       }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
-    [title]
+    [title, units]
   );
 
   // set the initial options
@@ -69,34 +68,31 @@ const TracePlot = (props: TracePlotProps) => {
     JSON.stringify(chartOptions)
   );
   const [plotlyDataString, setDataString] = React.useState('');
-
   React.useEffect(() => {
     const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
     const lineColour =
       themeMode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#eee';
-
+    const vectorData = {
+      x: labels,
+      y: vector.data,
+    };
     setDataString(
       JSON.stringify([
         {
-          type: trace.x.length > 1000 ? 'scattergl' : 'scatter', // scattergl has better performance for traces with many points (uses HTML canvas instead of SVG)
-          x: trace.x,
-          y: trace.y,
-          line: {
-            color: '#1F77B4', // same colour as trace thumbnails from the backend
-            width: 1.5,
-          },
-          mode: pointsVisible ? 'lines+markers' : 'lines',
+          type: 'bar',
+          x: vectorData.x,
+          y: vectorData.y,
         } satisfies Partial<PlotlyPlotData>,
       ])
     );
-    const xLimits = { min: Math.min(...trace.x), max: Math.max(...trace.x) };
-    const yLimits = { min: Math.min(...trace.y), max: Math.max(...trace.y) };
+
+    const yLimits = {
+      min: Math.min(...vectorData.y),
+      max: Math.max(...vectorData.y),
+    };
     if (chartOptions.xaxis)
       chartOptions.xaxis = {
         ...chartOptions.xaxis,
-        range: [xLimits.min, xLimits.max],
-        maxallowed: xLimits.max,
-        minallowed: xLimits.min,
         color: lineColour,
         gridcolor: lineColour,
         tickfont: { color: fontColour },
@@ -119,7 +115,7 @@ const TracePlot = (props: TracePlotProps) => {
     };
 
     setOptionsString(JSON.stringify(chartOptions));
-  }, [chartOptions, trace, pointsVisible, viewReset, themeMode]);
+  }, [chartOptions, vector, viewReset, themeMode, labels]);
 
   // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx
   return (
@@ -133,4 +129,4 @@ const TracePlot = (props: TracePlotProps) => {
   );
 };
 
-export default TracePlot;
+export default VectorPlot;

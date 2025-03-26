@@ -102,7 +102,12 @@ describe('windowSlice', () => {
     it('openVectorWindow creates a float image with the default options', () => {
       state = WindowReducer(
         state,
-        openVectorWindow({ recordId: '1', channelName: 'TEST' })
+        openVectorWindow({
+          recordId: '1',
+          channelName: 'TEST',
+          labels: ['test'],
+          units: 'test',
+        })
       );
       expect(state).toEqual({
         [uuidCount]: {
@@ -112,6 +117,8 @@ describe('windowSlice', () => {
           recordId: '1',
           channelName: 'TEST',
           title: 'Vector TEST 1',
+          labels: ['test'],
+          units: 'test',
           ...DEFAULT_WINDOW_VARS,
         } satisfies WindowConfigType,
       });

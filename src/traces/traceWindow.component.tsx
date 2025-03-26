@@ -85,7 +85,7 @@ const TraceWindow = (props: TraceWindowProps) => {
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
-            changeImageConfig={updateTraceConfig}
+            changeWindowConfig={updateTraceConfig}
           />
         </Grid>
         <Grid

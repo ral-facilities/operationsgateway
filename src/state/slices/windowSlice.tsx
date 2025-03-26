@@ -25,6 +25,8 @@ interface TraceWindow extends BaseWindowConfig {
 
 interface VectorWindow extends BaseWindowConfig {
   type: 'vector';
+  labels?: string[];
+  units?: string;
 }
 
 export type WindowConfigType =
@@ -93,9 +95,14 @@ export const windowSlice = createSlice({
     },
     openVectorWindow: (
       state,
-      action: PayloadAction<{ recordId: string; channelName: string }>
+      action: PayloadAction<{
+        recordId: string;
+        channelName: string;
+        labels?: string[];
+        units?: string;
+      }>
     ) => {
-      const { recordId, channelName } = action.payload;
+      const { recordId, channelName, labels, units } = action.payload;
       const id = crypto.randomUUID();
       state[id] = {
         id: id,
@@ -103,6 +110,8 @@ export const windowSlice = createSlice({
         type: 'vector',
         recordId,
         channelName,
+        labels: labels,
+        units: units,
         title: `Vector ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };

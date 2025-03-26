@@ -208,7 +208,13 @@ export const constructColumnDefs = (
               />
             );
           }
-          case isChannelMetadataVector(channel):
+          case isChannelMetadataVector(channel): {
+            const metadata: ChannelMetadata | undefined = (
+              row.original as RecordRow
+            )['channelMetadata'][channel.systemName];
+            const isVector = metadata?.channel_dtype === 'vector';
+            const labels = isVector ? metadata.labels : undefined;
+            const units = isVector ? metadata.units : undefined;
             return (
               <Base64ImageThumbnail
                 base64Data={value}
@@ -218,11 +224,14 @@ export const constructColumnDefs = (
                     openVectorWindow({
                       recordId: (row.original as RecordRow)['_id'],
                       channelName: channel.systemName,
+                      labels,
+                      units,
                     })
                   );
                 }}
               />
             );
+          }
           default:
             return undefined;
         }
