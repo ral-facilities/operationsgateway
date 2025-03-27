@@ -12,17 +12,17 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FalseColourParams, useColourMaps } from './api/images';
+import { FalseColourParams, useColourMaps } from '../api/images';
 import {
   useUpdateUserPreference,
   useUserPreference,
-} from './api/userPreferences';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from './app.types';
-import handleOG_APIError from './handleOG_APIError';
+} from '../api/userPreferences';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
-} from './images/imageControlsPanel.component';
+} from '../images/imageControlsPanel.component';
 
 const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(

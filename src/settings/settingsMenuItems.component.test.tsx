@@ -1,9 +1,9 @@
 import { act, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { setMockedPreferredColourMap } from './mocks/handlers';
+import { setMockedPreferredColourMap } from '../mocks/handlers';
+import { RootState } from '../state/store';
+import { renderComponentWithProviders } from '../testUtils';
 import SettingsMenuItems from './settingsMenuItems.component';
-import { RootState } from './state/store';
-import { renderComponentWithProviders } from './testUtils';
 
 describe('Settings Menu Items component', () => {
   let settings: HTMLDivElement;
