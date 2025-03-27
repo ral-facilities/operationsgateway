@@ -28,6 +28,7 @@ import {
   isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataScalar,
+  isChannelMetadataVector,
   isChannelMetadataWaveform,
   Order,
   timeChannelName,
@@ -78,7 +79,8 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
     !!channelInfo &&
     (isChannelMetadataWaveform(channelInfo) ||
       isChannelMetadataImage(channelInfo) ||
-      isChannelMetadataFloatImage(channelInfo));
+      isChannelMetadataFloatImage(channelInfo) ||
+      isChannelMetadataVector(channelInfo));
   return (
     <div>
       <IconButton
