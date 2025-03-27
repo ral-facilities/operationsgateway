@@ -6,7 +6,7 @@ exports[`Vector plot component > renders a div element with the correct attribut
     class="plotly-chart"
     data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
     data-data="[{"type":"bar","x":["label1","label2","label3","label4","label5","label1"],"y":[1,2,3,4,5,6]}]"
-    data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"bar plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"showlegend":false,"xaxis":{"exponentformat":"none","automargin":true,"title":{"text":"units: test"},"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"yaxis":{"exponentformat":"none","automargin":true,"range":[1,6],"maxallowed":6,"minallowed":1,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"uirevision":"false","font":{"color":"#444"}}"
+    data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"bar plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"showlegend":false,"xaxis":{"exponentformat":"none","automargin":true,"title":{"text":"units: test","font":{"color":"#444"}},"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"yaxis":{"exponentformat":"none","automargin":true,"range":[1,6],"maxallowed":6,"minallowed":1,"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"uirevision":"false","font":{"color":"#444"}}"
   />
 </DocumentFragment>
 `;
@@ -17,7 +17,7 @@ exports[`Vector plot component > updates data object correctly when points are s
     class="plotly-chart"
     data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
     data-data="[{"type":"bar","x":["label1","label2","label3","label4","label5","label1"],"y":[1,2,3,4,5,6]}]"
-    data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"bar plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"showlegend":false,"xaxis":{"exponentformat":"none","automargin":true,"title":{"text":"units: test"},"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"yaxis":{"exponentformat":"none","automargin":true,"range":[1,6],"maxallowed":6,"minallowed":1,"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"uirevision":"false","font":{"color":"#ADBABD"}}"
+    data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"bar plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"showlegend":false,"xaxis":{"exponentformat":"none","automargin":true,"title":{"text":"units: test","font":{"color":"#ADBABD"}},"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"yaxis":{"exponentformat":"none","automargin":true,"range":[1,6],"maxallowed":6,"minallowed":1,"color":"rgba(255, 255, 255, 0.1)","gridcolor":"rgba(255, 255, 255, 0.1)","tickfont":{"color":"#ADBABD"}},"uirevision":"false","font":{"color":"#ADBABD"}}"
   />
 </DocumentFragment>
 `;

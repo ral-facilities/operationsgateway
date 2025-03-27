@@ -31,7 +31,7 @@ const VectorPlot = (props: VectorPlotProps) => {
   const {
     palette: { mode: themeMode },
   } = useTheme();
-
+  const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
   const chartOptions = React.useMemo(
     () =>
       ({
@@ -53,14 +53,17 @@ const VectorPlot = (props: VectorPlotProps) => {
         xaxis: {
           exponentformat: 'none',
           automargin: true,
-          title: { text: units ? `units: ${units}` : undefined },
+          title: {
+            text: units ? `units: ${units}` : undefined,
+            font: { color: fontColour },
+          },
         },
         yaxis: {
           exponentformat: 'none',
           automargin: true,
         },
       }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
-    [title, units]
+    [fontColour, title, units]
   );
 
   // set the initial options
