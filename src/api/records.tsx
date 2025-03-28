@@ -96,8 +96,15 @@ const fetchRecords = async (
     }
   });
 
+  const functionDepFunctions = new Set(
+    functionsState.functionsWithDeps
+      .filter((func) => projection?.includes(func.name))
+      .flatMap((func) => func.functions)
+  );
+
   functionsState.functions.forEach((func) => {
-    queryParams.append('functions', JSON.stringify(func));
+    if (Array.from(functionDepFunctions).includes(func.name))
+      queryParams.append('functions', JSON.stringify(func));
   });
 
   const functionChannels = new Set(
