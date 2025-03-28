@@ -30,6 +30,8 @@ import React from 'react';
 import {
   columnIconMappings,
   ColumnState,
+  isChannelMetadataImage,
+  isChannelMetadataWaveform,
   Order,
   RecordRow,
   SearchParams,
@@ -306,6 +308,15 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               : columnStyles;
                             const channelInfo =
                               column.columnDef.meta?.channelInfo;
+
+                            const disableSort =
+                              !!channelInfo &&
+                              (isChannelMetadataWaveform(channelInfo) ||
+                                isChannelMetadataImage(channelInfo) ||
+                                !!channelInfo?.description?.includes(
+                                  'Function:'
+                                ));
+
                             return (
                               <DataHeader
                                 key={header.id}
@@ -318,6 +329,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   header.column.columnDef.header,
                                   header.getContext()
                                 )}
+                                disableSort={disableSort}
                                 onClose={onColumnClose}
                                 // index = index - 1 since we want to ignore the checkbox column for column ordering purposes
                                 index={index - 1}

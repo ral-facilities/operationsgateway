@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('should be able to export a CSV of scalar info', async ({ page }) => {
   await page.goto('/');
@@ -103,4 +103,79 @@ test('should be able to export a CSV of all info for selected rows', async ({
   );
 
   await expect(page.getByText('Generating export data...')).not.toBeVisible();
+});
+
+test('should be able to export a Image channel', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add channels
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('PA1-CAM');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  for (const row of await page.getByRole('checkbox').all()) await row.check();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  await page.getByRole('button', { name: 'PM-201-PA1-CAM-2 menu' }).click();
+
+  await page.getByRole('menuitem', { name: 'Export' }).click();
+
+  const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  await expect(page.getByText('Generating export data...')).toBeVisible();
+
+  const downloadedCSV = await downloadPromise;
+  expect(downloadedCSV.suggestedFilename()).toBe(
+    '20230605080000_to_20230605090000_PM-201-PA1-CAM-2.zip'
+  );
+});
+
+test('should be able to export a waveform channel', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add channels
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('PA1-CAM');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  for (const row of await page.getByRole('checkbox').all()) await row.check();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+  await page.getByRole('button', { name: 'PM-201-PA1-PD menu' }).click();
+
+  await page.getByRole('menuitem', { name: 'Export' }).click();
+
+  const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  await expect(page.getByText('Generating export data...')).toBeVisible();
+
+  const downloadedCSV = await downloadPromise;
+  expect(downloadedCSV.suggestedFilename()).toBe(
+    '20230605080000_to_20230605090000_PM-201-PA1-PD.zip'
+  );
 });

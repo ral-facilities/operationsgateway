@@ -13,7 +13,7 @@ describe('ExportDialogue', () => {
 
   beforeEach(() => {
     vi.mocked(useExportData).mockReturnValue({
-      mutate: vi.fn(),
+      mutateAsync: vi.fn(),
     });
 
     user = userEvent.setup();
@@ -66,9 +66,9 @@ describe('ExportDialogue', () => {
 
   it('handles export click', async () => {
     const onCloseMock = vi.fn();
-    const exportData = vi.fn();
+    const exportData = vi.fn().mockResolvedValue({});
     vi.mocked(useExportData).mockReturnValue({
-      mutate: exportData,
+      mutateAsync: exportData,
       isPending: true,
     });
     renderComponentWithProviders(

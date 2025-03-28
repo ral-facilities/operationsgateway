@@ -1,13 +1,13 @@
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import {
   act,
-  render,
   RenderResult,
   screen,
+  waitFor,
   within,
 } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { flushPromises } from '../../testUtils';
+import { flushPromises, renderComponentWithProviders } from '../../testUtils';
 import DataHeader, { DataHeaderProps } from './dataHeader.component';
 
 describe('Data Header', () => {
@@ -21,7 +21,7 @@ describe('Data Header', () => {
   let user: UserEvent;
 
   const createView = (): RenderResult => {
-    return render(
+    return renderComponentWithProviders(
       <table>
         <thead>
           <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -129,6 +129,42 @@ describe('Data Header', () => {
 
     const menu = screen.getByRole('menu');
     expect(within(menu).getByText('Turn word wrap off')).toBeInTheDocument();
+  });
+
+  it('opens and closes the export dialog', async () => {
+    props.channelInfo = { ...props.channelInfo, type: 'image' };
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
+
+    const menu = screen.getByRole('menu');
+    await user.click(within(menu).getByText('Export'));
+
+    expect(
+      await screen.findByRole('dialog', { name: 'Export Channel' })
+    ).toBeInTheDocument();
+
+    await user.click(
+      within(screen.getByRole('dialog', { name: 'Export Channel' })).getByRole(
+        'button',
+        { name: 'Close' }
+      )
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('dialog', { name: 'Export Channel' })
+      ).not.toBeInTheDocument()
+    );
+  });
+
+  it('does not display the export menu option for scalar channels', async () => {
+    createView();
+    const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
+
+    const menu = screen.getByRole('menu');
+    expect(within(menu).queryByText('Export')).not.toBeInTheDocument();
   });
 
   it('calls onClose when close option is clicked', async () => {

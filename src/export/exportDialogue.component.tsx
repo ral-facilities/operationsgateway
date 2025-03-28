@@ -1,6 +1,4 @@
 import {
-  Backdrop,
-  Box,
   Button,
   Checkbox,
   CircularProgress,
@@ -14,10 +12,11 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  Typography,
 } from '@mui/material';
+import type { AxiosError } from 'axios';
 import React from 'react';
 import { useExportData } from '../api/export';
+import handleOG_APIError from '../handleOG_APIError';
 
 export interface ExportDialogueProps {
   open: boolean;
@@ -27,7 +26,7 @@ export interface ExportDialogueProps {
 const ExportDialogue = (props: ExportDialogueProps) => {
   const { open, onClose } = props;
 
-  const { mutate, isPending } = useExportData();
+  const { mutateAsync: exportChannels, isPending } = useExportData();
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
@@ -38,22 +37,30 @@ const ExportDialogue = (props: ExportDialogueProps) => {
     'Waveform Images': false,
   });
 
-  const handleExportClick = () =>
-    mutate({
-      exportType: selectedExportType,
-      dataToExport: selectedExportContent,
-    });
+  const handleExportClick = React.useCallback(
+    () =>
+      exportChannels({
+        exportType: selectedExportType,
+        dataToExport: selectedExportContent,
+      }).catch((error: AxiosError) => {
+        handleOG_APIError(error);
+      }),
+    [exportChannels, selectedExportContent, selectedExportType]
+  );
 
   const handleRowChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedExportType(event.target.value);
   };
 
-  const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedExportContent({
-      ...selectedExportContent,
-      [event.target.value]: event.target.checked,
-    });
-  };
+  const handleContentChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedExportContent({
+        ...selectedExportContent,
+        [event.target.value]: event.target.checked,
+      });
+    },
+    [selectedExportContent]
+  );
 
   return (
     <>
@@ -105,38 +112,25 @@ const ExportDialogue = (props: ExportDialogueProps) => {
           <Button onClick={handleExportClick}>Export</Button>
         </DialogActions>
       </Dialog>
-      <Backdrop
+      <Dialog
         open={isPending ?? false}
         sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }}
       >
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          sx={(theme) => ({
-            flexDirection: 'column',
-            backgroundColor: theme.palette.background.default,
-            borderRadius: '5px',
-            padding: theme.spacing(2),
-            boxShadow: theme.shadows[5],
-          })}
+        <DialogTitle>Generating export data...</DialogTitle>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <Typography
-            variant="h6"
-            sx={(theme) => ({
-              color: theme.palette.text.primary,
-              mb: theme.spacing(2),
-            })}
-          >
-            Generating export data...
-          </Typography>
           <CircularProgress
             sx={(theme) => ({
               color: theme.palette.text.primary,
             })}
           />
-        </Box>
-      </Backdrop>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

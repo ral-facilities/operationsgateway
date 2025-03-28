@@ -32,26 +32,38 @@ export function convertExpressionsToStrings(
       // Remove any spaces around the double asterisk '**' (exponentiation operator)
       .replace(/\s*\*\*\s*/g, '**');
 
-  const getChannelsRecursively = (
+  const getDepsRecursively = (
     expression: FunctionToken[],
-    allFunctions: ValidateFunctionState[]
-  ): string[] => {
-    let channels: string[] = [];
+    allFunctions: ValidateFunctionState[],
+    seen = new Set<string>()
+  ): { channels: string[]; functions: string[] } => {
+    const channels = new Set<string>();
+    const functions = new Set<string>();
 
     expression.forEach((exp) => {
-      if (exp.type === 'function') {
+      if (exp.type === 'function' && !seen.has(exp.value)) {
+        seen.add(exp.value); // Avoid infinite recursion
+
         const foundFunction = allFunctions.find((fn) => fn.name === exp.value);
         if (foundFunction) {
-          channels = [...channels, ...foundFunction.channels];
-          channels = [
-            ...channels,
-            ...getChannelsRecursively(foundFunction.expression, allFunctions),
-          ];
+          foundFunction.channels.forEach((ch) => channels.add(ch));
+          functions.add(foundFunction.name);
+
+          const deps = getDepsRecursively(
+            foundFunction.expression,
+            allFunctions,
+            seen
+          );
+          deps.channels.forEach((ch) => channels.add(ch));
+          deps.functions.forEach((fn) => functions.add(fn));
         }
       }
     });
 
-    return Array.from(new Set(channels));
+    return {
+      channels: Array.from(channels),
+      functions: Array.from(functions),
+    };
   };
 
   const functions = functionStates.map(({ name, expression }) => ({
@@ -59,23 +71,21 @@ export function convertExpressionsToStrings(
     expression: transformExpression(expression),
   }));
 
-  const functionsWithChannels = functionStates.map(
+  const functionsWithDeps = functionStates.map(
     ({ name, expression, channels }) => {
-      console.log(expression, functionStates);
+      const { functions: depFunctions, channels: depChannels } =
+        getDepsRecursively(expression, functionStates);
       return {
         name,
         expression: transformExpression(expression),
-        channels: [
-          ...(channels ?? []),
-          ...getChannelsRecursively(expression, functionStates),
-        ],
+        channels: [...(channels ?? []), ...depChannels],
+        functions: [name, ...depFunctions],
       };
     }
   );
-
   return {
     functions,
-    functionsWithChannels,
+    functionsWithDeps,
   };
 }
 const getFunctionsTokens = async (): Promise<FunctionOperator[]> => {
