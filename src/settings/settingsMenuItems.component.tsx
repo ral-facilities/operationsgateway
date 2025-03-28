@@ -2,6 +2,7 @@ import { Divider, Typography } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ColourMapMenuItem from './colourMapMenuItem.component';
+import VectorsMenuItem from './vectorsMenuItem.component';
 
 const SettingsMenuItems = () => {
   const [menuOpen, setMenuOpen] = React.useState(
@@ -47,6 +48,11 @@ const SettingsMenuItems = () => {
           Images
         </Typography>
         <ColourMapMenuItem />
+        <Divider />
+        <Typography sx={{ ml: 1 }} variant="h6">
+          Vectors
+        </Typography>
+        <VectorsMenuItem />
       </>,
       // we know this is not null from the mutation observer
 
