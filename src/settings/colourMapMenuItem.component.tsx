@@ -163,6 +163,7 @@ const ColourMapMenuItem = () => {
             fullWidth
             label={'Default Colour Map'}
             labelId="default-colour-map-select-label"
+            disablePortal
           />
         </FormControl>
         <FormControlLabel
