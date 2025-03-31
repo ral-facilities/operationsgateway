@@ -626,7 +626,23 @@ describe('records api functions', () => {
       const pendingRequest = waitForRequest('GET', '/records');
 
       const { result } = renderHook(
-        () => usePlotRecords(testSelectedPlotChannels, 'shotnum'),
+        () =>
+          usePlotRecords(
+            [
+              ...testSelectedPlotChannels,
+              {
+                name: 'a',
+                options: {
+                  visible: true,
+                  colour: '#ffffff',
+                  lineStyle: 'solid',
+                  yAxis: 'left',
+                },
+                units: 'cm',
+              },
+            ],
+            'shotnum'
+          ),
         {
           wrapper: hooksWrapperWithProviders(state),
         }
@@ -654,6 +670,109 @@ describe('records api functions', () => {
         'functions',
         JSON.stringify({ name: 'a', expression: '1' })
       );
+
+      params.append(
+        'conditions',
+        JSON.stringify({
+          $and: [{ 'metadata.shotnum': { $gt: 300 } }],
+          $or: [{ 'metadata.shotnum': { $exists: true } }, ...existsConditions],
+        })
+      );
+
+      params.append('skip', '0');
+      params.append('limit', '1000');
+
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
+
+      const expectedData: PlotDataset[] = [
+        {
+          name: 'CHANNEL_ABCDE',
+          data: [
+            {
+              CHANNEL_ABCDE: 1,
+              shotnum: 1,
+            },
+            {
+              CHANNEL_ABCDE: 2,
+              shotnum: 2,
+            },
+            {
+              CHANNEL_ABCDE: 3,
+              shotnum: 3,
+            },
+          ],
+        },
+        {
+          data: [],
+          name: 'a',
+        },
+      ];
+
+      expect(result.current.data).toEqual(expectedData);
+    });
+
+    it('does not send the function state if the function name is not included in the projection (or is not dependant)', async () => {
+      state = {
+        ...getInitialState(),
+        filter: {
+          ...getInitialState().filter,
+          appliedFilters: [
+            [
+              { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+              operators.find((t) => t.value === '>')!,
+              { type: 'number', value: '300', label: '300' },
+            ],
+          ],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: [],
+            },
+          ],
+        },
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            maxShots: 1000,
+            dateRange: {},
+          },
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/records');
+
+      const { result } = renderHook(
+        () => usePlotRecords(testSelectedPlotChannels, 'shotnum'),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append('order', 'metadata.shotnum asc');
+      params.append('projection', 'metadata.shotnum');
+
+      const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
+
+      testSelectedPlotChannels.forEach((channel) => {
+        params.append('projection', `channels.${channel.name}`);
+        existsConditions.push({
+          [`channels.${channel.name}`]: { $exists: true },
+        });
+      });
 
       params.append(
         'conditions',
@@ -884,13 +1003,82 @@ describe('records api functions', () => {
       params.append('order', 'channels.CHANNEL_1 desc');
       params.append('projection', 'channels.TEST');
       params.append('projection', 'metadata.timestamp');
+
+      params.append(
+        'conditions',
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
+      );
+      params.append('skip', '0');
+      params.append('limit', '25');
+
+      expect(new URL(request.url).searchParams.toString()).toEqual(
+        params.toString()
+      );
+    });
+
+    it('can send sort, date range, functions and filter parameters as part of request', async () => {
+      state = {
+        ...getInitialState(),
+        table: {
+          ...getInitialState().table,
+          sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
+        },
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dateRange: {
+              fromDate: '2022-01-01 00:00:00',
+              toDate: '2022-01-02 00:00:00',
+            },
+            maxShots: MAX_SHOTS_VALUES[0],
+          },
+        },
+        filter: {
+          ...getInitialState().filter,
+          appliedFilters: [
+            [
+              { type: 'channel', value: 'shotnum', label: 'Shot Number' },
+              operators.find((t) => t.value === '>')!,
+              { type: 'number', value: '300', label: '300' },
+            ],
+          ],
+        },
+        functions: {
+          appliedFunctions: [
+            {
+              id: '1',
+              name: 'a',
+              expression: [{ type: 'number', label: '1', value: '1' }],
+              dataType: 'scalar',
+              channels: [],
+            },
+          ],
+        },
+      };
+
+      const pendingRequest = waitForRequest('GET', '/records');
+
+      const { result } = renderHook(() => useThumbnails('a', 0, 25), {
+        wrapper: hooksWrapperWithProviders(state),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      const request = await pendingRequest;
+
+      params.append('order', 'metadata.timestamp asc');
+      params.append('order', 'channels.CHANNEL_1 desc');
+      params.append('projection', 'metadata.timestamp');
       params.append(
         'functions',
         JSON.stringify({ name: 'a', expression: '1' })
       );
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');
