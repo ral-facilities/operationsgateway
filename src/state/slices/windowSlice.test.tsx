@@ -29,7 +29,12 @@ describe('windowSlice', () => {
     it('openTraceWindow creates a trace with the default options', () => {
       state = WindowReducer(
         state,
-        openTraceWindow({ recordId: '1', channelName: 'TEST' })
+        openTraceWindow({
+          recordId: '1',
+          channelName: 'TEST',
+          xUnits: 'test',
+          yUnits: 'test',
+        })
       );
       expect(state).toEqual({
         [uuidCount]: {
@@ -39,6 +44,8 @@ describe('windowSlice', () => {
           recordId: '1',
           channelName: 'TEST',
           title: 'Trace TEST 1',
+          xUnits: 'test',
+          yUnits: 'test',
           ...DEFAULT_WINDOW_VARS,
         } satisfies WindowConfigType,
       });

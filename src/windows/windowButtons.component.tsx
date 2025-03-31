@@ -208,10 +208,15 @@ function exportPlotData(
  *  @param title The title of the trace (for the file name)
  *  @param trace The trace to export
  */
-function exportTraceData(title: string, trace?: Waveform): void {
+function exportTraceData(
+  title: string,
+  trace?: Waveform,
+  xUnits?: string,
+  yUnits?: string
+): void {
   if (trace) {
     const csvArray = [
-      ['x', 'y'],
+      [xUnits ? `x (${xUnits})` : 'x', yUnits ? `y (${yUnits})` : 'y'],
       ...trace.x.map((x, index) => [x, trace.y[index]]),
     ];
 
@@ -308,6 +313,8 @@ export interface TraceButtonsProps extends CommonButtonsProps {
   windowRef: React.RefObject<WindowPortal>;
   pointsVisible: boolean;
   togglePointsVisibility: () => void;
+  xUnits?: string;
+  yUnits?: string;
 }
 
 export const TraceButtons = (props: TraceButtonsProps) => {
@@ -318,6 +325,8 @@ export const TraceButtons = (props: TraceButtonsProps) => {
     title,
     resetView,
     pointsVisible,
+    xUnits,
+    yUnits,
     togglePointsVisibility,
   } = props;
 
@@ -334,7 +343,7 @@ export const TraceButtons = (props: TraceButtonsProps) => {
       >
         Export Plot
       </Button>
-      <Button onClick={() => exportTraceData(title, data)}>
+      <Button onClick={() => exportTraceData(title, data, xUnits, yUnits)}>
         Export Plot Data
       </Button>
     </ButtonGroup>

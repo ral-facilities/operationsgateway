@@ -325,6 +325,8 @@ describe('Record Table', () => {
         recordId: '7',
         channelName: 'CHANNEL_CDEFG',
         title: 'Trace CHANNEL_CDEFG 7',
+        xUnits: 'x',
+        yUnits: 'y',
         ...DEFAULT_WINDOW_VARS,
       },
     });
