@@ -246,4 +246,146 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
 });
 
 
+test('user can set their default vector skip', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  const vectorSkipInput = await page.getByLabel('Vector Skip');
+
+  await vectorSkipInput.fill('4');
+
+  await expect(vectorSkipInput).toHaveValue('4');
+
+
+   // Open up popup
+   const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+  ]);
+
+  // Resize the popup window
+  await popup.setViewportSize({ width: 1200, height: 800 });
+
+  const chart = await popup.locator('.plotly-chart');
+
+  // Ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  const slider = await popup.getByRole('slider');
+
+  await expect(slider.nth(0)).toHaveValue('4');
+  
+});
+
+test('user can set their default vector limit', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  const vectorLimitInput = await page.getByLabel('Vector Limit');
+
+  await vectorLimitInput.fill('4');
+
+  await expect(vectorLimitInput).toHaveValue('4');
+
+
+   // Open up popup
+   const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+  ]);
+
+  // Resize the popup window
+  await popup.setViewportSize({ width: 1200, height: 800 });
+
+  const chart = await popup.locator('.plotly-chart');
+
+  // Ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  const slider = await popup.getByRole('slider');
+
+  await expect(slider.nth(1)).toHaveValue('4');
+  
+});
+
+test('should display an error if vector limit or skip is not a valid number', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  const vectorLimitInput = await page.getByLabel('Vector Limit');
+
+  await vectorLimitInput.fill('abc');
+
+  await expect(page.getByText('Vector Limit must be a valid number')).toBeVisible();
+
+  const vectorSkipInput = await page.getByLabel('Vector Skip');
+
+  await vectorSkipInput.fill('xyz');
+
+  await expect(page.getByText('Vector Skip must be a valid number')).toBeVisible();
+});
+
+
+
+test('should display an error if vector limit is less than vector skip', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+  const vectorLimitInput = await page.getByLabel('Vector Limit');
+  const vectorSkipInput = await page.getByLabel('Vector Skip');
+
+  await vectorSkipInput.fill('20');
+
+  await vectorLimitInput.fill('10');
+
+  await expect(page.getByText('Vector Limit must be greater than or equal to Vector Skip.')).toBeVisible();
+  await page.screenshot({ path: 'screenshots/vector-limit-less-than-skip.png' });
+});
+
+test('should display an error if vector limit is negative', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+  const vectorLimitInput = await page.getByLabel('Vector Limit');
+
+  await vectorLimitInput.fill('-1');
+
+  await expect(page.getByText('Number must be greater than or equal to 0')).toBeVisible();
+
+  await vectorLimitInput.fill('');
+
+  await expect(page.getByText('Number must be greater than or equal to 0')).not.toBeVisible();
+
+  const vectorSkipInput = await page.getByLabel('Vector Skip');
+
+  await vectorSkipInput.fill('-3');
+
+  await expect(page.getByText('Number must be greater than or equal to 0')).toBeVisible();
+
+});
+
+
 
