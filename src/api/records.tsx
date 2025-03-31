@@ -283,7 +283,9 @@ export const useDateToShotnumConverter = (
         undefined
       );
     },
-
+    meta: {
+      silentError: true,
+    },
     enabled,
   });
 };

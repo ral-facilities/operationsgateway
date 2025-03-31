@@ -50,8 +50,9 @@ const queryClient = new QueryClient({
   },
 
   queryCache: new QueryCache({
-    onError: (error) => {
-      handleOG_APIError(error as AxiosError);
+    onError: (error, query) => {
+      const silentError = query.options.meta?.silentError;
+      handleOG_APIError(error as AxiosError, !silentError);
     },
   }),
 });
