@@ -8,6 +8,8 @@ import {
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
+  VECTOR_LIMIT_PREFERENCE_NAME,
+  VECTOR_SKIP_PREFERENCE_NAME,
   type UserPost,
 } from '../app.types';
 import channelsJson from './channels.json';
@@ -38,8 +40,19 @@ export let preferredColourMap =
     ? undefined
     : getRandomColourMap(colourMapsJson);
 
+export let vectorLimit: string | undefined;
+export let vectorSkip: string | undefined;
+
 export const setMockedPreferredColourMap = (value?: string) => {
   preferredColourMap = value;
+};
+
+export const setMockedVectorLimit = (value?: string) => {
+  vectorLimit = value;
+};
+
+export const setMockedVectorSkip = (value?: string) => {
+  vectorSkip = value;
 };
 
 export const handlers = [
@@ -296,6 +309,26 @@ export const handlers = [
       return HttpResponse.json(preferredColourMap, { status: 200 });
     }
   }),
+  http.get(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
+    if (typeof vectorLimit === 'undefined') {
+      return HttpResponse.json(
+        { detail: 'No such attribute in database' },
+        { status: 404 }
+      );
+    } else {
+      return HttpResponse.json(vectorLimit, { status: 200 });
+    }
+  }),
+  http.get(`/users/preferences/${VECTOR_SKIP_PREFERENCE_NAME}`, () => {
+    if (typeof vectorSkip === 'undefined') {
+      return HttpResponse.json(
+        { detail: 'No such attribute in database' },
+        { status: 404 }
+      );
+    } else {
+      return HttpResponse.json(vectorSkip, { status: 200 });
+    }
+  }),
   http.delete(
     `/users/preferences/${PREFERRED_COLOUR_MAP_PREFERENCE_NAME}`,
     () => {
@@ -303,11 +336,35 @@ export const handlers = [
       return HttpResponse.json(preferredColourMap, { status: 204 });
     }
   ),
-  http.post('/users/preferences', async ({ request }) => {
-    // @ts-expect-error Ignoring here as don't have types defined for these endpoints
-    preferredColourMap = (await request.json()).value;
-    return HttpResponse.json(preferredColourMap, { status: 200 });
+  http.delete(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
+    vectorLimit = undefined;
+    return HttpResponse.json(vectorLimit, { status: 204 });
   }),
+  http.delete(`/users/preferences/${VECTOR_SKIP_PREFERENCE_NAME}`, () => {
+    vectorSkip = undefined;
+    return HttpResponse.json(vectorSkip, { status: 204 });
+  }),
+  http.post('/users/preferences', async ({ request }) => {
+    const userPref = (await request.json()) as {
+      name: string;
+      value: unknown;
+    };
+    switch (userPref.name) {
+      case PREFERRED_COLOUR_MAP_PREFERENCE_NAME:
+        preferredColourMap = userPref.value as string;
+        break;
+      case VECTOR_LIMIT_PREFERENCE_NAME:
+        vectorLimit = userPref.value as string;
+        break;
+      case VECTOR_SKIP_PREFERENCE_NAME:
+        vectorSkip = userPref.value as string;
+        break;
+      default:
+    }
+
+    return HttpResponse.json(undefined, { status: 201 });
+  }),
+
   http.get('/export', async ({ request }) => {
     const url = new URL(request.url);
     const enc = new TextEncoder();

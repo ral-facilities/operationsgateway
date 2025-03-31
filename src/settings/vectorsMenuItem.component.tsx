@@ -103,8 +103,7 @@ const VectorsMenuItem = () => {
           predicate: (query) =>
             (query.queryKey[0] === 'records' &&
               'page' in (query.queryKey[1] as object)) ||
-            query.queryKey[0] === 'thumbnails' ||
-            query.queryKey[0] === 'channelSummary',
+            query.queryKey[0] === 'thumbnails',
         });
       };
       if (debounceTimer) {

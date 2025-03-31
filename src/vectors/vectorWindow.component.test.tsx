@@ -1,6 +1,12 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
+import { http, HttpResponse } from 'msw';
+import {
+  DEFAULT_WINDOW_VARS,
+  VECTOR_LIMIT_PREFERENCE_NAME,
+  VECTOR_SKIP_PREFERENCE_NAME,
+} from '../app.types';
+import { server } from '../mocks/server';
 import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import VectorWindow from './vectorWindow.component';
@@ -96,5 +102,27 @@ describe('Vector Window component', () => {
         units: 'test',
       },
     });
+  });
+
+  it('checks that the vectors are using the default value of the slider (with the default vector limits)', async () => {
+    // Mock vector preferences
+
+    server.use(
+      http.get(`/users/preferences/${VECTOR_SKIP_PREFERENCE_NAME}`, () => {
+        return HttpResponse.json('2', { status: 200 });
+      }),
+      http.get(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
+        return HttpResponse.json('5', { status: 200 });
+      })
+    );
+
+    const { asFragment } = createView();
+    const slider = await screen.findAllByRole('slider');
+    await waitFor(() => {
+      expect(slider[0]).toHaveValue('2');
+    });
+    expect(slider[1]).toHaveValue('5');
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });
