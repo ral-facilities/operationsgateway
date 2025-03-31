@@ -71,7 +71,7 @@ export function convertExpressionsToStrings(
     expression: transformExpression(expression),
   }));
 
-  const functionsWithChannels = functionStates.map(
+  const functionsWithDeps = functionStates.map(
     ({ name, expression, channels }) => {
       const { functions: depFunctions, channels: depChannels } =
         getDepsRecursively(expression, functionStates);
@@ -83,10 +83,9 @@ export function convertExpressionsToStrings(
       };
     }
   );
-
   return {
     functions,
-    functionsWithDeps: functionsWithChannels,
+    functionsWithDeps,
   };
 }
 const getFunctionsTokens = async (): Promise<FunctionOperator[]> => {
