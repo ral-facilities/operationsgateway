@@ -85,7 +85,7 @@
   "browserslist": [
     "defaults"
   ],
-  "packageManager": "yarn@4.7.0",
+  "packageManager": "yarn@4.8.1",
   "devDependencies": {
     "@dotenvx/dotenvx": "1.39.0",
     "@playwright/test": "1.51.0",
