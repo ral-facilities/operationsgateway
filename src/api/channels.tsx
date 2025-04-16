@@ -48,14 +48,14 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
     type: 'scalar',
     path: '/system',
   },
-  activeArea: {
-    systemName: 'activeArea',
+  active_area: {
+    systemName: 'active_area',
     name: 'Active Area',
     type: 'scalar',
     path: '/system',
   },
-  activeExperiment: {
-    systemName: 'activeExperiment',
+  active_experiment: {
+    systemName: 'active_experiment',
     name: 'Active Experiment',
     type: 'scalar',
     path: '/system',

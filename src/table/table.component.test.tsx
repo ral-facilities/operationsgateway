@@ -12,9 +12,9 @@ describe('Table', () => {
     timestamp: new Date(`2022-01-${num < 10 ? '0' + num : num}T00:00:00`)
       .getTime()
       .toString(),
-    activeArea: `${num}`,
+    active_area: `${num}`,
     shotnum: num,
-    activeExperiment: `${num}`,
+    active_experiment: `${num}`,
   });
   const recordRows: RecordRow[] = Array.from(Array(3), (_, i) =>
     generateRow(i + 1)
@@ -32,13 +32,13 @@ describe('Table', () => {
     },
     {
       header: 'Active Area',
-      id: 'activeArea',
-      accessorKey: 'activeArea',
+      id: 'active_area',
+      accessorKey: 'active_area',
     },
     {
       header: 'Active Experiment',
-      id: 'activeExperiment',
-      accessorKey: 'activeExperiment',
+      id: 'active_experiment',
+      accessorKey: 'active_experiment',
     },
   ];
   const onPageChange = vi.fn();
@@ -62,8 +62,8 @@ describe('Table', () => {
       columnStates: {},
       columnVisibility: {
         shotnum: false,
-        activeArea: false,
-        activeExperiment: false,
+        active_area: false,
+        active_experiment: false,
       },
       columnOrder: ['timestamp'],
       totalDataCount: recordRows.length,
@@ -100,8 +100,8 @@ describe('Table', () => {
     props.columnOrder = [
       'timestamp',
       'shotnum',
-      'activeArea',
-      'activeExperiment',
+      'active_area',
+      'active_experiment',
     ];
     const view = createView();
 
@@ -156,8 +156,8 @@ describe('Table', () => {
     props.columnOrder = [
       'timestamp',
       'shotnum',
-      'activeArea',
-      'activeExperiment',
+      'active_area',
+      'active_experiment',
       'testscalar',
       'testimage',
       'testwaveform',

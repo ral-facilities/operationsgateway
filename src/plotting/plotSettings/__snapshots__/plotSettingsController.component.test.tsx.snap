@@ -92,13 +92,13 @@ changeXAxis=undefined
     "path": "/system"
   },
   {
-    "systemName": "activeArea",
+    "systemName": "active_area",
     "name": "Active Area",
     "type": "scalar",
     "path": "/system"
   },
   {
-    "systemName": "activeExperiment",
+    "systemName": "active_experiment",
     "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
@@ -168,13 +168,13 @@ allChannels=[
     "path": "/system"
   },
   {
-    "systemName": "activeArea",
+    "systemName": "active_area",
     "name": "Active Area",
     "type": "scalar",
     "path": "/system"
   },
   {
-    "systemName": "activeExperiment",
+    "systemName": "active_experiment",
     "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
@@ -339,13 +339,13 @@ changeXAxis=undefined
     "path": "/system"
   },
   {
-    "systemName": "activeArea",
+    "systemName": "active_area",
     "name": "Active Area",
     "type": "scalar",
     "path": "/system"
   },
   {
-    "systemName": "activeExperiment",
+    "systemName": "active_experiment",
     "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
@@ -526,13 +526,13 @@ allChannels=[
     "path": "/system"
   },
   {
-    "systemName": "activeArea",
+    "systemName": "active_area",
     "name": "Active Area",
     "type": "scalar",
     "path": "/system"
   },
   {
-    "systemName": "activeExperiment",
+    "systemName": "active_experiment",
     "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"

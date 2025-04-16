@@ -278,7 +278,7 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeArea',
+          value: 'active_area',
           label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
@@ -423,7 +423,7 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeArea',
+          value: 'active_area',
           label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,
@@ -541,7 +541,7 @@ describe('Filter dialogue component', () => {
             shotnumRange: {},
             experimentID: null,
           },
-          filters: ['{"metadata.activeArea":{"$ne":null}}'],
+          filters: ['{"metadata.active_area":{"$ne":null}}'],
         },
       ],
       () => {
@@ -581,7 +581,7 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'activeArea',
+          value: 'active_area',
           label: 'Active Area',
         },
         operators.find((t) => t.value === 'is not null')!,

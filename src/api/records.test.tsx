@@ -1074,22 +1074,22 @@ describe('records api functions', () => {
       expect(result).toEqual(NaN);
     });
 
-    it('formats activeArea correctly', () => {
-      let result = getFormattedAxisData(testRecord, 'activeArea');
+    it('formats active area correctly', () => {
+      let result = getFormattedAxisData(testRecord, 'active_area');
       expect(result).toEqual(NaN);
 
-      testRecord.metadata.activeArea = '3';
-      result = getFormattedAxisData(testRecord, 'activeArea');
-      expect(result).toEqual(parseInt(testRecord.metadata.activeArea));
+      testRecord.metadata.active_area = '3';
+      result = getFormattedAxisData(testRecord, 'active_area');
+      expect(result).toEqual(parseInt(testRecord.metadata.active_area));
     });
 
-    it('formats activeExperiment correctly', () => {
-      testRecord.metadata.activeExperiment = '4';
-      let result = getFormattedAxisData(testRecord, 'activeExperiment');
-      expect(result).toEqual(parseInt(testRecord.metadata.activeExperiment));
+    it('formats active experiment correctly', () => {
+      testRecord.metadata.active_experiment = '4';
+      let result = getFormattedAxisData(testRecord, 'active_experiment');
+      expect(result).toEqual(parseInt(testRecord.metadata.active_experiment));
 
-      testRecord.metadata.activeExperiment = undefined;
-      result = getFormattedAxisData(testRecord, 'activeExperiment');
+      testRecord.metadata.active_experiment = undefined;
+      result = getFormattedAxisData(testRecord, 'active_experiment');
       expect(result).toEqual(NaN);
     });
 

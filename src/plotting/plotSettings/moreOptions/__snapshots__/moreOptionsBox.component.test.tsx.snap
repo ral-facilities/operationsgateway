@@ -18,7 +18,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiSwitch-root MuiSwitch-sizeSmall css-tqdtwk-MuiSwitch-root"
         >
           <span
-            aria-label="toggle activeArea visibility off"
+            aria-label="toggle active_area visibility off"
             class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
           >
             <input
@@ -54,7 +54,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1qk5dk6-MuiInputBase-root-MuiInput-root"
         >
           <select
-            aria-label="change activeArea line style"
+            aria-label="change active_area line style"
             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
@@ -106,7 +106,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           >
             <input
               aria-invalid="false"
-              aria-label="change activeArea line width"
+              aria-label="change active_area line width"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r0:"
               max="10"
@@ -148,7 +148,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1qk5dk6-MuiInputBase-root-MuiInput-root"
         >
           <select
-            aria-label="change activeArea marker style"
+            aria-label="change active_area marker style"
             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
@@ -235,7 +235,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           >
             <input
               aria-invalid="false"
-              aria-label="change activeArea marker size"
+              aria-label="change active_area marker size"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r1:"
               max="15"
@@ -278,7 +278,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
         >
           <button
             aria-haspopup="dialog"
-            aria-label="Pick activeArea colour"
+            aria-label="Pick active_area colour"
             class="MuiBox-root css-129yjn7"
           />
         </div>
