@@ -33,6 +33,7 @@ describe('Filter dialogue component', () => {
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.clearAllMocks();
   });
 
@@ -45,15 +46,26 @@ describe('Filter dialogue component', () => {
   });
 
   it('renders filter dialogue when dialogue is open (favourite filter section)', async () => {
+    // use fake timers so we can run all the animations before taking a snapshot to remove flakiness
+    // needed for this test as switching to favourite filters tab triggers animations
+    user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime.bind(vi) });
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
     let baseElement;
     await act(async () => {
       baseElement = createView().baseElement;
     });
 
-    await user.click(screen.getByText('Favourite filters'));
+    await user.click(await screen.findByText('Favourite filters'));
+
     expect(
       await screen.findByRole('button', { name: 'Add new favourite filter' })
     ).toBeInTheDocument();
+
+    act(() => {
+      vi.runOnlyPendingTimers();
+    });
+
     expect(baseElement).toMatchSnapshot();
   });
 
