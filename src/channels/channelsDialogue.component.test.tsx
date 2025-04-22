@@ -163,7 +163,7 @@ describe('Channels Dialogue', () => {
       ...getInitialState(),
       table: {
         ...getInitialState().table,
-        selectedColumnIds: ['timestamp', 'activeArea', 'test_1'],
+        selectedColumnIds: ['timestamp', 'active_area', 'test_1'],
       },
     };
 
