@@ -1532,10 +1532,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reduxjs/toolkit@npm:2.6.0":
-  version: 2.6.0
-  resolution: "@reduxjs/toolkit@npm:2.6.0"
+"@reduxjs/toolkit@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@reduxjs/toolkit@npm:2.7.0"
   dependencies:
+    "@standard-schema/spec": "npm:^1.0.0"
+    "@standard-schema/utils": "npm:^0.3.0"
     immer: "npm:^10.0.3"
     redux: "npm:^5.0.1"
     redux-thunk: "npm:^3.1.0"
@@ -1548,7 +1550,7 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: 10c0/3d2c85e56401e72cc7e7f22c5440495c803183afb6e8b67c8d6dd2e6770a9fa56a1b7efdac404608a3ed8f22123e41e8e676fd57657491a81e836df447d9969a
+  checksum: 10c0/33b01093b6959625c0fb7da1fc69706d2c3fcc31d36cd4d36877a2f63d59b5474b641671f5876170812592a0d8e80f25da3ff7272202df520ef2e391b85b9592
   languageName: node
   linkType: hard
 
@@ -1705,6 +1707,13 @@ __metadata:
   version: 2.0.0
   resolution: "@sideway/pinpoint@npm:2.0.0"
   checksum: 10c0/d2ca75dacaf69b8fc0bb8916a204e01def3105ee44d8be16c355e5f58189eb94039e15ce831f3d544f229889ccfa35562a0ce2516179f3a7ee1bbe0b71e55b36
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@standard-schema/spec@npm:1.0.0"
+  checksum: 10c0/a1ab9a8bdc09b5b47aa8365d0e0ec40cc2df6437be02853696a0e377321653b0d3ac6f079a8c67d5ddbe9821025584b1fb71d9cc041a6666a96f1fadf2ece15f
   languageName: node
   linkType: hard
 
@@ -6932,7 +6941,7 @@ __metadata:
     "@mui/system": "npm:5.16.2"
     "@mui/x-date-pickers": "npm:6.19.0"
     "@playwright/test": "npm:1.51.0"
-    "@reduxjs/toolkit": "npm:2.6.0"
+    "@reduxjs/toolkit": "npm:2.7.0"
     "@tanstack/eslint-plugin-query": "npm:5.71.5"
     "@tanstack/react-query": "npm:5.71.0"
     "@tanstack/react-query-devtools": "npm:5.71.0"
