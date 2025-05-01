@@ -295,6 +295,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerFromDate}
+              referenceDate={
+                datePickerFromDate || datePickerToDate || new Date()
+              }
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
               onChange={(date) => {
                 setDatePickerFromDate(date);
@@ -396,6 +399,9 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerToDate}
+              referenceDate={
+                datePickerToDate || datePickerFromDate || new Date()
+              }
               minDateTime={
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
