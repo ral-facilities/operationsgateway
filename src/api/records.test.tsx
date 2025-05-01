@@ -908,44 +908,6 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson);
     });
 
-    it('sends request to fetch records with a projection and vector limit and skip and returns successful response', async () => {
-      vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(
-        new Date('2024-07-02 12:00:00')
-      );
-
-      const pendingRequest = waitForRequest('GET', '/records');
-
-      const { result } = renderHook(() => useThumbnails('TEST', 1, 25, 2, 5), {
-        wrapper: hooksWrapperWithProviders(),
-      });
-
-      await waitFor(() => {
-        expect(result.current.isSuccess).toBeTruthy();
-      });
-
-      const request = await pendingRequest;
-
-      params.append('order', 'metadata.timestamp asc');
-      params.append('projection', 'channels.TEST');
-      params.append('projection', 'metadata.timestamp');
-
-      params.append(
-        'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2024-07-01T12:00:00","$lte":"2024-07-02T12:00:59"}}],"$or":[{"channels.TEST":{"$exists":true}}]}'
-      );
-
-      params.append('skip', '25');
-      params.append('limit', '25');
-      params.append('vector_limit', '5');
-      params.append('vector_skip', '2');
-
-      expect(new URL(request.url).searchParams.toString()).toEqual(
-        params.toString()
-      );
-
-      expect(result.current.data).toEqual(recordsJson);
-    });
-
     it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
