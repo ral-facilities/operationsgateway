@@ -241,9 +241,7 @@ describe('Settings Menu Items component', () => {
       await user.type(vectorLimitInput, '10');
 
       expect(
-        await screen.findByText(
-          'Vector Limit must be greater than or equal to Vector Skip.'
-        )
+        await screen.findByText('Limit must be greater than or equal to Skip.')
       ).toBeInTheDocument();
     });
 

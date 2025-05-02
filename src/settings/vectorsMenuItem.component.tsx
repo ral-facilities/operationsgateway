@@ -63,11 +63,11 @@ const VectorsMenuItem = () => {
   );
 
   const { mutateAsync: mutateVectorSkip } = useUpdateUserPreference<
-    string | null
+    number | null
   >(VECTOR_SKIP_PREFERENCE_NAME);
 
   const { mutateAsync: mutateVectorLimit } = useUpdateUserPreference<
-    string | null
+    number | null
   >(VECTOR_LIMIT_PREFERENCE_NAME);
 
   const queryClient = useQueryClient();
@@ -95,8 +95,8 @@ const VectorsMenuItem = () => {
       key: string,
       value: string,
       changeFunction: (params: {
-        value: string | null;
-      }) => Promise<string | null>
+        value: number | null;
+      }) => Promise<number | null>
     ) => {
       const invalidateQueries = () => {
         queryClient.invalidateQueries({
@@ -134,14 +134,13 @@ const VectorsMenuItem = () => {
         ) {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            [newKey]:
-              'Vector Limit must be greater than or equal to Vector Skip.',
+            [newKey]: 'Limit must be greater than or equal to Skip.',
           }));
           return;
         }
         setErrors((prevErrors) => ({ ...prevErrors, [newKey]: undefined }));
 
-        await changeFunction({ value: value.trim() ? value : null })
+        await changeFunction({ value: value.trim() ? Number(value) : null })
           .then(() => {
             invalidateQueries();
           })
@@ -159,7 +158,7 @@ const VectorsMenuItem = () => {
     key: string,
     value: string,
     setter: React.Dispatch<React.SetStateAction<string>>,
-    changeFunction: (params: { value: string | null }) => Promise<string | null>
+    changeFunction: (params: { value: number | null }) => Promise<number | null>
   ) => {
     setter(value);
     validateAndChangeVectorPreference(key, value, changeFunction);
@@ -167,7 +166,10 @@ const VectorsMenuItem = () => {
 
   return (
     <MenuItem
-      sx={{ '&:hover': { backgroundColor: 'transparent' }, cursor: 'unset' }}
+      sx={{
+        '&:hover': { backgroundColor: 'transparent' },
+        cursor: 'unset',
+      }}
       disableRipple
     >
       <FormGroup>

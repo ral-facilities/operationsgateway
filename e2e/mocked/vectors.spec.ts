@@ -19,7 +19,9 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_CDEFGX', exact: true  }).click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_CDEFGX', exact: true })
+    .click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -28,7 +30,10 @@ test('user can zoom and pan the vector', async ({ page }) => {
   // Open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -45,7 +50,7 @@ test('user can zoom and pan the vector', async ({ page }) => {
 
   // **Modify drag-to-zoom to only select half of the plot**
   const box = await chart.boundingBox();
-  if (!box) throw new Error("Chart bounding box not found");
+  if (!box) throw new Error('Chart bounding box not found');
 
   await chart.dragTo(chart, {
     force: true, // Required due to overlay elements
@@ -105,12 +110,14 @@ test('user can zoom and pan the vector', async ({ page }) => {
   });
 });
 
-
 test('user can limit the vector data', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -123,8 +130,6 @@ test('user can limit the vector data', async ({ page }) => {
   // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
-
-
 
   const slider = await popup.getByRole('slider');
 
@@ -168,7 +173,6 @@ test('user can limit the vector data', async ({ page }) => {
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
   await slider.nth(1).blur();
-
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
@@ -245,7 +249,6 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
   });
 });
 
-
 test('user can set their default vector skip', async ({ page }) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
@@ -261,11 +264,13 @@ test('user can set their default vector skip', async ({ page }) => {
 
   await expect(vectorSkipInput).toHaveValue('4');
 
-
-   // Open up popup
-   const [popup] = await Promise.all([
+  // Open up popup
+  const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -279,7 +284,6 @@ test('user can set their default vector skip', async ({ page }) => {
   const slider = await popup.getByRole('slider');
 
   await expect(slider.nth(0)).toHaveValue('4');
-  
 });
 
 test('user can set their default vector limit', async ({ page }) => {
@@ -297,11 +301,13 @@ test('user can set their default vector limit', async ({ page }) => {
 
   await expect(vectorLimitInput).toHaveValue('4');
 
-
-   // Open up popup
-   const [popup] = await Promise.all([
+  // Open up popup
+  const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -315,10 +321,11 @@ test('user can set their default vector limit', async ({ page }) => {
   const slider = await popup.getByRole('slider');
 
   await expect(slider.nth(1)).toHaveValue('4');
-  
 });
 
-test('should display an error if vector limit or skip is not a valid number', async ({ page }) => {
+test('should display an error if vector limit or skip is not a valid number', async ({
+  page,
+}) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
     div.id = 'settings';
@@ -331,18 +338,22 @@ test('should display an error if vector limit or skip is not a valid number', as
 
   await vectorLimitInput.fill('abc');
 
-  await expect(page.getByText('Vector Limit must be a valid number')).toBeVisible();
+  await expect(
+    page.getByText('Vector Limit must be a valid number')
+  ).toBeVisible();
 
   const vectorSkipInput = await page.getByLabel('Vector Skip');
 
   await vectorSkipInput.fill('xyz');
 
-  await expect(page.getByText('Vector Skip must be a valid number')).toBeVisible();
+  await expect(
+    page.getByText('Vector Skip must be a valid number')
+  ).toBeVisible();
 });
 
-
-
-test('should display an error if vector limit is less than vector skip', async ({ page }) => {
+test('should display an error if vector limit is less than vector skip', async ({
+  page,
+}) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
     div.id = 'settings';
@@ -357,11 +368,17 @@ test('should display an error if vector limit is less than vector skip', async (
 
   await vectorLimitInput.fill('10');
 
-  await expect(page.getByText('Vector Limit must be greater than or equal to Vector Skip.')).toBeVisible();
-  await page.screenshot({ path: 'screenshots/vector-limit-less-than-skip.png' });
+  await expect(
+    page.getByText('Limit must be greater than or equal to Skip.')
+  ).toBeVisible();
+  await page.screenshot({
+    path: 'screenshots/vector-limit-less-than-skip.png',
+  });
 });
 
-test('should display an error if vector limit is negative', async ({ page }) => {
+test('should display an error if vector limit is negative', async ({
+  page,
+}) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
     div.id = 'settings';
@@ -373,19 +390,21 @@ test('should display an error if vector limit is negative', async ({ page }) => 
 
   await vectorLimitInput.fill('-1');
 
-  await expect(page.getByText('Number must be greater than or equal to 0')).toBeVisible();
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).toBeVisible();
 
   await vectorLimitInput.fill('');
 
-  await expect(page.getByText('Number must be greater than or equal to 0')).not.toBeVisible();
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).not.toBeVisible();
 
   const vectorSkipInput = await page.getByLabel('Vector Skip');
 
   await vectorSkipInput.fill('-3');
 
-  await expect(page.getByText('Number must be greater than or equal to 0')).toBeVisible();
-
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).toBeVisible();
 });
-
-
-
