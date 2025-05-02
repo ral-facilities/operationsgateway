@@ -37,9 +37,7 @@ const fetchRecords = async (
     startIndex: number;
     stopIndex: number;
   },
-  projection?: string[],
-  vectorSkip?: number,
-  vectorLimit?: number
+  projection?: string[]
 ): Promise<Record[]> => {
   const queryParams = new URLSearchParams();
 
@@ -145,8 +143,6 @@ const fetchRecords = async (
     );
   }
 
-  if (vectorLimit) queryParams.append('vector_limit', vectorLimit.toString());
-  if (vectorSkip) queryParams.append('vector_skip', vectorSkip.toString());
   return ogApi
     .get(`/records`, {
       params: queryParams,
@@ -527,9 +523,7 @@ export const usePlotRecords = (
 export const useThumbnails = (
   channel: string,
   page: number,
-  resultsPerPage: number,
-  vectorSkip?: number,
-  vectorLimit?: number
+  resultsPerPage: number
 ): UseQueryResult<Record[], AxiosError> => {
   const { searchParams, sort, filters, functions } =
     useAppSelector(selectQueryParams);
@@ -545,29 +539,18 @@ export const useThumbnails = (
         searchParams,
         filters,
         functions,
-        vectorSkip,
-        vectorLimit,
       },
     ],
 
     queryFn: (params) => {
-      const {
-        page,
-        resultsPerPage,
-        searchParams,
-        filters,
-        functions,
-        vectorLimit,
-        vectorSkip,
-      } = params.queryKey[2] as {
+      const { page, resultsPerPage, searchParams, filters, functions } = params
+        .queryKey[2] as {
         page: number;
         resultsPerPage: number;
         sort: string;
         searchParams: SearchParams;
         filters: string[];
         functions: APIFunctionState;
-        vectorSkip: number;
-        vectorLimit: number;
       };
 
       // React Table pagination is zero-based
@@ -582,9 +565,7 @@ export const useThumbnails = (
           startIndex,
           stopIndex,
         },
-        [channel, timeChannelName],
-        vectorSkip,
-        vectorLimit
+        [channel, timeChannelName]
       );
     },
   });

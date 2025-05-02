@@ -27,15 +27,12 @@ interface ThumbnailSelectorProps {
   channelName: string;
   recordId: string;
   changeWindowConfig: (recordId: string, bitDepth?: number) => void;
-  vectorLimit?: number;
-  vectorSkip?: number;
 }
 
 export const thumbnailSelectorWidth = 150;
 
 const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
-  const { channelName, recordId, changeWindowConfig, vectorLimit, vectorSkip } =
-    props;
+  const { channelName, recordId, changeWindowConfig } = props;
 
   const { page: tablePage, resultsPerPage: tableResultsPerPage } =
     useAppSelector(selectQueryParams);
@@ -46,13 +43,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
     React.useState(tableResultsPerPage);
 
   const { data: thumbnailsCount } = useRecordCount();
-  const { data: thumbnails } = useThumbnails(
-    channelName,
-    page,
-    resultsPerPage,
-    vectorSkip,
-    vectorLimit
-  );
+  const { data: thumbnails } = useThumbnails(channelName, page, resultsPerPage);
 
   return (
     <Grid
