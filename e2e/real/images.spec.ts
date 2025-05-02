@@ -507,3 +507,51 @@ test('user can export image', async ({ page }) => {
   const downloadedImage = await downloadImagePromise;
   expect(downloadedImage.suggestedFilename()).toBe(`${imageName}.png`);
 });
+
+test('user can change the false colour parameters of an float image', async ({
+  page,
+}) => {
+
+
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('Compressor output wavefront image');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Compressor output wavefront image float_image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
+  const oldImageSrc = await image.getAttribute('src');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'cividis' }).click();
+
+   // wait for new image to have loaded
+   await expect
+   .poll(async () => await image.getAttribute('src'))
+   .not.toBe(oldImageSrc);
+   
+   await image.click();
+
+   await expect(image).toHaveScreenshot({
+   maxDiffPixels: 150,
+   });
+
+});

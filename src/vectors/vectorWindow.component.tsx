@@ -141,8 +141,6 @@ const VectorWindow = (props: VectorWindowProps) => {
             channelName={channelName}
             recordId={recordId}
             changeWindowConfig={updateVectorConfig}
-            vectorLimit={range.limit}
-            vectorSkip={range.skip}
           />
         </Grid>
         <Grid
