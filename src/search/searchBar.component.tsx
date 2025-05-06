@@ -322,14 +322,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
     setMaxShots(maxShotsParam);
     setParamsUpdated(false);
-  }, [
-    dateRange.fromDate,
-    dateRange.toDate,
-    experimentID,
-    maxShotsParam,
-    shotnumRange.max,
-    shotnumRange.min,
-  ]);
+  }, [dateRange, experimentID, maxShotsParam, shotnumRange]);
 
   const firstUpdate = React.useRef(true);
   // use a ref so that we can control the useEffect that's supposed to

@@ -12,6 +12,7 @@ import {
   DateTimePicker,
   DateTimeValidationError,
   LocalizationProvider,
+  pickersLayoutClasses,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
@@ -361,6 +362,25 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
                 },
+                layout: {
+                  sx: {
+                    [`.${pickersLayoutClasses.shortcuts}`]: {
+                      gridColumn: 2,
+                      gridRow: 3,
+                    },
+                  },
+                },
+                shortcuts: {
+                  items: [
+                    {
+                      label: 'Jump to to date',
+                      getValue: () => {
+                        return searchParameterToDate;
+                      },
+                    },
+                  ],
+                  changeImportance: 'set',
+                },
                 field: {
                   clearable: true,
                 },
@@ -461,6 +481,25 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 openPickerButton: {
                   size: 'small',
                   'aria-label': 'to, date-time picker',
+                },
+                layout: {
+                  sx: {
+                    [`.${pickersLayoutClasses.shortcuts}`]: {
+                      gridColumn: 2,
+                      gridRow: 3,
+                    },
+                  },
+                },
+                shortcuts: {
+                  items: [
+                    {
+                      label: 'Jump to from date',
+                      getValue: () => {
+                        return searchParameterFromDate;
+                      },
+                    },
+                  ],
+                  changeImportance: 'set',
                 },
                 field: {
                   clearable: true,
