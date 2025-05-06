@@ -12,6 +12,7 @@ import {
   DateTimePicker,
   DateTimeValidationError,
   LocalizationProvider,
+  pickersLayoutClasses,
 } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
@@ -295,9 +296,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerFromDate}
-              referenceDate={
-                datePickerFromDate || datePickerToDate || new Date()
-              }
               maxDateTime={datePickerToDate || new Date('2100-01-01 00:00:00')}
               onChange={(date) => {
                 setDatePickerFromDate(date);
@@ -364,6 +362,25 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                   size: 'small',
                   'aria-label': 'from, date-time picker',
                 },
+                layout: {
+                  sx: {
+                    [`.${pickersLayoutClasses.shortcuts}`]: {
+                      gridColumn: 2,
+                      gridRow: 3,
+                    },
+                  },
+                },
+                shortcuts: {
+                  items: [
+                    {
+                      label: 'Jump to to date',
+                      getValue: () => {
+                        return searchParameterToDate;
+                      },
+                    },
+                  ],
+                  changeImportance: 'set',
+                },
                 field: {
                   clearable: true,
                 },
@@ -399,9 +416,6 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerToDate}
-              referenceDate={
-                datePickerToDate || datePickerFromDate || new Date()
-              }
               minDateTime={
                 datePickerFromDate || new Date('1984-01-01 00:00:00')
               }
@@ -467,6 +481,25 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
                 openPickerButton: {
                   size: 'small',
                   'aria-label': 'to, date-time picker',
+                },
+                layout: {
+                  sx: {
+                    [`.${pickersLayoutClasses.shortcuts}`]: {
+                      gridColumn: 2,
+                      gridRow: 3,
+                    },
+                  },
+                },
+                shortcuts: {
+                  items: [
+                    {
+                      label: 'Jump to from date',
+                      getValue: () => {
+                        return searchParameterFromDate;
+                      },
+                    },
+                  ],
+                  changeImportance: 'set',
                 },
                 field: {
                   clearable: true,
