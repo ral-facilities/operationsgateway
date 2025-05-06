@@ -18,7 +18,42 @@ exports[`Vector Window component > checks that the vectors are using the default
           >
             <ul
               class="MuiList-root css-1pibvyz-MuiList-root"
-            />
+            >
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <img
+                  alt="CHANNEL_CDEFGX vector for timestamp 2022-01-14T00:00:00"
+                  aria-label=""
+                  class=""
+                  data-mui-internal-clone-element="true"
+                  src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvc2/+5QAAAAlwSFlzAAAT/gAAE/4BB5Q5hAAAAclJREFUeJzt3UFygjAAQNHQcefSC3SR23ihHqEX6n28QJdd464VDDVkEvzE/1ZWB0R+A6bWYRjHcQzCeHv2BmjKIDAGgTmk7nz/+Pq9ffk8b7YxWggydxsoBCO15CELxiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwCYxCYrO+H5PA7JHU4QmAMAmMQGIPAGATGIDAGgSmeh8znHarDEQJjEBiDwBgExiAwBoExCIxBYAwCU+0Tw1J+0jjlCIF5+ghpaY+jr6sgPfzB00MWjEFgujpktbTV+ejlguTs2NKdn1pu7bqGGOPd5Sou3z9/T3I6Tn5euu9u407Hfx9PPdea5XLWldqmR68l9/WmtrPGfhpCCF4/BOQQY2y28pzfxtLlao4skqHlFXYeHVOXjqc5y+1x0pcDeVLvZeeWcB4CYxAYg8AYBMYgMAaBQb7tzdHrW2NHCIxBYAwCYxCY3ZzUez2JzzlCYAwCYxAYg8AYBMYgMAaBMQjM5hPDV5nglXKEwBgExiAwBoExCIxBYJr+s7XWc4TAGATGIDAGgbkCNDt2EABP+50AAAAASUVORK5CYII="
+                  style="margin: auto; border: 1px solid #000000;"
+                />
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+              <div
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+                role="button"
+                tabindex="0"
+              >
+                <img
+                  alt="CHANNEL_CDEFGX vector for timestamp 2022-01-15T00:00:00"
+                  aria-label=""
+                  class=""
+                  data-mui-internal-clone-element="true"
+                  src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvc2/+5QAAAAlwSFlzAAAT/gAAE/4BB5Q5hAAAAclJREFUeJzt3UFygjAAQNHQcefSC3SR23ihHqEX6n28QJdd464VDDVkEvzE/1ZWB0R+A6bWYRjHcQzCeHv2BmjKIDAGgTmk7nz/+Pq9ffk8b7YxWggydxsoBCO15CELxiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwCYxCYrO+H5PA7JHU4QmAMAmMQGIPAGATGIDAGgSmeh8znHarDEQJjEBiDwBgExiAwBoExCIxBYAwCU+0Tw1J+0jjlCIF5+ghpaY+jr6sgPfzB00MWjEFgujpktbTV+ejlguTs2NKdn1pu7bqGGOPd5Sou3z9/T3I6Tn5euu9u407Hfx9PPdea5XLWldqmR68l9/WmtrPGfhpCCF4/BOQQY2y28pzfxtLlao4skqHlFXYeHVOXjqc5y+1x0pcDeVLvZeeWcB4CYxAYg8AYBMYgMAaBQb7tzdHrW2NHCIxBYAwCYxCY3ZzUez2JzzlCYAwCYxAYg8AYBMYgMAaBMQjM5hPDV5nglXKEwBgExiAwBoExCIxBYJr+s7XWc4TAGATGIDAGgbkCNDt2EABP+50AAAAASUVORK5CYII="
+                  style="margin: auto; border: 1px solid #000000;"
+                />
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </div>
+            </ul>
           </div>
           <div
             class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
