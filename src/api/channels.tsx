@@ -156,7 +156,7 @@ export const constructColumnDefs = (
       },
       meta: { channelInfo: channel },
       cell: ({ row, getValue }) => {
-        const value = getValue<string>();
+        const value = getValue();
         switch (true) {
           case isChannelMetadataScalar(channel):
             return typeof value === 'number' &&
@@ -170,7 +170,7 @@ export const constructColumnDefs = (
           case isChannelMetadataWaveform(channel):
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -193,7 +193,7 @@ export const constructColumnDefs = (
                 : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -217,7 +217,7 @@ export const constructColumnDefs = (
             const units = isVector ? metadata.units : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
