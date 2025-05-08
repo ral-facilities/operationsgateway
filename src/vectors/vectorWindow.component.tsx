@@ -159,6 +159,7 @@ const VectorWindow = (props: VectorWindowProps) => {
                 xs
                 sx={{
                   height: '100%',
+                  minWidth: '80%',
                 }}
               >
                 <VectorPlot
