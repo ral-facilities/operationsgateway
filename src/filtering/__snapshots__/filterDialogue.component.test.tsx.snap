@@ -91,16 +91,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                 </div>
                 <span
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                >
-                  <span
-                    class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible"
-                    style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
-                  >
-                    <span
-                      class="MuiTouchRipple-child MuiTouchRipple-childLeaving"
-                    />
-                  </span>
-                </span>
+                />
               </button>
             </div>
             <span

@@ -20,9 +20,9 @@ export interface Record {
 export interface RecordRow {
   _id: string;
   timestamp: string;
-  activeArea?: string;
+  active_area: string;
   shotnum?: number;
-  activeExperiment?: string;
+  active_experiment?: string;
   channelMetadata: { [channel: string]: ChannelMetadata };
   [channel: string]: unknown;
 }
@@ -60,9 +60,9 @@ export interface WaveformMetadata {
 export interface RecordMetadata {
   epac_ops_data_version: string;
   timestamp: string;
-  activeArea?: string;
+  active_area: string;
   shotnum?: number;
-  activeExperiment?: string;
+  active_experiment?: string;
 }
 
 export type DataType = 'scalar' | 'image' | 'waveform' | 'float_image';
@@ -275,8 +275,8 @@ export type MarkerStyle =
 export const columnIconMappings = new Map()
   .set(timeChannelName, <AccessTime />)
   .set('shotnum', <Numbers />)
-  .set('activeArea', <Place />)
-  .set('activeExperiment', <Science />);
+  .set('active_area', <Place />)
+  .set('active_experiment', <Science />);
 
 export interface Session {
   name: string;

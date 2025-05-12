@@ -163,7 +163,7 @@
     "session": {
       "table": {
         "columnStates": {},
-        "selectedColumnIds": ["timestamp", "activeArea", "CHANNEL_ABCDE"],
+        "selectedColumnIds": ["timestamp", "active_area", "CHANNEL_ABCDE"],
         "page": 0,
         "resultsPerPage": 25,
         "sort": {

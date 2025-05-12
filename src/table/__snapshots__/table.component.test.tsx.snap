@@ -237,9 +237,9 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rfd-drag-handle-context-id=":rk:"
-              data-rfd-drag-handle-draggable-id="activeArea"
+              data-rfd-drag-handle-draggable-id="active_area"
               data-rfd-draggable-context-id=":rk:"
-              data-rfd-draggable-id="activeArea"
+              data-rfd-draggable-id="active_area"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -269,7 +269,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <span
                     class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                    data-testid="sort activeArea"
+                    data-testid="sort active_area"
                     role="button"
                     tabindex="0"
                   >
@@ -298,9 +298,9 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 <div>
                   <button
                     aria-haspopup="true"
-                    aria-label="activeArea menu"
+                    aria-label="active_area menu"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                    id="activeArea-menu-button"
+                    id="active_area-menu-button"
                     tabindex="0"
                     type="button"
                   >
@@ -331,9 +331,9 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rfd-drag-handle-context-id=":rk:"
-              data-rfd-drag-handle-draggable-id="activeExperiment"
+              data-rfd-drag-handle-draggable-id="active_experiment"
               data-rfd-draggable-context-id=":rk:"
-              data-rfd-draggable-id="activeExperiment"
+              data-rfd-draggable-id="active_experiment"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -363,7 +363,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <span
                     class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                    data-testid="sort activeExperiment"
+                    data-testid="sort active_experiment"
                     role="button"
                     tabindex="0"
                   >
@@ -392,9 +392,9 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 <div>
                   <button
                     aria-haspopup="true"
-                    aria-label="activeExperiment menu"
+                    aria-label="active_experiment menu"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                    id="activeExperiment-menu-button"
+                    id="active_experiment-menu-button"
                     tabindex="0"
                     type="button"
                   >
@@ -1554,9 +1554,9 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rfd-drag-handle-context-id=":r7:"
-              data-rfd-drag-handle-draggable-id="activeArea"
+              data-rfd-drag-handle-draggable-id="active_area"
               data-rfd-draggable-context-id=":r7:"
-              data-rfd-draggable-id="activeArea"
+              data-rfd-draggable-id="active_area"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -1586,7 +1586,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <span
                     class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                    data-testid="sort activeArea"
+                    data-testid="sort active_area"
                     role="button"
                     tabindex="0"
                   >
@@ -1615,9 +1615,9 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 <div>
                   <button
                     aria-haspopup="true"
-                    aria-label="activeArea menu"
+                    aria-label="active_area menu"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                    id="activeArea-menu-button"
+                    id="active_area-menu-button"
                     tabindex="0"
                     type="button"
                   >
@@ -1648,9 +1648,9 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
               class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
               data-rfd-drag-handle-context-id=":r7:"
-              data-rfd-drag-handle-draggable-id="activeExperiment"
+              data-rfd-drag-handle-draggable-id="active_experiment"
               data-rfd-draggable-context-id=":r7:"
-              data-rfd-draggable-id="activeExperiment"
+              data-rfd-draggable-id="active_experiment"
               draggable="false"
               role="columnheader"
               scope="col"
@@ -1680,7 +1680,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <span
                     class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
-                    data-testid="sort activeExperiment"
+                    data-testid="sort active_experiment"
                     role="button"
                     tabindex="0"
                   >
@@ -1709,9 +1709,9 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 <div>
                   <button
                     aria-haspopup="true"
-                    aria-label="activeExperiment menu"
+                    aria-label="active_experiment menu"
                     class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
-                    id="activeExperiment-menu-button"
+                    id="active_experiment-menu-button"
                     tabindex="0"
                     type="button"
                   >

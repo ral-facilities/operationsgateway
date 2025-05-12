@@ -284,7 +284,9 @@ export const useDateToShotnumConverter = (
         undefined
       );
     },
-
+    meta: {
+      silentError: true,
+    },
     enabled,
   });
 };
@@ -364,8 +366,8 @@ export const useRecordsPaginated = (): UseQueryResult<
           _id: record._id,
           timestamp: formattedDate,
           shotnum: record.metadata.shotnum,
-          activeArea: record.metadata.activeArea,
-          activeExperiment: record.metadata.activeExperiment,
+          active_area: record.metadata.active_area,
+          active_experiment: record.metadata.active_experiment,
           channelMetadata: {},
         };
 
@@ -409,14 +411,14 @@ export const getFormattedAxisData = (
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
       break;
-    case 'activeArea':
-      formattedData = record.metadata.activeArea
-        ? parseInt(record.metadata.activeArea)
+    case 'active_area':
+      formattedData = record.metadata.active_area
+        ? parseInt(record.metadata.active_area)
         : NaN;
       break;
-    case 'activeExperiment':
-      formattedData = record.metadata.activeExperiment
-        ? parseInt(record.metadata.activeExperiment)
+    case 'active_experiment':
+      formattedData = record.metadata.active_experiment
+        ? parseInt(record.metadata.active_experiment)
         : NaN;
       break;
     default: {
