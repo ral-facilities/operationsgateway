@@ -178,11 +178,11 @@ describe('Settings Menu Items component', () => {
   });
 
   describe('Vectors', () => {
-    it('lets user set the vector limit', async () => {
+    it('lets user set the vector upper bound', async () => {
       const { queryClient } = createView();
       const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries');
 
-      const vectorLimitInput = screen.getByLabelText('Vector Limit');
+      const vectorLimitInput = screen.getByLabelText('Upper Bound');
 
       await user.clear(vectorLimitInput);
       await user.type(vectorLimitInput, '1000');
@@ -192,11 +192,11 @@ describe('Settings Menu Items component', () => {
       await waitFor(() => expect(invalidateQueriesSpy).toHaveBeenCalled());
     });
 
-    it('lets user set the vector skip', async () => {
+    it('lets user set the vector lower bound', async () => {
       const { queryClient } = createView();
       const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries');
 
-      const vectorSkipInput = screen.getByLabelText('Vector Skip');
+      const vectorSkipInput = screen.getByLabelText('Lower Bound');
 
       await user.clear(vectorSkipInput);
       await user.type(vectorSkipInput, '10');
@@ -205,34 +205,34 @@ describe('Settings Menu Items component', () => {
       await waitFor(() => expect(invalidateQueriesSpy).toHaveBeenCalled());
     });
 
-    it('should display an error if vector limit is not a valid number', async () => {
+    it('should display an error if vector upper bound is not a valid number', async () => {
       createView();
-      const vectorLimitInput = screen.getByLabelText('Vector Limit');
+      const vectorLimitInput = screen.getByLabelText('Upper Bound');
 
       await user.clear(vectorLimitInput);
       await user.type(vectorLimitInput, 'abc');
 
       expect(
-        await screen.findByText('Vector Limit must be a valid number')
+        await screen.findByText('Upper Bound must be a valid number')
       ).toBeInTheDocument();
     });
 
-    it('should display an error if vector skip is not a valid number', async () => {
+    it('should display an error if vector lower bound is not a valid number', async () => {
       createView();
-      const vectorSkipInput = screen.getByLabelText('Vector Skip');
+      const vectorSkipInput = screen.getByLabelText('Lower Bound');
 
       await user.clear(vectorSkipInput);
       await user.type(vectorSkipInput, 'xyz');
 
       expect(
-        await screen.findByText('Vector Skip must be a valid number')
+        await screen.findByText('Lower Bound must be a valid number')
       ).toBeInTheDocument();
     });
 
-    it('should display an error if vector limit is less than vector skip', async () => {
+    it('should display an error if vector upper bound is less than vector lower bound', async () => {
       createView();
-      const vectorLimitInput = screen.getByLabelText('Vector Limit');
-      const vectorSkipInput = screen.getByLabelText('Vector Skip');
+      const vectorLimitInput = screen.getByLabelText('Upper Bound');
+      const vectorSkipInput = screen.getByLabelText('Lower Bound');
 
       await user.clear(vectorSkipInput);
       await user.type(vectorSkipInput, '20');
@@ -241,13 +241,15 @@ describe('Settings Menu Items component', () => {
       await user.type(vectorLimitInput, '10');
 
       expect(
-        await screen.findByText('Limit must be greater than or equal to Skip.')
+        await screen.findByText(
+          'Upper Bound must be greater than or equal to Lower Bound.'
+        )
       ).toBeInTheDocument();
     });
 
-    it('should display an error if vector limit is negative', async () => {
+    it('should display an error if vector upper bound is negative', async () => {
       createView();
-      const vectorLimitInput = screen.getByLabelText('Vector Limit');
+      const vectorLimitInput = screen.getByLabelText('Upper Bound');
 
       await user.clear(vectorLimitInput);
       await user.type(vectorLimitInput, '-1');
@@ -257,9 +259,9 @@ describe('Settings Menu Items component', () => {
       ).toBeInTheDocument();
     });
 
-    it('should display an error if vector skip is negative', async () => {
+    it('should display an error if vector lower bound is negative', async () => {
       createView();
-      const vectorSkipInput = screen.getByLabelText('Vector Skip');
+      const vectorSkipInput = screen.getByLabelText('Lower Bound');
 
       await user.clear(vectorSkipInput);
       await user.type(vectorSkipInput, '-5');

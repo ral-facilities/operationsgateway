@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Vector Window component > checks that the vectors are using the default value of the slider (with the default vector limits) 1`] = `
+exports[`Vector Window component > checks that the vectors are using the default value of the slider (with the default vector upper bound) 1`] = `
 <DocumentFragment>
   <mock-windowportal>
     <div

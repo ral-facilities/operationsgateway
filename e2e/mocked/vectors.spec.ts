@@ -131,7 +131,6 @@ test('user can limit the vector data', async ({ page }) => {
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
 
-
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
@@ -248,7 +247,7 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
   });
 });
 
-test('user can set their default vector skip', async ({ page }) => {
+test('user can set their default vector lower bound', async ({ page }) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
     div.id = 'settings';
@@ -257,7 +256,7 @@ test('user can set their default vector skip', async ({ page }) => {
     document.body.appendChild(div);
   });
 
-  const vectorSkipInput = await page.getByLabel('Vector Skip');
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
 
   await vectorSkipInput.fill('4');
 
@@ -285,7 +284,7 @@ test('user can set their default vector skip', async ({ page }) => {
   await expect(slider.nth(0)).toHaveValue('4');
 });
 
-test('user can set their default vector limit', async ({ page }) => {
+test('user can set their default vector upper bound', async ({ page }) => {
   await page.evaluate(() => {
     const div = document.createElement('div');
     div.id = 'settings';
@@ -294,7 +293,7 @@ test('user can set their default vector limit', async ({ page }) => {
     document.body.appendChild(div);
   });
 
-  const vectorLimitInput = await page.getByLabel('Vector Limit');
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
 
   await vectorLimitInput.fill('4');
 
@@ -322,7 +321,7 @@ test('user can set their default vector limit', async ({ page }) => {
   await expect(slider.nth(1)).toHaveValue('4');
 });
 
-test('should display an error if vector limit or skip is not a valid number', async ({
+test('should display an error if vector upper bound or skip is not a valid number', async ({
   page,
 }) => {
   await page.evaluate(() => {
@@ -333,24 +332,24 @@ test('should display an error if vector limit or skip is not a valid number', as
     document.body.appendChild(div);
   });
 
-  const vectorLimitInput = await page.getByLabel('Vector Limit');
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
 
   await vectorLimitInput.fill('abc');
 
   await expect(
-    page.getByText('Vector Limit must be a valid number')
+    page.getByText('Upper Bound must be a valid number')
   ).toBeVisible();
 
-  const vectorSkipInput = await page.getByLabel('Vector Skip');
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
 
   await vectorSkipInput.fill('xyz');
 
   await expect(
-    page.getByText('Vector Skip must be a valid number')
+    page.getByText('Lower Bound must be a valid number')
   ).toBeVisible();
 });
 
-test('should display an error if vector limit is less than vector skip', async ({
+test('should display an error if vector upper bound is less than vector lower bound', async ({
   page,
 }) => {
   await page.evaluate(() => {
@@ -360,22 +359,22 @@ test('should display an error if vector limit is less than vector skip', async (
     div.appendChild(ul);
     document.body.appendChild(div);
   });
-  const vectorLimitInput = await page.getByLabel('Vector Limit');
-  const vectorSkipInput = await page.getByLabel('Vector Skip');
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
 
   await vectorSkipInput.fill('20');
 
   await vectorLimitInput.fill('10');
 
   await expect(
-    page.getByText('Limit must be greater than or equal to Skip.')
+    page.getByText('Upper Bound must be greater than or equal to Lower Bound.')
   ).toBeVisible();
   await page.screenshot({
     path: 'screenshots/vector-limit-less-than-skip.png',
   });
 });
 
-test('should display an error if vector limit is negative', async ({
+test('should display an error if vector upper bound is negative', async ({
   page,
 }) => {
   await page.evaluate(() => {
@@ -385,7 +384,7 @@ test('should display an error if vector limit is negative', async ({
     div.appendChild(ul);
     document.body.appendChild(div);
   });
-  const vectorLimitInput = await page.getByLabel('Vector Limit');
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
 
   await vectorLimitInput.fill('-1');
 
@@ -399,7 +398,7 @@ test('should display an error if vector limit is negative', async ({
     page.getByText('Number must be greater than or equal to 0')
   ).not.toBeVisible();
 
-  const vectorSkipInput = await page.getByLabel('Vector Skip');
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
 
   await vectorSkipInput.fill('-3');
 

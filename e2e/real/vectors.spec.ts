@@ -28,7 +28,6 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
 
-
 test.afterEach(async ({ request, context }) => {
   const { apiUrl } = await (
     await request.get('/operationsgateway-settings.json')
@@ -45,12 +44,16 @@ test.afterEach(async ({ request, context }) => {
   });
 });
 
-
 test('user can limit the vector data', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Compressor output wavefront coefficients vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Compressor output wavefront coefficients vector', {
+        exact: false,
+      })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -63,8 +66,6 @@ test('user can limit the vector data', async ({ page }) => {
   // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
-
-
 
   const slider = await popup.getByRole('slider');
 
@@ -109,7 +110,6 @@ test('user can limit the vector data', async ({ page }) => {
   await slider.nth(0).blur();
   await slider.nth(1).blur();
 
-
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
@@ -127,11 +127,12 @@ test('user can limit the vector data', async ({ page }) => {
   });
 });
 
-
 test('user can set their default skip and limit', async ({ page }) => {
   const tableThumbnail = await page
-  .getByAltText('Compressor output wavefront coefficients vector', { exact: false })
-  .first();
+    .getByAltText('Compressor output wavefront coefficients vector', {
+      exact: false,
+    })
+    .first();
 
   // open up popup
   const [popup] = await Promise.all([
@@ -144,19 +145,16 @@ test('user can set their default skip and limit', async ({ page }) => {
 
   const chart = await popup.locator('.plotly-chart');
 
-
-
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
   // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
- 
+
   await expect(tableThumbnail).toHaveScreenshot({
     maxDiffPixels: 150,
   });
-
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
@@ -179,42 +177,39 @@ test('user can set their default skip and limit', async ({ page }) => {
       (response.url().match(/projection/g) || []).length > 1
   );
   const vectorSkip = await page.getByRole('textbox', {
-    name: 'Vector Skip',
+    name: 'Lower Bound',
     // This is used due to the nested focusTrap error caused by nested menuItems
-    includeHidden:true,
+    includeHidden: true,
   });
 
   expect(vectorSkip).toHaveText('');
 
   await vectorSkip.fill('2');
 
-
   // wait for records response to come back before taking screenshot
- await recordsSkipPromise;
+  await recordsSkipPromise;
 
-
- const recordsLimitPromise = page.waitForResponse(
-  (response) =>
-    response.url().includes('records') &&
-    (response.url().match(/projection/g) || []).length > 1
-);
+  const recordsLimitPromise = page.waitForResponse(
+    (response) =>
+      response.url().includes('records') &&
+      (response.url().match(/projection/g) || []).length > 1
+  );
 
   const vectorLimit = await page.getByRole('textbox', {
-    name: 'Vector Limit',
+    name: 'Upper Bound',
     // This is used due to the nested focusTrap error caused by nested menuItems
-    includeHidden:true,
+    includeHidden: true,
   });
   expect(vectorLimit).toHaveText('');
   await vectorLimit.fill('10');
 
- // wait for records response to come back before taking screenshot
- await recordsLimitPromise;
+  // wait for records response to come back before taking screenshot
+  await recordsLimitPromise;
 
   await expect(tableThumbnail).toBeAttached();
   await expect(tableThumbnail).toHaveScreenshot({
     maxDiffPixels: 150,
   });
-
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
@@ -222,9 +217,4 @@ test('user can set their default skip and limit', async ({ page }) => {
       // hide top buttons from the screenshot as it's not important
       path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
-
-  
 });
-
-
-

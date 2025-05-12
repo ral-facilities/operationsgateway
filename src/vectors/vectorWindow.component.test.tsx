@@ -104,7 +104,7 @@ describe('Vector Window component', () => {
     });
   });
 
-  it('checks that the vectors are using the default value of the slider (with the default vector limits)', async () => {
+  it('checks that the vectors are using the default value of the slider (with the default vector upper bound)', async () => {
     // Mock vector preferences
 
     server.use(

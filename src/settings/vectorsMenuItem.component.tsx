@@ -42,12 +42,12 @@ const OptionalNumberSchema = (props: {
 
 const vectorSchema = z.object({
   vectorLimit: OptionalNumberSchema({
-    invalidTypeErrorMessage: 'Vector Limit must be a valid number',
+    invalidTypeErrorMessage: 'Upper Bound must be a valid number',
     min: 0,
     isInteger: true,
   }),
   vectorSkip: OptionalNumberSchema({
-    invalidTypeErrorMessage: 'Vector Skip must be a valid number',
+    invalidTypeErrorMessage: 'Lower Bound must be a valid number',
     min: 0,
     isInteger: true,
   }),
@@ -134,7 +134,8 @@ const VectorsMenuItem = () => {
         ) {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            [newKey]: 'Limit must be greater than or equal to Skip.',
+            [newKey]:
+              'Upper Bound must be greater than or equal to Lower Bound.',
           }));
           return;
         }
@@ -175,7 +176,7 @@ const VectorsMenuItem = () => {
       <FormGroup>
         <FormControl sx={{ my: 1 }}>
           <TextField
-            label="Vector Skip"
+            label="Lower Bound"
             value={vectorSkip || ''}
             onChange={(e) =>
               handleChange(
@@ -186,13 +187,19 @@ const VectorsMenuItem = () => {
               )
             }
             fullWidth
+            FormHelperTextProps={{
+              sx: {
+                whiteSpace: 'normal', // Allow wrapping
+                wordBreak: 'break-word', // Break long words
+              },
+            }}
             error={!!errors.vectorSkip}
             helperText={errors.vectorSkip}
           />
         </FormControl>
         <FormControl>
           <TextField
-            label="Vector Limit"
+            label="Upper Bound"
             value={vectorLimit || ''}
             onChange={(e) =>
               handleChange(
@@ -203,6 +210,12 @@ const VectorsMenuItem = () => {
               )
             }
             fullWidth
+            FormHelperTextProps={{
+              sx: {
+                whiteSpace: 'normal', // Allow wrapping
+                wordBreak: 'break-word', // Break long words
+              },
+            }}
             error={!!errors.vectorLimit}
             helperText={errors.vectorLimit}
           />
