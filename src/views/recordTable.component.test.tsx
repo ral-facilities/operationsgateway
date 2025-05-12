@@ -199,8 +199,8 @@ describe('Record Table', () => {
 
     act(() => {
       store.dispatch(selectColumn('shotnum'));
-      store.dispatch(selectColumn('activeArea'));
-      store.dispatch(selectColumn('activeExperiment'));
+      store.dispatch(selectColumn('active_area'));
+      store.dispatch(selectColumn('active_experiment'));
     });
 
     let columns = screen.getAllByRole('columnheader');
@@ -217,7 +217,7 @@ describe('Record Table', () => {
 
     // Remove middle column
     act(() => {
-      store.dispatch(deselectColumn('activeArea'));
+      store.dispatch(deselectColumn('active_area'));
     });
 
     await waitFor(() => {
@@ -229,7 +229,7 @@ describe('Record Table', () => {
     expect(columns[3]).toHaveTextContent('Active Experiment');
 
     act(() => {
-      store.dispatch(selectColumn('activeArea'));
+      store.dispatch(selectColumn('active_area'));
     });
 
     // Should expect the column previously in the middle to now be on the end

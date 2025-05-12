@@ -203,7 +203,7 @@ class TokenInput {
 }
 
 /**
- * Class representing a predicate e.g. `CHANNEL_1 < 1` or `activeExperiment is not null`
+ * Class representing a predicate e.g. `CHANNEL_1 < 1` or `active_experiment is not null`
  *
  * Predicate ::= channel COMPOP param | channel UNARYOP
  */
