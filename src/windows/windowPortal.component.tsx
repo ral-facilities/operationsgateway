@@ -58,7 +58,7 @@ export default class WindowPortal extends React.PureComponent<
       // we do this so that all the Plotly.js code which relies on window references the correct window (i.e. the popup)
       const plotlyjsScript = document.createElement('script');
       plotlyjsScript.src =
-        'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js'; // need the main bundle so include scattergl for traces optimisation and bars charts for vectors
+        'https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly.min.js'; // need the main bundle to include scattergl for traces optimisation and bars charts for vectors
       plotlyjsScript.crossOrigin = 'anonymous';
       plotlyjsScript.referrerPolicy = 'no-referrer';
       plotlyjsScript.async = false;

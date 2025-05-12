@@ -131,6 +131,14 @@ test('user can limit the vector data', async ({ page }) => {
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
 
+
+  await expect(chart).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
+  });
+
   const slider = await popup.getByRole('slider');
 
   const SliderRoot = await popup.locator('.MuiSlider-root', {
@@ -173,15 +181,6 @@ test('user can limit the vector data', async ({ page }) => {
   // blur to avoid focus tooltip appearing in snapshot
   await slider.nth(0).blur();
   await slider.nth(1).blur();
-
-  await expect(chart).toHaveScreenshot({
-    maxDiffPixels: 150,
-    stylePath:
-      // hide top buttons from the screenshot as it's not important
-      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
-  });
-
-  await popup.locator('text=Reset View').click();
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
