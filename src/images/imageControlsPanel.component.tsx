@@ -72,10 +72,16 @@ export const ColourMapSelect = (
     colourMap: string;
     handleColourMapChange: (event: SelectChangeEvent<unknown>) => void;
     colourMaps: ColourMapsParams;
+    disablePortal?: boolean; // Prevents focus trap issues when used inside a MenuItem (settings menu)
   } & SelectProps
 ) => {
-  const { colourMap, handleColourMapChange, colourMaps, ...selectProps } =
-    props;
+  const {
+    colourMap,
+    handleColourMapChange,
+    colourMaps,
+    disablePortal = false,
+    ...selectProps
+  } = props;
   const colourMapTypeNames = Object.keys(colourMaps);
   const colourMapNames = Object.values(colourMaps);
 
@@ -87,6 +93,9 @@ export const ColourMapSelect = (
       {...selectProps}
       value={colourMap}
       onChange={handleColourMapChange}
+      MenuProps={{
+        disablePortal: disablePortal,
+      }}
     >
       <MenuItem value="">
         <em>Default</em>

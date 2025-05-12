@@ -85,7 +85,7 @@ describe('Filter input component', () => {
         label: 'test 1',
         type: 'favouriteFilter',
         value:
-          '[{"type":"channel","value":"activeExperiment","label":"Active Experiment"},{"type":"compop","value":">","label":">"},{"type":"number","value":"3","label":"3"}]',
+          '[{"type":"channel","value":"active_experiment","label":"Active Experiment"},{"type":"compop","value":">","label":">"},{"type":"number","value":"3","label":"3"}]',
       },
     ]);
     expect(props.setError).toHaveBeenCalledWith(undefined);

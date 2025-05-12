@@ -54,14 +54,14 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
     type: 'scalar',
     path: '/system',
   },
-  activeArea: {
-    systemName: 'activeArea',
+  active_area: {
+    systemName: 'active_area',
     name: 'Active Area',
     type: 'scalar',
     path: '/system',
   },
-  activeExperiment: {
-    systemName: 'activeExperiment',
+  active_experiment: {
+    systemName: 'active_experiment',
     name: 'Active Experiment',
     type: 'scalar',
     path: '/system',
@@ -156,7 +156,7 @@ export const constructColumnDefs = (
       },
       meta: { channelInfo: channel },
       cell: ({ row, getValue }) => {
-        const value = getValue<string>();
+        const value = getValue();
         switch (true) {
           case isChannelMetadataScalar(channel):
             return typeof value === 'number' &&
@@ -174,7 +174,7 @@ export const constructColumnDefs = (
 
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -206,7 +206,7 @@ export const constructColumnDefs = (
                 : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -230,7 +230,7 @@ export const constructColumnDefs = (
             const units = isVector ? metadata.units : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value}
+                base64Data={value as string}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(

@@ -20,7 +20,7 @@ import OGThemeProvider from './ogThemeProvider.component';
 import PageNotFoundComponent from './pageNotFound/pageNotFound.component';
 import Preloader from './preloader/preloader.component';
 import retryOG_APIErrors from './retryOG_APIErrors';
-import SettingsMenuItems from './settingsMenuItems.component';
+import SettingsMenuItems from './settings/settingsMenuItems.component';
 import {
   broadcastSignOut,
   requestPluginRerender,
@@ -50,8 +50,9 @@ const queryClient = new QueryClient({
   },
 
   queryCache: new QueryCache({
-    onError: (error) => {
-      handleOG_APIError(error as AxiosError);
+    onError: (error, query) => {
+      const silentError = query.options.meta?.silentError;
+      handleOG_APIError(error as AxiosError, !silentError);
     },
   }),
 });

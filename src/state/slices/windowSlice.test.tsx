@@ -106,7 +106,7 @@ describe('windowSlice', () => {
       });
     });
 
-    it('openVectorWindow creates a float image with the default options', () => {
+    it('openVectorWindow creates a vector with the default options', () => {
       state = WindowReducer(
         state,
         openVectorWindow({

@@ -7,6 +7,8 @@ export const MicroFrontendToken = `${MicroFrontendId}:token`;
 export const timeChannelName = 'timestamp';
 
 export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
+export const VECTOR_SKIP_PREFERENCE_NAME = 'VECTOR_SKIP';
+export const VECTOR_LIMIT_PREFERENCE_NAME = 'VECTOR_LIMIT';
 
 export interface Record {
   _id: string;
@@ -20,9 +22,9 @@ export interface Record {
 export interface RecordRow {
   _id: string;
   timestamp: string;
-  activeArea?: string;
+  active_area: string;
   shotnum?: number;
-  activeExperiment?: string;
+  active_experiment?: string;
   channelMetadata: { [channel: string]: ChannelMetadata };
   [channel: string]: unknown;
 }
@@ -66,9 +68,9 @@ export interface WaveformMetadata {
 export interface RecordMetadata {
   epac_ops_data_version: string;
   timestamp: string;
-  activeArea?: string;
+  active_area: string;
   shotnum?: number;
-  activeExperiment?: string;
+  active_experiment?: string;
 }
 
 export type DataType =
@@ -309,8 +311,8 @@ export type MarkerStyle =
 export const columnIconMappings = new Map()
   .set(timeChannelName, <AccessTime />)
   .set('shotnum', <Numbers />)
-  .set('activeArea', <Place />)
-  .set('activeExperiment', <Science />);
+  .set('active_area', <Place />)
+  .set('active_experiment', <Science />);
 
 export interface Session {
   name: string;

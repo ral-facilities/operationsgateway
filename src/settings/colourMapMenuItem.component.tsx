@@ -1,5 +1,4 @@
 import {
-  Divider,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -11,25 +10,19 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { FalseColourParams, useColourMaps } from './api/images';
+import { FalseColourParams, useColourMaps } from '../api/images';
 import {
   useUpdateUserPreference,
   useUserPreference,
-} from './api/userPreferences';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from './app.types';
-import handleOG_APIError from './handleOG_APIError';
+} from '../api/userPreferences';
+import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../app.types';
+import handleOG_APIError from '../handleOG_APIError';
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
-} from './images/imageControlsPanel.component';
+} from '../images/imageControlsPanel.component';
 
-const SettingsMenuItems = () => {
-  const [menuOpen, setMenuOpen] = React.useState(
-    document.body.querySelector('#settings ul, #mobile-overflow-menu ul') !==
-      null
-  );
-
+const ColourMapMenuItem = () => {
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
@@ -151,99 +144,55 @@ const SettingsMenuItems = () => {
     setReverseColour(checked);
   };
 
-  // observe body for new nodes (this is where #settings gets added)
-
-  const observer = React.useMemo(
-    () =>
-      new MutationObserver(() => {
-        if (
-          document.body.querySelector('#settings ul, #mobile-overflow-menu ul')
-        ) {
-          setMenuOpen(true);
-        } else {
-          setMenuOpen(false);
-        }
-      }),
-    []
+  return (
+    <MenuItem
+      sx={[{ '&:hover': { backgroundColor: 'transparent' }, cursor: 'unset' }]}
+      disableRipple
+    >
+      <FormGroup>
+        <FormControl>
+          <InputLabel id="default-colour-map-select-label">
+            Default Colour Map
+          </InputLabel>
+          <ColourMapSelect
+            colourMap={selectColourMap}
+            handleColourMapChange={handleColourMapChange}
+            colourMaps={
+              extendedColourMap ? filteredColourMaps : filteredColourMapsMain
+            }
+            fullWidth
+            label={'Default Colour Map'}
+            labelId="default-colour-map-select-label"
+            disablePortal
+          />
+        </FormControl>
+        <FormControlLabel
+          disabled={!colourMapsWithReverse?.includes(selectColourMap)}
+          control={
+            <Switch checked={reverseColour} onChange={handleReverseColour} />
+          }
+          label="Reverse Colour"
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              checked={extendedColourMap}
+              onChange={handleExtendColourMaps}
+            />
+          }
+          componentsProps={{
+            typography: {
+              sx: {
+                maxWidth: '200px',
+                whiteSpace: 'normal',
+              },
+            },
+          }}
+          label="Show extended colourmap options"
+        />
+      </FormGroup>
+    </MenuItem>
   );
-
-  React.useEffect(() => {
-    if (!observer) return;
-    observer.observe(document.body, {
-      childList: true,
-    });
-    return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-    };
-  }, [observer]);
-
-  if (!menuOpen) {
-    return null;
-  } else {
-    return ReactDOM.createPortal(
-      <>
-        <Divider />
-        <MenuItem
-          sx={[
-            { '&:hover': { backgroundColor: 'transparent' }, cursor: 'unset' },
-          ]}
-          disableRipple
-        >
-          <FormGroup>
-            <FormControl>
-              <InputLabel id="default-colour-map-select-label">
-                Default Colour Map
-              </InputLabel>
-              <ColourMapSelect
-                colourMap={selectColourMap}
-                handleColourMapChange={handleColourMapChange}
-                colourMaps={
-                  extendedColourMap
-                    ? filteredColourMaps
-                    : filteredColourMapsMain
-                }
-                fullWidth
-                label={'Default Colour Map'}
-                labelId="default-colour-map-select-label"
-              />
-            </FormControl>
-            <FormControlLabel
-              disabled={!colourMapsWithReverse?.includes(selectColourMap)}
-              control={
-                <Switch
-                  checked={reverseColour}
-                  onChange={handleReverseColour}
-                />
-              }
-              label="Reverse Colour"
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={extendedColourMap}
-                  onChange={handleExtendColourMaps}
-                />
-              }
-              componentsProps={{
-                typography: {
-                  sx: {
-                    maxWidth: '200px',
-                    whiteSpace: 'normal',
-                  },
-                },
-              }}
-              label="Show extended colourmap options"
-            />
-          </FormGroup>
-        </MenuItem>
-      </>,
-      // we know this is not null from the mutation observer
-
-      document.body.querySelector('#settings ul, #mobile-overflow-menu ul')!
-    );
-  }
 };
 
-export default SettingsMenuItems;
+export default ColourMapMenuItem;
