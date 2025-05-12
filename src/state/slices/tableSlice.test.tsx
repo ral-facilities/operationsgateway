@@ -22,11 +22,11 @@ describe('tableSlice', () => {
       state = ColumnsReducer(state, selectColumn('shotnum'));
       expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
 
-      state = ColumnsReducer(state, selectColumn('activeArea'));
+      state = ColumnsReducer(state, selectColumn('active_area'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
         'shotnum',
-        'activeArea',
+        'active_area',
       ]);
     });
 
@@ -36,15 +36,15 @@ describe('tableSlice', () => {
         selectedColumnIds: [
           'timestamp',
           'shotnum',
-          'activeArea',
-          'activeExperiment',
+          'active_area',
+          'active_experiment',
         ],
       };
-      state = ColumnsReducer(state, deselectColumn('activeArea'));
+      state = ColumnsReducer(state, deselectColumn('active_area'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
         'shotnum',
-        'activeExperiment',
+        'active_experiment',
       ]);
 
       // shouldn't be able to deselect timestamp
@@ -52,7 +52,7 @@ describe('tableSlice', () => {
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
         'shotnum',
-        'activeExperiment',
+        'active_experiment',
       ]);
     });
 
@@ -62,8 +62,8 @@ describe('tableSlice', () => {
         selectedColumnIds: [
           'timestamp',
           'shotnum',
-          'activeArea',
-          'activeExperiment',
+          'active_area',
+          'active_experiment',
         ],
       };
 
@@ -80,9 +80,9 @@ describe('tableSlice', () => {
       const updatedState = ColumnsReducer(state, reorderColumn(draggedColumn));
       expect(updatedState.selectedColumnIds).toEqual([
         'timestamp',
-        'activeArea',
+        'active_area',
         'shotnum',
-        'activeExperiment',
+        'active_experiment',
       ]);
     });
 
