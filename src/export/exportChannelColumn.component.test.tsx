@@ -64,6 +64,7 @@ describe('ExportChannelColumn', () => {
       dataToExport: {
         Scalars: false,
         Images: true,
+        'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
       },
@@ -83,6 +84,7 @@ describe('ExportChannelColumn', () => {
       dataToExport: {
         Scalars: false,
         Images: true,
+        'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
       },

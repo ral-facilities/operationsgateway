@@ -29,6 +29,7 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
       dataToExport: {
         Scalars: false,
         Images: true,
+        'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
       },

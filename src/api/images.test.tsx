@@ -11,6 +11,7 @@ import {
 import {
   useColourBar,
   useColourMaps,
+  useFloatImage,
   useImage,
   useImageCrosshair,
 } from './images';
@@ -33,7 +34,7 @@ describe('images api functions', () => {
     it('sends request to fetch original image and returns successful response', async () => {
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST'), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true), {
         wrapper: hooksWrapperWithProviders(),
       });
 
@@ -75,7 +76,7 @@ describe('images api functions', () => {
       };
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST'), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true), {
         wrapper: hooksWrapperWithProviders(state),
       });
 
@@ -103,7 +104,7 @@ describe('images api functions', () => {
     it('sends request to fetch original image with empty false colour params and returns successful response', async () => {
       const pendingRequest = waitForRequest('GET', '/images/1/TEST');
 
-      const { result } = renderHook(() => useImage('1', 'TEST', {}), {
+      const { result } = renderHook(() => useImage('1', 'TEST', true, {}), {
         wrapper: hooksWrapperWithProviders(),
       });
 
@@ -127,7 +128,7 @@ describe('images api functions', () => {
 
       const { result } = renderHook(
         () =>
-          useImage('1', 'TEST', {
+          useImage('1', 'TEST', true, {
             colourMap: 'red',
             lowerLevel: 5,
             upperLevel: 200,
@@ -162,6 +163,7 @@ describe('images api functions', () => {
           useImage(
             '1',
             'TEST',
+            true,
             {
               colourMap: 'red',
               lowerLevel: 5,
@@ -193,6 +195,56 @@ describe('images api functions', () => {
     });
   });
 
+  describe('useFloatImage', () => {
+    let params: URLSearchParams;
+
+    beforeEach(() => {
+      params = new URLSearchParams();
+    });
+
+    it('sends request to fetch float image and returns successful response', async () => {
+      const { result } = renderHook(
+        () => useFloatImage('1', 'TEST', undefined, true),
+        {
+          wrapper: hooksWrapperWithProviders(),
+        }
+      );
+
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
+
+      expect(result.current.data).toEqual('blob:testObjectUrl');
+    });
+
+    it('sends request to fetch original image and returns successful response', async () => {
+      const pendingRequest = waitForRequest('GET', '/images/float/1/TEST');
+
+      const { result } = renderHook(
+        () => useFloatImage('1', 'TEST', 'colourMap', true),
+        {
+          wrapper: hooksWrapperWithProviders(),
+        }
+      );
+
+      await waitFor(
+        () => {
+          expect(result.current.isSuccess).toBeTruthy();
+        },
+        { timeout: 5000 }
+      );
+
+      const request = await pendingRequest;
+
+      params.set('colourmap_name', 'colourMap');
+
+      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(new URL(request.url).searchParams).toEqual(params);
+    });
+  });
   describe('useColourBar', () => {
     let params: URLSearchParams;
 
@@ -211,6 +263,7 @@ describe('images api functions', () => {
               lowerLevel: 5,
               upperLevel: 200,
             },
+            true,
             8
           ),
         {

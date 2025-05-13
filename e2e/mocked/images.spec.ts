@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_BCDEF' }).click();
+  await page.getByRole('checkbox', { name: 'Channel_BCDEF', exact: true  }).click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -730,4 +730,54 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
       // hide image controls panel & top buttons from the screenshot as it's not important
       path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
+});
+
+
+test('user can change the false colour parameters of an float image', async ({
+  page,
+}) => {
+
+
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .type('BCDEF');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('checkbox', { name: 'Channel_BCDEF', exact: true  }).click();
+  await page.getByRole('checkbox', { name: 'Channel_BCDEFX', exact: true  }).click();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEFX float_image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+
+  const image = await popup.getByAltText(imgAltText);
+  // assert src has loaded before storing the old image src
+  await expect(image).toHaveAttribute('src');
+  const oldImageSrc = await image.getAttribute('src');
+
+  await popup.getByLabel('Colour Map').click();
+
+  await popup.getByRole('option', { name: 'cividis' }).click();
+
+   // wait for new image to have loaded
+   await expect
+   .poll(async () => await image.getAttribute('src'))
+   .not.toBe(oldImageSrc);
+   
+   await image.click();
+
+   await expect(image).toHaveScreenshot({
+   maxDiffPixels: 150,
+   });
+
 });

@@ -82,6 +82,7 @@ describe('ExportDialogue', () => {
       dataToExport: {
         Scalars: true,
         Images: false,
+        'Float Image': false,
         'Waveform CSVs': false,
         'Waveform Images': false,
       },

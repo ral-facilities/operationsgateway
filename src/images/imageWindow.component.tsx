@@ -1,6 +1,6 @@
 import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
-import { useImage, useImageCrosshair } from '../api/images';
+import { useFloatImage, useImage, useImageCrosshair } from '../api/images';
 import { useAppDispatch } from '../state/hooks';
 import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
@@ -40,9 +40,10 @@ const ImageWindow = (props: ImageWindowProps) => {
     { x: number; y: number } | undefined
   >(undefined);
 
-  const { data: image, isLoading: imageLoading } = useImage(
+  const { data: imageData, isLoading: imageLoadingStatus } = useImage(
     recordId,
     channelName,
+    imageConfig.type === 'image',
     {
       colourMap: colourMap,
       lowerLevel: lowerLevel,
@@ -51,11 +52,24 @@ const ImageWindow = (props: ImageWindowProps) => {
     bitDepth
   );
 
+  const { data: floatImageData, isLoading: floatImageLoadingStatus } =
+    useFloatImage(
+      recordId,
+      channelName,
+      colourMap,
+      imageConfig.type === 'float_image'
+    );
+
+  // Set the values accordingly
+  const image = imageConfig.type === 'image' ? imageData : floatImageData;
+  const imageLoading =
+    imageConfig.type === 'image' ? imageLoadingStatus : floatImageLoadingStatus;
+
   const { data: crosshairData } = useImageCrosshair(
     recordId,
     channelName,
     crosshair,
-    crosshairsMode
+    crosshairsMode && imageConfig.type === 'image'
   );
 
   React.useEffect(() => {
@@ -209,6 +223,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                   changeCrosshairsMode={setCrosshairsMode}
                   crosshairData={crosshairData}
                   bitDepth={bitDepth}
+                  isFloat={imageConfig.type === 'float_image'}
                 />
               </Grid>
             </Grid>

@@ -8,6 +8,7 @@ import { parseISO } from 'date-fns';
 import {
   APIFunctionState,
   DateRangetoShotnumConverter,
+  isChannelFloatImage,
   isChannelImage,
   isChannelScalar,
   isChannelWaveform,
@@ -379,7 +380,11 @@ export const useRecordsPaginated = (): UseQueryResult<
 
             if (isChannelScalar(channel)) {
               channelData = channel.data;
-            } else if (isChannelImage(channel) || isChannelWaveform(channel)) {
+            } else if (
+              isChannelImage(channel) ||
+              isChannelWaveform(channel) ||
+              isChannelFloatImage(channel)
+            ) {
               channelData = channel.thumbnail;
             }
 

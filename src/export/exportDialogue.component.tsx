@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import type { AxiosError } from 'axios';
 import React from 'react';
-import { useExportData } from '../api/export';
+import { useExportData, type DataToExport } from '../api/export';
 import handleOG_APIError from '../handleOG_APIError';
 
 export interface ExportDialogueProps {
@@ -30,12 +30,14 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
-  const [selectedExportContent, setSelectedExportContent] = React.useState({
-    Scalars: true,
-    Images: false,
-    'Waveform CSVs': false,
-    'Waveform Images': false,
-  });
+  const [selectedExportContent, setSelectedExportContent] =
+    React.useState<DataToExport>({
+      Scalars: true,
+      Images: false,
+      'Float Image': false,
+      'Waveform CSVs': false,
+      'Waveform Images': false,
+    });
 
   const handleExportClick = React.useCallback(
     () =>

@@ -330,6 +330,75 @@ describe('Record Table', () => {
     });
   });
 
+  it('opens image window when a image is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    act(() => {
+      // Channel_BCDEF is a image channel
+      store.dispatch(selectColumn('CHANNEL_BCDEF'));
+    });
+
+    await user.click(
+      (
+        await screen.findAllByAltText('Channel_BCDEF image', {
+          exact: false,
+        })
+      )[0]
+    );
+
+    expect(store.getState().windows).toEqual({
+      [uuidCount]: {
+        id: `${uuidCount}`,
+        open: true,
+        type: 'image',
+        recordId: '4',
+        channelName: 'CHANNEL_BCDEF',
+        title: 'Image CHANNEL_BCDEF 4',
+        bitDepth: 12,
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
+  });
+
+  it('opens image window when a float image is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    act(() => {
+      // Channel_BCDEFX is a image channel
+      store.dispatch(selectColumn('CHANNEL_BCDEFX'));
+    });
+
+    await user.click(
+      (
+        await screen.findAllByAltText('Channel_BCDEFX float_image', {
+          exact: false,
+        })
+      )[0]
+    );
+
+    expect(store.getState().windows).toEqual({
+      [uuidCount]: {
+        id: `${uuidCount}`,
+        open: true,
+        type: 'float_image',
+        recordId: '15',
+        channelName: 'CHANNEL_BCDEFX',
+        title: 'Image CHANNEL_BCDEFX 15',
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
+  });
+
   it.todo('updates available columns when data from backend changes');
 });
 

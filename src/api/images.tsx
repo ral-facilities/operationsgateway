@@ -59,6 +59,25 @@ export const fetchImage = async (
     });
 };
 
+export const fetchFloatImage = async (
+  recordId: string,
+  channelName: string,
+  colourMap?: string
+): Promise<string> => {
+  const params = new URLSearchParams();
+
+  if (typeof colourMap !== 'undefined') params.set('colourmap_name', colourMap);
+
+  return ogApi
+    .get(`/images/float/${recordId}/${channelName}`, {
+      params,
+      responseType: 'blob',
+    })
+    .then((response) => {
+      return URL.createObjectURL(response.data);
+    });
+};
+
 export const fetchColourBar = async (
   falseColourParams: FalseColourParams,
   limitBitDepth?: number
@@ -125,6 +144,7 @@ export const fetchCrosshair = async (
 export const useImage = (
   recordId: string,
   channelName: string,
+  enabled: boolean,
   falseColourParams?: FalseColourParams,
   limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
@@ -147,6 +167,7 @@ export const useImage = (
         limitBitDepth
       );
     },
+    enabled,
     // set to display old image whilst new one is loading
     placeholderData: keepPreviousData,
   });
@@ -154,6 +175,7 @@ export const useImage = (
 
 export const useColourBar = (
   falseColourParams: FalseColourParams,
+  enabled: boolean,
   limitBitDepth?: number
 ): UseQueryResult<string, AxiosError> => {
   return useQuery({
@@ -161,6 +183,7 @@ export const useColourBar = (
     queryFn: () => {
       return fetchColourBar(falseColourParams, limitBitDepth);
     },
+    enabled,
     // set to display old colour bar whilst new one is loading
     placeholderData: keepPreviousData,
   });
@@ -192,5 +215,22 @@ export const useImageCrosshair = (
       return fetchCrosshair(recordId, channelName, functions, position);
     },
     enabled,
+  });
+};
+
+export const useFloatImage = (
+  recordId: string,
+  channelName: string,
+  colourMap?: string,
+  enabled: boolean = false
+): UseQueryResult<string, AxiosError> => {
+  return useQuery({
+    queryKey: ['floatImages', recordId, channelName, colourMap],
+    queryFn: () => {
+      return fetchFloatImage(recordId, channelName, colourMap);
+    },
+    enabled,
+    // set to display old image whilst new one is loading
+    placeholderData: keepPreviousData,
   });
 };

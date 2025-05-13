@@ -7,7 +7,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useRecordCount, useThumbnails } from '../api/records';
-import { isChannelImage, isChannelWaveform } from '../app.types';
+import {
+  isChannelFloatImage,
+  isChannelImage,
+  isChannelWaveform,
+} from '../app.types';
 import { useAppSelector } from '../state/hooks';
 import {
   selectQueryParams,
@@ -84,6 +88,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
                   <TraceOrImageThumbnail
                     base64Data={
                       isChannelImage(channelData) ||
+                      isChannelFloatImage(channelData) ||
                       isChannelWaveform(channelData)
                         ? channelData.thumbnail
                         : undefined

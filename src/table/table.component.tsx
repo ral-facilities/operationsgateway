@@ -30,6 +30,7 @@ import React from 'react';
 import {
   columnIconMappings,
   ColumnState,
+  isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataWaveform,
   Order,
@@ -313,6 +314,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               !!channelInfo &&
                               (isChannelMetadataWaveform(channelInfo) ||
                                 isChannelMetadataImage(channelInfo) ||
+                                isChannelMetadataFloatImage(channelInfo) ||
                                 !!channelInfo?.description?.includes(
                                   'Function:'
                                 ));

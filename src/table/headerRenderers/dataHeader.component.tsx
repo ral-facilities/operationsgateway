@@ -25,6 +25,7 @@ import {
 import React from 'react';
 import {
   FullChannelMetadata,
+  isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataScalar,
   isChannelMetadataWaveform,
@@ -76,8 +77,8 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
   const isWaveformOrImage =
     !!channelInfo &&
     (isChannelMetadataWaveform(channelInfo) ||
-      isChannelMetadataImage(channelInfo));
-
+      isChannelMetadataImage(channelInfo) ||
+      isChannelMetadataFloatImage(channelInfo));
   return (
     <div>
       <IconButton
