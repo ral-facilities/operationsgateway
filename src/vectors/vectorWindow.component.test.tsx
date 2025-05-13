@@ -1,8 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
+import type WindowPortal from '../windows/windowPortal.component';
+import type { VectorPlotProps } from './vectorPlot.component';
 import VectorWindow from './vectorWindow.component';
 
 vi.mock('../windows/windowPortal.component', async () => {
@@ -18,9 +21,22 @@ vi.mock('../windows/windowPortal.component', async () => {
 });
 
 vi.mock('./vectorPlot.component', () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return { default: () => <mock-VectorPlot data-testid="mock-vector-plot" /> };
+  return {
+    default: (props: VectorPlotProps) => {
+      // Ensure chartRef.current is set to a valid DOM element
+      if (props.chartRef && props.chartRef.current === null) {
+        props.chartRef.current = document.createElement('div');
+      }
+      return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <mock-VectorPlot
+          data-testid="mock-vector-plot"
+          data-props={JSON.stringify(props)}
+        />
+      );
+    },
+  };
 });
 
 describe('Vector Window component', () => {
@@ -63,6 +79,41 @@ describe('Vector Window component', () => {
   it('renders correctly while vector is loading', () => {
     createView();
     screen.getByLabelText('Vector loading');
+  });
+
+  it('show control panel button is visible and interactive', async () => {
+    const user = userEvent.setup();
+    const ref = React.createRef<WindowPortal>();
+
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: vi.fn(),
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
+
+    renderComponentWithProviders(
+      <VectorWindow
+        onClose={vi.fn()}
+        vectorConfig={testVectorConfig}
+        vectorWindowRef={ref}
+      />
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: 'Show Vector Controls' })
+    );
+    expect(
+      await screen.findByRole('button', { name: 'Hide Vector Controls' })
+    ).toBeVisible();
+
+    expect(screen.getByText('Select Vector Range')).toBeVisible();
   });
 
   it('reset view button is visible and interactable', async () => {

@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+import React from 'react';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import type { WindowPortalProps } from './windowPortal.component';
 import WindowPortal from './windowPortal.component';
@@ -65,6 +66,22 @@ describe('Window portal component', () => {
 
     unmount();
     expect(mockWindowClose).toHaveBeenCalled();
+  });
+
+  it('returns the window reference using getWindow', () => {
+    const ref = React.createRef<WindowPortal>();
+    const { unmount } = render(
+      <WindowPortal {...props} ref={ref}>
+        <TestComponent />
+      </WindowPortal>
+    );
+
+    // Access the WindowPortal instance via the ref and call getWindow
+    const windowRef = ref.current?.getWindow();
+
+    expect(windowRef).toBeDefined();
+
+    unmount();
   });
 
   it('handles negative x & Y window co-ords correctly', () => {
