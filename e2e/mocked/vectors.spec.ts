@@ -124,6 +124,8 @@ test('user can limit the vector data', async ({ page }) => {
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
 
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
@@ -175,16 +177,15 @@ test('user can limit the vector data', async ({ page }) => {
   await slider.nth(0).blur();
   await slider.nth(1).blur();
 
-
-
-
-
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
     stylePath:
       // hide top buttons from the screenshot as it's not important
       path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
+
+  await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
+  expect(popup.getByRole('button', { name: 'Show Vector Controls' })).toBeVisible();
 });
 
 test('user can change vector via clicking on a thumbnail', async ({ page }) => {
