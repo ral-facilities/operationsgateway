@@ -284,6 +284,8 @@ test('user can set their default vector lower bound', async ({ page }) => {
   // Ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+
   const slider = await popup.getByRole('slider');
 
   await expect(slider.nth(0)).toHaveValue('4');
@@ -322,6 +324,8 @@ test('user can set their default vector upper bound', async ({ page }) => {
   await chart.click({ trial: true });
 
   const slider = await popup.getByRole('slider');
+
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
 
   await expect(slider.nth(1)).toHaveValue('4');
 });
