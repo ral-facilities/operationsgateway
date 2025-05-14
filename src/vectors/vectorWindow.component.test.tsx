@@ -84,13 +84,14 @@ describe('Vector Window component', () => {
   it('show control panel button is visible and interactive', async () => {
     const user = userEvent.setup();
     const ref = React.createRef<WindowPortal>();
+    const mockResize = vi.fn();
 
     Object.defineProperty(ref, 'current', {
       value: {
         getWindow: vi.fn(() => ({
           Plotly: {
             Plots: {
-              resize: vi.fn(),
+              resize: mockResize,
             },
           },
         })),
@@ -114,6 +115,8 @@ describe('Vector Window component', () => {
     ).toBeVisible();
 
     expect(screen.getByText('Select Vector Range')).toBeVisible();
+    expect(mockResize).toBeCalledTimes(1);
+    expect(mockResize).toHaveBeenCalled();
   });
 
   it('reset view button is visible and interactable', async () => {
