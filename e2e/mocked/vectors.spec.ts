@@ -191,9 +191,7 @@ test('user can limit the vector data', async ({ page }) => {
   });
 
   await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
-  expect(
-    popup.getByRole('button', { name: 'Show Vector Controls' })
-  ).toBeVisible();
+  await expect( popup.getByRole('button', { name: 'Show Vector Controls' })).toBeVisible();
 });
 
 test('user can change vector via clicking on a thumbnail', async ({ page }) => {
