@@ -37,6 +37,10 @@ export default class WindowPortal extends React.PureComponent<
     this.state = { window: null, styleCache: null, containerEl: null };
   }
 
+  public getWindow(): WindowPortalWindow | null {
+    return this.state.window;
+  }
+
   componentDidMount() {
     // open a new browser window and store a reference to it
     const externalWindow = window.open(

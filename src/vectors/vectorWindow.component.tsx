@@ -47,6 +47,7 @@ const VectorWindow = (props: VectorWindowProps) => {
   const dispatch = useAppDispatch();
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
+  const [showControls, setShowControls] = React.useState<boolean>(false);
 
   const [range, setRange] = React.useState<{ skip: number; limit: number }>({
     skip: 0,
@@ -115,6 +116,19 @@ const VectorWindow = (props: VectorWindowProps) => {
     [vectorConfig, dispatch]
   );
 
+  const onChangeShowControls = React.useCallback(
+    (show: boolean) => {
+      const plotWindow = vectorWindowRef?.current?.getWindow();
+      if (plotWindow) {
+        setShowControls(show);
+        if (chartRef.current) {
+          plotWindow.Plotly?.Plots?.resize(chartRef.current);
+        }
+      }
+    },
+    [vectorWindowRef]
+  );
+
   return (
     <WindowPortal
       ref={vectorWindowRef}
@@ -173,6 +187,8 @@ const VectorWindow = (props: VectorWindowProps) => {
               windowRef={vectorWindowRef}
               title={title}
               resetView={resetView}
+              showControls={showControls}
+              onChangeShowControls={onChangeShowControls}
             />
           </Grid>
           <Grid
@@ -195,7 +211,6 @@ const VectorWindow = (props: VectorWindowProps) => {
                 xs
                 sx={{
                   height: '100%',
-                  minWidth: '80%',
                 }}
               >
                 <VectorPlot
@@ -216,11 +231,13 @@ const VectorWindow = (props: VectorWindowProps) => {
                 item
                 margin={1}
               >
-                <VectorControlPanel
-                  vector={vector}
-                  range={range}
-                  onChangeRange={setRange}
-                />
+                {showControls && (
+                  <VectorControlPanel
+                    vector={vector}
+                    range={range}
+                    onChangeRange={setRange}
+                  />
+                )}
               </Grid>
             </Grid>
           </Grid>
