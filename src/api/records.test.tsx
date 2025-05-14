@@ -908,7 +908,7 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(recordsJson);
     });
 
-    it('can send sort, date range and filter parameters as part of request', async () => {
+    it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
         ...getInitialState(),
         table: {

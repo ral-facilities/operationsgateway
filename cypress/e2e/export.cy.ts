@@ -152,6 +152,27 @@ describe('Export', () => {
     cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
   });
 
+  it('should be able to export a Vector channel', () => {
+    cy.contains('Data Channels').click();
+
+    cy.findByRole('button', { name: 'Channels' }).click();
+    cy.findByRole('button', { name: '1' }).click();
+    cy.findByRole('button', { name: 'Channel_CDEFGX' }).click();
+    cy.findByRole('button', { name: 'Add this channel' }).click();
+
+    cy.findByRole('button', { name: 'Add Channels' }).click();
+
+    cy.findByText('2022-01-04 00:00:00').should('exist');
+
+    cy.findByRole('button', { name: 'CHANNEL_CDEFGX menu' }).click();
+    cy.findByRole('menuitem', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('exist');
+    cy.findByRole('button', { name: 'Export' }).click();
+    cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
+
+    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
+  });
+
   it('should not be able to export a scalar channel', () => {
     cy.contains('Data Channels').click();
 

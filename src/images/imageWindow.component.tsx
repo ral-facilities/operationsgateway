@@ -2,7 +2,7 @@ import { Backdrop, CircularProgress, Grid } from '@mui/material';
 import React from 'react';
 import { useFloatImage, useImage, useImageCrosshair } from '../api/images';
 import { useAppDispatch } from '../state/hooks';
-import { TraceOrImageWindow, updateWindow } from '../state/slices/windowSlice';
+import { WindowConfigType, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector from '../windows/thumbnailSelector.component';
 import { ImageButtons } from '../windows/windowButtons.component';
 import WindowPortal from '../windows/windowPortal.component';
@@ -14,7 +14,7 @@ import ImageView from './imageView.component';
 
 interface ImageWindowProps {
   onClose: () => void;
-  imageConfig: TraceOrImageWindow;
+  imageConfig: WindowConfigType;
   imageWindowRef: React.RefObject<WindowPortal>;
 }
 
@@ -94,7 +94,7 @@ const ImageWindow = (props: ImageWindowProps) => {
 
   const updateImageConfig = React.useCallback(
     (newRecordId?: string, newBitDepth?: number) => {
-      const configToSave: TraceOrImageWindow = {
+      const configToSave: WindowConfigType = {
         // ensures that whenever we save the plot, it won't open up a new window
         // if we always set open to true, a "new" plot config will be saved, with open = true
         // this would open up a new window, which we don't want
@@ -141,7 +141,7 @@ const ImageWindow = (props: ImageWindowProps) => {
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
-            changeImageConfig={updateImageConfig}
+            changeWindowConfig={updateImageConfig}
           />
         </Grid>
         <Grid

@@ -12,6 +12,7 @@ import {
   isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataScalar,
+  isChannelMetadataVector,
   isChannelMetadataWaveform,
   RecordRow,
   timeChannelName,
@@ -20,11 +21,15 @@ import {
 } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectAppliedFunctions } from '../state/slices/functionsSlice';
-import { openImageWindow, openTraceWindow } from '../state/slices/windowSlice';
+import {
+  openImageWindow,
+  openTraceWindow,
+  openVectorWindow,
+} from '../state/slices/windowSlice';
 import { AppDispatch } from '../state/store';
 import {
+  Base64ImageThumbnail,
   roundNumber,
-  TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
 import { ogApi } from './api';
 import { convertExpressionsToStrings } from './functions';
@@ -150,9 +155,10 @@ export const constructColumnDefs = (
         return <React.Fragment>{wordWrap.join('')}</React.Fragment>;
       },
       meta: { channelInfo: channel },
-      cell: isChannelMetadataScalar(channel)
-        ? ({ getValue }) => {
-            const value = getValue();
+      cell: ({ row, getValue }) => {
+        const value = getValue();
+        switch (true) {
+          case isChannelMetadataScalar(channel):
             return typeof value === 'number' &&
               typeof channel.precision === 'number' ? (
               <React.Fragment>
@@ -161,59 +167,75 @@ export const constructColumnDefs = (
             ) : (
               <React.Fragment>{String(value ?? '')}</React.Fragment>
             );
+          case isChannelMetadataWaveform(channel):
+            return (
+              <Base64ImageThumbnail
+                base64Data={value as string}
+                alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
+                onClick={() => {
+                  dispatch(
+                    openTraceWindow({
+                      recordId: (row.original as RecordRow)['_id'],
+                      channelName: channel.systemName,
+                    })
+                  );
+                }}
+              />
+            );
+          case isChannelMetadataImage(channel) ||
+            isChannelMetadataFloatImage(channel): {
+            const metadata: ChannelMetadata | undefined = (
+              row.original as RecordRow
+            )['channelMetadata'][channel.systemName];
+            const bitDepth =
+              metadata?.channel_dtype === 'image'
+                ? metadata.bit_depth
+                : undefined;
+            return (
+              <Base64ImageThumbnail
+                base64Data={value as string}
+                alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
+                onClick={() => {
+                  dispatch(
+                    openImageWindow({
+                      recordId: (row.original as RecordRow)['_id'],
+                      bitDepth: bitDepth,
+                      channelName: channel.systemName,
+                      isFloat: metadata?.channel_dtype === 'float_image',
+                    })
+                  );
+                }}
+              />
+            );
           }
-        : isChannelMetadataWaveform(channel)
-          ? ({ row, getValue }) => {
-              const value = getValue<string>();
-              return (
-                <TraceOrImageThumbnail
-                  base64Data={value}
-                  alt={`${channel.name ?? channel.systemName} ${
-                    channel.type
-                  } for timestamp ${row.getValue(timeChannelName)}`}
-                  onClick={() => {
-                    dispatch(
-                      openTraceWindow({
-                        recordId: (row.original as RecordRow)['_id'],
-                        channelName: channel.systemName,
-                      })
-                    );
-                  }}
-                />
-              );
-            }
-          : isChannelMetadataImage(channel) ||
-              isChannelMetadataFloatImage(channel)
-            ? ({ row, getValue }) => {
-                const value = getValue<string>();
-
-                const metadata: ChannelMetadata | undefined = (
-                  row.original as RecordRow
-                )['channelMetadata'][channel.systemName];
-                const bitDepth =
-                  metadata && metadata.channel_dtype === 'image'
-                    ? metadata.bit_depth
-                    : undefined;
-                return (
-                  <TraceOrImageThumbnail
-                    base64Data={value}
-                    alt={`${channel.name ?? channel.systemName} ${
-                      channel.type
-                    } for timestamp ${row.getValue(timeChannelName)}`}
-                    onClick={() => {
-                      dispatch(
-                        openImageWindow({
-                          recordId: (row.original as RecordRow)['_id'],
-                          bitDepth: bitDepth,
-                          channelName: channel.systemName,
-                          isFloat: metadata.channel_dtype === 'float_image',
-                        })
-                      );
-                    }}
-                  />
-                );
-              }
-            : undefined,
+          case isChannelMetadataVector(channel): {
+            const metadata: ChannelMetadata | undefined = (
+              row.original as RecordRow
+            )['channelMetadata'][channel.systemName];
+            const isVector = metadata?.channel_dtype === 'vector';
+            const labels = isVector ? metadata.labels : undefined;
+            const units = isVector ? metadata.units : undefined;
+            return (
+              <Base64ImageThumbnail
+                base64Data={value as string}
+                alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
+                onClick={() => {
+                  dispatch(
+                    openVectorWindow({
+                      recordId: (row.original as RecordRow)['_id'],
+                      channelName: channel.systemName,
+                      labels,
+                      units,
+                    })
+                  );
+                }}
+              />
+            );
+          }
+          default:
+            return undefined;
+        }
+      },
     });
 
     myColumnDefs.push(newColumnDef);

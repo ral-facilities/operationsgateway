@@ -7,6 +7,7 @@ import {
   timeChannelName,
   Waveform,
   XAxisScale,
+  type Vector,
 } from '../app.types';
 import WindowPortal from '../windows/windowPortal.component';
 
@@ -218,6 +219,28 @@ function exportTraceData(title: string, trace?: Waveform): void {
   }
 }
 
+/**
+ *  Exports the vector data as a CSV
+ *  @param title The title of the trace (for the file name)
+ *  @param vector vector to export
+ * *@param units units of the labels
+ */
+function exportVectorData(
+  title: string,
+  vector?: Vector,
+  labels?: string[],
+  units?: string
+): void {
+  if (vector) {
+    const csvArray = [
+      [units ? `label (${units})` : 'label', 'height'],
+      ...vector.data.map((x, index) => [labels ? labels[index] : index, x]),
+    ];
+
+    createAndDownloadCSV(csvArray, title);
+  }
+}
+
 interface CommonButtonsProps {
   title: string;
   resetView: () => void;
@@ -313,6 +336,49 @@ export const TraceButtons = (props: TraceButtonsProps) => {
       </Button>
       <Button onClick={() => exportTraceData(title, data)}>
         Export Plot Data
+      </Button>
+    </ButtonGroup>
+  );
+};
+
+export interface VectorButtonsProps extends CommonButtonsProps {
+  data?: Vector;
+  labels?: string[];
+  units?: string;
+  chartRef: React.MutableRefObject<HTMLDivElement | null>;
+  windowRef: React.RefObject<WindowPortal>;
+  showControls: boolean;
+  onChangeShowControls: (showControls: boolean) => void;
+}
+
+export const VectorButtons = (props: VectorButtonsProps) => {
+  const {
+    data,
+    labels,
+    units,
+    chartRef,
+    windowRef,
+    title,
+    resetView,
+    showControls,
+    onChangeShowControls,
+  } = props;
+
+  return (
+    <ButtonGroup size="small" aria-label="plot actions">
+      <Button onClick={() => resetView()}>Reset View</Button>
+      <Button
+        onClick={() =>
+          exportChart(windowRef.current?.state.window, chartRef.current, title)
+        }
+      >
+        Export Plot
+      </Button>
+      <Button onClick={() => exportVectorData(title, data, labels, units)}>
+        Export Plot Data
+      </Button>
+      <Button onClick={() => onChangeShowControls(!showControls)}>
+        {showControls ? 'Hide' : 'Show'} Vector Controls
       </Button>
     </ButtonGroup>
   );

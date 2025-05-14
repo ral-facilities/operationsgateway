@@ -10,6 +10,7 @@ import { useRecordCount, useThumbnails } from '../api/records';
 import {
   isChannelFloatImage,
   isChannelImage,
+  isChannelVector,
   isChannelWaveform,
 } from '../app.types';
 import { useAppSelector } from '../state/hooks';
@@ -18,20 +19,20 @@ import {
   selectSearchParams,
 } from '../state/slices/searchSlice';
 import {
+  Base64ImageThumbnail,
   renderTimestamp,
-  TraceOrImageThumbnail,
 } from '../table/cellRenderers/cellContentRenderers';
 
 interface ThumbnailSelectorProps {
   channelName: string;
   recordId: string;
-  changeImageConfig: (recordId: string, bitDepth?: number) => void;
+  changeWindowConfig: (recordId: string, bitDepth?: number) => void;
 }
 
 export const thumbnailSelectorWidth = 150;
 
 const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
-  const { channelName, recordId, changeImageConfig } = props;
+  const { channelName, recordId, changeWindowConfig } = props;
 
   const { page: tablePage, resultsPerPage: tableResultsPerPage } =
     useAppSelector(selectQueryParams);
@@ -75,7 +76,9 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
               <ListItemButton
                 key={thumbnailRecord._id}
                 selected={thumbnailRecord._id === recordId}
-                onClick={() => changeImageConfig(thumbnailRecord._id, bitDepth)}
+                onClick={() =>
+                  changeWindowConfig(thumbnailRecord._id, bitDepth)
+                }
               >
                 <Tooltip
                   title={`Timestamp: ${renderTimestamp(
@@ -85,11 +88,12 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
                   enterDelay={200}
                   PopperProps={{ disablePortal: true }}
                 >
-                  <TraceOrImageThumbnail
+                  <Base64ImageThumbnail
                     base64Data={
                       isChannelImage(channelData) ||
                       isChannelFloatImage(channelData) ||
-                      isChannelWaveform(channelData)
+                      isChannelWaveform(channelData) ||
+                      isChannelVector(channelData)
                         ? channelData.thumbnail
                         : undefined
                     }

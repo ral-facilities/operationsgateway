@@ -399,6 +399,63 @@ describe('Record Table', () => {
     });
   });
 
+  it('opens image window when a vector thumbnail is clicked', async () => {
+    const user = userEvent.setup();
+    const { store } = createView();
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    act(() => {
+      // Channel_BCDEFX is a image channel
+      store.dispatch(selectColumn('CHANNEL_CDEFGX'));
+    });
+
+    await user.click(
+      (
+        await screen.findAllByAltText('Channel_CDEFGX vector', {
+          exact: false,
+        })
+      )[0]
+    );
+
+    expect(store.getState().windows).toEqual({
+      [uuidCount]: {
+        id: `${uuidCount}`,
+        open: true,
+        type: 'vector',
+        recordId: '14',
+        channelName: 'CHANNEL_CDEFGX',
+        title: 'Vector CHANNEL_CDEFGX 14',
+        units: 'mm',
+        labels: [
+          'label1',
+          'label2',
+          'label3',
+          'label4',
+          'label5',
+          'label6',
+          'label7',
+          'label8',
+          'label9',
+          'label10',
+          'label11',
+          'label12',
+          'label13',
+          'label14',
+          'label15',
+          'label16',
+          'label17',
+          'label18',
+          'label19',
+          'label20',
+        ],
+        ...DEFAULT_WINDOW_VARS,
+      },
+    });
+  });
+
   it.todo('updates available columns when data from backend changes');
 });
 

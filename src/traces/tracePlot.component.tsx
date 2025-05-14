@@ -1,12 +1,12 @@
 import React from 'react';
 import { Waveform } from '../app.types';
 // only import types as we don't actually run any plotly.js code in React
+import { useTheme } from '@mui/material';
 import type {
   Config as PlotlyConfig,
   Layout as PlotlyLayout,
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
-import { useTheme } from '@mui/material';
 
 export interface TracePlotProps {
   trace: Waveform;

@@ -229,6 +229,178 @@ exports[`Channel Metadata Panel > should render correctly for system channel 1`]
 </DocumentFragment>
 `;
 
+exports[`Channel Metadata Panel > should render correctly for vector channel with units selected 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiStack-root css-3y1137-MuiStack-root"
+  >
+    <h3
+      class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+    >
+      Channel_ABCDE
+    </h3>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-11qr2p8-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          data-testid="AddIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+          />
+        </svg>
+      </span>
+      Add this channel
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </button>
+  </div>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    System name: CHANNEL_ABCDE
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Test description
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Channel type: vector
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Units: cm
+  </p>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+  />
+  <h4
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Data Summary
+  </h4>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+  >
+    First data date: 2022-01-29 00:00:00
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Most recent data date: 2023-01-31 00:00:00
+  </p>
+  <h5
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+  >
+    Recent Data
+  </h5>
+  <div
+    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+  >
+    <table
+      aria-label="recent data"
+      class="MuiTable-root css-rqglhn-MuiTable-root"
+    >
+      <thead
+        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Time
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            scope="col"
+          >
+            Data
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-31 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="Channel_ABCDE vector at 2022-01-31 00:00:00"
+              src="data:image/jpeg;base64,6"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-30 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="Channel_ABCDE vector at 2022-01-30 00:00:00"
+              src="data:image/jpeg;base64,5"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-29 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          >
+            <img
+              alt="Channel_ABCDE vector at 2022-01-29 00:00:00"
+              src="data:image/jpeg;base64,4"
+              style="border: 1px solid #000000;"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Channel Metadata Panel > should render correctly for waveform channel with units selected 1`] = `
 <DocumentFragment>
   <div
