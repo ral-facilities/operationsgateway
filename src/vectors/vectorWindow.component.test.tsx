@@ -47,6 +47,7 @@ vi.mock('./vectorPlot.component', () => {
 
 describe('Vector Window component', () => {
   let testVectorConfig: WindowConfigType;
+  let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
     testVectorConfig = {
@@ -60,6 +61,7 @@ describe('Vector Window component', () => {
       units: 'test',
       ...DEFAULT_WINDOW_VARS,
     };
+    user = userEvent.setup();
   });
 
   afterEach(() => {
@@ -88,7 +90,6 @@ describe('Vector Window component', () => {
   });
 
   it('show control panel button is visible and interactive', async () => {
-    const user = userEvent.setup();
     const ref = React.createRef<WindowPortal>();
     const mockResize = vi.fn();
 
@@ -133,7 +134,6 @@ describe('Vector Window component', () => {
   });
 
   it('dispatches updateWindow when new thumbnail is clicked', async () => {
-    const user = userEvent.setup();
     const { store } = createView();
 
     const thumbnails = await screen.findAllByRole('img');
@@ -170,7 +170,35 @@ describe('Vector Window component', () => {
       })
     );
 
-    const { asFragment } = createView();
+    const ref = React.createRef<WindowPortal>();
+    const mockResize = vi.fn();
+
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: mockResize,
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
+
+    const { asFragment } = renderComponentWithProviders(
+      <VectorWindow
+        onClose={vi.fn()}
+        vectorConfig={testVectorConfig}
+        vectorWindowRef={ref}
+      />
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'Show Vector Controls' })
+    );
+
+    expect(screen.getByText('Select Vector Range')).toBeVisible();
+
     const slider = await screen.findAllByRole('slider');
     await waitFor(() => {
       expect(slider[0]).toHaveValue('2');
