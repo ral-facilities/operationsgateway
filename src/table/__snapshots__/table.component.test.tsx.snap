@@ -4,38 +4,45 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
+      <div
+        aria-hidden="false"
+        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+        role="none"
+        style="opacity: 0; visibility: hidden;"
+      />
       <table
-        class="MuiTable-root css-rqglhn-MuiTable-root"
+        class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
         <thead
-          class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+          class="MuiTableHead-root css-oeq0ai-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rfd-droppable-context-id=":rk:"
+            class="MuiTableRow-root MuiTableRow-head css-o6za9h-MuiTableRow-root"
+            data-rfd-droppable-context-id=":rt:"
             data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-1uh7xv4-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1rb5stk-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -44,13 +51,10 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </th>
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-102g90c-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-9yslvt-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -62,7 +66,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="AccessTimeIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -80,19 +84,19 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort timestamp"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Timestamp
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -111,14 +115,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="timestamp menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="timestamp-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -127,24 +131,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="shotnum"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="shotnum"
               draggable="false"
               role="columnheader"
@@ -159,7 +162,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="NumbersIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -174,19 +177,19 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort shotnum"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Shot Number
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -205,14 +208,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="shotnum menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="shotnum-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -221,24 +224,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="active_area"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="active_area"
               draggable="false"
               role="columnheader"
@@ -253,7 +255,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="PlaceIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -268,19 +270,19 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort active_area"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Active Area
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -299,14 +301,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="active_area menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="active_area-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -315,24 +317,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="active_experiment"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="active_experiment"
               draggable="false"
               role="columnheader"
@@ -347,7 +348,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="ScienceIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -362,19 +363,19 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort active_experiment"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Active Experiment
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -393,14 +394,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="active_experiment menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="active_experiment-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -409,24 +410,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="testscalar"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="testscalar"
               draggable="false"
               role="columnheader"
@@ -441,7 +441,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="FeedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -456,19 +456,19 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort testscalar"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       test scalar
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -487,14 +487,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="testscalar menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="testscalar-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -503,24 +503,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="testimage"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="testimage"
               draggable="false"
               role="columnheader"
@@ -535,7 +534,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="FeedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -551,7 +550,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       test image
                     </p>
@@ -565,14 +564,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="testimage menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="testimage-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -581,24 +580,23 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:rk:-hidden-text-:rl:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":rk:"
+              aria-describedby="rfd-hidden-text-:rt:-hidden-text-:ru:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":rt:"
               data-rfd-drag-handle-draggable-id="testwaveform"
-              data-rfd-draggable-context-id=":rk:"
+              data-rfd-draggable-context-id=":rt:"
               data-rfd-draggable-id="testwaveform"
               draggable="false"
               role="columnheader"
@@ -613,7 +611,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="FeedIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -629,7 +627,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                 >
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       test waveform
                     </p>
@@ -643,14 +641,14 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   <button
                     aria-haspopup="true"
                     aria-label="testwaveform menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="testwaveform-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -659,14 +657,13 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
@@ -676,27 +673,27 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
         <tbody
           aria-busy="false"
           aria-describedby="table-loading-indicator"
-          class="MuiTableBody-root css-1iufabm-MuiTableBody-root"
+          class="MuiTableBody-root css-fn3j92-MuiTableBody-root"
         >
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -705,13 +702,10 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -720,18 +714,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1640995200000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -740,18 +736,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -760,18 +758,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -780,18 +780,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -800,16 +802,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -818,16 +822,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -836,34 +842,36 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -872,13 +880,10 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -887,18 +892,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641081600000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -907,18 +914,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -927,18 +936,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -947,18 +958,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -967,16 +980,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -985,16 +1000,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1003,34 +1020,36 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1039,13 +1058,10 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1054,18 +1070,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641168000000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1074,18 +1092,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1094,18 +1114,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1114,18 +1136,20 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1134,16 +1158,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1152,16 +1178,18 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1170,36 +1198,33 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   />
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
-          <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-            role="none"
-            style="opacity: 0; visibility: hidden;"
-          >
+          <tr>
             <td
               colspan="7"
             >
               <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
                 id="table-loading-indicator"
                 role="progressbar"
                 style="width: 40px; height: 40px;"
               >
                 <svg
-                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
                   viewBox="22 22 44 44"
                 >
                   <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
                     cx="44"
                     cy="44"
                     fill="none"
@@ -1214,30 +1239,29 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
       </table>
     </div>
     <div
-      class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      class="MuiTablePagination-root css-7mt0f-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r1b:"
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          id=":r1r:"
         >
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r1c:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r1b: :r1a:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r1a:"
+            aria-labelledby=":r1r: :r1q:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            id=":r1q:"
             role="combobox"
             tabindex="0"
           >
@@ -1246,13 +1270,13 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1263,7 +1287,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           </svg>
         </div>
         <p
-          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         >
           1–3 of 3
         </p>
@@ -1272,7 +1296,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
         >
           <button
             aria-label="Go to previous page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to previous page"
@@ -1280,7 +1304,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1292,7 +1316,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           </button>
           <button
             aria-label="Go to next page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to next page"
@@ -1300,7 +1324,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -1321,38 +1345,45 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
+      <div
+        aria-hidden="false"
+        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+        role="none"
+        style="opacity: 0; visibility: hidden;"
+      />
       <table
-        class="MuiTable-root css-rqglhn-MuiTable-root"
+        class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
         <thead
-          class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+          class="MuiTableHead-root css-oeq0ai-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
-            data-rfd-droppable-context-id=":r7:"
+            class="MuiTableRow-root MuiTableRow-head css-o6za9h-MuiTableRow-root"
+            data-rfd-droppable-context-id=":ra:"
             data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-1uh7xv4-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1rb5stk-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1361,13 +1392,10 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </th>
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-102g90c-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-9yslvt-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -1379,7 +1407,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="AccessTimeIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1397,19 +1425,19 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort timestamp"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Timestamp
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1428,14 +1456,14 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   <button
                     aria-haspopup="true"
                     aria-label="timestamp menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="timestamp-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1444,24 +1472,23 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":r7:"
+              aria-describedby="rfd-hidden-text-:ra:-hidden-text-:rb:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":ra:"
               data-rfd-drag-handle-draggable-id="shotnum"
-              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-context-id=":ra:"
               data-rfd-draggable-id="shotnum"
               draggable="false"
               role="columnheader"
@@ -1476,7 +1503,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="NumbersIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1491,19 +1518,19 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort shotnum"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Shot Number
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1522,14 +1549,14 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   <button
                     aria-haspopup="true"
                     aria-label="shotnum menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="shotnum-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1538,24 +1565,23 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":r7:"
+              aria-describedby="rfd-hidden-text-:ra:-hidden-text-:rb:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":ra:"
               data-rfd-drag-handle-draggable-id="active_area"
-              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-context-id=":ra:"
               data-rfd-draggable-id="active_area"
               draggable="false"
               role="columnheader"
@@ -1570,7 +1596,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="PlaceIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1585,19 +1611,19 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort active_area"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Active Area
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1616,14 +1642,14 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   <button
                     aria-haspopup="true"
                     aria-label="active_area menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="active_area-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1632,24 +1658,23 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
             </th>
             <th
-              aria-describedby="rfd-hidden-text-:r7:-hidden-text-:r8:"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-r107yt-MuiTableCell-root"
-              data-rfd-drag-handle-context-id=":r7:"
+              aria-describedby="rfd-hidden-text-:ra:-hidden-text-:rb:"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1u1eiuv-MuiTableCell-root"
+              data-rfd-drag-handle-context-id=":ra:"
               data-rfd-drag-handle-draggable-id="active_experiment"
-              data-rfd-draggable-context-id=":r7:"
+              data-rfd-draggable-context-id=":ra:"
               data-rfd-draggable-id="active_experiment"
               draggable="false"
               role="columnheader"
@@ -1664,7 +1689,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="ScienceIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -1679,19 +1704,19 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort active_experiment"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Active Experiment
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1710,14 +1735,14 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   <button
                     aria-haspopup="true"
                     aria-label="active_experiment menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="active_experiment-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -1726,14 +1751,13 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
@@ -1743,27 +1767,27 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
         <tbody
           aria-busy="false"
           aria-describedby="table-loading-indicator"
-          class="MuiTableBody-root css-1iufabm-MuiTableBody-root"
+          class="MuiTableBody-root css-fn3j92-MuiTableBody-root"
         >
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1772,13 +1796,10 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1787,18 +1808,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1640995200000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1807,18 +1830,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1827,18 +1852,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1847,36 +1874,38 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1885,13 +1914,10 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1900,18 +1926,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641081600000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1920,18 +1948,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1940,18 +1970,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -1960,36 +1992,38 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     2
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -1998,13 +2032,10 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2013,18 +2044,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641168000000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2033,18 +2066,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2053,18 +2088,20 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-z82y55-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1qv0t31-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2073,38 +2110,35 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     3
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
-          <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-            role="none"
-            style="opacity: 0; visibility: hidden;"
-          >
+          <tr>
             <td
               colspan="4"
             >
               <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
                 id="table-loading-indicator"
                 role="progressbar"
                 style="width: 40px; height: 40px;"
               >
                 <svg
-                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
                   viewBox="22 22 44 44"
                 >
                   <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
                     cx="44"
                     cy="44"
                     fill="none"
@@ -2119,30 +2153,29 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
       </table>
     </div>
     <div
-      class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      class="MuiTablePagination-root css-7mt0f-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":ri:"
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          id=":rp:"
         >
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":rj:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":ri: :rh:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":rh:"
+            aria-labelledby=":rp: :ro:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            id=":ro:"
             role="combobox"
             tabindex="0"
           >
@@ -2151,13 +2184,13 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -2168,7 +2201,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         >
           1–3 of 3
         </p>
@@ -2177,7 +2210,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
         >
           <button
             aria-label="Go to previous page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to previous page"
@@ -2185,7 +2218,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -2197,7 +2230,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           </button>
           <button
             aria-label="Go to next page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to next page"
@@ -2205,7 +2238,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -2226,38 +2259,45 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1x3qto8-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
+      style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
+      <div
+        aria-hidden="false"
+        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+        role="none"
+        style="opacity: 0; visibility: hidden;"
+      />
       <table
-        class="MuiTable-root css-rqglhn-MuiTable-root"
+        class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
         <thead
-          class="MuiTableHead-root css-1k3qja5-MuiTableHead-root"
+          class="MuiTableHead-root css-oeq0ai-MuiTableHead-root"
         >
           <tr
-            class="MuiTableRow-root MuiTableRow-head css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root MuiTableRow-head css-o6za9h-MuiTableRow-root"
             data-rfd-droppable-context-id=":r0:"
             data-rfd-droppable-id="columns"
           >
             <th
               aria-label="Select all rows"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-ee5btb-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-paddingNone MuiTableCell-sizeMedium css-1uh7xv4-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1rb5stk-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2266,13 +2306,10 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </th>
             <th
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-102g90c-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-9yslvt-MuiTableCell-root"
               role="columnheader"
               scope="col"
             >
@@ -2284,7 +2321,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                     data-testid="AccessTimeIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -2302,19 +2339,19 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiTableSortLabel-root css-1flq60a-MuiButtonBase-root-MuiTableSortLabel-root"
+                    class="MuiButtonBase-root MuiTableSortLabel-root MuiTableSortLabel-directionAsc css-dhkpfc-MuiButtonBase-root-MuiTableSortLabel-root"
                     data-testid="sort timestamp"
                     role="button"
                     tabindex="0"
                   >
                     <p
-                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                      class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                     >
                       Timestamp
                     </p>
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-1vweko9-MuiSvgIcon-root-MuiTableSortLabel-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiTableSortLabel-icon MuiTableSortLabel-iconDirectionAsc css-7ojauk-MuiSvgIcon-root-MuiTableSortLabel-icon"
                       data-testid="ArrowDownwardIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -2333,14 +2370,14 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                   <button
                     aria-haspopup="true"
                     aria-label="timestamp menu"
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                     id="timestamp-menu-button"
                     tabindex="0"
                     type="button"
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                       data-testid="MoreVertIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -2349,14 +2386,13 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                         d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                       />
                     </svg>
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                    />
                   </button>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
                   contenteditable="true"
+                  role="separator"
                   tabindex="-1"
                 />
               </div>
@@ -2366,27 +2402,27 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
         <tbody
           aria-busy="false"
           aria-describedby="table-loading-indicator"
-          class="MuiTableBody-root css-1iufabm-MuiTableBody-root"
+          class="MuiTableBody-root css-fn3j92-MuiTableBody-root"
         >
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2395,13 +2431,10 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2410,36 +2443,38 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1640995200000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2448,13 +2483,10 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2463,36 +2495,38 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641081600000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
           <tr
             aria-checked="false"
-            class="MuiTableRow-root css-tnxcld-MuiTableRow-root"
+            class="MuiTableRow-root css-o6za9h-MuiTableRow-root"
           >
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-pvcnli-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1fdolln-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input css-j8yymo"
                   data-indeterminate="false"
                   type="checkbox"
                 />
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
                   data-testid="CheckBoxOutlineBlankIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -2501,13 +2535,10 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                     d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </span>
             </td>
             <td
-              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-44e9ba-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
                 class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -2516,38 +2547,35 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
                   class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
                 >
                   <p
-                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
                   >
                     1641168000000
                   </p>
                 </div>
-                <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                <div
+                  aria-orientation="vertical"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+                  role="separator"
                 />
               </div>
             </td>
           </tr>
-          <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
-            role="none"
-            style="opacity: 0; visibility: hidden;"
-          >
+          <tr>
             <td
               colspan="1"
             >
               <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
                 id="table-loading-indicator"
                 role="progressbar"
                 style="width: 40px; height: 40px;"
               >
                 <svg
-                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
                   viewBox="22 22 44 44"
                 >
                   <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
                     cx="44"
                     cy="44"
                     fill="none"
@@ -2562,30 +2590,29 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
       </table>
     </div>
     <div
-      class="MuiTablePagination-root css-jtlhu6-MuiTablePagination-root"
+      class="MuiTablePagination-root css-7mt0f-MuiTablePagination-root"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+        class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
       >
         <div
-          class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+          class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
         />
         <p
-          class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-          id=":r5:"
+          class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+          id=":r6:"
         >
           Rows per page:
         </p>
         <div
-          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-16c50h-MuiInputBase-root-MuiTablePagination-select"
+          class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-oegngy-MuiInputBase-root-MuiTablePagination-select"
         >
           <div
-            aria-controls=":r6:"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-labelledby=":r5: :r4:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-            id=":r4:"
+            aria-labelledby=":r6: :r5:"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            id=":r5:"
             role="combobox"
             tabindex="0"
           >
@@ -2594,13 +2621,13 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           <input
             aria-hidden="true"
             aria-invalid="false"
-            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
             tabindex="-1"
             value="25"
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -2611,7 +2638,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+          class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
         >
           1–3 of 3
         </p>
@@ -2620,7 +2647,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
         >
           <button
             aria-label="Go to previous page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to previous page"
@@ -2628,7 +2655,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowLeftIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -2640,7 +2667,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           </button>
           <button
             aria-label="Go to next page"
-            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-zylse7-MuiButtonBase-root-MuiIconButton-root"
+            class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeMedium css-h7cjts-MuiButtonBase-root-MuiIconButton-root"
             disabled=""
             tabindex="-1"
             title="Go to next page"
@@ -2648,7 +2675,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
               data-testid="KeyboardArrowRightIcon"
               focusable="false"
               viewBox="0 0 24 24"

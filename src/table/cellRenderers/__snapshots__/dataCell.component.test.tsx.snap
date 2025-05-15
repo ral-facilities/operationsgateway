@@ -6,7 +6,7 @@ exports[`Data Cell > renders correctly 1`] = `
     <tbody>
       <tr>
         <td
-          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
         >
           <div
             class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -15,13 +15,15 @@ exports[`Data Cell > renders correctly 1`] = `
               class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
             >
               <p
-                class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-z1doim-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
               >
                 test data
               </p>
             </div>
-            <hr
-              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+            <div
+              aria-orientation="vertical"
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1160sub-MuiDivider-root"
+              role="separator"
             />
           </div>
         </td>

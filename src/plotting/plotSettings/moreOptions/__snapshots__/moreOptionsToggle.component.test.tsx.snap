@@ -7,13 +7,13 @@ exports[`MoreOptionsToggle > renders correctly when options box not open 1`] = `
   >
     <button
       aria-label="More options for shotnum"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ooguyf-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-d38nt4-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
         data-testid="MoreVertIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -22,9 +22,6 @@ exports[`MoreOptionsToggle > renders correctly when options box not open 1`] = `
           d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
         />
       </svg>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
 </DocumentFragment>
@@ -37,13 +34,13 @@ exports[`MoreOptionsToggle > renders correctly when options box open and passes 
   >
     <button
       aria-label="More options for shotnum"
-      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1ooguyf-MuiButtonBase-root-MuiIconButton-root"
+      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-d38nt4-MuiButtonBase-root-MuiIconButton-root"
       tabindex="0"
       type="button"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
         data-testid="MoreVertIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -53,7 +50,7 @@ exports[`MoreOptionsToggle > renders correctly when options box open and passes 
         />
       </svg>
       <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        class="MuiTouchRipple-root css-r3djoj-MuiTouchRipple-root"
       >
         <span
           class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible"

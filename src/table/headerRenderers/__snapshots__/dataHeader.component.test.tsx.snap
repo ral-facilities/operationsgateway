@@ -3,21 +3,21 @@
 exports[`Data Header > opens menu when menu icon is clicked 1`] = `
 <ul
   aria-labelledby="test-menu-button"
-  class="MuiList-root MuiList-padding MuiList-dense MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
+  class="MuiList-root MuiList-padding MuiList-dense MuiMenu-list css-1toxriw-MuiList-root-MuiMenu-list"
   role="menu"
   tabindex="-1"
 >
   <li
-    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-1ugarj1-MuiButtonBase-root-MuiMenuItem-root"
     role="menuitem"
     tabindex="0"
   >
     <div
-      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+      class="MuiListItemIcon-root css-cokf1l-MuiListItemIcon-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
         data-testid="WrapTextIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -28,30 +28,27 @@ exports[`Data Header > opens menu when menu icon is clicked 1`] = `
       </svg>
     </div>
     <div
-      class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+      class="MuiListItemText-root MuiListItemText-dense css-cfq8qh-MuiListItemText-root"
     >
       <span
-        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-7ctihp-MuiTypography-root"
       >
         Turn word wrap 
         on
       </span>
     </div>
-    <span
-      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-    />
   </li>
   <li
-    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-g6xhbl-MuiButtonBase-root-MuiMenuItem-root"
+    class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-1ugarj1-MuiButtonBase-root-MuiMenuItem-root"
     role="menuitem"
     tabindex="-1"
   >
     <div
-      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+      class="MuiListItemIcon-root css-cokf1l-MuiListItemIcon-root"
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
         data-testid="CloseIcon"
         focusable="false"
         viewBox="0 0 24 24"
@@ -62,17 +59,14 @@ exports[`Data Header > opens menu when menu icon is clicked 1`] = `
       </svg>
     </div>
     <div
-      class="MuiListItemText-root MuiListItemText-dense css-tlelie-MuiListItemText-root"
+      class="MuiListItemText-root MuiListItemText-dense css-cfq8qh-MuiListItemText-root"
     >
       <span
-        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-et1ao3-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body2 MuiListItemText-primary css-7ctihp-MuiTypography-root"
       >
         Close
       </span>
     </div>
-    <span
-      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-    />
   </li>
 </ul>
 `;
@@ -87,7 +81,7 @@ exports[`Data Header > renders correctly 1`] = `
       >
         <th
           aria-describedby="rfd-hidden-text-:r0:-hidden-text-:r1:"
-          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+          class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
           data-rfd-drag-handle-context-id=":r0:"
           data-rfd-drag-handle-draggable-id="test"
           data-rfd-draggable-context-id=":r0:"
@@ -104,7 +98,7 @@ exports[`Data Header > renders correctly 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                 data-testid="FeedIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -120,7 +114,7 @@ exports[`Data Header > renders correctly 1`] = `
             >
               <div>
                 <p
-                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-xw0cpc-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-1ia1h0x-MuiTypography-root"
                 >
                   Test
                 </p>
@@ -134,14 +128,14 @@ exports[`Data Header > renders correctly 1`] = `
               <button
                 aria-haspopup="true"
                 aria-label="test menu"
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                 id="test-menu-button"
                 tabindex="0"
                 type="button"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1ckov0h-MuiSvgIcon-root"
                   data-testid="MoreVertIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -150,14 +144,13 @@ exports[`Data Header > renders correctly 1`] = `
                     d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
                   />
                 </svg>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </button>
             </div>
-            <hr
-              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-ykhegc-MuiDivider-root"
+            <div
+              aria-orientation="vertical"
+              class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-89tryz-MuiDivider-root"
               contenteditable="true"
+              role="separator"
               tabindex="-1"
             />
           </div>
