@@ -4,7 +4,7 @@ exports[`CustomPickersDay function > renders the CustomPickerDay correctly 1`] =
 <body>
   <div>
     <div
-      class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-1dh00js-MuiPickersDay-root"
+      class="MuiPickersDay-root MuiPickersDay-dayWithMargin MuiPickersDay-hiddenDaySpacingFiller MuiPickersDay-hiddenDaySpacingFiller css-1q6wyzu-MuiPickersDay-root"
     />
   </div>
 </body>
@@ -65,7 +65,7 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
-                title="Clear value"
+                title="Clear"
                 type="button"
               >
                 <svg
@@ -154,7 +154,7 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
               <button
                 class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
-                title="Clear value"
+                title="Clear"
                 type="button"
               >
                 <svg

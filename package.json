@@ -14,7 +14,7 @@
     "@mui/icons-material": "5.17.1",
     "@mui/material": "5.17.1",
     "@mui/system": "5.17.1",
-    "@mui/x-date-pickers": "6.19.0",
+    "@mui/x-date-pickers": "patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch",
     "@reduxjs/toolkit": "2.7.0",
     "@tanstack/react-query": "5.71.0",
     "@tanstack/react-query-devtools": "5.71.0",
@@ -46,8 +46,7 @@
   },
   "resolutions": {
     "nwsapi": "2.2.13",
-    "@types/react": "18.3.3",
-    "@mui/x-date-pickers@6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
+    "@types/react": "18.3.3"
   },
   "scripts": {
     "dev": "vite --open",

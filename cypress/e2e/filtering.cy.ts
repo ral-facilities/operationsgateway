@@ -8,11 +8,11 @@ describe('Filtering Component', () => {
 
     cy.findByLabelText('from, date-time input')
       .parent()
-      .findByRole('button', { name: 'Clear value' })
+      .findByRole('button', { name: 'Clear' })
       .click();
     cy.findByLabelText('to, date-time input')
       .parent()
-      .findByRole('button', { name: 'Clear value' })
+      .findByRole('button', { name: 'Clear' })
       .click();
     cy.findByRole('button', { name: 'Search' }).click();
     cy.findByRole('progressbar').should('not.exist');
