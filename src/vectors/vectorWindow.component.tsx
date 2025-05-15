@@ -63,7 +63,7 @@ const VectorWindow = (props: VectorWindowProps) => {
       : Math.min(userPrefVector, labels?.length || 0);
 
     setRange((prev) => ({ ...prev, limit: newVectorLimit || 0 }));
-  }, [labels, vectorLimitData]);
+  }, [labels?.length, vectorLimitData]);
 
   React.useEffect(() => {
     const userPrefVector =

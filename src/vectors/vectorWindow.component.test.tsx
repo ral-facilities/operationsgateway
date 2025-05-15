@@ -48,6 +48,8 @@ vi.mock('./vectorPlot.component', () => {
 describe('Vector Window component', () => {
   let testVectorConfig: WindowConfigType;
   let user: ReturnType<typeof userEvent.setup>;
+  let ref: React.RefObject<WindowPortal>;
+  const mockResize = vi.fn();
 
   beforeEach(() => {
     testVectorConfig = {
@@ -62,18 +64,31 @@ describe('Vector Window component', () => {
       ...DEFAULT_WINDOW_VARS,
     };
     user = userEvent.setup();
+    ref = React.createRef<WindowPortal>();
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: mockResize,
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  const createView = () => {
+  const createView = (ref?: React.RefObject<WindowPortal>) => {
     return renderComponentWithProviders(
       <VectorWindow
         onClose={vi.fn()}
         vectorConfig={testVectorConfig}
-        vectorWindowRef={{ current: null }}
+        vectorWindowRef={ref ?? { current: null }}
       />
     );
   };
@@ -90,29 +105,7 @@ describe('Vector Window component', () => {
   });
 
   it('show control panel button is visible and interactive', async () => {
-    const ref = React.createRef<WindowPortal>();
-    const mockResize = vi.fn();
-
-    Object.defineProperty(ref, 'current', {
-      value: {
-        getWindow: vi.fn(() => ({
-          Plotly: {
-            Plots: {
-              resize: mockResize,
-            },
-          },
-        })),
-      },
-      writable: true,
-    });
-
-    renderComponentWithProviders(
-      <VectorWindow
-        onClose={vi.fn()}
-        vectorConfig={testVectorConfig}
-        vectorWindowRef={ref}
-      />
-    );
+    createView(ref);
 
     await user.click(
       screen.getByRole('button', { name: 'Show Vector Controls' })
@@ -170,29 +163,7 @@ describe('Vector Window component', () => {
       })
     );
 
-    const ref = React.createRef<WindowPortal>();
-    const mockResize = vi.fn();
-
-    Object.defineProperty(ref, 'current', {
-      value: {
-        getWindow: vi.fn(() => ({
-          Plotly: {
-            Plots: {
-              resize: mockResize,
-            },
-          },
-        })),
-      },
-      writable: true,
-    });
-
-    const { asFragment } = renderComponentWithProviders(
-      <VectorWindow
-        onClose={vi.fn()}
-        vectorConfig={testVectorConfig}
-        vectorWindowRef={ref}
-      />
-    );
+    const { asFragment } = createView(ref);
     await user.click(
       screen.getByRole('button', { name: 'Show Vector Controls' })
     );
