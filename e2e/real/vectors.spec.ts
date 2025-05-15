@@ -208,6 +208,9 @@ test('user can set their default skip and limit', async ({ page }) => {
   // wait for records response to come back before taking screenshot
   await recordsLimitPromise;
 
+  await page.waitForTimeout(1000);
+
+
   await expect(tableThumbnail).toBeAttached();
   await expect(tableThumbnail).toHaveScreenshot({
     maxDiffPixels: 150,
