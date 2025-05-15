@@ -344,7 +344,7 @@ describe('searchBar component', () => {
     await user.type(dateFilterFromDate, '2023-01-01 00:00');
     await user.type(dateFilterToDate, '2022-01-02 00:00');
 
-    const helperTexts = screen.getAllByText('Invalid date-time range');
+    let helperTexts = await screen.findAllByText('Invalid date-time range');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
@@ -360,24 +360,26 @@ describe('searchBar component', () => {
     await user.type(dateFilterFromDate, '2023-01-01_00:00');
 
     // One helper text below each input
+    helperTexts = await screen.findAllByText('Invalid date-time range');
     expect(helperTexts.length).toEqual(2);
 
     expect(searchButton).toBeDisabled();
 
     // only the To date is defined
 
-    await user.clear(dateFilterFromDate);
     await user.clear(dateFilterToDate);
+    await user.clear(dateFilterFromDate);
 
     await user.type(dateFilterToDate, '2023-01-01_00:00');
 
     // One helper text below each input
+    helperTexts = await screen.findAllByText('Invalid date-time range');
     expect(helperTexts.length).toEqual(2);
 
     expect(searchButton).toBeDisabled();
   });
 
-  it('disables the serach button if a invalid shot number range is selected', async () => {
+  it('disables the search button if a invalid shot number range is selected', async () => {
     createView();
 
     // Minimum shot number is above Max shot number
@@ -396,7 +398,7 @@ describe('searchBar component', () => {
     await user.type(shotnumMax, '2');
     await user.type(shotnumMin, '10');
 
-    const helperTexts = screen.getAllByText('Invalid range');
+    let helperTexts = screen.getAllByText('Invalid range');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
@@ -412,6 +414,7 @@ describe('searchBar component', () => {
     await user.type(shotnumMin, '1');
 
     // One helper text below each input
+    helperTexts = screen.getAllByText('Invalid range');
     expect(helperTexts.length).toEqual(2);
 
     expect(searchButton).toBeDisabled();
@@ -424,6 +427,7 @@ describe('searchBar component', () => {
     await user.type(shotnumMax, '10');
 
     // One helper text below each input
+    helperTexts = screen.getAllByText('Invalid range');
     expect(helperTexts.length).toEqual(2);
 
     expect(searchButton).toBeDisabled();
@@ -558,6 +562,7 @@ describe('searchBar component', () => {
     );
 
     await user.clear(dateFilterFromDate);
+    await user.type(dateFilterToDate, '2023-01-01_00:00');
     await user.type(dateFilterFromDate, '2022-01-02_00:00');
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
