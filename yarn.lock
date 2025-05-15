@@ -1328,6 +1328,54 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch":
+  version: 7.29.3
+  resolution: "@mui/x-date-pickers@patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch::version=7.29.3&hash=0d231d"
+  dependencies:
+    "@babel/runtime": "npm:^7.25.7"
+    "@mui/utils": "npm:^5.16.6 || ^6.0.0 || ^7.0.0"
+    "@mui/x-internals": "npm:7.29.0"
+    "@types/react-transition-group": "npm:^4.4.11"
+    clsx: "npm:^2.1.1"
+    prop-types: "npm:^15.8.1"
+    react-transition-group: "npm:^4.4.5"
+  peerDependencies:
+    "@emotion/react": ^11.9.0
+    "@emotion/styled": ^11.8.1
+    "@mui/material": ^5.15.14 || ^6.0.0 || ^7.0.0
+    "@mui/system": ^5.15.14 || ^6.0.0 || ^7.0.0
+    date-fns: ^2.25.0 || ^3.2.0 || ^4.0.0
+    date-fns-jalali: ^2.13.0-0 || ^3.2.0-0 || ^4.0.0-0
+    dayjs: ^1.10.7
+    luxon: ^3.0.2
+    moment: ^2.29.4
+    moment-hijri: ^2.1.2 || ^3.0.0
+    moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/react":
+      optional: true
+    "@emotion/styled":
+      optional: true
+    date-fns:
+      optional: true
+    date-fns-jalali:
+      optional: true
+    dayjs:
+      optional: true
+    luxon:
+      optional: true
+    moment:
+      optional: true
+    moment-hijri:
+      optional: true
+    moment-jalaali:
+      optional: true
+  checksum: 10c0/4cc5bcad4a6f18829d146b2594220c23f15adf74e7425061c974158227557da00e9a8ffb4f85e16ff394534a6cd46be916005fd91b1a49cb5c28a6ef0681ec83
+  languageName: node
+  linkType: hard
+
 "@mui/x-internals@npm:7.29.0":
   version: 7.29.0
   resolution: "@mui/x-internals@npm:7.29.0"
@@ -6891,7 +6939,7 @@ __metadata:
     "@mui/icons-material": "npm:5.17.1"
     "@mui/material": "npm:5.17.1"
     "@mui/system": "npm:5.17.1"
-    "@mui/x-date-pickers": "npm:7.29.3"
+    "@mui/x-date-pickers": "patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch"
     "@playwright/test": "npm:1.51.0"
     "@reduxjs/toolkit": "npm:2.7.0"
     "@tanstack/eslint-plugin-query": "npm:5.71.5"
