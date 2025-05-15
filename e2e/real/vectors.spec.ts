@@ -67,6 +67,8 @@ test('user can limit the vector data', async ({ page }) => {
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
 
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+
   const slider = await popup.getByRole('slider');
 
   const SliderRoot = await popup.locator('.MuiSlider-root', {
