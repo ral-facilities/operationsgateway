@@ -356,10 +356,22 @@ export interface VectorButtonsProps extends CommonButtonsProps {
   units?: string;
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
   windowRef: React.RefObject<WindowPortal>;
+  showControls: boolean;
+  onChangeShowControls: (showControls: boolean) => void;
 }
 
 export const VectorButtons = (props: VectorButtonsProps) => {
-  const { data, labels, units, chartRef, windowRef, title, resetView } = props;
+  const {
+    data,
+    labels,
+    units,
+    chartRef,
+    windowRef,
+    title,
+    resetView,
+    showControls,
+    onChangeShowControls,
+  } = props;
 
   return (
     <ButtonGroup size="small" aria-label="plot actions">
@@ -373,6 +385,9 @@ export const VectorButtons = (props: VectorButtonsProps) => {
       </Button>
       <Button onClick={() => exportVectorData(title, data, labels, units)}>
         Export Plot Data
+      </Button>
+      <Button onClick={() => onChangeShowControls(!showControls)}>
+        {showControls ? 'Hide' : 'Show'} Vector Controls
       </Button>
     </ButtonGroup>
   );

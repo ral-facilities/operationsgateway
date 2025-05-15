@@ -1,6 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
+import React from 'react';
 import {
   DEFAULT_WINDOW_VARS,
   VECTOR_LIMIT_PREFERENCE_NAME,
@@ -9,6 +10,8 @@ import {
 import { server } from '../mocks/server';
 import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
+import type WindowPortal from '../windows/windowPortal.component';
+import type { VectorPlotProps } from './vectorPlot.component';
 import VectorWindow from './vectorWindow.component';
 
 vi.mock('../windows/windowPortal.component', async () => {
@@ -24,13 +27,27 @@ vi.mock('../windows/windowPortal.component', async () => {
 });
 
 vi.mock('./vectorPlot.component', () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return { default: () => <mock-VectorPlot data-testid="mock-vector-plot" /> };
+  return {
+    default: (props: VectorPlotProps) => {
+      // Ensure chartRef.current is set to a valid DOM element
+      if (props.chartRef && props.chartRef.current === null) {
+        props.chartRef.current = document.createElement('div');
+      }
+      return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <mock-VectorPlot
+          data-testid="mock-vector-plot"
+          data-props={JSON.stringify(props)}
+        />
+      );
+    },
+  };
 });
 
 describe('Vector Window component', () => {
   let testVectorConfig: WindowConfigType;
+  let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
     testVectorConfig = {
@@ -44,6 +61,7 @@ describe('Vector Window component', () => {
       units: 'test',
       ...DEFAULT_WINDOW_VARS,
     };
+    user = userEvent.setup();
   });
 
   afterEach(() => {
@@ -71,6 +89,43 @@ describe('Vector Window component', () => {
     screen.getByLabelText('Vector loading');
   });
 
+  it('show control panel button is visible and interactive', async () => {
+    const ref = React.createRef<WindowPortal>();
+    const mockResize = vi.fn();
+
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: mockResize,
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
+
+    renderComponentWithProviders(
+      <VectorWindow
+        onClose={vi.fn()}
+        vectorConfig={testVectorConfig}
+        vectorWindowRef={ref}
+      />
+    );
+
+    await user.click(
+      screen.getByRole('button', { name: 'Show Vector Controls' })
+    );
+    expect(
+      await screen.findByRole('button', { name: 'Hide Vector Controls' })
+    ).toBeVisible();
+
+    expect(screen.getByText('Select Vector Range')).toBeVisible();
+    expect(mockResize).toBeCalledTimes(1);
+    expect(mockResize).toHaveBeenCalled();
+  });
+
   it('reset view button is visible and interactable', async () => {
     const user = userEvent.setup();
     createView();
@@ -79,7 +134,6 @@ describe('Vector Window component', () => {
   });
 
   it('dispatches updateWindow when new thumbnail is clicked', async () => {
-    const user = userEvent.setup();
     const { store } = createView();
 
     const thumbnails = await screen.findAllByRole('img');
@@ -116,7 +170,35 @@ describe('Vector Window component', () => {
       })
     );
 
-    const { asFragment } = createView();
+    const ref = React.createRef<WindowPortal>();
+    const mockResize = vi.fn();
+
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: mockResize,
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
+
+    const { asFragment } = renderComponentWithProviders(
+      <VectorWindow
+        onClose={vi.fn()}
+        vectorConfig={testVectorConfig}
+        vectorWindowRef={ref}
+      />
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'Show Vector Controls' })
+    );
+
+    expect(screen.getByText('Select Vector Range')).toBeVisible();
+
     const slider = await screen.findAllByRole('slider');
     await waitFor(() => {
       expect(slider[0]).toHaveValue('2');

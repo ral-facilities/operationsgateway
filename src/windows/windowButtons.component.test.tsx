@@ -401,6 +401,7 @@ describe('Window buttons components', () => {
 
     const resetView = vi.fn();
     const downloadImage = vi.fn();
+    const onChangeShowControls = vi.fn();
 
     beforeEach(() => {
       vectorButtonsProps = {
@@ -419,6 +420,8 @@ describe('Window buttons components', () => {
         },
         title: 'test',
         resetView,
+        onChangeShowControls,
+        showControls: false,
       };
     });
 
@@ -428,6 +431,20 @@ describe('Window buttons components', () => {
       expect(view.asFragment()).toMatchSnapshot();
     });
 
+    it('renders trace buttons group (show control is true)', () => {
+      vectorButtonsProps.showControls = true;
+      const view = render(<VectorButtons {...vectorButtonsProps} />);
+
+      expect(view.asFragment()).toMatchSnapshot();
+    });
+
+    it('toggles the control panel when the control panel button is clicked', async () => {
+      render(<VectorButtons {...vectorButtonsProps} />);
+      await user.click(
+        screen.getByRole('button', { name: 'Show Vector Controls' })
+      );
+      expect(onChangeShowControls).toHaveBeenCalledWith(true);
+    });
     it('generates PNG file when export button is clicked', async () => {
       render(<VectorButtons {...vectorButtonsProps} />);
 
