@@ -2,7 +2,6 @@ import {
   Autocomplete,
   Chip,
   Grid,
-  SxProps,
   TextField,
   Theme,
   autocompleteClasses,
@@ -170,11 +169,8 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
               {option.label}
             </li>
           )}
-          // for some reason, it's not accepting the sx prop here even though it should
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          ListboxProps={
-            {
+          slotProps={{
+            listbox: {
               sx: (theme: Theme) => ({
                 [`& .${autocompleteClasses.option}`]: {
                   [`&.Mui-focused,&.Mui-focusVisible`]: {
@@ -182,10 +178,8 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
                   },
                 },
               }),
-            } as {
-              sx: SxProps<Theme>;
-            }
-          }
+            },
+          }}
         />
       </Grid>
     </Grid>

@@ -371,18 +371,18 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     flexDirection: 'row',
                     ...(row.getIsSelected()
                       ? {
-                          '&:hover td': {
-                            backgroundColor: (theme) =>
-                              theme.palette.mode === 'dark'
-                                ? '#303E4A'
-                                : '#E3EEFA',
-                          },
-                          '& td': {
-                            backgroundColor: (theme) =>
-                              theme.palette.mode === 'dark'
-                                ? '#263037'
-                                : '#EDF4FC',
-                          },
+                          '&:hover td': (theme) => ({
+                            backgroundColor: '#E3EEFA',
+                            ...theme.applyStyles('dark', {
+                              backgroundColor: '#303E4A',
+                            }),
+                          }),
+                          '& td': (theme) => ({
+                            backgroundColor: '#EDF4FC',
+                            ...theme.applyStyles('dark', {
+                              backgroundColor: '#263037',
+                            }),
+                          }),
                         }
                       : {}),
                   }}
