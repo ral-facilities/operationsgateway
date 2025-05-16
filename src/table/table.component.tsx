@@ -435,12 +435,14 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
             {/* Need to make this a tr with a td column with the correct colSpan 
                     to be a valid HTML table */}
-            {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
+            {}
             <Backdrop
               component="tr"
+              // At the moment component isn't working: https://github.com/mui/material-ui/issues/44283
+              slots={{ root: 'tr' }}
               sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
               open={!loadedData}
-              role="none"
+              // role="none"
               aria-hidden={false}
             >
               <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>

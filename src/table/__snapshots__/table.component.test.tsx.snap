@@ -8,12 +8,6 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-hidden="false"
-        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
-        role="none"
-        style="opacity: 0; visibility: hidden;"
-      />
       <table
         class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
@@ -1209,7 +1203,13 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            aria-hidden="false"
+            class="MuiBackdrop-root"
+            classes="[object Object]"
+            style="opacity: 0; visibility: hidden;"
+            sx="[object Object]"
+          >
             <td
               colspan="7"
             >
@@ -1349,12 +1349,6 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-hidden="false"
-        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
-        role="none"
-        style="opacity: 0; visibility: hidden;"
-      />
       <table
         class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
@@ -2123,7 +2117,13 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            aria-hidden="false"
+            class="MuiBackdrop-root"
+            classes="[object Object]"
+            style="opacity: 0; visibility: hidden;"
+            sx="[object Object]"
+          >
             <td
               colspan="4"
             >
@@ -2263,12 +2263,6 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
-      <div
-        aria-hidden="false"
-        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
-        role="none"
-        style="opacity: 0; visibility: hidden;"
-      />
       <table
         class="MuiTable-root css-1xwxv7r-MuiTable-root"
       >
@@ -2560,7 +2554,13 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
               </div>
             </td>
           </tr>
-          <tr>
+          <tr
+            aria-hidden="false"
+            class="MuiBackdrop-root"
+            classes="[object Object]"
+            style="opacity: 0; visibility: hidden;"
+            sx="[object Object]"
+          >
             <td
               colspan="1"
             >
