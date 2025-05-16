@@ -107,8 +107,12 @@ describe('Table Component', () => {
     cy.findByRole('progressbar').should('not.exist');
 
     cy.get('[role="columnheader"]').eq(1).as('firstColumn');
-    cy.get('[role="columnheader"] hr').first().as('firstColumnResizeHandle');
-    cy.get('[role="columnheader"] hr').last().as('secondColumnResizeHandle');
+    cy.get('[role="columnheader"] [role="separator"]')
+      .first()
+      .as('firstColumnResizeHandle');
+    cy.get('[role="columnheader"] [role="separator"]')
+      .last()
+      .as('secondColumnResizeHandle');
 
     let initialWidth = 0;
     cy.get('@firstColumn').then(($column) => {
@@ -320,7 +324,7 @@ describe('Table Component', () => {
         cy.get('tr')
           .first()
           .within(() => {
-            cy.get('td').first().click();
+            cy.get('td').get('input').first().click();
           });
       });
 
