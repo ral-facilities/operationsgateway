@@ -128,7 +128,7 @@ describe('Channels Dialogue', () => {
 
   it('renders channels dialogue when dialogue is open', async () => {
     let baseElement;
-    await act(async () => {
+    act(() => {
       baseElement = createView().baseElement;
     });
     // wait for the channels to load before taking the screenshot
@@ -144,7 +144,7 @@ describe('Channels Dialogue', () => {
     props.open = false;
 
     let baseElement;
-    await act(async () => {
+    act(() => {
       baseElement = createView().baseElement;
     });
     expect(baseElement).toMatchSnapshot();

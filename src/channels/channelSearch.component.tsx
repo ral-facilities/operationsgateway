@@ -65,13 +65,15 @@ const ChannelSearch = (props: ChannelSearchProps) => {
         <TextField
           {...params}
           label="Search data channels"
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            },
           }}
         />
       )}

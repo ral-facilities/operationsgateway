@@ -37,7 +37,7 @@ describe('FunctionsDialog', () => {
 
   it('renders functions dialog when dialog is open', async () => {
     let baseElement;
-    await act(async () => {
+    act(() => {
       baseElement = createView().baseElement;
     });
 

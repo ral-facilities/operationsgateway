@@ -64,7 +64,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                   indeterminate={typeof value.checked === 'undefined'}
                   disabled={!leaf || key === timeChannelName}
                   size="small"
-                  inputProps={{ 'aria-labelledby': labelId }}
+                  slotProps={{ input: { 'aria-labelledby': labelId } }}
                   onClick={() =>
                     leaf && handleChannelChecked(key, value.checked)
                   }

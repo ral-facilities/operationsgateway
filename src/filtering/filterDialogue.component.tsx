@@ -412,7 +412,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       open={open}
       onClose={handleClose}
       maxWidth="lg"
-      PaperProps={{ 'aria-label': 'Filters' }}
+      slotProps={{ paper: { 'aria-label': 'Filters' } }}
       fullWidth
     >
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
@@ -555,17 +555,21 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           onChange={(e) =>
                             handleCheckboxChange(data, e.target.checked)
                           }
-                          inputProps={{
-                            'aria-label': `Select ${data.name} favourite filter`,
+                          slotProps={{
+                            input: {
+                              'aria-label': `Select ${data.name} favourite filter`,
+                            },
                           }}
                         />
                       </Grid>
                       <Grid item xs={5}>
                         <TextField
                           fullWidth
-                          inputProps={{
-                            readOnly: true,
-                            disabled: true,
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                              disabled: true,
+                            },
                           }}
                           sx={{
                             // change label and border color when readonly
@@ -650,7 +654,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         <Button onClick={handleClose}>Close</Button>
         {displayingWarningMessage ? (
           <Tooltip
-            componentsProps={{
+            slotProps={{
               tooltip: {
                 sx: {
                   backgroundColor: 'yellow',

@@ -150,15 +150,17 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
               helperText={error?.expression?.message}
               onKeyDown={keydownHandler}
               onClick={clickHandler}
-              InputProps={{
-                ...params.InputProps,
-                // we need this data-id so we can tell when a user is clicking between
-                // tags in clickHander - this is a valid data-* prop so ignore TS
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                'data-id': 'Input',
-                startAdornment: tags.slice(0, inputIndex),
-                endAdornment: tags.slice(inputIndex),
+              slotProps={{
+                input: {
+                  ...params.InputProps,
+                  // we need this data-id so we can tell when a user is clicking between
+                  // tags in clickHander - this is a valid data-* prop so ignore TS
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  'data-id': 'Input',
+                  startAdornment: tags.slice(0, inputIndex),
+                  endAdornment: tags.slice(inputIndex),
+                },
               }}
             />
           )}

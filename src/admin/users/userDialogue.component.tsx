@@ -113,7 +113,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   const { mutateAsync: addUser, isPending: isAddPending } = useAddUser();
   const { mutateAsync: editUser, isPending: isEditPending } = useEditUser();
   const handleAddUser = React.useCallback(
-    async (user: UserPost) => {
+    (user: UserPost) => {
       addUser(user)
         .then(() => handleClose())
         .catch((error: AxiosError) => {
@@ -137,7 +137,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   );
 
   const handleEditUser = React.useCallback(
-    async (user: UserPost) => {
+    (user: UserPost) => {
       if (!selectedUser) return;
 
       const patchUsers: UserPatch = { _id: selectedUser.username };
@@ -282,18 +282,24 @@ const UserDialogue = (props: UserDialogueProps) => {
               autoComplete="new-password"
               fullWidth
               required
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    aria-label={
-                      showPassword ? 'Hide password' : 'Show password'
-                    }
-                    onClick={togglePasswordVisibility}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                ),
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <IconButton
+                      aria-label={
+                        showPassword ? 'Hide password' : 'Show password'
+                      }
+                      onClick={togglePasswordVisibility}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
+                    </IconButton>
+                  ),
+                },
               }}
               margin="dense"
               error={!!errors.sha256_password}
