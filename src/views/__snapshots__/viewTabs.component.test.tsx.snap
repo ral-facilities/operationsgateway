@@ -187,7 +187,7 @@ exports[`View Tabs > renders correctly 1`] = `
                         class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-0.5 css-581z0v-MuiGrid2-root"
                       >
                         <div
-                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow MuiGrid2-grid-xl-auto css-hkz4we-MuiGrid2-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
                         >
                           <div
                             aria-label="date-time search box"
@@ -411,7 +411,7 @@ exports[`View Tabs > renders correctly 1`] = `
                           </div>
                         </div>
                         <div
-                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow MuiGrid2-grid-xl-auto css-hkz4we-MuiGrid2-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
                         >
                           <div
                             class="MuiBox-root css-79elbk"
@@ -447,7 +447,7 @@ exports[`View Tabs > renders correctly 1`] = `
                           </div>
                         </div>
                         <div
-                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow MuiGrid2-grid-xl-auto css-hkz4we-MuiGrid2-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
                         >
                           <div
                             class="MuiBox-root css-79elbk"

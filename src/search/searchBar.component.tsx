@@ -497,7 +497,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       <Grid container spacing={1} direction="row" ref={heightRef}>
         <Grid container size={12} direction="column">
           <Grid container spacing={0.5} direction="row">
-            <Grid size={{ xs: 'grow', xl: 'auto' }}>
+            <Grid size="auto">
               <DateTime
                 searchParameterFromDate={searchParameterFromDate}
                 searchParameterToDate={searchParameterToDate}
@@ -527,7 +527,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 searchParamsUpdated={searchParamsUpdated}
               />
             </Grid>
-            <Grid size={{ xs: 'grow', xl: 'auto' }}>
+            <Grid size="auto">
               <Experiment
                 experiments={experiments ?? []}
                 onExperimentChange={setSearchParameterExperiment}
@@ -538,7 +538,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 searchParamsUpdated={searchParamsUpdated}
               />
             </Grid>
-            <Grid size={{ xs: 'grow', xl: 'auto' }}>
+            <Grid size="auto">
               <ShotNumber
                 searchParameterShotnumMin={searchParameterShotnumMin}
                 searchParameterShotnumMax={searchParameterShotnumMax}
