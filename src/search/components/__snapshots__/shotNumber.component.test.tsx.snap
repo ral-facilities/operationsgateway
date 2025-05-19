@@ -49,10 +49,10 @@ exports[`shotNumber search > renders correctly 1`] = `
           class="MuiDivider-root MuiDivider-fullWidth css-1k9grbf-MuiDivider-root"
         />
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-1946b2z-MuiGrid-root"
+          class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-1o604wy-MuiGrid2-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"
@@ -93,7 +93,7 @@ exports[`shotNumber search > renders correctly 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
           >
             <p
               class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-peqrrs-MuiTypography-root"
@@ -102,7 +102,7 @@ exports[`shotNumber search > renders correctly 1`] = `
             </p>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
           >
             <div
               class="MuiFormControl-root MuiTextField-root css-1xp5r68-MuiFormControl-root-MuiTextField-root"

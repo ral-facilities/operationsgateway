@@ -44,13 +44,13 @@ exports[`Favorite filter dialogue component > Add dialog > renders correctly 1`]
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-1sthlmf-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1ehejr1-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-32s0as-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-6 MuiGrid2-spacing-xs-1 css-675lq6-MuiGrid2-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
               >
                 <div
                   class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
@@ -89,7 +89,7 @@ exports[`Favorite filter dialogue component > Add dialog > renders correctly 1`]
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
               >
                 <div
                   class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -145,7 +145,7 @@ exports[`Favorite filter dialogue component > Add dialog > renders correctly 1`]
               role="separator"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"
@@ -421,13 +421,13 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-1sthlmf-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1ehejr1-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-32s0as-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-6 MuiGrid2-spacing-xs-1 css-675lq6-MuiGrid2-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
               >
                 <div
                   class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
@@ -466,7 +466,7 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
               >
                 <div
                   class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasClearIcon css-4z7hu2-MuiAutocomplete-root"
@@ -591,7 +591,7 @@ exports[`Favorite filter dialogue component > Edit dialog > renders correctly 1`
               role="separator"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"

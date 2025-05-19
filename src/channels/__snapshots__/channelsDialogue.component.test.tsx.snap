@@ -42,10 +42,10 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
         style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
       >
         <div
-          class="MuiGrid-root MuiGrid-container css-j40brd-MuiGrid-root"
+          class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1k0hl0x-MuiGrid2-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
           >
             <h2
               class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root css-rvoa5x-MuiTypography-root-MuiDialogTitle-root"
@@ -55,7 +55,7 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
             </h2>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-n4yv6w-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-i9hk1a-MuiGrid2-root"
           >
             <div
               class="MuiAutocomplete-root MuiAutocomplete-fullWidth MuiAutocomplete-hasPopupIcon css-1a86huh-MuiAutocomplete-root"
@@ -174,10 +174,10 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-kbn8rc-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
             >
               <ul
                 class="MuiList-root MuiList-dense css-38dcxu-MuiList-root"
@@ -286,7 +286,7 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
               role="separator"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-hbvkri-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-14xqaip-MuiGrid2-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"

@@ -3,17 +3,17 @@
 exports[`Thumbnail selector component > renders correctly when loading 1`] = `
 <DocumentFragment>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-auto css-1eu5qa8-MuiGrid-root"
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column MuiGrid2-grid-xs-auto css-snlbdq-MuiGrid2-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
     >
       <ul
         class="MuiList-root css-3chz8l-MuiList-root"
       />
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
     >
       <div
         class="MuiTablePagination-root css-1e7yten-MuiTablePagination-root"
@@ -122,10 +122,10 @@ exports[`Thumbnail selector component > renders correctly when loading 1`] = `
 exports[`Thumbnail selector component > renders list of thumbnails and pagination controls 1`] = `
 <DocumentFragment>
   <div
-    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-auto css-1eu5qa8-MuiGrid-root"
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column MuiGrid2-grid-xs-auto css-snlbdq-MuiGrid2-root"
   >
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
     >
       <ul
         class="MuiList-root css-3chz8l-MuiList-root"
@@ -175,7 +175,7 @@ exports[`Thumbnail selector component > renders list of thumbnails and paginatio
       </ul>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
     >
       <div
         class="MuiTablePagination-root css-1e7yten-MuiTablePagination-root"

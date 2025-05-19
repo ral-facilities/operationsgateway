@@ -176,10 +176,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -228,10 +228,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -280,10 +280,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -332,10 +332,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -384,10 +384,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -436,10 +436,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -488,10 +488,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -540,10 +540,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -592,10 +592,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -644,10 +644,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -696,10 +696,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -748,10 +748,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -800,10 +800,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -852,10 +852,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -904,10 +904,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -956,10 +956,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -1008,10 +1008,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"
@@ -1060,10 +1060,10 @@ exports[`Record Table > renders correctly 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-1bppapy-MuiTableCell-root"
             >
               <div
-                class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1153jsq-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-vzcz7x-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-1btqv98-MuiGrid2-root"
                 >
                   <p
                     class="MuiTypography-root MuiTypography-body2 MuiTypography-noWrap css-3grywy-MuiTypography-root"

@@ -43,10 +43,10 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-kbn8rc-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-gwmb4u-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-66twxd-MuiGrid2-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-11a9lpe-MuiTypography-root"
@@ -54,10 +54,10 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                 Enter function
               </h3>
               <div
-                class="MuiGrid-root MuiGrid-container MuiGrid-item css-1mumfak-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-ow20gi-MuiGrid2-root"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
                 >
                   <label
                     aria-label="Unnamed Function Checkbox"
@@ -90,13 +90,13 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                   </label>
                 </div>
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-o1iywg-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-octady-MuiGrid2-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 css-11lxi55-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-5 css-1j03eby-MuiGrid2-root"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
@@ -135,7 +135,7 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-7 css-5n8ohs-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-7 css-y4pkce-MuiGrid2-root"
                     >
                       <div
                         class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -187,7 +187,7 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                  class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.6 css-xu4di-MuiGrid2-root"
                 >
                   <button
                     aria-label="Delete function"
@@ -210,7 +210,7 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-wyro15-MuiButtonBase-root-MuiButton-root"
@@ -242,7 +242,7 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
               role="separator"
             />
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-5 css-11lxi55-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-5 css-1j03eby-MuiGrid2-root"
             >
               <h3
                 class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"

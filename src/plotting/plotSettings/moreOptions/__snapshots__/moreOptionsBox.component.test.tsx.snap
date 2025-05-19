@@ -2,9 +2,11 @@
 
 exports[`MoreOptionsBox > renders correctly 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1jxwjqx-MuiGrid2-root"
+  >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-95xm42"
@@ -37,7 +39,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
@@ -85,7 +87,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
@@ -132,7 +134,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
@@ -215,7 +217,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
@@ -262,7 +264,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
@@ -284,7 +286,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiFormControl-root css-1yenfrq-MuiFormControl-root"

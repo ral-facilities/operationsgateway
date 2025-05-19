@@ -103,10 +103,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-kbn8rc-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-2a57i0-MuiGrid2-root"
             >
               <div
                 aria-labelledby="Filters-tab"
@@ -125,7 +125,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                   class="MuiBox-root css-0"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                   >
                     <button
                       class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-wyro15-MuiButtonBase-root-MuiButton-root"
@@ -151,13 +151,13 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                     </button>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item css-1w9dxw8-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1swgirf-MuiGrid2-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-1gg67ot-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
                           class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
@@ -182,7 +182,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
@@ -223,7 +223,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
                           class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -307,7 +307,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 1 favourite filter"
@@ -330,7 +330,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 1 favourite filter"
@@ -354,10 +354,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-1gg67ot-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
                           class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
@@ -382,7 +382,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
@@ -423,7 +423,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
                           class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -507,7 +507,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 2 favourite filter"
@@ -530,7 +530,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 2 favourite filter"
@@ -554,10 +554,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-1gg67ot-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
                           class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
@@ -582,7 +582,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
                           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
@@ -623,7 +623,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
                           class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -707,7 +707,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 3 favourite filter"
@@ -730,7 +730,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 3 favourite filter"
@@ -879,10 +879,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
           class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-kbn8rc-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-2a57i0-MuiGrid2-root"
             >
               <div
                 aria-labelledby="Filters-tab"
@@ -894,10 +894,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                   class="MuiBox-root css-0"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-xqag5e-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-18wkjc9-MuiGrid2-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-mgzowf-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-6 css-p3asko-MuiGrid2-root"
                     >
                       <h3
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-11a9lpe-MuiTypography-root"
@@ -905,10 +905,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         Enter filter
                       </h3>
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1i3o8ml-MuiGrid2-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                         >
                           <div
                             class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
@@ -958,7 +958,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.6 css-xu4di-MuiGrid2-root"
                         >
                           <button
                             aria-label="Delete filter 0"
@@ -980,7 +980,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                           </button>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.6 css-xu4di-MuiGrid2-root"
                         >
                           <button
                             aria-label="Add as favourite filter"
@@ -1003,7 +1003,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
                       >
                         <button
                           class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-wyro15-MuiButtonBase-root-MuiButton-root"
@@ -1035,7 +1035,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                       role="separator"
                     />
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                     >
                       <h3
                         class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"

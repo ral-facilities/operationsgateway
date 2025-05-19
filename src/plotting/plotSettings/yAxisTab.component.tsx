@@ -311,7 +311,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
       </Grid>
-      <Grid wrap="nowrap">
+      <Grid container wrap="nowrap">
         <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
           <FormLabel id={`${axis}-y-scale-group-label`} sx={{ mr: 2 }}>
             Scale

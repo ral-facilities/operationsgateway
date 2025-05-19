@@ -28,10 +28,10 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
       />
     </svg>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column css-16rehhp-MuiGrid2-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
@@ -40,7 +40,7 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-xwn1oi-MuiFormControl-root-MuiTextField-root"
@@ -113,10 +113,10 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
       role="separator"
     />
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column css-16rehhp-MuiGrid2-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
@@ -125,7 +125,7 @@ exports[`DateTime tests > renders correctly with input date-time ranges 1`] = `
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-xwn1oi-MuiFormControl-root-MuiTextField-root"
@@ -214,10 +214,10 @@ exports[`DateTime tests > renders correctly with no input date-time ranges 1`] =
       />
     </svg>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column css-16rehhp-MuiGrid2-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
@@ -226,7 +226,7 @@ exports[`DateTime tests > renders correctly with no input date-time ranges 1`] =
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-xwn1oi-MuiFormControl-root-MuiTextField-root"
@@ -277,10 +277,10 @@ exports[`DateTime tests > renders correctly with no input date-time ranges 1`] =
       role="separator"
     />
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column css-16rehhp-MuiGrid2-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
@@ -289,7 +289,7 @@ exports[`DateTime tests > renders correctly with no input date-time ranges 1`] =
         </p>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
       >
         <div
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-xwn1oi-MuiFormControl-root-MuiTextField-root"
