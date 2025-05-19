@@ -2,7 +2,7 @@
   "apiUrl": "http://host.docker.internal:8000",
   "recordLimitWarning": -1,
   "workingHours": { "start": 9, "end": 18 },
-  "plotAxisSigFigs": ".3~g",
+  "plotAxisSigFigs": ".3~s",
   "routes": [
     {
       "section": "OperationsGateway",

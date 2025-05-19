@@ -90,10 +90,10 @@ describe('configSlice', () => {
 
       const updatedState = ConfigReducer(
         state,
-        loadPlotAxisSigFigsSetting('.3~g')
+        loadPlotAxisSigFigsSetting('.3~s')
       );
 
-      expect(updatedState.plotAxisSigFigs).toEqual('.3~g');
+      expect(updatedState.plotAxisSigFigs).toEqual('.3~s');
     });
   });
 
