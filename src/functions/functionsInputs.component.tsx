@@ -1,7 +1,7 @@
 import {
   Autocomplete,
   Chip,
-  Grid,
+  Grid2 as Grid,
   TextField,
   Theme,
   autocompleteClasses,
@@ -95,7 +95,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={5}>
+      <Grid size={{ xs: 12, sm: 5 }}>
         <TextField
           fullWidth
           label="Name"
@@ -109,7 +109,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           size="small"
         />
       </Grid>
-      <Grid item xs={12} sm={7}>
+      <Grid size={{ xs: 12, sm: 7 }}>
         <Autocomplete
           autoHighlight
           filterOptions={filterOptions}

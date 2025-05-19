@@ -3,7 +3,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   NativeSelect,
   Radio,
   RadioGroup,
@@ -69,8 +69,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
   );
 
   return (
-    <div>
-      <Grid container item>
+    <Grid container>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -96,7 +96,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -134,7 +134,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           </NativeSelect>
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -184,7 +184,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -229,7 +229,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           </NativeSelect>
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -279,7 +279,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -301,7 +301,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <FormControl
           sx={{
             display: 'flex',
@@ -346,7 +346,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           </RadioGroup>
         </FormControl>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

@@ -2,7 +2,7 @@ import { CalendarMonth } from '@mui/icons-material';
 import {
   Box,
   Divider,
-  Grid,
+  Grid2 as Grid,
   TextField,
   TextFieldProps,
   Typography,
@@ -287,12 +287,12 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
       />
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
         <Grid container columns={2} direction="column">
-          <Grid item>
+          <Grid>
             <Typography noWrap sx={{ fontWeight: 'bold' }}>
               From date
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerFromDate}
@@ -407,12 +407,12 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
           sx={{ margin: 1, borderBottomWidth: 5 }}
         />
         <Grid container columns={2} direction="column">
-          <Grid item>
+          <Grid>
             <Typography noWrap sx={{ fontWeight: 'bold' }}>
               To date
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <DateTimePicker
               format="yyyy-MM-dd HH:mm"
               value={datePickerToDate}

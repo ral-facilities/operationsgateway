@@ -1,5 +1,11 @@
 import { Adjust } from '@mui/icons-material';
-import { Box, Divider, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  Grid2 as Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
 import { useClickOutside } from '../../hooks';
@@ -47,7 +53,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
         }}
       />
       <Grid container spacing={1} alignItems="center">
-        <Grid item xs>
+        <Grid size="grow">
           <TextField
             name="shot number min"
             label="Min"
@@ -67,10 +73,10 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             {...(invalidShotNumberRange && { helperText: 'Invalid range' })}
           />
         </Grid>
-        <Grid item xs="auto">
+        <Grid size="auto">
           <Typography noWrap>to</Typography>
         </Grid>
-        <Grid item xs>
+        <Grid size="grow">
           <TextField
             name="shot number max"
             label="Max"

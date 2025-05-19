@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Grid } from '@mui/material';
+import { Backdrop, CircularProgress, Grid2 as Grid } from '@mui/material';
 import React from 'react';
 import { useWaveform } from '../api/waveforms';
 import { useAppDispatch } from '../state/hooks';
@@ -80,8 +80,9 @@ const TraceWindow = (props: TraceWindowProps) => {
           backgroundColor: theme.palette.background.default,
         })}
         spacing={0}
+        width="100%"
       >
-        <Grid container item xs="auto">
+        <Grid container size="auto">
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
@@ -90,10 +91,9 @@ const TraceWindow = (props: TraceWindowProps) => {
         </Grid>
         <Grid
           container
-          item
           direction="column"
           wrap="nowrap"
-          xs
+          size="grow"
           sx={{
             width: `calc(100% - ${thumbnailSelectorWidth}px)`,
             position: 'relative',
@@ -102,13 +102,12 @@ const TraceWindow = (props: TraceWindowProps) => {
         >
           <Grid
             container
-            item
             justifyContent="flex-end"
             wrap="nowrap"
             mt={1}
             mr={1}
             ml={1}
-            xs="auto"
+            size="auto"
           >
             <TraceButtons
               data={waveform}
@@ -121,9 +120,8 @@ const TraceWindow = (props: TraceWindowProps) => {
             />
           </Grid>
           <Grid
-            item
             m={1}
-            xs
+            size="grow"
             sx={{
               height: 'calc(100% - 60px)',
             }}

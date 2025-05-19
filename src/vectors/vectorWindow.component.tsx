@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Grid } from '@mui/material';
+import { Backdrop, CircularProgress, Grid2 as Grid } from '@mui/material';
 import React from 'react';
 import { useVector } from '../api/vectors';
 import type { Vector } from '../app.types';
@@ -114,7 +114,7 @@ const VectorWindow = (props: VectorWindowProps) => {
         })}
         spacing={0}
       >
-        <Grid container item xs="auto">
+        <Grid container size="auto">
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
@@ -123,10 +123,9 @@ const VectorWindow = (props: VectorWindowProps) => {
         </Grid>
         <Grid
           container
-          item
           direction="column"
           wrap="nowrap"
-          xs
+          size="grow"
           sx={{
             width: `calc(100% - ${thumbnailSelectorWidth}px)`,
             position: 'relative',
@@ -135,13 +134,12 @@ const VectorWindow = (props: VectorWindowProps) => {
         >
           <Grid
             container
-            item
             justifyContent="flex-end"
             wrap="nowrap"
             mt={1}
             mr={1}
             ml={1}
-            xs="auto"
+            size="auto"
           >
             <VectorButtons
               data={vector}
@@ -156,7 +154,6 @@ const VectorWindow = (props: VectorWindowProps) => {
             />
           </Grid>
           <Grid
-            item
             sx={{
               height: 'calc(100% - 60px)',
             }}
@@ -170,9 +167,8 @@ const VectorWindow = (props: VectorWindowProps) => {
               spacing={1}
             >
               <Grid
-                item
                 m={1}
-                xs
+                size="grow"
                 sx={{
                   height: '100%',
                 }}
@@ -192,7 +188,6 @@ const VectorWindow = (props: VectorWindowProps) => {
                   display: 'flex',
                   alignItems: 'center',
                 }}
-                item
                 margin={1}
               >
                 {showControls && (

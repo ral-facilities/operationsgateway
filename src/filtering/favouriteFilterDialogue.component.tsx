@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Divider,
   FormHelperText,
-  Grid,
+  Grid2 as Grid,
   TextField,
 } from '@mui/material';
 import type { AxiosError } from 'axios';
@@ -209,13 +209,11 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
         <Grid container sx={{ mt: 1 }}>
           <Grid
             container
-            item
-            xs={12}
-            sm={6}
+            size={{ xs: 12, sm: 6 }}
             flexDirection={'column'}
             spacing={1}
           >
-            <Grid item>
+            <Grid>
               <TextField
                 fullWidth
                 label="Name"
@@ -236,7 +234,7 @@ const FavouriteFilterDialogue = (props: FavouriteFilterDialogueProps) => {
                 size="small"
               />
             </Grid>
-            <Grid item>
+            <Grid>
               <FilterInput
                 channels={channels}
                 value={favouriteFilter.filter}

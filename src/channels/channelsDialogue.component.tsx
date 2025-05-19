@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
+  Grid2 as Grid,
 } from '@mui/material';
 import { createSelector } from '@reduxjs/toolkit';
 import React from 'react';
@@ -141,10 +141,10 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <Grid container columnSpacing={2} alignItems="center">
-        <Grid item xs>
+        <Grid size="grow">
           <DialogTitle>Data Channels</DialogTitle>
         </Grid>
-        <Grid item xs pr={1}>
+        <Grid size="grow" pr={1}>
           <ChannelSearch
             channels={channels ?? []}
             onSearchChange={onSearchChange}
@@ -167,7 +167,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
       </DialogContent>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid item xs>
+          <Grid size="grow">
             <ChannelTree
               currNode={currNode}
               tree={channelTree ?? { name: '/', children: {} }}
@@ -179,8 +179,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid
-            item
-            xs
+            size="grow"
             sx={{
               overflow: 'auto',
               // 100vh - 2* dialogue padding + title + breadcrumbs + content padding + footer

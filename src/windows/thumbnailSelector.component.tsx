@@ -1,5 +1,5 @@
 import {
-  Grid,
+  Grid2 as Grid,
   List,
   ListItemButton,
   TablePagination,
@@ -48,12 +48,11 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
   return (
     <Grid
       container
-      item
       direction="column"
       justifyContent="space-between"
-      xs="auto"
+      size="auto"
     >
-      <Grid item xs>
+      <Grid size="grow">
         <List
           disablePadding
           sx={{
@@ -109,7 +108,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
           })}
         </List>
       </Grid>
-      <Grid item xs="auto">
+      <Grid size="auto">
         <TablePagination
           component="div"
           count={

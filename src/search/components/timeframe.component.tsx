@@ -3,7 +3,7 @@ import {
   Box,
   Button,
   Divider,
-  Grid,
+  Grid2 as Grid,
   TextField,
   Typography,
 } from '@mui/material';
@@ -48,7 +48,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         }}
       />
       <Grid container spacing={1} sx={{ paddingBottom: '15px' }}>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             size="small"
             variant="outlined"
@@ -63,7 +63,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             Last 10 mins
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             size="small"
             variant="outlined"
@@ -78,7 +78,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             Last 24 hours
           </Button>
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Button
             size="small"
             variant="outlined"
@@ -95,7 +95,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <TextField
             name="timeframe"
             label="Timeframe"
@@ -109,8 +109,8 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             }}
           />
         </Grid>
-        <Grid container spacing={1} item xs={8}>
-          <Grid item xs={4}>
+        <Grid container spacing={1} size={8}>
+          <Grid size={4}>
             <Button
               size="small"
               variant="outlined"
@@ -130,7 +130,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               Mins
             </Button>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <Button
               size="small"
               variant="outlined"
@@ -150,7 +150,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
               Hours
             </Button>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <Button
               size="small"
               variant="outlined"

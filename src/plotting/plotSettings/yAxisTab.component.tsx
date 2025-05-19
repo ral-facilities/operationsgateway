@@ -5,7 +5,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -256,8 +256,8 @@ const YAxisTab = (props: YAxisTabProps) => {
   const currentAxisLabel = axis === 'left' ? leftYAxisLabel : rightYAxisLabel;
 
   return (
-    <Grid container spacing={1} mt={0}>
-      <Grid item>
+    <Grid container spacing={1} mt={1}>
+      <Grid>
         <ToggleButtonGroup
           value={axis}
           exclusive
@@ -284,15 +284,15 @@ const YAxisTab = (props: YAxisTabProps) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <PlotSettingsTextField
           label="Label"
           value={currentAxisLabel ?? ''}
           onChange={changeAxisLabel}
         />
       </Grid>
-      <Grid container item spacing={1}>
-        <Grid item xs={6}>
+      <Grid container spacing={1}>
+        <Grid size={6}>
           <PlotSettingsTextField
             label="Min"
             error={invalidYRange}
@@ -301,7 +301,7 @@ const YAxisTab = (props: YAxisTabProps) => {
             onChange={handleChangeYMinimum}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <PlotSettingsTextField
             label="Max"
             error={invalidYRange}
@@ -311,7 +311,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           />
         </Grid>
       </Grid>
-      <Grid container item wrap="nowrap">
+      <Grid wrap="nowrap">
         <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
           <FormLabel id={`${axis}-y-scale-group-label`} sx={{ mr: 2 }}>
             Scale
@@ -346,7 +346,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           </RadioGroup>
         </FormControl>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <FormControl fullWidth>
           <InputLabel sx={{ fontSize: 12 }} id="table-channel-select-label">
             Displayed table channels
@@ -393,7 +393,7 @@ const YAxisTab = (props: YAxisTabProps) => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Autocomplete
           disablePortal
           clearOnBlur
@@ -451,7 +451,7 @@ const YAxisTab = (props: YAxisTabProps) => {
       {selectedPlotChannels
         .filter((channel) => channel.options.yAxis === axis)
         .map((plotChannel) => (
-          <Grid container item key={plotChannel.name}>
+          <Grid key={plotChannel.name} size={12}>
             <Box
               aria-label={`${
                 plotChannel.displayName ?? plotChannel.name

@@ -5,7 +5,7 @@ import {
   Box,
   CircularProgress,
   Drawer,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Typography,
 } from '@mui/material';
@@ -212,7 +212,7 @@ const PlotWindow = (props: PlotWindowProps) => {
         })}
         spacing={0}
       >
-        <Grid item>
+        <Grid>
           <Drawer
             slotProps={{
               paper: {
@@ -302,7 +302,6 @@ const PlotWindow = (props: PlotWindowProps) => {
 
         <Grid
           container
-          item
           direction="column"
           wrap="nowrap"
           sx={
@@ -316,7 +315,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               : { width: '100%', position: 'relative', height: '100%' }
           }
         >
-          <Grid container item justifyContent="space-between" wrap="nowrap">
+          <Grid container justifyContent="space-between" wrap="nowrap">
             <IconButton
               color="inherit"
               aria-label="open settings"
@@ -327,7 +326,7 @@ const PlotWindow = (props: PlotWindowProps) => {
             >
               <SettingsIcon />
             </IconButton>
-            <Grid item mr={1} mt={1}>
+            <Grid mr={1} mt={1}>
               <PlotButtons
                 data={records}
                 chartRef={chartRef}
@@ -345,11 +344,10 @@ const PlotWindow = (props: PlotWindowProps) => {
             </Grid>
           </Grid>
           <Grid
-            item
             ml={1}
             mr={1}
             mt={1}
-            xs
+            size="grow"
             sx={{
               height: '100%', // needed for webkit to be able to calc height correctly
             }}
