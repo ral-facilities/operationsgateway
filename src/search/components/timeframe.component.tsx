@@ -102,7 +102,7 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
             value={workingTimeframe}
             type="number"
             size="small"
-            inputProps={{ min: 0 }}
+            slotProps={{ htmlInput: { min: 0 } }}
             onChange={(event) => {
               setWorkingTimeframe(Number(event.target.value));
               searchParamsUpdated();

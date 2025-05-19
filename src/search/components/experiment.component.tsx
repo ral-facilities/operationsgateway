@@ -92,13 +92,15 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
                 name="experiment id"
                 {...params}
                 label="Select your experiment"
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  },
                 }}
               />
             )}

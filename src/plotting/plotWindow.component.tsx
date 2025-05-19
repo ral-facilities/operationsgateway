@@ -1,32 +1,32 @@
-import React from 'react';
-import PlotSettingsController from './plotSettings/plotSettingsController.component';
-import Plot from './plot.component';
-import { PlotButtons } from '../windows/windowButtons.component';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
+  Backdrop,
   Box,
-  Grid,
+  CircularProgress,
   Drawer,
+  Grid,
   IconButton,
   Typography,
-  Backdrop,
-  CircularProgress,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import React from 'react';
+import { useScalarChannels } from '../api/channels';
+import { usePlotRecords } from '../api/records';
 import {
-  XAxisScale,
-  YAxisScale,
+  FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
-  FullScalarChannelMetadata,
+  XAxisScale,
+  YAxisScale,
 } from '../app.types';
-import { usePlotRecords } from '../api/records';
-import { useScalarChannels } from '../api/channels';
-import WindowPortal from '../windows/windowPortal.component';
-import { selectSelectedChannels } from '../state/slices/tableSlice';
-import { useAppSelector, useAppDispatch } from '../state/hooks';
-import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectWorkingHours } from '../state/slices/configSlice';
+import { PlotConfig, savePlot } from '../state/slices/plotSlice';
+import { selectSelectedChannels } from '../state/slices/tableSlice';
+import { PlotButtons } from '../windows/windowButtons.component';
+import WindowPortal from '../windows/windowPortal.component';
+import Plot from './plot.component';
+import PlotSettingsController from './plotSettings/plotSettingsController.component';
 
 interface PlotWindowProps {
   onClose: () => void;
@@ -214,10 +214,12 @@ const PlotWindow = (props: PlotWindowProps) => {
       >
         <Grid item>
           <Drawer
-            PaperProps={{
-              sx: {
-                position: 'absolute',
-                width: drawerWidth,
+            slotProps={{
+              paper: {
+                sx: {
+                  position: 'absolute',
+                  width: drawerWidth,
+                },
               },
             }}
             variant="persistent"

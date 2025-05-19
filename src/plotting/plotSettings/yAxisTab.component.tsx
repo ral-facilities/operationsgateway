@@ -432,15 +432,17 @@ const YAxisTab = (props: YAxisTabProps) => {
               label="Search all channels"
               variant="outlined"
               size="small"
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              InputProps={{
-                ...params.InputProps,
-                style: { fontSize: 12 },
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                inputLabel: { sx: { fontSize: 12 } },
+                input: {
+                  ...params.InputProps,
+                  style: { fontSize: 12 },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           )}

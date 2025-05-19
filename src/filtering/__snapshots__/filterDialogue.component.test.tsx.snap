@@ -196,11 +196,11 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
                               id=":rj:"
                               readonly=""
@@ -396,11 +396,11 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
                               id=":rq:"
                               readonly=""
@@ -596,11 +596,11 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
                               id=":r11:"
                               readonly=""

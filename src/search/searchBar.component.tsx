@@ -559,7 +559,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               <Grid item xs="auto">
                 {displayingWarningMessage ? (
                   <Tooltip
-                    componentsProps={{
+                    slotProps={{
                       tooltip: {
                         sx: {
                           backgroundColor: 'yellow',

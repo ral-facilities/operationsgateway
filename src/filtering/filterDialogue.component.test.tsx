@@ -52,7 +52,7 @@ describe('Filter dialogue component', () => {
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
     let baseElement;
-    act(() => {
+    await act(async () => {
       baseElement = createView().baseElement;
     });
 

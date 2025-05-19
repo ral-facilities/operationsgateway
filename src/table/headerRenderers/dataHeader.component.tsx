@@ -99,9 +99,11 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': `${dataKey}-menu-button`,
-          dense: true,
+        slotProps={{
+          list: {
+            'aria-labelledby': `${dataKey}-menu-button`,
+            dense: true,
+          },
         }}
       >
         <MenuItem

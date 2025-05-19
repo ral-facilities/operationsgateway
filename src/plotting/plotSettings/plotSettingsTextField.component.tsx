@@ -23,8 +23,10 @@ const PlotSettingsTextField = (props: PlotSettingsTextFieldProps) => {
       size="small"
       value={value}
       onChange={handleChangeTitle}
-      InputProps={{ style: { fontSize: 12 } }}
-      InputLabelProps={{ style: { fontSize: 12 } }}
+      slotProps={{
+        input: { sx: { fontSize: 12 } },
+        inputLabel: { sx: { fontSize: 12 } },
+      }}
       {...rest}
     />
   );

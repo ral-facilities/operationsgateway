@@ -160,8 +160,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               }}
             >
               <Checkbox
-                inputProps={{
-                  'aria-label': 'select all rows',
+                slotProps={{
+                  input: {
+                    'aria-label': 'select all rows',
+                  },
                 }}
                 size="small"
                 color="primary"
@@ -189,7 +191,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             >
               <Checkbox
                 size="small"
-                inputProps={{ 'aria-label': 'select row' }}
+                slotProps={{ input: { 'aria-label': 'select row' } }}
                 sx={{ p: '5px', m: '0 4px' }}
                 checked={cell.row.getIsSelected()}
                 disabled={!cell.row.getCanSelect()}

@@ -86,7 +86,7 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
                   )}`}
                   arrow
                   enterDelay={200}
-                  PopperProps={{ disablePortal: true }}
+                  slotProps={{ popper: { disablePortal: true } }}
                 >
                   <Base64ImageThumbnail
                     base64Data={
@@ -156,22 +156,26 @@ const ThumbnailSelector = (props: ThumbnailSelectorProps) => {
               letterSpacing: 'unset',
             },
           }}
-          SelectProps={{
-            sx: {
-              marginLeft: '0px',
-              marginRight: '0px',
+          slotProps={{
+            select: {
+              sx: {
+                marginLeft: '0px',
+                marginRight: '0px',
+              },
             },
-          }}
-          nextIconButtonProps={{
-            size: 'small',
-            sx: {
-              padding: 0,
-            },
-          }}
-          backIconButtonProps={{
-            size: 'small',
-            sx: {
-              padding: 0,
+            actions: {
+              nextButton: {
+                size: 'small',
+                sx: {
+                  padding: 0,
+                },
+              },
+              previousButton: {
+                size: 'small',
+                sx: {
+                  padding: 0,
+                },
+              },
             },
           }}
         />

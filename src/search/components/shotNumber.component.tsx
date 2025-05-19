@@ -54,7 +54,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             value={min ?? ''}
             type="number"
             size="small"
-            inputProps={{ min: 0 }}
+            slotProps={{ htmlInput: { min: 0 } }}
             onChange={(event) => {
               changeMin(
                 event.target.value ? Number(event.target.value) : undefined
@@ -77,7 +77,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             value={max ?? ''}
             type="number"
             size="small"
-            inputProps={{ min: 0 }}
+            slotProps={{ htmlInput: { min: 0 } }}
             onChange={(event) => {
               changeMax(
                 event.target.value ? Number(event.target.value) : undefined
