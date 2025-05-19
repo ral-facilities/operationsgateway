@@ -2,6 +2,7 @@
   "apiUrl": "",
   "recordLimitWarning": -1,
   "workingHours": { "start": 9, "end": 18 },
+  "plotAxisSigFigs": ".3~g",
   "routes": [
     {
       "section": "OperationsGateway",

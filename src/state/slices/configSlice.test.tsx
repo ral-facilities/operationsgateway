@@ -3,6 +3,7 @@ import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
   initialState,
+  loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
   loadRecordLimitWarningSetting,
   loadUrls,
@@ -83,6 +84,17 @@ describe('configSlice', () => {
 
       expect(updatedState.workingHours).toEqual({ start: 10, end: 17 });
     });
+
+    it('should set plotAxisSigFigs property when loadPlotAxisSigFigsSetting action is sent', () => {
+      expect(state.plotAxisSigFigs).toEqual(undefined);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadPlotAxisSigFigsSetting('.3~g')
+      );
+
+      expect(updatedState.plotAxisSigFigs).toEqual('.3~g');
+    });
   });
 
   describe('Actions', () => {
@@ -105,12 +117,13 @@ describe('configSlice', () => {
           ],
           pluginHost: 'http://localhost:3000/',
           workingHours: { start: 10, end: 17 },
+          plotAxisSigFigs: '.2~s',
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(5);
+      expect(actions.length).toEqual(6);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -123,10 +136,11 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(
         loadWorkingHoursSetting({ start: 10, end: 17 })
       );
+      expect(actions).toContainEqual(loadPlotAxisSigFigsSetting('.2~s'));
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting, loadWorkingHoursSetting actions when they're not defined", async () => {
+    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting and loadWorkingHoursSetting actions when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -151,6 +165,9 @@ describe('configSlice', () => {
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadWorkingHoursSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadPlotAxisSigFigsSetting.type)
       ).toBe(true);
 
       expect(actions).toContainEqual(settingsLoaded());

@@ -1,8 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { AppDispatch } from '../store';
+import { createSlice } from '@reduxjs/toolkit';
 import { settings, type WorkingHours } from '../../settings';
-import { RootState } from '../store';
+import { AppDispatch, RootState } from '../store';
 
 interface URLs {
   apiUrl: string;
@@ -15,6 +14,7 @@ interface ConfigState {
   pluginHost: string;
   settingsLoaded: boolean;
   workingHours: WorkingHours;
+  plotAxisSigFigs?: string;
 }
 
 // Define the initial state using that type
@@ -49,6 +49,12 @@ export const configSlice = createSlice({
     loadWorkingHoursSetting: (state, action: PayloadAction<WorkingHours>) => {
       state.workingHours = action.payload;
     },
+    loadPlotAxisSigFigsSetting: (
+      state,
+      action: PayloadAction<string | undefined>
+    ) => {
+      state.plotAxisSigFigs = action.payload;
+    },
   },
 });
 
@@ -58,6 +64,7 @@ export const {
   loadUrls,
   loadRecordLimitWarningSetting,
   loadWorkingHoursSetting,
+  loadPlotAxisSigFigsSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -65,6 +72,8 @@ export const selectRecordLimitWarning = (state: RootState) =>
   state.config.recordLimitWarning;
 export const selectWorkingHours = (state: RootState) =>
   state.config.workingHours;
+export const selectPlotAxisSigFigs = (state: RootState) =>
+  state.config.plotAxisSigFigs;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -88,6 +97,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['workingHours'] !== undefined) {
       dispatch(loadWorkingHoursSetting(settingsResult['workingHours']));
+    }
+
+    if (settingsResult['plotAxisSigFigs'] !== undefined) {
+      dispatch(loadPlotAxisSigFigsSetting(settingsResult['plotAxisSigFigs']));
     }
 
     dispatch(settingsLoaded());
