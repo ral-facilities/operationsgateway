@@ -3,16 +3,17 @@ import {
   PlotDataset,
   PlotType,
   SelectedPlotChannel,
+  timeChannelName,
   XAxisScale,
   YAxisScale,
 } from '../app.types';
 // only import types as we don't actually run any plotly.js code in React
+import { useTheme } from '@mui/material';
 import type {
   Config as PlotlyConfig,
   Layout as PlotlyLayout,
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
-import { useTheme } from '@mui/material';
 import type { WorkingHours } from '../settings';
 
 export interface PlotProps {
@@ -38,6 +39,7 @@ export interface PlotProps {
   rightYAxisLabel?: string;
   viewReset: boolean;
   workingHours: WorkingHours;
+  plotAxisSigFigs?: string;
   skipNonBusinessHours: boolean;
 }
 
@@ -66,6 +68,7 @@ const Plot = (props: PlotProps) => {
     viewReset,
     workingHours,
     skipNonBusinessHours,
+    plotAxisSigFigs,
   } = props;
 
   const {
@@ -168,6 +171,7 @@ const Plot = (props: PlotProps) => {
           gridcolor: lineColour,
           tickfont: { color: fontColour },
           automargin: true,
+          tickformat: XAxis !== timeChannelName ? plotAxisSigFigs : undefined,
           exponentformat: 'none',
         },
         yaxis: {
@@ -189,6 +193,7 @@ const Plot = (props: PlotProps) => {
           tickfont: { color: fontColour },
           tickprefix: axesLabelsVisible && leftYAxisLabel ? ' ' : undefined, // add a bit of spacing between axis label & tick labels
           automargin: true,
+          tickformat: plotAxisSigFigs,
           exponentformat: 'none',
         },
         yaxis2: {
@@ -212,6 +217,7 @@ const Plot = (props: PlotProps) => {
           tickfont: { color: fontColour },
           ticksuffix: axesLabelsVisible && rightYAxisLabel ? ' ' : undefined, // add a bit of spacing between axis label & tick labels
           automargin: true,
+          tickformat: plotAxisSigFigs,
           exponentformat: 'none',
         },
       } satisfies Partial<PlotlyLayout>)
@@ -239,6 +245,7 @@ const Plot = (props: PlotProps) => {
     skipNonBusinessHours,
     workingHours.end,
     workingHours.start,
+    plotAxisSigFigs,
   ]);
 
   React.useEffect(() => {
