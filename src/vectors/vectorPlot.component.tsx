@@ -15,6 +15,7 @@ export interface VectorPlotProps {
   title: string;
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
   viewReset: boolean;
+  plotAxisSigFigs?: string;
 }
 
 const plotlyConfigString = JSON.stringify({
@@ -27,7 +28,15 @@ const plotlyConfigString = JSON.stringify({
 } satisfies Partial<PlotlyConfig>);
 
 const VectorPlot = (props: VectorPlotProps) => {
-  const { vector, labels, units, title, chartRef: chartRef, viewReset } = props;
+  const {
+    vector,
+    labels,
+    units,
+    title,
+    chartRef: chartRef,
+    viewReset,
+    plotAxisSigFigs,
+  } = props;
   const {
     palette: { mode: themeMode },
   } = useTheme();
@@ -59,11 +68,13 @@ const VectorPlot = (props: VectorPlotProps) => {
           },
         },
         yaxis: {
+          type: 'linear',
           exponentformat: 'none',
           automargin: true,
+          tickformat: plotAxisSigFigs,
         },
       }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
-    [fontColour, title, units]
+    [fontColour, plotAxisSigFigs, title, units]
   );
 
   // set the initial options

@@ -260,7 +260,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                         <button
                                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                                           tabindex="0"
-                                          title="Clear value"
+                                          title="Clear"
                                           type="button"
                                         >
                                           <svg
@@ -349,7 +349,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                         <button
                                           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall clearButton css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
                                           tabindex="0"
-                                          title="Clear value"
+                                          title="Clear"
                                           type="button"
                                         >
                                           <svg

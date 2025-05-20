@@ -7,7 +7,8 @@ import {
   VECTOR_SKIP_PREFERENCE_NAME,
   type Vector,
 } from '../app.types';
-import { useAppDispatch } from '../state/hooks';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectPlotAxisSigFigs } from '../state/slices/configSlice';
 import { WindowConfigType, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector, {
   thumbnailSelectorWidth,
@@ -45,6 +46,7 @@ const VectorWindow = (props: VectorWindowProps) => {
   const units = isVector ? vectorConfig.units : undefined;
 
   const dispatch = useAppDispatch();
+  const plotAxisSigFigs = useAppSelector(selectPlotAxisSigFigs);
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
   const [showControls, setShowControls] = React.useState<boolean>(false);
@@ -220,6 +222,7 @@ const VectorWindow = (props: VectorWindowProps) => {
                   chartRef={chartRef}
                   viewReset={viewFlag}
                   title={title}
+                  plotAxisSigFigs={plotAxisSigFigs}
                 />
               </Grid>
               <Grid

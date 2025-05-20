@@ -12,6 +12,7 @@ export interface OperationsGatewaySettings {
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;
   workingHours?: WorkingHours;
+  plotAxisSigFigs?: string;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;

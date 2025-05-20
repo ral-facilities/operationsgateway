@@ -16,6 +16,7 @@ export interface TracePlotProps {
   pointsVisible: boolean;
   xUnits?: string;
   yUnits?: string;
+  plotAxisSigFigs?: string;
 }
 
 const plotlyConfigString = JSON.stringify({
@@ -36,6 +37,7 @@ const TracePlot = (props: TracePlotProps) => {
     pointsVisible,
     xUnits,
     yUnits,
+    plotAxisSigFigs,
   } = props;
 
   const {
@@ -68,6 +70,7 @@ const TracePlot = (props: TracePlotProps) => {
             text: xUnits ? `units: ${xUnits}` : undefined,
             font: { color: fontColour },
           },
+          tickformat: plotAxisSigFigs,
         },
         yaxis: {
           type: 'linear',
@@ -77,9 +80,10 @@ const TracePlot = (props: TracePlotProps) => {
             text: yUnits ? `units: ${yUnits}` : undefined,
             font: { color: fontColour },
           },
+          tickformat: plotAxisSigFigs,
         },
       }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
-    [fontColour, title, xUnits, yUnits]
+    [fontColour, plotAxisSigFigs, title, xUnits, yUnits]
   );
 
   // set the initial options

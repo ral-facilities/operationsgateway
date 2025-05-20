@@ -11,10 +11,10 @@
     "@hello-pangea/dnd": "18.0.1",
     "@hookform/resolvers": "^4.0.0",
     "@mui/base": "5.0.0-beta.40",
-    "@mui/icons-material": "5.16.2",
-    "@mui/material": "5.16.2",
-    "@mui/system": "5.16.2",
-    "@mui/x-date-pickers": "6.19.0",
+    "@mui/icons-material": "5.17.1",
+    "@mui/material": "5.17.1",
+    "@mui/system": "5.17.1",
+    "@mui/x-date-pickers": "patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch",
     "@reduxjs/toolkit": "2.7.0",
     "@tanstack/react-query": "5.71.0",
     "@tanstack/react-query-devtools": "5.71.0",
@@ -24,7 +24,7 @@
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react": "4.4.1",
-    "axios": "1.8.2",
+    "axios": "1.9.0",
     "browserslist": "4.24.2",
     "browserslist-to-esbuild": "2.1.1",
     "date-fns": "3.6.0",
@@ -46,8 +46,7 @@
   },
   "resolutions": {
     "nwsapi": "2.2.13",
-    "@types/react": "18.3.3",
-    "@mui/x-date-pickers@6.19.0": "patch:@mui/x-date-pickers@npm%3A6.19.0#./.yarn/patches/@mui-x-date-pickers-npm-6.19.0-d448743c52.patch"
+    "@types/react": "18.3.3"
   },
   "scripts": {
     "dev": "vite --open",
@@ -87,7 +86,7 @@
   ],
   "packageManager": "yarn@4.9.1",
   "devDependencies": {
-    "@dotenvx/dotenvx": "1.41.0",
+    "@dotenvx/dotenvx": "1.43.0",
     "@playwright/test": "1.51.0",
     "@tanstack/eslint-plugin-query": "5.71.5",
     "@testing-library/cypress": "10.0.1",
