@@ -1,7 +1,13 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
 import React from 'react';
-import { DEFAULT_WINDOW_VARS } from '../app.types';
+import {
+  DEFAULT_WINDOW_VARS,
+  VECTOR_LIMIT_PREFERENCE_NAME,
+  VECTOR_SKIP_PREFERENCE_NAME,
+} from '../app.types';
+import { server } from '../mocks/server';
 import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import type WindowPortal from '../windows/windowPortal.component';
@@ -41,6 +47,9 @@ vi.mock('./vectorPlot.component', () => {
 
 describe('Vector Window component', () => {
   let testVectorConfig: WindowConfigType;
+  let user: ReturnType<typeof userEvent.setup>;
+  let ref: React.RefObject<WindowPortal>;
+  const mockResize = vi.fn();
 
   beforeEach(() => {
     testVectorConfig = {
@@ -54,18 +63,32 @@ describe('Vector Window component', () => {
       units: 'test',
       ...DEFAULT_WINDOW_VARS,
     };
+    user = userEvent.setup();
+    ref = React.createRef<WindowPortal>();
+    Object.defineProperty(ref, 'current', {
+      value: {
+        getWindow: vi.fn(() => ({
+          Plotly: {
+            Plots: {
+              resize: mockResize,
+            },
+          },
+        })),
+      },
+      writable: true,
+    });
   });
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  const createView = () => {
+  const createView = (ref?: React.RefObject<WindowPortal>) => {
     return renderComponentWithProviders(
       <VectorWindow
         onClose={vi.fn()}
         vectorConfig={testVectorConfig}
-        vectorWindowRef={{ current: null }}
+        vectorWindowRef={ref ?? { current: null }}
       />
     );
   };
@@ -82,30 +105,7 @@ describe('Vector Window component', () => {
   });
 
   it('show control panel button is visible and interactive', async () => {
-    const user = userEvent.setup();
-    const ref = React.createRef<WindowPortal>();
-    const mockResize = vi.fn();
-
-    Object.defineProperty(ref, 'current', {
-      value: {
-        getWindow: vi.fn(() => ({
-          Plotly: {
-            Plots: {
-              resize: mockResize,
-            },
-          },
-        })),
-      },
-      writable: true,
-    });
-
-    renderComponentWithProviders(
-      <VectorWindow
-        onClose={vi.fn()}
-        vectorConfig={testVectorConfig}
-        vectorWindowRef={ref}
-      />
-    );
+    createView(ref);
 
     await user.click(
       screen.getByRole('button', { name: 'Show Vector Controls' })
@@ -127,7 +127,6 @@ describe('Vector Window component', () => {
   });
 
   it('dispatches updateWindow when new thumbnail is clicked', async () => {
-    const user = userEvent.setup();
     const { store } = createView();
 
     const thumbnails = await screen.findAllByRole('img');
@@ -150,5 +149,33 @@ describe('Vector Window component', () => {
         units: 'test',
       },
     });
+  });
+
+  it('checks that the vectors are using the default value of the slider (with the default vector upper bound)', async () => {
+    // Mock vector preferences
+
+    server.use(
+      http.get(`/users/preferences/${VECTOR_SKIP_PREFERENCE_NAME}`, () => {
+        return HttpResponse.json('2', { status: 200 });
+      }),
+      http.get(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
+        return HttpResponse.json('5', { status: 200 });
+      })
+    );
+
+    const { asFragment } = createView(ref);
+    await user.click(
+      screen.getByRole('button', { name: 'Show Vector Controls' })
+    );
+
+    expect(screen.getByText('Select Vector Range')).toBeVisible();
+
+    const slider = await screen.findAllByRole('slider');
+    await waitFor(() => {
+      expect(slider[0]).toHaveValue('2');
+    });
+    expect(slider[1]).toHaveValue('5');
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });

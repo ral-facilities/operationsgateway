@@ -7,6 +7,8 @@ export const MicroFrontendToken = `${MicroFrontendId}:token`;
 export const timeChannelName = 'timestamp';
 
 export const PREFERRED_COLOUR_MAP_PREFERENCE_NAME = 'PREFERRED_COLOUR_MAP';
+export const VECTOR_SKIP_PREFERENCE_NAME = 'VECTOR_SKIP';
+export const VECTOR_LIMIT_PREFERENCE_NAME = 'VECTOR_LIMIT';
 
 export interface Record {
   _id: string;
