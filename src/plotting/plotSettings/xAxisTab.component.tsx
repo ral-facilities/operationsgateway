@@ -15,7 +15,11 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import {
+  DateTimePicker,
+  LocalizationProvider,
+  pickersLayoutClasses,
+} from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { isBefore, isValid } from 'date-fns';
 import { enGB } from 'date-fns/locale';
@@ -238,6 +242,25 @@ const XAxisTab = (props: XAxisTabProps) => {
                     },
                     openPickerIcon: { fontSize: 'inherit' },
                     field: { clearable: true },
+                    layout: {
+                      sx: {
+                        [`.${pickersLayoutClasses.shortcuts}`]: {
+                          gridColumn: 2,
+                          gridRow: 3,
+                        },
+                      },
+                    },
+                    shortcuts: {
+                      items: [
+                        {
+                          label: 'Jump to to date',
+                          getValue: () => {
+                            return toDate;
+                          },
+                        },
+                      ],
+                      changeImportance: 'set',
+                    },
                     textField: {
                       inputProps: {
                         invalidDateRange: invalidDateRange,
@@ -296,6 +319,25 @@ const XAxisTab = (props: XAxisTabProps) => {
                     },
                     openPickerIcon: { fontSize: 'inherit' },
                     field: { clearable: true },
+                    layout: {
+                      sx: {
+                        [`.${pickersLayoutClasses.shortcuts}`]: {
+                          gridColumn: 2,
+                          gridRow: 3,
+                        },
+                      },
+                    },
+                    shortcuts: {
+                      items: [
+                        {
+                          label: 'Jump to from date',
+                          getValue: () => {
+                            return fromDate;
+                          },
+                        },
+                      ],
+                      changeImportance: 'set',
+                    },
                     textField: {
                       inputProps: {
                         invalidDateRange: invalidDateRange,

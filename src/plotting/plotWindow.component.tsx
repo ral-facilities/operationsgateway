@@ -20,7 +20,10 @@ import {
   YAxisScale,
 } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { selectWorkingHours } from '../state/slices/configSlice';
+import {
+  selectPlotAxisSigFigs,
+  selectWorkingHours,
+} from '../state/slices/configSlice';
 import { PlotConfig, savePlot } from '../state/slices/plotSlice';
 import { selectSelectedChannels } from '../state/slices/tableSlice';
 import { PlotButtons } from '../windows/windowButtons.component';
@@ -142,6 +145,7 @@ const PlotWindow = (props: PlotWindowProps) => {
   )?.name;
 
   const workingHours = useAppSelector(selectWorkingHours);
+  const plotAxisSigFigs = useAppSelector(selectPlotAxisSigFigs);
 
   const handleSavePlot = React.useCallback(() => {
     const configToSave: PlotConfig = {
@@ -375,6 +379,7 @@ const PlotWindow = (props: PlotWindowProps) => {
               rightYAxisLabel={rightYAxisLabel}
               viewReset={viewFlag}
               workingHours={workingHours}
+              plotAxisSigFigs={plotAxisSigFigs}
               skipNonBusinessHours={skipNonBusinessHours}
             />
           </Grid>

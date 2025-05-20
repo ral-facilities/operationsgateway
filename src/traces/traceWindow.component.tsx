@@ -1,7 +1,8 @@
 import { Backdrop, CircularProgress, Grid2 as Grid } from '@mui/material';
 import React from 'react';
 import { useWaveform } from '../api/waveforms';
-import { useAppDispatch } from '../state/hooks';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectPlotAxisSigFigs } from '../state/slices/configSlice';
 import { WindowConfigType, updateWindow } from '../state/slices/windowSlice';
 import ThumbnailSelector, {
   thumbnailSelectorWidth,
@@ -34,6 +35,7 @@ const TraceWindow = (props: TraceWindowProps) => {
     setPointsVisible((pointsVisible) => !pointsVisible);
   }, []);
 
+  const plotAxisSigFigs = useAppSelector(selectPlotAxisSigFigs);
   const chartRef = React.useRef<HTMLDivElement | null>(null);
 
   const { data: waveform, isLoading: waveformLoading } = useWaveform(
@@ -132,6 +134,7 @@ const TraceWindow = (props: TraceWindowProps) => {
               viewReset={viewFlag}
               title={title}
               pointsVisible={pointsVisible}
+              plotAxisSigFigs={plotAxisSigFigs}
             />
           </Grid>
         </Grid>

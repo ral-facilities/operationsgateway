@@ -1,12 +1,21 @@
 {
   "apiUrl": "http://host.docker.internal:8000",
   "recordLimitWarning": -1,
+  "workingHours": { "start": 9, "end": 18 },
+  "plotAxisSigFigs": ".3~s",
   "routes": [
     {
-      "section": "Homepage",
-      "link": "/operationsgateway",
+      "section": "OperationsGateway",
+      "link": "/og",
       "displayName": "OperationsGateway",
       "order": 0
+    },
+    {
+      "section": "Admin",
+      "link": "/admin/users",
+      "displayName": "Users",
+      "admin": true,
+      "order": 1
     }
   ],
   "pluginHost": "http://localhost:3000"
