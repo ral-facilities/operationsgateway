@@ -20,6 +20,9 @@ const TraceWindow = (props: TraceWindowProps) => {
   const { onClose, traceConfig, traceWindowRef } = props;
   const { channelName, recordId, title } = traceConfig;
 
+  const xUnits = traceConfig.type === 'trace' ? traceConfig.xUnits : undefined;
+  const yUnits = traceConfig.type === 'trace' ? traceConfig.yUnits : undefined;
+
   const dispatch = useAppDispatch();
 
   const [viewFlag, setViewFlag] = React.useState<boolean>(false);
@@ -118,6 +121,8 @@ const TraceWindow = (props: TraceWindowProps) => {
               resetView={resetView}
               pointsVisible={pointsVisible}
               togglePointsVisibility={togglePointsVisibility}
+              xUnits={xUnits}
+              yUnits={yUnits}
             />
           </Grid>
           <Grid
@@ -134,6 +139,8 @@ const TraceWindow = (props: TraceWindowProps) => {
               viewReset={viewFlag}
               title={title}
               pointsVisible={pointsVisible}
+              xUnits={xUnits}
+              yUnits={yUnits}
             />
           </Grid>
         </Grid>
