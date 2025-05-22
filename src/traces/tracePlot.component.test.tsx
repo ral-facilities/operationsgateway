@@ -1,7 +1,7 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import { render } from '@testing-library/react';
 import React from 'react';
 import TracePlot, { TracePlotProps } from './tracePlot.component';
-import { createTheme, ThemeProvider } from '@mui/material';
 
 describe('Trace plot component', () => {
   let props: TracePlotProps;
@@ -17,6 +17,8 @@ describe('Trace plot component', () => {
       chartRef: React.createRef<HTMLDivElement>(),
       viewReset: false,
       pointsVisible: false,
+      xUnits: 'mV',
+      yUnits: 'ms',
     };
   });
 

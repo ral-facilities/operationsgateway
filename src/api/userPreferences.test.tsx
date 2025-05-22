@@ -64,7 +64,7 @@ describe('user preferences api functions', () => {
         expect(result.current.isSuccess).toBeTruthy();
       });
 
-      expect(result.current.data).toEqual('test');
+      expect(result.current.data).toEqual('');
       expect(axiosPost).toHaveBeenCalled();
     });
 

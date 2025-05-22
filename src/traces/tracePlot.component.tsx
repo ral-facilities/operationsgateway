@@ -14,6 +14,8 @@ export interface TracePlotProps {
   chartRef: React.MutableRefObject<HTMLDivElement | null>;
   viewReset: boolean;
   pointsVisible: boolean;
+  xUnits?: string;
+  yUnits?: string;
   plotAxisSigFigs?: string;
 }
 
@@ -33,13 +35,15 @@ const TracePlot = (props: TracePlotProps) => {
     chartRef: chartRef,
     viewReset,
     pointsVisible,
+    xUnits,
+    yUnits,
     plotAxisSigFigs,
   } = props;
 
   const {
     palette: { mode: themeMode },
   } = useTheme();
-
+  const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
   const chartOptions = React.useMemo(
     () =>
       ({
@@ -62,16 +66,24 @@ const TracePlot = (props: TracePlotProps) => {
           type: 'linear',
           exponentformat: 'none',
           automargin: true,
+          title: {
+            text: xUnits ? `units: ${xUnits}` : undefined,
+            font: { color: fontColour },
+          },
           tickformat: plotAxisSigFigs,
         },
         yaxis: {
           type: 'linear',
           exponentformat: 'none',
           automargin: true,
+          title: {
+            text: yUnits ? `units: ${yUnits}` : undefined,
+            font: { color: fontColour },
+          },
           tickformat: plotAxisSigFigs,
         },
       }) satisfies Partial<PlotlyLayout> as Partial<PlotlyLayout>,
-    [plotAxisSigFigs, title]
+    [fontColour, plotAxisSigFigs, title, xUnits, yUnits]
   );
 
   // set the initial options

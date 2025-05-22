@@ -19,7 +19,9 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_CDEFGX', exact: true  }).click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_CDEFGX', exact: true })
+    .click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -28,7 +30,10 @@ test('user can zoom and pan the vector', async ({ page }) => {
   // Open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -45,7 +50,7 @@ test('user can zoom and pan the vector', async ({ page }) => {
 
   // **Modify drag-to-zoom to only select half of the plot**
   const box = await chart.boundingBox();
-  if (!box) throw new Error("Chart bounding box not found");
+  if (!box) throw new Error('Chart bounding box not found');
 
   await chart.dragTo(chart, {
     force: true, // Required due to overlay elements
@@ -105,12 +110,14 @@ test('user can zoom and pan the vector', async ({ page }) => {
   });
 });
 
-
 test('user can limit the vector data', async ({ page }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_CDEFGX vector', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
   ]);
 
   // Resize the popup window
@@ -125,7 +132,6 @@ test('user can limit the vector data', async ({ page }) => {
   await popup.waitForTimeout(1000);
 
   await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
-
 
   await expect(chart).toHaveScreenshot({
     maxDiffPixels: 150,
@@ -246,5 +252,166 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
   });
 });
 
+test('user can set their default vector lower bound', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
 
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
 
+  await vectorSkipInput.fill('4');
+
+  await expect(vectorSkipInput).toHaveValue('4');
+
+  // Open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  // Resize the popup window
+  await popup.setViewportSize({ width: 1200, height: 800 });
+
+  const chart = await popup.locator('.plotly-chart');
+
+  // Ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+
+  const slider = await popup.getByRole('slider');
+
+  await expect(slider.nth(0)).toHaveValue('4');
+});
+
+test('user can set their default vector upper bound', async ({ page }) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
+
+  await vectorLimitInput.fill('4');
+
+  await expect(vectorLimitInput).toHaveValue('4');
+
+  // Open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  // Resize the popup window
+  await popup.setViewportSize({ width: 1200, height: 800 });
+
+  const chart = await popup.locator('.plotly-chart');
+
+  // Ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  const slider = await popup.getByRole('slider');
+
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+
+  await expect(slider.nth(1)).toHaveValue('4');
+});
+
+test('should display an error if vector upper bound or skip is not a valid number', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
+
+  await vectorLimitInput.fill('abc');
+
+  await expect(
+    page.getByText('Upper Bound must be a valid number')
+  ).toBeVisible();
+
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
+
+  await vectorSkipInput.fill('xyz');
+
+  await expect(
+    page.getByText('Lower Bound must be a valid number')
+  ).toBeVisible();
+});
+
+test('should display an error if vector upper bound is less than vector lower bound', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
+
+  await vectorSkipInput.fill('20');
+
+  await vectorLimitInput.fill('10');
+
+  await expect(
+    page.getByText('Upper Bound must be greater than or equal to Lower Bound.')
+  ).toBeVisible();
+  await page.screenshot({
+    path: 'screenshots/vector-limit-less-than-skip.png',
+  });
+});
+
+test('should display an error if vector upper bound is negative', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    const div = document.createElement('div');
+    div.id = 'settings';
+    const ul = document.createElement('ul');
+    div.appendChild(ul);
+    document.body.appendChild(div);
+  });
+  const vectorLimitInput = await page.getByLabel('Upper Bound');
+
+  await vectorLimitInput.fill('-1');
+
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).toBeVisible();
+
+  await vectorLimitInput.fill('');
+
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).not.toBeVisible();
+
+  const vectorSkipInput = await page.getByLabel('Lower Bound');
+
+  await vectorSkipInput.fill('-3');
+
+  await expect(
+    page.getByText('Number must be greater than or equal to 0')
+  ).toBeVisible();
+});

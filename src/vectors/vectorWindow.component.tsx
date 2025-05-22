@@ -1,7 +1,12 @@
 import { Backdrop, CircularProgress, Grid2 as Grid } from '@mui/material';
 import React from 'react';
+import { useUserPreference } from '../api/userPreferences';
 import { useVector } from '../api/vectors';
-import type { Vector } from '../app.types';
+import {
+  VECTOR_LIMIT_PREFERENCE_NAME,
+  VECTOR_SKIP_PREFERENCE_NAME,
+  type Vector,
+} from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectPlotAxisSigFigs } from '../state/slices/configSlice';
 import { WindowConfigType, updateWindow } from '../state/slices/windowSlice';
@@ -28,6 +33,14 @@ const VectorWindow = (props: VectorWindowProps) => {
     channelName
   );
 
+  const { data: vectorSkipData } = useUserPreference<string>(
+    VECTOR_SKIP_PREFERENCE_NAME
+  );
+
+  const { data: vectorLimitData } = useUserPreference<string>(
+    VECTOR_LIMIT_PREFERENCE_NAME
+  );
+
   const isVector = vectorConfig.type === 'vector';
   const labels = isVector ? vectorConfig.labels : undefined;
   const units = isVector ? vectorConfig.units : undefined;
@@ -43,22 +56,45 @@ const VectorWindow = (props: VectorWindowProps) => {
     limit: vector?.data.length || 0,
   });
 
-  const slicedVector: Vector = {
-    data: (vector || { data: [] }).data.slice(range.skip, range.limit),
-  };
-  const slicedLabels: string[] = (
-    labels ||
-    Array.from({ length: vector?.data.length || 0 }, (_, i) => i.toString())
-  ).slice(range.skip, range.limit);
+  React.useEffect(() => {
+    const userPrefVector =
+      vectorLimitData === null ? NaN : Number(vectorLimitData);
+
+    const newVectorLimit = isNaN(userPrefVector)
+      ? labels?.length
+      : Math.min(userPrefVector, labels?.length || 0);
+
+    setRange((prev) => ({ ...prev, limit: newVectorLimit || 0 }));
+  }, [labels?.length, vectorLimitData]);
+
+  React.useEffect(() => {
+    const userPrefVector =
+      vectorSkipData === null ? NaN : Number(vectorSkipData);
+
+    const newVectorSkip = isNaN(userPrefVector)
+      ? 0
+      : Math.min(userPrefVector, labels?.length || 0);
+
+    setRange((prev) => ({ ...prev, skip: newVectorSkip }));
+  }, [labels?.length, vectorSkipData]);
+
+  const slicedVector: Vector = React.useMemo(
+    () => ({
+      data: (vector || { data: [] }).data.slice(range.skip, range.limit),
+    }),
+    [range, vector]
+  );
+  const slicedLabels: string[] = React.useMemo(
+    () =>
+      (
+        labels ||
+        Array.from({ length: vector?.data.length || 0 }, (_, i) => i.toString())
+      ).slice(range.skip, range.limit),
+    [labels, range, vector]
+  );
   const resetView = React.useCallback(() => {
     setViewFlag((viewFlag) => !viewFlag);
   }, []);
-
-  React.useEffect(() => {
-    if (labels) {
-      setRange((prev) => ({ ...prev, limit: labels.length }));
-    }
-  }, [labels]);
 
   const chartRef = React.useRef<HTMLDivElement | null>(null);
 

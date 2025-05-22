@@ -167,7 +167,11 @@ export const constructColumnDefs = (
             ) : (
               <React.Fragment>{String(value ?? '')}</React.Fragment>
             );
-          case isChannelMetadataWaveform(channel):
+          case isChannelMetadataWaveform(channel): {
+            const metadata: ChannelMetadata | undefined = (
+              row.original as RecordRow
+            )['channelMetadata'][channel.systemName];
+
             return (
               <Base64ImageThumbnail
                 base64Data={value as string}
@@ -177,11 +181,20 @@ export const constructColumnDefs = (
                     openTraceWindow({
                       recordId: (row.original as RecordRow)['_id'],
                       channelName: channel.systemName,
+                      xUnits:
+                        metadata?.channel_dtype === 'waveform'
+                          ? metadata?.x_units
+                          : undefined,
+                      yUnits:
+                        metadata?.channel_dtype === 'waveform'
+                          ? metadata?.y_units
+                          : undefined,
                     })
                   );
                 }}
               />
             );
+          }
           case isChannelMetadataImage(channel) ||
             isChannelMetadataFloatImage(channel): {
             const metadata: ChannelMetadata | undefined = (

@@ -276,6 +276,8 @@ describe('Window buttons components', () => {
         resetView,
         pointsVisible: true,
         togglePointsVisibility,
+        xUnits: 'x',
+        yUnits: 'y',
       };
     });
 
@@ -355,7 +357,7 @@ describe('Window buttons components', () => {
       expect(document.createElement).toHaveBeenCalledWith('a');
 
       expect(mockLink.href).toEqual(
-        'data:text/csv;charset=utf-8,x,y%0A1,5%0A2,6%0A3,4'
+        'data:text/csv;charset=utf-8,x%20(x),y%20(y)%0A1,5%0A2,6%0A3,4'
       );
       expect(mockLink.download).toEqual('test.csv');
       expect(mockLink.target).toEqual('_blank');

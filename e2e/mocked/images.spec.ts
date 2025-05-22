@@ -411,11 +411,15 @@ test('user can set their default colourmap', async ({ page }) => {
   await page
     .getByRole('combobox', {
       name: 'Default Colour Map',
+      // This is used due to the nested focusTrap error caused by nested menuItems
+      includeHidden:true
     })
     .click();
   await page
     .getByRole('option', {
       name: 'inferno',
+      // This is used due to the nested focusTrap error caused by nested menuItems
+      includeHidden:true
     })
     .click();
 
