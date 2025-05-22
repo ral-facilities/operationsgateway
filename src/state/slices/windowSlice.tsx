@@ -21,6 +21,8 @@ interface FloatImageWindow extends BaseWindowConfig {
 
 interface TraceWindow extends BaseWindowConfig {
   type: 'trace';
+  xUnits?: string;
+  yUnits?: string;
 }
 
 interface VectorWindow extends BaseWindowConfig {
@@ -52,9 +54,14 @@ export const windowSlice = createSlice({
     },
     openTraceWindow: (
       state,
-      action: PayloadAction<{ recordId: string; channelName: string }>
+      action: PayloadAction<{
+        recordId: string;
+        channelName: string;
+        xUnits?: string;
+        yUnits?: string;
+      }>
     ) => {
-      const { recordId, channelName } = action.payload;
+      const { recordId, channelName, xUnits, yUnits } = action.payload;
       const id = crypto.randomUUID();
       state[id] = {
         id: id,
@@ -62,6 +69,8 @@ export const windowSlice = createSlice({
         type: 'trace',
         recordId,
         channelName,
+        xUnits,
+        yUnits,
         title: `Trace ${channelName} ${recordId}`,
         ...DEFAULT_WINDOW_VARS,
       };
