@@ -122,12 +122,20 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
           displayedChannel.units && (
             <Body>Units: {displayedChannel.units}</Body>
           )}
+        {isChannelMetadataVector(displayedChannel) &&
+          displayedChannel.labels && (
+            <Body>Labels: {displayedChannel.labels.join(', ')}</Body>
+          )}
         {isChannelMetadataWaveform(displayedChannel) && (
           <>
-            <Body gutterBottom={false}>
-              X Units: {displayedChannel.x_units}
-            </Body>
-            <Body>Y Units: {displayedChannel.y_units}</Body>
+            {displayedChannel.x_units && (
+              <Body gutterBottom={false}>
+                X Units: {displayedChannel.x_units}
+              </Body>
+            )}
+            {displayedChannel.y_units && (
+              <Body>Y Units: {displayedChannel.y_units}</Body>
+            )}
           </>
         )}
         {displayedChannel?.historical && (

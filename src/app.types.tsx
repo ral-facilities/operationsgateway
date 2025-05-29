@@ -107,6 +107,7 @@ export interface FullFloatImageChannelMetadata
 
 export interface FullVectorChannelMetadata extends FullCommonChannelMetadata {
   type: 'vector';
+  labels?: string[];
   units?: string;
 }
 
