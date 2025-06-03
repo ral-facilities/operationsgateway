@@ -1204,35 +1204,40 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
             </td>
           </tr>
           <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root"
-            classes="[object Object]"
-            style="opacity: 0; visibility: hidden;"
-            sx="[object Object]"
+            role="none"
+            style="height: inherit;"
           >
             <td
               colspan="7"
+              style="height: inherit;"
             >
-              <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
-                id="table-loading-indicator"
-                role="progressbar"
-                style="width: 40px; height: 40px;"
+              <div
+                aria-hidden="false"
+                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                style="opacity: 0; visibility: hidden;"
               >
-                <svg
-                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
-                  viewBox="22 22 44 44"
+                <span
+                  aria-label="Table progress bar"
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
+                  id="table-loading-indicator"
+                  role="progressbar"
+                  style="width: 40px; height: 40px;"
                 >
-                  <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
-                    cx="44"
-                    cy="44"
-                    fill="none"
-                    r="20.2"
-                    stroke-width="3.6"
-                  />
-                </svg>
-              </span>
+                  <svg
+                    class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+                    viewBox="22 22 44 44"
+                  >
+                    <circle
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                      cx="44"
+                      cy="44"
+                      fill="none"
+                      r="20.2"
+                      stroke-width="3.6"
+                    />
+                  </svg>
+                </span>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -2118,35 +2123,40 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
             </td>
           </tr>
           <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root"
-            classes="[object Object]"
-            style="opacity: 0; visibility: hidden;"
-            sx="[object Object]"
+            role="none"
+            style="height: inherit;"
           >
             <td
               colspan="4"
+              style="height: inherit;"
             >
-              <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
-                id="table-loading-indicator"
-                role="progressbar"
-                style="width: 40px; height: 40px;"
+              <div
+                aria-hidden="false"
+                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                style="opacity: 0; visibility: hidden;"
               >
-                <svg
-                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
-                  viewBox="22 22 44 44"
+                <span
+                  aria-label="Table progress bar"
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
+                  id="table-loading-indicator"
+                  role="progressbar"
+                  style="width: 40px; height: 40px;"
                 >
-                  <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
-                    cx="44"
-                    cy="44"
-                    fill="none"
-                    r="20.2"
-                    stroke-width="3.6"
-                  />
-                </svg>
-              </span>
+                  <svg
+                    class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+                    viewBox="22 22 44 44"
+                  >
+                    <circle
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                      cx="44"
+                      cy="44"
+                      fill="none"
+                      r="20.2"
+                      stroke-width="3.6"
+                    />
+                  </svg>
+                </span>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -2555,35 +2565,40 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
             </td>
           </tr>
           <tr
-            aria-hidden="false"
-            class="MuiBackdrop-root"
-            classes="[object Object]"
-            style="opacity: 0; visibility: hidden;"
-            sx="[object Object]"
+            role="none"
+            style="height: inherit;"
           >
             <td
               colspan="1"
+              style="height: inherit;"
             >
-              <span
-                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
-                id="table-loading-indicator"
-                role="progressbar"
-                style="width: 40px; height: 40px;"
+              <div
+                aria-hidden="false"
+                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                style="opacity: 0; visibility: hidden;"
               >
-                <svg
-                  class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
-                  viewBox="22 22 44 44"
+                <span
+                  aria-label="Table progress bar"
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
+                  id="table-loading-indicator"
+                  role="progressbar"
+                  style="width: 40px; height: 40px;"
                 >
-                  <circle
-                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
-                    cx="44"
-                    cy="44"
-                    fill="none"
-                    r="20.2"
-                    stroke-width="3.6"
-                  />
-                </svg>
-              </span>
+                  <svg
+                    class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
+                    viewBox="22 22 44 44"
+                  >
+                    <circle
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
+                      cx="44"
+                      cy="44"
+                      fill="none"
+                      r="20.2"
+                      stroke-width="3.6"
+                    />
+                  </svg>
+                </span>
+              </div>
             </td>
           </tr>
         </tbody>

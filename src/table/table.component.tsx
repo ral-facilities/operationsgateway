@@ -437,20 +437,23 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
             {/* Need to make this a tr with a td column with the correct colSpan 
                     to be a valid HTML table */}
-            {}
-            <Backdrop
-              component="tr"
-              // At the moment component isn't working: https://github.com/mui/material-ui/issues/44283
-              slots={{ root: 'tr' }}
-              sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
-              open={!loadedData}
-              // role="none"
-              aria-hidden={false}
-            >
-              <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
-                <CircularProgress id="table-loading-indicator" />
+            <tr role="none" style={{ height: 'inherit' }}>
+              <td
+                colSpan={columnOrder.length > 0 ? columnOrder.length : 1}
+                style={{ height: 'inherit' }}
+              >
+                <Backdrop
+                  sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+                  open={!loadedData}
+                  aria-hidden={false}
+                >
+                  <CircularProgress
+                    id="table-loading-indicator"
+                    aria-label="Table progress bar"
+                  />
+                </Backdrop>
               </td>
-            </Backdrop>
+            </tr>
           </MuiTableBody>
         </MuiTable>
       </MuiTableContainer>
