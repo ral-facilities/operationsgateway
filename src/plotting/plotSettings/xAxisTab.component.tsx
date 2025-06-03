@@ -1,8 +1,8 @@
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { Close, Search } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
+  ClickAwayListener,
   FormControl,
   FormControlLabel,
   FormLabel,
