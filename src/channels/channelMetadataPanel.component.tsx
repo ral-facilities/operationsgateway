@@ -1,7 +1,9 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {
+  Box,
   Button,
+  Chip,
   Divider,
   Stack,
   Table,
@@ -78,6 +80,9 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
       onDeselectChannel(displayedChannel.systemName);
     }
   }
+  if (displayedChannel && isChannelMetadataVector(displayedChannel)) {
+    console.log(displayedChannel.labels);
+  }
 
   if (displayedChannel) {
     return (
@@ -124,7 +129,26 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
           )}
         {isChannelMetadataVector(displayedChannel) &&
           displayedChannel.labels && (
-            <Body>Labels: {displayedChannel.labels.join(', ')}</Body>
+            <>
+              <Body>Labels:</Body>{' '}
+              {
+                <Box display="flex" flexWrap="wrap" gap={1} mb={1}>
+                  {displayedChannel.labels.map((value) => {
+                    return (
+                      <Chip
+                        key={value}
+                        label={value}
+                        size="small"
+                        sx={{
+                          fontSize: '0.8125rem',
+                          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                        }}
+                      />
+                    );
+                  })}
+                </Box>
+              }
+            </>
           )}
         {isChannelMetadataWaveform(displayedChannel) && (
           <>
