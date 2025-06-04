@@ -80,9 +80,6 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
       onDeselectChannel(displayedChannel.systemName);
     }
   }
-  if (displayedChannel && isChannelMetadataVector(displayedChannel)) {
-    console.log(displayedChannel.labels);
-  }
 
   if (displayedChannel) {
     return (

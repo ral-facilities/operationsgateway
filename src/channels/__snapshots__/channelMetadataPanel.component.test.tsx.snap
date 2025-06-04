@@ -285,6 +285,43 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
   >
     Units: cm
   </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+  >
+    Labels:
+  </p>
+   
+  <div
+    class="MuiBox-root css-1vrkypf"
+  >
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+      >
+        X
+      </span>
+    </div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+      >
+        Y
+      </span>
+    </div>
+    <div
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+    >
+      <span
+        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+      >
+        Z
+      </span>
+    </div>
+  </div>
   <hr
     class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
   />
