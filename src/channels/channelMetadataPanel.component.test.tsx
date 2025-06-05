@@ -63,6 +63,7 @@ describe('Channel Metadata Panel', () => {
       systemName: 'CHANNEL_ABCDE',
       type: 'vector',
       units: 'cm',
+      labels: ['X', 'Y', 'Z'],
       path: '/test',
       description: 'Test description',
     };

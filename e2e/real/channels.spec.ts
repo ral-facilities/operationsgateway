@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('should be able to view the channel summary', async ({ page }) => {
   test.skip(
@@ -65,6 +65,49 @@ test('should be able to view the channel summary', async ({ page }) => {
   ).toBeVisible();
   await expect(
     page.getByText('Most recent data date: 2023-06-06 12:00:00')
+  ).toBeVisible();
+  await expect(
+    await page.getByRole('table', { name: 'recent data' })
+  ).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
+
+  // vectors channel
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CM-202-CVC-WFS');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await page
+    .getByRole('button', { name: 'Compressor output wavefront coefficients' })
+    .click();
+
+  await expect(page.getByText('Channel type: vector')).toBeVisible();
+  await expect(
+    page.getByText('First data date: 2023-06-05 08:03:00')
+  ).toBeVisible();
+  await expect(
+    page.getByText('Most recent data date: 2023-06-05 08:03:00')
+  ).toBeVisible();
+  await expect(
+    await page.getByRole('table', { name: 'recent data' })
+  ).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
+
+  // float image channel
+  await page
+    .getByRole('button', { name: 'Compressor output wavefront image' })
+    .click();
+
+  await expect(page.getByText('Channel type: float_image')).toBeVisible();
+  await expect(
+    page.getByText('First data date: 2023-06-05 08:03:00')
+  ).toBeVisible();
+  await expect(
+    page.getByText('Most recent data date: 2023-06-05 08:03:00')
   ).toBeVisible();
   await expect(
     await page.getByRole('table', { name: 'recent data' })

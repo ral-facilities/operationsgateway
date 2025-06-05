@@ -1,7 +1,9 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {
+  Box,
   Button,
+  Chip,
   Divider,
   Stack,
   Table,
@@ -122,12 +124,39 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
           displayedChannel.units && (
             <Body>Units: {displayedChannel.units}</Body>
           )}
+        {isChannelMetadataVector(displayedChannel) &&
+          displayedChannel.labels && (
+            <>
+              <Body>Labels:</Body>{' '}
+              {
+                <Box display="flex" flexWrap="wrap" gap={1} mb={1}>
+                  {displayedChannel.labels.map((value) => {
+                    return (
+                      <Chip
+                        key={value}
+                        label={value}
+                        size="small"
+                        sx={{
+                          fontSize: '0.8125rem',
+                          backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                        }}
+                      />
+                    );
+                  })}
+                </Box>
+              }
+            </>
+          )}
         {isChannelMetadataWaveform(displayedChannel) && (
           <>
-            <Body gutterBottom={false}>
-              X Units: {displayedChannel.x_units}
-            </Body>
-            <Body>Y Units: {displayedChannel.y_units}</Body>
+            {displayedChannel.x_units && (
+              <Body gutterBottom={false}>
+                X Units: {displayedChannel.x_units}
+              </Body>
+            )}
+            {displayedChannel.y_units && (
+              <Body>Y Units: {displayedChannel.y_units}</Body>
+            )}
           </>
         )}
         {displayedChannel?.historical && (
