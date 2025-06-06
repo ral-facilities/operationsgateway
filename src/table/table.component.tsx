@@ -435,8 +435,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 </MuiTableRow>
               );
             })}
-            {/* Need to make this a tr with a td column with the correct colSpan 
-                    to be a valid HTML table */}
+            {/* Need to make this a tr with a td column with the correct colSpan to be a valid HTML table.
+                In MUI v7 this can be replaced with component="tr" in backdrop (https://github.com/mui/material-ui/issues/46264) */}
             <tr role="none" style={{ height: 'inherit' }}>
               <td
                 colSpan={columnOrder.length > 0 ? columnOrder.length : 1}

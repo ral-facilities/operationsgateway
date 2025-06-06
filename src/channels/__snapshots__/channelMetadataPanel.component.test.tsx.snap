@@ -277,7 +277,7 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
     Units: cm
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Labels:
   </p>
@@ -286,28 +286,28 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
     class="MuiBox-root css-1vrkypf"
   >
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         X
       </span>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         Y
       </span>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         Z
       </span>
