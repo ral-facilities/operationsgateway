@@ -4,7 +4,7 @@ exports[`Record Table > renders correctly 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -1081,15 +1081,14 @@ exports[`Record Table > renders correctly 1`] = `
           </tr>
           <tr
             role="none"
-            style="height: inherit;"
+            style=""
           >
             <td
               colspan="1"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 0; webkit-transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; visibility: hidden;"
               >
                 <span
@@ -1238,7 +1237,7 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
       </h6>
     </div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -1379,15 +1378,14 @@ exports[`Record Table > renders correctly while data count is zero 1`] = `
         >
           <tr
             role="none"
-            style="height: inherit;"
+            style=""
           >
             <td
               colspan="1"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 0; webkit-transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; visibility: hidden;"
               >
                 <span
@@ -1524,7 +1522,7 @@ exports[`Record Table > renders correctly while loading 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -1576,15 +1574,14 @@ exports[`Record Table > renders correctly while loading 1`] = `
         >
           <tr
             role="none"
-            style="height: inherit;"
+            style="height: 60px;"
           >
             <td
               colspan="1"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
               >
                 <span

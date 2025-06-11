@@ -772,7 +772,7 @@ exports[`View Tabs > renders correctly 1`] = `
             </div>
             <div>
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-1p0ad2t-MuiPaper-root-MuiTableContainer-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-42tet1-MuiPaper-root-MuiTableContainer-root"
                 data-testid="table-container"
                 style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
               >
@@ -824,15 +824,14 @@ exports[`View Tabs > renders correctly 1`] = `
                   >
                     <tr
                       role="none"
-                      style="height: inherit;"
+                      style="height: 60px;"
                     >
                       <td
                         colspan="1"
-                        style="height: inherit;"
                       >
                         <div
                           aria-hidden="false"
-                          class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                          class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                         >
                           <span

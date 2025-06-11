@@ -252,6 +252,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         sx={{
           background: 'unset',
           overflow: 'auto',
+          minHeight: '70px',
           maxHeight: tableHeight,
         }}
       >
@@ -437,13 +438,13 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
             {/* Need to make this a tr with a td column with the correct colSpan to be a valid HTML table.
                 In MUI v7 this can be replaced with component="tr" in backdrop (https://github.com/mui/material-ui/issues/46264) */}
-            <tr role="none" style={{ height: 'inherit' }}>
-              <td
-                colSpan={columnOrder.length > 0 ? columnOrder.length : 1}
-                style={{ height: 'inherit' }}
-              >
+            <tr
+              role="none"
+              style={{ height: !loadedData ? '60px' : undefined }}
+            >
+              <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
                 <Backdrop
-                  sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
+                  sx={{ position: 'absolute', zIndex: 100 }}
                   open={!loadedData}
                   aria-hidden={false}
                 >

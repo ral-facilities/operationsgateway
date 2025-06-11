@@ -4,7 +4,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -1205,15 +1205,13 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           </tr>
           <tr
             role="none"
-            style="height: inherit;"
           >
             <td
               colspan="7"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 0; visibility: hidden;"
               >
                 <span
@@ -1350,7 +1348,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -2124,15 +2122,13 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           </tr>
           <tr
             role="none"
-            style="height: inherit;"
           >
             <td
               colspan="4"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 0; visibility: hidden;"
               >
                 <span
@@ -2269,7 +2265,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
 <DocumentFragment>
   <div>
     <div
-      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-yvdkeo-MuiPaper-root-MuiTableContainer-root"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiTableContainer-root css-sgb95p-MuiPaper-root-MuiTableContainer-root"
       data-testid="table-container"
       style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
     >
@@ -2566,15 +2562,13 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           </tr>
           <tr
             role="none"
-            style="height: inherit;"
           >
             <td
               colspan="1"
-              style="height: inherit;"
             >
               <div
                 aria-hidden="false"
-                class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
+                class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
                 style="opacity: 0; visibility: hidden;"
               >
                 <span
