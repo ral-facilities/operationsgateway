@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Grid } from '@mui/material';
+import { Backdrop, CircularProgress, Grid2 as Grid } from '@mui/material';
 import React from 'react';
 import { useFloatImage, useImage, useImageCrosshair } from '../api/images';
 import { useAppDispatch } from '../state/hooks';
@@ -137,7 +137,7 @@ const ImageWindow = (props: ImageWindowProps) => {
         spacing={1}
         wrap="nowrap"
       >
-        <Grid container item xs="auto">
+        <Grid container size="auto">
           <ThumbnailSelector
             channelName={channelName}
             recordId={recordId}
@@ -146,26 +146,24 @@ const ImageWindow = (props: ImageWindowProps) => {
         </Grid>
         <Grid
           container
-          item
           direction="column"
           wrap="nowrap"
-          xs="auto"
+          size="auto"
           spacing={1}
         >
-          <Grid container item justifyContent="flex-end" wrap="nowrap" mt={1}>
+          <Grid container justifyContent="flex-end" wrap="nowrap" mt={1}>
             <ImageButtons data={image} title={title} resetView={resetView} />
           </Grid>
           <Grid
             container
-            item
             wrap="nowrap"
             direction={crosshairsMode ? 'column' : 'row'}
             spacing={crosshairsMode ? 0 : 1}
             data-testid="image-panel"
-            xs="auto"
+            size="auto"
           >
-            <Grid container item wrap="nowrap" spacing={1}>
-              <Grid item xs="auto">
+            <Grid container wrap="nowrap" spacing={1}>
+              <Grid fontSize="auto">
                 <ImageView
                   image={image}
                   title={title}
@@ -178,8 +176,7 @@ const ImageWindow = (props: ImageWindowProps) => {
               </Grid>
 
               <Grid
-                item
-                xs="auto"
+                size="auto"
                 style={{
                   // display: none means it takes up no space in the UI
                   display: crosshairsMode ? 'flex' : 'none',
@@ -194,10 +191,9 @@ const ImageWindow = (props: ImageWindowProps) => {
                 />
               </Grid>
             </Grid>
-            <Grid container item wrap="nowrap" spacing={1}>
+            <Grid container wrap="nowrap" spacing={1}>
               <Grid
-                item
-                xs="auto"
+                size="auto"
                 style={{
                   // display: none means it takes up no space in the UI
                   display: crosshairsMode ? 'flex' : 'none',
@@ -211,7 +207,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                   imageDims={imageDims}
                 />
               </Grid>
-              <Grid item mb={1}>
+              <Grid mb={1}>
                 <ImageControlsPanel
                   colourMap={colourMap}
                   lowerLevel={lowerLevel}

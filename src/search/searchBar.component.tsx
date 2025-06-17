@@ -3,7 +3,7 @@ import {
   Box,
   Button,
   Collapse,
-  Grid,
+  Grid2 as Grid,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -495,153 +495,147 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <Grid container spacing={1} direction="row" ref={heightRef}>
-        <Grid container item xs={12} direction="column">
-          <Grid item>
-            <Grid container spacing={0.5} direction="row">
-              <Grid item xs xl="auto">
-                <DateTime
-                  searchParameterFromDate={searchParameterFromDate}
-                  searchParameterToDate={searchParameterToDate}
-                  changeSearchParameterFromDate={setSearchParameterFromDate}
-                  changeSearchParameterToDate={setSearchParameterToDate}
-                  resetTimeframe={() => setRelativeTimeframe(null)}
-                  timeframeRange={timeframeRange}
-                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
-                  searchParameterExperiment={searchParameterExperiment}
-                  experiments={experiments ?? []}
-                  resetShotnumberRange={() =>
-                    setShotnumberRange(undefined, undefined)
-                  }
-                  isShotnumToDate={isShotnumToDate}
-                  isDateTimeInExperiment={isDateTimeInExperiment}
-                  invalidDateRange={invalidDateRange}
-                  searchParamsUpdated={searchParamsUpdated}
-                  setDatePickerError={setDatePickerError}
-                />
-              </Grid>
-              <Grid item xs="auto">
-                <Timeframe
-                  timeframe={timeframeRange}
-                  changeTimeframe={setRelativeTimeframe}
-                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
-                  resetShotnumber={() =>
-                    setShotnumberRange(undefined, undefined)
-                  }
-                  searchParamsUpdated={searchParamsUpdated}
-                />
-              </Grid>
-              <Grid item xs xl="auto">
-                <Experiment
-                  experiments={experiments ?? []}
-                  onExperimentChange={setSearchParameterExperiment}
-                  experiment={searchParameterExperiment}
-                  resetTimeframe={() => setRelativeTimeframe(null)}
-                  changeExperimentTimeframe={setExperimentTimeframe}
-                  resetShotnumber={() =>
-                    setShotnumberRange(undefined, undefined)
-                  }
-                  searchParamsUpdated={searchParamsUpdated}
-                />
-              </Grid>
-              <Grid item xs xl="auto">
-                <ShotNumber
-                  searchParameterShotnumMin={searchParameterShotnumMin}
-                  searchParameterShotnumMax={searchParameterShotnumMax}
-                  changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
-                  changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
-                  resetDateRange={() => setDateRange(null, null)}
-                  resetExperimentTimeframe={() => setExperimentTimeframe(null)}
-                  isDateToShotnum={isDateToShotnum}
-                  invalidShotNumberRange={invalidShotNumberRange}
-                  searchParamsUpdated={searchParamsUpdated}
-                />
-              </Grid>
-              <Grid item xs="auto">
-                {displayingWarningMessage ? (
-                  <Tooltip
-                    componentsProps={{
-                      tooltip: {
-                        sx: {
-                          backgroundColor: 'yellow',
-                          color: 'black',
-                          border: '1px solid black',
-                        },
-                      },
-                    }}
-                    data-testid="results-tooltip"
-                    arrow
-                    placement="bottom"
-                    enterDelay={0}
-                    enterTouchDelay={0}
-                    title={
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          cursor: 'pointer',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        <Warning
-                          sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }}
-                        />
-                        <div>
-                          <Typography variant="caption" align="center">
-                            {`This search will return over ${recordLimitWarning}
-                      results.`}
-                          </Typography>
-                          <br />
-                          <Typography variant="caption" align="center">
-                            Click Search again to continue
-                          </Typography>
-                        </div>
-                      </Box>
-                    }
-                  >
-                    <span>
-                      <Button
-                        variant={paramsUpdated ? 'contained' : 'outlined'}
-                        sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
-                        onClick={handleSearch}
-                        disabled={invalidDateRange || invalidShotNumberRange}
-                      >
-                        Search
-                      </Button>
-                    </span>
-                  </Tooltip>
-                ) : (
-                  <Button
-                    variant={paramsUpdated ? 'contained' : 'outlined'}
-                    sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
-                    onClick={handleSearch}
-                    disabled={invalidDateRange || invalidShotNumberRange}
-                  >
-                    Search
-                  </Button>
-                )}
-              </Grid>
+        <Grid container size={12} direction="column">
+          <Grid container spacing={0.5} direction="row">
+            <Grid size="auto">
+              <DateTime
+                searchParameterFromDate={searchParameterFromDate}
+                searchParameterToDate={searchParameterToDate}
+                changeSearchParameterFromDate={setSearchParameterFromDate}
+                changeSearchParameterToDate={setSearchParameterToDate}
+                resetTimeframe={() => setRelativeTimeframe(null)}
+                timeframeRange={timeframeRange}
+                resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                searchParameterExperiment={searchParameterExperiment}
+                experiments={experiments ?? []}
+                resetShotnumberRange={() =>
+                  setShotnumberRange(undefined, undefined)
+                }
+                isShotnumToDate={isShotnumToDate}
+                isDateTimeInExperiment={isDateTimeInExperiment}
+                invalidDateRange={invalidDateRange}
+                searchParamsUpdated={searchParamsUpdated}
+                setDatePickerError={setDatePickerError}
+              />
             </Grid>
-          </Grid>
-          <Grid container direction="row" columnGap={5}>
-            <Grid item>
-              <MaxShots
-                maxShots={maxShots}
-                changeMaxShots={setMaxShots}
+            <Grid size="auto">
+              <Timeframe
+                timeframe={timeframeRange}
+                changeTimeframe={setRelativeTimeframe}
+                resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                resetShotnumber={() => setShotnumberRange(undefined, undefined)}
                 searchParamsUpdated={searchParamsUpdated}
               />
             </Grid>
-            <Grid item>
-              <DataRefresh
-                timeframeSet={!!timeframeRange}
-                refreshData={refreshData}
+            <Grid size="auto">
+              <Experiment
+                experiments={experiments ?? []}
+                onExperimentChange={setSearchParameterExperiment}
+                experiment={searchParameterExperiment}
+                resetTimeframe={() => setRelativeTimeframe(null)}
+                changeExperimentTimeframe={setExperimentTimeframe}
+                resetShotnumber={() => setShotnumberRange(undefined, undefined)}
+                searchParamsUpdated={searchParamsUpdated}
               />
             </Grid>
-            <Grid item>
-              <AutoRefreshToggle
-                enabled={Boolean(timeframeRange)}
-                onRequestRefresh={refreshData}
+            <Grid size="auto">
+              <ShotNumber
+                searchParameterShotnumMin={searchParameterShotnumMin}
+                searchParameterShotnumMax={searchParameterShotnumMax}
+                changeSearchParameterShotnumMin={setSearchParameterShotnumMin}
+                changeSearchParameterShotnumMax={setSearchParameterShotnumMax}
+                resetDateRange={() => setDateRange(null, null)}
+                resetExperimentTimeframe={() => setExperimentTimeframe(null)}
+                isDateToShotnum={isDateToShotnum}
+                invalidShotNumberRange={invalidShotNumberRange}
+                searchParamsUpdated={searchParamsUpdated}
               />
             </Grid>
+            <Grid size="auto">
+              {displayingWarningMessage ? (
+                <Tooltip
+                  slotProps={{
+                    tooltip: {
+                      sx: {
+                        backgroundColor: 'yellow',
+                        color: 'black',
+                        border: '1px solid black',
+                      },
+                    },
+                  }}
+                  data-testid="results-tooltip"
+                  arrow
+                  placement="bottom"
+                  enterDelay={0}
+                  enterTouchDelay={0}
+                  title={
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        cursor: 'pointer',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Warning
+                        sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }}
+                      />
+                      <div>
+                        <Typography variant="caption" align="center">
+                          {`This search will return over ${recordLimitWarning}
+                      results.`}
+                        </Typography>
+                        <br />
+                        <Typography variant="caption" align="center">
+                          Click Search again to continue
+                        </Typography>
+                      </div>
+                    </Box>
+                  }
+                >
+                  <span>
+                    <Button
+                      variant={paramsUpdated ? 'contained' : 'outlined'}
+                      sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
+                      onClick={handleSearch}
+                      disabled={invalidDateRange || invalidShotNumberRange}
+                    >
+                      Search
+                    </Button>
+                  </span>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant={paramsUpdated ? 'contained' : 'outlined'}
+                  sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
+                  onClick={handleSearch}
+                  disabled={invalidDateRange || invalidShotNumberRange}
+                >
+                  Search
+                </Button>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container direction="row" columnGap={5}>
+          <Grid>
+            <MaxShots
+              maxShots={maxShots}
+              changeMaxShots={setMaxShots}
+              searchParamsUpdated={searchParamsUpdated}
+            />
+          </Grid>
+          <Grid>
+            <DataRefresh
+              timeframeSet={!!timeframeRange}
+              refreshData={refreshData}
+            />
+          </Grid>
+          <Grid>
+            <AutoRefreshToggle
+              enabled={Boolean(timeframeRange)}
+              onRequestRefresh={refreshData}
+            />
           </Grid>
         </Grid>
       </Grid>

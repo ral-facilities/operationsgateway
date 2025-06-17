@@ -30,8 +30,8 @@ export const useSaveSession = (): UseMutationResult<
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (session: Session) => saveSession(session),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };
@@ -58,9 +58,9 @@ export const useEditSession = (): UseMutationResult<
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (session: SessionResponse) => editSession(session),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
-      queryClient.invalidateQueries({ queryKey: ['session'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+      await queryClient.invalidateQueries({ queryKey: ['session'] });
     },
   });
 };
@@ -79,8 +79,8 @@ export const useDeleteSession = (): UseMutationResult<
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (session: SessionResponse) => deleteSession(session),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['sessionList'] });
     },
   });
 };

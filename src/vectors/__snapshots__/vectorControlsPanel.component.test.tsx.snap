@@ -3,55 +3,56 @@
 exports[`Vector control panel component > renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-tvznzi-MuiPaper-root"
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11y4l4s-MuiPaper-root"
     data-testid="vector-control-panel"
+    style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
   >
     <div
       class="MuiStack-root css-1saxivv-MuiStack-root"
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
       >
         Select Vector Range
       </h6>
       <span
-        class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-ltlhnc-MuiSlider-root"
+        class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-1e45yg4-MuiSlider-root"
       >
         <span
-          class="MuiSlider-rail css-7o8aqz-MuiSlider-rail"
+          class="MuiSlider-rail css-r64h58-MuiSlider-rail"
         />
         <span
-          class="MuiSlider-track css-ttgsjq-MuiSlider-track"
+          class="MuiSlider-track css-xvk2i-MuiSlider-track"
           style="left: 0%; width: 80%;"
         />
         <span
-          class="MuiSlider-mark MuiSlider-markActive css-z5sdnj-MuiSlider-mark"
+          class="MuiSlider-mark MuiSlider-markActive css-16kozi8-MuiSlider-mark"
           data-index="0"
           style="left: 0%;"
         />
         <span
           aria-hidden="true"
-          class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-1ucwjgd-MuiSlider-markLabel"
+          class="MuiSlider-markLabel MuiSlider-markLabel MuiSlider-markLabelActive css-swtyag-MuiSlider-markLabel"
           data-index="0"
           style="left: 0%;"
         >
           0
         </span>
         <span
-          class="MuiSlider-mark css-hzp7sc-MuiSlider-mark"
+          class="MuiSlider-mark css-lq5hqx-MuiSlider-mark"
           data-index="1"
           style="left: 100%;"
         />
         <span
           aria-hidden="true"
-          class="MuiSlider-markLabel MuiSlider-markLabel css-1bvr8oc-MuiSlider-markLabel"
+          class="MuiSlider-markLabel MuiSlider-markLabel css-1qb795b-MuiSlider-markLabel"
           data-index="1"
           style="left: 100%;"
         >
           5
         </span>
         <span
-          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-1xcmt9q-MuiSlider-thumb"
           data-index="0"
           style="left: 0%;"
         >
@@ -70,7 +71,7 @@ exports[`Vector control panel component > renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
+            class="MuiSlider-valueLabel css-1asissc-MuiSlider-valueLabel"
           >
             <span
               class="MuiSlider-valueLabelCircle"
@@ -84,7 +85,7 @@ exports[`Vector control panel component > renders correctly 1`] = `
           </span>
         </span>
         <span
-          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
+          class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-1xcmt9q-MuiSlider-thumb"
           data-index="1"
           style="left: 80%;"
         >
@@ -103,7 +104,7 @@ exports[`Vector control panel component > renders correctly 1`] = `
           />
           <span
             aria-hidden="true"
-            class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
+            class="MuiSlider-valueLabel css-1asissc-MuiSlider-valueLabel"
           >
             <span
               class="MuiSlider-valueLabelCircle"

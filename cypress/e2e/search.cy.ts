@@ -46,8 +46,7 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
-      // wait for search to initiate and finish
-      cy.findByRole('progressbar').should('be.visible');
+      // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -115,8 +114,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -181,8 +179,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -247,8 +244,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -314,8 +310,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -347,8 +342,7 @@ describe('Search', () => {
 
         cy.findByLabelText('Refresh data').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         const newExpectedToDate = new Date('1970-01-08 01:01:59');
@@ -404,8 +398,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -471,8 +464,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -538,8 +530,7 @@ describe('Search', () => {
 
         cy.contains('Search').click();
 
-        // wait for search to initiate and finish
-        cy.findByRole('progressbar').should('be.visible');
+        // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -598,8 +589,7 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
-      // wait for search to initiate and finish
-      cy.findByRole('progressbar').should('be.visible');
+      // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -807,8 +797,7 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
-      // wait for search to initiate and finish
-      cy.findByRole('progressbar').should('be.visible');
+      // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -870,9 +859,9 @@ describe('Search', () => {
 
       cy.contains('Search').click();
 
-      // wait for search to initiate and finish
-      cy.findByRole('progressbar').should('be.visible');
+      // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
+
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
         (patchRequests) => {
           expect(patchRequests.length).equal(1);

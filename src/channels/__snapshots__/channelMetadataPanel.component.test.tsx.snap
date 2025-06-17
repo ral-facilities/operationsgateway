@@ -3,17 +3,17 @@
 exports[`Channel Metadata Panel > should render correctly for no channel selected 1`] = `
 <DocumentFragment>
   <h3
-    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"
   >
     Data Channels Help
   </h3>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     There are two options to locate a channel. You can either search or use the navigation on the left.
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Channel metadata can also be viewed. This can be displayed by clicking a channel name
   </p>
@@ -26,21 +26,21 @@ exports[`Channel Metadata Panel > should render correctly for scalar channel wit
     class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
-      class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
     >
       Channel_ABCDE
     </h3>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-11qr2p8-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-tw6tsg-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -51,75 +51,72 @@ exports[`Channel Metadata Panel > should render correctly for scalar channel wit
         </svg>
       </span>
       Add this channel
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     System name: CHANNEL_ABCDE
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Test description
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Channel type: scalar
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Units: cm
   </p>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+    class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
   />
   <h4
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Data Summary
   </h4>
   <p
-    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
   >
     First data date: 2022-01-29 00:00:00
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Most recent data date: 2023-01-31 00:00:00
   </p>
   <h5
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Recent Data
   </h5>
   <div
-    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+    class="MuiTableContainer-root css-70zvr5-MuiTableContainer-root"
   >
     <table
       aria-label="recent data"
-      class="MuiTable-root css-rqglhn-MuiTable-root"
+      class="MuiTable-root css-1xwxv7r-MuiTable-root"
     >
       <thead
-        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+        class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
       >
         <tr
-          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Time
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Data
@@ -127,49 +124,49 @@ exports[`Channel Metadata Panel > should render correctly for scalar channel wit
         </tr>
       </thead>
       <tbody
-        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
       >
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-31 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             6
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-30 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             5
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-29 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             4
           </td>
@@ -186,21 +183,21 @@ exports[`Channel Metadata Panel > should render correctly for system channel 1`]
     class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
-      class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
     >
       Shot Number
     </h3>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-11qr2p8-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-tw6tsg-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -211,18 +208,15 @@ exports[`Channel Metadata Panel > should render correctly for system channel 1`]
         </svg>
       </span>
       Add this channel
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     System name: shotnum
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Channel type: scalar
   </p>
@@ -235,21 +229,21 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
     class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
-      class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
     >
       Channel_ABCDE
     </h3>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-11qr2p8-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-tw6tsg-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -260,33 +254,30 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
         </svg>
       </span>
       Add this channel
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     System name: CHANNEL_ABCDE
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Test description
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Channel type: vector
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Units: cm
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Labels:
   </p>
@@ -295,77 +286,77 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
     class="MuiBox-root css-1vrkypf"
   >
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         X
       </span>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         Y
       </span>
     </div>
     <div
-      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+      class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
     >
       <span
-        class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+        class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
       >
         Z
       </span>
     </div>
   </div>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+    class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
   />
   <h4
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Data Summary
   </h4>
   <p
-    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
   >
     First data date: 2022-01-29 00:00:00
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Most recent data date: 2023-01-31 00:00:00
   </p>
   <h5
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Recent Data
   </h5>
   <div
-    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+    class="MuiTableContainer-root css-70zvr5-MuiTableContainer-root"
   >
     <table
       aria-label="recent data"
-      class="MuiTable-root css-rqglhn-MuiTable-root"
+      class="MuiTable-root css-1xwxv7r-MuiTable-root"
     >
       <thead
-        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+        class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
       >
         <tr
-          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Time
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Data
@@ -373,19 +364,19 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
         </tr>
       </thead>
       <tbody
-        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
       >
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-31 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="Channel_ABCDE vector at 2022-01-31 00:00:00"
@@ -395,16 +386,16 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-30 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="Channel_ABCDE vector at 2022-01-30 00:00:00"
@@ -414,16 +405,16 @@ exports[`Channel Metadata Panel > should render correctly for vector channel wit
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-29 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="Channel_ABCDE vector at 2022-01-29 00:00:00"
@@ -444,21 +435,21 @@ exports[`Channel Metadata Panel > should render correctly for waveform channel w
     class="MuiStack-root css-3y1137-MuiStack-root"
   >
     <h3
-      class="MuiTypography-root MuiTypography-body1 css-ndaqpv-MuiTypography-root"
+      class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
     >
       CHANNEL_CDEFG
     </h3>
     <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-11qr2p8-MuiButtonBase-root-MuiButton-root"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-tw6tsg-MuiButtonBase-root-MuiButton-root"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
           data-testid="AddIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -469,75 +460,72 @@ exports[`Channel Metadata Panel > should render correctly for waveform channel w
         </svg>
       </span>
       Add this channel
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
     </button>
   </div>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Channel type: waveform
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
   >
     X Units: mm
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Y Units: J
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-3784aq-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-1wfqwqh-MuiTypography-root"
   >
     This channel is historical
   </p>
   <hr
-    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+    class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
   />
   <h4
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Data Summary
   </h4>
   <p
-    class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
   >
     First data date: 2022-01-29 00:00:00
   </p>
   <p
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
   >
     Most recent data date: 2023-01-31 00:00:00
   </p>
   <h5
-    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-w08jgs-MuiTypography-root"
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
   >
     Recent Data
   </h5>
   <div
-    class="MuiTableContainer-root css-rorn0c-MuiTableContainer-root"
+    class="MuiTableContainer-root css-70zvr5-MuiTableContainer-root"
   >
     <table
       aria-label="recent data"
-      class="MuiTable-root css-rqglhn-MuiTable-root"
+      class="MuiTable-root css-1xwxv7r-MuiTable-root"
     >
       <thead
-        class="MuiTableHead-root css-15wwp11-MuiTableHead-root"
+        class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
       >
         <tr
-          class="MuiTableRow-root MuiTableRow-head css-1q1u3t4-MuiTableRow-root"
+          class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Time
           </th>
           <th
-            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-1howxi1-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
             scope="col"
           >
             Data
@@ -545,19 +533,19 @@ exports[`Channel Metadata Panel > should render correctly for waveform channel w
         </tr>
       </thead>
       <tbody
-        class="MuiTableBody-root css-apqrd9-MuiTableBody-root"
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
       >
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-31 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="CHANNEL_CDEFG waveform at 2022-01-31 00:00:00"
@@ -567,16 +555,16 @@ exports[`Channel Metadata Panel > should render correctly for waveform channel w
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-30 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="CHANNEL_CDEFG waveform at 2022-01-30 00:00:00"
@@ -586,16 +574,16 @@ exports[`Channel Metadata Panel > should render correctly for waveform channel w
           </td>
         </tr>
         <tr
-          class="MuiTableRow-root css-34nofg-MuiTableRow-root"
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
         >
           <th
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
             scope="row"
           >
             2022-01-29 00:00:00
           </th>
           <td
-            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-dsuxgy-MuiTableCell-root"
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
           >
             <img
               alt="CHANNEL_CDEFG waveform at 2022-01-29 00:00:00"

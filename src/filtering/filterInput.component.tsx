@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   Chip,
-  SxProps,
   TextField,
   Theme,
   autocompleteClasses,
@@ -213,7 +212,7 @@ interface UseOnChangeProps<T> {
   setInputValue: (value: string) => void;
   setValue: (value: T[]) => void;
   setInputIndex: (value: React.SetStateAction<number>) => void;
-  setError: (error?: string | undefined) => void;
+  setError: (error?: string) => void;
   value: T[];
   inputIndex: number;
   enableCustomStringHandling: boolean;
@@ -454,17 +453,19 @@ const FilterInput = (props: FilterInputProps) => {
           helperText={error}
           onKeyDown={readOnly ? undefined : keydownHandler}
           onClick={readOnly ? undefined : clickHandler}
-          InputProps={{
-            ...params.InputProps,
-            // we need this data-id so we can tell when a user is clicking between
-            // tags in clickHander - this is a valid data-* prop so ignore TS
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            'data-id': 'Input',
-            startAdornment: tags.slice(0, inputIndex),
-            endAdornment: tags.slice(inputIndex),
-            readOnly: readOnly,
-            disabled: readOnly,
+          slotProps={{
+            input: {
+              ...params.InputProps,
+              // we need this data-id so we can tell when a user is clicking between
+              // tags in clickHander - this is a valid data-* prop so ignore TS
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              'data-id': 'Input',
+              startAdornment: tags.slice(0, inputIndex),
+              endAdornment: tags.slice(inputIndex),
+              readOnly: readOnly,
+              disabled: readOnly,
+            },
           }}
         />
       )}
@@ -480,11 +481,8 @@ const FilterInput = (props: FilterInputProps) => {
           {option.label}
         </li>
       )}
-      // for some reason, it's not accepting the sx prop here even though it should
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      ListboxProps={
-        {
+      slotProps={{
+        listbox: {
           sx: (theme: Theme) => ({
             [`& .${autocompleteClasses.option}`]: {
               [`&.Mui-focused,&.Mui-focusVisible`]: {
@@ -492,10 +490,8 @@ const FilterInput = (props: FilterInputProps) => {
               },
             },
           }),
-        } as {
-          sx: SxProps<Theme>;
-        }
-      }
+        },
+      }}
     />
   );
 };

@@ -209,7 +209,7 @@ async function prepare() {
           print.warning();
         },
       });
-    } else Promise.resolve();
+    } else return Promise.resolve();
   }
   return Promise.resolve();
 }

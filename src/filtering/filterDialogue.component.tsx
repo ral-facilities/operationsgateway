@@ -10,7 +10,7 @@ import {
   DialogActions,
   DialogContent,
   Divider,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Tabs,
   TextField,
@@ -107,7 +107,7 @@ export const FilterPageHelp = () => {
     ')',
   ];
   return (
-    <Grid item xs>
+    <Grid size="grow">
       <Heading>Filter help</Heading>
       <Body>
         In the box, start typing data channel names, numbers, mathematical
@@ -412,7 +412,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       open={open}
       onClose={handleClose}
       maxWidth="lg"
-      PaperProps={{ 'aria-label': 'Filters' }}
+      slotProps={{ paper: { 'aria-label': 'Filters' } }}
       fullWidth
     >
       <Tabs value={tabValue} onChange={handleTabChange} aria-label="view tabs">
@@ -439,26 +439,24 @@ const FilterDialogue = (props: FilterDialogueProps) => {
       </Tabs>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid item container xs={12}>
+          <Grid container size={12}>
             <TabPanel
               value={tabValue}
               label={'Filters' satisfies TabValue}
               style={{ width: '100%' }}
             >
-              <Grid item container xs>
+              <Grid container size="grow">
                 <Grid
                   container
-                  item
-                  xs={12}
-                  sm={6}
+                  size={{ xs: 12, sm: 6 }}
                   pr={1}
                   flexDirection="column"
                   rowSpacing={1}
                 >
                   <Heading mt={1}>Enter filter</Heading>
                   {filters.map((filter, index) => (
-                    <Grid container item key={index}>
-                      <Grid item xs>
+                    <Grid container key={index}>
+                      <Grid size="grow">
                         <FilterInput
                           channels={channels ?? []}
                           favouriteFilter={tokenisedFavouriteFilters ?? []}
@@ -469,7 +467,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           flashingFilterValue={flashingFilterValue}
                         />
                       </Grid>
-                      <Grid item xs={0.6} mt={0.5}>
+                      <Grid size={0.6} mt={0.5}>
                         <IconButton
                           onClick={() => {
                             setFilters((filters) =>
@@ -485,7 +483,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           <Delete />
                         </IconButton>
                       </Grid>
-                      <Grid item xs={0.6} mt={0.5}>
+                      <Grid size={0.6} mt={0.5}>
                         <IconButton
                           onClick={() => {
                             setFavouriteFiltersType('post');
@@ -504,7 +502,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                     </Grid>
                   ))}
 
-                  <Grid item>
+                  <Grid>
                     <Button
                       onClick={() => {
                         setFilters((filters) => [...filters, []]);
@@ -528,7 +526,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
               label={'Favourite filters' satisfies TabValue}
               style={{ width: '100%' }}
             >
-              <Grid item xs>
+              <Grid size="grow">
                 <Button
                   onClick={() => {
                     setSelectedFavouriteFilter(undefined);
@@ -541,31 +539,35 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                   Add new favourite filter
                 </Button>
               </Grid>
-              <Grid item container flexDirection="column" mt={1} rowSpacing={1}>
+              <Grid container flexDirection="column" mt={1} rowSpacing={1}>
                 {favouriteFilterData?.map((data) => {
                   const isChecked = selectedFavouriteFilters.some(
                     (filter) => filter._id === data._id
                   );
 
                   return (
-                    <Grid item container spacing={1} key={data._id}>
-                      <Grid item xs={0.5}>
+                    <Grid container spacing={1} key={data._id}>
+                      <Grid size={0.5}>
                         <Checkbox
                           checked={isChecked}
                           onChange={(e) =>
                             handleCheckboxChange(data, e.target.checked)
                           }
-                          inputProps={{
-                            'aria-label': `Select ${data.name} favourite filter`,
+                          slotProps={{
+                            input: {
+                              'aria-label': `Select ${data.name} favourite filter`,
+                            },
                           }}
                         />
                       </Grid>
-                      <Grid item xs={5}>
+                      <Grid size={5}>
                         <TextField
                           fullWidth
-                          inputProps={{
-                            readOnly: true,
-                            disabled: true,
+                          slotProps={{
+                            input: {
+                              readOnly: true,
+                              disabled: true,
+                            },
                           }}
                           sx={{
                             // change label and border color when readonly
@@ -580,7 +582,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           size="small"
                         />
                       </Grid>
-                      <Grid item xs={5}>
+                      <Grid size={5.5}>
                         <FilterInput
                           channels={channels ?? []}
                           favouriteFilter={tokenisedFavouriteFilters ?? []}
@@ -590,7 +592,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           readOnly
                         />
                       </Grid>
-                      <Grid item xs={0.5}>
+                      <Grid size={0.5}>
                         <Tooltip title={`Edit ${data.name}`}>
                           <IconButton
                             onClick={() => {
@@ -603,7 +605,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           </IconButton>
                         </Tooltip>
                       </Grid>
-                      <Grid item xs={0.5}>
+                      <Grid size={0.5}>
                         <Tooltip title={`Delete ${data.name}`}>
                           <IconButton
                             onClick={() => {
@@ -650,7 +652,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
         <Button onClick={handleClose}>Close</Button>
         {displayingWarningMessage ? (
           <Tooltip
-            componentsProps={{
+            slotProps={{
               tooltip: {
                 sx: {
                   backgroundColor: 'yellow',

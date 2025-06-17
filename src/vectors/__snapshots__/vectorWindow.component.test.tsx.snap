@@ -4,23 +4,23 @@ exports[`Vector Window component > checks that the vectors are using the default
 <DocumentFragment>
   <mock-windowportal>
     <div
-      class="MuiGrid-root MuiGrid-container css-xpcuig-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1pvx3nw-MuiGrid2-root"
       id="vector-window"
     >
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-auto css-mg5fl7-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-o5dv7d-MuiGrid2-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-auto css-1eu5qa8-MuiGrid-root"
+          class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-column MuiGrid2-grid-xs-auto css-snlbdq-MuiGrid2-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
           >
             <ul
-              class="MuiList-root css-1pibvyz-MuiList-root"
+              class="MuiList-root css-3chz8l-MuiList-root"
             >
               <div
-                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters Mui-selected MuiListItemButton-root MuiListItemButton-gutters Mui-selected css-4bx69l-MuiButtonBase-root-MuiListItemButton-root"
                 role="button"
                 tabindex="0"
               >
@@ -32,12 +32,9 @@ exports[`Vector Window component > checks that the vectors are using the default
                   src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvc2/+5QAAAAlwSFlzAAAT/gAAE/4BB5Q5hAAAAclJREFUeJzt3UFygjAAQNHQcefSC3SR23ihHqEX6n28QJdd464VDDVkEvzE/1ZWB0R+A6bWYRjHcQzCeHv2BmjKIDAGgTmk7nz/+Pq9ffk8b7YxWggydxsoBCO15CELxiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwCYxCYrO+H5PA7JHU4QmAMAmMQGIPAGATGIDAGgSmeh8znHarDEQJjEBiDwBgExiAwBoExCIxBYAwCU+0Tw1J+0jjlCIF5+ghpaY+jr6sgPfzB00MWjEFgujpktbTV+ejlguTs2NKdn1pu7bqGGOPd5Sou3z9/T3I6Tn5euu9u407Hfx9PPdea5XLWldqmR68l9/WmtrPGfhpCCF4/BOQQY2y28pzfxtLlao4skqHlFXYeHVOXjqc5y+1x0pcDeVLvZeeWcB4CYxAYg8AYBMYgMAaBQb7tzdHrW2NHCIxBYAwCYxCY3ZzUez2JzzlCYAwCYxAYg8AYBMYgMAaBMQjM5hPDV5nglXKEwBgExiAwBoExCIxBYJr+s7XWc4TAGATGIDAGgbkCNDt2EABP+50AAAAASUVORK5CYII="
                   style="margin: auto; border: 1px solid #000000;"
                 />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </div>
               <div
-                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root"
+                class="MuiButtonBase-root MuiListItemButton-root MuiListItemButton-gutters MuiListItemButton-root MuiListItemButton-gutters css-4bx69l-MuiButtonBase-root-MuiListItemButton-root"
                 role="button"
                 tabindex="0"
               >
@@ -49,41 +46,37 @@ exports[`Vector Window component > checks that the vectors are using the default
                   src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjEsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvc2/+5QAAAAlwSFlzAAAT/gAAE/4BB5Q5hAAAAclJREFUeJzt3UFygjAAQNHQcefSC3SR23ihHqEX6n28QJdd464VDDVkEvzE/1ZWB0R+A6bWYRjHcQzCeHv2BmjKIDAGgTmk7nz/+Pq9ffk8b7YxWggydxsoBCO15CELxiAwBoExCIxBYAwCYxAYg8AYBMYgMAaBMQiMQWAMAmMQGIPAGATGIDAGgTEIjEFgDAJjEBiDwBgExiAwBoExCIxBYAwCYxCYrO+H5PA7JHU4QmAMAmMQGIPAGATGIDAGgSmeh8znHarDEQJjEBiDwBgExiAwBoExCIxBYAwCU+0Tw1J+0jjlCIF5+ghpaY+jr6sgPfzB00MWjEFgujpktbTV+ejlguTs2NKdn1pu7bqGGOPd5Sou3z9/T3I6Tn5euu9u407Hfx9PPdea5XLWldqmR68l9/WmtrPGfhpCCF4/BOQQY2y28pzfxtLlao4skqHlFXYeHVOXjqc5y+1x0pcDeVLvZeeWcB4CYxAYg8AYBMYgMAaBQb7tzdHrW2NHCIxBYAwCYxCY3ZzUez2JzzlCYAwCYxAYg8AYBMYgMAaBMQjM5hPDV5nglXKEwBgExiAwBoExCIxBYJr+s7XWc4TAGATGIDAGgbkCNDt2EABP+50AAAAASUVORK5CYII="
                   style="margin: auto; border: 1px solid #000000;"
                 />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </div>
             </ul>
           </div>
           <div
-            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-auto css-1wrgmsj-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-1djy14n-MuiGrid2-root"
           >
             <div
-              class="MuiTablePagination-root css-oznqp2-MuiTablePagination-root"
+              class="MuiTablePagination-root css-1e7yten-MuiTablePagination-root"
               padding="none"
             >
               <div
-                class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar"
+                class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular MuiTablePagination-toolbar css-1gak8h1-MuiToolbar-root-MuiTablePagination-toolbar"
               >
                 <div
-                  class="MuiTablePagination-spacer css-1psng7p-MuiTablePagination-spacer"
+                  class="MuiTablePagination-spacer css-1wtxofq-MuiTablePagination-spacer"
                 />
                 <p
-                  class="MuiTablePagination-selectLabel css-pdct74-MuiTablePagination-selectLabel"
-                  id=":rm:"
+                  class="MuiTablePagination-selectLabel css-s09cke-MuiTablePagination-selectLabel"
+                  id=":r1k:"
                 >
                   Page size
                 </p>
                 <div
-                  class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-input css-6ciqo7-MuiInputBase-root-MuiTablePagination-select"
+                  class="MuiInputBase-root MuiInputBase-colorPrimary MuiTablePagination-select MuiSelect-root MuiTablePagination-input css-12puxkb-MuiInputBase-root-MuiTablePagination-select"
                 >
                   <div
-                    aria-controls=":rn:"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    aria-labelledby=":rm: :rl:"
-                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-194a1fa-MuiSelect-select-MuiInputBase-input"
-                    id=":rl:"
+                    aria-labelledby=":r1k: :r1j:"
+                    class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+                    id=":r1j:"
                     role="combobox"
                     tabindex="0"
                   >
@@ -92,13 +85,13 @@ exports[`Vector Window component > checks that the vectors are using the default
                   <input
                     aria-hidden="true"
                     aria-invalid="false"
-                    class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                    class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
                     tabindex="-1"
                     value="25"
                   />
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
                     data-testid="ArrowDropDownIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
@@ -109,7 +102,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                   </svg>
                 </div>
                 <p
-                  class="MuiTablePagination-displayedRows css-levciy-MuiTablePagination-displayedRows"
+                  class="MuiTablePagination-displayedRows css-11cfq65-MuiTablePagination-displayedRows"
                 >
                   1–18 of 18
                 </p>
@@ -118,7 +111,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                 >
                   <button
                     aria-label="Go to previous page"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1n5dkt9-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
                     tabindex="-1"
                     title="Go to previous page"
@@ -126,7 +119,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                       data-testid="KeyboardArrowLeftIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -138,7 +131,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                   </button>
                   <button
                     aria-label="Go to next page"
-                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-bmuri4-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-colorInherit MuiIconButton-sizeSmall css-1n5dkt9-MuiButtonBase-root-MuiIconButton-root"
                     disabled=""
                     tabindex="-1"
                     title="Go to next page"
@@ -146,7 +139,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                       data-testid="KeyboardArrowRightIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -163,54 +156,45 @@ exports[`Vector Window component > checks that the vectors are using the default
         </div>
       </div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap MuiGrid-grid-xs-true css-5nz2dx-MuiGrid-root"
+        class="MuiGrid2-root MuiGrid2-container MuiGrid2-wrap-xs-nowrap MuiGrid2-direction-xs-column MuiGrid2-grid-xs-grow css-1bhlte8-MuiGrid2-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-wrap-xs-nowrap MuiGrid-grid-xs-auto css-1xr0gu2-MuiGrid-root"
+          class="MuiGrid2-root MuiGrid2-container MuiGrid2-wrap-xs-nowrap MuiGrid2-direction-xs-row MuiGrid2-grid-xs-auto css-6t98dn-MuiGrid2-root"
         >
           <div
             aria-label="plot actions"
-            class="MuiButtonGroup-root MuiButtonGroup-outlined css-edsu1d-MuiButtonGroup-root"
+            class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-zv9ro0-MuiButtonGroup-root"
             role="group"
           >
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-firstButton css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-firstButton css-wyro15-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               Reset View
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-middleButton css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-middleButton css-wyro15-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               Export Plot
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-middleButton css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-middleButton css-wyro15-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               Export Plot Data
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </button>
             <button
-              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-lastButton css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+              class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary MuiButtonGroup-lastButton css-wyro15-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
               type="button"
             >
               Hide Vector Controls
               <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                class="MuiTouchRipple-root css-r3djoj-MuiTouchRipple-root"
               >
                 <span
                   class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible"
@@ -225,13 +209,13 @@ exports[`Vector Window component > checks that the vectors are using the default
           </div>
         </div>
         <div
-          class="MuiGrid-root MuiGrid-item css-17x7qna-MuiGrid-root"
+          class="MuiGrid2-root MuiGrid2-direction-xs-row css-18yd7hj-MuiGrid2-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-wrap-xs-nowrap css-1g6uf9j-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-wrap-xs-nowrap MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-14283cs-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-pdojbe-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-gwvy5v-MuiGrid2-root"
             >
               <mock-vectorplot
                 data-props="{"vector":{"data":[1.826101240997037,2.521215679028282,-2.980784658113992]},"labels":["label3","label4","label5"],"units":"test","chartRef":{"current":{}},"viewReset":false,"title":"Test title"}"
@@ -239,58 +223,59 @@ exports[`Vector Window component > checks that the vectors are using the default
               />
             </div>
             <div
-              class="MuiGrid-root MuiGrid-item css-1ro9odv-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-direction-xs-row css-rj2j1n-MuiGrid2-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-tvznzi-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-11y4l4s-MuiPaper-root"
                 data-testid="vector-control-panel"
+                style="--Paper-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);"
               >
                 <div
                   class="MuiStack-root css-1saxivv-MuiStack-root"
                 >
                   <h6
-                    class="MuiTypography-root MuiTypography-subtitle1 css-10wpov9-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
                   >
                     Select Vector Range
                   </h6>
                   <span
-                    class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-ltlhnc-MuiSlider-root"
+                    class="MuiSlider-root MuiSlider-marked MuiSlider-colorPrimary MuiSlider-sizeMedium css-1e45yg4-MuiSlider-root"
                   >
                     <span
-                      class="MuiSlider-rail css-7o8aqz-MuiSlider-rail"
+                      class="MuiSlider-rail css-r64h58-MuiSlider-rail"
                     />
                     <span
-                      class="MuiSlider-track css-ttgsjq-MuiSlider-track"
+                      class="MuiSlider-track css-xvk2i-MuiSlider-track"
                       style="left: 10%; width: 15%;"
                     />
                     <span
-                      class="MuiSlider-mark css-hzp7sc-MuiSlider-mark"
+                      class="MuiSlider-mark css-lq5hqx-MuiSlider-mark"
                       data-index="0"
                       style="left: 0%;"
                     />
                     <span
                       aria-hidden="true"
-                      class="MuiSlider-markLabel MuiSlider-markLabel css-1bvr8oc-MuiSlider-markLabel"
+                      class="MuiSlider-markLabel MuiSlider-markLabel css-1qb795b-MuiSlider-markLabel"
                       data-index="0"
                       style="left: 0%;"
                     >
                       0
                     </span>
                     <span
-                      class="MuiSlider-mark css-hzp7sc-MuiSlider-mark"
+                      class="MuiSlider-mark css-lq5hqx-MuiSlider-mark"
                       data-index="1"
                       style="left: 100%;"
                     />
                     <span
                       aria-hidden="true"
-                      class="MuiSlider-markLabel MuiSlider-markLabel css-1bvr8oc-MuiSlider-markLabel"
+                      class="MuiSlider-markLabel MuiSlider-markLabel css-1qb795b-MuiSlider-markLabel"
                       data-index="1"
                       style="left: 100%;"
                     >
                       20
                     </span>
                     <span
-                      class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
+                      class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-1xcmt9q-MuiSlider-thumb"
                       data-index="0"
                       style="left: 10%;"
                     >
@@ -309,7 +294,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                       />
                       <span
                         aria-hidden="true"
-                        class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
+                        class="MuiSlider-valueLabel css-1asissc-MuiSlider-valueLabel"
                       >
                         <span
                           class="MuiSlider-valueLabelCircle"
@@ -323,7 +308,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                       </span>
                     </span>
                     <span
-                      class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-cp2j25-MuiSlider-thumb"
+                      class="MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeMedium MuiSlider-thumbColorPrimary css-1xcmt9q-MuiSlider-thumb"
                       data-index="1"
                       style="left: 25%;"
                     >
@@ -342,7 +327,7 @@ exports[`Vector Window component > checks that the vectors are using the default
                       />
                       <span
                         aria-hidden="true"
-                        class="MuiSlider-valueLabel css-14gyywz-MuiSlider-valueLabel"
+                        class="MuiSlider-valueLabel css-1asissc-MuiSlider-valueLabel"
                       >
                         <span
                           class="MuiSlider-valueLabelCircle"
@@ -364,23 +349,23 @@ exports[`Vector Window component > checks that the vectors are using the default
       </div>
       <div
         aria-hidden="false"
-        class="MuiBackdrop-root css-19zr541-MuiBackdrop-root"
+        class="MuiBackdrop-root css-1eyx8gx-MuiBackdrop-root"
         role="none"
         style="opacity: 0; webkit-transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       >
         <span
           aria-label="Vector loading"
-          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-18lrjg1-MuiCircularProgress-root"
+          class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1wxecgq-MuiCircularProgress-root"
           id="vector-loading-indicator"
           role="progressbar"
           style="width: 40px; height: 40px;"
         >
           <svg
-            class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+            class="MuiCircularProgress-svg css-54pwck-MuiCircularProgress-svg"
             viewBox="22 22 44 44"
           >
             <circle
-              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-19t5dcl-MuiCircularProgress-circle"
               cx="44"
               cy="44"
               fill="none"

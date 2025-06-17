@@ -39,7 +39,7 @@ describe('Filter dialogue component', () => {
 
   it('renders filter dialogue when dialogue is open (filter section)', async () => {
     let baseElement;
-    await act(async () => {
+    act(() => {
       baseElement = createView().baseElement;
     });
     expect(baseElement).toMatchSnapshot();
@@ -197,7 +197,7 @@ describe('Filter dialogue component', () => {
     props.open = false;
 
     let baseElement;
-    await act(async () => {
+    act(() => {
       baseElement = createView().baseElement;
     });
     expect(baseElement).toMatchSnapshot();

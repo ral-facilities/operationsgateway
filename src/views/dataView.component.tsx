@@ -50,7 +50,7 @@ const DataView = React.memo((props: DataViewProps): React.ReactElement => {
   // SG header + SG footer + tabs + search + spacing + buttons + spacing + pagination
   const tableHeight = `calc(100vh - (64px + 32px + 49px ${
     searchExpanded ? `+ ${searchHeight}px` : ''
-  } + 8px + 32px + 8px + 52px))`;
+  } + 16px + 32px + 8px + 52px))`;
 
   return (
     <Stack spacing={1} ml={1} mr={1} mt={1}>

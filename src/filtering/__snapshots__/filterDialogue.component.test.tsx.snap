@@ -16,12 +16,12 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
     aria-hidden="true"
   />
   <div
-    class="MuiDialog-root MuiModal-root css-zw3mfo-MuiModal-root-MuiDialog-root"
+    class="MuiDialog-root MuiModal-root css-1424xw8-MuiModal-root-MuiDialog-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+      class="MuiBackdrop-root MuiModal-backdrop css-1cennmq-MuiBackdrop-root-MuiDialog-backdrop"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
@@ -29,47 +29,46 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
       tabindex="0"
     />
     <div
-      class="MuiDialog-container MuiDialog-scrollPaper css-hz1bth-MuiDialog-container"
+      class="MuiDialog-container MuiDialog-scrollPaper css-19do60a-MuiDialog-container"
       role="presentation"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       tabindex="-1"
     >
       <div
         aria-label="Filters"
-        aria-labelledby=":r4:"
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
+        aria-labelledby=":r9:"
+        aria-modal="true"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-18x6di2-MuiPaper-root-MuiDialog-paper"
         role="dialog"
+        style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
       >
         <div
-          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+          class="MuiTabs-root css-jhczcq-MuiTabs-root"
         >
           <div
-            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            class="MuiTabs-scroller MuiTabs-fixed css-s2t35c-MuiTabs-scroller"
             style="overflow: hidden; margin-bottom: 0px;"
           >
             <div
               aria-label="view tabs"
-              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              class="MuiTabs-list MuiTabs-flexContainer css-hzcega-MuiTabs-list"
               role="tablist"
             >
               <button
                 aria-controls="Filters-tabpanel"
                 aria-selected="false"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-w63012-MuiButtonBase-root-MuiTab-root"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-aqbpvk-MuiButtonBase-root-MuiTab-root"
                 id="Filters-tab"
                 role="tab"
                 tabindex="-1"
                 type="button"
               >
                 Filters
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </button>
               <button
                 aria-controls="Favourite filters-tabpanel"
                 aria-selected="true"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-w63012-MuiButtonBase-root-MuiTab-root"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-aqbpvk-MuiButtonBase-root-MuiTab-root"
                 id="Favourite filters-tab"
                 role="tab"
                 tabindex="0"
@@ -80,34 +79,34 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                 >
                   Favourite filters
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1o1b9ud-MuiChip-root"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1di574v-MuiChip-root"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                     >
                       0
                     </span>
                   </div>
                 </div>
                 <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  class="MuiTouchRipple-root css-r3djoj-MuiTouchRipple-root"
                 />
               </button>
             </div>
             <span
-              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              class="MuiTabs-indicator css-1qltlow-MuiTabs-indicator"
               style="left: 0px; width: 0px;"
             />
           </div>
         </div>
         <div
-          class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+          class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-o1xwpy-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-2a57i0-MuiGrid2-root"
             >
               <div
                 aria-labelledby="Filters-tab"
@@ -126,19 +125,19 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                   class="MuiBox-root css-0"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                   >
                     <button
-                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+                      class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-wyro15-MuiButtonBase-root-MuiButton-root"
                       tabindex="0"
                       type="button"
                     >
                       <span
-                        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+                        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
                       >
                         <svg
                           aria-hidden="true"
-                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                           data-testid="AddCircleIcon"
                           focusable="false"
                           viewBox="0 0 24 24"
@@ -149,32 +148,29 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </svg>
                       </span>
                       Add new favourite filter
-                      <span
-                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                      />
                     </button>
                   </div>
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item css-lfjkf4-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1swgirf-MuiGrid2-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="Select test 1 favourite filter"
-                            class="PrivateSwitchBase-input css-1m9pwf3"
+                            class="PrivateSwitchBase-input css-j8yymo"
                             data-indeterminate="false"
                             type="checkbox"
                           />
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="CheckBoxOutlineBlankIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -183,43 +179,40 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1tluh2o-MuiFormControl-root-MuiTextField-root"
+                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="true"
-                            for=":r8:"
-                            id=":r8:-label"
+                            for=":rj:"
+                            id=":rj:-label"
                           >
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
-                              id=":r8:"
+                              id=":rj:"
                               readonly=""
                               type="text"
                               value="test 1"
                             />
                             <fieldset
                               aria-hidden="true"
-                              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                             >
                               <legend
-                                class="css-14lo706"
+                                class="css-w1u3ce"
                               >
                                 <span>
                                   Name
@@ -230,55 +223,55 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
-                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
+                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
                         >
                           <div
-                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                               data-shrink="true"
-                              for=":r9:"
-                              id=":r9:-label"
+                              for=":rk:"
+                              id=":rk:-label"
                             >
                               Filter
                             </label>
                             <div
-                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1e3qgpi-MuiInputBase-root-MuiOutlinedInput-root"
                               data-id="Input"
                             >
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="0"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   Active Experiment
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="1"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   &gt;
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="2"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   3
                                 </span>
@@ -289,8 +282,8 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 aria-invalid="false"
                                 autocapitalize="none"
                                 autocomplete="off"
-                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
-                                id=":r9:"
+                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12tjcea-MuiInputBase-input-MuiOutlinedInput-input"
+                                id=":rk:"
                                 readonly=""
                                 role="combobox"
                                 spellcheck="false"
@@ -299,10 +292,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               />
                               <fieldset
                                 aria-hidden="true"
-                                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                               >
                                 <legend
-                                  class="css-14lo706"
+                                  class="css-w1u3ce"
                                 >
                                   <span>
                                     Filter
@@ -314,44 +307,41 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 1 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="EditIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
                           >
                             <path
-                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 1 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="DeleteIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -360,30 +350,27 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="Select test 2 favourite filter"
-                            class="PrivateSwitchBase-input css-1m9pwf3"
+                            class="PrivateSwitchBase-input css-j8yymo"
                             data-indeterminate="false"
                             type="checkbox"
                           />
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="CheckBoxOutlineBlankIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -392,43 +379,40 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1tluh2o-MuiFormControl-root-MuiTextField-root"
+                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="true"
-                            for=":rd:"
-                            id=":rd:-label"
+                            for=":rq:"
+                            id=":rq:-label"
                           >
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
-                              id=":rd:"
+                              id=":rq:"
                               readonly=""
                               type="text"
                               value="test 2"
                             />
                             <fieldset
                               aria-hidden="true"
-                              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                             >
                               <legend
-                                class="css-14lo706"
+                                class="css-w1u3ce"
                               >
                                 <span>
                                   Name
@@ -439,55 +423,55 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
-                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
+                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
                         >
                           <div
-                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                               data-shrink="true"
-                              for=":re:"
-                              id=":re:-label"
+                              for=":rr:"
+                              id=":rr:-label"
                             >
                               Filter
                             </label>
                             <div
-                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1e3qgpi-MuiInputBase-root-MuiOutlinedInput-root"
                               data-id="Input"
                             >
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="0"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   Shot Number
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="1"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   =
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="2"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   1
                                 </span>
@@ -498,8 +482,8 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 aria-invalid="false"
                                 autocapitalize="none"
                                 autocomplete="off"
-                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
-                                id=":re:"
+                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12tjcea-MuiInputBase-input-MuiOutlinedInput-input"
+                                id=":rr:"
                                 readonly=""
                                 role="combobox"
                                 spellcheck="false"
@@ -508,10 +492,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               />
                               <fieldset
                                 aria-hidden="true"
-                                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                               >
                                 <legend
-                                  class="css-14lo706"
+                                  class="css-w1u3ce"
                                 >
                                   <span>
                                     Filter
@@ -523,44 +507,41 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 2 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="EditIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
                           >
                             <path
-                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 2 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="DeleteIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -569,30 +550,27 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                     </div>
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-spacing-xs-1 css-v8g4am-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-spacing-xs-1 css-44clmb-MuiGrid2-root"
                     >
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="Select test 3 favourite filter"
-                            class="PrivateSwitchBase-input css-1m9pwf3"
+                            class="PrivateSwitchBase-input css-j8yymo"
                             data-indeterminate="false"
                             type="checkbox"
                           />
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="CheckBoxOutlineBlankIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -601,43 +579,40 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </span>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5 css-1ipvduc-MuiGrid2-root"
                       >
                         <div
-                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-1tluh2o-MuiFormControl-root-MuiTextField-root"
+                          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-pgee41-MuiFormControl-root-MuiTextField-root"
                         >
                           <label
-                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                             data-shrink="true"
-                            for=":ri:"
-                            id=":ri:-label"
+                            for=":r11:"
+                            id=":r11:-label"
                           >
                             Name
                           </label>
                           <div
-                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-md26zr-MuiInputBase-root-MuiOutlinedInput-root"
+                            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall Mui-readOnly MuiInputBase-readOnly css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
                           >
                             <input
                               aria-invalid="false"
-                              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall Mui-readOnly MuiInputBase-readOnly css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
                               disabled=""
-                              id=":ri:"
+                              id=":r11:"
                               readonly=""
                               type="text"
                               value="test 3"
                             />
                             <fieldset
                               aria-hidden="true"
-                              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                             >
                               <legend
-                                class="css-14lo706"
+                                class="css-w1u3ce"
                               >
                                 <span>
                                   Name
@@ -648,55 +623,55 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5 css-k3f0g4-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-5.5 css-1st6taw-MuiGrid2-root"
                       >
                         <div
-                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
+                          class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
                         >
                           <div
-                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                           >
                             <label
-                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                               data-shrink="true"
-                              for=":rj:"
-                              id=":rj:-label"
+                              for=":r12:"
+                              id=":r12:-label"
                             >
                               Filter
                             </label>
                             <div
-                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+                              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd Mui-readOnly MuiAutocomplete-inputRoot MuiInputBase-readOnly css-1e3qgpi-MuiInputBase-root-MuiOutlinedInput-root"
                               data-id="Input"
                             >
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="0"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   Active Experiment
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="1"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   =
                                 </span>
                               </div>
                               <div
-                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-13htn8f-MuiChip-root"
+                                class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault MuiAutocomplete-tag MuiAutocomplete-tagSizeSmall css-8aqjdy-MuiChip-root"
                                 data-tag-index="2"
                                 tabindex="-1"
                               >
                                 <span
-                                  class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                                  class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                                 >
                                   1
                                 </span>
@@ -707,8 +682,8 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 aria-invalid="false"
                                 autocapitalize="none"
                                 autocomplete="off"
-                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
-                                id=":rj:"
+                                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd Mui-readOnly MuiAutocomplete-input MuiAutocomplete-inputFocused MuiInputBase-readOnly css-12tjcea-MuiInputBase-input-MuiOutlinedInput-input"
+                                id=":r12:"
                                 readonly=""
                                 role="combobox"
                                 spellcheck="false"
@@ -717,10 +692,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               />
                               <fieldset
                                 aria-hidden="true"
-                                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                               >
                                 <legend
-                                  class="css-14lo706"
+                                  class="css-w1u3ce"
                                 >
                                   <span>
                                     Filter
@@ -732,44 +707,41 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Edit test 3 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="EditIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
                           >
                             <path
-                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
+                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.5 css-1ot6ykd-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.5 css-1t74bsq-MuiGrid2-root"
                       >
                         <button
                           aria-label="Delete test 3 favourite filter"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-53g0n7-MuiButtonBase-root-MuiIconButton-root"
                           data-mui-internal-clone-element="true"
                           tabindex="0"
                           type="button"
                         >
                           <svg
                             aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                             data-testid="DeleteIcon"
                             focusable="false"
                             viewBox="0 0 24 24"
@@ -778,9 +750,6 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                               d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
                             />
                           </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                     </div>
@@ -791,27 +760,21 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
           </div>
         </div>
         <div
-          class="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
+          class="MuiDialogActions-root MuiDialogActions-spacing css-15fu35s-MuiDialogActions-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Close
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Apply
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </div>
       </div>
@@ -832,12 +795,12 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
     aria-hidden="true"
   />
   <div
-    class="MuiDialog-root MuiModal-root css-zw3mfo-MuiModal-root-MuiDialog-root"
+    class="MuiDialog-root MuiModal-root css-1424xw8-MuiModal-root-MuiDialog-root"
     role="presentation"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+      class="MuiBackdrop-root MuiModal-backdrop css-1cennmq-MuiBackdrop-root-MuiDialog-backdrop"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
@@ -845,7 +808,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
       tabindex="0"
     />
     <div
-      class="MuiDialog-container MuiDialog-scrollPaper css-hz1bth-MuiDialog-container"
+      class="MuiDialog-container MuiDialog-scrollPaper css-19do60a-MuiDialog-container"
       role="presentation"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       tabindex="-1"
@@ -853,39 +816,38 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
       <div
         aria-label="Filters"
         aria-labelledby=":r0:"
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-cyxlny-MuiPaper-root-MuiDialog-paper"
+        aria-modal="true"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthLg MuiDialog-paperFullWidth css-18x6di2-MuiPaper-root-MuiDialog-paper"
         role="dialog"
+        style="--Paper-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12);"
       >
         <div
-          class="MuiTabs-root css-1ujnqem-MuiTabs-root"
+          class="MuiTabs-root css-jhczcq-MuiTabs-root"
         >
           <div
-            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            class="MuiTabs-scroller MuiTabs-fixed css-s2t35c-MuiTabs-scroller"
             style="overflow: hidden; margin-bottom: 0px;"
           >
             <div
               aria-label="view tabs"
-              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              class="MuiTabs-list MuiTabs-flexContainer css-hzcega-MuiTabs-list"
               role="tablist"
             >
               <button
                 aria-controls="Filters-tabpanel"
                 aria-selected="true"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-w63012-MuiButtonBase-root-MuiTab-root"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-aqbpvk-MuiButtonBase-root-MuiTab-root"
                 id="Filters-tab"
                 role="tab"
                 tabindex="0"
                 type="button"
               >
                 Filters
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </button>
               <button
                 aria-controls="Favourite filters-tabpanel"
                 aria-selected="false"
-                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-w63012-MuiButtonBase-root-MuiTab-root"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-aqbpvk-MuiButtonBase-root-MuiTab-root"
                 id="Favourite filters-tab"
                 role="tab"
                 tabindex="-1"
@@ -896,34 +858,31 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                 >
                   Favourite filters
                   <div
-                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1o1b9ud-MuiChip-root"
+                    class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorPrimary MuiChip-filledPrimary css-1di574v-MuiChip-root"
                   >
                     <span
-                      class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                      class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                     >
                       0
                     </span>
                   </div>
                 </div>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
               </button>
             </div>
             <span
-              class="MuiTabs-indicator css-1aquho2-MuiTabs-indicator"
+              class="MuiTabs-indicator css-1qltlow-MuiTabs-indicator"
               style="left: 0px; width: 0px;"
             />
           </div>
         </div>
         <div
-          class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+          class="MuiDialogContent-root css-kw13he-MuiDialogContent-root"
         >
           <div
-            class="MuiGrid-root MuiGrid-container css-o1xwpy-MuiGrid-root"
+            class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-18i0w5n-MuiGrid2-root"
           >
             <div
-              class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 css-spompt-MuiGrid-root"
+              class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-2a57i0-MuiGrid2-root"
             >
               <div
                 aria-labelledby="Filters-tab"
@@ -935,30 +894,30 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                   class="MuiBox-root css-0"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-true css-xqag5e-MuiGrid-root"
+                    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-18wkjc9-MuiGrid2-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 css-j76qx9-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 MuiGrid2-grid-sm-6 css-p3asko-MuiGrid2-root"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-fqento-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-11a9lpe-MuiTypography-root"
                       >
                         Enter filter
                       </h3>
                       <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1i3o8ml-MuiGrid2-root"
                       >
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                         >
                           <div
-                            class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-1u6ug4u-MuiAutocomplete-root"
+                            class="MuiAutocomplete-root MuiAutocomplete-fullWidth css-4z7hu2-MuiAutocomplete-root"
                           >
                             <div
-                              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                              class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
                             >
                               <label
-                                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+                                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeSmall MuiInputLabel-outlined css-hvjq6j-MuiFormLabel-root-MuiInputLabel-root"
                                 data-shrink="true"
                                 for=":r1:"
                                 id=":r1:-label"
@@ -966,7 +925,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 Filter
                               </label>
                               <div
-                                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root"
+                                class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1e3qgpi-MuiInputBase-root-MuiOutlinedInput-root"
                                 data-id="Input"
                               >
                                 <input
@@ -975,7 +934,7 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                   aria-invalid="false"
                                   autocapitalize="none"
                                   autocomplete="off"
-                                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12yjm75-MuiInputBase-input-MuiOutlinedInput-input"
+                                  class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-12tjcea-MuiInputBase-input-MuiOutlinedInput-input"
                                   id=":r1:"
                                   role="combobox"
                                   spellcheck="false"
@@ -984,10 +943,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 />
                                 <fieldset
                                   aria-hidden="true"
-                                  class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                                  class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
                                 >
                                   <legend
-                                    class="css-14lo706"
+                                    class="css-w1u3ce"
                                   >
                                     <span>
                                       Filter
@@ -999,17 +958,17 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                           </div>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.6 css-xu4di-MuiGrid2-root"
                         >
                           <button
                             aria-label="Delete filter 0"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                               data-testid="DeleteIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -1018,23 +977,20 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zM19 4h-3.5l-1-1h-5l-1 1H5v2h14z"
                               />
                             </svg>
-                            <span
-                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                            />
                           </button>
                         </div>
                         <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-0.6 css-4qffp2-MuiGrid-root"
+                          class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-0.6 css-xu4di-MuiGrid2-root"
                         >
                           <button
                             aria-label="Add as favourite filter"
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-155wbr6-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                               data-testid="FavoriteIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -1043,26 +999,23 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                                 d="m12 21.35-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"
                               />
                             </svg>
-                            <span
-                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                            />
                           </button>
                         </div>
                       </div>
                       <div
-                        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+                        class="MuiGrid2-root MuiGrid2-direction-xs-row css-1fzlhpv-MuiGrid2-root"
                       >
                         <button
-                          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-1k23hlb-MuiButtonBase-root-MuiButton-root"
+                          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-colorPrimary css-wyro15-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
                           <span
-                            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-y6rp3m-MuiButton-startIcon"
+                            class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
                           >
                             <svg
                               aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
                               data-testid="AddCircleIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
@@ -1073,33 +1026,32 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                             </svg>
                           </span>
                           Add new filter
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
                         </button>
                       </div>
                     </div>
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-olsibl-MuiDivider-root"
+                    <div
+                      aria-orientation="vertical"
+                      class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-124v33r-MuiDivider-root"
+                      role="separator"
                     />
                     <div
-                      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+                      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-grow css-2edihr-MuiGrid2-root"
                     >
                       <h3
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"
                       >
                         Filter help
                       </h3>
                       <div
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
                       >
                         In the box, start typing data channel names, numbers, mathematical symbols such as
                          
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1kef43z-MuiChip-root"
                         >
                           <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                           >
                             &gt;
                           </span>
@@ -1108,10 +1060,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         and
                          
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1kef43z-MuiChip-root"
                         >
                           <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                           >
                             &lt;=
                           </span>
@@ -1120,10 +1072,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         and keywords such as
                          
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1feiast-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1kef43z-MuiChip-root"
                         >
                           <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                           >
                             AND
                           </span>
@@ -1131,10 +1083,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         ,
                          
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-hsc04e-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1v526ld-MuiChip-root"
                         >
                           <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                           >
                             OR
                           </span>
@@ -1143,10 +1095,10 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         and
                          
                         <div
-                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-159gmrl-MuiChip-root"
+                          class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-u9fr5-MuiChip-root"
                         >
                           <span
-                            class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                            class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                           >
                             NOT
                           </span>
@@ -1154,129 +1106,129 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
                         . The Wizard will suggest suitable options and indicate using a grey box when each item has been recognised. Function names are not currently supported in filters.
                       </div>
                       <h3
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-um3j9i-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-e6g60o-MuiTypography-root"
                       >
                         Operators included
                       </h3>
                       <div
-                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ejgmvm-MuiTypography-root"
+                        class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
                       >
                         <div
                           class="MuiBox-root css-zefc5s"
                         >
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               =
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               !=
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               &gt;
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               &lt;
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               &gt;=
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               &lt;=
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               is null
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               is not null
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               and
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               or
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               not
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               (
                             </span>
                           </div>
                           <div
-                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-sk307n-MuiChip-root"
+                            class="MuiChip-root MuiChip-filled MuiChip-sizeSmall MuiChip-colorDefault MuiChip-filledDefault css-1ut1t6z-MuiChip-root"
                           >
                             <span
-                              class="MuiChip-label MuiChip-labelSmall css-wjsjww-MuiChip-label"
+                              class="MuiChip-label MuiChip-labelSmall css-eccknh-MuiChip-label"
                             >
                               )
                             </span>
@@ -1298,27 +1250,21 @@ exports[`Filter dialogue component > renders filter dialogue when dialogue is op
           </div>
         </div>
         <div
-          class="MuiDialogActions-root MuiDialogActions-spacing css-knqc4i-MuiDialogActions-root"
+          class="MuiDialogActions-root MuiDialogActions-spacing css-15fu35s-MuiDialogActions-root"
         >
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Close
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
           <button
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1uent87-MuiButtonBase-root-MuiButton-root"
             tabindex="0"
             type="button"
           >
             Apply
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
           </button>
         </div>
       </div>

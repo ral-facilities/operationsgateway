@@ -1,12 +1,12 @@
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { Close, Search } from '@mui/icons-material';
 import {
   Autocomplete,
   Box,
+  ClickAwayListener,
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   InputAdornment,
   Radio,
   RadioGroup,
@@ -204,13 +204,13 @@ const XAxisTab = (props: XAxisTabProps) => {
   const [toOpen, setToOpen] = useState(false);
 
   return (
-    <Grid container spacing={1} mt={0}>
-      <Grid container item spacing={1}>
+    <Grid container spacing={1} mt={1}>
+      <Grid container spacing={1}>
         <ClickAwayListener
           onClickAway={() => setFromOpen(false)}
           mouseEvent="onMouseDown"
         >
-          <Grid item xs={6}>
+          <Grid size={6}>
             {XAxisScale === 'date' ? (
               <LocalizationProvider
                 dateAdapter={AdapterDateFns}
@@ -290,7 +290,7 @@ const XAxisTab = (props: XAxisTabProps) => {
           onClickAway={() => setToOpen(false)}
           mouseEvent="onMouseDown"
         >
-          <Grid item xs={6}>
+          <Grid size={6}>
             {XAxisScale === 'date' ? (
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
@@ -358,8 +358,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 variant="outlined"
                 size="small"
                 fullWidth
-                InputProps={{ style: { fontSize: 12 } }}
-                InputLabelProps={{ style: { fontSize: 12 } }}
+                slotProps={{
+                  input: { sx: { fontSize: 12 } },
+                  inputLabel: { sx: { fontSize: 12 } },
+                }}
                 error={invalidXRange}
                 {...(invalidXRange && { helperText: 'Invalid range' })}
                 value={xMaximum}
@@ -373,7 +375,7 @@ const XAxisTab = (props: XAxisTabProps) => {
       </Grid>
       {XAxis !== timeChannelName && (
         <>
-          <Grid item>
+          <Grid>
             <FormControl sx={{ flexDirection: 'row', alignItems: 'center' }}>
               <FormLabel id="x-scale-group-label" sx={{ mr: 2 }}>
                 Scale
@@ -410,7 +412,7 @@ const XAxisTab = (props: XAxisTabProps) => {
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid container item>
+          <Grid size={12}>
             <Autocomplete
               disablePortal
               clearOnBlur
@@ -443,15 +445,17 @@ const XAxisTab = (props: XAxisTabProps) => {
                   label="Search"
                   variant="outlined"
                   size="small"
-                  InputLabelProps={{ style: { fontSize: 12 } }}
-                  InputProps={{
-                    ...params.InputProps,
-                    style: { fontSize: 12 },
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    ),
+                  slotProps={{
+                    inputLabel: { sx: { fontSize: 12 } },
+                    input: {
+                      ...params.InputProps,
+                      sx: { fontSize: 12 },
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
+                    },
                   }}
                 />
               )}
@@ -460,7 +464,7 @@ const XAxisTab = (props: XAxisTabProps) => {
         </>
       )}
       {XAxis && XAxis !== timeChannelName && (
-        <Grid container item>
+        <Grid size={12}>
           <Box
             aria-label={`${xAxisLabel} label`}
             sx={{

@@ -160,8 +160,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
               }}
             >
               <Checkbox
-                inputProps={{
-                  'aria-label': 'select all rows',
+                slotProps={{
+                  input: {
+                    'aria-label': 'select all rows',
+                  },
                 }}
                 size="small"
                 color="primary"
@@ -189,7 +191,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             >
               <Checkbox
                 size="small"
-                inputProps={{ 'aria-label': 'select row' }}
+                slotProps={{ input: { 'aria-label': 'select row' } }}
                 sx={{ p: '5px', m: '0 4px' }}
                 checked={cell.row.getIsSelected()}
                 disabled={!cell.row.getCanSelect()}
@@ -250,6 +252,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         sx={{
           background: 'unset',
           overflow: 'auto',
+          minHeight: '70px',
           maxHeight: tableHeight,
         }}
       >
@@ -371,18 +374,18 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                     flexDirection: 'row',
                     ...(row.getIsSelected()
                       ? {
-                          '&:hover td': {
-                            backgroundColor: (theme) =>
-                              theme.palette.mode === 'dark'
-                                ? '#303E4A'
-                                : '#E3EEFA',
-                          },
-                          '& td': {
-                            backgroundColor: (theme) =>
-                              theme.palette.mode === 'dark'
-                                ? '#263037'
-                                : '#EDF4FC',
-                          },
+                          '&:hover td': (theme) => ({
+                            backgroundColor: '#E3EEFA',
+                            ...theme.applyStyles('dark', {
+                              backgroundColor: '#303E4A',
+                            }),
+                          }),
+                          '& td': (theme) => ({
+                            backgroundColor: '#EDF4FC',
+                            ...theme.applyStyles('dark', {
+                              backgroundColor: '#263037',
+                            }),
+                          }),
                         }
                       : {}),
                   }}
@@ -433,20 +436,25 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                 </MuiTableRow>
               );
             })}
-            {/* Need to make this a tr with a td column with the correct colSpan 
-                    to be a valid HTML table */}
-            {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
-            <Backdrop
-              component="tr"
-              sx={{ position: 'absolute', zIndex: 100, height: 'inherit' }}
-              open={!loadedData}
+            {/* Need to make this a tr with a td column with the correct colSpan to be a valid HTML table.
+                In MUI v7 this can be replaced with component="tr" in backdrop (https://github.com/mui/material-ui/issues/46264) */}
+            <tr
               role="none"
-              aria-hidden={false}
+              style={{ height: !loadedData ? '60px' : undefined }}
             >
               <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
-                <CircularProgress id="table-loading-indicator" />
+                <Backdrop
+                  sx={{ position: 'absolute', zIndex: 100 }}
+                  open={!loadedData}
+                  aria-hidden={false}
+                >
+                  <CircularProgress
+                    id="table-loading-indicator"
+                    aria-label="Table progress bar"
+                  />
+                </Backdrop>
               </td>
-            </Backdrop>
+            </tr>
           </MuiTableBody>
         </MuiTable>
       </MuiTableContainer>

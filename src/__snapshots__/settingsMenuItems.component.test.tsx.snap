@@ -8,35 +8,34 @@ exports[`Settings Menu Items component > renders dropdown only when menu is visi
   >
     <ul>
       <hr
-        class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+        class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
       />
       <li
-        class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-lblayi-MuiButtonBase-root-MuiMenuItem-root"
+        class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-50lg7m-MuiButtonBase-root-MuiMenuItem-root"
         role="menuitem"
         tabindex="-1"
       >
         <div
-          class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+          class="MuiFormGroup-root css-1mac7pt-MuiFormGroup-root"
         >
           <div
-            class="MuiFormControl-root css-1nrlq1o-MuiFormControl-root"
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
           >
             <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-1jy569b-MuiFormLabel-root-MuiInputLabel-root"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="true"
               id="default-colour-map-select-label"
             >
               Default Colour Map
             </label>
             <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-1ualgfl-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root css-ovbmre-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
             >
               <div
-                aria-controls=":r0:"
                 aria-expanded="false"
                 aria-haspopup="listbox"
                 aria-labelledby="default-colour-map-select-label colour-map-select"
-                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
                 id="colour-map-select"
                 role="combobox"
                 tabindex="0"
@@ -46,13 +45,13 @@ exports[`Settings Menu Items component > renders dropdown only when menu is visi
               <input
                 aria-hidden="true"
                 aria-invalid="false"
-                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
                 tabindex="-1"
                 value="cividis"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
                 data-testid="ArrowDropDownIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -63,10 +62,10 @@ exports[`Settings Menu Items component > renders dropdown only when menu is visi
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
               >
                 <legend
-                  class="css-14lo706"
+                  class="css-w1u3ce"
                 >
                   <span>
                     Default Colour Map
@@ -76,61 +75,55 @@ exports[`Settings Menu Items component > renders dropdown only when menu is visi
             </div>
           </div>
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-19opgx6-MuiFormControlLabel-root"
           >
             <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
             >
               <span
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
               >
                 <input
-                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
                   type="checkbox"
                 />
                 <span
-                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-                />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
                 />
               </span>
               <span
-                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
               />
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-ahj2mt-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-rizt0-MuiTypography-root"
             >
               Reverse Colour
             </span>
           </label>
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-19opgx6-MuiFormControlLabel-root"
           >
             <span
-              class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
             >
               <span
-                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
               >
                 <input
-                  class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                  class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
                   type="checkbox"
                 />
                 <span
-                  class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-                />
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
                 />
               </span>
               <span
-                class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
               />
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-152p3zg-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-166os2w-MuiTypography-root"
             >
               Show extended colourmap options
             </span>

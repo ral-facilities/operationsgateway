@@ -1,6 +1,6 @@
 import {
   Divider,
-  Grid,
+  Grid2 as Grid,
   SxProps,
   TableCell,
   Theme,
@@ -19,10 +19,9 @@ const DataCell = React.memo((props: DataCellProps): React.ReactElement => {
 
   return (
     <TableCell size="small" component="td" sx={sx} variant="body">
-      <Grid container>
+      <Grid container width="100%">
         <Grid
-          item
-          xs
+          size="grow"
           sx={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }}
         >
           <Typography variant="body2" noWrap>

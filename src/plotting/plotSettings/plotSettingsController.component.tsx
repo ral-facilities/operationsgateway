@@ -1,7 +1,7 @@
 import {
   Box,
   FormControlLabel,
-  Grid,
+  Grid2 as Grid,
   Paper,
   styled,
   Switch,
@@ -193,14 +193,14 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
 
   return (
     <Grid container direction="column" spacing={1}>
-      <Grid item>
+      <Grid>
         <PlotSettingsTextField
           label="Title"
           value={plotTitle}
           onChange={changePlotTitle}
         />
       </Grid>
-      <Grid item>
+      <Grid>
         <ChartTypeButtons
           plotType={plotType}
           changePlotType={changePlotType}
@@ -209,7 +209,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
         />
       </Grid>
       {XAxis === timeChannelName && (
-        <Grid item ml={1}>
+        <Grid ml={1}>
           <FormControlLabel
             control={
               <Switch
@@ -222,7 +222,7 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
           />
         </Grid>
       )}
-      <Grid item>
+      <Grid>
         {XAxis !== timeChannelName && (
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs

@@ -3,7 +3,7 @@ import {
   Autocomplete,
   Box,
   Divider,
-  Grid,
+  Grid2 as Grid,
   // createFilterOptions,
   InputAdornment,
   TextField,
@@ -63,7 +63,7 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
         }}
       />
       <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Autocomplete
             fullWidth
             value={value}
@@ -92,13 +92,15 @@ const ExperimentPopup = (props: ExperimentProps): React.ReactElement => {
                 name="experiment id"
                 {...params}
                 label="Select your experiment"
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
+                slotProps={{
+                  input: {
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Search />
+                      </InputAdornment>
+                    ),
+                  },
                 }}
               />
             )}

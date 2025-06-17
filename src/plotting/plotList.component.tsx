@@ -1,4 +1,10 @@
-import { Button, Card, CardActions, CardContent, Grid } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid2 as Grid,
+} from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   createPlot,
@@ -50,7 +56,7 @@ const PlotList = () => {
       paddingLeft={1}
       paddingBottom={1}
     >
-      <Grid item>
+      <Grid>
         <Button
           onClick={() => {
             dispatch(createPlot());
@@ -60,9 +66,9 @@ const PlotList = () => {
         </Button>
       </Grid>
       {Object.keys(plots).length > 0 && (
-        <Grid container item spacing={4}>
+        <Grid container spacing={4}>
           {Object.entries(plots).map(([plotId, plotConfig]) => (
-            <Grid item key={plotId}>
+            <Grid key={plotId}>
               <PlotCard plotConfig={plotConfig} />
             </Grid>
           ))}

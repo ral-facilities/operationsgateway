@@ -1,8 +1,7 @@
 import {
   Autocomplete,
   Chip,
-  Grid,
-  SxProps,
+  Grid2 as Grid,
   TextField,
   Theme,
   autocompleteClasses,
@@ -96,7 +95,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={5}>
+      <Grid size={{ xs: 12, sm: 5 }}>
         <TextField
           fullWidth
           label="Name"
@@ -110,7 +109,7 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
           size="small"
         />
       </Grid>
-      <Grid item xs={12} sm={7}>
+      <Grid size={{ xs: 12, sm: 7 }}>
         <Autocomplete
           autoHighlight
           filterOptions={filterOptions}
@@ -151,15 +150,17 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
               helperText={error?.expression?.message}
               onKeyDown={keydownHandler}
               onClick={clickHandler}
-              InputProps={{
-                ...params.InputProps,
-                // we need this data-id so we can tell when a user is clicking between
-                // tags in clickHander - this is a valid data-* prop so ignore TS
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                'data-id': 'Input',
-                startAdornment: tags.slice(0, inputIndex),
-                endAdornment: tags.slice(inputIndex),
+              slotProps={{
+                input: {
+                  ...params.InputProps,
+                  // we need this data-id so we can tell when a user is clicking between
+                  // tags in clickHander - this is a valid data-* prop so ignore TS
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  'data-id': 'Input',
+                  startAdornment: tags.slice(0, inputIndex),
+                  endAdornment: tags.slice(inputIndex),
+                },
               }}
             />
           )}
@@ -170,11 +171,8 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
               {option.label}
             </li>
           )}
-          // for some reason, it's not accepting the sx prop here even though it should
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          ListboxProps={
-            {
+          slotProps={{
+            listbox: {
               sx: (theme: Theme) => ({
                 [`& .${autocompleteClasses.option}`]: {
                   [`&.Mui-focused,&.Mui-focusVisible`]: {
@@ -182,10 +180,8 @@ const FunctionsInputs = (props: FunctionsInputsProps) => {
                   },
                 },
               }),
-            } as {
-              sx: SxProps<Theme>;
-            }
-          }
+            },
+          }}
         />
       </Grid>
     </Grid>

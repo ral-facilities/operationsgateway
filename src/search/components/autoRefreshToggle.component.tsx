@@ -12,7 +12,7 @@ const AUTO_REFRESH_INTERVAL_MS = 1000 * 60;
 function AutoRefreshToggle({
   enabled,
   onRequestRefresh,
-}: AutoRefreshToggleProps): JSX.Element {
+}: AutoRefreshToggleProps): React.ReactElement {
   const [isAutoRefreshEnabled, setIsAutoRefreshEnabled] = React.useState(
     DEFAULT_AUTO_REFRESH_ENABLED
   );

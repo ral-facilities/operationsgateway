@@ -2,60 +2,59 @@
 
 exports[`MoreOptionsBox > renders correctly 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    class="MuiGrid2-root MuiGrid2-container MuiGrid2-direction-xs-row css-1jxwjqx-MuiGrid2-root"
+  >
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-95xm42"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Visible
         </p>
         <span
-          class="MuiSwitch-root MuiSwitch-sizeSmall css-tqdtwk-MuiSwitch-root"
+          class="MuiSwitch-root MuiSwitch-sizeSmall css-r1g42g-MuiSwitch-root"
         >
           <span
             aria-label="toggle active_area visibility off"
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
           >
             <input
               checked=""
-              class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+              class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
               type="checkbox"
             />
             <span
-              class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
-            />
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
             />
           </span>
           <span
-            class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+            class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
           />
         </span>
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Line style
         </p>
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1qk5dk6-MuiInputBase-root-MuiInput-root"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-xpsklr-MuiInputBase-root-MuiInput-root"
         >
           <select
             aria-label="change active_area line style"
-            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-a4seda-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
               value="solid"
@@ -75,7 +74,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           </select>
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-1augcl1-MuiSvgIcon-root-MuiNativeSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -88,26 +87,26 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Line width
         </p>
         <div
-          class="MuiFormControl-root MuiTextField-root css-12uqxlo-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiTextField-root css-um69uk-MuiFormControl-root-MuiTextField-root"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
           >
             <input
               aria-invalid="false"
               aria-label="change active_area line width"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r0:"
               max="10"
               min="1"
@@ -117,12 +116,13 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-ihdtdm"
+                class="css-w4cd9x"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​
@@ -134,22 +134,22 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Markers
         </p>
         <div
-          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-1qk5dk6-MuiInputBase-root-MuiInput-root"
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-xpsklr-MuiInputBase-root-MuiInput-root"
         >
           <select
             aria-label="change active_area marker style"
-            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1dmqq7i-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
+            class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-a4seda-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
               value="circle"
@@ -204,7 +204,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           </select>
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-10bey84-MuiSvgIcon-root-MuiNativeSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiNativeSelect-icon MuiNativeSelect-iconStandard css-1augcl1-MuiSvgIcon-root-MuiNativeSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -217,26 +217,26 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Marker size
         </p>
         <div
-          class="MuiFormControl-root MuiTextField-root css-12uqxlo-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiTextField-root css-um69uk-MuiFormControl-root-MuiTextField-root"
         >
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-quhxjy-MuiInputBase-root-MuiOutlinedInput-root"
           >
             <input
               aria-invalid="false"
               aria-label="change active_area marker size"
-              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r1:"
               max="15"
               min="1"
@@ -246,12 +246,13 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-ihdtdm"
+                class="css-w4cd9x"
               >
                 <span
+                  aria-hidden="true"
                   class="notranslate"
                 >
                   ​
@@ -263,13 +264,13 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
         class="MuiBox-root css-1fz0abn"
       >
         <p
-          class="MuiTypography-root MuiTypography-body1 css-17893no-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 css-1c4691f-MuiTypography-root"
         >
           Colour
         </p>
@@ -285,41 +286,41 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-item css-1f064cs-MuiGrid-root"
+      class="MuiGrid2-root MuiGrid2-direction-xs-row MuiGrid2-grid-xs-12 css-1j0u08r-MuiGrid2-root"
     >
       <div
-        class="MuiFormControl-root css-1rzy2jn-MuiFormControl-root"
+        class="MuiFormControl-root css-1yenfrq-MuiFormControl-root"
       >
         <label
-          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-4tzbmo-MuiFormLabel-root"
+          class="MuiFormLabel-root MuiFormLabel-colorPrimary css-w83bns-MuiFormLabel-root"
           id="y-axis-label"
         >
           Y Axis
         </label>
         <div
           aria-labelledby="y-axis-label"
-          class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-qfz70r-MuiFormGroup-root"
+          class="MuiFormGroup-root MuiFormGroup-row MuiRadioGroup-root MuiRadioGroup-row css-cis11t-MuiFormGroup-root"
           role="radiogroup"
         >
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fcbanr-MuiFormControlLabel-root"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-1gq9gxy-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-wwfpj-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall Mui-checked MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-1alfyw6-MuiButtonBase-root-MuiRadio-root"
             >
               <input
                 checked=""
-                class="PrivateSwitchBase-input css-1m9pwf3"
+                class="PrivateSwitchBase-input css-j8yymo"
                 name="y-axis-label-radio-buttons"
                 type="radio"
                 value="left"
               />
               <span
-                class="css-hyxlzm"
+                class="css-1qiat4j"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-n5p0mp-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-128kr3z-MuiSvgIcon-root"
                   data-testid="RadioButtonUncheckedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -330,7 +331,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-10ofsv1-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ez55vo-MuiSvgIcon-root"
                   data-testid="RadioButtonCheckedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -340,34 +341,31 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
                   />
                 </svg>
               </span>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-17893no-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-1c4691f-MuiTypography-root"
             >
               Left
             </span>
           </label>
           <label
-            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-fcbanr-MuiFormControlLabel-root"
+            class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-1gq9gxy-MuiFormControlLabel-root"
           >
             <span
-              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-wwfpj-MuiButtonBase-root-MuiRadio-root"
+              class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall MuiRadio-root MuiRadio-colorPrimary MuiRadio-sizeSmall css-1alfyw6-MuiButtonBase-root-MuiRadio-root"
             >
               <input
-                class="PrivateSwitchBase-input css-1m9pwf3"
+                class="PrivateSwitchBase-input css-j8yymo"
                 name="y-axis-label-radio-buttons"
                 type="radio"
                 value="right"
               />
               <span
-                class="css-hyxlzm"
+                class="css-1qiat4j"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-n5p0mp-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-128kr3z-MuiSvgIcon-root"
                   data-testid="RadioButtonUncheckedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -378,7 +376,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
                 </svg>
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-r5ex5e-MuiSvgIcon-root"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-fuzcq8-MuiSvgIcon-root"
                   data-testid="RadioButtonCheckedIcon"
                   focusable="false"
                   viewBox="0 0 24 24"
@@ -388,12 +386,9 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
                   />
                 </svg>
               </span>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
             </span>
             <span
-              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-17893no-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label css-1c4691f-MuiTypography-root"
             >
               Right
             </span>

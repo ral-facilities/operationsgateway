@@ -8,7 +8,7 @@ import {
   DialogTitle,
   Divider,
   FormControlLabel,
-  Grid,
+  Grid2 as Grid,
   IconButton,
   Tooltip,
 } from '@mui/material';
@@ -314,12 +314,18 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
       <DialogTitle>Functions</DialogTitle>
       <DialogContent>
         <Grid container columnSpacing={2}>
-          <Grid container item xs pr={1} flexDirection="column" rowSpacing={1}>
+          <Grid
+            container
+            size="grow"
+            pr={1}
+            flexDirection="column"
+            rowSpacing={1}
+          >
             <Heading mt={1}>Enter function</Heading>
             {functions.map((func, index) => {
               return (
-                <Grid pl={0} container item key={func.id}>
-                  <Grid item>
+                <Grid pl={0} container key={func.id} spacing={0}>
+                  <Grid>
                     <Tooltip
                       title={
                         selectedColIds.includes(func.id)
@@ -349,7 +355,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                       />
                     </Tooltip>
                   </Grid>
-                  <Grid item xs>
+                  <Grid size="grow">
                     <FunctionsInputs
                       channels={[...(channels ?? [])]}
                       operators={formattedFunctionTokens}
@@ -363,7 +369,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
                       checkErrors={() => checkErrors(index, func.id)}
                     />
                   </Grid>
-                  <Grid item xs={0.6} mt={0.5}>
+                  <Grid size={0.6} mt={0.5}>
                     <IconButton
                       onClick={() => {
                         setFunctions((prevFunctions) =>
@@ -387,7 +393,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
               );
             })}
 
-            <Grid item>
+            <Grid>
               <Button
                 onClick={() => {
                   const functionId = crypto.randomUUID();
@@ -416,7 +422,7 @@ const FunctionsDialog = (props: FunctionsDialogProps) => {
             </Grid>
           </Grid>
           <Divider orientation="vertical" flexItem />
-          <Grid item xs={12} sm={5}>
+          <Grid size={{ xs: 12, sm: 5 }}>
             {functionTokens && <FunctionsHelp data={functionTokens} />}
           </Grid>
         </Grid>

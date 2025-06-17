@@ -133,12 +133,14 @@ const SessionListElement = (
         }}
       >
         <ListItemText
-          primaryTypographyProps={{
-            variant: 'button',
-            sx: {
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              overflowWrap: 'break-word',
+          slotProps={{
+            primary: {
+              variant: 'button',
+              sx: {
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                overflowWrap: 'break-word',
+              },
             },
           }}
         >
@@ -207,10 +209,12 @@ const SessionsDrawer = (props: SessionDrawerProps): React.ReactElement => {
         position: 'relative',
       }}
       hideBackdrop
-      PaperProps={{
-        sx: {
-          width: '220px',
-          position: 'absolute',
+      slotProps={{
+        paper: {
+          sx: {
+            width: '220px',
+            position: 'absolute',
+          },
         },
       }}
       variant="permanent"

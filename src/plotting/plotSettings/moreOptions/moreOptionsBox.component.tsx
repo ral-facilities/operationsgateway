@@ -1,24 +1,24 @@
-import React from 'react';
 import {
   Box,
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
+  Grid2 as Grid,
   NativeSelect,
   Radio,
   RadioGroup,
   Switch,
-  Typography,
   TextField,
+  Typography,
 } from '@mui/material';
-import ColourPicker from './colourPicker.component';
+import React from 'react';
 import {
   LineStyle,
   MarkerStyle,
   SelectedPlotChannel,
 } from '../../../app.types';
 import { deepCopySelectedPlotChannels } from '../../util';
+import ColourPicker from './colourPicker.component';
 
 export interface MoreOptionsProps {
   channel: SelectedPlotChannel;
@@ -69,8 +69,8 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
   );
 
   return (
-    <div>
-      <Grid container item>
+    <Grid container>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -96,7 +96,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -134,7 +134,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           </NativeSelect>
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -162,10 +162,12 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               },
             }}
             size="small"
-            inputProps={{
-              min: 1,
-              max: 10,
-              'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} line width`,
+            slotProps={{
+              htmlInput: {
+                min: 1,
+                max: 10,
+                'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} line width`,
+              },
             }}
             onFocus={(event) => {
               event.target.select();
@@ -182,7 +184,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -227,7 +229,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           </NativeSelect>
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -255,10 +257,12 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               },
             }}
             size="small"
-            inputProps={{
-              min: 1,
-              max: 15,
-              'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} marker size`,
+            slotProps={{
+              htmlInput: {
+                min: 1,
+                max: 15,
+                'aria-label': `change ${thisChannel.displayName ?? thisChannel.name} marker size`,
+              },
             }}
             onFocus={(event) => {
               event.target.select();
@@ -275,7 +279,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <Box
           sx={{
             display: 'flex',
@@ -297,7 +301,7 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
           />
         </Box>
       </Grid>
-      <Grid container item>
+      <Grid size={12}>
         <FormControl
           sx={{
             display: 'flex',
@@ -329,20 +333,20 @@ const MoreOptionsBox = (props: MoreOptionsProps) => {
               value="left"
               control={<Radio size="small" sx={{ padding: '2px' }} />}
               label="Left"
-              componentsProps={{ typography: { sx: { fontSize: 12 } } }}
+              slotProps={{ typography: { sx: { fontSize: 12 } } }}
               sx={{ margin: 0 }}
             />
             <FormControlLabel
               value="right"
               control={<Radio size="small" sx={{ padding: '2px' }} />}
               label="Right"
-              componentsProps={{ typography: { sx: { fontSize: 12 } } }}
+              slotProps={{ typography: { sx: { fontSize: 12 } } }}
               sx={{ margin: 0 }}
             />
           </RadioGroup>
         </FormControl>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 
