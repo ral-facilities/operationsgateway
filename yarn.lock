@@ -384,9 +384,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dotenvx/dotenvx@npm:1.43.0":
-  version: 1.43.0
-  resolution: "@dotenvx/dotenvx@npm:1.43.0"
+"@dotenvx/dotenvx@npm:1.44.2":
+  version: 1.44.2
+  resolution: "@dotenvx/dotenvx@npm:1.44.2"
   dependencies:
     commander: "npm:^11.1.0"
     dotenv: "npm:^16.4.5"
@@ -400,7 +400,7 @@ __metadata:
   bin:
     dotenvx: src/cli/dotenvx.js
     git-dotenvx: src/cli/dotenvx.js
-  checksum: 10c0/b757d4ccf8d1a6ba7c0a795cbdba8d8094926e198c58ef821c94b1cd3b2774fc3e10b99739124d95bdb24b5332838c5eb075c764717357fb21ede832ebbc98bb
+  checksum: 10c0/40778f769b0b828b1377aa20c0be61f3a780d8944f15f796ffd560cf9a078099a81b1b4dcb6f62918be107cdac1b3666b158d2b1775048f6b6c45be7ab23e3eb
   languageName: node
   linkType: hard
 
@@ -6849,7 +6849,7 @@ __metadata:
   resolution: "operationsgateway@workspace:."
   dependencies:
     "@date-io/date-fns": "npm:3.2.0"
-    "@dotenvx/dotenvx": "npm:1.43.0"
+    "@dotenvx/dotenvx": "npm:1.44.2"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
