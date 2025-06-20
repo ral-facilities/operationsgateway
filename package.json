@@ -97,7 +97,7 @@
     "@typescript-eslint/typescript-estree": "8.29.0",
     "@vitest/coverage-v8": "3.1.1",
     "cross-env": "7.0.3",
-    "cypress": "13.17.0",
+    "cypress": "14.4.1",
     "cypress-delete-downloads-folder": "0.0.5",
     "eslint": "9.24.0",
     "eslint-config-prettier": "10.1.1",
