@@ -1,6 +1,7 @@
 import { Divider, Typography } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { useColourMaps } from '../api/images';
 import ColourMapMenuItem from './colourMapMenuItem.component';
 import VectorsMenuItem from './vectorsMenuItem.component';
 
@@ -25,7 +26,7 @@ const SettingsMenuItems = () => {
       }),
     []
   );
-
+  const { data: colourMaps } = useColourMaps();
   React.useEffect(() => {
     if (!observer) return;
     observer.observe(document.body, {
@@ -47,7 +48,22 @@ const SettingsMenuItems = () => {
         <Typography sx={{ ml: 1 }} variant="h6">
           Images
         </Typography>
-        <ColourMapMenuItem />
+        <ColourMapMenuItem
+          type="images"
+          colourMaps={colourMaps}
+          preferredName="PREFERRED_COLOUR_MAP"
+          mainColourMap="Perceptually Uniform Sequential"
+        />
+        <Divider />
+        <Typography sx={{ ml: 1 }} variant="h6">
+          Float Images
+        </Typography>
+        <ColourMapMenuItem
+          type="floatImages"
+          colourMaps={colourMaps}
+          preferredName="PREFERRED_NULLABLE_COLOUR_MAP"
+          mainColourMap="Diverging"
+        />
         <Divider />
         <Typography sx={{ ml: 1 }} variant="h6">
           Vectors

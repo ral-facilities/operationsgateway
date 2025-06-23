@@ -21,7 +21,7 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
         tabindex="-1"
       >
         <div
-          class="MuiFormGroup-root css-1mac7pt-MuiFormGroup-root"
+          class="MuiFormGroup-root css-hd84ef-MuiFormGroup-root"
         >
           <div
             class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
@@ -149,6 +149,115 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
       <h6
         class="MuiTypography-root MuiTypography-h6 css-r88wn7-MuiTypography-root"
       >
+        Float Images
+      </h6>
+      <li
+        class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters css-50lg7m-MuiButtonBase-root-MuiMenuItem-root"
+        role="menuitem"
+        tabindex="-1"
+      >
+        <div
+          class="MuiFormGroup-root css-hd84ef-MuiFormGroup-root"
+        >
+          <div
+            class="MuiFormControl-root css-1iw3t7y-MuiFormControl-root"
+          >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              id="default-colour-map-select-label"
+            >
+              Default Colour Map
+            </label>
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiSelect-root css-ovbmre-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="default-colour-map-select-label colour-map-select"
+                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                id="colour-map-select"
+                role="combobox"
+                tabindex="0"
+              >
+                <span
+                  aria-hidden="true"
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </div>
+              <input
+                aria-hidden="true"
+                aria-invalid="false"
+                class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
+                tabindex="-1"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
+                data-testid="ArrowDropDownIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-81qg8w"
+                >
+                  <span>
+                    Default Colour Map
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <label
+            class="MuiFormControlLabel-root Mui-disabled MuiFormControlLabel-labelPlacementEnd css-19opgx6-MuiFormControlLabel-root"
+          >
+            <span
+              class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
+            >
+              <span
+                aria-disabled="true"
+                class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+                tabindex="-1"
+              >
+                <input
+                  class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                  disabled=""
+                  type="checkbox"
+                />
+                <span
+                  class="MuiSwitch-thumb css-17jyosd-MuiSwitch-thumb"
+                />
+              </span>
+              <span
+                class="MuiSwitch-track css-tj8d99-MuiSwitch-track"
+              />
+            </span>
+            <span
+              class="MuiTypography-root MuiTypography-body1 MuiFormControlLabel-label Mui-disabled css-rizt0-MuiTypography-root"
+            >
+              Reverse Colour
+            </span>
+          </label>
+        </div>
+      </li>
+      <hr
+        class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
+      />
+      <h6
+        class="MuiTypography-root MuiTypography-h6 css-r88wn7-MuiTypography-root"
+      >
         Vectors
       </h6>
       <li
@@ -157,10 +266,10 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
         tabindex="-1"
       >
         <div
-          class="MuiFormGroup-root css-1mac7pt-MuiFormGroup-root"
+          class="MuiFormGroup-root css-hd84ef-MuiFormGroup-root"
         >
           <div
-            class="MuiFormControl-root css-vvuid3-MuiFormControl-root"
+            class="MuiFormControl-root css-t4913-MuiFormControl-root"
           >
             <div
               class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-cmpglg-MuiFormControl-root-MuiTextField-root"
@@ -168,8 +277,8 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r1:"
-                id=":r1:-label"
+                for=":r2:"
+                id=":r2:-label"
               >
                 Lower Bound
               </label>
@@ -179,7 +288,7 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r2:"
                   type="text"
                   value=""
                 />
@@ -207,8 +316,8 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r2:"
-                id=":r2:-label"
+                for=":r3:"
+                id=":r3:-label"
               >
                 Upper Bound
               </label>
@@ -218,7 +327,7 @@ exports[`Settings Menu Items component > Preferred colour map > renders dropdown
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r2:"
+                  id=":r3:"
                   type="text"
                   value=""
                 />

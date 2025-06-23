@@ -173,8 +173,8 @@ const VectorsMenuItem = () => {
       }}
       disableRipple
     >
-      <FormGroup>
-        <FormControl sx={{ my: 1 }}>
+      <FormGroup sx={{ width: '100%' }}>
+        <FormControl sx={{ my: 1, width: '100%' }}>
           <TextField
             label="Lower Bound"
             value={vectorSkip || ''}
@@ -187,10 +187,12 @@ const VectorsMenuItem = () => {
               )
             }
             fullWidth
-            FormHelperTextProps={{
-              sx: {
-                whiteSpace: 'normal', // Allow wrapping
-                wordBreak: 'break-word', // Break long words
+            slotProps={{
+              formHelperText: {
+                sx: {
+                  whiteSpace: 'normal', // Allow wrapping
+                  wordBreak: 'break-word', // Break long words
+                },
               },
             }}
             error={!!errors.vectorSkip}
@@ -210,10 +212,12 @@ const VectorsMenuItem = () => {
               )
             }
             fullWidth
-            FormHelperTextProps={{
-              sx: {
-                whiteSpace: 'normal', // Allow wrapping
-                wordBreak: 'break-word', // Break long words
+            slotProps={{
+              formHelperText: {
+                sx: {
+                  whiteSpace: 'normal', // Allow wrapping
+                  wordBreak: 'break-word', // Break long words
+                },
               },
             }}
             error={!!errors.vectorLimit}

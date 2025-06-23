@@ -191,7 +191,9 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
   };
 
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
-  const mainColourMap = 'Perceptually Uniform Sequential';
+  const mainColourMap = isFloat
+    ? 'Diverging'
+    : 'Perceptually Uniform Sequential';
   const filteredColourMapsMain = {
     [mainColourMap]: filteredColourMaps[mainColourMap],
   };
@@ -261,18 +263,19 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
             }
             label="Reverse Colour"
           />
-          <FormControlLabel
-            disabled={!enabled}
-            control={
-              <Switch
-                checked={extendedColourMap}
-                onChange={handleExtendColourMaps}
-              />
-            }
-            label="Show extended colourmap options"
-          />
           {!isFloat && (
             <>
+              <FormControlLabel
+                disabled={!enabled}
+                control={
+                  <Switch
+                    checked={extendedColourMap}
+                    onChange={handleExtendColourMaps}
+                  />
+                }
+                label="Show extended colourmap options"
+              />
+
               <FormControlLabel
                 control={
                   <Switch
