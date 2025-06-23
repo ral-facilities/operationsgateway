@@ -5,12 +5,13 @@ import {
   waitFor,
   type RenderResult,
 } from '@testing-library/react';
-
 import type { MockInstance } from 'vitest';
 import { ogApi } from '../api/api';
 import { timeChannelName } from '../app.types';
+import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
+import { generateCode } from '../views/viewTabs.component';
 import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
   SessionsSaveButtonsProps,
@@ -42,6 +43,10 @@ describe('session buttons', () => {
       loadedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
+      sessionCodes: [
+        ...sessionsJson.map((session) => generateCode(session.name)),
+        'test',
+      ],
     };
     vi.useFakeTimers({
       toFake: [
@@ -82,7 +87,7 @@ describe('session buttons', () => {
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('name', 'test (autosaved)');
+    queryParams.append('name', 'test_(autosaved)_1');
     queryParams.append('summary', 'test');
     queryParams.append('auto_saved', 'true');
     const { rerender } = createView();
@@ -161,7 +166,7 @@ describe('session buttons', () => {
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('name', 'test (autosaved)');
+    queryParams.append('name', 'test_(autosaved)_1');
     queryParams.append('summary', 'test');
     queryParams.append('auto_saved', 'true');
 

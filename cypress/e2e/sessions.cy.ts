@@ -299,7 +299,7 @@ describe('Sessions', () => {
 
     cy.findByLabelText('Name *').should(($input) => {
       const value = $input.val();
-      expect(value).to.equal('Session 2_copy');
+      expect(value).to.equal('Session 2_copy_1');
     });
 
     cy.findByLabelText('Summary').should(($input) => {

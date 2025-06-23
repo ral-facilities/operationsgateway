@@ -1,7 +1,9 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
+import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
+import { generateCode } from '../views/viewTabs.component';
 import SessionDialogue, {
   SessionDialogueProps,
 } from './sessionDialogue.component';
@@ -31,6 +33,7 @@ describe('session dialogue', () => {
         requestType: 'create',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
+        sessionCodes: sessionsJson.map((session) => generateCode(session.name)),
       };
 
       user = userEvent.setup();
@@ -44,7 +47,7 @@ describe('session dialogue', () => {
       createView();
       const saveButton = screen.getByRole('button', { name: 'Save' });
       await user.click(saveButton);
-      const helperTexts = screen.getByText('Please enter a name');
+      const helperTexts = screen.getByText('Please enter a name.');
       expect(helperTexts).toBeInTheDocument();
       expect(onChangeSessionName).not.toHaveBeenCalled();
       expect(onClose).not.toHaveBeenCalled();
@@ -98,6 +101,24 @@ describe('session dialogue', () => {
       expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
       expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
     });
+
+    it('displays error for duplicate session name', async () => {
+      props = {
+        ...props,
+        sessionName: 'Session 1',
+        sessionSummary: 'Test Summary',
+      };
+
+      createView();
+      expect(screen.getByText('Save Session')).toBeInTheDocument();
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+    });
   });
 
   describe('edit  session dialogue', () => {
@@ -121,6 +142,7 @@ describe('session dialogue', () => {
         onChangeLoadedSessionId: onChangeLoadedSessionId,
         sessionData: sessionData,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
+        sessionCodes: sessionsJson.map((session) => generateCode(session.name)),
       };
 
       user = userEvent.setup();
@@ -143,8 +165,23 @@ describe('session dialogue', () => {
 
       const saveButton = screen.getByRole('button', { name: 'Save' });
       await user.click(saveButton);
-      const helperTexts = screen.getByText('Please enter a name');
+      const helperTexts = screen.getByText('Please enter a name.');
       expect(helperTexts).toBeInTheDocument();
+      expect(onChangeSessionName).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('displays warning message when session name is a duplicate', async () => {
+      props = { ...props, sessionName: 'Session 1' };
+      createView();
+
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
       expect(onChangeSessionName).not.toHaveBeenCalled();
       expect(onClose).not.toHaveBeenCalled();
     });

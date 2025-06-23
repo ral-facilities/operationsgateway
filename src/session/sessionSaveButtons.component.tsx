@@ -10,6 +10,10 @@ import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { ImportSessionType } from '../state/store';
+import {
+  generateCode,
+  generateUniqueNameUsingCode,
+} from '../views/viewTabs.component';
 
 export interface SessionsSaveButtonsProps {
   onSaveAsSessionClick: () => void;
@@ -19,6 +23,7 @@ export interface SessionsSaveButtonsProps {
     autoSaved: boolean | undefined;
   };
   autoSaveSessionId: string | undefined;
+  sessionCodes: string[];
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
@@ -37,6 +42,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     loadedSessionTimestamp,
     autoSaveSessionId,
     onChangeAutoSaveSessionId,
+    sessionCodes,
   } = props;
 
   const { mutateAsync: editSession } = useEditSession();
@@ -92,7 +98,12 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     if (loadedSessionData && !loadedSessionData.auto_saved) {
       autoSaveTimer = setInterval(() => {
         const sessionData = {
-          name: `${loadedSessionData.name} (autosaved)`,
+          name: generateUniqueNameUsingCode(
+            loadedSessionData.name,
+            generateCode(loadedSessionData.name),
+            sessionCodes,
+            '_(autosaved)'
+          ),
           session: prevReduxState.current ?? state,
           summary: loadedSessionData.summary,
           auto_saved: true,

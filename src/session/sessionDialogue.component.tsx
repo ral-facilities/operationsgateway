@@ -14,6 +14,7 @@ import { SessionResponse } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
+import { generateCode } from '../views/viewTabs.component';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -26,6 +27,7 @@ export interface SessionDialogueProps {
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   sessionData?: SessionResponse;
+  sessionCodes: string[];
 }
 
 const SessionDialogue = (props: SessionDialogueProps) => {
@@ -40,6 +42,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     sessionData,
     onChangeLoadedSessionId,
     onChangeAutoSaveSessionId,
+    sessionCodes,
   } = props;
 
   const state = useAppSelector(sessionSelector, shallowEqual);
@@ -62,6 +65,12 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const sessionState = updateWindowPositions(state);
 
+      if (sessionCodes.includes(generateCode(sessionName))) {
+        setErrorMessage(
+          'Session name already exists. Please choose a different name.'
+        );
+        return;
+      }
       const session = {
         name: sessionName,
         session: sessionState,
@@ -78,13 +87,14 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           handleOG_APIError(error);
         });
     } else {
-      setErrorMessage('Please enter a name');
+      setErrorMessage('Please enter a name.');
     }
   }, [
     handleClose,
     onChangeAutoSaveSessionId,
     onChangeLoadedSessionId,
     saveSession,
+    sessionCodes,
     sessionName,
     sessionSummary,
     state,
@@ -93,6 +103,15 @@ const SessionDialogue = (props: SessionDialogueProps) => {
 
   const handleExportEditSession = React.useCallback(() => {
     if (sessionName && sessionData) {
+      if (
+        sessionCodes.includes(generateCode(sessionName)) &&
+        generateCode(sessionName) !== generateCode(sessionData.name)
+      ) {
+        setErrorMessage(
+          'Session name already exists. Please choose a different name.'
+        );
+        return;
+      }
       const session = {
         name: sessionName,
         summary: sessionSummary,
@@ -108,9 +127,16 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           handleOG_APIError(error);
         });
     } else {
-      setErrorMessage('Please enter a name');
+      setErrorMessage('Please enter a name.');
     }
-  }, [sessionName, sessionData, sessionSummary, editSession, handleClose]);
+  }, [
+    sessionName,
+    sessionData,
+    sessionCodes,
+    sessionSummary,
+    editSession,
+    handleClose,
+  ]);
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
