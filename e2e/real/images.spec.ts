@@ -365,11 +365,13 @@ test('user can set their default colourmap', async ({ page }) => {
     document.body.appendChild(div);
   });
 
-  const defaultColourMapDropdown = await page.getByRole('combobox', {
-    name: 'Default Colour Map',
-    // This is used due to the nested focusTrap error caused by nested menuItems
-    includeHidden:true,
-  });
+  const defaultColourMapDropdown = await page
+    .getByRole('combobox', {
+      name: 'Default Colour Map',
+      // This is used due to the nested focusTrap error caused by nested menuItems
+      includeHidden: true,
+    })
+    .first();
 
   expect(defaultColourMapDropdown).toHaveText('');
 
@@ -511,8 +513,6 @@ test('user can export image', async ({ page }) => {
 test('user can change the false colour parameters of an float image', async ({
   page,
 }) => {
-
-
   await page.getByRole('button', { name: 'Data channels' }).click();
 
   await page
@@ -528,7 +528,12 @@ test('user can change the false colour parameters of an float image', async ({
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Compressor output wavefront image float_image', { exact: false }).first().click(),
+    page
+      .getByAltText('Compressor output wavefront image float_image', {
+        exact: false,
+      })
+      .first()
+      .click(),
   ]);
 
   const title = await popup.title();
@@ -543,15 +548,14 @@ test('user can change the false colour parameters of an float image', async ({
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-   // wait for new image to have loaded
-   await expect
-   .poll(async () => await image.getAttribute('src'))
-   .not.toBe(oldImageSrc);
-   
-   await image.click();
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
 
-   await expect(image).toHaveScreenshot({
-   maxDiffPixels: 150,
-   });
+  await image.click();
 
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
