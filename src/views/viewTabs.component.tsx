@@ -15,31 +15,6 @@ import DataView from './dataView.component';
 
 type TabValue = 'Data' | 'Plots';
 
-export const generateCode = (name: string): string => {
-  const trimmed = name.trim().toLowerCase();
-  const code = trimmed.replace(/\s+/g, '-');
-  return code;
-};
-/* Returns a name avoiding duplicates by appending _copy_n for nth copy using code */
-export const generateUniqueNameUsingCode = (
-  name: string,
-  code: string,
-  existingCodes: string[],
-  extraPrefixes: string = ''
-): string => {
-  let count = 1;
-  let newName = name;
-  let newCode = code;
-
-  while (existingCodes.includes(newCode)) {
-    newName = `${name}${extraPrefixes}_${count}`;
-    newCode = `${code}${extraPrefixes}_${count}`;
-    count++;
-  }
-
-  return newName;
-};
-
 export interface TabPanelProps<T> {
   children?: React.ReactNode;
   value: T | false;
@@ -122,12 +97,6 @@ const ViewTabs = () => {
   );
   const [sessionSummary, setSessionSummary] = React.useState<string>('');
 
-  const sessionCodes = React.useMemo(() => {
-    return sessionsList
-      ? sessionsList.map((session) => generateCode(session.name))
-      : [];
-  }, [sessionsList]);
-
   const onSessionEditOpen = (sessionData: SessionListItem) => {
     setSessionEditOpen(true);
     setSessionName(sessionData.name);
@@ -143,14 +112,7 @@ const ViewTabs = () => {
   const onSaveAsSessionClick = () => {
     setSessionSaveOpen(true);
     if (loadedSessionData) {
-      setSessionName(
-        generateUniqueNameUsingCode(
-          loadedSessionData.name,
-          generateCode(loadedSessionData.name),
-          sessionCodes,
-          '_copy'
-        )
-      );
+      setSessionName(`${loadedSessionData.name}_copy`);
       setSessionSummary(loadedSessionData.summary ?? '');
     }
   };
@@ -231,7 +193,7 @@ const ViewTabs = () => {
               loadedSessionTimestamp={loadedSessionTimestamp}
               autoSaveSessionId={autoSaveSessionId}
               onChangeAutoSaveSessionId={setAutoSaveSessionId}
-              sessionCodes={sessionCodes}
+              sessionsList={sessionsList}
             />
             <ExportButton />
           </Box>
@@ -253,7 +215,6 @@ const ViewTabs = () => {
           sessionData={selectedSessionData}
           onChangeLoadedSessionId={setLoadedSessionId}
           onChangeAutoSaveSessionId={setAutoSaveSessionId}
-          sessionCodes={sessionCodes}
         />
         <SessionDialogue
           open={sessionSaveOpen}
@@ -265,7 +226,6 @@ const ViewTabs = () => {
           onChangeLoadedSessionId={setLoadedSessionId}
           requestType="create"
           onChangeAutoSaveSessionId={setAutoSaveSessionId}
-          sessionCodes={sessionCodes}
         />
         <DeleteSessionDialogue
           open={sessionDeleteOpen}

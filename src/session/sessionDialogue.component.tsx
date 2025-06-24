@@ -10,11 +10,10 @@ import type { AxiosError } from 'axios';
 import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
-import { SessionResponse } from '../app.types';
+import { SessionResponse, type APIError } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
-import { generateCode } from '../views/viewTabs.component';
 
 export interface SessionDialogueProps {
   open: boolean;
@@ -27,7 +26,6 @@ export interface SessionDialogueProps {
   onChangeLoadedSessionId: (loadedSessionId: string | undefined) => void;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
   sessionData?: SessionResponse;
-  sessionCodes: string[];
 }
 
 const SessionDialogue = (props: SessionDialogueProps) => {
@@ -42,7 +40,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     sessionData,
     onChangeLoadedSessionId,
     onChangeAutoSaveSessionId,
-    sessionCodes,
   } = props;
 
   const state = useAppSelector(sessionSelector, shallowEqual);
@@ -65,9 +62,9 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     if (sessionName) {
       const sessionState = updateWindowPositions(state);
 
-      if (sessionCodes.includes(generateCode(sessionName))) {
+      if (sessionName.includes('(autosaved)')) {
         setErrorMessage(
-          'Session name already exists. Please choose a different name.'
+          'Session name cannot include "(autosaved)". Please choose a different name.'
         );
         return;
       }
@@ -84,6 +81,16 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           handleClose();
         })
         .catch((error: AxiosError) => {
+          const errorCode = (error.response?.data as APIError).detail;
+          if (
+            typeof errorCode === 'string' &&
+            errorCode.toLowerCase().includes('duplicate')
+          ) {
+            setErrorMessage(
+              'Session name already exists. Please choose a different name.'
+            );
+            return;
+          }
           handleOG_APIError(error);
         });
     } else {
@@ -94,7 +101,6 @@ const SessionDialogue = (props: SessionDialogueProps) => {
     onChangeAutoSaveSessionId,
     onChangeLoadedSessionId,
     saveSession,
-    sessionCodes,
     sessionName,
     sessionSummary,
     state,
@@ -103,12 +109,9 @@ const SessionDialogue = (props: SessionDialogueProps) => {
 
   const handleExportEditSession = React.useCallback(() => {
     if (sessionName && sessionData) {
-      if (
-        sessionCodes.includes(generateCode(sessionName)) &&
-        generateCode(sessionName) !== generateCode(sessionData.name)
-      ) {
+      if (sessionName.includes('(autosaved)')) {
         setErrorMessage(
-          'Session name already exists. Please choose a different name.'
+          'Session name cannot include "(autosaved)". Please choose a different name.'
         );
         return;
       }
@@ -124,19 +127,22 @@ const SessionDialogue = (props: SessionDialogueProps) => {
       editSession(session)
         .then(() => handleClose())
         .catch((error: AxiosError) => {
+          const errorCode = (error.response?.data as APIError).detail;
+          if (
+            typeof errorCode === 'string' &&
+            errorCode.toLowerCase().includes('duplicate')
+          ) {
+            setErrorMessage(
+              'Session name already exists. Please choose a different name.'
+            );
+            return;
+          }
           handleOG_APIError(error);
         });
     } else {
       setErrorMessage('Please enter a name.');
     }
-  }, [
-    sessionName,
-    sessionData,
-    sessionCodes,
-    sessionSummary,
-    editSession,
-    handleClose,
-  ]);
+  }, [sessionName, sessionData, sessionSummary, editSession, handleClose]);
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">

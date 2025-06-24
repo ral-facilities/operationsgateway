@@ -1,9 +1,7 @@
 import { RenderResult, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
-import { generateCode } from '../views/viewTabs.component';
 import SessionDialogue, {
   SessionDialogueProps,
 } from './sessionDialogue.component';
@@ -33,7 +31,6 @@ describe('session dialogue', () => {
         requestType: 'create',
         onChangeLoadedSessionId: onChangeLoadedSessionId,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
-        sessionCodes: sessionsJson.map((session) => generateCode(session.name)),
       };
 
       user = userEvent.setup();
@@ -119,6 +116,24 @@ describe('session dialogue', () => {
         )
       ).toBeInTheDocument();
     });
+
+    it('displays error when session includes "(autosaved)"', async () => {
+      props = {
+        ...props,
+        sessionName: 'Session 1 (autosaved)',
+        sessionSummary: 'Test Summary',
+      };
+
+      createView();
+      expect(screen.getByText('Save Session')).toBeInTheDocument();
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name cannot include "(autosaved)". Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+    });
   });
 
   describe('edit  session dialogue', () => {
@@ -142,7 +157,6 @@ describe('session dialogue', () => {
         onChangeLoadedSessionId: onChangeLoadedSessionId,
         sessionData: sessionData,
         onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
-        sessionCodes: sessionsJson.map((session) => generateCode(session.name)),
       };
 
       user = userEvent.setup();
@@ -180,6 +194,21 @@ describe('session dialogue', () => {
       expect(
         await screen.findByText(
           'Session name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+      expect(onChangeSessionName).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('displays warning message when session name includes "(autosaved)"', async () => {
+      props = { ...props, sessionName: 'Session 1 (autosaved)' };
+      createView();
+
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name cannot include "(autosaved)". Please choose a different name.'
         )
       ).toBeInTheDocument();
       expect(onChangeSessionName).not.toHaveBeenCalled();

@@ -11,7 +11,6 @@ import { timeChannelName } from '../app.types';
 import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
-import { generateCode } from '../views/viewTabs.component';
 import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
   SessionsSaveButtonsProps,
@@ -43,10 +42,7 @@ describe('session buttons', () => {
       loadedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
-      sessionCodes: [
-        ...sessionsJson.map((session) => generateCode(session.name)),
-        'test',
-      ],
+      sessionsList: sessionsJson,
     };
     vi.useFakeTimers({
       toFake: [
@@ -83,11 +79,15 @@ describe('session buttons', () => {
         auto_saved: false,
         session: {} as ImportSessionType,
       },
+      sessionsList: [
+        ...sessionsJson,
+        { ...sessionsJson[0], _id: '5', name: 'test' },
+      ],
     };
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('name', 'test_(autosaved)_1');
+    queryParams.append('name', 'test (autosaved)');
     queryParams.append('summary', 'test');
     queryParams.append('auto_saved', 'true');
     const { rerender } = createView();
@@ -162,11 +162,15 @@ describe('session buttons', () => {
         session: {} as ImportSessionType,
       },
       autoSaveSessionId: '5',
+      sessionsList: [
+        ...sessionsJson,
+        { ...sessionsJson[0], _id: '5', name: 'test (autosaved)' },
+      ],
     };
 
     const queryParams = new URLSearchParams();
 
-    queryParams.append('name', 'test_(autosaved)_1');
+    queryParams.append('name', 'test (autosaved)');
     queryParams.append('summary', 'test');
     queryParams.append('auto_saved', 'true');
 

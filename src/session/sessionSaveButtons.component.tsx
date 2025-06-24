@@ -5,15 +5,15 @@ import { format, parseISO } from 'date-fns';
 import React from 'react';
 import { shallowEqual } from 'react-redux';
 import { useEditSession, useSaveSession } from '../api/sessions';
-import { SessionResponse } from '../app.types';
+import { SessionResponse, type SessionListItem } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useUpdateWindowPositions } from '../hooks';
 import { sessionSelector, useAppSelector } from '../state/hooks';
 import { ImportSessionType } from '../state/store';
-import {
-  generateCode,
-  generateUniqueNameUsingCode,
-} from '../views/viewTabs.component';
+
+const createAutoSaveSessionName = (name: string) => {
+  return `${name} (autosaved)`;
+};
 
 export interface SessionsSaveButtonsProps {
   onSaveAsSessionClick: () => void;
@@ -23,7 +23,7 @@ export interface SessionsSaveButtonsProps {
     autoSaved: boolean | undefined;
   };
   autoSaveSessionId: string | undefined;
-  sessionCodes: string[];
+  sessionsList: SessionListItem[] | undefined;
   onChangeAutoSaveSessionId: (autoSaveSessionId: string | undefined) => void;
 }
 
@@ -42,8 +42,16 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     loadedSessionTimestamp,
     autoSaveSessionId,
     onChangeAutoSaveSessionId,
-    sessionCodes,
+    sessionsList,
   } = props;
+
+  const autosavedSession = React.useMemo(() => {
+    if (!loadedSessionData) return undefined;
+    return sessionsList?.find(
+      (session) =>
+        session.name === createAutoSaveSessionName(loadedSessionData.name)
+    );
+  }, [loadedSessionData, sessionsList]);
 
   const { mutateAsync: editSession } = useEditSession();
   const { mutateAsync: saveSession } = useSaveSession();
@@ -98,17 +106,13 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
     if (loadedSessionData && !loadedSessionData.auto_saved) {
       autoSaveTimer = setInterval(() => {
         const sessionData = {
-          name: generateUniqueNameUsingCode(
-            loadedSessionData.name,
-            generateCode(loadedSessionData.name),
-            sessionCodes,
-            '_(autosaved)'
-          ),
+          name: createAutoSaveSessionName(loadedSessionData.name),
           session: prevReduxState.current ?? state,
           summary: loadedSessionData.summary,
           auto_saved: true,
         };
-        if (!autoSaveSessionId) {
+
+        if (!autosavedSession) {
           saveSession(sessionData)
             .then((repsonse) => {
               onChangeAutoSaveSessionId(repsonse);
@@ -118,7 +122,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
             });
         } else {
           editSession({
-            _id: autoSaveSessionId,
+            _id: autosavedSession._id,
             timestamp: loadedSessionData.timestamp,
             ...sessionData,
           }).catch((error: AxiosError) => {
@@ -137,7 +141,7 @@ const SessionSaveButtons = (props: SessionsSaveButtonsProps) => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoSaveSessionId, loadedSessionData]);
+  }, [autoSaveSessionId, loadedSessionData, autosavedSession]);
 
   return (
     <Box
