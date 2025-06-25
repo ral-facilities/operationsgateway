@@ -206,6 +206,6 @@ describe('View Tabs', () => {
     expect(summaryTextarea).toHaveTextContent(
       'This is the summary for Session 1'
     );
-    expect(nameInput.value).toBe('Session 1_copy_1');
+    expect(nameInput.value).toBe('Session 1_copy');
   });
 });
