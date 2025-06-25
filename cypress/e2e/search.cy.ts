@@ -44,7 +44,7 @@ describe('Search', () => {
 
       cy.startSnoopingBrowserMockedRequest();
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
@@ -98,9 +98,13 @@ describe('Search', () => {
         cy.clock(new Date('1970-01-08 01:00'), ['Date']);
       });
 
+      afterEach(() => {
+        cy.clearMocks();
+      });
+
       it('last 10 minutes', () => {
         cy.findByLabelText('open timeframe search box').click();
-        cy.contains('Last 10 mins').click();
+        cy.findByRole('button', { name: 'Last 10 mins' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
@@ -112,7 +116,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -165,7 +169,7 @@ describe('Search', () => {
 
       it('last 24 hours', () => {
         cy.findByLabelText('open timeframe search box').click();
-        cy.contains('Last 24 hours').click();
+        cy.findByRole('button', { name: 'Last 24 hours' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 01:00:00');
@@ -177,7 +181,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -230,7 +234,7 @@ describe('Search', () => {
 
       it('last 7 days', () => {
         cy.findByLabelText('open timeframe search box').click();
-        cy.contains('Last 7 days').click();
+        cy.findByRole('button', { name: 'Last 7 days' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-01 01:00:00');
@@ -242,7 +246,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -296,7 +300,7 @@ describe('Search', () => {
       it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', () => {
         // Set a relative timestamp and verify the initial seach is correct
         cy.findByLabelText('open timeframe search box').click();
-        cy.contains('Last 10 mins').click();
+        cy.findByRole('button', { name: 'Last 10 mins' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:50:00');
@@ -308,7 +312,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -384,7 +388,7 @@ describe('Search', () => {
       it('last 5 minutes', () => {
         cy.findByLabelText('open timeframe search box').click();
         cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
-        cy.contains('Mins').click();
+        cy.findByRole('button', { name: 'Mins' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-08 00:55:00');
@@ -396,7 +400,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -450,7 +454,7 @@ describe('Search', () => {
       it('last 5 hours', () => {
         cy.findByLabelText('open timeframe search box').click();
         cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
-        cy.contains('Hours').click();
+        cy.findByRole('button', { name: 'Hours' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-07 20:00:00');
@@ -462,7 +466,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -516,7 +520,7 @@ describe('Search', () => {
       it('last 5 days', () => {
         cy.findByLabelText('open timeframe search box').click();
         cy.findByRole('spinbutton', { name: 'Timeframe' }).type('5');
-        cy.contains('Days').click();
+        cy.findByRole('button', { name: 'Days' }).click();
 
         const expectedToDate = new Date('1970-01-08 01:00:59');
         const expectedFromDate = new Date('1970-01-03 01:00:00');
@@ -528,7 +532,7 @@ describe('Search', () => {
 
         cy.startSnoopingBrowserMockedRequest();
 
-        cy.contains('Search').click();
+        cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
         cy.findByRole('progressbar').should('not.exist');
@@ -587,7 +591,7 @@ describe('Search', () => {
 
       cy.startSnoopingBrowserMockedRequest();
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
@@ -795,7 +799,7 @@ describe('Search', () => {
 
       cy.startSnoopingBrowserMockedRequest();
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
@@ -857,7 +861,7 @@ describe('Search', () => {
 
       cy.startSnoopingBrowserMockedRequest();
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to finish
       cy.findByRole('progressbar').should('not.exist');
@@ -986,12 +990,9 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Min',
         })
-        .clear();
-      cy.findByRole('dialog')
-        .findByRole('spinbutton', {
-          name: 'Min',
-        })
-        .type('14');
+
+        .type('{selectall}14');
+
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
@@ -1003,12 +1004,9 @@ describe('Search', () => {
         .findByRole('spinbutton', {
           name: 'Max',
         })
-        .clear();
-      cy.findByRole('dialog')
-        .findByRole('spinbutton', {
-          name: 'Max',
-        })
-        .type('14');
+
+        .type('{selectall}14');
+
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
@@ -1073,15 +1071,14 @@ describe('Search', () => {
     });
 
     it('can be hidden and shown', () => {
-      cy.contains(/^Search$/).should('be.visible');
+      cy.findByRole('button', { name: 'Search' }).should('be.visible');
 
-      cy.contains('Hide search').click();
+      cy.findByRole('button', { name: 'Hide search' }).click();
+      cy.findByRole('button', { name: 'Search' }).should('not.exist');
 
-      cy.contains(/^Search$/).should('not.be.visible');
+      cy.findByRole('button', { name: 'Show search' }).click();
 
-      cy.contains('Show search').click();
-
-      cy.contains(/^Search$/).should('be.visible');
+      cy.findByRole('button', { name: 'Search' }).should('be.visible');
     });
   });
 
@@ -1111,15 +1108,15 @@ describe('Search', () => {
 
       cy.startSnoopingBrowserMockedRequest();
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
       // small wait for UI to be stable after count request is resolved
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.contains('Search').trigger('mouseover');
+      cy.findByRole('button', { name: 'Search' }).trigger('mouseover');
 
       // Tooltip should be present when we first try the search
       cy.contains('Click Search again to continue');
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to initiate and finish
       cy.findByRole('progressbar').should('exist');
@@ -1185,10 +1182,10 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-11_00:00');
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.contains('Search').trigger('mouseover');
+      cy.findByRole('button', { name: 'Search' }).trigger('mouseover');
       // Tooltip should not be present with this new search
       cy.contains('Click Search again to continue').should('not.exist');
 
@@ -1199,13 +1196,13 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-02_00:00');
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.contains('Search').trigger('mouseover');
+      cy.findByRole('button', { name: 'Search' }).trigger('mouseover');
       // Tooltip should be present with this new search
-      cy.contains('Click Search again to continue');
-      cy.contains('Search').click();
+      cy.findByText('Click Search again to continue');
+      cy.findByRole('button', { name: 'Search' }).click();
 
       // wait for search to initiate and finish
       cy.findByRole('progressbar').should('exist');
@@ -1255,10 +1252,10 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').type('{ctrl+a}{backspace}');
       cy.findByLabelText('from, date-time input').type('2022-01-01_00:00');
 
-      cy.contains('Search').click();
+      cy.findByRole('button', { name: 'Search' }).click();
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      cy.contains('Search').trigger('mouseover');
+      cy.findByRole('button', { name: 'Search' }).trigger('mouseover');
 
       // We have attempted the first search again
       // As the user already saw the tooltip for this search, it should not be present this time
