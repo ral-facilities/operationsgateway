@@ -778,7 +778,7 @@ test('user can change the false colour parameters of an float image', async ({
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'cividis' }).click();
+  await popup.getByRole('option', { name: 'bwr' }).click();
 
   // wait for new image to have loaded
   await expect
