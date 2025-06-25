@@ -368,7 +368,7 @@ test('user can set their default colourmap', async ({ page }) => {
   const defaultColourMapDropdown = await page.getByRole('combobox', {
     name: 'Default Colour Map',
     // This is used due to the nested focusTrap error caused by nested menuItems
-    includeHidden:true,
+    includeHidden: true,
   });
 
   expect(defaultColourMapDropdown).toHaveText('');
@@ -511,8 +511,6 @@ test('user can export image', async ({ page }) => {
 test('user can change the false colour parameters of an float image', async ({
   page,
 }) => {
-
-
   await page.getByRole('button', { name: 'Data channels' }).click();
 
   await page
@@ -525,10 +523,24 @@ test('user can change the false colour parameters of an float image', async ({
   await page.getByRole('button', { name: 'Add this channel' }).click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  await expect(
+    page
+      .getByAltText('Compressor output wavefront image float_image', {
+        exact: false,
+      })
+      .first()
+  ).toBeVisible();
+
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Compressor output wavefront image float_image', { exact: false }).first().click(),
+    page
+      .getByAltText('Compressor output wavefront image float_image', {
+        exact: false,
+      })
+      .first()
+      .click(),
   ]);
 
   const title = await popup.title();
@@ -543,15 +555,14 @@ test('user can change the false colour parameters of an float image', async ({
 
   await popup.getByRole('option', { name: 'cividis' }).click();
 
-   // wait for new image to have loaded
-   await expect
-   .poll(async () => await image.getAttribute('src'))
-   .not.toBe(oldImageSrc);
-   
-   await image.click();
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
 
-   await expect(image).toHaveScreenshot({
-   maxDiffPixels: 150,
-   });
+  await image.click();
 
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
