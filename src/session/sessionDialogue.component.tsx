@@ -84,7 +84,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           const errorCode = (error.response?.data as APIError).detail;
           if (
             typeof errorCode === 'string' &&
-            errorCode.toLowerCase().includes('duplicate')
+            errorCode === 'Session name already exists for this user.'
           ) {
             setErrorMessage(
               'Session name already exists. Please choose a different name.'
@@ -130,7 +130,7 @@ const SessionDialogue = (props: SessionDialogueProps) => {
           const errorCode = (error.response?.data as APIError).detail;
           if (
             typeof errorCode === 'string' &&
-            errorCode.toLowerCase().includes('duplicate')
+            errorCode === 'Session name already exists for this user.'
           ) {
             setErrorMessage(
               'Session name already exists. Please choose a different name.'

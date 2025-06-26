@@ -71,8 +71,8 @@ export const handlers = [
 
     if (sessionNames.includes(sessionName as string)) {
       return HttpResponse.json(
-        { detail: 'Duplicate session name' },
-        { status: 409 }
+        { detail: 'Session name already exists for this user.' },
+        { status: 400 }
       );
     }
     return HttpResponse.json(sessionID, { status: 200 });
@@ -84,8 +84,8 @@ export const handlers = [
 
     if (sessionNames.includes(sessionName as string)) {
       return HttpResponse.json(
-        { detail: 'Duplicate session name' },
-        { status: 409 }
+        { detail: 'Session name already exists for this user.' },
+        { status: 400 }
       );
     }
     const sessionID = '1';
