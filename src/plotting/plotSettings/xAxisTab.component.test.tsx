@@ -1,8 +1,13 @@
-import type { RenderResult } from '@testing-library/react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import type { QueryClient } from '@tanstack/react-query';
+import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
-import { testScalarChannels } from '../../testUtils';
+import type { RootState } from '../../state/store';
+import {
+  getInitialState,
+  renderComponentWithProviders,
+  testScalarChannels,
+} from '../../testUtils';
 import type { XAxisTabProps } from './xAxisTab.component';
 import XAxisTab from './xAxisTab.component';
 
@@ -14,8 +19,15 @@ describe('x-axis tab', () => {
   const changeXMinimum = vi.fn();
   const changeXMaximum = vi.fn();
 
-  const createView = (): RenderResult => {
-    return render(<XAxisTab {...props} />);
+  const createView = (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
+    const state = getInitialState();
+    return renderComponentWithProviders(<XAxisTab {...props} />, {
+      preloadedState: initialState ?? state,
+      queryClient,
+    });
   };
 
   beforeEach(() => {

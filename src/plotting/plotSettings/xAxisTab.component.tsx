@@ -29,6 +29,8 @@ import {
   timeChannelName,
   XAxisScale,
 } from '../../app.types';
+import { useAppSelector } from '../../state/hooks';
+import { selectSearchParams } from '../../state/slices/searchSlice';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
@@ -203,6 +205,27 @@ const XAxisTab = (props: XAxisTabProps) => {
   const [fromOpen, setFromOpen] = useState(false);
   const [toOpen, setToOpen] = useState(false);
 
+  const { dateRange } = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
+
+  const minSearchDateTime = dateRange.fromDate
+    ? new Date(dateRange.fromDate)
+    : null;
+  const maxSearchDateTime = dateRange.toDate
+    ? new Date(dateRange.toDate)
+    : null;
+  const minDateTime =
+    minSearchDateTime && fromDate
+      ? minSearchDateTime <= fromDate
+        ? fromDate
+        : minSearchDateTime
+      : minSearchDateTime || fromDate || null;
+  const maxDateTime =
+    maxSearchDateTime && toDate
+      ? maxSearchDateTime >= toDate
+        ? toDate
+        : maxSearchDateTime
+      : maxSearchDateTime || toDate || null;
+
   return (
     <Grid container spacing={1} mt={1}>
       <Grid container spacing={1}>
@@ -219,7 +242,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
                   value={fromDate}
-                  maxDateTime={toDate || new Date('2100-01-01 00:00:00')}
+                  maxDateTime={maxDateTime || new Date('2100-01-01 00:00:00')}
+                  minDateTime={
+                    minSearchDateTime || new Date('1984-01-01 00:00:00')
+                  }
                   onChange={(date) => {
                     setFromDate(date as Date);
                   }}
@@ -296,7 +322,10 @@ const XAxisTab = (props: XAxisTabProps) => {
                 <DateTimePicker
                   format="yyyy-MM-dd HH:mm"
                   value={toDate}
-                  minDateTime={fromDate || new Date('1984-01-01 00:00:00')}
+                  maxDateTime={
+                    maxSearchDateTime || new Date('2100-01-01 00:00:00')
+                  }
+                  minDateTime={minDateTime || new Date('1984-01-01 00:00:00')}
                   onChange={(date) => {
                     setToDate(date as Date);
                   }}
