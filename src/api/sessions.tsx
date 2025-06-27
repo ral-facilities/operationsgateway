@@ -81,6 +81,7 @@ export const useDeleteSession = (): UseMutationResult<
     mutationFn: (session: SessionResponse) => deleteSession(session),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['sessionList'] });
+      queryClient.removeQueries({ queryKey: ['session'] });
     },
   });
 };
