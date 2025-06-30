@@ -589,6 +589,8 @@ describe('Search', () => {
       cy.findByRole('spinbutton', { name: 'Min' }).type('1');
       cy.findByRole('spinbutton', { name: 'Max' }).type('9');
 
+      cy.findByDisplayValue('2022-01-01 00:00').should('exist');
+      cy.findByDisplayValue('2022-01-09 00:00').should('exist');
       cy.startSnoopingBrowserMockedRequest();
 
       cy.findByRole('button', { name: 'Search' }).click();
@@ -1025,6 +1027,7 @@ describe('Search', () => {
         .contains('ID 22110007')
         .should('exist');
 
+      cy.findByText('13 to 15').should('exist');
       cy.findByLabelText('open shot number search box').click();
       cy.findByRole('dialog')
         .findByRole('spinbutton', {
@@ -1036,22 +1039,43 @@ describe('Search', () => {
           name: 'Min',
         })
         .type('12');
+
+      cy.findByText('12 to 15').should('exist');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
         .contains('ID 22110007')
         .should('not.exist');
 
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Min',
+        })
+        .clear();
+
+      cy.findByRole('dialog')
+        .findByRole('spinbutton', {
+          name: 'Max',
+        })
+        .clear();
+
+      cy.findByText('12 to 15').should('not.exist');
+      cy.findByLabelText('close shot number search box').click();
+
       cy.findByLabelText('open experiment search box').click();
       cy.findByRole('combobox', { name: 'Select your experiment' }).type('221');
       cy.findByRole('combobox', { name: 'Select your experiment' }).type(
         '{downArrow}{enter}'
       );
+
       cy.findByLabelText('close experiment search box').click();
-      cy.findByLabelText('open experiment search box')
+
+      cy.findByLabelText('open experiment search box', { timeout: 10000 })
         .contains('ID 22110007')
         .should('exist');
 
+      cy.findByText('13 to 15').should('exist');
       cy.findByLabelText('open shot number search box').click();
       cy.findByRole('dialog')
         .findByRole('spinbutton', {
@@ -1063,6 +1087,8 @@ describe('Search', () => {
           name: 'Max',
         })
         .type('16');
+
+      cy.findByText('13 to 16').should('exist');
       cy.findByLabelText('close shot number search box').click();
 
       cy.findByLabelText('open experiment search box')
