@@ -78,6 +78,9 @@ describe('searchBar component', () => {
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
 
+    await waitFor(() => {
+      expect(screen.getByText('1 to 2')).toBeInTheDocument();
+    });
     // Initiate search
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -106,6 +109,10 @@ describe('searchBar component', () => {
 
     await user.type(experimentPopup, '221{arrowdown}{enter}');
     expect(experimentPopup).toHaveValue('22110007');
+
+    await waitFor(() => {
+      expect(screen.getByText('13 to 15')).toBeInTheDocument();
+    });
     // Shot number fields
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -117,8 +124,9 @@ describe('searchBar component', () => {
       name: 'Max',
     });
     await user.clear(shotnumMin);
-    await user.clear(shotnumMax);
     await user.type(shotnumMin, '5');
+
+    await user.clear(shotnumMax);
     await user.type(shotnumMax, '10');
     await user.click(screen.getByLabelText('close shot number search box'));
 
@@ -130,6 +138,12 @@ describe('searchBar component', () => {
     await user.click(
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText('ID 22110007 (part 1)')
+      ).not.toBeInTheDocument();
+    });
 
     // Initiate search
 
@@ -158,6 +172,10 @@ describe('searchBar component', () => {
     await user.type(experimentPopup, '221{arrowdown}{enter}');
     expect(experimentPopup).toHaveValue('22110007');
 
+    await waitFor(() => {
+      expect(screen.getByText('13 to 15')).toBeInTheDocument();
+    });
+
     // Shot number fields
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -180,6 +198,12 @@ describe('searchBar component', () => {
     await user.click(
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText('ID 22110007 (part 1)')
+      ).not.toBeInTheDocument();
+    });
 
     // Initiate search
 
@@ -208,6 +232,10 @@ describe('searchBar component', () => {
     await user.type(experimentPopup, '221{arrowdown}{enter}');
     expect(experimentPopup).toHaveValue('22110007');
 
+    await waitFor(() => {
+      expect(screen.getByText('13 to 15')).toBeInTheDocument();
+    });
+
     // Shot number fields
 
     await user.click(screen.getByLabelText('open shot number search box'));
@@ -231,6 +259,11 @@ describe('searchBar component', () => {
       within(maxShotsRadioGroup).getByLabelText('Select 1000 max shots')
     );
 
+    await waitFor(() => {
+      expect(
+        screen.queryByText('ID 22110007 (part 1)')
+      ).not.toBeInTheDocument();
+    });
     // Initiate search
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
@@ -267,6 +300,10 @@ describe('searchBar component', () => {
 
     await user.type(experimentPopup, '221{arrowdown}{enter}');
 
+    await waitFor(() => {
+      expect(screen.getByText('13 to 15')).toBeInTheDocument();
+    });
+
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
       dateRange: {
@@ -292,6 +329,10 @@ describe('searchBar component', () => {
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
     await user.type(dateFilterFromDate, '2022-01-01_00:00');
     await user.type(dateFilterToDate, '2022-01-02_00:00');
+
+    await waitFor(() => {
+      expect(screen.getByText('1 to 2')).toBeInTheDocument();
+    });
 
     // Initiate search
 
@@ -398,7 +439,7 @@ describe('searchBar component', () => {
     await user.type(shotnumMax, '2');
     await user.type(shotnumMin, '10');
 
-    let helperTexts = screen.getAllByText('Invalid range');
+    let helperTexts = await screen.findAllByText('Invalid range');
 
     // One helper text below each input
     expect(helperTexts.length).toEqual(2);
@@ -479,6 +520,10 @@ describe('searchBar component', () => {
       experimentID: null,
       shotnumRange: {},
       maxShots: MAX_SHOTS_VALUES[0],
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('1 to 18')).toBeInTheDocument();
     });
 
     // Try search again
@@ -636,6 +681,10 @@ describe('searchBar component', () => {
 
     const dateFilterToDate = screen.getByLabelText('to, date-time input');
     await user.type(dateFilterToDate, '2023-01-01_00:00');
+
+    await waitFor(() => {
+      expect(screen.getByText('1 to 18')).toBeInTheDocument();
+    });
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
 

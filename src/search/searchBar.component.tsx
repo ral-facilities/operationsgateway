@@ -40,6 +40,7 @@ import Timeframe, {
   type TimeframeRange,
 } from './components/timeframe.component';
 
+export const DEBOUNCE_TIME = 500;
 export type TimeframeDates = {
   fromDate: Date | null;
   toDate: Date | null;
@@ -202,47 +203,74 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // need this to help keep track of invalid date ranges in the datetime component itself
   const [datePickerError, setDatePickerError] = React.useState(false);
 
+  // Debounce date range for the converter
+  const [debouncedFromDate, setDebouncedFromDate] = React.useState<Date | null>(
+    searchParameterFromDate
+  );
+  const [debouncedToDate, setDebouncedToDate] = React.useState<Date | null>(
+    searchParameterToDate
+  );
+
   const invalidDateRange =
-    (searchParameterFromDate !== null &&
-      searchParameterToDate !== null &&
-      searchParameterFromDate &&
-      searchParameterToDate &&
-      isBefore(searchParameterToDate, searchParameterFromDate)) ||
-    (!searchParameterFromDate && searchParameterToDate !== null) ||
-    (searchParameterFromDate !== null && !searchParameterToDate) ||
+    (debouncedFromDate !== null &&
+      debouncedToDate !== null &&
+      debouncedFromDate &&
+      debouncedToDate &&
+      isBefore(debouncedToDate, debouncedFromDate)) ||
+    (!debouncedFromDate && debouncedToDate !== null) ||
+    (debouncedFromDate !== null && !debouncedToDate) ||
     datePickerError;
 
-  const invalidShotNumberRange =
-    (searchParameterShotnumMin !== undefined &&
-      searchParameterShotnumMax !== undefined &&
-      searchParameterShotnumMin > searchParameterShotnumMax) ||
-    (searchParameterShotnumMin === undefined &&
-      searchParameterShotnumMax !== undefined) ||
-    (searchParameterShotnumMin !== undefined &&
-      searchParameterShotnumMax === undefined);
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedFromDate(searchParameterFromDate);
+      setDebouncedToDate(searchParameterToDate);
+    }, DEBOUNCE_TIME); // 300ms debounce
+
+    return () => clearTimeout(handler);
+  }, [searchParameterFromDate, searchParameterToDate]);
 
   // Date range to shot number range converter
   const { data: dateToShotnum } = useDateToShotnumConverter(
-    searchParameterFromDate
-      ? formatDateTimeForApi(searchParameterFromDate)
-      : undefined,
-    searchParameterToDate
-      ? formatDateTimeForApi(searchParameterToDate)
-      : undefined,
+    debouncedFromDate ? formatDateTimeForApi(debouncedFromDate) : undefined,
+    debouncedToDate ? formatDateTimeForApi(debouncedToDate) : undefined,
     // only enable query when dates are not null and the range is valid
     !invalidDateRange &&
-      !(searchParameterFromDate === null && searchParameterToDate === null)
+      !(debouncedFromDate === null && debouncedToDate === null)
   );
+  // Debounce shot number min and max for the converter
+  const [debouncedShotnumMin, setDebouncedShotnumMin] = React.useState<
+    number | undefined
+  >(searchParameterShotnumMin);
+  const [debouncedShotnumMax, setDebouncedShotnumMax] = React.useState<
+    number | undefined
+  >(searchParameterShotnumMax);
+
+  const invalidShotNumberRange =
+    (debouncedShotnumMin !== undefined &&
+      debouncedShotnumMax !== undefined &&
+      debouncedShotnumMin > debouncedShotnumMax) ||
+    (debouncedShotnumMin === undefined && debouncedShotnumMax !== undefined) ||
+    (debouncedShotnumMin !== undefined && debouncedShotnumMax === undefined);
+
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedShotnumMin(searchParameterShotnumMin);
+      setDebouncedShotnumMax(searchParameterShotnumMax);
+    }, DEBOUNCE_TIME); // 300ms debounce
+
+    return () => clearTimeout(handler);
+  }, [searchParameterShotnumMin, searchParameterShotnumMax]);
 
   // Shot number range to date range converter
   const { data: shotnumToDate } = useShotnumToDateConverter(
-    searchParameterShotnumMin,
-    searchParameterShotnumMax,
+    debouncedShotnumMin,
+    debouncedShotnumMax,
     // only enable query when shot numbers are not undefined and the range is valid
     !invalidShotNumberRange &&
       !(
-        typeof searchParameterShotnumMin === 'undefined' &&
-        typeof searchParameterShotnumMax === 'undefined'
+        typeof debouncedShotnumMin === 'undefined' &&
+        typeof debouncedShotnumMax === 'undefined'
       )
   );
 
