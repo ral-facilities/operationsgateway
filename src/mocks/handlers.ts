@@ -63,16 +63,30 @@ export const handlers = [
       { status: 200 }
     );
   }),
-  http.post('/sessions', async () => {
+  http.post('/sessions', async ({ request }) => {
     const sessionID = '1';
-    return HttpResponse.json(sessionID, { status: 200 });
-  }),
-  http.patch('/sessions/:id', async ({ request }) => {
+    const sessionNames = sessionsJson.map((session) => session.name);
     const url = new URL(request.url);
     const sessionName = url.searchParams.get('name');
 
-    if (sessionName === 'test_dup') {
-      return HttpResponse.json(null, { status: 409 });
+    if (sessionNames.includes(sessionName as string)) {
+      return HttpResponse.json(
+        { detail: 'Session name already exists for this user.' },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json(sessionID, { status: 200 });
+  }),
+  http.patch('/sessions/:id', async ({ request }) => {
+    const sessionNames = sessionsJson.map((session) => session.name);
+    const url = new URL(request.url);
+    const sessionName = url.searchParams.get('name');
+
+    if (sessionNames.includes(sessionName as string)) {
+      return HttpResponse.json(
+        { detail: 'Session name already exists for this user.' },
+        { status: 400 }
+      );
     }
     const sessionID = '1';
     return HttpResponse.json(sessionID, { status: 200 });

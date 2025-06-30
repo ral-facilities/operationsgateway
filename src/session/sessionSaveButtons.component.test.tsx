@@ -5,10 +5,10 @@ import {
   waitFor,
   type RenderResult,
 } from '@testing-library/react';
-
 import type { MockInstance } from 'vitest';
 import { ogApi } from '../api/api';
 import { timeChannelName } from '../app.types';
+import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import SessionSaveButtons, {
@@ -42,6 +42,7 @@ describe('session buttons', () => {
       loadedSessionTimestamp: { timestamp: undefined, autoSaved: undefined },
       onChangeAutoSaveSessionId: onChangeAutoSaveSessionId,
       autoSaveSessionId: undefined,
+      sessionsList: sessionsJson,
     };
     vi.useFakeTimers({
       toFake: [
@@ -78,6 +79,10 @@ describe('session buttons', () => {
         auto_saved: false,
         session: {} as ImportSessionType,
       },
+      sessionsList: [
+        ...sessionsJson,
+        { ...sessionsJson[0], _id: '5', name: 'test' },
+      ],
     };
 
     const queryParams = new URLSearchParams();
@@ -157,6 +162,10 @@ describe('session buttons', () => {
         session: {} as ImportSessionType,
       },
       autoSaveSessionId: '5',
+      sessionsList: [
+        ...sessionsJson,
+        { ...sessionsJson[0], _id: '5', name: 'test (autosaved)' },
+      ],
     };
 
     const queryParams = new URLSearchParams();

@@ -44,7 +44,7 @@ describe('session dialogue', () => {
       createView();
       const saveButton = screen.getByRole('button', { name: 'Save' });
       await user.click(saveButton);
-      const helperTexts = screen.getByText('Please enter a name');
+      const helperTexts = screen.getByText('Please enter a name.');
       expect(helperTexts).toBeInTheDocument();
       expect(onChangeSessionName).not.toHaveBeenCalled();
       expect(onClose).not.toHaveBeenCalled();
@@ -98,6 +98,42 @@ describe('session dialogue', () => {
       expect(onChangeLoadedSessionId).toHaveBeenCalledWith('1');
       expect(onChangeAutoSaveSessionId).toHaveBeenCalledWith(undefined);
     });
+
+    it('displays error for duplicate session name', async () => {
+      props = {
+        ...props,
+        sessionName: 'Session 1',
+        sessionSummary: 'Test Summary',
+      };
+
+      createView();
+      expect(screen.getByText('Save Session')).toBeInTheDocument();
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+    });
+
+    it('displays error when session includes "(autosaved)"', async () => {
+      props = {
+        ...props,
+        sessionName: 'Session 1 (autosaved)',
+        sessionSummary: 'Test Summary',
+      };
+
+      createView();
+      expect(screen.getByText('Save Session')).toBeInTheDocument();
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name cannot include "(autosaved)". Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+    });
   });
 
   describe('edit  session dialogue', () => {
@@ -143,8 +179,38 @@ describe('session dialogue', () => {
 
       const saveButton = screen.getByRole('button', { name: 'Save' });
       await user.click(saveButton);
-      const helperTexts = screen.getByText('Please enter a name');
+      const helperTexts = screen.getByText('Please enter a name.');
       expect(helperTexts).toBeInTheDocument();
+      expect(onChangeSessionName).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('displays warning message when session name is a duplicate', async () => {
+      props = { ...props, sessionName: 'Session 1' };
+      createView();
+
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name already exists. Please choose a different name.'
+        )
+      ).toBeInTheDocument();
+      expect(onChangeSessionName).not.toHaveBeenCalled();
+      expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it('displays warning message when session name includes "(autosaved)"', async () => {
+      props = { ...props, sessionName: 'Session 1 (autosaved)' };
+      createView();
+
+      const saveButton = screen.getByRole('button', { name: 'Save' });
+      await user.click(saveButton);
+      expect(
+        await screen.findByText(
+          'Session name cannot include "(autosaved)". Please choose a different name.'
+        )
+      ).toBeInTheDocument();
       expect(onChangeSessionName).not.toHaveBeenCalled();
       expect(onClose).not.toHaveBeenCalled();
     });

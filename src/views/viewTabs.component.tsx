@@ -193,6 +193,7 @@ const ViewTabs = () => {
               loadedSessionTimestamp={loadedSessionTimestamp}
               autoSaveSessionId={autoSaveSessionId}
               onChangeAutoSaveSessionId={setAutoSaveSessionId}
+              sessionsList={sessionsList}
             />
             <ExportButton />
           </Box>
