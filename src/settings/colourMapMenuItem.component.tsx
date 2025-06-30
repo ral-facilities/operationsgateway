@@ -10,7 +10,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import React from 'react';
-import { FalseColourParams, type ColourMapsParams } from '../api/images';
+import { FalseColourParams, useColourMaps } from '../api/images';
 import {
   useUpdateUserPreference,
   useUserPreference,
@@ -25,7 +25,6 @@ import {
   filterNamesWithSuffixR,
 } from '../images/imageControlsPanel.component';
 interface BaseColourMapMenuItemProps {
-  colourMaps?: ColourMapsParams;
   type: 'images' | 'floatImages';
   mainColourMap: string;
 }
@@ -46,7 +45,10 @@ type ColourMapMenuItemProps =
   | FloatImagesColourMapMenuItemProps;
 
 const ColourMapMenuItem = (props: ColourMapMenuItemProps) => {
-  const { colourMaps, type, preferredName, mainColourMap } = props;
+  const { type, preferredName, mainColourMap } = props;
+
+  const { data: colourMaps } = useColourMaps();
+
   const [reverseColour, setReverseColour] = React.useState(false);
   const [extendedColourMap, setExtendedColourMap] = React.useState(false);
 
