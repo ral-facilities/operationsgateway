@@ -147,8 +147,8 @@ const PlotWindow = (props: PlotWindowProps) => {
   const workingHours = useAppSelector(selectWorkingHours);
   const plotAxisSigFigs = useAppSelector(selectPlotAxisSigFigs);
 
-  const handleSavePlot = React.useCallback(() => {
-    const configToSave: PlotConfig = {
+  const getPlotConfig: () => PlotConfig = React.useCallback(() => {
+    return {
       ...plotConfig,
       title: plotTitle,
       plotType,
@@ -170,7 +170,6 @@ const PlotWindow = (props: PlotWindowProps) => {
       selectedColours,
       remainingColours,
     };
-    dispatch(savePlot(configToSave));
   }, [
     plotTitle,
     plotConfig,
@@ -192,8 +191,16 @@ const PlotWindow = (props: PlotWindowProps) => {
     axesLabelsVisible,
     selectedColours,
     remainingColours,
-    dispatch,
   ]);
+
+  const handleSavePlot = React.useCallback(() => {
+    dispatch(savePlot(getPlotConfig()));
+  }, [dispatch, getPlotConfig]);
+
+  React.useEffect(() => {
+    if (plotWindowRef.current?.state.window)
+      plotWindowRef.current.state.window.getPlotConfig = getPlotConfig;
+  }, [getPlotConfig, plotWindowRef]);
 
   return (
     <WindowPortal

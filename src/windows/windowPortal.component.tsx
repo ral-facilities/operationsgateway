@@ -4,12 +4,14 @@ import { CssBaseline } from '@mui/material';
 import type Plotly from 'plotly.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { PlotConfig } from '../state/slices/plotSlice';
 
 // base code from https://medium.com/hackernoon/using-a-react-16-portal-to-do-something-cool-2a2d627b0202
 // and https://github.com/facebook/react/issues/12355#issuecomment-410996235
 
 interface WindowPortalWindow extends Window {
   Plotly?: typeof Plotly;
+  getPlotConfig?: () => PlotConfig;
 }
 
 interface WindowPortalState {
