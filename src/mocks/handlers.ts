@@ -1,4 +1,4 @@
-import { bypass, http, HttpResponse } from 'msw';
+import { bypass, delay, http, HttpResponse } from 'msw';
 import { ColourMapsParams } from '../api/images';
 import {
   APIErrorResponse,
@@ -10,8 +10,10 @@ import {
   ValidateFunctionPost,
   VECTOR_LIMIT_PREFERENCE_NAME,
   VECTOR_SKIP_PREFERENCE_NAME,
+  type SessionResponse,
   type UserPost,
 } from '../app.types';
+import type { ImportSessionType } from '../state/store';
 import channelsJson from './channels.json';
 import colourMapsJson from './colourMaps.json';
 import experimentsJson from './experiments.json';
@@ -34,6 +36,7 @@ const getRandomColourMap = function (colourMaps: ColourMapsParams) {
   return randomCategory?.[Math.floor(Math.random() * randomCategory?.length)];
 };
 
+let e2eSessionJson: ImportSessionType | undefined;
 // VITE_APP_BUILD_STANDALONE used here to determine if E2E testing or not
 export let preferredColourMap =
   import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
@@ -75,8 +78,15 @@ export const handlers = [
         { status: 400 }
       );
     }
+
+    if (sessionName === 'e2e session plot save') {
+      const body = await request.json();
+      e2eSessionJson = body as ImportSessionType;
+      return HttpResponse.json('5', { status: 200 });
+    }
     return HttpResponse.json(sessionID, { status: 200 });
   }),
+
   http.patch('/sessions/:id', async ({ request }) => {
     const sessionNames = sessionsJson.map((session) => session.name);
     const url = new URL(request.url);
@@ -104,12 +114,30 @@ export const handlers = [
   http.get('/sessions/list', async () => {
     return HttpResponse.json(sessionsJson, { status: 200 });
   }),
-  http.get('/sessions/:id', async ({ request }) => {
+  http.get('/sessions/:id', async ({ request, params }) => {
     const url = new URL(request.url);
+    const { id } = params;
     const session_id = url.pathname.replace('/sessions/', '');
     const sessionData = sessionsJson.find(
       (session) => session._id === session_id
     );
+
+    if (id === '5') {
+      await delay(1000); // Simulate network delay
+      return HttpResponse.json(
+        {
+          _id: '5',
+          session: e2eSessionJson as ImportSessionType,
+          name: 'e2e session plot save',
+          auto_saved: false,
+          timestamp: '2023-06-29T10:30:00',
+          summary: 'test e2e session',
+        } satisfies SessionResponse,
+        {
+          status: 200,
+        }
+      );
+    }
     if (sessionData) {
       return HttpResponse.json(sessionData, { status: 200 });
     } else {

@@ -63,6 +63,10 @@ describe('Hooks', () => {
             innerHeight: 10,
             screenX: 11,
             screenY: 12,
+            getPlotConfig: () => ({
+              ...plots.plotWindow,
+              title: 'plot Window automatically updated',
+            }),
           },
         },
       };
@@ -221,8 +225,10 @@ describe('Hooks', () => {
           innerHeight: 10,
           screenX: 11,
           screenY: 12,
+          title: 'plot Window automatically updated',
         },
       };
+
       expect(updatedState.plots).toStrictEqual(updatedPlots);
     });
   });
