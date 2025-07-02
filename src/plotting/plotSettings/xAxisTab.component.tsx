@@ -8,8 +8,11 @@ import {
   FormLabel,
   Grid2 as Grid,
   InputAdornment,
+  InputLabel,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
   TextField,
   TextFieldProps,
   Typography,
@@ -28,6 +31,7 @@ import {
   FullScalarChannelMetadata,
   timeChannelName,
   XAxisScale,
+  type SelectedPlotChannel,
 } from '../../app.types';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 
@@ -40,6 +44,8 @@ const StyledClose = styled(Close)(() => ({
 }));
 
 export interface XAxisTabProps {
+  selectedRecordTableChannels: FullScalarChannelMetadata[];
+  selectedPlotChannels: SelectedPlotChannel[];
   allChannels: FullScalarChannelMetadata[];
   XAxisScale: XAxisScale;
   XAxis?: string;
@@ -88,6 +94,8 @@ const XAxisTab = (props: XAxisTabProps) => {
     initialXMaximum,
     changeXMinimum,
     changeXMaximum,
+    selectedRecordTableChannels,
+    selectedPlotChannels,
   } = props;
 
   // We define these as strings so the user can type decimal points
@@ -123,6 +131,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     toDate.setSeconds(59);
   }
   const [XAxisInputVal, setXAxisInputVal] = React.useState<string>('');
+  const [selectValue, setSelectValue] = React.useState<string>('');
 
   const invalidXRange = parseFloat(xMinimum) > parseFloat(xMaximum);
   const invalidDateRange = fromDate && toDate && isBefore(toDate, fromDate);
@@ -410,6 +419,54 @@ const XAxisTab = (props: XAxisTabProps) => {
                   label="Log"
                 />
               </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid size={12}>
+            <FormControl fullWidth>
+              <InputLabel sx={{ fontSize: 12 }} id="table-channel-select-label">
+                Displayed table channels
+              </InputLabel>
+              <Select
+                labelId="table-channel-select-label"
+                label="Displayed table channels"
+                value={selectValue}
+                onChange={(event) => {
+                  const newValue = JSON.parse(event.target.value) as {
+                    label: string;
+                    value: string;
+                    units: string;
+                  };
+
+                  if (newValue) {
+                    handleXAxisChange(newValue.value);
+                  }
+                  setSelectValue('');
+                }}
+                sx={{ fontSize: 12 }}
+              >
+                {selectedRecordTableChannels
+                  .filter((channel) => channel.systemName !== timeChannelName)
+                  .filter(
+                    (selected) =>
+                      !selectedPlotChannels
+                        .map((channel) => channel.name)
+                        .includes(selected.systemName)
+                  )
+                  .map((channel) => {
+                    const name = channel.systemName;
+                    return (
+                      <MenuItem
+                        key={name}
+                        value={JSON.stringify({
+                          label: channel.name ?? channel.systemName,
+                          value: name,
+                        })}
+                      >
+                        {channel.name ?? channel.systemName}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
             </FormControl>
           </Grid>
           <Grid size={12}>
