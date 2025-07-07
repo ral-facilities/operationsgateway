@@ -52,7 +52,7 @@ describe('Settings Menu Items component', () => {
         document.body.appendChild(settings);
       });
 
-      await screen.findByLabelText('Default Colour Map');
+      await screen.findAllByLabelText('Default Colour Map');
 
       expect(view.baseElement).toMatchSnapshot();
 
@@ -73,7 +73,7 @@ describe('Settings Menu Items component', () => {
         document.body.appendChild(settings);
       });
 
-      await screen.findByLabelText('Default Colour Map');
+      await screen.findAllByLabelText('Default Colour Map');
 
       act(() => {
         document.body.removeChild(settings);
@@ -90,17 +90,17 @@ describe('Settings Menu Items component', () => {
       const { queryClient } = createView();
       const invalidateQueriesSpy = vi.spyOn(queryClient, 'invalidateQueries');
 
-      const select = screen.getByRole('combobox', {
+      const select = screen.getAllByRole('combobox', {
         name: 'Default Colour Map',
-      });
+      })[0];
       await waitFor(() => expect(select).toHaveTextContent('cividis'));
       await user.click(select);
 
-      const dropdown = screen.getByRole('listbox', {
+      const dropdown = screen.getAllByRole('listbox', {
         name: 'Default Colour Map',
         // This is used due to the nested focusTrap error caused by nested menuItems
         hidden: true,
-      });
+      })[0];
       await user.click(
         within(dropdown).getByRole('option', {
           name: 'inferno',
@@ -117,13 +117,13 @@ describe('Settings Menu Items component', () => {
       createView();
       await waitFor(() =>
         expect(
-          screen.getByRole('combobox', { name: 'Default Colour Map' })
+          screen.getAllByRole('combobox', { name: 'Default Colour Map' })[0]
         ).toHaveTextContent('cividis')
       );
 
-      const reverseColourSwitch = screen.getByRole('checkbox', {
+      const reverseColourSwitch = screen.getAllByRole('checkbox', {
         name: 'Reverse Colour',
-      });
+      })[0];
 
       expect(reverseColourSwitch).not.toBeChecked();
       expect(reverseColourSwitch).toBeEnabled();
@@ -149,9 +149,9 @@ describe('Settings Menu Items component', () => {
 
       expect(extendedColourMapSwitch).toBeChecked();
 
-      const extendedSelect = screen.getByRole('combobox', {
+      const extendedSelect = screen.getAllByRole('combobox', {
         name: 'Default Colour Map',
-      });
+      })[0];
       await user.click(extendedSelect);
 
       const extendedDropdown = screen.getByRole('listbox', {
@@ -170,9 +170,9 @@ describe('Settings Menu Items component', () => {
 
       await waitFor(() => expect(extendedSelect).toHaveTextContent('afmhot'));
       expect(
-        screen.getByRole('checkbox', {
+        screen.getAllByRole('checkbox', {
           name: 'Reverse Colour',
-        })
+        })[0]
       ).toBeDisabled();
     });
   });

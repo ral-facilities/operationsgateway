@@ -365,11 +365,13 @@ test('user can set their default colourmap', async ({ page }) => {
     document.body.appendChild(div);
   });
 
-  const defaultColourMapDropdown = await page.getByRole('combobox', {
-    name: 'Default Colour Map',
-    // This is used due to the nested focusTrap error caused by nested menuItems
-    includeHidden: true,
-  });
+  const defaultColourMapDropdown = await page
+    .getByRole('combobox', {
+      name: 'Default Colour Map',
+      // This is used due to the nested focusTrap error caused by nested menuItems
+      includeHidden: true,
+    })
+    .first();
 
   expect(defaultColourMapDropdown).toHaveText('');
 
@@ -553,7 +555,7 @@ test('user can change the false colour parameters of an float image', async ({
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'cividis' }).click();
+  await popup.getByRole('option', { name: 'berlin' }).click();
 
   // wait for new image to have loaded
   await expect

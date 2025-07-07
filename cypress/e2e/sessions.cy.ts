@@ -83,6 +83,22 @@ describe('Sessions', () => {
       }
     );
   });
+
+  it('displays an error message when session name is already taken (add a new session)', () => {
+    cy.findByTestId('AddCircleIcon').should('exist');
+
+    cy.findByTestId('AddCircleIcon').click();
+    cy.findByLabelText('Name *').type('Session 1');
+    cy.findByLabelText('Summary').type('Summary');
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Save' }).click();
+    cy.findByText(
+      'Session name already exists. Please choose a different name.'
+    ).should('exist');
+  });
+
   it('can load a user session', () => {
     cy.findByText('Session 1').should('exist');
     cy.findByText('Session 2').should('exist');
@@ -197,6 +213,31 @@ describe('Sessions', () => {
       expect(paramMap.get('summary')).equal('Summary');
       expect(paramMap.get('auto_saved')).equal('false');
     });
+  });
+
+  it('displays an error message when session name is already taken (edit an existing session)', () => {
+    cy.findByRole('button', { name: 'edit Session 1 session' }).click();
+    cy.findByLabelText('Name *').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('Session 1');
+    });
+
+    cy.findByLabelText('Summary').should(($input) => {
+      const value = $input.val();
+      expect(value).to.equal('This is the summary for Session 1');
+    });
+    cy.findByLabelText('Name *').clear();
+    cy.findByLabelText('Summary').clear();
+
+    cy.findByLabelText('Name *').type('Session 2');
+    cy.findByLabelText('Summary').type('Summary');
+
+    cy.startSnoopingBrowserMockedRequest();
+
+    cy.findByRole('button', { name: 'Save' }).click();
+    cy.findByText(
+      'Session name already exists. Please choose a different name.'
+    ).should('exist');
   });
 
   it('sends a patch request when a user saves their current session', () => {

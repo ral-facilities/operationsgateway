@@ -2,6 +2,8 @@ import type { QueryClient } from '@tanstack/react-query';
 import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
+import { staticChannels } from '../../api/channels';
+import type { FullScalarChannelMetadata } from '../../app.types';
 import type { RootState } from '../../state/store';
 import {
   getInitialState,
@@ -32,6 +34,10 @@ describe('x-axis tab', () => {
 
   beforeEach(() => {
     props = {
+      selectedRecordTableChannels: [
+        staticChannels['timestamp'] as FullScalarChannelMetadata,
+      ],
+      selectedPlotChannels: [],
       allChannels: testScalarChannels,
       XAxisScale: 'linear',
       XAxis: '',
@@ -115,6 +121,26 @@ describe('x-axis tab', () => {
     await user.type(input, 'time');
     // i.e. there's no suggestions in the autocomplete
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
+  });
+
+  it('populates the displayed table channels dropdown and adds selection to the x-axis', async () => {
+    props.selectedRecordTableChannels = testScalarChannels.filter(
+      (channel) => channel.systemName === 'CHANNEL_ABCDE'
+    );
+    createView();
+
+    const select = screen.getByLabelText('Displayed table channels');
+    await userEvent.click(select);
+
+    const dropdown = screen.getByRole('listbox', {
+      name: 'Displayed table channels',
+    });
+    await userEvent.click(
+      within(dropdown).getByRole('option', { name: 'Channel_ABCDE' })
+    );
+
+    expect(changeXAxis).toHaveBeenLastCalledWith('CHANNEL_ABCDE');
+    expect(changeXAxisScale).toHaveBeenCalledWith('linear');
   });
 
   it('removes x-axis from display when we click Close on its label', async () => {

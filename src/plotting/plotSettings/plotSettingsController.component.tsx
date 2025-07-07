@@ -188,6 +188,8 @@ const PlotSettingsController = (props: PlotSettingsControllerProps) => {
       initialXMaximum={xMaximum}
       changeXMinimum={changeXMinimum}
       changeXMaximum={changeXMaximum}
+      selectedRecordTableChannels={selectedRecordTableChannels}
+      selectedPlotChannels={selectedPlotChannels}
     />
   );
 

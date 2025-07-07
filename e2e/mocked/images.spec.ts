@@ -18,7 +18,9 @@ test.beforeEach(async ({ page }) => {
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_BCDEF', exact: true  }).click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_BCDEF', exact: true })
+    .click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
@@ -412,14 +414,15 @@ test('user can set their default colourmap', async ({ page }) => {
     .getByRole('combobox', {
       name: 'Default Colour Map',
       // This is used due to the nested focusTrap error caused by nested menuItems
-      includeHidden:true
+      includeHidden: true,
     })
+    .first()
     .click();
   await page
     .getByRole('option', {
       name: 'inferno',
       // This is used due to the nested focusTrap error caused by nested menuItems
-      includeHidden:true
+      includeHidden: true,
     })
     .click();
 
@@ -736,12 +739,9 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   });
 });
 
-
 test('user can change the false colour parameters of an float image', async ({
   page,
 }) => {
-
-
   await page.getByRole('button', { name: 'Data channels' }).click();
 
   await page
@@ -751,14 +751,21 @@ test('user can change the false colour parameters of an float image', async ({
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
 
-  await page.getByRole('checkbox', { name: 'Channel_BCDEF', exact: true  }).click();
-  await page.getByRole('checkbox', { name: 'Channel_BCDEFX', exact: true  }).click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_BCDEF', exact: true })
+    .click();
+  await page
+    .getByRole('checkbox', { name: 'Channel_BCDEFX', exact: true })
+    .click();
 
   await page.getByRole('button', { name: 'Add Channels' }).click();
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
-    page.getByAltText('Channel_BCDEFX float_image', { exact: false }).first().click(),
+    page
+      .getByAltText('Channel_BCDEFX float_image', { exact: false })
+      .first()
+      .click(),
   ]);
 
   const title = await popup.title();
@@ -771,17 +778,16 @@ test('user can change the false colour parameters of an float image', async ({
 
   await popup.getByLabel('Colour Map').click();
 
-  await popup.getByRole('option', { name: 'cividis' }).click();
+  await popup.getByRole('option', { name: 'bwr' }).click();
 
-   // wait for new image to have loaded
-   await expect
-   .poll(async () => await image.getAttribute('src'))
-   .not.toBe(oldImageSrc);
-   
-   await image.click();
+  // wait for new image to have loaded
+  await expect
+    .poll(async () => await image.getAttribute('src'))
+    .not.toBe(oldImageSrc);
 
-   await expect(image).toHaveScreenshot({
-   maxDiffPixels: 150,
-   });
+  await image.click();
 
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
 });
