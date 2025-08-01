@@ -377,12 +377,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dotenvx/dotenvx@npm:1.44.2":
-  version: 1.44.2
-  resolution: "@dotenvx/dotenvx@npm:1.44.2"
+"@dotenvx/dotenvx@npm:1.48.4":
+  version: 1.48.4
+  resolution: "@dotenvx/dotenvx@npm:1.48.4"
   dependencies:
     commander: "npm:^11.1.0"
-    dotenv: "npm:^16.4.5"
+    dotenv: "npm:^17.2.1"
     eciesjs: "npm:^0.4.10"
     execa: "npm:^5.1.1"
     fdir: "npm:^6.2.0"
@@ -392,8 +392,7 @@ __metadata:
     which: "npm:^4.0.0"
   bin:
     dotenvx: src/cli/dotenvx.js
-    git-dotenvx: src/cli/dotenvx.js
-  checksum: 10c0/40778f769b0b828b1377aa20c0be61f3a780d8944f15f796ffd560cf9a078099a81b1b4dcb6f62918be107cdac1b3666b158d2b1775048f6b6c45be7ab23e3eb
+  checksum: 10c0/20ca9e1eaaad9a7f6d79c293fd60c41bdab2a055248f6f3896249c84be3841fdc937a11433b2490cce4fc664ac6153ac80db7c76f0ab8b3cf405b2b1a42a2a9f
   languageName: node
   linkType: hard
 
@@ -3684,10 +3683,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.4.5":
-  version: 16.4.7
-  resolution: "dotenv@npm:16.4.7"
-  checksum: 10c0/be9f597e36a8daf834452daa1f4cc30e5375a5968f98f46d89b16b983c567398a330580c88395069a77473943c06b877d1ca25b4afafcdd6d4adb549e8293462
+"dotenv@npm:^17.2.1":
+  version: 17.2.1
+  resolution: "dotenv@npm:17.2.1"
+  checksum: 10c0/918dd2f9d8b8f86b0afabad9534793d51de3718c437f9e7b6525628cf68c1d4ae768cc37a5afff38c066f58a8ecf549f4ac6cd5617485bd328e826112cc2650a
   languageName: node
   linkType: hard
 
@@ -6859,7 +6858,7 @@ __metadata:
   resolution: "operationsgateway@workspace:."
   dependencies:
     "@date-io/date-fns": "npm:3.2.0"
-    "@dotenvx/dotenvx": "npm:1.44.2"
+    "@dotenvx/dotenvx": "npm:1.48.4"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
