@@ -39,7 +39,7 @@
     "react-redux": "9.2.0",
     "react-router-dom": "7.5.0",
     "single-spa-react": "6.0.2",
-    "typescript": "5.6.2",
+    "typescript": "5.9.2",
     "vite": "6.2.7",
     "zod": "^3.23.8"
   },
