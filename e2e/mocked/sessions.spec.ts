@@ -183,3 +183,120 @@ test('creates a plot, resizes the window, changes its name, and saves the sessio
     })
   );
 });
+
+test('opens a vector window, resizes the window, and saves the session with the vector', async ({
+  page,
+  browserName,
+}) => {
+  await page.goto('/');
+
+  // add trace channel to the table so we can click on a trace
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('CDEFGX');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page
+    .getByRole('checkbox', { name: 'Channel_CDEFGX', exact: true })
+    .click();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  // Open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page
+      .getByAltText('Channel_CDEFGX vector', { exact: false })
+      .first()
+      .click(),
+  ]);
+
+  // Resize the popup window
+  const resizedWidth = 1200;
+  const resizedHeight = 800;
+
+  // Resize the popup window
+  await popup.setViewportSize({ width: resizedWidth, height: resizedHeight });
+
+  const chart = await popup.locator('.plotly-chart');
+
+  // Ensure chart is loaded properly by attempting to click on it
+  await chart.click({ trial: true });
+
+  // Need to trigger a resize as Webkit isn't calculating init size in Playwright correctly
+  await popup.locator('text=Reset View').click();
+  await popup.waitForTimeout(1000);
+
+  // await popup.locator('label:has-text("Title")').fill('Test time plot');
+  // await page.locator('text=Data').click();
+
+  // await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
+  // await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+
+  await page.getByRole('button', { name: 'Save as' }).click();
+
+  await page
+    .getByRole('textbox', { name: 'Name' })
+    .fill('e2e session plot save');
+  await page
+    .getByRole('textbox', { name: 'Summary' })
+    .fill('test session summary');
+
+  // listen for sessions response to get the ID of the session we create
+  // so we can ensure it's tidied up later
+  const responsePromise = page.waitForResponse('**/sessions?*');
+
+  await page.getByRole('button', { name: 'Save' }).click();
+
+  await responsePromise;
+
+  await expect(
+    page.getByRole('dialog', { name: 'Save Session' })
+  ).not.toBeVisible();
+
+  const getResponsePromise = page.waitForResponse(`**/sessions/5`);
+
+  const getResponse = await getResponsePromise;
+  const responseData = await getResponse.json();
+
+  const windowIds = Object.keys(responseData.session.windows);
+  expect(windowIds.length).toBe(1);
+  const windowId = windowIds[0];
+  let screenY = 0;
+  let screenX = 0;
+  switch (browserName) {
+    case 'chromium':
+      screenY = 166;
+      screenX = 200;
+      break;
+    case 'firefox':
+      screenY = 200;
+      screenX = 200;
+      break;
+    case 'webkit':
+      screenY = 0;
+      screenX = 0;
+      break;
+    default:
+      screenY = 200;
+      screenX = 200;
+  }
+  expect(responseData).toEqual(
+    expect.objectContaining({
+      session: expect.objectContaining({
+        windows: expect.objectContaining({
+          [windowId]: expect.objectContaining({
+            innerHeight: resizedHeight,
+            screenX: screenX,
+            screenY: screenY,
+            innerWidth: resizedWidth,
+          }),
+        }),
+      }),
+    })
+  );
+});
