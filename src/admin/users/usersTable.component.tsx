@@ -33,8 +33,8 @@ export const AUTHORISED_ROUTE_LIST = [
   '/users POST',
   '/users PATCH',
   '/users/{id_} DELETE',
-  '/maintenance POST',
-  '/scheduled_maintenance POST',
+  '/maintenance PUT',
+  '/scheduled_maintenance PUT',
 ];
 
 export const AUTH_TYPE_LIST = ['local', 'FedID'];
