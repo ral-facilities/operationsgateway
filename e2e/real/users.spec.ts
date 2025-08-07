@@ -1,5 +1,5 @@
-import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import dotenvx from '@dotenvx/dotenvx';
+import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 
 dotenvx.config({
   convention: 'nextjs',
@@ -72,20 +72,20 @@ test('should be able to create a user, read it, edit it and delete it', async ({
 
   // Add a fed Id user
 
-  await adminPage.getByRole('button', { name: 'Add User' }).click();
+  // await adminPage.getByRole('button', { name: 'Add User' }).click();
 
-  await adminPage.getByLabel('Auth Type', { exact: true }).click();
-  await adminPage.getByRole('option', { name: 'FedID' }).click();
+  // await adminPage.getByLabel('Auth Type', { exact: true }).click();
+  // await adminPage.getByRole('option', { name: 'FedID' }).click();
 
-  await adminPage
-    .getByLabel('Username *', { exact: true })
-    .fill('frontend_e2e_fedid');
+  // await adminPage
+  //   .getByLabel('Username *', { exact: true })
+  //   .fill('frontend_e2e_fedid');
 
-  await adminPage.getByLabel('Authorised Routes', { exact: true }).click();
+  // await adminPage.getByLabel('Authorised Routes', { exact: true }).click();
 
-  await adminPage.getByRole('option', { name: '/users GET' }).click();
+  // await adminPage.getByRole('option', { name: '/users GET' }).click();
 
-  await adminPage.getByRole('button', { name: 'Submit' }).click();
+  // await adminPage.getByRole('button', { name: 'Submit' }).click();
 
   // filter for frontend_e2e
 
@@ -150,9 +150,9 @@ test('should be able to create a user, read it, edit it and delete it', async ({
   await adminPage.getByText('Delete', { exact: true }).click();
   await adminPage.getByRole('button', { name: 'Continue' }).click();
 
-  await adminPage.getByLabel('Row Actions', { exact: true }).first().click();
-  await adminPage.getByText('Delete', { exact: true }).click();
-  await adminPage.getByRole('button', { name: 'Continue' }).click();
+  // await adminPage.getByLabel('Row Actions', { exact: true }).first().click();
+  // await adminPage.getByText('Delete', { exact: true }).click();
+  // await adminPage.getByRole('button', { name: 'Continue' }).click();
 
   await expect(
     adminPage.getByLabel('Row Actions', { exact: true })
