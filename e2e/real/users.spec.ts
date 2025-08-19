@@ -1,5 +1,5 @@
-import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import dotenvx from '@dotenvx/dotenvx';
+import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 
 dotenvx.config({
   convention: 'nextjs',
@@ -130,7 +130,7 @@ test('should be able to create a user, read it, edit it and delete it', async ({
 
   await adminPage.getByLabel('Authorised Routes', { exact: true }).click();
 
-  await adminPage.getByRole('option', { name: '/maintenance POST' }).click();
+  await adminPage.getByRole('option', { name: '/maintenance PUT' }).click();
 
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
@@ -141,7 +141,7 @@ test('should be able to create a user, read it, edit it and delete it', async ({
   );
 
   await expect(
-    adminPage.getByText('/maintenance POST', { exact: true })
+    adminPage.getByText('/maintenance PUT', { exact: true })
   ).toHaveCount(1);
 
   // delete both of the users
