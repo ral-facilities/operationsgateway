@@ -16,18 +16,15 @@ import XAxisTab from './xAxisTab.component';
 describe('x-axis tab', () => {
   let props: XAxisTabProps;
   let user: UserEvent;
+  let state: Partial<RootState>;
   const changeXAxis = vi.fn();
   const changeXAxisScale = vi.fn();
   const changeXMinimum = vi.fn();
   const changeXMaximum = vi.fn();
 
-  const createView = (
-    initialState?: Partial<RootState>,
-    queryClient?: QueryClient
-  ) => {
-    const state = getInitialState();
+  const createView = (queryClient?: QueryClient) => {
     return renderComponentWithProviders(<XAxisTab {...props} />, {
-      preloadedState: initialState ?? state,
+      preloadedState: state,
       queryClient,
     });
   };
@@ -46,7 +43,7 @@ describe('x-axis tab', () => {
       changeXMinimum,
       changeXMaximum,
     };
-
+    state = getInitialState();
     user = userEvent.setup({ delay: null });
   });
 
@@ -238,6 +235,48 @@ describe('x-axis tab', () => {
           format(selectedDate, 'yyyy-MM-dd HH:mm')
         );
         expect(changeXMinimum).toHaveBeenCalledWith(selectedDate.getTime());
+      });
+
+      it('lets user change the fromDate field and calls relevant onchange method (date picker shortcut)', async () => {
+        createView();
+
+        const dateFilterFromDate = screen.getByLabelText(
+          'from, date-time picker'
+        );
+        await userEvent.click(dateFilterFromDate);
+
+        const shortcutButton = await screen.findByRole('button', {
+          name: 'Jump to start of search range',
+        });
+
+        await userEvent.click(shortcutButton);
+
+        const date = state.search?.searchParams.dateRange.fromDate
+          ? new Date(state.search.searchParams.dateRange.fromDate)
+          : null;
+
+        expect(changeXMinimum).toHaveBeenCalledWith(date?.getTime());
+      });
+
+      it('lets user change the toDate field and calls relevant onchange method (date picker shortcut)', async () => {
+        createView();
+
+        const dateFilterFromDate = screen.getByLabelText(
+          'to, date-time picker'
+        );
+        await userEvent.click(dateFilterFromDate);
+
+        const shortcutButton = await screen.findByRole('button', {
+          name: 'Jump to end of search range',
+        });
+
+        await userEvent.click(shortcutButton);
+
+        const date = state.search?.searchParams.dateRange.toDate
+          ? new Date(state.search.searchParams.dateRange.toDate)
+          : null;
+
+        expect(changeXMaximum).toHaveBeenCalledWith(date?.getTime());
       });
 
       it('lets user change the toDate field and calls relevant onchange method', async () => {
