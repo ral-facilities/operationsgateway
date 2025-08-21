@@ -5,11 +5,12 @@ import * as path from 'path';
 export const serverHandlers = [
   http.get('/images/:recordId/:channelName', async () => {
     // Read the image from the file system using the "fs" module.
-    const imageBuffer = fs.readFileSync(path.resolve(__dirname, './image.png'));
+    const imageBlob = await fs.openAsBlob(
+      path.resolve(__dirname, './image.png')
+    );
 
-    return new HttpResponse(imageBuffer, {
+    return new HttpResponse(imageBlob, {
       headers: {
-        'Content-Length': imageBuffer.byteLength.toString(),
         'Content-Type': 'image/png',
       },
       status: 200,
@@ -17,13 +18,12 @@ export const serverHandlers = [
   }),
   http.get('/images/float/:recordId/:channelName', async () => {
     // Read the image from the file system using the "fs" module.
-    const imageBuffer = fs.readFileSync(
+    const imageBlob = await fs.openAsBlob(
       path.resolve(__dirname, './float_image.png')
     );
 
-    return new HttpResponse(imageBuffer, {
+    return new HttpResponse(imageBlob, {
       headers: {
-        'Content-Length': imageBuffer.byteLength.toString(),
         'Content-Type': 'image/png',
       },
       status: 200,
@@ -31,13 +31,12 @@ export const serverHandlers = [
   }),
   http.get('/images/colour_bar', async () => {
     // Read the image from the file system using the "fs" module.
-    const imageBuffer = fs.readFileSync(
+    const imageBlob = await fs.openAsBlob(
       path.resolve(__dirname, './colourbar.png')
     );
 
-    return new HttpResponse(imageBuffer, {
+    return new HttpResponse(imageBlob, {
       headers: {
-        'Content-Length': imageBuffer.byteLength.toString(),
         'Content-Type': 'image/png',
       },
       status: 200,
