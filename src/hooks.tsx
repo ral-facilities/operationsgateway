@@ -75,6 +75,7 @@ export const useUpdateWindowPositions = (): ((
       if (ref)
         sessionState.plots[id] = {
           ...sessionState.plots[id],
+          ...ref.current?.state?.window?.getPlotConfig?.(),
           screenX:
             ref.current?.state?.window?.screenX ??
             sessionState.plots[id].screenX,
