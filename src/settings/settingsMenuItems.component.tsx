@@ -47,7 +47,20 @@ const SettingsMenuItems = () => {
         <Typography sx={{ ml: 1 }} variant="h6">
           Images
         </Typography>
-        <ColourMapMenuItem />
+        <ColourMapMenuItem
+          type="images"
+          preferredName="PREFERRED_COLOUR_MAP"
+          mainColourMap="Perceptually Uniform Sequential"
+        />
+        <Divider />
+        <Typography sx={{ ml: 1 }} variant="h6">
+          Float Images
+        </Typography>
+        <ColourMapMenuItem
+          type="floatImages"
+          preferredName="PREFERRED_NULLABLE_COLOUR_MAP"
+          mainColourMap="Diverging"
+        />
         <Divider />
         <Typography sx={{ ml: 1 }} variant="h6">
           Vectors

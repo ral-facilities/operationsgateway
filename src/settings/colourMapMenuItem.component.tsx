@@ -15,31 +15,53 @@ import {
   useUpdateUserPreference,
   useUserPreference,
 } from '../api/userPreferences';
-import { PREFERRED_COLOUR_MAP_PREFERENCE_NAME } from '../app.types';
+import {
+  PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
+  type PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME,
+} from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import {
   ColourMapSelect,
   filterNamesWithSuffixR,
 } from '../images/imageControlsPanel.component';
+interface BaseColourMapMenuItemProps {
+  type: 'images' | 'floatImages';
+  mainColourMap: string;
+}
 
-const ColourMapMenuItem = () => {
-  const [reverseColour, setReverseColour] = React.useState(false);
-  const [extendedColourMap, setExtendedColourMap] = React.useState(false);
+interface ImagesColourMapMenuItemProps extends BaseColourMapMenuItemProps {
+  type: 'images';
+  preferredName: typeof PREFERRED_COLOUR_MAP_PREFERENCE_NAME;
+}
+
+export interface FloatImagesColourMapMenuItemProps
+  extends BaseColourMapMenuItemProps {
+  type: 'floatImages';
+  preferredName: typeof PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME;
+}
+
+type ColourMapMenuItemProps =
+  | ImagesColourMapMenuItemProps
+  | FloatImagesColourMapMenuItemProps;
+
+const ColourMapMenuItem = (props: ColourMapMenuItemProps) => {
+  const { type, preferredName, mainColourMap } = props;
 
   const { data: colourMaps } = useColourMaps();
 
-  const { data: preferredColourMap } = useUserPreference<string>(
-    PREFERRED_COLOUR_MAP_PREFERENCE_NAME
-  );
+  const [reverseColour, setReverseColour] = React.useState(false);
+  const [extendedColourMap, setExtendedColourMap] = React.useState(false);
+
+  const { data: preferredColourMap } = useUserPreference<string>(preferredName);
 
   const selectColourMap = preferredColourMap?.replace('_r', '') ?? '';
 
   const { mutateAsync: mutatePreferredColourMap } = useUpdateUserPreference<
     string | null
-  >(PREFERRED_COLOUR_MAP_PREFERENCE_NAME);
+  >(preferredName);
 
   const filteredColourMaps = filterNamesWithSuffixR(colourMaps);
-  const mainColourMap = 'Perceptually Uniform Sequential';
+
   // we want to allow the user to see their selected colour map even in the "main"
   // colourmap options if they've selected an extended colourmap
   const selectedColourMapCategory = Object.entries(filteredColourMaps)?.find(
@@ -88,11 +110,12 @@ const ColourMapMenuItem = () => {
               query.queryKey[0] === 'channelSummary' ||
               // we only need to invalidate the following queries if they didn't
               // manually select a colour map
-              (query.queryKey[0] === 'images' &&
+              (query.queryKey[0] === type &&
                 (typeof query.queryKey[3] === 'undefined' ||
                   typeof (query.queryKey[3] as FalseColourParams).colourMap ===
                     'undefined')) ||
-              (query.queryKey[0] === 'colourbar' &&
+              (type === 'images' &&
+                query.queryKey[0] === 'colourbar' &&
                 (typeof query.queryKey[1] === 'undefined' ||
                   typeof (query.queryKey[1] as FalseColourParams).colourMap ===
                     'undefined'))
@@ -149,7 +172,7 @@ const ColourMapMenuItem = () => {
       sx={[{ '&:hover': { backgroundColor: 'transparent' }, cursor: 'unset' }]}
       disableRipple
     >
-      <FormGroup>
+      <FormGroup sx={{ width: '100%' }}>
         <FormControl>
           <InputLabel id="default-colour-map-select-label">
             Default Colour Map
@@ -173,23 +196,25 @@ const ColourMapMenuItem = () => {
           }
           label="Reverse Colour"
         />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={extendedColourMap}
-              onChange={handleExtendColourMaps}
-            />
-          }
-          componentsProps={{
-            typography: {
-              sx: {
-                maxWidth: '200px',
-                whiteSpace: 'normal',
+        {type === 'images' && (
+          <FormControlLabel
+            control={
+              <Switch
+                checked={extendedColourMap}
+                onChange={handleExtendColourMaps}
+              />
+            }
+            slotProps={{
+              typography: {
+                sx: {
+                  maxWidth: '200px',
+                  whiteSpace: 'normal',
+                },
               },
-            },
-          }}
-          label="Show extended colourmap options"
-        />
+            }}
+            label="Show extended colourmap options"
+          />
+        )}
       </FormGroup>
     </MenuItem>
   );

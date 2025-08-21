@@ -6,6 +6,7 @@ import {
   ExperimentParams,
   isChannelScalar,
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
+  PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME,
   Record,
   ValidateFunctionPost,
   VECTOR_LIMIT_PREFERENCE_NAME,
@@ -39,6 +40,11 @@ const getRandomColourMap = function (colourMaps: ColourMapsParams) {
 let e2eSessionJson: ImportSessionType | undefined;
 // VITE_APP_BUILD_STANDALONE used here to determine if E2E testing or not
 export let preferredColourMap =
+  import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
+    ? undefined
+    : getRandomColourMap(colourMapsJson);
+
+export let preferredNullableColourMap =
   import.meta.env.VITE_APP_BUILD_STANDALONE === 'true'
     ? undefined
     : getRandomColourMap(colourMapsJson);
@@ -351,6 +357,19 @@ export const handlers = [
       return HttpResponse.json(preferredColourMap, { status: 200 });
     }
   }),
+  http.get(
+    `/users/preferences/${PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME}`,
+    () => {
+      if (typeof preferredColourMap === 'undefined') {
+        return HttpResponse.json(
+          { detail: 'No such attribute in database' },
+          { status: 404 }
+        );
+      } else {
+        return HttpResponse.json(preferredNullableColourMap, { status: 200 });
+      }
+    }
+  ),
   http.get(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
     if (typeof vectorLimit === 'undefined') {
       return HttpResponse.json(
@@ -378,6 +397,13 @@ export const handlers = [
       return HttpResponse.json(preferredColourMap, { status: 204 });
     }
   ),
+  http.delete(
+    `/users/preferences/${PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME}`,
+    () => {
+      preferredNullableColourMap = undefined;
+      return HttpResponse.json(preferredNullableColourMap, { status: 204 });
+    }
+  ),
   http.delete(`/users/preferences/${VECTOR_LIMIT_PREFERENCE_NAME}`, () => {
     vectorLimit = undefined;
     return HttpResponse.json(vectorLimit, { status: 204 });
@@ -394,6 +420,9 @@ export const handlers = [
     switch (userPref.name) {
       case PREFERRED_COLOUR_MAP_PREFERENCE_NAME:
         preferredColourMap = userPref.value as string;
+        break;
+      case PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME:
+        preferredNullableColourMap = userPref.value as string;
         break;
       case VECTOR_LIMIT_PREFERENCE_NAME:
         vectorLimit = userPref.value as string;

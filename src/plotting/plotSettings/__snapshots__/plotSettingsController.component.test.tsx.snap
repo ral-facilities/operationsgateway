@@ -129,6 +129,15 @@ initialXMinimum=undefined
 initialXMaximum=undefined
 changeXMinimum=undefined
 changeXMaximum=undefined
+selectedRecordTableChannels=[
+  {
+    "systemName": "timestamp",
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
+  }
+]
+selectedPlotChannels=[]
 
         </mock-xaxistab>
       </div>
@@ -370,6 +379,15 @@ initialXMinimum=undefined
 initialXMaximum=undefined
 changeXMinimum=undefined
 changeXMaximum=undefined
+selectedRecordTableChannels=[
+  {
+    "systemName": "timestamp",
+    "name": "Time",
+    "type": "scalar",
+    "path": "/system"
+  }
+]
+selectedPlotChannels=[]
 
           </mock-xaxistab>
         </div>

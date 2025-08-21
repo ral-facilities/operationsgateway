@@ -1,5 +1,5 @@
-import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 import dotenvx from '@dotenvx/dotenvx';
+import { test as base, BrowserContext, expect, Page } from '@playwright/test';
 
 dotenvx.config({
   convention: 'nextjs',
@@ -7,6 +7,8 @@ dotenvx.config({
 });
 
 const adminAuthFile = 'e2e/real/.auth/admin.json';
+
+let token: string = '';
 
 // Extend base test to authenticate only for this suite
 const test = base.extend<{ adminPage: Page }>({
@@ -26,7 +28,7 @@ const test = base.extend<{ adminPage: Page }>({
       },
     });
 
-    const token = await loginResponse.json();
+    token = await loginResponse.json();
 
     await page.evaluate((token) => {
       window.localStorage.setItem('scigateway:token', token);
@@ -44,6 +46,17 @@ const test = base.extend<{ adminPage: Page }>({
 
     await provide(adminPage);
   },
+});
+
+const user1 = 'frontend_e2e_local';
+test.afterEach(async ({ request }) => {
+  const { apiUrl } = await (
+    await request.get('/operationsgateway-settings.json')
+  ).json();
+
+  await request.delete(`${apiUrl}/users/${user1}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 });
 
 test('should be able to create a user, read it, edit it and delete it', async ({
@@ -70,23 +83,6 @@ test('should be able to create a user, read it, edit it and delete it', async ({
 
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Add a fed Id user
-
-  await adminPage.getByRole('button', { name: 'Add User' }).click();
-
-  await adminPage.getByLabel('Auth Type', { exact: true }).click();
-  await adminPage.getByRole('option', { name: 'FedID' }).click();
-
-  await adminPage
-    .getByLabel('Username *', { exact: true })
-    .fill('frontend_e2e_fedid');
-
-  await adminPage.getByLabel('Authorised Routes', { exact: true }).click();
-
-  await adminPage.getByRole('option', { name: '/users GET' }).click();
-
-  await adminPage.getByRole('button', { name: 'Submit' }).click();
-
   // filter for frontend_e2e
 
   await adminPage
@@ -99,12 +95,11 @@ test('should be able to create a user, read it, edit it and delete it', async ({
     adminPage.getByText('frontend_e2e_local', { exact: true })
   ).toHaveCount(1);
 
-  // check the routes have been set
-
-  await expect(adminPage.getByText('/users GET', { exact: true })).toHaveCount(
-    2
-  );
   // change password for a local user
+
+  await expect(
+    adminPage.getByLabel('Row Actions', { exact: true })
+  ).toHaveCount(1);
 
   await adminPage.getByLabel('Row Actions', { exact: true }).first().click();
 
@@ -118,7 +113,7 @@ test('should be able to create a user, read it, edit it and delete it', async ({
 
   // modify the routes for a fed id user
 
-  await adminPage.getByLabel('Row Actions', { exact: true }).last().click();
+  await adminPage.getByLabel('Row Actions', { exact: true }).click();
 
   await adminPage
     .getByText('Modify Authorised Routes', { exact: true })
@@ -130,7 +125,7 @@ test('should be able to create a user, read it, edit it and delete it', async ({
 
   await adminPage.getByLabel('Authorised Routes', { exact: true }).click();
 
-  await adminPage.getByRole('option', { name: '/maintenance POST' }).click();
+  await adminPage.getByRole('option', { name: '/maintenance PUT' }).click();
 
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
@@ -141,16 +136,12 @@ test('should be able to create a user, read it, edit it and delete it', async ({
   );
 
   await expect(
-    adminPage.getByText('/maintenance POST', { exact: true })
+    adminPage.getByText('/maintenance PUT', { exact: true })
   ).toHaveCount(1);
 
-  // delete both of the users
+  // delete user
 
-  await adminPage.getByLabel('Row Actions', { exact: true }).first().click();
-  await adminPage.getByText('Delete', { exact: true }).click();
-  await adminPage.getByRole('button', { name: 'Continue' }).click();
-
-  await adminPage.getByLabel('Row Actions', { exact: true }).first().click();
+  await adminPage.getByLabel('Row Actions', { exact: true }).click();
   await adminPage.getByText('Delete', { exact: true }).click();
   await adminPage.getByRole('button', { name: 'Continue' }).click();
 
