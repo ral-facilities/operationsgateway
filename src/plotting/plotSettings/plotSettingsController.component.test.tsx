@@ -1,8 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import type { QueryClient } from '@tanstack/react-query';
+import { screen } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { staticChannels } from '../../api/channels';
 import { FullScalarChannelMetadata } from '../../app.types';
-import { testScalarChannels } from '../../testUtils';
+import type { RootState } from '../../state/store';
+import {
+  getInitialState,
+  renderComponentWithProviders,
+  testScalarChannels,
+} from '../../testUtils';
 import { ChartTypeButtonsProps } from './chartTypeButtons.component';
 import { PlotSettingsControllerProps } from './plotSettingsController.component';
 import { PlotSettingsTextFieldProps } from './plotSettingsTextField.component';
@@ -29,13 +35,20 @@ describe('Plot Settings component', () => {
   const changeRemainingColours = vi.fn();
   const changeSkipNonBusinessHours = vi.fn();
 
-  const createView = async () => {
+  const createView = async (
+    initialState?: Partial<RootState>,
+    queryClient?: QueryClient
+  ) => {
+    const state = getInitialState();
     // need to import like this in order for the doMock's to work
     const PlotSettingsController = (
       await vi.importActual('./plotSettingsController.component')
     ).default;
     // @ts-expect-error Type not known as not importing normally
-    return render(<PlotSettingsController {...props} />);
+    return renderComponentWithProviders(<PlotSettingsController {...props} />, {
+      preloadedState: initialState ?? state,
+      queryClient,
+    });
   };
 
   beforeEach(() => {

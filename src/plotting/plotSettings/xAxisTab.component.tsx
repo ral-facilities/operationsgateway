@@ -33,6 +33,8 @@ import {
   XAxisScale,
   type SelectedPlotChannel,
 } from '../../app.types';
+import { useAppSelector } from '../../state/hooks';
+import { selectSearchParams } from '../../state/slices/searchSlice';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
@@ -98,6 +100,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     selectedPlotChannels,
   } = props;
 
+  const { dateRange } = useAppSelector(selectSearchParams);
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
@@ -256,6 +259,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                         [`.${pickersLayoutClasses.shortcuts}`]: {
                           gridColumn: 2,
                           gridRow: 3,
+                          maxWidth: '400px',
                         },
                       },
                     },
@@ -265,6 +269,14 @@ const XAxisTab = (props: XAxisTabProps) => {
                           label: 'Jump to to date',
                           getValue: () => {
                             return toDate;
+                          },
+                        },
+                        {
+                          label: 'Jump to start of search range',
+                          getValue: () => {
+                            return dateRange.fromDate
+                              ? new Date(dateRange.fromDate)
+                              : null;
                           },
                         },
                       ],
@@ -333,6 +345,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                         [`.${pickersLayoutClasses.shortcuts}`]: {
                           gridColumn: 2,
                           gridRow: 3,
+                          maxWidth: '400px',
                         },
                       },
                     },
@@ -342,6 +355,14 @@ const XAxisTab = (props: XAxisTabProps) => {
                           label: 'Jump to from date',
                           getValue: () => {
                             return fromDate;
+                          },
+                        },
+                        {
+                          label: 'Jump to end of search range',
+                          getValue: () => {
+                            return dateRange.toDate
+                              ? new Date(dateRange.toDate)
+                              : null;
                           },
                         },
                       ],
