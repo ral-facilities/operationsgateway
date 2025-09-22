@@ -1,9 +1,10 @@
 import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import type { AxiosError } from 'axios';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import React from 'react';
 import { shallowEqual } from 'react-redux';
+import { convertApiTimestampToDate } from '../api/records';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse, type SessionListItem } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
@@ -30,7 +31,7 @@ export interface SessionsSaveButtonsProps {
 export const AUTO_SAVE_INTERVAL_MS = 5 * 60 * 1000;
 
 const formatDate = (inputDate: string) => {
-  const date = parseISO(inputDate);
+  const date = convertApiTimestampToDate(inputDate);
   const formattedDate = format(date, 'dd MMM yyyy HH:mm');
   return formattedDate;
 };

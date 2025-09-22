@@ -12,6 +12,7 @@ import { isBefore, sub } from 'date-fns';
 import React from 'react';
 import { useExperiment } from '../api/experiment';
 import {
+  convertApiTimestampToDate,
   useDateToShotnumConverter,
   useIncomingRecordCount,
   useShotnumToDateConverter,
@@ -28,6 +29,7 @@ import { selectQueryFilters } from '../state/slices/filterSlice';
 import {
   changeSearchParams,
   formatDateTimeForApi,
+  selectDateRangeInLocalTime,
   selectSearchParams,
 } from '../state/slices/searchSlice';
 import AutoRefreshToggle from './components/autoRefreshToggle.component';
@@ -56,12 +58,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const { expanded, sessionId, heightRef } = props;
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
-  const {
-    dateRange,
-    shotnumRange,
-    maxShots: maxShotsParam,
-    experimentID,
-  } = searchParams;
+  const { shotnumRange, maxShots: maxShotsParam, experimentID } = searchParams;
+  const dateRangeLocalTime = useAppSelector(selectDateRangeInLocalTime);
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -73,13 +71,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // ########################
   // The FROM and TO dates sent as part of the query (if any)
   const [searchParameterFromDate, setSearchParameterFromDate] =
-    React.useState<Date | null>(
-      dateRange.fromDate ? new Date(dateRange.fromDate) : null
-    );
+    React.useState<Date | null>(dateRangeLocalTime.fromDate ?? null);
   const [searchParameterToDate, setSearchParameterToDate] =
-    React.useState<Date | null>(
-      dateRange.toDate ? new Date(dateRange.toDate) : null
-    );
+    React.useState<Date | null>(dateRangeLocalTime.toDate ?? null);
 
   // set seconds to 0 for searchParameterFromDate
   if (searchParameterFromDate) {
@@ -166,8 +160,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const calculateExperimentDateRange = (
     experiment: ExperimentParams
   ): { from: Date; to: Date } => {
-    const to = new Date(experiment.end_date);
-    const from = new Date(experiment.start_date);
+    const to = convertApiTimestampToDate(experiment.end_date);
+    const from = convertApiTimestampToDate(experiment.start_date);
 
     return { from, to };
   };
@@ -190,8 +184,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     dateTime: Date,
     experiment: ExperimentParams
   ): boolean => {
-    const startDate = new Date(experiment.start_date);
-    const endDate = new Date(experiment.end_date);
+    const startDate = convertApiTimestampToDate(experiment.start_date);
+    const endDate = convertApiTimestampToDate(experiment.end_date);
     return dateTime >= startDate && dateTime <= endDate;
   };
 
@@ -262,8 +256,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     // and if a time frame range exist it clears the time frame range
     if (!dateToShotnum && !!shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
-        const shotnumToDateFromDate = new Date(shotnumToDate.from);
-        const shotnumToDateToDate = new Date(shotnumToDate.to);
+        const shotnumToDateFromDate = convertApiTimestampToDate(
+          shotnumToDate.from
+        );
+        const shotnumToDateToDate = convertApiTimestampToDate(shotnumToDate.to);
         setSearchParameterFromDate(shotnumToDateFromDate);
         setSearchParameterToDate(shotnumToDateToDate);
         if (timeframeRange) {
@@ -304,16 +300,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // Updates the search fields when a session is loaded
   // also just generally ensures we're synced with the store
   React.useEffect(() => {
-    setSearchParameterFromDate(
-      typeof dateRange.fromDate !== 'undefined'
-        ? new Date(dateRange.fromDate)
-        : null
-    );
-    setSearchParameterToDate(
-      typeof dateRange.toDate !== 'undefined'
-        ? new Date(dateRange.toDate)
-        : null
-    );
+    setSearchParameterFromDate(dateRangeLocalTime.fromDate ?? null);
+    setSearchParameterToDate(dateRangeLocalTime.toDate ?? null);
 
     setSearchParameterExperiment(experimentID);
 
@@ -322,7 +310,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
     setMaxShots(maxShotsParam);
     setParamsUpdated(false);
-  }, [dateRange, experimentID, maxShotsParam, shotnumRange]);
+  }, [dateRangeLocalTime, experimentID, maxShotsParam, shotnumRange]);
 
   const firstUpdate = React.useRef(true);
   // use a ref so that we can control the useEffect that's supposed to
