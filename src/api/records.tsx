@@ -400,6 +400,9 @@ export const useRecordsPaginated = (): UseQueryResult<
   });
 };
 
+export const convertApiTimestampToDate = (apiTimestamp: string): Date =>
+  parseISO(`${apiTimestamp}Z`);
+
 export const getFormattedAxisData = (
   record: Record,
   axisName: string
@@ -408,7 +411,9 @@ export const getFormattedAxisData = (
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = parseISO(record.metadata.timestamp).getTime();
+      formattedData = convertApiTimestampToDate(
+        record.metadata.timestamp
+      ).getTime();
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;

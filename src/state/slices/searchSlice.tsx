@@ -1,6 +1,8 @@
+import { tz } from '@date-fns/tz';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { format, sub } from 'date-fns';
+import { convertApiTimestampToDate } from '../../api/records';
 import { SearchParams } from '../../app.types';
 import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
 import { RootState } from '../store';
@@ -9,10 +11,7 @@ import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
 
 export const formatDateTimeForApi = (datetime: Date): string => {
-  const dateString = format(datetime, 'yyyy-MM-dd');
-  const timeString = format(datetime, 'HH:mm:ss');
-
-  return `${dateString}T${timeString}`;
+  return format(datetime, "yyyy-MM-dd'T'HH:mm:ss", { in: tz('UTC') });
 };
 
 // Define a type for the slice state
@@ -60,6 +59,21 @@ export const { changeSearchParams } = searchSlice.actions;
 // Other code such as selectors can use the imported `RootState` type
 export const selectSearchParams = (state: RootState) =>
   state.search.searchParams;
+
+const selectSearchDateRange = (state: RootState) =>
+  state.search.searchParams.dateRange;
+
+export const selectDateRangeInLocalTime = createSelector(
+  selectSearchDateRange,
+  (dateRange) => ({
+    fromDate: dateRange.fromDate
+      ? convertApiTimestampToDate(dateRange.fromDate)
+      : undefined,
+    toDate: dateRange.toDate
+      ? convertApiTimestampToDate(dateRange.toDate)
+      : undefined,
+  })
+);
 
 export const selectQueryParams = createSelector(
   selectSearchParams,

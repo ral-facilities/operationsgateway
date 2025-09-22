@@ -3,6 +3,7 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { staticChannels } from '../../api/channels';
+import { convertApiTimestampToDate } from '../../api/records';
 import type { FullScalarChannelMetadata } from '../../app.types';
 import type { RootState } from '../../state/store';
 import {
@@ -252,7 +253,9 @@ describe('x-axis tab', () => {
         await userEvent.click(shortcutButton);
 
         const date = state.search?.searchParams.dateRange.fromDate
-          ? new Date(state.search.searchParams.dateRange.fromDate)
+          ? convertApiTimestampToDate(
+              state.search.searchParams.dateRange.fromDate
+            )
           : null;
 
         expect(changeXMinimum).toHaveBeenCalledWith(date?.getTime());
@@ -273,7 +276,9 @@ describe('x-axis tab', () => {
         await userEvent.click(shortcutButton);
 
         const date = state.search?.searchParams.dateRange.toDate
-          ? new Date(state.search.searchParams.dateRange.toDate)
+          ? convertApiTimestampToDate(
+              state.search?.searchParams.dateRange.toDate
+            )
           : null;
 
         expect(changeXMaximum).toHaveBeenCalledWith(date?.getTime());

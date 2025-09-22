@@ -1,5 +1,6 @@
-import { format, isValid, parseISO } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import React from 'react';
+import { convertApiTimestampToDate } from '../../api/records';
 
 export const roundNumber = (
   num: number,
@@ -50,7 +51,7 @@ export const Base64ImageThumbnail = React.forwardRef(
 Base64ImageThumbnail.displayName = 'Base64ImageThumbnail';
 
 export const renderTimestamp = (serverTimestamp: string) => {
-  const date = parseISO(serverTimestamp);
+  const date = convertApiTimestampToDate(serverTimestamp);
   if (isValid(date)) {
     return format(date, 'yyyy-MM-dd HH:mm:ss');
   } else {
