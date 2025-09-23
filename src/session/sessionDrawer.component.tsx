@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import React from 'react';
-import { convertApiTimestampToDate } from '../api/records';
+import { convertApiTimestampToDate } from '../api/api';
 import { SessionListItem, SessionResponse } from '../app.types';
 import { useAppDispatch } from '../state/hooks';
 import { importSession } from '../state/store';

@@ -2,8 +2,8 @@ import type { QueryClient } from '@tanstack/react-query';
 import { fireEvent, screen, within } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { format } from 'date-fns';
+import { convertApiTimestampToDate } from '../../api/api';
 import { staticChannels } from '../../api/channels';
-import { convertApiTimestampToDate } from '../../api/records';
 import type { FullScalarChannelMetadata } from '../../app.types';
 import type { RootState } from '../../state/store';
 import {

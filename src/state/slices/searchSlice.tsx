@@ -1,18 +1,13 @@
-import { tz } from '@date-fns/tz';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { format, sub } from 'date-fns';
-import { convertApiTimestampToDate } from '../../api/records';
+import { sub } from 'date-fns';
+import { convertApiTimestampToDate, formatDateTimeForApi } from '../../api/api';
 import { SearchParams } from '../../app.types';
 import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
 import { RootState } from '../store';
 import { selectQueryFilters } from './filterSlice';
 import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
-
-export const formatDateTimeForApi = (datetime: Date): string => {
-  return format(datetime, "yyyy-MM-dd'T'HH:mm:ss", { in: tz('UTC') });
-};
 
 // Define a type for the slice state
 interface SearchState {

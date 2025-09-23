@@ -4,7 +4,7 @@ import type { AxiosError } from 'axios';
 import { format } from 'date-fns';
 import React from 'react';
 import { shallowEqual } from 'react-redux';
-import { convertApiTimestampToDate } from '../api/records';
+import { convertApiTimestampToDate } from '../api/api';
 import { useEditSession, useSaveSession } from '../api/sessions';
 import { SessionResponse, type SessionListItem } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';

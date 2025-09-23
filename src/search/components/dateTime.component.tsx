@@ -20,7 +20,7 @@ import { isAfter, isBefore, isEqual, isValid } from 'date-fns';
 import { enGB } from 'date-fns/locale';
 import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
-import { convertApiTimestampToDate } from '../../api/records';
+import { convertApiTimestampToDate } from '../../api/api';
 import { ExperimentParams } from '../../app.types';
 import { TimeframeRange } from './timeframe.component';
 

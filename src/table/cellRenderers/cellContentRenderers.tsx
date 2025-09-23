@@ -1,6 +1,6 @@
 import { format, isValid } from 'date-fns';
 import React from 'react';
-import { convertApiTimestampToDate } from '../../api/records';
+import { convertApiTimestampToDate } from '../../api/api';
 
 export const roundNumber = (
   num: number,

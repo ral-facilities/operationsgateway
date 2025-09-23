@@ -4,7 +4,6 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { parseISO } from 'date-fns';
 import {
   APIFunctionState,
   DateRangetoShotnumConverter,
@@ -25,7 +24,7 @@ import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
-import { ogApi } from './api';
+import { convertApiTimestampToDate, ogApi } from './api';
 import { staticChannels } from './channels';
 
 const fetchRecords = async (
@@ -399,9 +398,6 @@ export const useRecordsPaginated = (): UseQueryResult<
       }),
   });
 };
-
-export const convertApiTimestampToDate = (apiTimestamp: string): Date =>
-  parseISO(`${apiTimestamp}Z`);
 
 export const getFormattedAxisData = (
   record: Record,
