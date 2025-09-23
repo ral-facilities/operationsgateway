@@ -345,6 +345,8 @@ test('should display an error if vector upper bound or skip is not a valid numbe
 
   const vectorLimitInput = await page.getByLabel('Upper Bound');
 
+  await vectorLimitInput.scrollIntoViewIfNeeded();
+
   await vectorLimitInput.fill('abc');
 
   await expect(
@@ -373,6 +375,8 @@ test('should display an error if vector upper bound is less than vector lower bo
   const vectorLimitInput = await page.getByLabel('Upper Bound');
   const vectorSkipInput = await page.getByLabel('Lower Bound');
 
+  await vectorLimitInput.scrollIntoViewIfNeeded();
+
   await vectorSkipInput.fill('20');
 
   await vectorLimitInput.fill('10');
@@ -396,6 +400,8 @@ test('should display an error if vector upper bound is negative', async ({
     document.body.appendChild(div);
   });
   const vectorLimitInput = await page.getByLabel('Upper Bound');
+
+  await vectorLimitInput.scrollIntoViewIfNeeded();
 
   await vectorLimitInput.fill('-1');
 
