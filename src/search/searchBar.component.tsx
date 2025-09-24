@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
-import { isBefore, sub } from 'date-fns';
+import { isBefore, isEqual, sub } from 'date-fns';
 import React from 'react';
 import { useExperiment } from '../api/experiment';
 import {
@@ -52,6 +52,9 @@ interface SearchBarProps {
 }
 
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
+  // @ts-expect-error testing
+  window.isEqual = isEqual;
+
   const dispatch = useAppDispatch();
   const { expanded, sessionId, heightRef } = props;
 
@@ -114,8 +117,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   ): { from: Date; to: Date } => {
     const to = new Date();
     to.setSeconds(59);
+    to.setMilliseconds(0);
     const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
     from.setSeconds(0);
+    from.setMilliseconds(0);
 
     return { from, to };
   };
@@ -480,8 +485,22 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
   const refreshData = () => {
-    setExperimentTimeframe(searchParameterExperiment);
     setRelativeTimeframe(timeframeRange);
+    // make sure we clear shot numbers when the date range changes via a refresh
+    // as otherwise the shotnum -> date conversion will be run and clear the timeframe
+    // the shot numbers will be correctly set by the date -> shotnum code when
+    // the refresh is finished
+    if (timeframeRange && searchParameterToDate && searchParameterFromDate) {
+      const newTimeFrame = calculateTimeframeDateRange(timeframeRange);
+
+      if (
+        !isEqual(newTimeFrame.to, searchParameterToDate) ||
+        !isEqual(newTimeFrame.from, searchParameterFromDate)
+      ) {
+        setSearchParameterShotnumMax(undefined);
+        setSearchParameterShotnumMin(undefined);
+      }
+    }
     setRefreshingData(true);
   };
 
@@ -490,7 +509,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       handleSearch();
       setRefreshingData(false);
     }
-  }, [handleSearch, refreshingData]);
+  }, [handleSearch, queryClient, refreshingData]);
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
