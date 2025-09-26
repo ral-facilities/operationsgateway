@@ -85,6 +85,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': true,
           'Waveform Images': false,
+          'Vector CSVs': false,
+          'Vector Images': true,
         },
       });
     });
@@ -117,6 +119,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
     params.append('export_waveform_images', 'false');
+    params.append('export_vector_csvs', 'false');
+    params.append('export_vector_images', 'true');
     params.append('skip', '0');
     params.append('limit', '0');
 
@@ -167,6 +171,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': true,
           'Waveform Images': true,
+          'Vector CSVs': true,
+          'Vector Images': false,
         },
       });
     });
@@ -204,6 +210,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
     params.append('export_waveform_images', 'true');
+    params.append('export_vector_csvs', 'true');
+    params.append('export_vector_images', 'false');
     params.append('skip', '0');
     params.append('limit', '0');
 
@@ -237,6 +245,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
+          'Vector CSVs': false,
+          'Vector Images': false,
         },
       });
     });
@@ -269,6 +279,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'true');
+    params.append('export_vector_csvs', 'false');
+    params.append('export_vector_images', 'false');
     params.append('skip', '0');
     params.append('limit', '1000');
 
@@ -302,6 +314,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
+          'Vector CSVs': true,
+          'Vector Images': true,
         },
         selectedColumn: 'ChannelA',
       });
@@ -331,6 +345,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'true');
+    params.append('export_vector_csvs', 'true');
+    params.append('export_vector_images', 'true');
     params.append('skip', '0');
     params.append('limit', '1000');
 
@@ -364,6 +380,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
+          'Vector CSVs': false,
+          'Vector Images': false,
         },
       });
     });
@@ -397,6 +415,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
+    params.append('export_vector_csvs', 'false');
+    params.append('export_vector_images', 'false');
     params.append('skip', '25');
     params.append('limit', '25');
 
@@ -432,6 +452,8 @@ describe('useExportData', () => {
           'Float Image': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
+          'Vector CSVs': false,
+          'Vector Images': false,
         },
       });
     });
@@ -465,6 +487,8 @@ describe('useExportData', () => {
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
     params.append('export_waveform_images', 'false');
+    params.append('export_vector_csvs', 'false');
+    params.append('export_vector_images', 'false');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,

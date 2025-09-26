@@ -85,6 +85,8 @@ describe('ExportDialogue', () => {
         'Float Image': false,
         'Waveform CSVs': false,
         'Waveform Images': false,
+        'Vector CSVs': false,
+        'Vector Images': false,
       },
     });
 

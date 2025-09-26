@@ -31,10 +31,15 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('checkbox', { name: 'Scalars' }).should('be.checked');
     cy.findByRole('checkbox', { name: 'Images' }).should('not.be.checked');
+    cy.findByRole('checkbox', { name: 'Float Image' }).should('not.be.checked');
     cy.findByRole('checkbox', { name: 'Waveform CSVs' }).should(
       'not.be.checked'
     );
     cy.findByRole('checkbox', { name: 'Waveform Images' }).should(
+      'not.be.checked'
+    );
+    cy.findByRole('checkbox', { name: 'Vector CSVs' }).should('not.be.checked');
+    cy.findByRole('checkbox', { name: 'Vector Images' }).should(
       'not.be.checked'
     );
     cy.findByRole('checkbox', { name: 'Images' }).click();
@@ -82,9 +87,14 @@ describe('Export', () => {
   it('should be able to export selected rows', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('radio', { name: 'Selected Rows' }).click();
+
+    cy.findByRole('checkbox', { name: 'Float Image' }).click();
+    cy.findByRole('checkbox', { name: 'Vector CSVs' }).click();
+    cy.findByRole('checkbox', { name: 'Vector Images' }).click();
+
     cy.findByRole('button', { name: 'Export' }).click();
 
-    cy.readFile('./cypress/downloads/scdownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/scflvcvidownload.csv').should('exist');
   });
 
   it('should be able to export a image channel', () => {
@@ -106,7 +116,7 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imflwcvcdownload.csv').should('exist');
   });
 
   it('should be able to export a float image channel', () => {
@@ -128,7 +138,7 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imflwcvcdownload.csv').should('exist');
   });
 
   it('should be able to export a waveform channel', () => {
@@ -149,7 +159,7 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imflwcvcdownload.csv').should('exist');
   });
 
   it('should be able to export a Vector channel', () => {
@@ -170,7 +180,7 @@ describe('Export', () => {
     cy.findByRole('button', { name: 'Export' }).click();
     cy.findByRole('dialog', { name: 'Export Channel' }).should('not.exist');
 
-    cy.readFile('./cypress/downloads/imwcdownload.csv').should('exist');
+    cy.readFile('./cypress/downloads/imflwcvcdownload.csv').should('exist');
   });
 
   it('should not be able to export a scalar channel', () => {

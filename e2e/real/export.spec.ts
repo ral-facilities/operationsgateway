@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 
-test('should be able to export a CSV of scalar info', async ({ page }) => {
+test('should be able to export a CSV of scalar info for all rows', async ({
+  page,
+}) => {
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
@@ -41,7 +43,7 @@ test('should be able to export a CSV of scalar info', async ({ page }) => {
   );
 });
 
-test('should be able to export a CSV of all info for selected rows', async ({
+test('should be able to export a CSV of images and waveforms for selected rows', async ({
   page,
 }) => {
   await page.goto('/');
@@ -101,6 +103,63 @@ test('should be able to export a CSV of all info for selected rows', async ({
   expect(downloadedCSV.suggestedFilename()).toBe(
     '20230605080000_to_20230605090000.zip'
   );
+
+  await expect(page.getByText('Generating export data...')).not.toBeVisible();
+});
+
+test('should be able to export a CSV of float images and vectors for visible rows', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add channels
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('Compressor output wavefront coefficients');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('Compressor output wavefront image');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  // export
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  await expect(page.getByRole('dialog', { name: 'Export Data' })).toBeVisible();
+
+  await page.getByRole('radio', { name: 'Visible Rows' }).check();
+
+  await page.getByRole('checkbox', { name: 'Float Image' }).check();
+  await page.getByRole('checkbox', { name: 'Vector CSVs' }).check();
+  await page.getByRole('checkbox', { name: 'Vector Images' }).check();
+
+  const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  await expect(page.getByText('Generating export data...')).toBeVisible();
+
+  const downloadedCSV = await downloadPromise;
+  expect(downloadedCSV.suggestedFilename()).toBe('20230605080300.zip');
 
   await expect(page.getByText('Generating export data...')).not.toBeVisible();
 });
@@ -177,5 +236,89 @@ test('should be able to export a waveform channel', async ({ page }) => {
   const downloadedCSV = await downloadPromise;
   expect(downloadedCSV.suggestedFilename()).toBe(
     '20230605080000_to_20230605090000_PM-201-PA1-PD.zip'
+  );
+});
+
+test('should be able to export a vector channel', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add channels
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('Compressor output wavefront coefficients');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  await page
+    .getByRole('button', {
+      name: 'CM-202-CVC-WFS-COEF menu',
+    })
+    .click();
+
+  await page.getByRole('menuitem', { name: 'Export' }).click();
+
+  const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  // use toBeAttached rather than toBeVisible as this export is very quick
+  // and so the toBeVisible check sometimes fails as the dialogue is fading out
+  await expect(page.getByText('Generating export data...')).toBeAttached();
+
+  const downloadedCSV = await downloadPromise;
+  expect(downloadedCSV.suggestedFilename()).toBe(
+    '20230605080300_CM-202-CVC-WFS-COEF.zip'
+  );
+});
+
+test('should be able to export a float image channel', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+
+  // add channels
+  await page.getByRole('button', { name: 'Data channels' }).click();
+
+  await page
+    .getByRole('combobox', { name: 'Search data channels' })
+    .fill('Compressor output wavefront image');
+
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+
+  await page.getByRole('button', { name: 'Add this channel' }).click();
+  await page.getByRole('button', { name: 'Add Channels' }).click();
+
+  await page
+    .getByRole('button', {
+      name: 'CM-202-CVC-WFS menu',
+    })
+    .click();
+
+  await page.getByRole('menuitem', { name: 'Export' }).click();
+
+  const downloadPromise = page.waitForEvent('download');
+
+  await page.getByRole('button', { name: 'Export' }).click();
+
+  await expect(page.getByText('Generating export data...')).toBeVisible();
+
+  const downloadedCSV = await downloadPromise;
+  expect(downloadedCSV.suggestedFilename()).toBe(
+    '20230605080300_CM-202-CVC-WFS.zip'
   );
 });

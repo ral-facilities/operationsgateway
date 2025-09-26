@@ -444,7 +444,7 @@ export const handlers = [
     );
     const arrBuffer = uintarr.buffer;
 
-    const testString = `${url.searchParams.get('export_scalars') === 'true' ? 'sc' : ''}${url.searchParams.get('export_images') === 'true' ? 'im' : ''}${url.searchParams.get('export_waveform_csvs') === 'true' ? 'wc' : ''}${url.searchParams.get('export_waveform_images') === 'true' ? 'wi' : ''}`;
+    const testString = `${url.searchParams.get('export_scalars') === 'true' ? 'sc' : ''}${url.searchParams.get('export_images') === 'true' ? 'im' : ''}${url.searchParams.get('export_float_images') === 'true' ? 'fl' : ''}${url.searchParams.get('export_waveform_csvs') === 'true' ? 'wc' : ''}${url.searchParams.get('export_waveform_images') === 'true' ? 'wi' : ''}${url.searchParams.get('export_vector_csvs') === 'true' ? 'vc' : ''}${url.searchParams.get('export_vector_images') === 'true' ? 'vi' : ''}`;
     return new HttpResponse(arrBuffer, {
       headers: {
         'Content-Type': 'text/plain',

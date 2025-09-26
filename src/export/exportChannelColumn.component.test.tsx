@@ -67,6 +67,8 @@ describe('ExportChannelColumn', () => {
         'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
+        'Vector CSVs': true,
+        'Vector Images': false,
       },
       selectedColumn: 'TEST-IMAGE',
     });
@@ -87,6 +89,8 @@ describe('ExportChannelColumn', () => {
         'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
+        'Vector CSVs': true,
+        'Vector Images': false,
       },
       selectedColumn: 'TEST-IMAGE',
     });
