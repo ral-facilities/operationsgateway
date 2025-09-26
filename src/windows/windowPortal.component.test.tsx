@@ -52,7 +52,7 @@ describe('Window portal component', () => {
 
     expect(newDocument.body).toMatchSnapshot();
     expect(mockAddEventListener).toHaveBeenCalledTimes(1);
-    expect(mockAddEventListener).toHaveBeenCalledWith('beforeunload', onClose);
+    expect(mockAddEventListener).toHaveBeenCalledWith('unload', onClose);
     expect(newDocument.title).toEqual('OperationsGateway Plot - test title');
 
     /* eslint-disable testing-library/no-node-access */
@@ -124,13 +124,35 @@ describe('Window portal component', () => {
       </WindowPortal>
     );
 
+    expect(mockRemoveEventListener).toHaveBeenCalledWith('unload', onClose);
+    expect(mockAddEventListener).toHaveBeenCalledWith('unload', newMockOnClose);
+  });
+
+  it('removed and re-adds event listeners onBeforeClose prop change', () => {
+    const mockOnBeforeClose = vi.fn();
+    props.onBeforeClose = mockOnBeforeClose;
+    const { rerender } = createView();
+
+    expect(mockAddEventListener).toHaveBeenCalledWith(
+      'beforeunload',
+      mockOnBeforeClose
+    );
+
+    const newMockOnBeforeClose = vi.fn();
+
+    rerender(
+      <WindowPortal {...props} onBeforeClose={newMockOnBeforeClose}>
+        <TestComponent />
+      </WindowPortal>
+    );
+
     expect(mockRemoveEventListener).toHaveBeenCalledWith(
       'beforeunload',
-      onClose
+      mockOnBeforeClose
     );
     expect(mockAddEventListener).toHaveBeenCalledWith(
       'beforeunload',
-      newMockOnClose
+      newMockOnBeforeClose
     );
   });
 });

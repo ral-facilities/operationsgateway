@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import assert from 'node:assert';
 import type { PlotlyHTMLElement } from 'plotly.js';
 
 test('plots a time vs shotnum graph and change the plot colour', async ({
@@ -732,4 +733,76 @@ test('user can skip non-business hours on a timeseries plot', async ({
 
   const chart = await popup.locator('.plotly-chart');
   await expect(chart).toHaveScreenshot({ maxDiffPixels: 150 });
+});
+
+test('prompts the user to save if plot has unsaved changes', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(
+    browserName === 'firefox',
+    'beforeunload dialog not working on Firefox in playwright'
+  );
+
+  await page.goto('/');
+
+  // MSW wont start immediately here, so wait for page to load first
+  await expect(page.locator('text=Plots')).toBeVisible();
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.getByRole('textbox', { name: 'Title' }).fill('my plot');
+
+  popup.on('dialog', async (dialog) => {
+    assert(dialog.type() === 'beforeunload');
+    await dialog.dismiss();
+  });
+  await popup.close({ runBeforeUnload: true });
+
+  await page.waitForTimeout(500);
+
+  // expect popup to remain open
+  await expect(popup.isClosed()).toBe(false);
+
+  // not working atm: see https://github.com/microsoft/playwright/issues/37597
+  // await popup.getByRole('button', { name: 'Save' }).click();
+
+  // await popup.close({ runBeforeUnload: true });
+
+  // await page.waitForTimeout(500);
+
+  // await expect(popup.isClosed()).toBe(true);
+});
+
+test('does not prompt the user to save if plot has no unsaved changes', async ({
+  page,
+}) => {
+  await page.goto('/');
+
+  // MSW wont start immediately here, so wait for page to load first
+  await expect(page.locator('text=Plots')).toBeVisible();
+
+  await page.locator('text=Plots').click();
+
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.locator('text=Create a plot').click(),
+  ]);
+
+  await popup.getByRole('textbox', { name: 'Title' }).fill('my plot');
+  await popup.getByRole('textbox', { name: 'Title' }).fill('Untitled 1');
+
+  await popup.close({ runBeforeUnload: true });
+
+  await page.waitForTimeout(500);
+
+  // expect popup to remain open
+  await expect(popup.isClosed()).toBe(true);
 });
