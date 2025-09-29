@@ -9,10 +9,12 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
+import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import { useScalarChannels } from '../api/channels';
 import { usePlotRecords } from '../api/records';
 import {
+  DEFAULT_WINDOW_VARS,
   FullScalarChannelMetadata,
   PlotType,
   SelectedPlotChannel,
@@ -148,7 +150,21 @@ const PlotWindow = (props: PlotWindowProps) => {
   const plotAxisSigFigs = useAppSelector(selectPlotAxisSigFigs);
 
   const getPlotConfig: () => PlotConfig = React.useCallback(() => {
-    return {
+    // Capture window size and position
+    const innerWidth =
+      plotWindowRef.current?.state.window?.innerWidth ??
+      DEFAULT_WINDOW_VARS.innerWidth;
+    const innerHeight =
+      plotWindowRef.current?.state.window?.innerHeight ??
+      DEFAULT_WINDOW_VARS.innerHeight;
+    const screenX =
+      plotWindowRef.current?.state.window?.screenX ??
+      DEFAULT_WINDOW_VARS.screenX;
+    const screenY =
+      plotWindowRef.current?.state.window?.screenY ??
+      DEFAULT_WINDOW_VARS.screenY;
+
+    const newPlotConfig = {
       ...plotConfig,
       title: plotTitle,
       plotType,
@@ -169,10 +185,22 @@ const PlotWindow = (props: PlotWindowProps) => {
       axesLabelsVisible,
       selectedColours,
       remainingColours,
+      innerWidth,
+      innerHeight,
+      screenX,
+      screenY,
     };
+    // remove any undefined keys
+    // need to do this to ensure the equality check in onBeforeClose works properly
+    Object.keys(newPlotConfig).forEach(
+      // @ts-expect-error index signature error
+      (key) => newPlotConfig[key] === undefined && delete newPlotConfig[key]
+    );
+    return newPlotConfig;
   }, [
-    plotTitle,
+    plotWindowRef,
     plotConfig,
+    plotTitle,
     plotType,
     XAxis,
     XAxisScale,
@@ -202,11 +230,39 @@ const PlotWindow = (props: PlotWindowProps) => {
       plotWindowRef.current.state.window.getPlotConfig = getPlotConfig;
   }, [getPlotConfig, plotWindowRef]);
 
+  const onBeforeClose = React.useCallback(
+    (e: BeforeUnloadEvent) => {
+      // only check for "actual" config to confirm before saving, ignore window position/size
+      const {
+        innerHeight: currentInnerHeight,
+        innerWidth: currentInnerWidth,
+        screenX: currentScreenX,
+        screenY: currentScreenY,
+        ...currentPlotConfig
+      } = getPlotConfig();
+      const {
+        innerHeight: reduxInnerHeight,
+        innerWidth: reduxInnerWidth,
+        screenX: reduxScreenX,
+        screenY: reduxScreenY,
+        ...reduxPlotConfig
+      } = plotConfig;
+      if (e && !deepEqual(currentPlotConfig, reduxPlotConfig)) {
+        e.preventDefault();
+
+        // for legacy browsers
+        e.returnValue = true;
+      }
+    },
+    [getPlotConfig, plotConfig]
+  );
+
   return (
     <WindowPortal
       ref={plotWindowRef}
       title={plotTitle}
       onClose={onClose}
+      onBeforeClose={onBeforeClose}
       innerWidth={plotConfig.innerWidth}
       innerHeight={plotConfig.innerHeight}
       screenX={plotConfig.screenX}

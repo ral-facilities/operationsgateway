@@ -23,6 +23,7 @@ interface WindowPortalState {
 export interface WindowPortalProps {
   title?: string;
   onClose: () => void;
+  onBeforeClose?: (e: BeforeUnloadEvent) => void;
   children: React.ReactNode;
   innerWidth: number;
   innerHeight: number;
@@ -174,15 +175,32 @@ export default class WindowPortal extends React.PureComponent<
     prevState: WindowPortalState
   ) {
     if (prevState.window === null && this.state.window) {
-      this.state.window.addEventListener('beforeunload', this.props.onClose);
+      this.state.window.addEventListener('unload', this.props.onClose);
+      if (this.props.onBeforeClose)
+        this.state.window.addEventListener(
+          'beforeunload',
+          this.props.onBeforeClose
+        );
     }
     if (prevProps.title !== this.props.title && this.state.window) {
       // eslint-disable-next-line react/no-direct-mutation-state
       this.state.window.document.title = `OperationsGateway Plot - ${this.props.title}`;
     }
     if (prevProps.onClose !== this.props.onClose) {
-      this.state.window?.removeEventListener('beforeunload', prevProps.onClose);
-      this.state.window?.addEventListener('beforeunload', this.props.onClose);
+      this.state.window?.removeEventListener('unload', prevProps.onClose);
+      this.state.window?.addEventListener('unload', this.props.onClose);
+    }
+    if (prevProps.onBeforeClose !== this.props.onBeforeClose) {
+      if (prevProps.onBeforeClose)
+        this.state.window?.removeEventListener(
+          'beforeunload',
+          prevProps.onBeforeClose
+        );
+      if (this.props.onBeforeClose)
+        this.state.window?.addEventListener(
+          'beforeunload',
+          this.props.onBeforeClose
+        );
     }
   }
 
