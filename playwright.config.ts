@@ -68,6 +68,7 @@ const config: PlaywrightTestConfig = {
               channel: 'chromium',
               // Use prepared auth state.
               storageState: 'e2e/real/.auth/user.json',
+              timezoneId: 'UTC',
             },
             testDir: './e2e/real',
             testIgnore: /.*sessions.spec.ts/,
@@ -88,6 +89,7 @@ const config: PlaywrightTestConfig = {
               },
               // Use prepared auth state.
               storageState: 'e2e/real/.auth/user.json',
+              timezoneId: 'UTC',
             },
             testDir: './e2e/real',
             testMatch: /.*sessions.spec.ts/,
@@ -100,6 +102,7 @@ const config: PlaywrightTestConfig = {
             use: {
               ...devices['Desktop Chrome'],
               channel: 'chromium',
+              timezoneId: 'UTC',
             },
             testDir: './e2e/mocked',
           },
@@ -116,6 +119,7 @@ const config: PlaywrightTestConfig = {
                   'ui.allPointerCapabilities': 0x02 | 0x04,
                 },
               },
+              timezoneId: 'UTC',
             },
             testDir: './e2e/mocked',
           },
@@ -125,37 +129,10 @@ const config: PlaywrightTestConfig = {
             use: {
               ...devices['Desktop Safari'],
               deviceScaleFactor: 1,
+              timezoneId: 'UTC',
             },
             testDir: './e2e/mocked',
           },
-
-          /* Test against mobile viewports. */
-          // {
-          //   name: 'Mobile Chrome',
-          //   use: {
-          //     ...devices['Pixel 5'],
-          //   },
-          // },
-          // {
-          //   name: 'Mobile Safari',
-          //   use: {
-          //     ...devices['iPhone 12'],
-          //   },
-          // },
-
-          /* Test against branded browsers. */
-          // {
-          //   name: 'Microsoft Edge',
-          //   use: {
-          //     channel: 'msedge',
-          //   },
-          // },
-          // {
-          //   name: 'Google Chrome',
-          //   use: {
-          //     channel: 'chrome',
-          //   },
-          // },
         ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */

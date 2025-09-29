@@ -20,6 +20,7 @@ import { isAfter, isBefore, isEqual, isValid } from 'date-fns';
 import { enGB } from 'date-fns/locale';
 import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
+import { convertApiTimestampToDate } from '../../api/api';
 import { ExperimentParams } from '../../app.types';
 import { TimeframeRange } from './timeframe.component';
 
@@ -85,9 +86,9 @@ export const renderExperimentPickerDay = (
     return <PickersDay {...pickersDayProps} />;
   }
 
-  const start = new Date(experimentRange.start_date);
+  const start = convertApiTimestampToDate(experimentRange.start_date);
   start.setHours(0, 0, 0, 0);
-  const end = new Date(experimentRange.end_date);
+  const end = convertApiTimestampToDate(experimentRange.end_date);
   const currentDate = new Date(date);
   const dayIsBetween = date >= start && date <= end;
   const isFirstDay = currentDate.getDate() === start.getDate();

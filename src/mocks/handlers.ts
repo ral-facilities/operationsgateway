@@ -1,9 +1,8 @@
-import { bypass, delay, http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { ColourMapsParams } from '../api/images';
 import {
   APIErrorResponse,
   Channel,
-  ExperimentParams,
   isChannelScalar,
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME,
@@ -155,51 +154,6 @@ export const handlers = [
   }),
   http.get('/experiments', () => {
     return HttpResponse.json(experimentsJson, { status: 200 });
-  }),
-  http.get('*/experiments', async ({ request }) => {
-    const originalResponse = await fetch(bypass(request));
-    // Retrieve the original response data
-    const originalData = await originalResponse.json();
-    const adjustDates = (
-      dictList: ExperimentParams[],
-      rangeStart: Date,
-      rangeEnd: Date
-    ): ExperimentParams[] => {
-      const sortedList = [...dictList].sort(
-        (a, b) =>
-          new Date(a.start_date).getTime() - new Date(b.start_date).getTime()
-      );
-
-      const experimentRange =
-        (rangeEnd.getTime() - rangeStart.getTime()) / dictList.length;
-
-      let currentStartDate = rangeStart;
-
-      for (const experiment of sortedList) {
-        const startDate = currentStartDate.toISOString();
-        const endDate = new Date(
-          currentStartDate.getTime() + experimentRange
-        ).toISOString();
-
-        experiment.start_date = startDate;
-        experiment.end_date = endDate;
-
-        currentStartDate = new Date(
-          currentStartDate.getTime() + experimentRange
-        );
-      }
-
-      return sortedList;
-    };
-    // The start and end dates are derived from the
-    // operations gateway api data
-    const startDate = new Date('2022-04-07 14:16:16');
-    const endDate = new Date('2022-04-08 09:44:01');
-
-    return HttpResponse.json(
-      adjustDates(originalData as ExperimentParams[], startDate, endDate),
-      { status: 200 }
-    );
   }),
   http.get('/records', () => HttpResponse.json(recordsJson, { status: 200 })),
   http.get('/records/count', () =>
