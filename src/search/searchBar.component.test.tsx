@@ -845,6 +845,31 @@ describe('searchBar component', () => {
       const expectedToDate = new Date('2022-01-11 00:05:59');
       const expectedFromDate = new Date('2022-01-10 23:55:00');
       await user.click(screen.getByLabelText('close timeframe search box'));
+
+      expect(
+        await within(
+          screen.getByLabelText('open shot number search box')
+        ).findByText('9 to 9')
+      ).toBeInTheDocument();
+
+      // mock getting a new response from the date -> shotnum converter
+      server.use(
+        http.get(
+          '/records/range_converter',
+          () =>
+            HttpResponse.json(
+              {
+                from: formatDateTimeForApi(expectedFromDate),
+                to: formatDateTimeForApi(expectedToDate),
+                min: 10,
+                max: 11,
+              },
+              { status: 200 }
+            ),
+          { once: true }
+        )
+      );
+
       await user.click(screen.getByRole('button', { name: 'Search' }));
 
       // wait for search to complete updating the store
@@ -858,10 +883,7 @@ describe('searchBar component', () => {
       );
 
       // Mock a new date constructor to simulate time moving forward a minute
-
-      // act(() => {
       vi.setSystemTime(new Date('2022-01-11 00:06'));
-      // });
 
       await user.click(screen.getByRole('button', { name: 'Refresh data' }));
       const newExpectedToDate = new Date('2022-01-11 00:06:59');
@@ -877,6 +899,87 @@ describe('searchBar component', () => {
       expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
         formatDateTimeForApi(newExpectedToDate)
       );
+      expect(
+        await within(
+          screen.getByLabelText('open shot number search box')
+        ).findByText('10 to 11')
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByRole('button', { name: 'Refresh data' })
+      ).toBeEnabled();
+    });
+
+    it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked if date -> shotnum converter fails', async () => {
+      const state = getInitialState();
+      const { store } = createView(state);
+
+      // Set a relative timestamp and verify the initial search is correct
+
+      await user.click(screen.getByLabelText('open timeframe search box'));
+      const timeframePopup = screen.getByRole('dialog');
+      await user.click(
+        within(timeframePopup).getByRole('button', {
+          name: 'Last 10 mins',
+        })
+      );
+      const expectedToDate = new Date('2022-01-11 00:05:59');
+      const expectedFromDate = new Date('2022-01-10 23:55:00');
+      await user.click(screen.getByLabelText('close timeframe search box'));
+
+      expect(
+        await within(
+          screen.getByLabelText('open shot number search box')
+        ).findByText('9 to 9')
+      ).toBeInTheDocument();
+
+      // mock getting a new response from the date -> shotnum converter
+      server.use(
+        http.get(
+          '/records/range_converter',
+          () => HttpResponse.json(undefined, { status: 500 }),
+          { once: true }
+        )
+      );
+
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+
+      // wait for search to complete updating the store
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(expectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(expectedToDate)
+      );
+
+      // Mock a new date constructor to simulate time moving forward a minute
+      vi.setSystemTime(new Date('2022-01-11 00:06'));
+
+      await user.click(screen.getByRole('button', { name: 'Refresh data' }));
+      const newExpectedToDate = new Date('2022-01-11 00:06:59');
+      const newExpectedFromDate = new Date('2022-01-10 23:56:00');
+
+      // Check that the new datetime stamps have each moved forward a minute
+
+      await waitFor(() =>
+        expect(store.getState().search.searchParams.dateRange.fromDate).toEqual(
+          formatDateTimeForApi(newExpectedFromDate)
+        )
+      );
+      expect(store.getState().search.searchParams.dateRange.toDate).toEqual(
+        formatDateTimeForApi(newExpectedToDate)
+      );
+      expect(
+        await within(
+          screen.getByLabelText('open shot number search box')
+        ).findByText('Select')
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByRole('button', { name: 'Refresh data' })
+      ).toBeEnabled();
     });
   });
 

@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
-import { isBefore, sub } from 'date-fns';
+import { isBefore, isEqual, sub } from 'date-fns';
 import React from 'react';
 import { convertApiTimestampToDate, formatDateTimeForApi } from '../api/api';
 import { useExperiment } from '../api/experiment';
@@ -53,6 +53,9 @@ interface SearchBarProps {
 }
 
 const SearchBar = (props: SearchBarProps): React.ReactElement => {
+  // @ts-expect-error testing
+  window.isEqual = isEqual;
+
   const dispatch = useAppDispatch();
   const { expanded, sessionId, heightRef } = props;
 
@@ -107,8 +110,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   ): { from: Date; to: Date } => {
     const to = new Date();
     to.setSeconds(59);
+    to.setMilliseconds(0);
     const from = sub(new Date(to), { [timeframe.timescale]: timeframe.value });
     from.setSeconds(0);
+    from.setMilliseconds(0);
 
     return { from, to };
   };
@@ -215,17 +220,18 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       searchParameterShotnumMax === undefined);
 
   // Date range to shot number range converter
-  const { data: dateToShotnum } = useDateToShotnumConverter(
-    searchParameterFromDate
-      ? formatDateTimeForApi(searchParameterFromDate)
-      : undefined,
-    searchParameterToDate
-      ? formatDateTimeForApi(searchParameterToDate)
-      : undefined,
-    // only enable query when dates are not null and the range is valid
-    !invalidDateRange &&
-      !(searchParameterFromDate === null && searchParameterToDate === null)
-  );
+  const { data: dateToShotnum, isError: dateToShotnumError } =
+    useDateToShotnumConverter(
+      searchParameterFromDate
+        ? formatDateTimeForApi(searchParameterFromDate)
+        : undefined,
+      searchParameterToDate
+        ? formatDateTimeForApi(searchParameterToDate)
+        : undefined,
+      // only enable query when dates are not null and the range is valid
+      !invalidDateRange &&
+        !(searchParameterFromDate === null && searchParameterToDate === null)
+    );
 
   // Shot number range to date range converter
   const { data: shotnumToDate } = useShotnumToDateConverter(
@@ -244,6 +250,8 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   const [isShotnumToDate, setIsShotnumToDate] = React.useState<boolean>(false);
   const [isDateToShotnum, setIsDateToShotnum] = React.useState<boolean>(false);
+  const [timeFrameChangedAfterRefresh, setTimeFrameChangedAfterRefresh] =
+    React.useState<boolean>(false);
 
   // handles the date range to shot number conversion
   React.useEffect(() => {
@@ -253,7 +261,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     // Additionally if the new shot number range is not within
     // the current experiment id time frame it clears the experiment id
     // and if a time frame range exist it clears the time frame range
-    if (!dateToShotnum && !!shotnumToDate) {
+    if (!timeFrameChangedAfterRefresh && !dateToShotnum && !!shotnumToDate) {
       if (shotnumToDate.from && shotnumToDate.to) {
         const shotnumToDateFromDate = convertApiTimestampToDate(
           shotnumToDate.from
@@ -284,15 +292,28 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       // Sets the shot number range when the date Range is selected.
       // the logic for the timeframes and experiment timeframe is done
       // in the dateTime component
-    } else if (!!dateToShotnum && !shotnumToDate) {
+    } else if (
+      (timeFrameChangedAfterRefresh || !shotnumToDate) &&
+      !!dateToShotnum
+    ) {
       setSearchParameterShotnumMin(dateToShotnum.min);
       setSearchParameterShotnumMax(dateToShotnum.max);
+      if (timeFrameChangedAfterRefresh) {
+        setTimeFrameChangedAfterRefresh(false);
+      }
+      // if date range -> shot number conversion fails, we still need to reset timeFrameChangedAfterRefresh and shot numbers
+    } else if (timeFrameChangedAfterRefresh && dateToShotnumError) {
+      setSearchParameterShotnumMax(undefined);
+      setSearchParameterShotnumMin(undefined);
+      setTimeFrameChangedAfterRefresh(false);
     }
   }, [
     dateToShotnum,
+    dateToShotnumError,
     searchParameterExperiment,
     setExperimentTimeframe,
     shotnumToDate,
+    timeFrameChangedAfterRefresh,
     timeframeRange,
   ]);
 
@@ -467,17 +488,31 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const [refreshingData, setRefreshingData] = React.useState<boolean>(false);
 
   const refreshData = () => {
-    setExperimentTimeframe(searchParameterExperiment);
     setRelativeTimeframe(timeframeRange);
+    // make sure we set timeFrameChangedAfterRefresh when the date range changes via a refresh
+    // as otherwise the shotnum -> date conversion will be run and clear the timeframe
+    // the shot numbers will be correctly set by the date -> shotnum code and it also
+    // resets the timeFrameChangedAfterRefresh variable which triggers the new search
+    if (timeframeRange && searchParameterToDate && searchParameterFromDate) {
+      const newTimeFrame = calculateTimeframeDateRange(timeframeRange);
+
+      if (
+        !isEqual(newTimeFrame.to, searchParameterToDate) ||
+        !isEqual(newTimeFrame.from, searchParameterFromDate)
+      ) {
+        setTimeFrameChangedAfterRefresh(true);
+      }
+    }
     setRefreshingData(true);
   };
 
   React.useEffect(() => {
-    if (refreshingData) {
+    // wait for the date to shot number conversion to finish before initiating search
+    if (refreshingData && !timeFrameChangedAfterRefresh) {
       handleSearch();
       setRefreshingData(false);
     }
-  }, [handleSearch, refreshingData]);
+  }, [handleSearch, queryClient, refreshingData, timeFrameChangedAfterRefresh]);
 
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>

@@ -298,6 +298,17 @@ describe('Search', () => {
       });
 
       it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', () => {
+        cy.window().then(async (window) => {
+          // Reference global instances set in "src/mocks/browser.js".
+          const { worker, http } = window.msw;
+
+          worker.use(
+            http.get('/records/range_converter?date_range', () =>
+              HttpResponse.json({ min: 9, max: 11 }, { status: 200 })
+            )
+          );
+        });
+
         // Set a relative timestamp and verify the initial seach is correct
         cy.findByLabelText('open timeframe search box').click();
         cy.findByRole('button', { name: 'Last 10 mins' }).click();
@@ -307,6 +318,18 @@ describe('Search', () => {
         const expectedToDateString = formatDateTimeForApi(expectedToDate);
         const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
 
+        const formatDateForDatePicker = (date) =>
+          date.toLocaleString('sv-SE').split(':').slice(0, 2).join(':');
+
+        cy.findByLabelText('from, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(expectedFromDate)
+        );
+        cy.findByLabelText('to, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(expectedToDate)
+        );
+
         // close to ensure not covering search button
         cy.findByLabelText('close timeframe search box').click();
 
@@ -315,6 +338,7 @@ describe('Search', () => {
         cy.findByRole('button', { name: 'Search' }).click();
 
         // wait for search to finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -347,6 +371,7 @@ describe('Search', () => {
         cy.findByLabelText('Refresh data').click();
 
         // wait for search to finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         const newExpectedToDate = new Date('1970-01-08 01:01:59');
@@ -354,6 +379,124 @@ describe('Search', () => {
         const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
         const newExpectedFromDateString =
           formatDateTimeForApi(newExpectedFromDate);
+
+        cy.findByLabelText('from, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(newExpectedFromDate)
+        );
+        cy.findByLabelText('to, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(newExpectedToDate)
+        );
+        cy.findByRole('button', { name: 'Refresh data' }).should('be.enabled');
+
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
+
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
+
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
+
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+
+            // Check that the new datetime stamps have each moved forward a minute
+            expect(gte).equal(newExpectedFromDateString);
+            expect(lte).equal(newExpectedToDateString);
+          }
+        );
+      });
+
+      it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked even if date -> shot number fails', () => {
+        // Set a relative timestamp and verify the initial seach is correct
+        cy.findByLabelText('open timeframe search box').click();
+        cy.findByRole('button', { name: 'Last 10 mins' }).click();
+
+        const expectedToDate = new Date('1970-01-08 01:00:59');
+        const expectedFromDate = new Date('1970-01-08 00:50:00');
+        const expectedToDateString = formatDateTimeForApi(expectedToDate);
+        const expectedFromDateString = formatDateTimeForApi(expectedFromDate);
+
+        const formatDateForDatePicker = (date) =>
+          date.toLocaleString('sv-SE').split(':').slice(0, 2).join(':');
+
+        cy.findByLabelText('from, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(expectedFromDate)
+        );
+        cy.findByLabelText('to, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(expectedToDate)
+        );
+
+        // close to ensure not covering search button
+        cy.findByLabelText('close timeframe search box').click();
+
+        cy.startSnoopingBrowserMockedRequest();
+
+        cy.findByRole('button', { name: 'Search' }).click();
+
+        // wait for search to finish
+        cy.findByRole('progressbar').should('exist');
+        cy.findByRole('progressbar').should('not.exist');
+
+        cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+          (patchRequests) => {
+            expect(patchRequests.length).equal(1);
+            const request = patchRequests[0];
+
+            expect(request.url.toString()).to.contain('conditions=');
+            const paramMap: Map<string, string> = getParamsFromUrl(
+              request.url.toString()
+            );
+            const conditionsMap = getConditionsFromParams(paramMap);
+            expect(conditionsMap.length).equal(1);
+
+            const condition = conditionsMap[0];
+            const timestampRange = condition['metadata.timestamp'];
+
+            const gte: string = timestampRange['$gte'];
+            const lte: string = timestampRange['$lte'];
+            expect(gte).equal(expectedFromDateString);
+            expect(lte).equal(expectedToDateString);
+          }
+        );
+
+        cy.clearMocks();
+
+        // Advance time forward a minute
+        cy.tick(60000);
+
+        cy.findByLabelText('Refresh data').click();
+
+        // wait for search to finish
+        cy.findByRole('progressbar', { timeout: 15_000 }).should('exist');
+        cy.findByRole('progressbar').should('not.exist');
+
+        const newExpectedToDate = new Date('1970-01-08 01:01:59');
+        const newExpectedFromDate = new Date('1970-01-08 00:51:00');
+        const newExpectedToDateString = formatDateTimeForApi(newExpectedToDate);
+        const newExpectedFromDateString =
+          formatDateTimeForApi(newExpectedFromDate);
+
+        cy.findByLabelText('from, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(newExpectedFromDate)
+        );
+        cy.findByLabelText('to, date-time input').should(
+          'have.value',
+          formatDateForDatePicker(newExpectedToDate)
+        );
+        cy.findByRole('button', { name: 'Refresh data' }).should('be.enabled');
+
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
           (patchRequests) => {
             expect(patchRequests.length).equal(1);
