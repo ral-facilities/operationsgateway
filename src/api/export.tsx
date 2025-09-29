@@ -20,6 +20,8 @@ export interface DataToExport {
   'Float Image': boolean;
   'Waveform CSVs': boolean;
   'Waveform Images': boolean;
+  'Vector CSVs': boolean;
+  'Vector Images': boolean;
 }
 
 export const exportData = async (
@@ -146,6 +148,14 @@ export const exportData = async (
     queryParams.append(
       'export_waveform_images',
       JSON.stringify(dataToExport['Waveform Images'])
+    );
+    queryParams.append(
+      'export_vector_csvs',
+      JSON.stringify(dataToExport['Vector CSVs'])
+    );
+    queryParams.append(
+      'export_vector_images',
+      JSON.stringify(dataToExport['Vector Images'])
     );
   }
 

@@ -32,6 +32,8 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
         'Float Image': true,
         'Waveform CSVs': true,
         'Waveform Images': false,
+        'Vector CSVs': true,
+        'Vector Images': false,
       },
       selectedColumn: channelInfo.systemName,
     })

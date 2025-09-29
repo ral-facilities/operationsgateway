@@ -37,6 +37,8 @@ const ExportDialogue = (props: ExportDialogueProps) => {
       'Float Image': false,
       'Waveform CSVs': false,
       'Waveform Images': false,
+      'Vector CSVs': false,
+      'Vector Images': false,
     });
 
   const handleExportClick = React.useCallback(
