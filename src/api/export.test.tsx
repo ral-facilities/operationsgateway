@@ -130,7 +130,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('blob:testObjectUrl');
-    expect(mockLink.download).toEqual('scwcdownload.csv');
+    expect(mockLink.download).toEqual('scwcvidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -221,7 +221,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('blob:testObjectUrl');
-    expect(mockLink.download).toEqual('scimwcwidownload.csv');
+    expect(mockLink.download).toEqual('scimwcwivcdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -356,7 +356,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toEqual('blob:testObjectUrl');
-    expect(mockLink.download).toEqual('imwidownload.csv');
+    expect(mockLink.download).toEqual('imwivcvidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
