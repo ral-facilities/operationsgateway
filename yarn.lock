@@ -356,6 +356,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@date-fns/tz@npm:1.4.1":
+  version: 1.4.1
+  resolution: "@date-fns/tz@npm:1.4.1"
+  checksum: 10c0/9033fdc4682fe3d4d147625ce04fa88a8792653594e2de8d5a438c8f3bfc0990ee28fe773f91cac6810b06d818b5b281ae0608752ba8337257d0279ded3f019a
+  languageName: node
+  linkType: hard
+
 "@date-io/core@npm:^3.2.0":
   version: 3.2.0
   resolution: "@date-io/core@npm:3.2.0"
@@ -363,17 +370,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-io/date-fns@npm:3.2.0":
-  version: 3.2.0
-  resolution: "@date-io/date-fns@npm:3.2.0"
+"@date-io/date-fns@npm:3.2.1":
+  version: 3.2.1
+  resolution: "@date-io/date-fns@npm:3.2.1"
   dependencies:
     "@date-io/core": "npm:^3.2.0"
   peerDependencies:
-    date-fns: ^3.2.0
+    date-fns: ^3.2.0 || ^4.1.0
   peerDependenciesMeta:
     date-fns:
       optional: true
-  checksum: 10c0/f618e5669ae6add13e092f0479d213e4e4a88084c06c578b7e7e47ef956acfbb2d6732bb57c778572893620579ebbbe0bd5fea90f3dbc4e987a43394a8f265e1
+  checksum: 10c0/fe489ce51599264ec6d0e64d0a1675220cea4123568320fe58c2c6e8f2b6cea0124e4ee7fccfbc905173bd98b841948cde1030023517da8ed2d54a133513e19d
   languageName: node
   linkType: hard
 
@@ -3606,10 +3613,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:3.6.0":
-  version: 3.6.0
-  resolution: "date-fns@npm:3.6.0"
-  checksum: 10c0/0b5fb981590ef2f8e5a3ba6cd6d77faece0ea7f7158948f2eaae7bbb7c80a8f63ae30b01236c2923cf89bb3719c33aeb150c715ea4fe4e86e37dcf06bed42fb6
+"date-fns@npm:4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
   languageName: node
   linkType: hard
 
@@ -6908,7 +6915,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "operationsgateway@workspace:."
   dependencies:
-    "@date-io/date-fns": "npm:3.2.0"
+    "@date-fns/tz": "npm:1.4.1"
+    "@date-io/date-fns": "npm:3.2.1"
     "@dotenvx/dotenvx": "npm:1.48.4"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
@@ -6944,7 +6952,7 @@ __metadata:
     cross-env: "npm:7.0.3"
     cypress: "npm:14.5.3"
     cypress-delete-downloads-folder: "npm:0.0.5"
-    date-fns: "npm:3.6.0"
+    date-fns: "npm:4.1.0"
     eslint: "npm:9.29.0"
     eslint-config-prettier: "npm:10.1.1"
     eslint-plugin-cypress: "npm:4.3.0"

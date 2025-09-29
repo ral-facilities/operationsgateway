@@ -161,7 +161,7 @@ test('create a function that depends on another function and display it without 
   // Click on the apply button
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  await expect(page.getByText('12.035422071878786')).toBeVisible({
+  await expect(page.getByText('16.64933209010296')).toBeVisible({
     timeout: 200000,
   });
 });

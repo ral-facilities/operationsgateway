@@ -34,7 +34,7 @@ import {
   type SelectedPlotChannel,
 } from '../../app.types';
 import { useAppSelector } from '../../state/hooks';
-import { selectSearchParams } from '../../state/slices/searchSlice';
+import { selectDateRangeInLocalTime } from '../../state/slices/searchSlice';
 import PlotSettingsTextField from './plotSettingsTextField.component';
 
 const StyledClose = styled(Close)(() => ({
@@ -100,7 +100,7 @@ const XAxisTab = (props: XAxisTabProps) => {
     selectedPlotChannels,
   } = props;
 
-  const { dateRange } = useAppSelector(selectSearchParams);
+  const dateRange = useAppSelector(selectDateRangeInLocalTime);
   // We define these as strings so the user can type decimal points
   // We then attempt to parse numbers from them whenever their values change
   const [xMinimum, setXMinimum] = React.useState<string>(
@@ -274,9 +274,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                         {
                           label: 'Jump to start of search range',
                           getValue: () => {
-                            return dateRange.fromDate
-                              ? new Date(dateRange.fromDate)
-                              : null;
+                            return dateRange.fromDate ?? null;
                           },
                         },
                       ],
@@ -360,9 +358,7 @@ const XAxisTab = (props: XAxisTabProps) => {
                         {
                           label: 'Jump to end of search range',
                           getValue: () => {
-                            return dateRange.toDate
-                              ? new Date(dateRange.toDate)
-                              : null;
+                            return dateRange.toDate ?? null;
                           },
                         },
                       ],

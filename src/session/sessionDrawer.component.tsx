@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import React from 'react';
+import { convertApiTimestampToDate } from '../api/api';
 import { SessionListItem, SessionResponse } from '../app.types';
 import { useAppDispatch } from '../state/hooks';
 import { importSession } from '../state/store';
@@ -48,7 +49,10 @@ interface SessionListElementProps extends SessionListItem {
 function compareSessions(a: SessionListItem, b: SessionListItem): number {
   if (a.auto_saved === b.auto_saved) {
     // If auto_saved is the same, sort by timestamp (you can adjust the sorting criteria)
-    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    return (
+      convertApiTimestampToDate(b.timestamp).getTime() -
+      convertApiTimestampToDate(a.timestamp).getTime()
+    );
   }
   // Sort auto_saved=true sessions above auto_saved=false sessions
   return b.auto_saved ? 1 : -1;

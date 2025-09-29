@@ -1,4 +1,6 @@
+import { tz } from '@date-fns/tz';
 import axios from 'axios';
+import { format, parseISO } from 'date-fns';
 import { MicroFrontendId, type APIError } from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { settings } from '../settings';
@@ -86,3 +88,10 @@ ogApi.interceptors.response.use(
     else return Promise.reject(error);
   }
 );
+
+export const formatDateTimeForApi = (datetime: Date): string => {
+  return format(datetime, "yyyy-MM-dd'T'HH:mm:ss", { in: tz('UTC') });
+};
+
+export const convertApiTimestampToDate = (apiTimestamp: string): Date =>
+  parseISO(`${apiTimestamp}Z`);

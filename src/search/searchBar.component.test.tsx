@@ -9,9 +9,9 @@ import {
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import React from 'react';
+import { formatDateTimeForApi } from '../api/api';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
-import { formatDateTimeForApi } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import { MAX_SHOTS_VALUES } from './components/maxShots.component';
