@@ -4,7 +4,6 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { parseISO } from 'date-fns';
 import {
   APIFunctionState,
   DateRangetoShotnumConverter,
@@ -25,7 +24,7 @@ import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
-import { ogApi } from './api';
+import { convertApiTimestampToDate, ogApi } from './api';
 import { staticChannels } from './channels';
 
 const fetchRecords = async (
@@ -408,7 +407,9 @@ export const getFormattedAxisData = (
 
   switch (axisName) {
     case 'timestamp':
-      formattedData = parseISO(record.metadata.timestamp).getTime();
+      formattedData = convertApiTimestampToDate(
+        record.metadata.timestamp
+      ).getTime();
       break;
     case 'shotnum':
       formattedData = record.metadata.shotnum ?? NaN;
