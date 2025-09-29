@@ -103,7 +103,7 @@
     "cross-env": "7.0.3",
     "cypress": "14.5.3",
     "cypress-delete-downloads-folder": "0.0.5",
-    "eslint": "9.29.0",
+    "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.1",
     "eslint-plugin-cypress": "4.3.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
