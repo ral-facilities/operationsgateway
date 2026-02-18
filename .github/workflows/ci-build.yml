@@ -88,11 +88,11 @@ jobs:
           ref: main
           path: operationsgateway-api
 
-      # Install dependencies of python-ldap
-      - name: Install python-ldap dependencies
+      # Install system dependencies
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libsasl2-dev libldap2-dev libssl-dev
+          sudo apt-get install -y build-essential cmake uuid-dev libsasl2-dev libldap2-dev libssl-dev
 
       # Setup Python and environment dependencies (via cache)
       - name: Setup Python
