@@ -1995,10 +1995,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/plotly.js@npm:2.35.1":
-  version: 2.35.1
-  resolution: "@types/plotly.js@npm:2.35.1"
-  checksum: 10c0/c941c6bee0a0c291ae6d5e7cac8a938f357e4958f122d4e0ad6704d3cfd330ba4134b3fc6ae98186a07c4677cecd85f7756f14a55de095a7e1a9db6ceb108ec2
+"@types/plotly.js@npm:3.0.10":
+  version: 3.0.10
+  resolution: "@types/plotly.js@npm:3.0.10"
+  checksum: 10c0/72f33ce44df74b53bcde5c0e503d5bf89424bed89791aed030da33c82d787d1d49c40748b764d3c65715a6b28b0c3bc78761a99f576e40fcd2078a9764d19192
   languageName: node
   linkType: hard
 
@@ -6898,7 +6898,7 @@ __metadata:
     "@testing-library/user-event": "npm:14.6.1"
     "@types/eslint-plugin-jsx-a11y": "npm:6.10.0"
     "@types/node": "npm:24.10.13"
-    "@types/plotly.js": "npm:2.35.1"
+    "@types/plotly.js": "npm:3.0.10"
     "@types/react": "npm:18.3.3"
     "@types/react-dom": "npm:18.3.0"
     "@typescript-eslint/typescript-estree": "npm:8.39.0"
