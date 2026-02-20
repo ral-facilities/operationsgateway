@@ -832,7 +832,7 @@ exports[`View Tabs > renders correctly 1`] = `
                         <div
                           aria-hidden="false"
                           class="MuiBackdrop-root css-15agwag-MuiBackdrop-root"
-                          style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+                          style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
                         >
                           <span
                             aria-label="Table progress bar"
