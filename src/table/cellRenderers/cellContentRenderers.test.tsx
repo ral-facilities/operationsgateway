@@ -89,7 +89,7 @@ describe('cell content renderers', () => {
           <img
             alt="alt text"
             src="data:image/jpeg;base64,base64"
-            style="border: 1px solid #000000;"
+            style="border: 1px solid rgb(0, 0, 0);"
           />
         </DocumentFragment>
       `);
