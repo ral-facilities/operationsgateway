@@ -39,7 +39,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.53.2",
     "react-redux": "9.2.0",
-    "react-router-dom": "7.9.3",
+    "react-router-dom": "7.13.0",
     "single-spa-react": "6.0.2",
     "typescript": "5.9.2",
     "vite": "6.4.1",
