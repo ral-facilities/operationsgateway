@@ -3252,13 +3252,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:5.3.0":
-  version: 5.3.0
-  resolution: "chalk@npm:5.3.0"
-  checksum: 10c0/8297d436b2c0f95801103ff2ef67268d362021b8210daf8ddbe349695333eb3610a71122172ff3b0272f1ef2cf7cc2c41fdaa4715f52e49ffe04c56340feed09
-  languageName: node
-  linkType: hard
-
 "chalk@npm:^3.0.0":
   version: 3.0.0
   resolution: "chalk@npm:3.0.0"
@@ -7193,7 +7186,7 @@ __metadata:
     vite: "npm:6.4.1"
     vitest: "npm:3.1.1"
     vitest-canvas-mock: "npm:0.3.3"
-    vitest-fail-on-console: "npm:0.7.1"
+    vitest-fail-on-console: "npm:0.10.1"
     zod: "npm:^3.23.8"
   languageName: unknown
   linkType: soft
@@ -9511,15 +9504,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest-fail-on-console@npm:0.7.1":
-  version: 0.7.1
-  resolution: "vitest-fail-on-console@npm:0.7.1"
+"vitest-fail-on-console@npm:0.10.1":
+  version: 0.10.1
+  resolution: "vitest-fail-on-console@npm:0.10.1"
   dependencies:
-    chalk: "npm:5.3.0"
+    chalk: "npm:^5.4.1"
   peerDependencies:
+    "@vitest/utils": ">=0.26.2"
     vite: ">=4.5.2"
     vitest: ">=0.26.2"
-  checksum: 10c0/89672a54974a254353388837b6c6d29ec4e282f4ff0da59c82981ea6f6217c58e4bd93e0790e2f2243ee5beb63766187e01962903bd34c12b32240541151dfcd
+  checksum: 10c0/7f217db2b74be86f374862037c9978454824ac92ae19abfc884be4941581d77d544177150c78f6d634646b80713e5577b02dded4ec89d0a9e29dfe5e11c96c9d
   languageName: node
   linkType: hard
 
