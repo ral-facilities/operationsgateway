@@ -133,10 +133,10 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
                   </div>
                   <fieldset
                     aria-hidden="true"
-                    class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                    class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                   >
                     <legend
-                      class="css-w1u3ce"
+                      class="css-ex8a5f-MuiNotchedOutlined-root"
                     >
                       <span>
                         Search data channels
@@ -195,12 +195,12 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
                     >
                       <span
                         aria-disabled="true"
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                         tabindex="-1"
                       >
                         <input
                           aria-labelledby="checkbox-list-label-system"
-                          class="PrivateSwitchBase-input css-j8yymo"
+                          class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                           data-indeterminate="true"
                           disabled=""
                           type="checkbox"
@@ -243,12 +243,12 @@ exports[`Channels Dialogue > renders channels dialogue when dialogue is open 1`]
                     >
                       <span
                         aria-disabled="true"
-                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+                        class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                         tabindex="-1"
                       >
                         <input
                           aria-labelledby="checkbox-list-label-Channels"
-                          class="PrivateSwitchBase-input css-j8yymo"
+                          class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                           data-indeterminate="false"
                           disabled=""
                           type="checkbox"

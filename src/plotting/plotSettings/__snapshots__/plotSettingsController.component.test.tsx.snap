@@ -40,10 +40,10 @@ changeXAxis=undefined
           class="MuiSwitch-root MuiSwitch-sizeSmall css-fzgmul-MuiSwitch-root"
         >
           <span
-            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
           >
             <input
-              class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+              class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
               type="checkbox"
             />
             <span
