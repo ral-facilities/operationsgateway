@@ -87,7 +87,7 @@ const TracePlot = (props: TracePlotProps) => {
   );
 
   // set the initial options
-  const [plotlyLayoutString, setOptionsString] = React.useState(
+  const [plotlyLayoutString, setLayoutString] = React.useState(
     JSON.stringify(chartOptions)
   );
   const [plotlyDataString, setDataString] = React.useState('');
@@ -111,14 +111,23 @@ const TracePlot = (props: TracePlotProps) => {
         } satisfies Partial<PlotlyPlotData>,
       ])
     );
-    const xLimits = { min: Math.min(...trace.x), max: Math.max(...trace.x) };
-    const yLimits = { min: Math.min(...trace.y), max: Math.max(...trace.y) };
+    const xLimits =
+      trace.x.length > 0
+        ? {
+            min: Math.min(...trace.x),
+            max: Math.max(...trace.x),
+          }
+        : undefined;
+    const yLimits =
+      trace.y.length > 0
+        ? { min: Math.min(...trace.y), max: Math.max(...trace.y) }
+        : undefined;
     if (chartOptions.xaxis)
       chartOptions.xaxis = {
         ...chartOptions.xaxis,
-        range: [xLimits.min, xLimits.max],
-        maxallowed: xLimits.max,
-        minallowed: xLimits.min,
+        range: xLimits ? [xLimits.min, xLimits.max] : undefined,
+        maxallowed: xLimits?.max,
+        minallowed: xLimits?.min,
         color: lineColour,
         gridcolor: lineColour,
         tickfont: { color: fontColour },
@@ -126,9 +135,9 @@ const TracePlot = (props: TracePlotProps) => {
     if (chartOptions.yaxis)
       chartOptions.yaxis = {
         ...chartOptions.yaxis,
-        range: [yLimits.min, yLimits.max],
-        maxallowed: yLimits.max,
-        minallowed: yLimits.min,
+        range: yLimits ? [yLimits.min, yLimits.max] : undefined,
+        maxallowed: yLimits?.max,
+        minallowed: yLimits?.min,
         color: lineColour,
         gridcolor: lineColour,
         tickfont: { color: fontColour },
@@ -140,7 +149,7 @@ const TracePlot = (props: TracePlotProps) => {
       color: fontColour,
     };
 
-    setOptionsString(JSON.stringify(chartOptions));
+    setLayoutString(JSON.stringify(chartOptions));
   }, [chartOptions, trace, pointsVisible, viewReset, themeMode]);
 
   // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx

@@ -1,12 +1,12 @@
 import React from 'react';
 // only import types as we don't actually run any plotly.js code in React
+import { Box, useTheme } from '@mui/material';
 import type {
   Config as PlotlyConfig,
   Layout as PlotlyLayout,
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
-import { Box, useTheme } from '@mui/material';
 
 // In order for the plot area to match pixel to pixel to the image
 // we need to offset/adjust for the width/height of the axis ticks.
@@ -150,7 +150,7 @@ const ImagePlot = (
     palette: { mode: themeMode },
   } = useTheme();
 
-  const [optionsString, setOptionsString] = React.useState(
+  const [layoutStrong, setLayoutString] = React.useState(
     JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
@@ -237,7 +237,7 @@ const ImagePlot = (
       if (type === 'y')
         newChartOptions.height = imageDims.height + YIMAGEPLOT_OFFSET;
     }
-    setOptionsString(JSON.stringify(newChartOptions));
+    setLayoutString(JSON.stringify(newChartOptions));
   }, [chartOptions, crosshairPosition, imageDims, themeMode, type]);
 
   /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
@@ -245,7 +245,7 @@ const ImagePlot = (
     <Box
       className="plotly-chart"
       data-config={JSON.stringify(plotlyConfig)}
-      data-layout={optionsString}
+      data-layout={layoutStrong}
       data-data={dataString}
       sx={{
         '& .shape-group path': {
