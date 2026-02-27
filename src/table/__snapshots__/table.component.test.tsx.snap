@@ -26,11 +26,11 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-5f3kdr-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -677,11 +677,11 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -855,11 +855,11 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -1033,11 +1033,11 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -1263,7 +1263,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r1r: :r1q:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
             id=":r1q:"
             role="combobox"
             tabindex="0"
@@ -1279,7 +1279,7 @@ exports[`Table > renders correctly with all columns displayed (scalar, image, an
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -1370,11 +1370,11 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-5f3kdr-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -1774,11 +1774,11 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -1892,11 +1892,11 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2010,11 +2010,11 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2180,7 +2180,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":rp: :ro:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
             id=":ro:"
             role="combobox"
             tabindex="0"
@@ -2196,7 +2196,7 @@ exports[`Table > renders correctly with all columns displayed 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"
@@ -2287,11 +2287,11 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
               scope="col"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-5f3kdr-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select all rows"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2412,11 +2412,11 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2464,11 +2464,11 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2516,11 +2516,11 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
               class="MuiTableCell-root MuiTableCell-body MuiTableCell-paddingNone MuiTableCell-sizeMedium stickyCell css-1k6hbe3-MuiTableCell-root"
             >
               <span
-                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-bhowk5-MuiButtonBase-root-MuiCheckbox-root"
+                class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-s0qb2h-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
               >
                 <input
                   aria-label="select row"
-                  class="PrivateSwitchBase-input css-j8yymo"
+                  class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                   data-indeterminate="false"
                   type="checkbox"
                 />
@@ -2620,7 +2620,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby=":r6: :r5:"
-            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+            class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
             id=":r5:"
             role="combobox"
             tabindex="0"
@@ -2636,7 +2636,7 @@ exports[`Table > renders correctly, with only timestamp column 1`] = `
           />
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
             data-testid="ArrowDropDownIcon"
             focusable="false"
             viewBox="0 0 24 24"

@@ -81,10 +81,10 @@ exports[`Filter input component > renders a autocomplete with chips for any valu
         </div>
         <fieldset
           aria-hidden="true"
-          class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-w1u3ce"
+            class="css-ex8a5f-MuiNotchedOutlined-root"
           >
             <span>
               Filter
@@ -133,10 +133,10 @@ exports[`Filter input component > renders an error if there is one 1`] = `
         />
         <fieldset
           aria-hidden="true"
-          class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+          class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-w1u3ce"
+            class="css-ex8a5f-MuiNotchedOutlined-root"
           >
             <span>
               Filter

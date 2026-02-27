@@ -20,11 +20,11 @@ exports[`Image controls panel component > renders correctly 1`] = `
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
                 checked=""
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span
@@ -49,11 +49,11 @@ exports[`Image controls panel component > renders correctly 1`] = `
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
               tabindex="-1"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 disabled=""
                 type="checkbox"
               />
@@ -78,10 +78,10 @@ exports[`Image controls panel component > renders correctly 1`] = `
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span
@@ -105,10 +105,10 @@ exports[`Image controls panel component > renders correctly 1`] = `
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span
@@ -339,11 +339,11 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
                 checked=""
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span
@@ -368,11 +368,11 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
           >
             <span
               aria-disabled="true"
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-disabled Mui-disabled css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
               tabindex="-1"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 disabled=""
                 type="checkbox"
               />
@@ -397,10 +397,10 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span
@@ -424,10 +424,10 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
           >
             <span
-              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
             >
               <input
-                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                 type="checkbox"
               />
               <span

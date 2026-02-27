@@ -18,12 +18,12 @@ exports[`Channel Tree > should render correctly for root 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-indeterminate MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
               aria-labelledby="checkbox-list-label-test_1"
-              class="PrivateSwitchBase-input css-j8yymo"
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
               data-indeterminate="true"
               disabled=""
               type="checkbox"
@@ -66,12 +66,12 @@ exports[`Channel Tree > should render correctly for root 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
               aria-labelledby="checkbox-list-label-test_2"
-              class="PrivateSwitchBase-input css-j8yymo"
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
               data-indeterminate="false"
               disabled=""
               type="checkbox"
@@ -123,12 +123,12 @@ exports[`Channel Tree > should render correctly for sub node 1`] = `
         >
           <span
             aria-disabled="true"
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-disabled MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
             tabindex="-1"
           >
             <input
               aria-labelledby="checkbox-list-label-timestamp"
-              class="PrivateSwitchBase-input css-j8yymo"
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
               data-indeterminate="false"
               disabled=""
               type="checkbox"
@@ -170,11 +170,11 @@ exports[`Channel Tree > should render correctly for sub node 1`] = `
           class="MuiListItemIcon-root css-cokf1l-MuiListItemIcon-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
           >
             <input
               aria-labelledby="checkbox-list-label-CHANNEL_ABCDE"
-              class="PrivateSwitchBase-input css-j8yymo"
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
               data-indeterminate="false"
               type="checkbox"
             />
@@ -215,12 +215,12 @@ exports[`Channel Tree > should render correctly for sub node 1`] = `
           class="MuiListItemIcon-root css-cokf1l-MuiListItemIcon-root"
         >
           <span
-            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
           >
             <input
               aria-labelledby="checkbox-list-label-CHANNEL_BCDEF"
               checked=""
-              class="PrivateSwitchBase-input css-j8yymo"
+              class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
               data-indeterminate="false"
               type="checkbox"
             />

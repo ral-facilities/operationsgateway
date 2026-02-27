@@ -65,10 +65,10 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                     data-mui-internal-clone-element="true"
                   >
                     <span
-                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-imrjgg-MuiButtonBase-root-MuiCheckbox-root"
+                      class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-vuhw6e-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                     >
                       <input
-                        class="PrivateSwitchBase-input css-j8yymo"
+                        class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                         data-indeterminate="false"
                         type="checkbox"
                       />
@@ -121,10 +121,10 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                           />
                           <fieldset
                             aria-hidden="true"
-                            class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                            class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                           >
                             <legend
-                              class="css-81qg8w"
+                              class="css-1n64csd-MuiNotchedOutlined-root"
                             >
                               <span>
                                 Name
@@ -170,10 +170,10 @@ exports[`FunctionsDialog > renders functions dialog when dialog is open 1`] = `
                             />
                             <fieldset
                               aria-hidden="true"
-                              class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
+                              class="MuiOutlinedInput-notchedOutline css-18p5xg2-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
                             >
                               <legend
-                                class="css-w1u3ce"
+                                class="css-ex8a5f-MuiNotchedOutlined-root"
                               >
                                 <span>
                                   Expression

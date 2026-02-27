@@ -530,21 +530,21 @@ exports[`View Tabs > renders correctly 1`] = `
                                 >
                                   <span
                                     aria-label="Select 50 max shots"
-                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-13lvt8g-MuiButtonBase-root-MuiRadio-root"
+                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-1q72ply-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
                                   >
                                     <input
                                       checked=""
-                                      class="PrivateSwitchBase-input css-j8yymo"
+                                      class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                                       name="max shots group"
                                       type="radio"
                                       value="50"
                                     />
                                     <span
-                                      class="css-1qiat4j"
+                                      class="css-9oxshb-MuiRadioButtonIcon-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1bz1rr0-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-iy8fvg-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonUncheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -555,7 +555,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                       </svg>
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-z8nmqa-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1pqw2bl-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonCheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -577,20 +577,20 @@ exports[`View Tabs > renders correctly 1`] = `
                                 >
                                   <span
                                     aria-label="Select 1000 max shots"
-                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-13lvt8g-MuiButtonBase-root-MuiRadio-root"
+                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1q72ply-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
                                   >
                                     <input
-                                      class="PrivateSwitchBase-input css-j8yymo"
+                                      class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                                       name="max shots group"
                                       type="radio"
                                       value="1000"
                                     />
                                     <span
-                                      class="css-1qiat4j"
+                                      class="css-9oxshb-MuiRadioButtonIcon-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1bz1rr0-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-iy8fvg-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonUncheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -601,7 +601,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                       </svg>
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-o8rdeq-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-cpa8b4-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonCheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -623,20 +623,20 @@ exports[`View Tabs > renders correctly 1`] = `
                                 >
                                   <span
                                     aria-label="Select unlimited max shots"
-                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-13lvt8g-MuiButtonBase-root-MuiRadio-root"
+                                    class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1q72ply-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
                                   >
                                     <input
-                                      class="PrivateSwitchBase-input css-j8yymo"
+                                      class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                                       name="max shots group"
                                       type="radio"
                                       value="Infinity"
                                     />
                                     <span
-                                      class="css-1qiat4j"
+                                      class="css-9oxshb-MuiRadioButtonIcon-root"
                                     >
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1bz1rr0-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-iy8fvg-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonUncheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -647,7 +647,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                       </svg>
                                       <svg
                                         aria-hidden="true"
-                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-o8rdeq-MuiSvgIcon-root"
+                                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-cpa8b4-MuiSvgIcon-root-MuiRadioButtonIcon-root"
                                         data-testid="RadioButtonCheckedIcon"
                                         focusable="false"
                                         viewBox="0 0 24 24"
@@ -710,11 +710,11 @@ exports[`View Tabs > renders correctly 1`] = `
                             class="MuiSwitch-root MuiSwitch-sizeMedium css-rehya9-MuiSwitch-root"
                           >
                             <span
-                              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-161ms7l-MuiButtonBase-root-MuiSwitch-switchBase"
+                              class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
                             >
                               <input
                                 checked=""
-                                class="PrivateSwitchBase-input MuiSwitch-input css-j8yymo"
+                                class="PrivateSwitchBase-input MuiSwitch-input css-12xagqm-MuiSwitchBase-root"
                                 type="checkbox"
                               />
                               <span
@@ -794,11 +794,11 @@ exports[`View Tabs > renders correctly 1`] = `
                         scope="col"
                       >
                         <span
-                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-1qoywup-MuiButtonBase-root-MuiCheckbox-root"
+                          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeSmall css-5f3kdr-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
                         >
                           <input
                             aria-label="select all rows"
-                            class="PrivateSwitchBase-input css-j8yymo"
+                            class="PrivateSwitchBase-input css-12xagqm-MuiSwitchBase-root"
                             data-indeterminate="false"
                             type="checkbox"
                           />
@@ -883,7 +883,7 @@ exports[`View Tabs > renders correctly 1`] = `
                       aria-expanded="false"
                       aria-haspopup="listbox"
                       aria-labelledby=":rs: :rr:"
-                      class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-mmygx2-MuiSelect-select-MuiInputBase-input"
+                      class="MuiSelect-select MuiTablePagination-select MuiSelect-standard MuiInputBase-input css-18zjd9i-MuiNativeSelect-root-MuiSelect-select-MuiInputBase-input"
                       id=":rr:"
                       role="combobox"
                       tabindex="0"
@@ -899,7 +899,7 @@ exports[`View Tabs > renders correctly 1`] = `
                     />
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-1gpuzre-MuiSvgIcon-root-MuiSelect-icon"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiTablePagination-selectIcon MuiSelect-iconStandard css-ug7h84-MuiSvgIcon-root-MuiNativeSelect-root-MuiSelect-icon"
                       data-testid="ArrowDropDownIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
