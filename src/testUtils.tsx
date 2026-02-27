@@ -1,5 +1,9 @@
 import { Action, ThunkAction } from '@reduxjs/toolkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import { matchRequestUrl } from 'msw';
@@ -11,6 +15,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import { staticChannels } from './api/channels';
+import { queryCacheConfig } from './App';
 import {
   DEFAULT_WINDOW_VARS,
   FullChannelMetadata,
@@ -149,9 +154,11 @@ export const createTestQueryClient = (): QueryClient =>
     defaultOptions: {
       queries: {
         retry: false,
+        retryDelay: 1,
         staleTime: 300000,
       },
     },
+    queryCache: new QueryCache(queryCacheConfig),
   });
 
 export const hooksWrapperWithProviders = (

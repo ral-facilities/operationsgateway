@@ -65,9 +65,8 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
     onDeselectChannel,
   } = props;
 
-  const { data: channelSummary } = useChannelSummary(
-    displayedChannel?.systemName
-  );
+  const { data: channelSummary, error: channelSummaryError } =
+    useChannelSummary(displayedChannel?.systemName);
 
   function addCurrentChannel() {
     if (displayedChannel?.systemName) {
@@ -161,6 +160,19 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
         )}
         {displayedChannel?.historical && (
           <Body fontWeight="bold">This channel is historical</Body>
+        )}
+        {channelSummaryError?.response?.status === 400 && (
+          <>
+            <Divider />
+            <Typography
+              variant="body2"
+              component="h4"
+              gutterBottom
+              sx={{ paddingTop: 1 }}
+            >
+              No data has been recorded for this channel
+            </Typography>
+          </>
         )}
         {channelSummary && (
           <>

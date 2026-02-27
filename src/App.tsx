@@ -38,6 +38,25 @@ export const paths = {
   adminUsers: '/admin/users',
 };
 
+declare module '@tanstack/react-query' {
+  interface Register {
+    queryMeta: {
+      silentError?: boolean | ((error: AxiosError) => boolean);
+    };
+  }
+}
+
+export const queryCacheConfig: ConstructorParameters<typeof QueryCache>[0] = {
+  onError: (error, query) => {
+    const silentError = query.options.meta?.silentError;
+    const shouldSilenceError =
+      typeof silentError === 'function'
+        ? silentError(error as AxiosError)
+        : silentError;
+    handleOG_APIError(error as AxiosError, !shouldSilenceError);
+  },
+};
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -49,12 +68,7 @@ const queryClient = new QueryClient({
     },
   },
 
-  queryCache: new QueryCache({
-    onError: (error, query) => {
-      const silentError = query.options.meta?.silentError;
-      handleOG_APIError(error as AxiosError, !silentError);
-    },
-  }),
+  queryCache: new QueryCache(queryCacheConfig),
 });
 
 function mapPreloaderStateToProps(state: RootState): { loading: boolean } {

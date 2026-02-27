@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { parseISO } from 'date-fns';
+import { http, HttpResponse } from 'msw';
 import {
   PlotDataset,
   Record,
@@ -9,7 +10,9 @@ import {
   timeChannelName,
 } from '../app.types';
 import { operators, parseFilter, Token } from '../filtering/filterParser';
+import handleOG_APIError from '../handleOG_APIError';
 import recordsJson from '../mocks/records.json';
+import { server } from '../mocks/server';
 import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
 import { RootState } from '../state/store';
 import {
@@ -28,6 +31,8 @@ import {
   useShotnumToDateConverter,
   useThumbnails,
 } from './records';
+
+vi.mock('../handleOG_APIError');
 
 describe('records api functions', () => {
   let state: RootState;
@@ -250,6 +255,34 @@ describe('records api functions', () => {
       expect(result.current.data).toEqual(undefined);
       expect(result.current.isPending).toBe(true);
       expect(result.current.fetchStatus).toBe('idle');
+    });
+
+    it('does not broadcast errors', async () => {
+      server.use(
+        http.get('/records/range_converter', () =>
+          HttpResponse.json(
+            {
+              detail: 'No results have been found from database query',
+            },
+            { status: 500 }
+          )
+        )
+      );
+      const { result } = renderHook(
+        () =>
+          useDateToShotnumConverter(
+            '2026-02-27T00:00:00',
+            '2026-02-27T12:00:00'
+          ),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+
+      await waitFor(() => {
+        expect(result.current.isError).toBeTruthy();
+      });
+      expect(handleOG_APIError).toHaveBeenCalledWith(expect.any(Error), false);
     });
   });
 

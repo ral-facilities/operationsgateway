@@ -7,12 +7,15 @@ import {
 import { server } from '../mocks/server';
 
 import { http, HttpResponse } from 'msw';
+import { MockInstance } from 'vitest';
+import handleOG_APIError from '../handleOG_APIError';
 import { RootState } from '../state/store';
 import {
   getInitialState,
   hooksWrapperWithProviders,
   testChannels,
 } from '../testUtils';
+import { ogApi } from './api';
 import {
   ChannelSummary,
   getScalarChannels,
@@ -22,6 +25,8 @@ import {
   useChannelSummary,
   useScalarChannels,
 } from './channels';
+
+vi.mock('../handleOG_APIError');
 
 describe('channels api functions', () => {
   afterEach(() => {
@@ -314,6 +319,12 @@ describe('channels api functions', () => {
   });
 
   describe('useChannelSummary', () => {
+    let axiosGetSpy: MockInstance;
+
+    beforeEach(() => {
+      axiosGetSpy = vi.spyOn(ogApi, 'get');
+    });
+
     it('sends request to fetch channel summary and returns successful response', async () => {
       const { result } = renderHook(() => useChannelSummary('CHANNEL_ABCDE'), {
         wrapper: hooksWrapperWithProviders(),
@@ -336,7 +347,7 @@ describe('channels api functions', () => {
       expect(result.current.data).toEqual(expected);
     });
 
-    it('does not send request to fetch channel summary when given no channel or system channel', async () => {
+    it('does not send request to fetch channel summary when given no channel or system channel', () => {
       let requestSent = false;
       server.events.on('request:start', () => {
         requestSent = true;
@@ -359,6 +370,52 @@ describe('channels api functions', () => {
       expect(result.current.isFetching).toBeFalsy();
       expect(result.current.isPending).toBeTruthy();
       expect(requestSent).toBe(false);
+    });
+
+    it('does not retry request when we get a 400 error', async () => {
+      server.use(
+        http.get('/channels/summary/:channelName', () =>
+          HttpResponse.json(
+            {
+              detail: `There is no timestamp data for CHANNEL_ABCDE`,
+            },
+            { status: 400 }
+          )
+        )
+      );
+      const { result } = renderHook(() => useChannelSummary('CHANNEL_ABCDE'), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isError).toBeTruthy();
+      });
+
+      expect(axiosGetSpy).toHaveBeenCalledTimes(1);
+      expect(handleOG_APIError).toHaveBeenCalledWith(expect.any(Error), false);
+    });
+
+    it('retries normally for other errors', async () => {
+      server.use(
+        http.get('/channels/summary/:channelName', () =>
+          HttpResponse.json(
+            {
+              detail: '500 error',
+            },
+            { status: 500 }
+          )
+        )
+      );
+      const { result } = renderHook(() => useChannelSummary('CHANNEL_ABCDE'), {
+        wrapper: hooksWrapperWithProviders(),
+      });
+
+      await waitFor(() => {
+        expect(result.current.isError).toBeTruthy();
+      });
+
+      expect(axiosGetSpy).toHaveBeenCalledTimes(4);
+      expect(handleOG_APIError).toHaveBeenCalledWith(expect.any(Error), true);
     });
   });
 
