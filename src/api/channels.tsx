@@ -19,6 +19,7 @@ import {
   ValidateFunctionState,
   type ChannelMetadata,
 } from '../app.types';
+import retryOG_APIErrors from '../retryOG_APIErrors';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { selectAppliedFunctions } from '../state/slices/functionsSlice';
 import {
@@ -87,9 +88,7 @@ export interface ChannelSummary {
   recent_sample: { [timestamp: string]: string | number }[];
 }
 
-const fetchChannelSummary = async (
-  channel: string
-): Promise<ChannelSummary> => {
+const fetchChannelSummary = (channel: string): Promise<ChannelSummary> => {
   return ogApi
     .get(`/channels/summary/${channel}`)
     .then((response) => response.data);
@@ -126,7 +125,15 @@ export const useChannelSummary = (
     queryFn: () => {
       return fetchChannelSummary(dataChannel);
     },
-
+    // 400 error means no data for that channel, so no summary can be generated
+    // so bail out of retries and don't broadcast error message
+    retry: (failureCount, error) => {
+      if (error.response?.status === 400) return false;
+      return retryOG_APIErrors(failureCount, error as AxiosError);
+    },
+    meta: {
+      silentError: (error: AxiosError) => error.response?.status === 400,
+    },
     enabled: dataChannel.length !== 0,
   });
 };

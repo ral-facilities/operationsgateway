@@ -1,8 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
 import { staticChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
+import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
@@ -104,6 +106,32 @@ describe('Channel Metadata Panel', () => {
     await user.click(screen.getByRole('button', { name: 'Add this channel' }));
 
     expect(onSelectChannel).toHaveBeenCalledWith(displayedChannel?.systemName);
+  });
+
+  it('should render "no data" message when channel summary endpoint errors with 400', async () => {
+    displayedChannel = {
+      name: 'Channel_ABCDE',
+      systemName: 'CHANNEL_ABCDE',
+      type: 'scalar',
+      units: 'cm',
+      path: '/test',
+      description: 'Test description',
+    };
+    server.use(
+      http.get('/channels/summary/:channelName', () =>
+        HttpResponse.json(
+          {
+            detail: `There is no timestamp data for ${displayedChannel?.systemName}`,
+          },
+          { status: 400 }
+        )
+      )
+    );
+    createView();
+
+    expect(
+      await screen.findByText('No data has been recorded for this channel')
+    ).toBeVisible();
   });
 
   it('should remove displayed channel when it is selected and when remove channel button is clicked', async () => {
