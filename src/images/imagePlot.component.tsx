@@ -150,7 +150,7 @@ const ImagePlot = (
     palette: { mode: themeMode },
   } = useTheme();
 
-  const [layoutStrong, setLayoutString] = React.useState(
+  const [layoutString, setLayoutString] = React.useState(
     JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
@@ -245,7 +245,7 @@ const ImagePlot = (
     <Box
       className="plotly-chart"
       data-config={JSON.stringify(plotlyConfig)}
-      data-layout={layoutStrong}
+      data-layout={layoutString}
       data-data={dataString}
       sx={{
         '& .shape-group path': {
