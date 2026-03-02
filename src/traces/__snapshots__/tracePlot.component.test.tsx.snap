@@ -11,6 +11,17 @@ exports[`Trace plot component > renders a div element with the correct attribute
 </DocumentFragment>
 `;
 
+exports[`Trace plot component > renders with no min/max set when passed empty data 1`] = `
+<DocumentFragment>
+  <div
+    class="plotly-chart"
+    data-config="{"scrollZoom":true,"displaylogo":false,"displayModeBar":false,"responsive":true,"showAxisDragHandles":false,"showTips":false}"
+    data-data="[{"type":"scatter","x":[],"y":[],"line":{"color":"#1F77B4","width":1.5},"mode":"lines"}]"
+    data-layout="{"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","title":{"text":"scatter plot","automargin":true,"yref":"paper"},"margin":{"l":0,"r":0,"b":0,"t":0},"showlegend":false,"xaxis":{"type":"linear","exponentformat":"none","automargin":true,"title":{"text":"units: mV","font":{"color":"#444"}},"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"yaxis":{"type":"linear","exponentformat":"none","automargin":true,"title":{"text":"units: ms","font":{"color":"#444"}},"color":"#eee","gridcolor":"#eee","tickfont":{"color":"#444"}},"uirevision":"false","font":{"color":"#444"}}"
+  />
+</DocumentFragment>
+`;
+
 exports[`Trace plot component > updates data object correctly when points are set to visible & renders in dark mode correctly 1`] = `
 <DocumentFragment>
   <div

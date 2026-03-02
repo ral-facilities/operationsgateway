@@ -770,14 +770,13 @@ test('prompts the user to save if plot has unsaved changes', async ({
   // expect popup to remain open
   await expect(popup.isClosed()).toBe(false);
 
-  // not working atm: see https://github.com/microsoft/playwright/issues/37597
-  // await popup.getByRole('button', { name: 'Save' }).click();
+  await popup.getByRole('button', { name: 'Save' }).click();
 
-  // await popup.close({ runBeforeUnload: true });
+  await popup.close({ runBeforeUnload: true });
 
-  // await page.waitForTimeout(500);
+  await page.waitForTimeout(500);
 
-  // await expect(popup.isClosed()).toBe(true);
+  await expect(popup.isClosed()).toBe(true);
 });
 
 test('does not prompt the user to save if plot has no unsaved changes', async ({

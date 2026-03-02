@@ -78,7 +78,7 @@ const VectorPlot = (props: VectorPlotProps) => {
   );
 
   // set the initial options
-  const [plotlyLayoutString, setOptionsString] = React.useState(
+  const [plotlyLayoutString, setLayoutString] = React.useState(
     JSON.stringify(chartOptions)
   );
   const [plotlyDataString, setDataString] = React.useState('');
@@ -128,7 +128,7 @@ const VectorPlot = (props: VectorPlotProps) => {
       color: fontColour,
     };
 
-    setOptionsString(JSON.stringify(chartOptions));
+    setLayoutString(JSON.stringify(chartOptions));
   }, [chartOptions, vector, viewReset, themeMode, labels]);
 
   // This div is turned into a Plotly.js plot via code in windowPortal.component.tsx

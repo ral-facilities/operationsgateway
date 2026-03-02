@@ -134,7 +134,7 @@ const TraceWindow = (props: TraceWindowProps) => {
             }}
           >
             <TracePlot
-              trace={waveform ?? { _id: '0', x: [], y: [] }}
+              trace={waveform ?? { x: [], y: [] }}
               chartRef={chartRef}
               viewReset={viewFlag}
               title={title}

@@ -102,8 +102,7 @@ export interface FullImageChannelMetadata extends FullCommonChannelMetadata {
   type: 'image';
 }
 
-export interface FullFloatImageChannelMetadata
-  extends FullCommonChannelMetadata {
+export interface FullFloatImageChannelMetadata extends FullCommonChannelMetadata {
   type: 'float_image';
 }
 
@@ -201,7 +200,6 @@ export const isChannelWaveform = (
 ): c is WaveformChannel => c?.metadata?.channel_dtype === 'waveform';
 
 export interface Waveform {
-  _id: string;
   x: number[];
   y: number[];
 }

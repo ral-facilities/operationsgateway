@@ -9,7 +9,6 @@ describe('Trace plot component', () => {
   beforeEach(() => {
     props = {
       trace: {
-        _id: 'test',
         x: [1, 2, 3],
         y: [5, 6, 4],
       },
@@ -25,10 +24,18 @@ describe('Trace plot component', () => {
   it('renders a div element with the correct attributes passed the correct props', () => {
     // emulate loading first with no data from the query and then getting data
     const { rerender, asFragment } = render(
-      <TracePlot {...props} trace={{ _id: '0', x: [], y: [] }} />
+      <TracePlot {...props} trace={{ x: [], y: [] }} />
     );
 
     rerender(<TracePlot {...props} />);
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('renders with no min/max set when passed empty data', () => {
+    const { asFragment } = render(
+      <TracePlot {...props} trace={{ x: [], y: [] }} />
+    );
 
     expect(asFragment()).toMatchSnapshot();
   });
