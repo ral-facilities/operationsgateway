@@ -1,4 +1,4 @@
-import { HttpResponse, http } from 'msw';
+import { DefaultBodyType, HttpResponse, http } from 'msw';
 import colourbar from './colourbar.png';
 import colourbar_reverse from './colourbar_reverse.png';
 import float_image from './float_image.png';
@@ -75,52 +75,54 @@ export const browserHandlers = [
       const canvas = window.document.createElement('canvas');
       const context = canvas.getContext('2d');
 
-      const result = await new Promise<HttpResponse>((resolve, reject) => {
-        const img = new Image();
-        img.onload = function () {
-          canvas.width = img.width;
-          canvas.height = img.height;
+      const result = await new Promise<HttpResponse<DefaultBodyType>>(
+        (resolve, reject) => {
+          const img = new Image();
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
 
-          if (context) {
-            // draw image
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            if (context) {
+              // draw image
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // set composite mode
-            context.globalCompositeOperation = 'color';
+              // set composite mode
+              context.globalCompositeOperation = 'color';
 
-            // draw color
-            if (originalImage) context.fillStyle = '#000';
-            else if (colourmap) {
-              setFillStyleFromColourMap(context, colourmap);
-            } else if (preferredColourMap) {
-              setFillStyleFromColourMap(context, preferredColourMap);
-            }
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                const arrayBuffer = await blob.arrayBuffer();
-
-                resolve(
-                  new HttpResponse(arrayBuffer, {
-                    headers: {
-                      'Content-Length': arrayBuffer.byteLength.toString(),
-                      'Content-Type': 'image/png',
-                    },
-                    status: 200,
-                  })
-                );
-              } else {
-                reject(new HttpResponse(null, { status: 500 }));
+              // draw color
+              if (originalImage) context.fillStyle = '#000';
+              else if (colourmap) {
+                setFillStyleFromColourMap(context, colourmap);
+              } else if (preferredColourMap) {
+                setFillStyleFromColourMap(context, preferredColourMap);
               }
-            });
-          } else {
-            reject(new HttpResponse(null, { status: 500 }));
-          }
-        };
-        img.onerror = reject;
-        img.src = imageUrl;
-      });
+              context.fillRect(0, 0, canvas.width, canvas.height);
+
+              canvas.toBlob(async (blob) => {
+                if (blob) {
+                  const arrayBuffer = await blob.arrayBuffer();
+
+                  resolve(
+                    new HttpResponse(arrayBuffer, {
+                      headers: {
+                        'Content-Length': arrayBuffer.byteLength.toString(),
+                        'Content-Type': 'image/png',
+                      },
+                      status: 200,
+                    })
+                  );
+                } else {
+                  reject(new HttpResponse(null, { status: 500 }));
+                }
+              });
+            } else {
+              reject(new HttpResponse(null, { status: 500 }));
+            }
+          };
+          img.onerror = reject;
+          img.src = imageUrl;
+        }
+      );
 
       return result;
     } else {
@@ -149,51 +151,53 @@ export const browserHandlers = [
       const canvas = window.document.createElement('canvas');
       const context = canvas.getContext('2d');
 
-      const result = await new Promise<HttpResponse>((resolve, reject) => {
-        const img = new Image();
-        img.onload = function () {
-          canvas.width = img.width;
-          canvas.height = img.height;
+      const result = await new Promise<HttpResponse<DefaultBodyType>>(
+        (resolve, reject) => {
+          const img = new Image();
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
 
-          if (context) {
-            // draw image
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            if (context) {
+              // draw image
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // set composite mode
-            context.globalCompositeOperation = 'color';
+              // set composite mode
+              context.globalCompositeOperation = 'color';
 
-            // draw color
-            if (colourmap) {
-              setFillStyleFromColourMap(context, colourmap);
-            } else if (preferredColourMap) {
-              setFillStyleFromColourMap(context, preferredColourMap);
-            }
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                const arrayBuffer = await blob.arrayBuffer();
-
-                resolve(
-                  new HttpResponse(arrayBuffer, {
-                    headers: {
-                      'Content-Length': arrayBuffer.byteLength.toString(),
-                      'Content-Type': 'image/png',
-                    },
-                    status: 200,
-                  })
-                );
-              } else {
-                reject(new HttpResponse(null, { status: 500 }));
+              // draw color
+              if (colourmap) {
+                setFillStyleFromColourMap(context, colourmap);
+              } else if (preferredColourMap) {
+                setFillStyleFromColourMap(context, preferredColourMap);
               }
-            });
-          } else {
-            reject(new HttpResponse(null, { status: 500 }));
-          }
-        };
-        img.onerror = reject;
-        img.src = imageUrl;
-      });
+              context.fillRect(0, 0, canvas.width, canvas.height);
+
+              canvas.toBlob(async (blob) => {
+                if (blob) {
+                  const arrayBuffer = await blob.arrayBuffer();
+
+                  resolve(
+                    new HttpResponse(arrayBuffer, {
+                      headers: {
+                        'Content-Length': arrayBuffer.byteLength.toString(),
+                        'Content-Type': 'image/png',
+                      },
+                      status: 200,
+                    })
+                  );
+                } else {
+                  reject(new HttpResponse(null, { status: 500 }));
+                }
+              });
+            } else {
+              reject(new HttpResponse(null, { status: 500 }));
+            }
+          };
+          img.onerror = reject;
+          img.src = imageUrl;
+        }
+      );
 
       return result;
     } else {
@@ -221,51 +225,53 @@ export const browserHandlers = [
       const canvas = window.document.createElement('canvas');
       const context = canvas.getContext('2d');
 
-      const result = await new Promise<HttpResponse>((resolve, reject) => {
-        const img = new Image();
-        img.onload = function () {
-          canvas.width = img.width;
-          canvas.height = img.height;
+      const result = await new Promise<HttpResponse<DefaultBodyType>>(
+        (resolve, reject) => {
+          const img = new Image();
+          img.onload = function () {
+            canvas.width = img.width;
+            canvas.height = img.height;
 
-          if (context) {
-            // draw image
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            if (context) {
+              // draw image
+              context.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            // set composite mode
-            context.globalCompositeOperation = 'color';
+              // set composite mode
+              context.globalCompositeOperation = 'color';
 
-            // draw color
-            if (colourmap) {
-              setFillStyleFromColourMap(context, colourmap);
-            } else if (preferredColourMap) {
-              setFillStyleFromColourMap(context, preferredColourMap);
-            }
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            canvas.toBlob(async (blob) => {
-              if (blob) {
-                const arrayBuffer = await blob.arrayBuffer();
-
-                resolve(
-                  new HttpResponse(arrayBuffer, {
-                    headers: {
-                      'Content-Length': arrayBuffer.byteLength.toString(),
-                      'Content-Type': 'image/png',
-                    },
-                    status: 200,
-                  })
-                );
-              } else {
-                reject(new HttpResponse(null, { status: 500 }));
+              // draw color
+              if (colourmap) {
+                setFillStyleFromColourMap(context, colourmap);
+              } else if (preferredColourMap) {
+                setFillStyleFromColourMap(context, preferredColourMap);
               }
-            });
-          } else {
-            reject(new HttpResponse(null, { status: 500 }));
-          }
-        };
-        img.onerror = reject;
-        img.src = imageUrl;
-      });
+              context.fillRect(0, 0, canvas.width, canvas.height);
+
+              canvas.toBlob(async (blob) => {
+                if (blob) {
+                  const arrayBuffer = await blob.arrayBuffer();
+
+                  resolve(
+                    new HttpResponse(arrayBuffer, {
+                      headers: {
+                        'Content-Length': arrayBuffer.byteLength.toString(),
+                        'Content-Type': 'image/png',
+                      },
+                      status: 200,
+                    })
+                  );
+                } else {
+                  reject(new HttpResponse(null, { status: 500 }));
+                }
+              });
+            } else {
+              reject(new HttpResponse(null, { status: 500 }));
+            }
+          };
+          img.onerror = reject;
+          img.src = imageUrl;
+        }
+      );
 
       return result;
     } else {
