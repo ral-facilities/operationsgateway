@@ -1,22 +1,16 @@
 import log from 'loglevel';
 import { http, HttpResponse } from 'msw';
 import { MicroFrontendId } from './app.types';
-import { fetchSettings } from './main';
 import { server } from './mocks/server';
+import { fetchSettings } from './settings';
 import { registerRoute } from './state/scigateway.actions';
 
 vi.mock('loglevel');
-vi.mock('hacktimer', () => ({}));
 
-describe('index - fetchSettings', () => {
+describe('fetchSettings', () => {
   beforeEach(() => {
     global.document.dispatchEvent = vi.fn();
     global.CustomEvent = vi.fn();
-    // Pretend in SciGateway to prevent attempting to render (which throws an error as the index.html is not loaded
-    // for render to work)
-    document.getElementById = vi
-      .fn()
-      .mockReturnValue(document.createElement('div'));
   });
   afterEach(() => {
     vi.mocked(log.error).mockClear();
