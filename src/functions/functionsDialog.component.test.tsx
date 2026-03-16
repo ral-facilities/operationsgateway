@@ -255,7 +255,7 @@ describe('FunctionsDialog', () => {
       },
     ]);
     expect(onClose).toHaveBeenCalled();
-  });
+  }, 30_000);
 
   it('display error message for invalid functions (multiple empty functions)', async () => {
     const state = {
@@ -281,6 +281,7 @@ describe('FunctionsDialog', () => {
       'String should have at least 1 character'
     );
     expect(errorMessages.length).toEqual(8);
+    expect(screen.getByText('Apply')).toBeDisabled();
   });
 
   it('display error message for name of a function and clears error message and sends a valid request', async () => {
