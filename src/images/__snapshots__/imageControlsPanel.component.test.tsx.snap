@@ -256,7 +256,7 @@ exports[`Image controls panel component > renders correctly 1`] = `
               max="255"
               min="0"
               step="1"
-              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              style="border: 0px; clip: rect(0px); height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
               type="range"
               value="0"
             />
@@ -290,7 +290,7 @@ exports[`Image controls panel component > renders correctly 1`] = `
               max="255"
               min="0"
               step="1"
-              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              style="border: 0px; clip: rect(0px); height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
               type="range"
               value="255"
             />
@@ -575,7 +575,7 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
               max="4095"
               min="0"
               step="1"
-              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              style="border: 0px; clip: rect(0px); height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
               type="range"
               value="0"
             />
@@ -609,7 +609,7 @@ exports[`Image controls panel component > renders correctly with bit depth 12 1`
               max="4095"
               min="0"
               step="1"
-              style="border: 0px; height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
+              style="border: 0px; clip: rect(0px); height: 100%; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 100%; direction: ltr;"
               type="range"
               value="4095"
             />

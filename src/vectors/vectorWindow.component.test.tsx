@@ -163,7 +163,7 @@ describe('Vector Window component', () => {
       })
     );
 
-    const { asFragment } = createView(ref);
+    createView(ref);
     await user.click(
       screen.getByRole('button', { name: 'Show Vector Controls' })
     );
@@ -174,8 +174,11 @@ describe('Vector Window component', () => {
     await waitFor(() => {
       expect(slider[0]).toHaveValue('2');
     });
-    expect(slider[1]).toHaveValue('5');
+    expect(slider[0]).toHaveAttribute('min', '0');
+    expect(slider[0]).toHaveAttribute('max', '20');
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(slider[1]).toHaveValue('5');
+    expect(slider[1]).toHaveAttribute('min', '0');
+    expect(slider[1]).toHaveAttribute('max', '20');
   });
 });
