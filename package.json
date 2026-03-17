@@ -89,7 +89,7 @@
   ],
   "packageManager": "yarn@4.12.0",
   "devDependencies": {
-    "@dotenvx/dotenvx": "1.54.1",
+    "@dotenvx/dotenvx": "1.55.1",
     "@playwright/test": "1.58.2",
     "@tanstack/eslint-plugin-query": "5.91.4",
     "@testing-library/cypress": "10.1.0",
