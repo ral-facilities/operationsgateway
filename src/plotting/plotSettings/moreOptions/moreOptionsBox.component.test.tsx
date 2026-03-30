@@ -82,7 +82,7 @@ describe('MoreOptionsBox', () => {
 
     createView();
 
-    screen.getByRole('checkbox').click();
+    await user.click(screen.getByRole('checkbox'));
     fireEvent.change(screen.getByRole('checkbox'), { target: { checked: '' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
@@ -94,7 +94,7 @@ describe('MoreOptionsBox', () => {
     props.selectedPlotChannels[1].options.visible = false;
     createView();
 
-    screen.getByRole('checkbox').click();
+    await user.click(screen.getByRole('checkbox'));
     fireEvent.change(screen.getByRole('checkbox'), { target: { checked: '' } });
     expect(changeSelectedPlotChannels).toHaveBeenLastCalledWith(expected);
   });
