@@ -140,12 +140,15 @@ export default defineConfig(({ mode }) => {
           // Extra for VSCode extension
           ['lcov', { outputFile: 'lcov.info', silent: true }],
         ],
-        include: ['src/**.{js,jsx,ts,tsx}'],
+        include: ['src/**/*.{js,jsx,ts,tsx}'],
         exclude: [
           // Leave handlers to show up unused code
           'src/mocks/browser.ts',
+          'src/mocks/browserHandlers.ts',
           'src/mocks/server.ts',
-          'src/vite-env.d.ts',
+          'src/mocks/*.json',
+          '*.d.ts',
+          'src/main.tsx',
         ],
       },
     },
