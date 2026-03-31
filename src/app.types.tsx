@@ -1,6 +1,9 @@
-import { AccessTime, Numbers, Place, Science } from '@mui/icons-material';
+import AccessTime from '@mui/icons-material/AccessTime';
+import Numbers from '@mui/icons-material/Numbers';
+import Place from '@mui/icons-material/Place';
+import Science from '@mui/icons-material/Science';
 import type { AxisType, Dash } from 'plotly.js';
-import { ImportSessionType } from './state/store';
+import type { ImportSessionType } from './state/store';
 
 export const MicroFrontendId = 'scigateway';
 export const MicroFrontendToken = `${MicroFrontendId}:token`;

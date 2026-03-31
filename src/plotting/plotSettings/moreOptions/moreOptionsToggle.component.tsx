@@ -1,4 +1,4 @@
-import { MoreVert } from '@mui/icons-material';
+import MoreVert from '@mui/icons-material/MoreVert';
 import { Box, IconButton } from '@mui/material';
 import React from 'react';
 import { useClickOutside } from '../../../hooks';

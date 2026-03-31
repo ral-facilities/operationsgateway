@@ -1,4 +1,4 @@
-import { Schedule } from '@mui/icons-material';
+import Schedule from '@mui/icons-material/Schedule';
 import {
   Box,
   Button,
