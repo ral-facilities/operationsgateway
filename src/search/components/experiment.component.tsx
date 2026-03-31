@@ -1,4 +1,5 @@
-import { ScienceOutlined, Search } from '@mui/icons-material';
+import ScienceOutlined from '@mui/icons-material/ScienceOutlined';
+import Search from '@mui/icons-material/Search';
 import {
   Autocomplete,
   Box,

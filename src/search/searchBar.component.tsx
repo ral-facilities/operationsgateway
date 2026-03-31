@@ -1,4 +1,4 @@
-import { Warning } from '@mui/icons-material';
+import Warning from '@mui/icons-material/Warning';
 import {
   Box,
   Button,

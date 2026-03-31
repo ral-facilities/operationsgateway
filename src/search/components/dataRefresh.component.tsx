@@ -1,4 +1,4 @@
-import { Refresh } from '@mui/icons-material';
+import Refresh from '@mui/icons-material/Refresh';
 import { Box, Button } from '@mui/material';
 
 export interface DataRefreshProps {

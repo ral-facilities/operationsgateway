@@ -1,4 +1,5 @@
-import { AddCircle, Delete } from '@mui/icons-material';
+import AddCircle from '@mui/icons-material/AddCircle';
+import Delete from '@mui/icons-material/Delete';
 import {
   Button,
   Checkbox,

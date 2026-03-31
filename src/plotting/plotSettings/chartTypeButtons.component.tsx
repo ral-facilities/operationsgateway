@@ -1,4 +1,6 @@
-import { ScatterPlot, ShowChart } from '@mui/icons-material';
+import ScatterPlot from '@mui/icons-material/ScatterPlot';
+import ShowChart from '@mui/icons-material/ShowChart';
+
 import { Stack, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 import React from 'react';
 import { PlotType, timeChannelName } from '../../app.types';

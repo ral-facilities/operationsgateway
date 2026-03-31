@@ -1,6 +1,8 @@
-import { AddCircle, Delete, Favorite, Warning } from '@mui/icons-material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import WarningIcon from '@mui/icons-material/Warning';
 import {
   Box,
   Button,
@@ -480,7 +482,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           size="small"
                           aria-label={`Delete filter ${index}`}
                         >
-                          <Delete />
+                          <DeleteIcon />
                         </IconButton>
                       </Grid>
                       <Grid size={0.6} mt={0.5}>
@@ -496,7 +498,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                           size="small"
                           aria-label={`Add as favourite filter`}
                         >
-                          <Favorite />
+                          <FavoriteIcon />
                         </IconButton>
                       </Grid>
                     </Grid>
@@ -510,7 +512,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                       }}
                       variant="outlined"
                       size="small"
-                      startIcon={<AddCircle />}
+                      startIcon={<AddCircleIcon />}
                     >
                       Add new filter
                     </Button>
@@ -534,7 +536,7 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                   }}
                   variant="outlined"
                   size="small"
-                  startIcon={<AddCircle />}
+                  startIcon={<AddCircleIcon />}
                 >
                   Add new favourite filter
                 </Button>
@@ -672,7 +674,9 @@ const FilterDialogue = (props: FilterDialogueProps) => {
                   overflow: 'hidden',
                 }}
               >
-                <Warning sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }} />
+                <WarningIcon
+                  sx={{ fontSize: 25, padding: '10px 5px 5px 0px' }}
+                />
                 <div>
                   <Typography variant="caption" align="center">
                     {`This search will return over ${recordLimitWarning}

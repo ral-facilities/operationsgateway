@@ -1,4 +1,4 @@
-import { Search } from '@mui/icons-material';
+import Search from '@mui/icons-material/Search';
 import {
   Autocomplete,
   type FilterOptionsState,

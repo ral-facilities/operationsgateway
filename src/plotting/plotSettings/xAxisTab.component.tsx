@@ -1,4 +1,5 @@
-import { Close, Search } from '@mui/icons-material';
+import Close from '@mui/icons-material/Close';
+import Search from '@mui/icons-material/Search';
 import {
   Autocomplete,
   Box,

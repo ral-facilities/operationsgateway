@@ -1,4 +1,4 @@
-import { Adjust } from '@mui/icons-material';
+import Adjust from '@mui/icons-material/Adjust';
 import {
   Box,
   Divider,

@@ -1,4 +1,4 @@
-import { NavigateNext } from '@mui/icons-material';
+import NavigateNext from '@mui/icons-material/NavigateNext';
 import { Breadcrumbs, Link, Typography } from '@mui/material';
 
 type ChannelBreadcrumbsProps = {

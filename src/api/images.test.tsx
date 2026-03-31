@@ -49,7 +49,7 @@ describe('images api functions', () => {
 
       params.set('original_image', 'true');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -95,7 +95,7 @@ describe('images api functions', () => {
         JSON.stringify({ name: 'b', expression: 'CHANNEL_EFGHI' })
       );
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams.toString()).toEqual(
         params.toString()
       );
@@ -119,7 +119,7 @@ describe('images api functions', () => {
 
       params.set('original_image', 'true');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -151,7 +151,7 @@ describe('images api functions', () => {
       params.set('lower_level', '5');
       params.set('upper_level', '200');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
 
@@ -190,7 +190,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
       params.set('limit_bit_depth', '12');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
   });
@@ -217,7 +217,7 @@ describe('images api functions', () => {
         { timeout: 5000 }
       );
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
     });
 
     it('sends request to fetch original image and returns successful response', async () => {
@@ -241,7 +241,7 @@ describe('images api functions', () => {
 
       params.set('colourmap_name', 'colourMap');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
   });
@@ -282,7 +282,7 @@ describe('images api functions', () => {
       params.set('upper_level', '200');
       params.set('limit_bit_depth', '8');
 
-      expect(result.current.data).toEqual('blob:testObjectUrl');
+      expect(result.current.data).toContain('blob:');
       expect(new URL(request.url).searchParams).toEqual(params);
     });
   });

@@ -1,12 +1,10 @@
 import { Draggable, DraggableProvided } from '@hello-pangea/dnd';
-import {
-  Close,
-  Feed,
-  FilterAlt,
-  MoreVert,
-  WrapText,
-} from '@mui/icons-material';
+import Close from '@mui/icons-material/Close';
 import DownloadIcon from '@mui/icons-material/Download';
+import Feed from '@mui/icons-material/Feed';
+import FilterAlt from '@mui/icons-material/FilterAlt';
+import MoreVert from '@mui/icons-material/MoreVert';
+import WrapText from '@mui/icons-material/WrapText';
 import {
   Box,
   Divider,

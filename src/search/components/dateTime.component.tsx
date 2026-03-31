@@ -1,4 +1,4 @@
-import { CalendarMonth } from '@mui/icons-material';
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import {
   Box,
   Divider,

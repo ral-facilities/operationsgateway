@@ -194,12 +194,12 @@ export const handlers = [
         }
       );
 
-      const reponseData = {
-        from: shotnumMinRecord.metadata.timestamp,
-        to: shotnumMaxRecord.metadata.timestamp,
+      const responseData = {
+        from: shotnumMinRecord?.metadata?.timestamp,
+        to: shotnumMaxRecord?.metadata?.timestamp,
       };
 
-      return HttpResponse.json(reponseData, { status: 200 });
+      return HttpResponse.json(responseData, { status: 200 });
     } else if (dateRange) {
       const { from: fromDate, to: toDate } = JSON.parse(
         decodeURIComponent(dateRange)
@@ -233,11 +233,11 @@ export const handlers = [
         { fromDateRecord: dateRangeRecord[0], toDateRecord: dateRangeRecord[0] }
       );
 
-      const reponseData = {
-        min: fromDateRecord.metadata.shotnum,
-        max: toDateRecord.metadata.shotnum,
+      const responseData = {
+        min: fromDateRecord?.metadata?.shotnum,
+        max: toDateRecord?.metadata?.shotnum,
       };
-      return HttpResponse.json(reponseData, { status: 200 });
+      return HttpResponse.json(responseData, { status: 200 });
     } else {
       return HttpResponse.json(undefined, { status: 500 });
     }

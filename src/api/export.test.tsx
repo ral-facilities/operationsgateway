@@ -129,7 +129,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('scwcvidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -220,7 +220,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('scimwcwivcdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -289,7 +289,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('imwidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -355,7 +355,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('imwivcvidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -425,7 +425,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('scdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
@@ -495,7 +495,7 @@ describe('useExportData', () => {
       responseType: 'blob',
     });
 
-    expect(mockLink.href).toEqual('blob:testObjectUrl');
+    expect(mockLink.href).toContain('blob:');
     expect(mockLink.download).toEqual('scdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 

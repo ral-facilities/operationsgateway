@@ -25,22 +25,12 @@ afterEach(() => server.resetHandlers());
 // Clean up after the tests are finished.
 afterAll(() => server.close());
 
-if (typeof window.URL.createObjectURL === 'undefined') {
-  // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'createObjectURL', {
-    value: () => 'blob:testObjectUrl',
-  });
-}
-if (typeof window.URL.revokeObjectURL === 'undefined') {
-  // Required as a work-around for RTL/vitest environment not implementing the window.URL.createObjectURL method
-  Object.defineProperty(window.URL, 'revokeObjectURL', {
-    value: () => {},
-  });
-}
-
 // Vitest doesn't implement ResizeObserver so mock it
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+global.ResizeObserver = vi.fn(
+  class {
+    constructor() {}
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+  }
+);
