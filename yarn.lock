@@ -2907,18 +2907,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.13.5":
-  version: 1.13.5
-  resolution: "axios@npm:1.13.5"
-  dependencies:
-    follow-redirects: "npm:^1.15.11"
-    form-data: "npm:^4.0.5"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/abf468c34f2d145f3dc7dbc0f1be67e520630624307bda69a41bbe8d386bd672d87b4405c4ee77f9ff54b235ab02f96a9968fb00e75b13ce64706e352a3068fd
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.13.5":
+"axios@npm:1.14.0, axios@npm:^1.13.5":
   version: 1.14.0
   resolution: "axios@npm:1.14.0"
   dependencies:
@@ -6971,7 +6960,7 @@ __metadata:
     "@typescript-eslint/typescript-estree": "npm:8.57.0"
     "@vitejs/plugin-react": "npm:5.2.0"
     "@vitest/coverage-v8": "npm:3.2.4"
-    axios: "npm:1.13.5"
+    axios: "npm:1.14.0"
     browserslist: "npm:4.28.1"
     browserslist-to-esbuild: "npm:2.1.1"
     cross-env: "npm:10.1.0"
@@ -7393,13 +7382,6 @@ __metadata:
   version: 1.0.0
   resolution: "proxy-from-env@npm:1.0.0"
   checksum: 10c0/c64df9b21f7f820dc882cd6f7f81671840acd28b9688ee3e3e6af47a56ec7f0edcabe5bc96b32b26218b35eeff377bcc27ac27f89b6b21401003e187ff13256f
-  languageName: node
-  linkType: hard
-
-"proxy-from-env@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "proxy-from-env@npm:1.1.0"
-  checksum: 10c0/fe7dd8b1bdbbbea18d1459107729c3e4a2243ca870d26d34c2c1bcd3e4425b7bcc5112362df2d93cc7fb9746f6142b5e272fd1cc5c86ddf8580175186f6ad42b
   languageName: node
   linkType: hard
 
