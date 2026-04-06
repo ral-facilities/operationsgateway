@@ -42,7 +42,7 @@
     "react-router-dom": "7.13.0",
     "single-spa-react": "6.0.2",
     "typescript": "5.9.2",
-    "vite": "7.3.1",
+    "vite": "7.3.2",
     "zod": "^3.23.8"
   },
   "resolutions": {
