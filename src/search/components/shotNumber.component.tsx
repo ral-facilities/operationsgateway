@@ -4,22 +4,26 @@ import {
   Divider,
   Grid2 as Grid,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import React from 'react';
 import { FLASH_ANIMATION } from '../../animation';
+import { ShotNumType } from '../../app.types';
 import { useClickOutside } from '../../hooks';
 
 export interface ShotNumberProps {
-  searchParameterShotnumMin?: number;
-  searchParameterShotnumMax?: number;
-  changeSearchParameterShotnumMin: (min: number | undefined) => void;
-  changeSearchParameterShotnumMax: (max: number | undefined) => void;
+  searchParameterShotnumMin?: ShotNumType;
+  searchParameterShotnumMax?: ShotNumType;
+  changeSearchParameterShotnumMin: (min: ShotNumType | undefined) => void;
+  changeSearchParameterShotnumMax: (max: ShotNumType | undefined) => void;
   resetDateRange: () => void;
   resetExperimentTimeframe: () => void;
   isDateToShotnum: boolean;
   invalidShotNumberRange: boolean;
   searchParamsUpdated: () => void;
+  noSingleDataTypeSelected?: boolean;
+  shotNumType: 'number' | 'string';
 }
 
 const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
@@ -32,6 +36,7 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
     resetDateRange,
     resetExperimentTimeframe,
     searchParamsUpdated,
+    shotNumType,
   } = props;
 
   return (
@@ -58,12 +63,16 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             name="shot number min"
             label="Min"
             value={min ?? ''}
-            type="number"
+            type={shotNumType === 'number' ? 'number' : 'text'}
             size="small"
             slotProps={{ htmlInput: { min: 0 } }}
             onChange={(event) => {
               changeMin(
-                event.target.value ? Number(event.target.value) : undefined
+                event.target.value
+                  ? shotNumType === 'number'
+                    ? Number(event.target.value)
+                    : event.target.value
+                  : undefined
               );
               resetDateRange();
               searchParamsUpdated();
@@ -81,12 +90,16 @@ const ShotNumberPopup = (props: ShotNumberProps): React.ReactElement => {
             name="shot number max"
             label="Max"
             value={max ?? ''}
-            type="number"
+            type={shotNumType === 'number' ? 'number' : 'text'}
             size="small"
             slotProps={{ htmlInput: { min: 0 } }}
             onChange={(event) => {
               changeMax(
-                event.target.value ? Number(event.target.value) : undefined
+                event.target.value
+                  ? shotNumType === 'number'
+                    ? Number(event.target.value)
+                    : event.target.value
+                  : undefined
               );
               resetDateRange();
               searchParamsUpdated();
@@ -107,6 +120,7 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
     searchParameterShotnumMax: max,
     isDateToShotnum,
     invalidShotNumberRange,
+    noSingleDataTypeSelected,
   } = props;
 
   const popover = React.useRef<HTMLDivElement | null>(null);
@@ -145,40 +159,65 @@ const ShotNumber = (props: ShotNumberProps): React.ReactElement => {
 
   return (
     <Box sx={{ position: 'relative' }} ref={parent}>
-      <Box
-        aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
-        sx={{
-          border: '1.5px solid',
-          borderColor: invalidShotNumberRange ? 'rgb(214, 65, 65)' : undefined,
-          borderRadius: '10px',
-          display: 'flex',
-          flexDirection: 'row',
-          paddingRight: 2,
-          paddingBottom: '4px',
-          cursor: 'pointer',
-          overflow: 'hidden',
-          ...(flashAnimationPlaying && {
-            animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
-          }),
-        }}
-        onClick={() => toggle(!isOpen)}
+      <Tooltip
+        title={
+          noSingleDataTypeSelected
+            ? 'Please ensure a single data type is selected to enable searching by shot number'
+            : null
+        }
       >
-        <Adjust sx={{ fontSize: 32, margin: '0px 2px', alignSelf: 'center' }} />
-        <div>
-          <Typography noWrap sx={{ fontWeight: 'bold' }}>
-            Shot Number
-          </Typography>
-          <Typography variant="subtitle1">
-            {min !== undefined && max === undefined
-              ? `Minimum: ${min}`
-              : min === undefined && max !== undefined
-                ? `Maximum: ${max}`
-                : min !== undefined && max !== undefined
-                  ? `${min} to ${max}`
-                  : 'Select'}
-          </Typography>
-        </div>
-      </Box>
+        <Box
+          aria-label={`${isOpen ? 'close' : 'open'} shot number search box`}
+          sx={{
+            border: '1.5px solid',
+            borderColor: invalidShotNumberRange
+              ? 'error.main'
+              : noSingleDataTypeSelected
+                ? 'action.disabled'
+                : undefined,
+            borderRadius: '10px',
+            display: 'flex',
+            flexDirection: 'row',
+            paddingRight: 2,
+            paddingBottom: '4px',
+            cursor: !noSingleDataTypeSelected ? 'pointer' : 'default',
+            overflow: 'hidden',
+            ...(flashAnimationPlaying && {
+              animation: `${FLASH_ANIMATION.animation} ${FLASH_ANIMATION.length}ms`,
+            }),
+          }}
+          onClick={() => {
+            if (!noSingleDataTypeSelected) toggle(!isOpen);
+          }}
+        >
+          <Adjust
+            sx={{
+              fontSize: 32,
+              margin: '0px 2px',
+              alignSelf: 'center',
+              color: noSingleDataTypeSelected ? 'action.disabled' : undefined,
+            }}
+          />
+          <Box
+            sx={{
+              color: noSingleDataTypeSelected ? 'action.disabled' : undefined,
+            }}
+          >
+            <Typography noWrap sx={{ fontWeight: 'bold' }}>
+              Shot Number
+            </Typography>
+            <Typography variant="subtitle1">
+              {min !== undefined && max === undefined
+                ? `Minimum: ${min}`
+                : min === undefined && max !== undefined
+                  ? `Maximum: ${max}`
+                  : min !== undefined && max !== undefined
+                    ? `${min} to ${max}`
+                    : 'Select'}
+            </Typography>
+          </Box>
+        </Box>
+      </Tooltip>
       {isOpen && (
         <Box
           role="dialog"

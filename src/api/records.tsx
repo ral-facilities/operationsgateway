@@ -17,6 +17,7 @@ import {
   RecordRow,
   SearchParams,
   SelectedPlotChannel,
+  ShotNumType,
   SortType,
   timeChannelName,
 } from '../app.types';
@@ -53,7 +54,7 @@ const fetchRecords = async (
     queryParams.append('order', `${sortKey} ${value}`);
   }
 
-  const { dateRange } = searchParams;
+  const { dateRange, dataTypes } = searchParams;
 
   let timestampObj = {};
   if (dateRange.fromDate || dateRange.toDate) {
@@ -71,6 +72,7 @@ const fetchRecords = async (
 
   const searchObj = [];
   if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
 
   searchObj.push(...filtersObj);
 
@@ -160,7 +162,7 @@ const fetchRecordCountQuery = async (
 ): Promise<number> => {
   const queryParams = new URLSearchParams();
 
-  const { dateRange } = searchParams;
+  const { dateRange, dataTypes } = searchParams;
 
   let timestampObj = {};
   if (dateRange.fromDate || dateRange.toDate) {
@@ -178,6 +180,7 @@ const fetchRecordCountQuery = async (
 
   const searchObj = [];
   if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
 
   searchObj.push(...filtersObj);
 
@@ -224,29 +227,33 @@ const fetchRecordCountQuery = async (
 export const fetchRangeRecordConverterQuery = async (
   fromDate: string | undefined,
   toDate: string | undefined,
-  shotnumMin: number | undefined,
-  shotnumMax: number | undefined
+  shotnumMin: ShotNumType | undefined,
+  shotnumMax: ShotNumType | undefined,
+  dataType?: string
 ): Promise<DateRangetoShotnumConverter> => {
   const queryParams = new URLSearchParams();
-  let timestampObj = {};
+  let timestampObj: { from?: string; to?: string; type?: string } = {};
   if (fromDate || toDate) {
     timestampObj = {
       from: fromDate,
       to: toDate,
     };
   }
+  if (dataType) timestampObj.type = dataType;
 
   if (fromDate || toDate) {
     queryParams.append('date_range', JSON.stringify(timestampObj));
   }
 
-  let shotnumObj = {};
+  let shotnumObj: { min?: ShotNumType; max?: ShotNumType; type?: string } = {};
   if (shotnumMin || shotnumMax) {
     shotnumObj = {
       min: shotnumMin,
       max: shotnumMax,
     };
   }
+
+  if (dataType) shotnumObj.type = dataType;
 
   if (shotnumMin || shotnumMax) {
     queryParams.append('shotnum_range', JSON.stringify(shotnumObj));
@@ -271,17 +278,19 @@ export const fetchRangeRecordConverterQuery = async (
 export const useDateToShotnumConverter = (
   fromDate: string | undefined,
   toDate: string | undefined,
+  dataType?: string,
   enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   return useQuery({
-    queryKey: ['dateToShotnumConverter', { fromDate, toDate }],
+    queryKey: ['dateToShotnumConverter', { fromDate, toDate, dataType }],
 
     queryFn: () => {
       return fetchRangeRecordConverterQuery(
         fromDate,
         toDate,
         undefined,
-        undefined
+        undefined,
+        dataType
       );
     },
     meta: {
@@ -292,18 +301,20 @@ export const useDateToShotnumConverter = (
 };
 
 export const useShotnumToDateConverter = (
-  shotnumMin: number | undefined,
-  shotnumMax: number | undefined,
+  shotnumMin: ShotNumType | undefined,
+  shotnumMax: ShotNumType | undefined,
+  dataType?: string,
   enabled?: boolean
 ): UseQueryResult<DateRangetoShotnumConverter, AxiosError> => {
   return useQuery({
-    queryKey: ['shotnumToDateConverter', { shotnumMin, shotnumMax }],
+    queryKey: ['shotnumToDateConverter', { shotnumMin, shotnumMax, dataType }],
     queryFn: () =>
       fetchRangeRecordConverterQuery(
         undefined,
         undefined,
         shotnumMin,
-        shotnumMax
+        shotnumMax,
+        dataType
       ),
     enabled,
   });
@@ -412,7 +423,10 @@ export const getFormattedAxisData = (
       ).getTime();
       break;
     case 'shotnum':
-      formattedData = record.metadata.shotnum ?? NaN;
+      formattedData =
+        typeof record.metadata.shotnum === 'number'
+          ? record.metadata.shotnum
+          : NaN;
       break;
     case 'active_area':
       formattedData = record.metadata.active_area

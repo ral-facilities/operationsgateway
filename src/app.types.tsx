@@ -24,11 +24,13 @@ export interface Record {
   channels?: { [channel: string]: Channel | undefined };
 }
 
+export type ShotNumType = number | string;
+
 export interface RecordRow {
   _id: string;
   timestamp: string;
   active_area: string;
-  shotnum?: number;
+  shotnum?: ShotNumType;
   active_experiment?: string;
   channelMetadata: { [channel: string]: ChannelMetadata };
   [channel: string]: unknown;
@@ -74,7 +76,7 @@ export interface RecordMetadata {
   epac_ops_data_version: string;
   timestamp: string;
   active_area: string;
-  shotnum?: number;
+  shotnum?: ShotNumType;
   active_experiment?: string;
 }
 
@@ -225,13 +227,13 @@ export interface DateRange {
 export interface DateRangetoShotnumConverter {
   from?: string;
   to?: string;
-  min?: number;
-  max?: number;
+  min?: ShotNumType;
+  max?: ShotNumType;
 }
 
 export interface ShotnumRange {
-  min?: number;
-  max?: number;
+  min?: ShotNumType;
+  max?: ShotNumType;
 }
 
 export interface ExperimentParams {
@@ -247,6 +249,7 @@ export interface SearchParams {
   shotnumRange: ShotnumRange;
   maxShots: number;
   experimentID: ExperimentParams | null;
+  dataTypes?: string[];
 }
 
 export interface ColumnState {
