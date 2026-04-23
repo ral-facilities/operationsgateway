@@ -31,6 +31,7 @@ export const initialState: ConfigState = {
   pluginHost: '',
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
+  dataTypes: undefined,
 };
 
 export const configSlice = createSlice({

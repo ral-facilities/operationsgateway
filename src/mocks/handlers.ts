@@ -165,14 +165,15 @@ export const handlers = [
     const dateRange = url.searchParams.get('date_range');
 
     if (shotnumRange) {
-      const { min, max } = JSON.parse(decodeURIComponent(shotnumRange));
+      const { min, max, type } = JSON.parse(decodeURIComponent(shotnumRange));
       const shotnumMin = Number(min);
       const shotnumMax = Number(max);
 
-      const shotnumRangeRecord = recordsJson.filter((record) => {
+      const shotnumRangeRecord = recordsJson.filter((record, index) => {
         return (
           record.metadata.shotnum >= shotnumMin &&
-          record.metadata.shotnum <= shotnumMax
+          record.metadata.shotnum <= shotnumMax &&
+          (type === 'TEST' ? index % 2 === 0 : true) // simulate filtering out some records that don't "match" the type
         );
       });
 
@@ -201,14 +202,17 @@ export const handlers = [
 
       return HttpResponse.json(responseData, { status: 200 });
     } else if (dateRange) {
-      const { from: fromDate, to: toDate } = JSON.parse(
-        decodeURIComponent(dateRange)
-      );
+      const {
+        from: fromDate,
+        to: toDate,
+        type,
+      } = JSON.parse(decodeURIComponent(dateRange));
 
-      const dateRangeRecord = recordsJson.filter((record) => {
+      const dateRangeRecord = recordsJson.filter((record, index) => {
         return (
           new Date(record.metadata.timestamp) >= new Date(fromDate) &&
-          new Date(record.metadata.timestamp) <= new Date(toDate)
+          new Date(record.metadata.timestamp) <= new Date(toDate) &&
+          (type === 'TEST' ? index % 2 === 0 : true) // simulate filtering out some records that don't "match" the type
         );
       });
 
