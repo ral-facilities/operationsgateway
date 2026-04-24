@@ -13,6 +13,35 @@ describe('Data Channels Component', () => {
     cy.get('[role="dialog"]').should('not.exist');
   });
 
+  it('displays active_area as Data Type when in data types mode', () => {
+    let settings = {};
+    cy.request('operationsgateway-settings.json').then((response) => {
+      settings = response.body;
+    });
+
+    cy.intercept('operationsgateway-settings.json', (req) => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          ...settings,
+          dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+        },
+      });
+    }).as('getSettings');
+
+    cy.reload();
+
+    cy.contains('Data Channels').click();
+
+    cy.contains('system').click();
+
+    cy.findByRole('checkbox', { name: 'Data Type' }).check();
+
+    cy.contains('Add Channels').click();
+
+    cy.findByRole('columnheader', { name: 'Data Type' }).should('be.visible');
+  });
+
   it('lets a user add new channels', () => {
     cy.contains('Data Channels').click();
 
