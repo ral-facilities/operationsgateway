@@ -56,7 +56,7 @@ test('should be able to search via data type', async ({ page }) => {
   await page.route('/operationsgateway-settings.json', async (route) => {
     const response = await route.fetch();
     const json = await response.json();
-    json.dataTypes = ['ea1', 'ea2'];
+    json.dataTypes = ['ea1', 'las'];
     // Fulfill using the original response, while patching the response body
     // with the given JSON object.
     await route.fulfill({ response, json });
@@ -65,8 +65,8 @@ test('should be able to search via data type', async ({ page }) => {
   await page.goto('/');
 
   // test searching across multiple data types
-  await page.getByLabel('from, date-time input').fill('2023-06-21 10:55');
-  await page.getByLabel('to, date-time input').fill('2023-06-21 12:05');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 09:55');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 10:05');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -84,13 +84,13 @@ test('should be able to search via data type', async ({ page }) => {
   await page.getByRole('button', { name: 'Add Channels' }).click();
 
   await expect(page.getByRole('rowgroup').last().getByRole('row')).toHaveCount(
-    11
+    7
   );
   await expect(page.getByRole('cell', { name: 'ea1' }).first()).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'ea2' }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'las' }).first()).toBeVisible();
 
   // test searching by a specific data type
-  await page.getByRole('checkbox', { name: 'ea2' }).uncheck();
+  await page.getByRole('checkbox', { name: 'las' }).uncheck();
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -98,7 +98,7 @@ test('should be able to search via data type', async ({ page }) => {
     5
   );
   await expect(page.getByRole('cell', { name: 'ea1' }).first()).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'ea2' })).not.toBeVisible();
+  await expect(page.getByRole('cell', { name: 'las' })).not.toBeVisible();
 });
 
 // skip testing timeframes as 1) it would be complicated and

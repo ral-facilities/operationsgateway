@@ -949,7 +949,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -965,7 +965,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -981,7 +981,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -997,7 +997,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -1014,7 +1014,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -1031,7 +1031,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(211, 47, 47)' // shade of red
+        'rgb(214, 65, 65)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
