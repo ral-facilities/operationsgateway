@@ -24,10 +24,14 @@ import {
   ShotnumRange,
 } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { selectRecordLimitWarning } from '../state/slices/configSlice';
+import {
+  selectMaxShots,
+  selectRecordLimitWarning,
+} from '../state/slices/configSlice';
 import { selectQueryFilters } from '../state/slices/filterSlice';
 import {
   changeSearchParams,
+  getDefaultMaxShot,
   selectDateRangeInLocalTime,
   selectSearchParams,
 } from '../state/slices/searchSlice';
@@ -35,7 +39,7 @@ import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import DataRefresh from './components/dataRefresh.component';
 import DateTime from './components/dateTime.component';
 import Experiment from './components/experiment.component';
-import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
+import MaxShots from './components/maxShots.component';
 import ShotNumber from './components/shotNumber.component';
 import Timeframe, {
   type TimeframeRange,
@@ -62,6 +66,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
   const { shotnumRange, maxShots: maxShotsParam, experimentID } = searchParams;
   const dateRangeLocalTime = useAppSelector(selectDateRangeInLocalTime);
+  const maxShotsOptions = useAppSelector(selectMaxShots);
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -345,9 +350,10 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterToDate(null);
       setSearchParameterShotnumMin(undefined);
       setSearchParameterShotnumMax(undefined);
-      setMaxShots(MAX_SHOTS_VALUES[0]);
+      setMaxShots(getDefaultMaxShot(maxShotsOptions));
       setTimeframeRange(null);
     } else firstUpdate.current = false;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   const searchParamsUpdated = () => {
