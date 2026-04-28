@@ -649,6 +649,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           <Grid>
             <MaxShots
               maxShots={maxShots}
+              maxShotsOptions={maxShotsOptions}
               changeMaxShots={setMaxShots}
               searchParamsUpdated={searchParamsUpdated}
             />

@@ -8,19 +8,18 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { SearchParams } from '../../app.types';
-import { useAppSelector } from '../../state/hooks';
-import { selectMaxShots } from '../../state/slices/configSlice';
+import { MaxShotType } from '../../settings';
 
 export interface MaxShotsProps {
   maxShots: SearchParams['maxShots'];
+  maxShotsOptions: MaxShotType[];
   changeMaxShots: (maxShots: SearchParams['maxShots']) => void;
   searchParamsUpdated: () => void;
 }
 
 const MaxShots = (props: MaxShotsProps): React.ReactElement => {
-  const { maxShots, changeMaxShots, searchParamsUpdated } = props;
-
-  const maxShotsOptions = useAppSelector(selectMaxShots);
+  const { maxShots, maxShotsOptions, changeMaxShots, searchParamsUpdated } =
+    props;
 
   return (
     <Box sx={{ position: 'relative' }}>
