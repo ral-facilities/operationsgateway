@@ -1405,4 +1405,43 @@ describe('Search', () => {
       cy.contains('Click Search again to continue').should('not.exist');
     });
   });
+
+  it('with different max shots settings initialises correctly', () => {
+    let settings = Object.create(null);
+    cy.request('operationsgateway-settings.json').then((response) => {
+      settings = response.body;
+    });
+    cy.intercept('operationsgateway-settings.json', (req) => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          ...settings,
+          recordLimitWarning: -1,
+          maxShots: [
+            { value: 100 },
+            { value: 500 },
+            { value: 'Unlimited', default: true },
+          ],
+        },
+      });
+    }).as('getSettings');
+
+    cy.visit('/').wait(['@getSettings']);
+
+    cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
+    cy.findByRole('progressbar').should('not.exist');
+
+    cy.findByRole('radio', {
+      name: /Select 100 max shots/i,
+      checked: false,
+    }).should('exist');
+    cy.findByRole('radio', {
+      name: /Select 500 max shots/i,
+      checked: false,
+    }).should('exist');
+    cy.findByRole('radio', {
+      name: /Select Unlimited max shots/i,
+      checked: true,
+    }).should('exist');
+  });
 });
