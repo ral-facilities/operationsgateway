@@ -272,7 +272,7 @@ const DateTimeSearch = (props: DateTimeSearchProps): React.ReactElement => {
         border: '1.5px solid',
         borderColor:
           datePickerFromDateError || datePickerToDateError || invalidDateRange
-            ? 'rgb(214, 65, 65)'
+            ? 'error.main'
             : undefined,
         borderRadius: '10px',
         display: 'flex',

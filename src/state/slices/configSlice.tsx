@@ -1,7 +1,11 @@
+import Category from '@mui/icons-material/Category';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { staticChannels } from '../../api/channels';
+import { columnIconMappings } from '../../app.types';
 import { settings, type WorkingHours } from '../../settings';
 import { AppDispatch, RootState } from '../store';
+import { initialiseDataTypes } from './searchSlice';
 
 interface URLs {
   apiUrl: string;
@@ -15,6 +19,7 @@ interface ConfigState {
   settingsLoaded: boolean;
   workingHours: WorkingHours;
   plotAxisSigFigs?: string;
+  dataTypes?: string[];
 }
 
 // Define the initial state using that type
@@ -26,6 +31,7 @@ export const initialState: ConfigState = {
   pluginHost: '',
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
+  dataTypes: undefined,
 };
 
 export const configSlice = createSlice({
@@ -55,6 +61,9 @@ export const configSlice = createSlice({
     ) => {
       state.plotAxisSigFigs = action.payload;
     },
+    loadDataTypesSetting: (state, action: PayloadAction<string[]>) => {
+      state.dataTypes = action.payload;
+    },
   },
 });
 
@@ -65,6 +74,7 @@ export const {
   loadRecordLimitWarningSetting,
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
+  loadDataTypesSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -74,6 +84,7 @@ export const selectWorkingHours = (state: RootState) =>
   state.config.workingHours;
 export const selectPlotAxisSigFigs = (state: RootState) =>
   state.config.plotAxisSigFigs;
+export const selectDataTypes = (state: RootState) => state.config.dataTypes;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -101,6 +112,17 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['plotAxisSigFigs'] !== undefined) {
       dispatch(loadPlotAxisSigFigsSetting(settingsResult['plotAxisSigFigs']));
+    }
+
+    const dataTypes = settingsResult['dataTypes'];
+    // if data types are defined, initialise everything to do with data types properly
+    if (Array.isArray(dataTypes) && dataTypes.length > 0) {
+      dispatch(loadDataTypesSetting(dataTypes));
+      // initialise selected data types to all of the options
+      dispatch(initialiseDataTypes(dataTypes));
+      // change active_area to read as data type
+      staticChannels['active_area'].name = 'Data Type';
+      columnIconMappings.set('active_area', <Category />);
     }
 
     dispatch(settingsLoaded());
