@@ -622,7 +622,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                   class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-19opgx6-MuiFormControlLabel-root"
                                 >
                                   <span
-                                    aria-label="Select unlimited max shots"
+                                    aria-label="Select Unlimited max shots"
                                     class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-1q72ply-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
                                   >
                                     <input

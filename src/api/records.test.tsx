@@ -13,7 +13,10 @@ import { operators, parseFilter, Token } from '../filtering/filterParser';
 import handleOG_APIError from '../handleOG_APIError';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
-import { MAX_SHOTS_VALUES } from '../search/components/maxShots.component';
+import {
+  defaultMaxShots,
+  getDefaultMaxShot,
+} from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
 import {
   createTestQueryClient,
@@ -76,7 +79,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: MAX_SHOTS_VALUES[0],
+            maxShots: getDefaultMaxShot(defaultMaxShots),
           },
         },
         filter: {
@@ -320,7 +323,7 @@ describe('records api functions', () => {
           toDate: '2022-01-02 00:00:00',
         },
         shotnumRange: {},
-        maxShots: MAX_SHOTS_VALUES[0],
+        maxShots: getDefaultMaxShot(defaultMaxShots),
         experimentID: null,
       };
 
@@ -365,7 +368,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: MAX_SHOTS_VALUES[0],
+            maxShots: getDefaultMaxShot(defaultMaxShots),
           },
         },
         filter: {
@@ -473,7 +476,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: MAX_SHOTS_VALUES[0],
+            maxShots: getDefaultMaxShot(defaultMaxShots),
           },
         },
         filter: {
@@ -956,7 +959,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: MAX_SHOTS_VALUES[0],
+            maxShots: getDefaultMaxShot(defaultMaxShots),
           },
         },
         filter: {
@@ -1026,7 +1029,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: MAX_SHOTS_VALUES[0],
+            maxShots: getDefaultMaxShot(defaultMaxShots),
           },
         },
         filter: {
