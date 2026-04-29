@@ -5,6 +5,7 @@ import {
   type RenderResult,
 } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
+import { defaultMaxShotOptions } from '../../state/slices/searchSlice';
 import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {
@@ -23,6 +24,7 @@ describe('maxShots search', () => {
   it('renders correctly with a selected value', () => {
     props = {
       maxShots: 50,
+      maxShotsOptions: defaultMaxShotOptions,
       changeMaxShots,
       searchParamsUpdated,
     };
@@ -46,6 +48,7 @@ describe('maxShots search', () => {
     it('50 shots', async () => {
       props = {
         maxShots: 100,
+        maxShotsOptions: defaultMaxShotOptions,
         changeMaxShots,
         searchParamsUpdated,
       };
@@ -64,6 +67,7 @@ describe('maxShots search', () => {
     it('1000 shots', async () => {
       props = {
         maxShots: 50,
+        maxShotsOptions: defaultMaxShotOptions,
         changeMaxShots,
         searchParamsUpdated,
       };
@@ -82,6 +86,7 @@ describe('maxShots search', () => {
     it('unlimited', async () => {
       props = {
         maxShots: 50,
+        maxShotsOptions: defaultMaxShotOptions,
         changeMaxShots,
         searchParamsUpdated,
       };
@@ -91,7 +96,7 @@ describe('maxShots search', () => {
         name: 'select max shots',
       });
       await user.click(
-        within(maxShotsRadioGroup).getByLabelText('Select unlimited max shots')
+        within(maxShotsRadioGroup).getByLabelText('Select Unlimited max shots')
       );
       expect(changeMaxShots).toHaveBeenCalledWith(Infinity);
       expect(searchParamsUpdated).toHaveBeenCalled();

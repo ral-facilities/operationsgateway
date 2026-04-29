@@ -4,6 +4,7 @@ import { MicroFrontendId } from './app.types';
 import { server } from './mocks/server';
 import { fetchSettings } from './settings';
 import { registerRoute } from './state/scigateway.actions';
+import { defaultMaxShotOptions } from './state/slices/searchSlice';
 
 vi.mock('loglevel');
 
@@ -22,6 +23,7 @@ describe('fetchSettings', () => {
     const settingsResult = {
       apiUrl: 'api',
       recordLimitWarning: -1,
+      maxShots: defaultMaxShotOptions,
       routes: [
         {
           section: 'section',
@@ -68,6 +70,7 @@ describe('fetchSettings', () => {
     const settingsResult = {
       apiUrl: 'api',
       recordLimitWarning: -1,
+      maxShots: defaultMaxShotOptions,
       routes: [
         {
           section: 'section0',
@@ -178,6 +181,83 @@ describe('fetchSettings', () => {
     );
   });
 
+  it('logs an error if maxShots is not defined in the settings', async () => {
+    server.use(
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+          },
+          { status: 200 }
+        )
+      )
+    );
+
+    const settings = await fetchSettings();
+
+    expect(settings).toBeUndefined();
+    expect(log.error).toHaveBeenCalled();
+
+    const mockLog = vi.mocked(log.error).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading /operationsgateway-settings.json: maxShots is undefined in settings'
+    );
+  });
+
+  it('logs an error if more than one default maxShots is defined in the settings', async () => {
+    server.use(
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+            maxShots: [
+              { value: 50, default: true },
+              { value: 100, default: true },
+            ],
+          },
+          { status: 200 }
+        )
+      )
+    );
+
+    const settings = await fetchSettings();
+
+    expect(settings).toBeUndefined();
+    expect(log.error).toHaveBeenCalled();
+
+    const mockLog = vi.mocked(log.error).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading /operationsgateway-settings.json: More than one default max shot is defined in the settings'
+    );
+  });
+
+  it('logs an error if one of the maxShots is an invalid type in the settings', async () => {
+    server.use(
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+            maxShots: [{ value: 'random string' }],
+          },
+          { status: 200 }
+        )
+      )
+    );
+
+    const settings = await fetchSettings();
+
+    expect(settings).toBeUndefined();
+    expect(log.error).toHaveBeenCalled();
+
+    const mockLog = vi.mocked(log.error).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading /operationsgateway-settings.json: Some max shots have a non-number, non-"Unlimited" value in the settings'
+    );
+  });
+
   it('logs an error if settings.json is an invalid JSON object', async () => {
     server.use(
       http.get('/operationsgateway-settings.json', () =>
@@ -245,6 +325,7 @@ describe('fetchSettings', () => {
           {
             apiUrl: 'api',
             recordLimitWarning: -1,
+            maxShots: defaultMaxShotOptions,
           },
           { status: 200 }
         )
@@ -269,6 +350,8 @@ describe('fetchSettings', () => {
           {
             apiUrl: 'api',
             recordLimitWarning: -1,
+            maxShots: defaultMaxShotOptions,
+
             routes: [
               {
                 section: 'section',

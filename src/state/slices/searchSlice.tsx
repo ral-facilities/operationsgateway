@@ -3,11 +3,22 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { sub } from 'date-fns';
 import { convertApiTimestampToDate, formatDateTimeForApi } from '../../api/api';
 import { SearchParams } from '../../app.types';
-import { MAX_SHOTS_VALUES } from '../../search/components/maxShots.component';
+import { MaxShotType } from '../../settings';
 import { RootState } from '../store';
 import { selectQueryFilters } from './filterSlice';
 import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
+
+export const defaultMaxShotOptions: MaxShotType[] = [
+  { value: 50, default: true },
+  { value: 1000 },
+  { value: 'Unlimited' },
+];
+
+export const getDefaultMaxShot = (maxShots: MaxShotType[]): number => {
+  const maxShot = maxShots.find((x) => x.default)?.value ?? maxShots[0].value;
+  return maxShot === 'Unlimited' ? Infinity : maxShot;
+};
 
 // Define a type for the slice state
 interface SearchState {
@@ -23,7 +34,6 @@ export const initialStateFunc = (): SearchState => {
     hours: 24,
   });
   from.setSeconds(0);
-
   return {
     searchParams: {
       dateRange: {
@@ -31,7 +41,7 @@ export const initialStateFunc = (): SearchState => {
         fromDate: formatDateTimeForApi(from),
       },
       shotnumRange: {},
-      maxShots: MAX_SHOTS_VALUES[0],
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
       dataTypes: undefined,
     },
@@ -47,6 +57,12 @@ export const searchSlice = createSlice({
     changeSearchParams: (state, action: PayloadAction<SearchParams>) => {
       state.searchParams = { ...action.payload };
     },
+    initialiseDefaultMaxShots: (
+      state,
+      action: PayloadAction<MaxShotType[]>
+    ) => {
+      state.searchParams.maxShots = getDefaultMaxShot(action.payload);
+    },
     initialiseDataTypes: (
       state,
       action: PayloadAction<NonNullable<SearchParams['dataTypes']>>
@@ -56,7 +72,11 @@ export const searchSlice = createSlice({
   },
 });
 
-export const { changeSearchParams, initialiseDataTypes } = searchSlice.actions;
+export const {
+  changeSearchParams,
+  initialiseDataTypes,
+  initialiseDefaultMaxShots,
+} = searchSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectSearchParams = (state: RootState) =>

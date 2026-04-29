@@ -8,17 +8,18 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { SearchParams } from '../../app.types';
-
-export const MAX_SHOTS_VALUES = [50, 1000, Infinity];
+import { MaxShotType } from '../../settings';
 
 export interface MaxShotsProps {
   maxShots: SearchParams['maxShots'];
+  maxShotsOptions: MaxShotType[];
   changeMaxShots: (maxShots: SearchParams['maxShots']) => void;
   searchParamsUpdated: () => void;
 }
 
 const MaxShots = (props: MaxShotsProps): React.ReactElement => {
-  const { maxShots, changeMaxShots, searchParamsUpdated } = props;
+  const { maxShots, maxShotsOptions, changeMaxShots, searchParamsUpdated } =
+    props;
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -51,18 +52,12 @@ const MaxShots = (props: MaxShotsProps): React.ReactElement => {
               changeMaxShots(Number(value));
             }}
           >
-            {MAX_SHOTS_VALUES.map((value, i) => (
+            {maxShotsOptions.map(({ value }, i) => (
               <FormControlLabel
                 key={i}
-                value={value}
-                control={
-                  <Radio
-                    aria-label={`Select ${
-                      value === Infinity ? 'unlimited' : value
-                    } max shots`}
-                  />
-                }
-                label={value === Infinity ? 'Unlimited' : value}
+                value={value === 'Unlimited' ? Infinity : value}
+                control={<Radio aria-label={`Select ${value} max shots`} />}
+                label={value}
               />
             ))}
           </RadioGroup>

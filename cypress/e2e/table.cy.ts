@@ -263,7 +263,7 @@ describe('Table Component', () => {
 
   describe('can set max shots', () => {
     it('50 shots', () => {
-      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+      cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
@@ -280,7 +280,7 @@ describe('Table Component', () => {
     });
 
     it('1000 shots', () => {
-      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+      cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then(async (window) => {
         // Reference global instances set in "src/mocks/browser.js".
@@ -299,7 +299,7 @@ describe('Table Component', () => {
     });
 
     it('unlimited shots', () => {
-      cy.get('span[aria-label="Select unlimited max shots"]').should('exist');
+      cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then((window) => {
         // Reference global instances set in "src/mocks/browser.js".
@@ -312,7 +312,7 @@ describe('Table Component', () => {
         );
       });
 
-      cy.get('span[aria-label="Select unlimited max shots"]').click();
+      cy.get('span[aria-label="Select Unlimited max shots"]').click();
       cy.contains('Search').click();
       cy.contains('1–25 of 2500');
     });

@@ -27,11 +27,13 @@ import {
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   selectDataTypes,
+  selectMaxShots,
   selectRecordLimitWarning,
 } from '../state/slices/configSlice';
 import { selectQueryFilters } from '../state/slices/filterSlice';
 import {
   changeSearchParams,
+  getDefaultMaxShot,
   selectDateRangeInLocalTime,
   selectSearchParams,
 } from '../state/slices/searchSlice';
@@ -40,7 +42,7 @@ import DataRefresh from './components/dataRefresh.component';
 import DataTypes from './components/dataTypes.component';
 import DateTime from './components/dateTime.component';
 import Experiment from './components/experiment.component';
-import MaxShots, { MAX_SHOTS_VALUES } from './components/maxShots.component';
+import MaxShots from './components/maxShots.component';
 import ShotNumber from './components/shotNumber.component';
 import Timeframe, {
   type TimeframeRange,
@@ -72,6 +74,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     dataTypes: dataTypesParam,
   } = searchParams;
   const dateRangeLocalTime = useAppSelector(selectDateRangeInLocalTime);
+  const maxShotsOptions = useAppSelector(selectMaxShots);
   const allDataTypes = useAppSelector(selectDataTypes);
 
   // we need filters so we can check for past queries before showing the warning message
@@ -370,11 +373,12 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterToDate(null);
       setSearchParameterShotnumMin(undefined);
       setSearchParameterShotnumMax(undefined);
-      setMaxShots(MAX_SHOTS_VALUES[0]);
+      setMaxShots(getDefaultMaxShot(maxShotsOptions));
       setDataTypes(allDataTypes);
       setTimeframeRange(null);
     } else firstUpdate.current = false;
-  }, [allDataTypes, sessionId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId]);
 
   const searchParamsUpdated = () => {
     setParamsUpdated(true);
@@ -706,6 +710,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           <Grid>
             <MaxShots
               maxShots={maxShots}
+              maxShotsOptions={maxShotsOptions}
               changeMaxShots={setMaxShots}
               searchParamsUpdated={searchParamsUpdated}
             />

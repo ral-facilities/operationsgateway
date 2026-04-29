@@ -5,6 +5,7 @@ import ConfigReducer, {
   configureApp,
   initialState,
   loadDataTypesSetting,
+  loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
   loadRecordLimitWarningSetting,
@@ -12,7 +13,11 @@ import ConfigReducer, {
   loadWorkingHoursSetting,
   settingsLoaded,
 } from './configSlice';
-import { initialiseDataTypes } from './searchSlice';
+import {
+  defaultMaxShotOptions,
+  initialiseDataTypes,
+  initialiseDefaultMaxShots,
+} from './searchSlice';
 
 vi.mock('loglevel');
 
@@ -85,6 +90,23 @@ describe('configSlice', () => {
       expect(updatedState.recordLimitWarning).toEqual(10);
     });
 
+    it('should set maxShots property when loadMaxShotsSetting action is sent', () => {
+      expect(state.maxShots).toEqual(defaultMaxShotOptions);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadMaxShotsSetting([
+          { value: 100, default: true },
+          { value: 'Unlimited' },
+        ])
+      );
+
+      expect(updatedState.maxShots).toEqual([
+        { value: 100, default: true },
+        { value: 'Unlimited' },
+      ]);
+    });
+
     it('should set workingHours property when loadWorkingHoursSetting action is sent', () => {
       expect(state.workingHours).toEqual({ start: 9, end: 18 });
 
@@ -129,6 +151,7 @@ describe('configSlice', () => {
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
+          maxShots: [{ value: 100, default: true }, { value: 'Unlimited' }],
           routes: [
             {
               section: 'section',
@@ -146,13 +169,25 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(8);
+      expect(actions.length).toEqual(10);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
         })
       );
       expect(actions).toContainEqual(loadRecordLimitWarningSetting(-1));
+      expect(actions).toContainEqual(
+        loadMaxShotsSetting([
+          { value: 100, default: true },
+          { value: 'Unlimited' },
+        ])
+      );
+      expect(actions).toContainEqual(
+        initialiseDefaultMaxShots([
+          { value: 100, default: true },
+          { value: 'Unlimited' },
+        ])
+      );
       expect(actions).toContainEqual(
         loadPluginHostSetting('http://localhost:3000/')
       );
@@ -172,6 +207,7 @@ describe('configSlice', () => {
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
+          maxShots: defaultMaxShotOptions,
           routes: [
             {
               section: 'section',
@@ -186,7 +222,7 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(3);
+      expect(actions.length).toEqual(5);
       expect(
         actions.every(({ type }) => type !== loadPluginHostSetting.type)
       ).toBe(true);
@@ -212,6 +248,7 @@ describe('configSlice', () => {
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
+          maxShots: defaultMaxShotOptions,
           routes: [
             {
               section: 'section',

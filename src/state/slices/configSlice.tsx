@@ -3,9 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
 import { columnIconMappings } from '../../app.types';
-import { settings, type WorkingHours } from '../../settings';
+import { MaxShotType, settings, type WorkingHours } from '../../settings';
 import { AppDispatch, RootState } from '../store';
-import { initialiseDataTypes } from './searchSlice';
+import {
+  defaultMaxShotOptions,
+  initialiseDataTypes,
+  initialiseDefaultMaxShots,
+} from './searchSlice';
 
 interface URLs {
   apiUrl: string;
@@ -15,6 +19,7 @@ interface URLs {
 interface ConfigState {
   urls: URLs;
   recordLimitWarning: number;
+  maxShots: MaxShotType[];
   pluginHost: string;
   settingsLoaded: boolean;
   workingHours: WorkingHours;
@@ -28,6 +33,7 @@ export const initialState: ConfigState = {
     apiUrl: '',
   },
   recordLimitWarning: -1,
+  maxShots: defaultMaxShotOptions,
   pluginHost: '',
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
@@ -52,6 +58,9 @@ export const configSlice = createSlice({
     loadRecordLimitWarningSetting: (state, action: PayloadAction<number>) => {
       state.recordLimitWarning = action.payload;
     },
+    loadMaxShotsSetting: (state, action: PayloadAction<MaxShotType[]>) => {
+      state.maxShots = action.payload;
+    },
     loadWorkingHoursSetting: (state, action: PayloadAction<WorkingHours>) => {
       state.workingHours = action.payload;
     },
@@ -72,6 +81,7 @@ export const {
   loadPluginHostSetting,
   loadUrls,
   loadRecordLimitWarningSetting,
+  loadMaxShotsSetting,
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
@@ -80,6 +90,7 @@ export const {
 export const selectUrls = (state: RootState) => state.config.urls;
 export const selectRecordLimitWarning = (state: RootState) =>
   state.config.recordLimitWarning;
+export const selectMaxShots = (state: RootState) => state.config.maxShots;
 export const selectWorkingHours = (state: RootState) =>
   state.config.workingHours;
 export const selectPlotAxisSigFigs = (state: RootState) =>
@@ -96,11 +107,12 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       })
     );
 
-    if (settingsResult['recordLimitWarning'] !== undefined) {
-      dispatch(
-        loadRecordLimitWarningSetting(settingsResult['recordLimitWarning'])
-      );
-    }
+    dispatch(
+      loadRecordLimitWarningSetting(settingsResult['recordLimitWarning'])
+    );
+
+    dispatch(loadMaxShotsSetting(settingsResult['maxShots']));
+    dispatch(initialiseDefaultMaxShots(settingsResult['maxShots']));
 
     if (settingsResult['pluginHost'] !== undefined) {
       dispatch(loadPluginHostSetting(settingsResult['pluginHost']));

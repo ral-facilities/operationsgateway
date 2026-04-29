@@ -10,9 +10,15 @@ export interface WorkingHours {
   end: number;
 }
 
+export interface MaxShotType {
+  value: number | 'Unlimited'; // JSON doesn't support infinity as a number so have to use a string
+  default?: boolean;
+}
+
 export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
+  maxShots: MaxShotType[];
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;
@@ -51,6 +57,25 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
       // Ensure a limit on how many records can be requested before displaying a warning is present
       if (!('recordLimitWarning' in settings)) {
         throw new Error('recordLimitWarning is undefined in settings');
+      }
+
+      // Ensure max shots definition is present and that no more than 1 is default and valid value type
+      if (!('maxShots' in settings)) {
+        throw new Error('maxShots is undefined in settings');
+      }
+      if (settings.maxShots.filter((x) => x.default === true).length > 1) {
+        throw new Error(
+          'More than one default max shot is defined in the settings'
+        );
+      }
+      if (
+        settings.maxShots.some(
+          (x) => typeof x.value !== 'number' && x.value !== 'Unlimited'
+        )
+      ) {
+        throw new Error(
+          'Some max shots have a non-number, non-"Unlimited" value in the settings'
+        );
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {
