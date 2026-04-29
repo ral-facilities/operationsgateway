@@ -169,7 +169,7 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(8);
+      expect(actions.length).toEqual(10);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
