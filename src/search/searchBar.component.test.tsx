@@ -38,6 +38,7 @@ describe('searchBar component', () => {
       sessionId: '1',
       heightRef: () => {},
     };
+    vi.setSystemTime(new Date('2022-01-03 12:00:00'));
   });
 
   afterEach(() => {
@@ -319,7 +320,7 @@ describe('searchBar component', () => {
   it('sends default search parameters when none are amended by the user', async () => {
     vi.useFakeTimers({
       toFake: ['Date', 'setTimeout', 'clearTimeout'],
-    }).setSystemTime(new Date('2024-07-02 12:00:00'));
+    }).setSystemTime(new Date('2022-01-03 12:00:00'));
 
     user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
@@ -331,8 +332,8 @@ describe('searchBar component', () => {
     expect(store.getState().search.searchParams).toStrictEqual({
       dataTypes: undefined,
       dateRange: {
-        fromDate: '2024-07-01T12:00:00',
-        toDate: '2024-07-02T12:00:59',
+        fromDate: '2022-01-02T12:00:00',
+        toDate: '2022-01-03T12:00:59',
       },
       shotnumRange: {},
       maxShots: MAX_SHOTS_VALUES[0],

@@ -234,7 +234,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                       inputmode="text"
                                       placeholder="From..."
                                       type="text"
-                                      value="2024-07-14 12:00"
+                                      value="2022-01-02 00:00"
                                     />
                                     <div
                                       class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1wulh66-MuiInputAdornment-root"
@@ -319,7 +319,7 @@ exports[`View Tabs > renders correctly 1`] = `
                                       inputmode="text"
                                       placeholder="To..."
                                       type="text"
-                                      value="2024-07-15 12:00"
+                                      value="2022-01-03 00:00"
                                     />
                                     <div
                                       class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1wulh66-MuiInputAdornment-root"

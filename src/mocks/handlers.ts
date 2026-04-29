@@ -200,7 +200,13 @@ export const handlers = [
         to: shotnumMaxRecord?.metadata?.timestamp,
       };
 
-      return HttpResponse.json(responseData, { status: 200 });
+      if (responseData.from && responseData.to)
+        return HttpResponse.json(responseData, { status: 200 });
+      else
+        return HttpResponse.json(
+          { detail: 'No results have been found from database query' },
+          { status: 500 }
+        );
     } else if (dateRange) {
       const {
         from: fromDate,
@@ -241,7 +247,13 @@ export const handlers = [
         min: fromDateRecord?.metadata?.shotnum,
         max: toDateRecord?.metadata?.shotnum,
       };
-      return HttpResponse.json(responseData, { status: 200 });
+      if (responseData.min && responseData.max)
+        return HttpResponse.json(responseData, { status: 200 });
+      else
+        return HttpResponse.json(
+          { detail: 'No results have been found from database query' },
+          { status: 500 }
+        );
     } else {
       return HttpResponse.json(undefined, { status: 500 });
     }
