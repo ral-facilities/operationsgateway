@@ -41,6 +41,7 @@ describe('searchBar component', () => {
       sessionId: '1',
       heightRef: () => {},
     };
+    vi.setSystemTime(new Date('2022-01-03 12:00:00'));
   });
 
   afterEach(() => {
@@ -85,6 +86,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
         toDate: '2022-01-02T00:00:59',
@@ -138,6 +140,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-05T00:00:00',
         toDate: '2022-01-10T00:00:59',
@@ -188,6 +191,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-12T00:00:00',
         toDate: '2022-01-15T00:00:59',
@@ -238,6 +242,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-13T00:00:00',
         toDate: '2022-01-16T00:00:59',
@@ -272,6 +277,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: expectedExperiment.start_date,
         toDate: expectedEndDate,
@@ -300,6 +306,7 @@ describe('searchBar component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Search' }));
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
         toDate: '2022-01-02T00:00:59',
@@ -316,7 +323,7 @@ describe('searchBar component', () => {
   it('sends default search parameters when none are amended by the user', async () => {
     vi.useFakeTimers({
       toFake: ['Date', 'setTimeout', 'clearTimeout'],
-    }).setSystemTime(new Date('2024-07-02 12:00:00'));
+    }).setSystemTime(new Date('2022-01-03 12:00:00'));
 
     user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
@@ -326,9 +333,10 @@ describe('searchBar component', () => {
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
-        fromDate: '2024-07-01T12:00:00',
-        toDate: '2024-07-02T12:00:59',
+        fromDate: '2022-01-02T12:00:00',
+        toDate: '2022-01-03T12:00:59',
       },
       shotnumRange: {},
       maxShots: getDefaultMaxShot(defaultMaxShotOptions),
@@ -478,6 +486,7 @@ describe('searchBar component', () => {
 
     // Store should not be updated, indicating search is yet to initiate
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {},
       experimentID: null,
       shotnumRange: {},
@@ -489,6 +498,7 @@ describe('searchBar component', () => {
 
     // Store should now be updated, indicating search initiated on second attempt
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
         toDate: '2023-01-01T00:00:59',
@@ -648,6 +658,7 @@ describe('searchBar component', () => {
 
     // Store should be updated after one click of the search button
     expect(store.getState().search.searchParams).toStrictEqual({
+      dataTypes: undefined,
       dateRange: {
         fromDate: '2022-01-01T00:00:00',
         toDate: '2023-01-01T00:00:59',
@@ -818,6 +829,7 @@ describe('searchBar component', () => {
       // wait for search to complete updating the store
       await waitFor(() =>
         expect(store.getState().search.searchParams).toStrictEqual({
+          dataTypes: undefined,
           dateRange: {
             fromDate: '2022-01-05T00:00:00',
             toDate: '2022-01-16T00:00:59',
@@ -991,5 +1003,113 @@ describe('searchBar component', () => {
     const { container } = createView();
 
     expect(container).toBeEmptyDOMElement();
+  });
+
+  describe('data types', () => {
+    let state: RootState;
+    beforeEach(() => {
+      state = {
+        ...getInitialState(),
+        config: {
+          ...getInitialState().config,
+          dataTypes: ['GS', 'GA', 'GD', 'GQ'],
+        },
+        search: {
+          ...getInitialState().search,
+          searchParams: {
+            ...getInitialState().search.searchParams,
+            dataTypes: ['GS', 'GQ'],
+          },
+        },
+      };
+    });
+
+    it('can add & remove selected data types and they get updated in search params', async () => {
+      const { store } = createView(state);
+
+      const gsCheckbox = screen.getByRole('checkbox', { name: 'GS' });
+      expect(gsCheckbox).toBeChecked();
+
+      await user.click(gsCheckbox);
+      expect(gsCheckbox).not.toBeChecked();
+
+      const gaCheckbox = screen.getByRole('checkbox', { name: 'GA' });
+      expect(gaCheckbox).not.toBeChecked();
+
+      await user.click(gaCheckbox);
+      expect(gaCheckbox).toBeChecked();
+
+      await user.click(screen.getByRole('button', { name: 'Search' }));
+      expect(store.getState().search.searchParams).toMatchObject({
+        dataTypes: ['GQ', 'GA'],
+      });
+    });
+
+    it('disables the search button if no data types are selected', async () => {
+      createView(state);
+
+      await user.click(screen.getByRole('checkbox', { name: 'GS' }));
+
+      await user.click(screen.getByRole('checkbox', { name: 'GQ' }));
+
+      expect(screen.getByText('Please select a data type')).toBeInTheDocument();
+
+      const searchButton = screen.getByRole('button', { name: 'Search' });
+      expect(searchButton).toBeDisabled();
+    });
+
+    it('shotnum conversion enabled when 1 data type selected and disabled otherwise', async () => {
+      createView(state);
+
+      const dateFilterFromDate = screen.getByLabelText('from, date-time input');
+      const dateFilterToDate = screen.getByLabelText('to, date-time input');
+
+      await user.type(dateFilterFromDate, '2022-01-01_00:00');
+      await user.type(dateFilterToDate, '2022-01-02_00:00');
+
+      expect(
+        within(screen.getByLabelText('open shot number search box')).getByText(
+          'Select'
+        )
+      ).toBeInTheDocument();
+
+      await user.hover(screen.getByLabelText('open shot number search box'));
+
+      expect(
+        await screen.findByRole('tooltip', {
+          name: 'Please ensure a single data type is selected to enable searching by shot number',
+        })
+      ).toBeInTheDocument();
+
+      await user.click(screen.getByRole('checkbox', { name: 'GS' }));
+
+      await waitFor(() =>
+        expect(
+          within(
+            screen.getByLabelText('open shot number search box')
+          ).queryByText('Select')
+        ).not.toBeInTheDocument()
+      );
+
+      await user.hover(screen.getByLabelText('open shot number search box'));
+
+      expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+      await user.click(screen.getByRole('checkbox', { name: 'GQ' }));
+
+      expect(
+        within(screen.getByLabelText('open shot number search box')).getByText(
+          'Select'
+        )
+      ).toBeInTheDocument();
+
+      await user.hover(screen.getByLabelText('open shot number search box'));
+
+      expect(
+        await screen.findByRole('tooltip', {
+          name: 'Please ensure a single data type is selected to enable searching by shot number',
+        })
+      ).toBeInTheDocument();
+    });
   });
 });

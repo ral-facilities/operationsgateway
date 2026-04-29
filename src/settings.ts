@@ -24,6 +24,7 @@ export interface OperationsGatewaySettings {
   pluginHost?: string;
   workingHours?: WorkingHours;
   plotAxisSigFigs?: string;
+  dataTypes?: string[];
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;

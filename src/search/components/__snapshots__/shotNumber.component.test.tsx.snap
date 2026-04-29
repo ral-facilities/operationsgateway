@@ -1,5 +1,45 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`shotNumber search > "disables" when noSingleDataTypeSelected is true 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-79elbk"
+  >
+    <div
+      aria-label="open shot number search box"
+      class="MuiBox-root css-rp81um"
+      data-mui-internal-clone-element="true"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1onip98-MuiSvgIcon-root"
+        data-testid="AdjustIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3"
+        />
+      </svg>
+      <div
+        class="MuiBox-root css-1xgbetl"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
+        >
+          Shot Number
+        </p>
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1 css-1i3tsf3-MuiTypography-root"
+        >
+          Select
+        </h6>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`shotNumber search > renders correctly 1`] = `
 <DocumentFragment>
   <div
@@ -8,6 +48,7 @@ exports[`shotNumber search > renders correctly 1`] = `
     <div
       aria-label="close shot number search box"
       class="MuiBox-root css-bm8stw"
+      data-mui-internal-clone-element="true"
     >
       <svg
         aria-hidden="true"
@@ -20,7 +61,9 @@ exports[`shotNumber search > renders correctly 1`] = `
           d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3"
         />
       </svg>
-      <div>
+      <div
+        class="MuiBox-root css-0"
+      >
         <p
           class="MuiTypography-root MuiTypography-body1 MuiTypography-noWrap css-cq7yze-MuiTypography-root"
         >
@@ -60,8 +103,8 @@ exports[`shotNumber search > renders correctly 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1kfabtt-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r0:"
-                id=":r0:-label"
+                for=":r1:"
+                id=":r1:-label"
               >
                 Min
               </label>
@@ -71,7 +114,7 @@ exports[`shotNumber search > renders correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r0:"
+                  id=":r1:"
                   min="0"
                   name="shot number min"
                   type="number"
@@ -110,8 +153,8 @@ exports[`shotNumber search > renders correctly 1`] = `
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-1kfabtt-MuiFormLabel-root-MuiInputLabel-root"
                 data-shrink="false"
-                for=":r1:"
-                id=":r1:-label"
+                for=":r2:"
+                id=":r2:-label"
               >
                 Max
               </label>
@@ -121,7 +164,7 @@ exports[`shotNumber search > renders correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
-                  id=":r1:"
+                  id=":r2:"
                   min="0"
                   name="shot number max"
                   type="number"

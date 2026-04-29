@@ -12,9 +12,9 @@ function getConditionsFromParams(params: Map<string, string>) {
 
 describe('Search', () => {
   describe('no record limits', () => {
+    // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
+    let settings = Object.create(null);
     beforeEach(() => {
-      // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
-      let settings = Object.create(null);
       cy.request('operationsgateway-settings.json').then((response) => {
         settings = response.body;
       });
@@ -46,7 +46,8 @@ describe('Search', () => {
 
       cy.findByRole('button', { name: 'Search' }).click();
 
-      // wait for search to finish
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -118,7 +119,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -183,7 +185,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -248,7 +251,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -337,7 +341,7 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
         cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
@@ -370,7 +374,7 @@ describe('Search', () => {
 
         cy.findByLabelText('Refresh data').click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
         cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
@@ -444,7 +448,7 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
         cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
@@ -477,7 +481,7 @@ describe('Search', () => {
 
         cy.findByLabelText('Refresh data').click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
         cy.findByRole('progressbar', { timeout: 15_000 }).should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
@@ -545,7 +549,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -611,7 +616,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -677,7 +683,8 @@ describe('Search', () => {
 
         cy.findByRole('button', { name: 'Search' }).click();
 
-        // wait for search to finish
+        // wait for search to initiate and finish
+        cy.findByRole('progressbar').should('exist');
         cy.findByRole('progressbar').should('not.exist');
 
         cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -736,7 +743,8 @@ describe('Search', () => {
 
       cy.findByRole('button', { name: 'Search' }).click();
 
-      // wait for search to finish
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -783,6 +791,153 @@ describe('Search', () => {
       });
     });
 
+    it('searches by shot number range in data types mode', () => {
+      cy.intercept('operationsgateway-settings.json', (req) => {
+        req.reply({
+          statusCode: 200,
+          body: {
+            ...settings,
+            recordLimitWarning: -1,
+            dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+          },
+        });
+      }).as('getSettings');
+
+      cy.reload();
+      cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
+      // expect all data types to be selected initially
+      cy.findByRole('checkbox', { name: 'GA' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GD' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GQ' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GS' }).should('be.checked');
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('tooltip', {
+        name: 'Please ensure a single data type is selected to enable searching by shot number',
+      });
+      cy.findByText('Select your shot number').should('not.exist');
+
+      // uncheck all checkboxes except one
+      cy.findByRole('checkbox', { name: 'GA' }).click();
+      cy.findByRole('checkbox', { name: 'GD' }).click();
+      cy.findByRole('checkbox', { name: 'GQ' }).click();
+
+      cy.findByLabelText('open shot number search box').click();
+      cy.findByRole('tooltip', {
+        name: 'Please ensure a single data type is selected to enable searching by shot number',
+      }).should('not.exist');
+
+      cy.findByRole('textbox', { name: 'Min' }).type('1');
+      cy.findByRole('textbox', { name: 'Max' }).type('9');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Search' }).click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
+      cy.findByRole('progressbar').should('not.exist');
+
+      cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
+        (patchRequests) => {
+          expect(patchRequests.length).equal(1);
+          const request = patchRequests[0];
+
+          expect(request.url.toString()).to.contain('conditions=');
+          const paramMap: Map<string, string> = getParamsFromUrl(
+            request.url.toString()
+          );
+          const conditionsMap = getConditionsFromParams(paramMap);
+
+          expect(conditionsMap.length).equal(2);
+
+          const timestampCondition = conditionsMap[0];
+          const timestampRange = timestampCondition['metadata.timestamp'];
+          const timestampGte: string = timestampRange['$gte'];
+          const timestampLte: string = timestampRange['$lte'];
+          expect(timestampGte).equal('2022-01-01T00:00:00');
+          expect(timestampLte).equal('2022-01-09T00:00:59');
+
+          const dataTypeCondition = conditionsMap[1];
+          expect(
+            dataTypeCondition['metadata.active_area']['$in']
+          ).to.deep.equal(['GS']);
+        }
+      );
+
+      cy.findBrowserMockedRequests({
+        method: 'GET',
+        url: '/records/count',
+      }).should((patchRequests) => {
+        expect(patchRequests.length).equal(1);
+        const request = patchRequests[0];
+
+        expect(request.url.toString()).to.contain('conditions=');
+        const paramMap: Map<string, string> = getParamsFromUrl(
+          request.url.toString()
+        );
+        const conditionsMap = getConditionsFromParams(paramMap);
+        expect(conditionsMap.length).equal(2);
+
+        const timestampCondition = conditionsMap[0];
+        const timestampRange = timestampCondition['metadata.timestamp'];
+        const timestampGte: string = timestampRange['$gte'];
+        const timestampLte: string = timestampRange['$lte'];
+        expect(timestampGte).equal('2022-01-01T00:00:00');
+        expect(timestampLte).equal('2022-01-09T00:00:59');
+
+        const dataTypeCondition = conditionsMap[1];
+        expect(dataTypeCondition['metadata.active_area']['$in']).to.deep.equal([
+          'GS',
+        ]);
+      });
+    });
+
+    it('converts date times to shot num ranges in data type mode', () => {
+      cy.intercept('operationsgateway-settings.json', (req) => {
+        req.reply({
+          statusCode: 200,
+          body: {
+            ...settings,
+            recordLimitWarning: -1,
+            dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+          },
+        });
+      }).as('getSettings');
+
+      cy.reload();
+      cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
+      cy.findByRole('progressbar').should('not.exist');
+
+      cy.findByLabelText('from, date-time input').type('2022-01-01 00:00');
+      cy.findByLabelText('to, date-time input').type('2022-01-02 00:00');
+
+      // expect all data types to be selected initially
+      cy.findByRole('checkbox', { name: 'GA' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GD' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GQ' }).should('be.checked');
+      cy.findByRole('checkbox', { name: 'GS' }).should('be.checked');
+
+      cy.findByText('Shot Number')
+        .parent()
+        .findByText('Select')
+        .should('be.visible');
+      cy.findByText('Shot Number').should(
+        'have.css',
+        'color',
+        'rgba(0, 0, 0, 0.26)' // shade of grey
+      );
+
+      // uncheck all checkboxes except one
+      cy.findByRole('checkbox', { name: 'GA' }).click();
+      cy.findByRole('checkbox', { name: 'GD' }).click();
+      cy.findByRole('checkbox', { name: 'GQ' }).click();
+
+      cy.findByText('1 to 2').should('be.visible');
+    });
+
     it('should highlight boxes red if error in search params', () => {
       // Date-time box
 
@@ -794,7 +949,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -810,7 +965,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -826,7 +981,7 @@ describe('Search', () => {
       cy.findByLabelText('date-time search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -842,7 +997,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -859,7 +1014,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -876,7 +1031,7 @@ describe('Search', () => {
       cy.findByLabelText('open shot number search box').should(
         'have.css',
         'border-color',
-        'rgb(214, 65, 65)' // shade of red
+        'rgb(211, 47, 47)' // shade of red
       );
       cy.findByRole('button', { name: 'Search' }).should(
         'have.attr',
@@ -944,7 +1099,8 @@ describe('Search', () => {
 
       cy.findByRole('button', { name: 'Search' }).click();
 
-      // wait for search to finish
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -1006,7 +1162,8 @@ describe('Search', () => {
 
       cy.findByRole('button', { name: 'Search' }).click();
 
-      // wait for search to finish
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
       cy.findByRole('progressbar').should('not.exist');
 
       cy.findBrowserMockedRequests({ method: 'GET', url: '/records' }).should(
@@ -1326,6 +1483,11 @@ describe('Search', () => {
       cy.findByLabelText('from, date-time input').type('2022-01-11_00:00');
 
       cy.findByRole('button', { name: 'Search' }).click();
+
+      // wait for search to initiate and finish
+      cy.findByRole('progressbar').should('exist');
+      cy.findByRole('progressbar').should('not.exist');
+
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.findByRole('button', { name: 'Search' }).trigger('mouseover');

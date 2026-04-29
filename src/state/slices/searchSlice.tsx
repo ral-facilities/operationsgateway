@@ -43,6 +43,7 @@ export const initialStateFunc = (): SearchState => {
       shotnumRange: {},
       maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
+      dataTypes: undefined,
     },
   };
 };
@@ -62,11 +63,20 @@ export const searchSlice = createSlice({
     ) => {
       state.searchParams.maxShots = getDefaultMaxShot(action.payload);
     },
+    initialiseDataTypes: (
+      state,
+      action: PayloadAction<NonNullable<SearchParams['dataTypes']>>
+    ) => {
+      state.searchParams.dataTypes = action.payload;
+    },
   },
 });
 
-export const { changeSearchParams, initialiseDefaultMaxShots } =
-  searchSlice.actions;
+export const {
+  changeSearchParams,
+  initialiseDataTypes,
+  initialiseDefaultMaxShots,
+} = searchSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectSearchParams = (state: RootState) =>

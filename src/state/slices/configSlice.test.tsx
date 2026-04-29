@@ -1,8 +1,10 @@
+import { staticChannels } from '../../api/channels';
 import { setSettings } from '../../settings';
 import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
   initialState,
+  loadDataTypesSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
@@ -13,12 +15,21 @@ import ConfigReducer, {
 } from './configSlice';
 import {
   defaultMaxShotOptions,
+  initialiseDataTypes,
   initialiseDefaultMaxShots,
 } from './searchSlice';
 
 vi.mock('loglevel');
 
 describe('configSlice', () => {
+  const originalActiveArea = staticChannels['active_area'];
+
+  beforeEach(() => {
+    staticChannels['active_area'] = JSON.parse(
+      JSON.stringify(originalActiveArea)
+    );
+  });
+
   // normally can test reducers in components, but since configSlice is high level
   // we'll create standalone unit tests for it
   describe('Reducer', () => {
@@ -117,6 +128,17 @@ describe('configSlice', () => {
 
       expect(updatedState.plotAxisSigFigs).toEqual('.3~s');
     });
+
+    it('should set dataTypes property when loadDataTypesSetting action is sent', () => {
+      expect(state.dataTypes).toEqual(undefined);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadDataTypesSetting(['GS', 'GD'])
+      );
+
+      expect(updatedState.dataTypes).toEqual(['GS', 'GD']);
+    });
   });
 
   describe('Actions', () => {
@@ -124,7 +146,7 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost, loadWorkingHoursSetting and settingsLoaded actions are sent', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost, loadWorkingHoursSetting, and settingsLoaded actions are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -141,6 +163,7 @@ describe('configSlice', () => {
           pluginHost: 'http://localhost:3000/',
           workingHours: { start: 10, end: 17 },
           plotAxisSigFigs: '.2~s',
+          dataTypes: ['GS', 'GD'],
         })
       );
       const asyncAction = configureApp();
@@ -172,10 +195,14 @@ describe('configSlice', () => {
         loadWorkingHoursSetting({ start: 10, end: 17 })
       );
       expect(actions).toContainEqual(loadPlotAxisSigFigsSetting('.2~s'));
+      expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
+      expect(actions).toContainEqual(initialiseDataTypes(['GS', 'GD']));
+      expect(staticChannels['active_area'].name).toBe('Data Type');
+
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting and loadWorkingHoursSetting actions when they're not defined", async () => {
+    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting and loadWorkingHoursSetting actions or configure data types when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -205,6 +232,45 @@ describe('configSlice', () => {
       expect(
         actions.every(({ type }) => type !== loadPlotAxisSigFigsSetting.type)
       ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadDataTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== initialiseDataTypes.type)
+      ).toBe(true);
+      expect(staticChannels['active_area'].name).toBe('Active Area');
+
+      expect(actions).toContainEqual(settingsLoaded());
+    });
+
+    it("doesn't configure data types when it is an empty array", async () => {
+      setSettings(
+        Promise.resolve({
+          apiUrl: 'api',
+          recordLimitWarning: -1,
+          maxShots: defaultMaxShotOptions,
+          routes: [
+            {
+              section: 'section',
+              link: 'link',
+              displayName: 'displayName',
+              order: 1,
+            },
+          ],
+          dataTypes: [],
+        })
+      );
+
+      const asyncAction = configureApp();
+      await asyncAction(dispatch);
+
+      expect(
+        actions.every(({ type }) => type !== loadDataTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== initialiseDataTypes.type)
+      ).toBe(true);
+      expect(staticChannels['active_area'].name).toBe('Active Area');
 
       expect(actions).toContainEqual(settingsLoaded());
     });

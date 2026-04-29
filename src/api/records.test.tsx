@@ -80,6 +80,7 @@ describe('records api functions', () => {
               toDate: '2022-01-02 00:00:00',
             },
             maxShots: getDefaultMaxShot(defaultMaxShotOptions),
+            dataTypes: ['GS', 'GQ'],
           },
         },
         filter: {
@@ -108,7 +109,7 @@ describe('records api functions', () => {
 
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.active_area":{"$in":["GS","GQ"]}},{"metadata.shotnum":{"$gt":300}}]}'
       );
 
       expect(new URL(request.url).searchParams.toString()).toEqual(
@@ -190,7 +191,7 @@ describe('records api functions', () => {
   });
 
   describe('useShotnumToDateConverter', () => {
-    it('send a request to fetch date using ShotnumToDateConverter and returns a succesful response', async () => {
+    it('send a request to fetch date using ShotnumToDateConverter and returns a successful response', async () => {
       const expectedReponse = {
         from: '2022-01-04T00:00:00',
         to: '2022-01-18T00:00:00',
@@ -211,9 +212,36 @@ describe('records api functions', () => {
 
       expect(result.current.data).toEqual(expectedReponse);
     });
+
+    it('send a request to fetch date using ShotnumToDateConverter with a data type and returns a successful response', async () => {
+      const expectedReponse = {
+        from: '2022-01-05T00:00:00',
+        to: '2022-01-17T00:00:00',
+        min: 4,
+        max: 19,
+      };
+
+      const { result } = renderHook(
+        () =>
+          useShotnumToDateConverter(
+            expectedReponse.min,
+            expectedReponse.max,
+            'TEST'
+          ),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+
     it('does not send a request to fetch date using ShotnumToDateConverter when query set to disabled', async () => {
       const { result } = renderHook(
-        () => useShotnumToDateConverter(undefined, undefined, false),
+        () => useShotnumToDateConverter(undefined, undefined, undefined, false),
         {
           wrapper: hooksWrapperWithProviders(state),
         }
@@ -226,7 +254,7 @@ describe('records api functions', () => {
   });
 
   describe('useDateToShotnumConverter', () => {
-    it('send a request to fetch date usingDateToShotnumConverter and returns a succesful response', async () => {
+    it('send a request to fetch date usingDateToShotnumConverter and returns a successful response', async () => {
       const expectedReponse = {
         from: '2021-12-01T00:00:00',
         to: '2022-01-19T00:00:00',
@@ -247,9 +275,36 @@ describe('records api functions', () => {
 
       expect(result.current.data).toEqual(expectedReponse);
     });
+
+    it('send a request to fetch date usingDateToShotnumConverter a data type and returns a successful response', async () => {
+      const expectedReponse = {
+        from: '2021-12-01T00:00:00',
+        to: '2022-01-19T00:00:00',
+        min: 1,
+        max: 17,
+      };
+
+      const { result } = renderHook(
+        () =>
+          useDateToShotnumConverter(
+            expectedReponse.from,
+            expectedReponse.to,
+            'TEST'
+          ),
+        {
+          wrapper: hooksWrapperWithProviders(state),
+        }
+      );
+      await waitFor(() => {
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+
+      expect(result.current.data).toEqual(expectedReponse);
+    });
+
     it('does not send a request to fetch date usingDateToShotnumConverter when query set to disabled', async () => {
       const { result } = renderHook(
-        () => useDateToShotnumConverter(undefined, undefined, false),
+        () => useDateToShotnumConverter(undefined, undefined, undefined, false),
         {
           wrapper: hooksWrapperWithProviders(state),
         }
@@ -477,6 +532,7 @@ describe('records api functions', () => {
               toDate: '2022-01-02 00:00:00',
             },
             maxShots: getDefaultMaxShot(defaultMaxShotOptions),
+            dataTypes: ['GA'],
           },
         },
         filter: {
@@ -524,7 +580,7 @@ describe('records api functions', () => {
       );
       params.append(
         'conditions',
-        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
+        '{"$and":[{"metadata.timestamp":{"$gte":"2022-01-01 00:00:00","$lte":"2022-01-02 00:00:00"}},{"metadata.active_area":{"$in":["GA"]}},{"metadata.shotnum":{"$gt":300}}],"$or":[{"channels.CHANNEL_1":{"$exists":true}},{"channels.CHANNEL_2":{"$exists":true}}]}'
       );
       params.append('skip', '0');
       params.append('limit', '25');

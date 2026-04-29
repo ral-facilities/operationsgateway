@@ -29,6 +29,7 @@ describe('shotNumber search', () => {
       isDateToShotnum: false,
       invalidShotNumberRange: false,
       searchParamsUpdated: searchParamsUpdated,
+      shotNumType: 'number',
     };
 
     user = userEvent.setup();
@@ -41,6 +42,19 @@ describe('shotNumber search', () => {
   it('renders correctly', async () => {
     const { asFragment } = createView();
     await user.click(screen.getByLabelText('open shot number search box'));
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('"disables" when noSingleDataTypeSelected is true', async () => {
+    props.shotNumType = 'string';
+    props.noSingleDataTypeSelected = true;
+    const { asFragment } = createView();
+    await user.click(screen.getByLabelText('open shot number search box'));
+    expect(
+      await screen.findByRole('tooltip', {
+        name: 'Please ensure a single data type is selected to enable searching by shot number',
+      })
+    ).toBeInTheDocument();
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -75,6 +89,31 @@ describe('shotNumber search', () => {
     await user.type(maxInput, '2');
     expect(changeSearchParameterShotnumMin).toHaveBeenCalledWith(1);
     expect(changeSearchParameterShotnumMax).toHaveBeenCalledWith(2);
+    expect(resetDateRange).toHaveBeenCalled();
+    expect(searchParamsUpdated).toHaveBeenCalled();
+    const helperTexts = within(shotnumPopup).queryAllByText('Invalid range');
+    expect(helperTexts.length).toEqual(0);
+  });
+
+  it('allows user to change min and max values for string shot numbers', async () => {
+    props.shotNumType = 'string';
+    createView();
+
+    await user.click(screen.getByLabelText('open shot number search box'));
+    const shotnumPopup = screen.getByRole('dialog');
+    const minInput = within(shotnumPopup).getByRole('textbox', {
+      name: 'Min',
+    });
+    const maxInput = within(shotnumPopup).getByRole('textbox', {
+      name: 'Max',
+    });
+
+    await user.click(minInput);
+    await user.paste('GA-1');
+    await user.click(maxInput);
+    await user.paste('GA-2');
+    expect(changeSearchParameterShotnumMin).toHaveBeenCalledWith('GA-1');
+    expect(changeSearchParameterShotnumMax).toHaveBeenCalledWith('GA-2');
     expect(resetDateRange).toHaveBeenCalled();
     expect(searchParamsUpdated).toHaveBeenCalled();
     const helperTexts = within(shotnumPopup).queryAllByText('Invalid range');

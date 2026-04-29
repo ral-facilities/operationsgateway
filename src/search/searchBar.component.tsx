@@ -22,9 +22,11 @@ import {
   ExperimentParams,
   SearchParams,
   ShotnumRange,
+  ShotNumType,
 } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
+  selectDataTypes,
   selectMaxShots,
   selectRecordLimitWarning,
 } from '../state/slices/configSlice';
@@ -37,6 +39,7 @@ import {
 } from '../state/slices/searchSlice';
 import AutoRefreshToggle from './components/autoRefreshToggle.component';
 import DataRefresh from './components/dataRefresh.component';
+import DataTypes from './components/dataTypes.component';
 import DateTime from './components/dateTime.component';
 import Experiment from './components/experiment.component';
 import MaxShots from './components/maxShots.component';
@@ -64,9 +67,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const { expanded, sessionId, heightRef } = props;
 
   const searchParams = useAppSelector(selectSearchParams); // the parameters sent to the search query itself
-  const { shotnumRange, maxShots: maxShotsParam, experimentID } = searchParams;
+  const {
+    shotnumRange,
+    maxShots: maxShotsParam,
+    experimentID,
+    dataTypes: dataTypesParam,
+  } = searchParams;
   const dateRangeLocalTime = useAppSelector(selectDateRangeInLocalTime);
   const maxShotsOptions = useAppSelector(selectMaxShots);
+  const allDataTypes = useAppSelector(selectDataTypes);
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -143,9 +152,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   // ########################
   // The SHOT NUMBER MIN AND MAX fields sent as part of the query (if any)
   const [searchParameterShotnumMin, setSearchParameterShotnumMin] =
-    React.useState<number | undefined>(shotnumRange.min ?? undefined);
+    React.useState<ShotNumType | undefined>(shotnumRange.min ?? undefined);
   const [searchParameterShotnumMax, setSearchParameterShotnumMax] =
-    React.useState<number | undefined>(shotnumRange.max ?? undefined);
+    React.useState<ShotNumType | undefined>(shotnumRange.max ?? undefined);
 
   const setShotnumberRange = React.useCallback(
     (shotnumMin: number | undefined, shotnumMax: number | undefined) => {
@@ -157,6 +166,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
 
   const [maxShots, setMaxShots] =
     React.useState<SearchParams['maxShots']>(maxShotsParam);
+
+  const [dataTypes, setDataTypes] =
+    React.useState<SearchParams['dataTypes']>(dataTypesParam);
 
   // ########################
   // Experiment ID
@@ -233,21 +245,25 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       searchParameterToDate
         ? formatDateTimeForApi(searchParameterToDate)
         : undefined,
+      dataTypes && dataTypes.length === 1 ? dataTypes?.[0] : undefined,
       // only enable query when dates are not null and the range is valid
       !invalidDateRange &&
-        !(searchParameterFromDate === null && searchParameterToDate === null)
+        !(searchParameterFromDate === null && searchParameterToDate === null) &&
+        (typeof dataTypes === 'undefined' || dataTypes.length === 1)
     );
 
   // Shot number range to date range converter
   const { data: shotnumToDate } = useShotnumToDateConverter(
     searchParameterShotnumMin,
     searchParameterShotnumMax,
+    dataTypes && dataTypes.length === 1 ? dataTypes?.[0] : undefined,
     // only enable query when shot numbers are not undefined and the range is valid
     !invalidShotNumberRange &&
       !(
         typeof searchParameterShotnumMin === 'undefined' &&
         typeof searchParameterShotnumMax === 'undefined'
-      )
+      ) &&
+      (typeof dataTypes === 'undefined' || dataTypes.length === 1)
   );
 
   // Checks for changes to shot number range and date range
@@ -334,8 +350,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     setSearchParameterShotnumMax(shotnumRange.max);
 
     setMaxShots(maxShotsParam);
+    setDataTypes(dataTypesParam);
     setParamsUpdated(false);
-  }, [dateRangeLocalTime, experimentID, maxShotsParam, shotnumRange]);
+  }, [
+    dateRangeLocalTime,
+    experimentID,
+    maxShotsParam,
+    dataTypesParam,
+    shotnumRange,
+  ]);
 
   const firstUpdate = React.useRef(true);
   // use a ref so that we can control the useEffect that's supposed to
@@ -351,6 +374,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       setSearchParameterShotnumMin(undefined);
       setSearchParameterShotnumMax(undefined);
       setMaxShots(getDefaultMaxShot(maxShotsOptions));
+      setDataTypes(allDataTypes);
       setTimeframeRange(null);
     } else firstUpdate.current = false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -418,6 +442,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
       shotnumRange: newShotnumRange,
       maxShots,
       experimentID: searchParameterExperiment,
+      dataTypes,
     };
 
     setIncomingParams(newSearchParams);
@@ -449,8 +474,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     searchParameterToDate,
     searchParameterShotnumMin,
     searchParameterShotnumMax,
-    searchParameterExperiment,
     maxShots,
+    searchParameterExperiment,
+    dataTypes,
     displayingWarningMessage,
     queryClient,
     filters,
@@ -520,6 +546,29 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
     }
   }, [handleSearch, queryClient, refreshingData, timeFrameChangedAfterRefresh]);
 
+  // ensure that we clear shot numbers when multiple data types detected
+  const changeDataTypes: React.Dispatch<
+    React.SetStateAction<SearchParams['dataTypes']>
+  > = React.useCallback(
+    (s) => {
+      setDataTypes(s);
+      if (Array.isArray(s)) {
+        if (s.length !== 1) {
+          setSearchParameterShotnumMin(undefined);
+          setSearchParameterShotnumMax(undefined);
+        }
+      }
+      if (typeof s === 'function') {
+        const newDataTypes = s(dataTypes);
+        if (newDataTypes && newDataTypes.length !== 1) {
+          setSearchParameterShotnumMin(undefined);
+          setSearchParameterShotnumMax(undefined);
+        }
+      }
+    },
+    [dataTypes]
+  );
+
   return (
     <Collapse in={expanded} timeout="auto" unmountOnExit>
       <Grid container spacing={1} direction="row" ref={heightRef}>
@@ -577,6 +626,14 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                 isDateToShotnum={isDateToShotnum}
                 invalidShotNumberRange={invalidShotNumberRange}
                 searchParamsUpdated={searchParamsUpdated}
+                noSingleDataTypeSelected={
+                  Array.isArray(dataTypes) ? dataTypes.length !== 1 : undefined
+                }
+                shotNumType={
+                  Array.isArray(allDataTypes) && allDataTypes.length > 0
+                    ? 'string'
+                    : 'number'
+                }
               />
             </Grid>
             <Grid size="auto">
@@ -637,7 +694,11 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
                   variant={paramsUpdated ? 'contained' : 'outlined'}
                   sx={{ height: '100%', paddingLeft: 1, paddingRight: 1 }}
                   onClick={handleSearch}
-                  disabled={invalidDateRange || invalidShotNumberRange}
+                  disabled={
+                    invalidDateRange ||
+                    invalidShotNumberRange ||
+                    (typeof dataTypes !== 'undefined' && dataTypes.length === 0)
+                  }
                 >
                   Search
                 </Button>
@@ -645,7 +706,7 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid container direction="row" columnGap={5}>
+        <Grid container direction="row" columnGap={1}>
           <Grid>
             <MaxShots
               maxShots={maxShots}
@@ -654,6 +715,15 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               searchParamsUpdated={searchParamsUpdated}
             />
           </Grid>
+          {dataTypes && (
+            <Grid>
+              <DataTypes
+                selectedDataTypes={dataTypes}
+                changeSelectedDataTypes={changeDataTypes}
+                searchParamsUpdated={searchParamsUpdated}
+              />
+            </Grid>
+          )}
           <Grid>
             <DataRefresh
               timeframeSet={!!timeframeRange}
