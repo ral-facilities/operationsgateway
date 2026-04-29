@@ -4,7 +4,7 @@ import { MicroFrontendId } from './app.types';
 import { server } from './mocks/server';
 import { fetchSettings } from './settings';
 import { registerRoute } from './state/scigateway.actions';
-import { defaultMaxShots } from './state/slices/searchSlice';
+import { defaultMaxShotOptions } from './state/slices/searchSlice';
 
 vi.mock('loglevel');
 
@@ -23,7 +23,7 @@ describe('fetchSettings', () => {
     const settingsResult = {
       apiUrl: 'api',
       recordLimitWarning: -1,
-      maxShots: defaultMaxShots,
+      maxShots: defaultMaxShotOptions,
       routes: [
         {
           section: 'section',
@@ -70,7 +70,7 @@ describe('fetchSettings', () => {
     const settingsResult = {
       apiUrl: 'api',
       recordLimitWarning: -1,
-      maxShots: defaultMaxShots,
+      maxShots: defaultMaxShotOptions,
       routes: [
         {
           section: 'section0',
@@ -325,7 +325,7 @@ describe('fetchSettings', () => {
           {
             apiUrl: 'api',
             recordLimitWarning: -1,
-            maxShots: defaultMaxShots,
+            maxShots: defaultMaxShotOptions,
           },
           { status: 200 }
         )
@@ -350,7 +350,7 @@ describe('fetchSettings', () => {
           {
             apiUrl: 'api',
             recordLimitWarning: -1,
-            maxShots: defaultMaxShots,
+            maxShots: defaultMaxShotOptions,
 
             routes: [
               {

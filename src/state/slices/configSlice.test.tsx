@@ -11,7 +11,10 @@ import ConfigReducer, {
   loadWorkingHoursSetting,
   settingsLoaded,
 } from './configSlice';
-import { defaultMaxShots, initialiseDefaultMaxShots } from './searchSlice';
+import {
+  defaultMaxShotOptions,
+  initialiseDefaultMaxShots,
+} from './searchSlice';
 
 vi.mock('loglevel');
 
@@ -77,7 +80,7 @@ describe('configSlice', () => {
     });
 
     it('should set maxShots property when loadMaxShotsSetting action is sent', () => {
-      expect(state.maxShots).toEqual(defaultMaxShots);
+      expect(state.maxShots).toEqual(defaultMaxShotOptions);
 
       const updatedState = ConfigReducer(
         state,
@@ -177,7 +180,7 @@ describe('configSlice', () => {
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
-          maxShots: defaultMaxShots,
+          maxShots: defaultMaxShotOptions,
           routes: [
             {
               section: 'section',

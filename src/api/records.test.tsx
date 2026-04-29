@@ -14,7 +14,7 @@ import handleOG_APIError from '../handleOG_APIError';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
 import {
-  defaultMaxShots,
+  defaultMaxShotOptions,
   getDefaultMaxShot,
 } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
@@ -79,7 +79,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: getDefaultMaxShot(defaultMaxShots),
+            maxShots: getDefaultMaxShot(defaultMaxShotOptions),
           },
         },
         filter: {
@@ -323,7 +323,7 @@ describe('records api functions', () => {
           toDate: '2022-01-02 00:00:00',
         },
         shotnumRange: {},
-        maxShots: getDefaultMaxShot(defaultMaxShots),
+        maxShots: getDefaultMaxShot(defaultMaxShotOptions),
         experimentID: null,
       };
 
@@ -368,7 +368,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: getDefaultMaxShot(defaultMaxShots),
+            maxShots: getDefaultMaxShot(defaultMaxShotOptions),
           },
         },
         filter: {
@@ -476,7 +476,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: getDefaultMaxShot(defaultMaxShots),
+            maxShots: getDefaultMaxShot(defaultMaxShotOptions),
           },
         },
         filter: {
@@ -959,7 +959,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: getDefaultMaxShot(defaultMaxShots),
+            maxShots: getDefaultMaxShot(defaultMaxShotOptions),
           },
         },
         filter: {
@@ -1029,7 +1029,7 @@ describe('records api functions', () => {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
             },
-            maxShots: getDefaultMaxShot(defaultMaxShots),
+            maxShots: getDefaultMaxShot(defaultMaxShotOptions),
           },
         },
         filter: {

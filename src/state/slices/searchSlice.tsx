@@ -9,7 +9,7 @@ import { selectQueryFilters } from './filterSlice';
 import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
 
-export const defaultMaxShots: MaxShotType[] = [
+export const defaultMaxShotOptions: MaxShotType[] = [
   { value: 50, default: true },
   { value: 1000 },
   { value: 'Unlimited' },
@@ -41,7 +41,7 @@ export const initialStateFunc = (): SearchState => {
         fromDate: formatDateTimeForApi(from),
       },
       shotnumRange: {},
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
     },
   };

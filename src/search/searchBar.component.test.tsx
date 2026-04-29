@@ -13,7 +13,7 @@ import { formatDateTimeForApi } from '../api/api';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
 import {
-  defaultMaxShots,
+  defaultMaxShotOptions,
   getDefaultMaxShot,
 } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
@@ -308,7 +308,7 @@ describe('searchBar component', () => {
         min: 1,
         max: 2,
       },
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
     });
   });
@@ -331,7 +331,7 @@ describe('searchBar component', () => {
         toDate: '2024-07-02T12:00:59',
       },
       shotnumRange: {},
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
     });
   });
@@ -481,7 +481,7 @@ describe('searchBar component', () => {
       dateRange: {},
       experimentID: null,
       shotnumRange: {},
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
     });
 
     // Try search again
@@ -497,7 +497,7 @@ describe('searchBar component', () => {
         min: 1,
         max: 18,
       },
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
     });
   });
@@ -656,7 +656,7 @@ describe('searchBar component', () => {
         min: 1,
         max: 18,
       },
-      maxShots: getDefaultMaxShot(defaultMaxShots),
+      maxShots: getDefaultMaxShot(defaultMaxShotOptions),
       experimentID: null,
     });
   });

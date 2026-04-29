@@ -2,7 +2,10 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { MaxShotType, settings, type WorkingHours } from '../../settings';
 import { AppDispatch, RootState } from '../store';
-import { defaultMaxShots, initialiseDefaultMaxShots } from './searchSlice';
+import {
+  defaultMaxShotOptions,
+  initialiseDefaultMaxShots,
+} from './searchSlice';
 
 interface URLs {
   apiUrl: string;
@@ -25,7 +28,7 @@ export const initialState: ConfigState = {
     apiUrl: '',
   },
   recordLimitWarning: -1,
-  maxShots: defaultMaxShots,
+  maxShots: defaultMaxShotOptions,
   pluginHost: '',
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
