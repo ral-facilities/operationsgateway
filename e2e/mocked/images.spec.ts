@@ -508,10 +508,13 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
-  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // for some reason playwright has an off by 1 error in the y-pos in chrome and webkit, it works fine when testing manually
   // i.e. clicking top left-most pixel results in (0,0)
   await image.click({
-    position: { x: 100, y: browserName === 'chromium' ? 301 : 300 },
+    position: {
+      x: 100,
+      y: browserName === 'chromium' || browserName === 'webkit' ? 301 : 300,
+    },
   });
 
   await expect(popup.getByText('Position: (100, 300)')).toBeVisible();
@@ -605,10 +608,13 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   });
 
   // click to move the crosshair so we check when switching images it resets to the new image's centroid
-  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
+  // for some reason playwright has an off by 1 error in the y-pos in chrome and webkit, it works fine when testing manually
   // i.e. clicking top left-most pixel results in (0,0)
   await oldImage.click({
-    position: { x: 200, y: browserName === 'chromium' ? 201 : 200 },
+    position: {
+      x: 200,
+      y: browserName === 'chromium' || browserName === 'webkit' ? 201 : 200,
+    },
   });
   await expect(popup.getByText('Position: (200, 200)')).toBeVisible();
 
