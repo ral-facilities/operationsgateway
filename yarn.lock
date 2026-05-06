@@ -4286,10 +4286,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-no-only-tests@npm:3.3.0":
-  version: 3.3.0
-  resolution: "eslint-plugin-no-only-tests@npm:3.3.0"
-  checksum: 10c0/a04425d9d3bcd745267168782eb12a3a712b8357264ddd4e204204318975c2c21e2c1efe68113181de908548a85762205b61d8f92ec9dc5e0a5ae54c0240a24d
+"eslint-plugin-no-only-tests@npm:3.4.0":
+  version: 3.4.0
+  resolution: "eslint-plugin-no-only-tests@npm:3.4.0"
+  checksum: 10c0/7c2163ab71cce74bb276025463910ea760888290cc9a3fb3e8ed4058055fd69cc7c145beca2f809232488b62c331e17a7b9271a025ef462e87d706298fb6f87a
   languageName: node
   linkType: hard
 
@@ -6886,7 +6886,7 @@ __metadata:
     eslint-config-prettier: "npm:10.1.1"
     eslint-plugin-cypress: "npm:4.3.0"
     eslint-plugin-jsx-a11y: "npm:6.10.2"
-    eslint-plugin-no-only-tests: "npm:3.3.0"
+    eslint-plugin-no-only-tests: "npm:3.4.0"
     eslint-plugin-prettier: "npm:5.5.4"
     eslint-plugin-react: "npm:7.37.2"
     eslint-plugin-react-hooks: "npm:5.2.0"
