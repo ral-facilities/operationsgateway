@@ -1,7 +1,7 @@
 # Dockerfile to build and serve OperationsGateway
 
 # Build stage
-FROM node:24.14.0-alpine@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28ddf1e99dcafdf114 AS builder
+FROM node:24.14.1-alpine@sha256:8510330d3eb72c804231a834b1a8ebb55cb3796c3e4431297a24d246b8add4d5 AS builder
 
 WORKDIR /operationsgateway-build
 
@@ -28,7 +28,7 @@ RUN set -eux; \
     yarn build;
 
 # Run stage
-FROM httpd:2.4.66-alpine@sha256:968c8b4098fcecb473762b45f6c541a3b2b2cfab2caccb1edbd2cece071ef160
+FROM httpd:2.4.67-alpine@sha256:0136c2d4462f3b8ecc92bea70efdfef4d06523999ae8d7aa533969dea6db4576
 
 WORKDIR /usr/local/apache2/htdocs
 
