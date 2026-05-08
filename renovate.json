@@ -13,6 +13,11 @@
   "patch": {
     "enabled": false
   },
+  "vulnerabilityAlerts": {
+    "patch": {
+      "enabled": true
+    }
+  },
   "cdnurl": {
     "managerFilePatterns": ["/windowPortal\\.component\\.tsx$/"]
   }
