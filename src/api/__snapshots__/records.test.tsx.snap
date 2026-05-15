@@ -4,12 +4,16 @@ exports[`records api functions > useRecordsPaginated > sends request to fetch re
 [
   {
     "CHANNEL_ABCDE": 1,
+    "CHANNEL_ABCDEX": "abcdex",
     "_id": "1",
     "active_area": "ea1",
     "active_experiment": undefined,
     "channelMetadata": {
       "CHANNEL_ABCDE": {
         "channel_dtype": "scalar",
+      },
+      "CHANNEL_ABCDEX": {
+        "channel_dtype": "string",
       },
     },
     "shotnum": 1,

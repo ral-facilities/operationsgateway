@@ -19,6 +19,7 @@ import { useChannelSummary } from '../api/channels';
 import {
   FullChannelMetadata,
   isChannelMetadataScalar,
+  isChannelMetadataString,
   isChannelMetadataVector,
   isChannelMetadataWaveform,
 } from '../app.types';
@@ -223,7 +224,8 @@ const ChannelMetadataPanel = (props: ChannelMetadataPanelProps) => {
                           {formattedTimestamp}
                         </TableCell>
                         <TableCell>
-                          {isChannelMetadataScalar(displayedChannel) ? (
+                          {isChannelMetadataScalar(displayedChannel) ||
+                          isChannelMetadataString(displayedChannel) ? (
                             data
                           ) : (
                             <Base64ImageThumbnail

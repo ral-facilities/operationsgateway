@@ -59,6 +59,20 @@ describe('Channel Metadata Panel', () => {
     expect(view.asFragment()).toMatchSnapshot();
   });
 
+  it('should render correctly for string channel', async () => {
+    displayedChannel = {
+      name: 'Channel_ABCDEX',
+      systemName: 'CHANNEL_ABCDEX',
+      type: 'string',
+      path: '/test',
+      description: 'Test description',
+    };
+    const view = createView();
+    await screen.findByText('Data Summary');
+
+    expect(view.asFragment()).toMatchSnapshot();
+  });
+
   it('should render correctly for vector channel with units selected', async () => {
     displayedChannel = {
       name: 'Channel_ABCDE',

@@ -25,7 +25,7 @@ describe('Record Table', () => {
 
   let uuidCount = 0;
 
-  const createView = (initialState = state) => {
+  const createView = (initialState: Partial<RootState> = state) => {
     return renderComponentWithProviders(
       <RecordTable openFilters={openFilters} tableHeight="100px" />,
       {
@@ -272,7 +272,22 @@ describe('Record Table', () => {
       timeout: 5000,
     });
 
-    expect(screen.getByText('3.3e+2')).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: '3.3e+2' })).toBeInTheDocument();
+  });
+
+  it('renders string channels correctly', async () => {
+    createView({
+      table: {
+        ...state.table,
+        selectedColumnIds: ['timestamp', 'CHANNEL_ABCDEX'],
+      },
+    });
+
+    await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'), {
+      timeout: 5000,
+    });
+
+    expect(screen.getByRole('cell', { name: 'abcdex' })).toBeInTheDocument();
   });
 
   it("updates columns when a column's word wrap is toggled", async () => {

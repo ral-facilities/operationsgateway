@@ -23,11 +23,13 @@ vi.mock('loglevel');
 
 describe('configSlice', () => {
   const originalActiveArea = staticChannels['active_area'];
+  const originalShotNum = staticChannels['shotnum'];
 
   beforeEach(() => {
     staticChannels['active_area'] = JSON.parse(
       JSON.stringify(originalActiveArea)
     );
+    staticChannels['shotnum'] = JSON.parse(JSON.stringify(originalShotNum));
   });
 
   // normally can test reducers in components, but since configSlice is high level
@@ -198,6 +200,7 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
       expect(actions).toContainEqual(initialiseDataTypes(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
+      expect(staticChannels['shotnum'].type).toBe('string');
 
       expect(actions).toContainEqual(settingsLoaded());
     });

@@ -13,6 +13,12 @@
           "channel_dtype": "scalar"
         },
         "data": 1
+      },
+      "CHANNEL_ABCDEX": {
+        "metadata": {
+          "channel_dtype": "string"
+        },
+        "data": "abcdex"
       }
     }
   },

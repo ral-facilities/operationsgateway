@@ -4,6 +4,7 @@ import {
   APIErrorResponse,
   Channel,
   isChannelScalar,
+  isChannelString,
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME,
   Record,
@@ -277,11 +278,17 @@ export const handlers = [
                 { '2022-01-30T00:00:00': 5 },
                 { '2022-01-29T00:00:00': 4 },
               ]
-            : [
-                { '2022-01-31T00:00:00': channel?.thumbnail },
-                { '2022-01-30T00:00:00': channel?.thumbnail },
-                { '2022-01-29T00:00:00': channel?.thumbnail },
-              ],
+            : isChannelString(channel)
+              ? [
+                  { '2022-01-31T00:00:00': 'c' },
+                  { '2022-01-30T00:00:00': 'b' },
+                  { '2022-01-29T00:00:00': 'a' },
+                ]
+              : [
+                  { '2022-01-31T00:00:00': channel?.thumbnail },
+                  { '2022-01-30T00:00:00': channel?.thumbnail },
+                  { '2022-01-29T00:00:00': channel?.thumbnail },
+                ],
         },
         { status: 200 }
       );
