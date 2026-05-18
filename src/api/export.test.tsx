@@ -81,8 +81,9 @@ describe('useExportData', () => {
         exportType: 'Selected Rows',
         dataToExport: {
           Scalars: true,
+          Strings: true,
           Images: false,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': true,
           'Waveform Images': false,
           'Vector CSVs': false,
@@ -115,6 +116,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'true');
+    params.append('export_strings', 'true');
     params.append('export_images', 'false');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
@@ -130,7 +132,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toContain('blob:');
-    expect(mockLink.download).toEqual('scwcvidownload.csv');
+    expect(mockLink.download).toEqual('scstwcvidownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -167,8 +169,9 @@ describe('useExportData', () => {
         exportType: 'Selected Rows',
         dataToExport: {
           Scalars: true,
+          Strings: true,
           Images: true,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': true,
           'Waveform Images': true,
           'Vector CSVs': true,
@@ -206,6 +209,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'true');
+    params.append('export_strings', 'true');
     params.append('export_images', 'true');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'true');
@@ -221,7 +225,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toContain('blob:');
-    expect(mockLink.download).toEqual('scimwcwivcdownload.csv');
+    expect(mockLink.download).toEqual('scstimwcwivcdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -241,8 +245,9 @@ describe('useExportData', () => {
         exportType: 'All Rows',
         dataToExport: {
           Scalars: false,
+          Strings: false,
           Images: true,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
           'Vector CSVs': false,
@@ -275,6 +280,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'false');
+    params.append('export_strings', 'false');
     params.append('export_images', 'true');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
@@ -310,8 +316,9 @@ describe('useExportData', () => {
         exportType: 'All Rows',
         dataToExport: {
           Scalars: false,
+          Strings: false,
           Images: true,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': false,
           'Waveform Images': true,
           'Vector CSVs': true,
@@ -341,6 +348,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'false');
+    params.append('export_strings', 'false');
     params.append('export_images', 'true');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
@@ -376,8 +384,9 @@ describe('useExportData', () => {
         exportType: 'Visible Rows',
         dataToExport: {
           Scalars: true,
+          Strings: true,
           Images: false,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
           'Vector CSVs': false,
@@ -411,6 +420,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'true');
+    params.append('export_strings', 'true');
     params.append('export_images', 'false');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
@@ -426,7 +436,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toContain('blob:');
-    expect(mockLink.download).toEqual('scdownload.csv');
+    expect(mockLink.download).toEqual('scstdownload.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();
@@ -448,8 +458,9 @@ describe('useExportData', () => {
         exportType: 'All Rows',
         dataToExport: {
           Scalars: true,
+          Strings: false,
           Images: false,
-          'Float Image': false,
+          'Float Images': false,
           'Waveform CSVs': false,
           'Waveform Images': false,
           'Vector CSVs': false,
@@ -483,6 +494,7 @@ describe('useExportData', () => {
       })
     );
     params.append('export_scalars', 'true');
+    params.append('export_strings', 'false');
     params.append('export_images', 'false');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');

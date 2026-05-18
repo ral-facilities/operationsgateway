@@ -16,8 +16,9 @@ import { staticChannels } from './channels';
 
 export interface DataToExport {
   Scalars: boolean;
+  Strings: boolean;
   Images: boolean;
-  'Float Image': boolean;
+  'Float Images': boolean;
   'Waveform CSVs': boolean;
   'Waveform Images': boolean;
   'Vector CSVs': boolean;
@@ -136,10 +137,14 @@ export const exportData = async (
       'export_scalars',
       JSON.stringify(dataToExport['Scalars'])
     );
+    queryParams.append(
+      'export_strings',
+      JSON.stringify(dataToExport['Strings'])
+    );
     queryParams.append('export_images', JSON.stringify(dataToExport['Images']));
     queryParams.append(
       'export_float_images',
-      JSON.stringify(dataToExport['Float Image'])
+      JSON.stringify(dataToExport['Float Images'])
     );
     queryParams.append(
       'export_waveform_csvs',

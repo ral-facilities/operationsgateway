@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('should be able to export a CSV of scalar info for all rows', async ({
+test('should be able to export a CSV of scalar and string info for all rows', async ({
   page,
 }) => {
   await page.goto('/');
@@ -148,7 +148,7 @@ test('should be able to export a CSV of float images and vectors for visible row
 
   await page.getByRole('radio', { name: 'Visible Rows' }).check();
 
-  await page.getByRole('checkbox', { name: 'Float Image' }).check();
+  await page.getByRole('checkbox', { name: 'Float Images' }).check();
   await page.getByRole('checkbox', { name: 'Vector CSVs' }).check();
   await page.getByRole('checkbox', { name: 'Vector Images' }).check();
 
