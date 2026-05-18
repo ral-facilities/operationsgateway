@@ -89,18 +89,6 @@ changeXAxis=undefined
     "path": "/system"
   },
   {
-    "systemName": "active_area",
-    "name": "Active Area",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_experiment",
-    "name": "Active Experiment",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
     "systemName": "CHANNEL_ABCDE",
     "name": "Channel_ABCDE",
     "path": "/Channels/1",
@@ -170,18 +158,6 @@ allChannels=[
   {
     "systemName": "shotnum",
     "name": "Shot Number",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_area",
-    "name": "Active Area",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_experiment",
-    "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
   },
@@ -335,18 +311,6 @@ changeXAxis=undefined
   {
     "systemName": "shotnum",
     "name": "Shot Number",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_area",
-    "name": "Active Area",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_experiment",
-    "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
   },
@@ -528,18 +492,6 @@ allChannels=[
   {
     "systemName": "shotnum",
     "name": "Shot Number",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_area",
-    "name": "Active Area",
-    "type": "scalar",
-    "path": "/system"
-  },
-  {
-    "systemName": "active_experiment",
-    "name": "Active Experiment",
     "type": "scalar",
     "path": "/system"
   },

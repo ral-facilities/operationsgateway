@@ -16,8 +16,8 @@ describe('Channel Tree', () => {
     systemName: Object.keys(channelsJson.channels)[0],
   } as FullChannelMetadata;
   const channel2 = {
-    ...Object.values(channelsJson.channels)[1],
-    systemName: Object.keys(channelsJson.channels)[1],
+    ...Object.values(channelsJson.channels)[2],
+    systemName: Object.keys(channelsJson.channels)[2],
   } as FullChannelMetadata;
 
   const tree: TreeNode = {
