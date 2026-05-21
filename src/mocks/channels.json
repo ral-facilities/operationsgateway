@@ -6,6 +6,11 @@
       "path": "/Channels/1",
       "type": "scalar"
     },
+    "CHANNEL_ABCDEX": {
+      "name": "Channel_ABCDEX",
+      "path": "/Channels/1",
+      "type": "string"
+    },
     "CHANNEL_BCDEF": {
       "name": "Channel_BCDEF",
       "path": "/Channels/1",

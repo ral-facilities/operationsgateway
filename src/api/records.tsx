@@ -10,6 +10,7 @@ import {
   isChannelFloatImage,
   isChannelImage,
   isChannelScalar,
+  isChannelString,
   isChannelVector,
   isChannelWaveform,
   PlotDataset,
@@ -389,7 +390,7 @@ export const useRecordsPaginated = (): UseQueryResult<
           if (channel) {
             let channelData;
 
-            if (isChannelScalar(channel)) {
+            if (isChannelScalar(channel) || isChannelString(channel)) {
               channelData = channel.data;
             } else if (
               isChannelImage(channel) ||
@@ -428,23 +429,10 @@ export const getFormattedAxisData = (
           ? record.metadata.shotnum
           : NaN;
       break;
-    case 'active_area':
-      formattedData = record.metadata.active_area
-        ? parseInt(record.metadata.active_area)
-        : NaN;
-      break;
-    case 'active_experiment':
-      formattedData = record.metadata.active_experiment
-        ? parseInt(record.metadata.active_experiment)
-        : NaN;
-      break;
     default: {
       const channel = record.channels?.[axisName];
       if (isChannelScalar(channel)) {
-        formattedData =
-          typeof channel.data === 'number'
-            ? channel.data
-            : parseFloat(channel.data);
+        formattedData = channel.data;
       }
     }
   }

@@ -177,6 +177,158 @@ exports[`Channel Metadata Panel > should render correctly for scalar channel wit
 </DocumentFragment>
 `;
 
+exports[`Channel Metadata Panel > should render correctly for string channel 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiStack-root css-3y1137-MuiStack-root"
+  >
+    <h3
+      class="MuiTypography-root MuiTypography-body1 css-lhsbas-MuiTypography-root"
+    >
+      Channel_ABCDEX
+    </h3>
+    <button
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-colorPrimary css-tw6tsg-MuiButtonBase-root-MuiButton-root"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeSmall css-d8i980-MuiButton-startIcon"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
+          data-testid="AddIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"
+          />
+        </svg>
+      </span>
+      Add this channel
+    </button>
+  </div>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
+  >
+    System name: CHANNEL_ABCDEX
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
+  >
+    Test description
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
+  >
+    Channel type: string
+  </p>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth css-1jpc804-MuiDivider-root"
+  />
+  <h4
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
+  >
+    Data Summary
+  </h4>
+  <p
+    class="MuiTypography-root MuiTypography-body2 css-7ctihp-MuiTypography-root"
+  >
+    First data date: 2022-01-29 00:00:00
+  </p>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-ytim1c-MuiTypography-root"
+  >
+    Most recent data date: 2023-01-31 00:00:00
+  </p>
+  <h5
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom css-13wd63j-MuiTypography-root"
+  >
+    Recent Data
+  </h5>
+  <div
+    class="MuiTableContainer-root css-70zvr5-MuiTableContainer-root"
+  >
+    <table
+      aria-label="recent data"
+      class="MuiTable-root css-1xwxv7r-MuiTable-root"
+    >
+      <thead
+        class="MuiTableHead-root css-1a7iywq-MuiTableHead-root"
+      >
+        <tr
+          class="MuiTableRow-root MuiTableRow-head css-1xtozoh-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
+            scope="col"
+          >
+            Time
+          </th>
+          <th
+            class="MuiTableCell-root MuiTableCell-head MuiTableCell-sizeSmall css-g6bqb5-MuiTableCell-root"
+            scope="col"
+          >
+            Data
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="MuiTableBody-root css-gmh7jj-MuiTableBody-root"
+      >
+        <tr
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-31 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            c
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-30 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            b
+          </td>
+        </tr>
+        <tr
+          class="MuiTableRow-root css-6phqnb-MuiTableRow-root"
+        >
+          <th
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+            scope="row"
+          >
+            2022-01-29 00:00:00
+          </th>
+          <td
+            class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeSmall css-jiabcu-MuiTableCell-root"
+          >
+            a
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Channel Metadata Panel > should render correctly for system channel 1`] = `
 <DocumentFragment>
   <div

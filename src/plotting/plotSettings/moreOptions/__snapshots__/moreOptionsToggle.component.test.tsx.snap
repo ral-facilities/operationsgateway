@@ -91,7 +91,7 @@ selectedPlotChannels=[
     }
   },
   {
-    "name": "active_area",
+    "name": "CHANNEL_ABCDE",
     "units": "mm",
     "options": {
       "visible": true,
@@ -101,7 +101,7 @@ selectedPlotChannels=[
     }
   },
   {
-    "name": "active_experiment",
+    "name": "CHANNEL_DEFGH",
     "units": "mm",
     "options": {
       "visible": true,

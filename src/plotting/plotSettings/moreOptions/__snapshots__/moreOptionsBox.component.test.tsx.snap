@@ -20,7 +20,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiSwitch-root MuiSwitch-sizeSmall css-r1g42g-MuiSwitch-root"
         >
           <span
-            aria-label="toggle active_area visibility off"
+            aria-label="toggle CHANNEL_ABCDE visibility off"
             class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-aqlqb4-MuiButtonBase-root-MuiSwitchBase-root-MuiSwitch-switchBase"
           >
             <input
@@ -53,7 +53,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-xpsklr-MuiInputBase-root-MuiInput-root"
         >
           <select
-            aria-label="change active_area line style"
+            aria-label="change CHANNEL_ABCDE line style"
             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1xaqj7c-MuiNativeSelect-root-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
@@ -105,7 +105,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           >
             <input
               aria-invalid="false"
-              aria-label="change active_area line width"
+              aria-label="change CHANNEL_ABCDE line width"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r0:"
               max="10"
@@ -148,7 +148,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiNativeSelect-root css-xpsklr-MuiInputBase-root-MuiInput-root"
         >
           <select
-            aria-label="change active_area marker style"
+            aria-label="change CHANNEL_ABCDE marker style"
             class="MuiNativeSelect-select MuiNativeSelect-standard MuiInputBase-input MuiInput-input css-1xaqj7c-MuiNativeSelect-root-MuiNativeSelect-select-MuiInputBase-input-MuiInput-input"
           >
             <option
@@ -235,7 +235,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
           >
             <input
               aria-invalid="false"
-              aria-label="change active_area marker size"
+              aria-label="change CHANNEL_ABCDE marker size"
               class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1pzfmz2-MuiInputBase-input-MuiOutlinedInput-input"
               id=":r1:"
               max="15"
@@ -279,7 +279,7 @@ exports[`MoreOptionsBox > renders correctly 1`] = `
         >
           <button
             aria-haspopup="dialog"
-            aria-label="Pick active_area colour"
+            aria-label="Pick CHANNEL_ABCDE colour"
             class="MuiBox-root css-129yjn7"
           />
         </div>

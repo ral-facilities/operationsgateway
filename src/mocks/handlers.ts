@@ -4,6 +4,7 @@ import {
   APIErrorResponse,
   Channel,
   isChannelScalar,
+  isChannelString,
   PREFERRED_COLOUR_MAP_PREFERENCE_NAME,
   PREFERRED_NULLABLE_COLOUR_MAP_PREFERENCE_NAME,
   Record,
@@ -277,11 +278,17 @@ export const handlers = [
                 { '2022-01-30T00:00:00': 5 },
                 { '2022-01-29T00:00:00': 4 },
               ]
-            : [
-                { '2022-01-31T00:00:00': channel?.thumbnail },
-                { '2022-01-30T00:00:00': channel?.thumbnail },
-                { '2022-01-29T00:00:00': channel?.thumbnail },
-              ],
+            : isChannelString(channel)
+              ? [
+                  { '2022-01-31T00:00:00': 'c' },
+                  { '2022-01-30T00:00:00': 'b' },
+                  { '2022-01-29T00:00:00': 'a' },
+                ]
+              : [
+                  { '2022-01-31T00:00:00': channel?.thumbnail },
+                  { '2022-01-30T00:00:00': channel?.thumbnail },
+                  { '2022-01-29T00:00:00': channel?.thumbnail },
+                ],
         },
         { status: 200 }
       );
@@ -413,7 +420,7 @@ export const handlers = [
     );
     const arrBuffer = uintarr.buffer;
 
-    const testString = `${url.searchParams.get('export_scalars') === 'true' ? 'sc' : ''}${url.searchParams.get('export_images') === 'true' ? 'im' : ''}${url.searchParams.get('export_float_images') === 'true' ? 'fl' : ''}${url.searchParams.get('export_waveform_csvs') === 'true' ? 'wc' : ''}${url.searchParams.get('export_waveform_images') === 'true' ? 'wi' : ''}${url.searchParams.get('export_vector_csvs') === 'true' ? 'vc' : ''}${url.searchParams.get('export_vector_images') === 'true' ? 'vi' : ''}`;
+    const testString = `${url.searchParams.get('export_scalars') === 'true' ? 'sc' : ''}${url.searchParams.get('export_strings') === 'true' ? 'st' : ''}${url.searchParams.get('export_images') === 'true' ? 'im' : ''}${url.searchParams.get('export_float_images') === 'true' ? 'fl' : ''}${url.searchParams.get('export_waveform_csvs') === 'true' ? 'wc' : ''}${url.searchParams.get('export_waveform_images') === 'true' ? 'wi' : ''}${url.searchParams.get('export_vector_csvs') === 'true' ? 'vc' : ''}${url.searchParams.get('export_vector_images') === 'true' ? 'vi' : ''}`;
     return new HttpResponse(arrBuffer, {
       headers: {
         'Content-Type': 'text/plain',

@@ -188,7 +188,9 @@ describe('Table Component', () => {
       `${channelName}{downArrow}{enter}`
     );
 
-    cy.findByRole('checkbox', { name: new RegExp(channelName, 'i') }).check();
+    cy.findByRole('checkbox', {
+      name: new RegExp(`^${channelName}$`, 'i'),
+    }).check();
 
     cy.contains('Add Channels').click();
 

@@ -12,6 +12,7 @@ import {
   isChannelMetadataFloatImage,
   isChannelMetadataImage,
   isChannelMetadataScalar,
+  isChannelMetadataString,
   isChannelMetadataVector,
   isChannelMetadataWaveform,
   RecordRow,
@@ -42,7 +43,10 @@ interface ChannelsEndpoint {
 }
 
 // This metadata is always present in every record
-export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
+export const staticChannels: Record<
+  typeof timeChannelName | 'shotnum' | 'active_area' | 'active_experiment',
+  FullChannelMetadata
+> = {
   [timeChannelName]: {
     systemName: timeChannelName,
     name: 'Time',
@@ -52,19 +56,19 @@ export const staticChannels: { [systemName: string]: FullChannelMetadata } = {
   shotnum: {
     systemName: 'shotnum',
     name: 'Shot Number',
-    type: 'scalar',
+    type: 'scalar', // can be string for Gemini
     path: '/system',
   },
   active_area: {
     systemName: 'active_area',
     name: 'Active Area',
-    type: 'scalar',
+    type: 'string',
     path: '/system',
   },
   active_experiment: {
     systemName: 'active_experiment',
     name: 'Active Experiment',
-    type: 'scalar',
+    type: 'string',
     path: '/system',
   },
 };
@@ -163,17 +167,22 @@ export const constructColumnDefs = (
       },
       meta: { channelInfo: channel },
       cell: ({ row, getValue }) => {
-        const value = getValue();
         switch (true) {
-          case isChannelMetadataScalar(channel):
-            return typeof value === 'number' &&
-              typeof channel.precision === 'number' ? (
+          case isChannelMetadataScalar(channel): {
+            const value = getValue<number | undefined>();
+            return (
               <React.Fragment>
-                {roundNumber(value, channel.precision, channel.notation)}
+                {value && typeof channel.precision === 'number'
+                  ? roundNumber(value, channel.precision, channel.notation)
+                  : value}
               </React.Fragment>
-            ) : (
-              <React.Fragment>{String(value ?? '')}</React.Fragment>
             );
+          }
+          case isChannelMetadataString(channel): {
+            return (
+              <React.Fragment>{getValue<string | undefined>()}</React.Fragment>
+            );
+          }
           case isChannelMetadataWaveform(channel): {
             const metadata: ChannelMetadata | undefined = (
               row.original as RecordRow
@@ -181,7 +190,7 @@ export const constructColumnDefs = (
 
             return (
               <Base64ImageThumbnail
-                base64Data={value as string}
+                base64Data={getValue<string | undefined>()}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -213,7 +222,7 @@ export const constructColumnDefs = (
                 : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value as string}
+                base64Data={getValue<string | undefined>()}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(
@@ -237,7 +246,7 @@ export const constructColumnDefs = (
             const units = isVector ? metadata.units : undefined;
             return (
               <Base64ImageThumbnail
-                base64Data={value as string}
+                base64Data={getValue<string | undefined>()}
                 alt={`${channel.name ?? channel.systemName} ${channel.type} for timestamp ${row.getValue(timeChannelName)}`}
                 onClick={() => {
                   dispatch(

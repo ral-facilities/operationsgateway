@@ -135,6 +135,8 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       // change active_area to read as data type
       staticChannels['active_area'].name = 'Data Type';
       columnIconMappings.set('active_area', <Category />);
+      // set type of shot number channel to string
+      staticChannels['shotnum'].type = 'string';
     }
 
     dispatch(settingsLoaded());

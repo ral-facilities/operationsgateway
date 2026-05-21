@@ -279,7 +279,7 @@ describe('Filter dialogue component', () => {
     expect(filters).toHaveLength(2);
 
     const [filter1, filter2] = filters;
-    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.type(filter1, 'ch{enter}is{enter}');
     await user.type(filter2, 'sh{enter}={enter}1{enter}');
     await user.tab();
 
@@ -290,8 +290,8 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'active_area',
-          label: 'Active Area',
+          value: 'CHANNEL_ABCDE',
+          label: 'Channel_ABCDE',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],
@@ -409,7 +409,7 @@ describe('Filter dialogue component', () => {
     expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
 
     const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
-    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.type(filter1, 'sh{enter}is{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -435,8 +435,8 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'active_area',
-          label: 'Active Area',
+          value: 'shotnum',
+          label: 'Shot Number',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],
@@ -458,7 +458,7 @@ describe('Filter dialogue component', () => {
     expect(screen.getAllByRole('combobox', { name: 'Filter' })).toHaveLength(2);
 
     const filter1 = screen.getAllByRole('combobox', { name: 'Filter' })[0];
-    await user.type(filter1, 'Act{enter}is{enter}');
+    await user.type(filter1, 'sh{enter}is{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -553,7 +553,7 @@ describe('Filter dialogue component', () => {
             shotnumRange: {},
             experimentID: null,
           },
-          filters: ['{"metadata.active_area":{"$ne":null}}'],
+          filters: ['{"metadata.shotnum":{"$ne":null}}'],
         },
       ],
       () => {
@@ -578,7 +578,7 @@ describe('Filter dialogue component', () => {
     const { store } = createView(state, testQueryClient);
 
     const filter = screen.getByRole('combobox', { name: 'Filter' });
-    await user.type(filter, 'Act{enter}is{enter}');
+    await user.type(filter, 'sh{enter}is{enter}');
     await user.tab();
 
     expect(screen.getByText('Apply')).not.toBeDisabled();
@@ -593,8 +593,8 @@ describe('Filter dialogue component', () => {
       [
         {
           type: 'channel',
-          value: 'active_area',
-          label: 'Active Area',
+          value: 'shotnum',
+          label: 'Shot Number',
         },
         operators.find((t) => t.value === 'is not null')!,
       ],

@@ -30,7 +30,7 @@ describe('ExportChannelColumn', () => {
         type: 'image',
       },
     };
-    vi.mocked(useExportData).mockReturnValue({
+    vi.mocked(useExportData, { partial: true }).mockReturnValue({
       mutateAsync: exportData,
     });
 
@@ -51,7 +51,7 @@ describe('ExportChannelColumn', () => {
   });
 
   it('should should pending message', async () => {
-    vi.mocked(useExportData).mockReturnValue({
+    vi.mocked(useExportData, { partial: true }).mockReturnValue({
       mutateAsync: exportData,
       isPending: true,
     });
@@ -63,11 +63,12 @@ describe('ExportChannelColumn', () => {
       exportType: 'All Rows',
       dataToExport: {
         Scalars: false,
+        Strings: false,
         Images: true,
-        'Float Image': true,
-        'Waveform CSVs': true,
+        'Float Images': false,
+        'Waveform CSVs': false,
         'Waveform Images': false,
-        'Vector CSVs': true,
+        'Vector CSVs': false,
         'Vector Images': false,
       },
       selectedColumn: 'TEST-IMAGE',
@@ -76,7 +77,8 @@ describe('ExportChannelColumn', () => {
     expect(screen.getByText('Generating export data...')).toBeVisible();
   });
 
-  it('handles export click', async () => {
+  it('handles export click for float image type', async () => {
+    props.channelInfo.type = 'float_image';
     createView();
 
     const exportButton = screen.getByText('Export');
@@ -85,9 +87,58 @@ describe('ExportChannelColumn', () => {
       exportType: 'All Rows',
       dataToExport: {
         Scalars: false,
-        Images: true,
-        'Float Image': true,
+        Strings: false,
+        Images: false,
+        'Float Images': true,
+        'Waveform CSVs': false,
+        'Waveform Images': false,
+        'Vector CSVs': false,
+        'Vector Images': false,
+      },
+      selectedColumn: 'TEST-IMAGE',
+    });
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('handles export click for waveform type', async () => {
+    props.channelInfo.type = 'waveform';
+    createView();
+
+    const exportButton = screen.getByText('Export');
+    await user.click(exportButton);
+    expect(exportData).toHaveBeenCalledWith({
+      exportType: 'All Rows',
+      dataToExport: {
+        Scalars: false,
+        Strings: false,
+        Images: false,
+        'Float Images': false,
         'Waveform CSVs': true,
+        'Waveform Images': false,
+        'Vector CSVs': false,
+        'Vector Images': false,
+      },
+      selectedColumn: 'TEST-IMAGE',
+    });
+
+    expect(onClose).toHaveBeenCalled();
+  });
+
+  it('handles export click for vector type', async () => {
+    props.channelInfo.type = 'vector';
+    createView();
+
+    const exportButton = screen.getByText('Export');
+    await user.click(exportButton);
+    expect(exportData).toHaveBeenCalledWith({
+      exportType: 'All Rows',
+      dataToExport: {
+        Scalars: false,
+        Strings: false,
+        Images: false,
+        'Float Images': false,
+        'Waveform CSVs': false,
         'Waveform Images': false,
         'Vector CSVs': true,
         'Vector Images': false,

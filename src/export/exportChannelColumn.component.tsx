@@ -28,11 +28,12 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
       exportType: 'All Rows',
       dataToExport: {
         Scalars: false,
-        Images: true,
-        'Float Image': true,
-        'Waveform CSVs': true,
+        Strings: false,
+        Images: channelInfo.type === 'image',
+        'Float Images': channelInfo.type === 'float_image',
+        'Waveform CSVs': channelInfo.type === 'waveform',
         'Waveform Images': false,
-        'Vector CSVs': true,
+        'Vector CSVs': channelInfo.type === 'vector',
         'Vector Images': false,
       },
       selectedColumn: channelInfo.systemName,
@@ -43,7 +44,7 @@ const ExportChannelColumn = (props: ExportChannelColumnProps) => {
       .catch((error: AxiosError) => {
         handleOG_APIError(error);
       });
-  }, [channelInfo.systemName, exportChannels, onClose]);
+  }, [channelInfo.systemName, channelInfo.type, exportChannels, onClose]);
 
   return (
     <>

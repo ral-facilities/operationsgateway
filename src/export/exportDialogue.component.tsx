@@ -33,8 +33,9 @@ const ExportDialogue = (props: ExportDialogueProps) => {
   const [selectedExportContent, setSelectedExportContent] =
     React.useState<DataToExport>({
       Scalars: true,
+      Strings: true,
       Images: false,
-      'Float Image': false,
+      'Float Images': false,
       'Waveform CSVs': false,
       'Waveform Images': false,
       'Vector CSVs': false,

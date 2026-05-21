@@ -1161,27 +1161,8 @@ describe('records api functions', () => {
       let result = getFormattedAxisData(testRecord, 'shotnum');
       expect(result).toEqual(testRecord.metadata.shotnum);
 
-      testRecord.metadata.shotnum = undefined;
+      testRecord.metadata.shotnum = 'string-shotnum';
       result = getFormattedAxisData(testRecord, 'shotnum');
-      expect(result).toEqual(NaN);
-    });
-
-    it('formats active area correctly', () => {
-      let result = getFormattedAxisData(testRecord, 'active_area');
-      expect(result).toEqual(NaN);
-
-      testRecord.metadata.active_area = '3';
-      result = getFormattedAxisData(testRecord, 'active_area');
-      expect(result).toEqual(parseInt(testRecord.metadata.active_area));
-    });
-
-    it('formats active experiment correctly', () => {
-      testRecord.metadata.active_experiment = '4';
-      let result = getFormattedAxisData(testRecord, 'active_experiment');
-      expect(result).toEqual(parseInt(testRecord.metadata.active_experiment));
-
-      testRecord.metadata.active_experiment = undefined;
-      result = getFormattedAxisData(testRecord, 'active_experiment');
       expect(result).toEqual(NaN);
     });
 
@@ -1191,7 +1172,7 @@ describe('records api functions', () => {
         (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data
       );
 
-      (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data = '1';
+      (testRecord.channels?.['CHANNEL_ABCDE'] as ScalarChannel).data = 1;
       result = getFormattedAxisData(testRecord, 'CHANNEL_ABCDE');
       expect(result).toEqual(1);
 
