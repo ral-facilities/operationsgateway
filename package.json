@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@date-fns/tz": "1.4.1",
+    "@date-fns/tz": "1.5.0",
     "@date-io/date-fns": "3.2.1",
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
