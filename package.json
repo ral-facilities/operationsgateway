@@ -90,7 +90,7 @@
   "packageManager": "yarn@4.13.0",
   "devDependencies": {
     "@dotenvx/dotenvx": "1.60.0",
-    "@playwright/test": "1.59.1",
+    "@playwright/test": "1.60.0",
     "@tanstack/eslint-plugin-query": "5.95.2",
     "@testing-library/cypress": "10.1.0",
     "@testing-library/dom": "10.4.0",
