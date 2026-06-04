@@ -402,9 +402,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dotenvx/dotenvx@npm:1.70.0":
-  version: 1.70.0
-  resolution: "@dotenvx/dotenvx@npm:1.70.0"
+"@dotenvx/dotenvx@npm:1.71.0":
+  version: 1.71.0
+  resolution: "@dotenvx/dotenvx@npm:1.71.0"
   dependencies:
     commander: "npm:^11.1.0"
     dotenv: "npm:^17.2.1"
@@ -419,7 +419,7 @@ __metadata:
     yocto-spinner: "npm:^1.1.0"
   bin:
     dotenvx: src/cli/dotenvx.js
-  checksum: 10c0/26eff4dc6642f29d9af87abe82943e05b3faf0b7f63a1c498d4aa9cf686f9e382d974ec0266c0f93488059de0be944ab0bf0a528cab5ddd6348289f20cad6edb
+  checksum: 10c0/f5981f2b4bf6a98047439c83f65080d5155d133733bb6f3c259f2eb5dbbec20c7380bf6b11d38f6e9a771a2122b71cfe70459f0737f8348fc948745bae048b99
   languageName: node
   linkType: hard
 
@@ -6946,7 +6946,7 @@ __metadata:
   dependencies:
     "@date-fns/tz": "npm:1.5.0"
     "@date-io/date-fns": "npm:3.2.1"
-    "@dotenvx/dotenvx": "npm:1.70.0"
+    "@dotenvx/dotenvx": "npm:1.71.0"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
