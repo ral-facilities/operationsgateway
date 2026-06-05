@@ -49,6 +49,17 @@
     "nwsapi": "2.2.13",
     "@types/react": "18.3.3"
   },
+  "dependenciesMeta": {
+    "cypress": {
+      "built": true
+    },
+    "esbuild": {
+      "built": true
+    },
+    "msw": {
+      "built": true
+    }
+  },
   "scripts": {
     "dev": "vite --open",
     "build": "tsc --project tsconfig.build.json && vite build",
