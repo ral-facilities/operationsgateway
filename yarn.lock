@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 8
+  version: 10
   cacheKey: 10c0
 
 "@acemir/cssom@npm:^0.9.31":
@@ -7018,6 +7018,13 @@ __metadata:
     vitest-canvas-mock: "npm:0.3.3"
     vitest-fail-on-console: "npm:0.10.1"
     zod: "npm:^3.23.8"
+  dependenciesMeta:
+    cypress:
+      built: true
+    esbuild:
+      built: true
+    msw:
+      built: true
   languageName: unknown
   linkType: soft
 
