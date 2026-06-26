@@ -7,6 +7,11 @@ import type {
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
+import {
+  getAdjustedImageHeight,
+  getAdjustedImageWidth,
+  getScrollBarWidth,
+} from './imageView.component';
 
 // In order for the plot area to match pixel to pixel to the image
 // we need to offset/adjust for the width/height of the axis ticks.
@@ -25,6 +30,7 @@ export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
   crosshairPosition?: number;
   imageDims: { width: number; height: number };
+  plotContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const plotlyConfig: Partial<PlotlyConfig> = {
@@ -32,6 +38,8 @@ const plotlyConfig: Partial<PlotlyConfig> = {
   displayModeBar: false,
   showTips: false,
 };
+
+export const imagePlotInitWidthAndHeight = 300 + getScrollBarWidth();
 
 const commonChartOptions: Partial<PlotlyLayout> = {
   showlegend: false,
@@ -113,7 +121,7 @@ const XChartOptions: Partial<PlotlyLayout> = {
 };
 
 export const XImagePlot = (props: ImagePlotProps) => {
-  const { data, imageDims, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition, plotContainerRef } = props;
   return (
     <ImagePlot
       data={data}
@@ -121,12 +129,13 @@ export const XImagePlot = (props: ImagePlotProps) => {
       crosshairPosition={crosshairPosition}
       type="x"
       chartOptions={XChartOptions}
+      plotContainerRef={plotContainerRef}
     />
   );
 };
 
 export const YImagePlot = (props: ImagePlotProps) => {
-  const { data, imageDims, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition, plotContainerRef } = props;
   return (
     <ImagePlot
       data={data}
@@ -134,6 +143,7 @@ export const YImagePlot = (props: ImagePlotProps) => {
       crosshairPosition={crosshairPosition}
       type="y"
       chartOptions={YChartOptions}
+      plotContainerRef={plotContainerRef}
     />
   );
 };
@@ -144,7 +154,14 @@ const ImagePlot = (
     chartOptions: Partial<PlotlyLayout>;
   }
 ) => {
-  const { data, crosshairPosition, imageDims, type, chartOptions } = props;
+  const {
+    data,
+    crosshairPosition,
+    imageDims,
+    type,
+    chartOptions,
+    plotContainerRef,
+  } = props;
 
   const {
     palette: { mode: themeMode },
@@ -243,15 +260,44 @@ const ImagePlot = (
   /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
   return (
     <Box
-      className="plotly-chart"
-      data-config={JSON.stringify(plotlyConfig)}
-      data-layout={layoutString}
-      data-data={dataString}
-      sx={{
-        '& .shape-group path': {
-          shapeRendering: 'crispEdges',
-        },
-      }}
-    ></Box>
+      sx={
+        type === 'x'
+          ? {
+              width: `calc(min(${getAdjustedImageWidth(
+                true
+              )}, (${imageDims.width} / ${imageDims.height}) * ${getAdjustedImageHeight(
+                true
+              )}, ${imageDims.width}px) + ${XIMAGEPLOT_OFFSET}px)`,
+              height: imagePlotInitWidthAndHeight,
+              overflow: 'auto',
+              scrollbarGutter: 'stable',
+              scrollbarWidth: 'thin',
+            }
+          : {
+              width: imagePlotInitWidthAndHeight,
+              height: `calc(min(${getAdjustedImageHeight(
+                true
+              )}, (${imageDims.height} / ${imageDims.width}) * ${getAdjustedImageWidth(
+                true
+              )}, ${imageDims.height}px) + ${YIMAGEPLOT_OFFSET}px)`,
+              overflow: 'auto',
+              scrollbarGutter: 'stable',
+              scrollbarWidth: 'thin',
+            }
+      }
+      ref={plotContainerRef}
+    >
+      <Box
+        className="plotly-chart"
+        data-config={JSON.stringify(plotlyConfig)}
+        data-layout={layoutString}
+        data-data={dataString}
+        sx={{
+          '& .shape-group path': {
+            shapeRendering: 'crispEdges',
+          },
+        }}
+      ></Box>
+    </Box>
   );
 };

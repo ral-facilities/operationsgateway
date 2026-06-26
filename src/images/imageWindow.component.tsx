@@ -11,6 +11,7 @@ import ImageControlsPanel, {
 } from './imageControlsPanel.component';
 import { XImagePlot, YImagePlot } from './imagePlot.component';
 import ImageView from './imageView.component';
+import { useScrollSync } from './useScrollSync';
 
 interface ImageWindowProps {
   onClose: () => void;
@@ -78,6 +79,16 @@ const ImageWindow = (props: ImageWindowProps) => {
         x: crosshairData.column.position,
         y: crosshairData.row.position,
       });
+
+      // initialise scroll of image container to match plots
+      // need to do this as chrome doesn't remember the scroll position of the image
+      // when toggling in and out of crosshairs mode (firefox does)
+      if (imageContainerRef.current && xPlotContainerRef.current)
+        imageContainerRef.current.scrollLeft =
+          xPlotContainerRef.current.scrollLeft;
+      if (imageContainerRef.current && yPlotContainerRef.current)
+        imageContainerRef.current.scrollTop =
+          yPlotContainerRef.current.scrollTop;
     } else if (!crosshairsMode) {
       // reset when we switch out of the mode
       setCrosshair(undefined);
@@ -114,6 +125,16 @@ const ImageWindow = (props: ImageWindowProps) => {
   );
 
   const [imageDims, setImageDims] = React.useState({ width: 0, height: 0 });
+
+  const yPlotContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const xPlotContainerRef = React.useRef<HTMLDivElement | null>(null);
+  const imageContainerRef = React.useRef<HTMLDivElement | null>(null);
+
+  const refsX = React.useMemo(() => [xPlotContainerRef, imageContainerRef], []);
+  const refsY = React.useMemo(() => [yPlotContainerRef, imageContainerRef], []);
+
+  useScrollSync(refsX, 'x');
+  useScrollSync(refsY, 'y');
 
   return (
     <WindowPortal
@@ -172,6 +193,8 @@ const ImageWindow = (props: ImageWindowProps) => {
                   crosshair={crosshair}
                   changeCrosshair={setCrosshair}
                   changeImageDims={setImageDims}
+                  imageDims={imageDims}
+                  imageContainerRef={imageContainerRef}
                 />
               </Grid>
 
@@ -188,6 +211,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                   data={crosshairData?.column.intensity ?? { x: [], y: [] }}
                   crosshairPosition={crosshair?.y}
                   imageDims={imageDims}
+                  plotContainerRef={yPlotContainerRef}
                 />
               </Grid>
             </Grid>
@@ -205,6 +229,7 @@ const ImageWindow = (props: ImageWindowProps) => {
                   data={crosshairData?.row.intensity ?? { x: [], y: [] }}
                   crosshairPosition={crosshair?.x}
                   imageDims={imageDims}
+                  plotContainerRef={xPlotContainerRef}
                 />
               </Grid>
               <Grid mb={1}>

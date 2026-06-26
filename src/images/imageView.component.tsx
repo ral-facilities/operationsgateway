@@ -1,4 +1,8 @@
 import React from 'react';
+import { thumbnailSelectorWidth } from '../windows/thumbnailSelector.component';
+import { imageButtonsHeight } from '../windows/windowButtons.component';
+import { imageControlsPanelWidth } from './imageControlsPanel.component';
+import { imagePlotInitWidthAndHeight } from './imagePlot.component';
 
 export interface ImageViewProps {
   image: string | undefined;
@@ -8,6 +12,8 @@ export interface ImageViewProps {
   crosshair?: { x: number; y: number };
   changeCrosshair: (value: { x: number; y: number }) => void;
   changeImageDims: (value: { width: number; height: number }) => void;
+  imageDims: { width: number; height: number };
+  imageContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const drawCrosshair = (
@@ -38,6 +44,40 @@ const drawCrosshair = (
   ctx?.stroke();
 };
 
+export function getScrollBarWidth(): number {
+  const el = document.createElement('div');
+  el.style.cssText = 'overflow:scroll; visibility:hidden; position:absolute;';
+  document.body.appendChild(el);
+  const width = el.offsetWidth - el.clientWidth;
+  el.remove();
+  return width;
+}
+
+export const getAdjustedImageWidth = (crosshairsMode: boolean): string => {
+  return crosshairsMode
+    ? `calc(100vw -
+        ${thumbnailSelectorWidth}px -
+        8px -
+        8px -
+        8px -
+        8px -
+        ${imageControlsPanelWidth}px -
+        ${imagePlotInitWidthAndHeight}px)`
+    : `calc(100vw -
+        ${thumbnailSelectorWidth}px -
+        8px -
+        8px -
+        8px -
+        8px -
+        ${imageControlsPanelWidth}px)`;
+};
+
+export const getAdjustedImageHeight = (crosshairsMode: boolean): string => {
+  return crosshairsMode
+    ? `calc(100vh - 8px - ${imageButtonsHeight}px - 8px - 8px - 12px - ${imagePlotInitWidthAndHeight}px)`
+    : `calc(100vh - 8px - ${imageButtonsHeight}px - 8px - 8px)`;
+};
+
 const ImageView = (props: ImageViewProps) => {
   const {
     image,
@@ -47,6 +87,8 @@ const ImageView = (props: ImageViewProps) => {
     crosshair,
     changeCrosshair,
     changeImageDims,
+    imageDims,
+    imageContainerRef,
   } = props;
 
   const overlayPropsRef = React.useRef<{
@@ -90,9 +132,9 @@ const ImageView = (props: ImageViewProps) => {
   React.useEffect(() => {
     if (overlay && img) {
       img.onload = () => {
-        changeImageDims({ width: img.width, height: img.height });
-        overlay.style.width = `${img.width}px`;
-        overlay.style.height = `${img.height}px`;
+        changeImageDims({ width: img.naturalWidth, height: img.naturalHeight });
+        overlay.width = img.width;
+        overlay.height = img.height;
         overlay.style.imageRendering = 'pixelated';
 
         // from: https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
@@ -169,10 +211,12 @@ const ImageView = (props: ImageViewProps) => {
       setPan([0, 0]);
       setZoom(1);
     } else if (overlay) {
-      const { width: overlayWidth, height: overlayHeight } =
-        overlay.getBoundingClientRect();
       const ctx = overlay.getContext('2d');
-      ctx?.clearRect(0, 0, overlayWidth, overlayHeight);
+      ctx?.clearRect(0, 0, overlay.width, overlay.height);
+      // need to wrap in setTimeout to clear properly on chrome
+      setTimeout(() => {
+        ctx?.clearRect(0, 0, overlay.width, overlay.height);
+      }, 0);
     }
   }, [crosshairsMode, overlay]);
 
@@ -377,23 +421,48 @@ const ImageView = (props: ImageViewProps) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <canvas
-        data-testid="overlay"
-        ref={overlayRef}
-        // have pointer-events: none and click handlers on img instead of canvas
-        // so that right clicking the image to bring up context menu is done on the
-        // img not the canvas
-        style={{ position: 'absolute', zIndex: 2, pointerEvents: 'none' }}
-      />
-      <div style={{ display: 'inline-block', overflow: 'hidden' }}>
+      <div
+        style={{
+          display: 'grid',
+          overflow: 'auto',
+          scrollbarGutter: 'stable',
+          scrollbarWidth: 'thin',
+          height:
+            imageDims.width > 0
+              ? `min(${getAdjustedImageHeight(
+                  crosshairsMode
+                )}, (${imageDims.height} / ${imageDims.width}) * ${getAdjustedImageWidth(
+                  crosshairsMode
+                )}, ${imageDims.height}px)`
+              : undefined,
+          width:
+            imageDims.height > 0
+              ? `min(${getAdjustedImageWidth(
+                  crosshairsMode
+                )}, (${imageDims.width} / ${imageDims.height}) * ${getAdjustedImageHeight(
+                  crosshairsMode
+                )}, ${imageDims.width}px)`
+              : undefined,
+        }}
+        ref={imageContainerRef}
+      >
         <img
           src={image}
           alt={title}
           ref={imgRef}
           style={{
+            gridArea: '1 / 1',
             transform: `translate(${pan[0]}px,${pan[1]}px) scale(${zoom})`,
             transformOrigin: 'top left',
             imageRendering: 'pixelated',
+            maxHeight:
+              imageDims.height > 0 && !crosshairsMode
+                ? getAdjustedImageHeight(false)
+                : undefined,
+            maxWidth:
+              imageDims.width > 0 && !crosshairsMode
+                ? getAdjustedImageWidth(false)
+                : undefined,
           }}
           {...(!crosshairsMode
             ? {
@@ -403,6 +472,32 @@ const ImageView = (props: ImageViewProps) => {
                 onMouseOut: mouseUpOutHandler,
               }
             : { onClick: mouseClickHandler })}
+        />
+        <canvas
+          data-testid="overlay"
+          ref={overlayRef}
+          // have pointer-events: none and click handlers on img instead of canvas
+          // so that right clicking the image to bring up context menu is done on the
+          // img not the canvas
+          style={{
+            gridArea: '1 / 1',
+            zIndex: 2,
+            pointerEvents: 'none',
+            height: crosshairsMode
+              ? imageDims.height
+              : `min(${getAdjustedImageHeight(
+                  false
+                )}, (${imageDims.height} / ${imageDims.width}) * ${getAdjustedImageWidth(
+                  false
+                )}, ${imageDims.height}px)`,
+            width: crosshairsMode
+              ? imageDims.width
+              : `min(${getAdjustedImageWidth(
+                  false
+                )}, (${imageDims.width} / ${imageDims.height}) * ${getAdjustedImageHeight(
+                  false
+                )}, ${imageDims.width}px)`,
+          }}
         />
       </div>
     </div>
