@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import { flushPromises } from '../testUtils';
 import ImageView, { ImageViewProps } from './imageView.component';
 
@@ -13,6 +14,12 @@ describe('Image view component', () => {
         setTimeout(() => this.onload());
       },
     });
+    Object.defineProperty(global.Image.prototype, 'naturalHeight', {
+      get: () => 200,
+    });
+    Object.defineProperty(global.Image.prototype, 'naturalWidth', {
+      get: () => 300,
+    });
     Object.defineProperty(global.Image.prototype, 'height', {
       get: () => 200,
     });
@@ -21,6 +28,7 @@ describe('Image view component', () => {
     });
     global.HTMLCanvasElement.prototype.getBoundingClientRect = () =>
       new DOMRect(0, 0, 300, 200); // match image dimensions
+    global.HTMLCanvasElement.prototype.reset = vi.fn();
   });
 
   beforeEach(() => {
@@ -31,6 +39,8 @@ describe('Image view component', () => {
       crosshairsMode: false,
       changeCrosshair: vi.fn(),
       changeImageDims: vi.fn(),
+      imageDims: { width: 300, height: 200 },
+      imageContainerRef: React.createRef(),
     };
   });
 
