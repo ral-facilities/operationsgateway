@@ -4,7 +4,7 @@ export function useScrollSync(
   refs: React.MutableRefObject<HTMLElement | null>[],
   scrollDirection: 'x' | 'y' | 'both'
 ) {
-  const timeoutId = useRef<number>();
+  const timeoutId = useRef<ReturnType<typeof setTimeout>>();
   const handleScroll: EventListener = useCallback(
     (event) => {
       const syncedRefs = refs.filter((ref) => ref.current !== event.target);
