@@ -8,8 +8,7 @@ import type {
 } from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
 import {
-  getAdjustedImageHeight,
-  getAdjustedImageWidth,
+  calculateImageDimensionsToFitWindow,
   getScrollBarWidth,
 } from './imageView.component';
 
@@ -340,22 +339,22 @@ const ImagePlot = (
       sx={
         type === 'x'
           ? {
-              width: `calc(min(${getAdjustedImageWidth(
+              width: `calc(${calculateImageDimensionsToFitWindow(
+                'width',
+                imageDims,
                 true
-              )}, (${imageDims.width} / ${imageDims.height}) * ${getAdjustedImageHeight(
-                true
-              )}, ${imageDims.width}px) + ${XIMAGEPLOT_OFFSET}px)`,
+              )} + ${XIMAGEPLOT_OFFSET}px)`,
               height: imagePlotInitWidthAndHeight,
               display: 'flex',
               flexDirection: 'row',
             }
           : {
               width: imagePlotInitWidthAndHeight,
-              height: `calc(min(${getAdjustedImageHeight(
+              height: `calc(${calculateImageDimensionsToFitWindow(
+                'height',
+                imageDims,
                 true
-              )}, (${imageDims.height} / ${imageDims.width}) * ${getAdjustedImageWidth(
-                true
-              )}, ${imageDims.height}px) + ${YIMAGEPLOT_OFFSET}px)`,
+              )} + ${YIMAGEPLOT_OFFSET}px)`,
               display: 'flex',
               flexDirection: 'column',
             }
