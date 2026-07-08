@@ -20,11 +20,11 @@ import {
 /**
  * The width offset for XImagePlot
  */
-export const XIMAGEPLOT_OFFSET = 48; // 48 needed for 16-bit images (theoretically have 5 digits on the intensity axis)
+export const XIMAGEPLOT_OFFSET = 44; // 44 needed for 12/16-bit images (can have 5 digits on the intensity axis)
 /**
  * The height offset for YImagePlot
  */
-export const YIMAGEPLOT_OFFSET = 20;
+export const YIMAGEPLOT_OFFSET = 14;
 
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
@@ -63,11 +63,9 @@ const YChartOptions: Partial<PlotlyLayout> = {
     type: 'linear',
     fixedrange: true,
     rangemode: 'tozero',
-    zeroline: false,
-    ticklen: 4,
-    exponentformat: 'none',
-    tickformat: 'd',
-    ticklabeloverflow: 'allow',
+    showticklabels: false,
+    showline: false,
+    showgrid: true,
   },
   yaxis: {
     type: 'linear',
@@ -82,9 +80,33 @@ const YChartOptions: Partial<PlotlyLayout> = {
     exponentformat: 'none',
     tickformat: 'd',
   },
+};
+
+const YChartAxis: Partial<PlotlyLayout> = {
+  ...commonChartOptions,
+  height: YIMAGEPLOT_OFFSET,
   margin: {
     ...commonChartOptions.margin,
-    b: YIMAGEPLOT_OFFSET,
+    l: Object.hasOwn(window, 'chrome') ? 34 : 35,
+    b: YIMAGEPLOT_OFFSET - 1,
+    t: 1,
+  },
+  xaxis: {
+    fixedrange: true,
+    type: 'linear',
+    rangemode: 'tozero',
+    ticklen: 4,
+    exponentformat: 'none',
+    tickformat: 'd',
+    ticklabeloverflow: 'allow',
+    side: 'top',
+    ticks: 'inside',
+    ticklabelposition: 'inside',
+    zeroline: false,
+  },
+  yaxis: {
+    visible: false,
+    fixedrange: true,
   },
 };
 
@@ -104,19 +126,40 @@ const XChartOptions: Partial<PlotlyLayout> = {
     tickformat: 'd',
   },
   yaxis: {
+    showticklabels: false,
+    showline: false,
+    showgrid: true,
     type: 'linear',
     fixedrange: true,
-    side: 'right',
+    rangemode: 'tozero',
+  },
+};
+
+const XChartAxis: Partial<PlotlyLayout> = {
+  ...commonChartOptions,
+  width: XIMAGEPLOT_OFFSET,
+  margin: {
+    ...commonChartOptions.margin,
+    r: XIMAGEPLOT_OFFSET - 1,
+    l: 1,
+    b: Object.hasOwn(window, 'chrome') ? 17 : 18,
+  },
+  xaxis: {
+    visible: false,
+    fixedrange: true,
+  },
+  yaxis: {
+    type: 'linear',
+    fixedrange: true,
     rangemode: 'tozero',
     zeroline: false,
     ticklen: 4,
     exponentformat: 'none',
     tickformat: 'd',
     ticklabeloverflow: 'allow',
-  },
-  margin: {
-    ...commonChartOptions.margin,
-    r: XIMAGEPLOT_OFFSET,
+    side: 'left',
+    ticks: 'inside',
+    ticklabelposition: 'inside',
   },
 };
 
@@ -164,10 +207,16 @@ const ImagePlot = (
   } = props;
 
   const {
-    palette: { mode: themeMode },
+    palette: {
+      mode: themeMode,
+      background: { default: themeBGColor },
+    },
   } = useTheme();
 
   const [layoutString, setLayoutString] = React.useState(
+    JSON.stringify({} satisfies Partial<PlotlyLayout>)
+  );
+  const [axisLayoutString, setAxisLayoutString] = React.useState(
     JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
@@ -191,6 +240,28 @@ const ImagePlot = (
       ])
     );
   }, [data, type]);
+
+  React.useEffect(() => {
+    const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
+    const newAxisChartOptions: Partial<PlotlyLayout> = JSON.parse(
+      JSON.stringify(type === 'x' ? XChartAxis : YChartAxis)
+    );
+    newAxisChartOptions[`${type === 'x' ? 'y' : 'x'}axis`] = {
+      ...newAxisChartOptions[`${type === 'x' ? 'y' : 'x'}axis`],
+      range: [0, Math.max(...data['y'])],
+    };
+    newAxisChartOptions.paper_bgcolor =
+      themeMode === 'light' ? '#fff' : themeBGColor;
+    if (newAxisChartOptions.xaxis) {
+      newAxisChartOptions.xaxis.tickcolor = fontColour;
+      newAxisChartOptions.xaxis.linecolor = fontColour;
+    }
+    if (newAxisChartOptions.yaxis) {
+      newAxisChartOptions.yaxis.tickcolor = fontColour;
+      newAxisChartOptions.yaxis.linecolor = fontColour;
+    }
+    setAxisLayoutString(JSON.stringify(newAxisChartOptions));
+  }, [data, themeBGColor, themeMode, type]);
 
   React.useEffect(() => {
     const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
@@ -249,13 +320,19 @@ const ImagePlot = (
         ...newChartOptions[`${type}axis`],
         range,
       };
-      if (type === 'x')
-        newChartOptions.width = imageDims.width + XIMAGEPLOT_OFFSET;
-      if (type === 'y')
-        newChartOptions.height = imageDims.height + YIMAGEPLOT_OFFSET;
+
+      if (type === 'x') newChartOptions.width = imageDims.width;
+      if (type === 'y') newChartOptions.height = imageDims.height;
     }
     setLayoutString(JSON.stringify(newChartOptions));
-  }, [chartOptions, crosshairPosition, imageDims, themeMode, type]);
+  }, [
+    chartOptions,
+    crosshairPosition,
+    imageDims,
+    themeMode,
+    themeBGColor,
+    type,
+  ]);
 
   /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
   return (
@@ -269,9 +346,8 @@ const ImagePlot = (
                 true
               )}, ${imageDims.width}px) + ${XIMAGEPLOT_OFFSET}px)`,
               height: imagePlotInitWidthAndHeight,
-              overflow: 'auto',
-              scrollbarGutter: 'stable',
-              scrollbarWidth: 'thin',
+              display: 'flex',
+              flexDirection: 'row',
             }
           : {
               width: imagePlotInitWidthAndHeight,
@@ -280,12 +356,10 @@ const ImagePlot = (
               )}, (${imageDims.height} / ${imageDims.width}) * ${getAdjustedImageWidth(
                 true
               )}, ${imageDims.height}px) + ${YIMAGEPLOT_OFFSET}px)`,
-              overflow: 'auto',
-              scrollbarGutter: 'stable',
-              scrollbarWidth: 'thin',
+              display: 'flex',
+              flexDirection: 'column',
             }
       }
-      ref={plotContainerRef}
     >
       <Box
         className="plotly-chart"
@@ -296,7 +370,18 @@ const ImagePlot = (
           '& .shape-group path': {
             shapeRendering: 'crispEdges',
           },
+          overflow: 'auto',
+          scrollbarGutter: 'stable',
+          scrollbarWidth: 'thin',
+          flex: 1,
         }}
+        ref={plotContainerRef}
+      ></Box>
+      <Box
+        className="plotly-chart"
+        data-config={JSON.stringify(plotlyConfig)}
+        data-layout={axisLayoutString}
+        data-data={'[]'}
       ></Box>
     </Box>
   );
