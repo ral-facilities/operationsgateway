@@ -165,24 +165,47 @@ const ImageView = (props: ImageViewProps) => {
           false
         );
 
-        overlay.width = overlay.offsetWidth;
-        overlay.height = overlay.offsetHeight;
+        const { width: overlayWidth, height: overlayHeight } =
+          overlay.getBoundingClientRect();
+
+        overlay.width = overlayWidth;
+        overlay.height = overlayHeight;
         overlay.style.imageRendering = 'pixelated';
 
         // can't just set canvas size via CSS as that causes scaling issues, so use resize observer
         // to observe when the CSS/display size changes and sync it to the canvas height & width properties
         // also need to account for dpi to ensure things are drawn at correct scale
+        // from: https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
         const onResize: ResizeObserverCallback = (entries) => {
           if (overlay) {
-            for (const _ of entries) {
-              const dpr =
+            for (const entry of entries) {
+              let width;
+              let height;
+              let dpr =
                 overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1;
-
-              const cssWidth = overlay.offsetWidth;
-              const cssHeight = overlay.offsetHeight;
-
-              const displayWidth = Math.round(cssWidth * dpr);
-              const displayHeight = Math.round(cssHeight * dpr);
+              if (entry.devicePixelContentBoxSize) {
+                // NOTE: Only this path gives the correct answer
+                // The other paths are imperfect fallbacks
+                // for browsers that don't provide anyway to do this
+                width = entry.devicePixelContentBoxSize[0].inlineSize;
+                height = entry.devicePixelContentBoxSize[0].blockSize;
+                dpr = 1; // it's already in width and height
+              } else if (entry.contentBoxSize) {
+                if (entry.contentBoxSize[0]) {
+                  width = entry.contentBoxSize[0].inlineSize;
+                  height = entry.contentBoxSize[0].blockSize;
+                } else {
+                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+                  width = entry.contentBoxSize.inlineSize;
+                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+                  height = entry.contentBoxSize.blockSize;
+                }
+              } else {
+                width = entry.contentRect.width;
+                height = entry.contentRect.height;
+              }
+              const displayWidth = Math.round(width * dpr);
+              const displayHeight = Math.round(height * dpr);
 
               overlay.width = displayWidth;
               overlay.height = displayHeight;
@@ -200,7 +223,7 @@ const ImageView = (props: ImageViewProps) => {
         };
 
         const resizeObserver = new ResizeObserver(onResize);
-        resizeObserver.observe(overlay);
+        resizeObserver.observe(overlay, { box: 'content-box' });
 
         return () => {
           resizeObserver.disconnect();
@@ -236,8 +259,11 @@ const ImageView = (props: ImageViewProps) => {
         false
       );
 
-      overlay.width = overlay.offsetWidth;
-      overlay.height = overlay.offsetHeight;
+      const { width: overlayWidth, height: overlayHeight } =
+        overlay.getBoundingClientRect();
+
+      overlay.width = overlayWidth;
+      overlay.height = overlayHeight;
       const ctx = overlay.getContext('2d');
       ctx?.clearRect(0, 0, overlay.width, overlay.height);
       // need to wrap in setTimeout to clear properly on chrome
