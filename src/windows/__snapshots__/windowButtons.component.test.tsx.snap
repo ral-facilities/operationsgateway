@@ -4,7 +4,7 @@ exports[`Window buttons components > Image buttons component > renders image but
 <DocumentFragment>
   <div
     aria-label="image actions"
-    class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-zv9ro0-MuiButtonGroup-root"
+    class="MuiButtonGroup-root MuiButtonGroup-outlined MuiButtonGroup-horizontal MuiButtonGroup-colorPrimary css-c3j5at-MuiButtonGroup-root"
     role="group"
   >
     <button

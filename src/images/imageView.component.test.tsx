@@ -20,12 +20,6 @@ describe('Image view component', () => {
     Object.defineProperty(global.Image.prototype, 'naturalWidth', {
       get: () => 300,
     });
-    Object.defineProperty(global.Image.prototype, 'height', {
-      get: () => 200,
-    });
-    Object.defineProperty(global.Image.prototype, 'width', {
-      get: () => 300,
-    });
     global.HTMLCanvasElement.prototype.getBoundingClientRect = () =>
       new DOMRect(0, 0, 300, 200); // match image dimensions
     global.HTMLCanvasElement.prototype.reset = vi.fn();

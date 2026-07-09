@@ -6,7 +6,7 @@ exports[`Image view component > renders an image and a canvas overlay 1`] = `
     style="position: relative;"
   >
     <div
-      style="display: grid; overflow: auto; scrollbar-gutter: stable; scrollbar-width: thin;"
+      style="display: grid; overflow: hidden; scrollbar-gutter: stable; scrollbar-width: thin;"
     >
       <img
         alt="Test image"
