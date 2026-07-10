@@ -12,10 +12,10 @@ exports[`Image plot component > renders a canvas element with no annotation if c
       data-layout="{"showlegend":false,"autosize":false,"width":300,"height":100,"margin":{"l":0,"r":0,"b":0,"t":0,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"type":"linear","fixedrange":true,"rangemode":"tozero","showticklabels":false,"showline":false,"showgrid":true,"gridcolor":"rgba(255, 255, 255, 0.1)","tickcolor":"#ADBABD","linecolor":"#ADBABD"},"yaxis":{"type":"linear","fixedrange":true,"autorange":false,"zeroline":false,"ticklen":4,"ticklabelposition":"outside bottom","ticklabeloverflow":"allow","automargin":"left","exponentformat":"none","tickformat":"d","gridcolor":"rgba(255, 255, 255, 0.1)","tickcolor":"#ADBABD","linecolor":"#ADBABD","range":[99,0]},"font":{"color":"#ADBABD"}}"
     />
     <div
-      class="plotly-chart MuiBox-root css-0"
+      class="plotly-chart MuiBox-root css-14x27ji"
       data-config="{"displaylogo":false,"displayModeBar":false,"showTips":false}"
-      data-data="[]"
-      data-layout="{"showlegend":false,"autosize":false,"width":300,"height":14,"margin":{"l":35,"r":0,"b":13,"t":1,"pad":0},"paper_bgcolor":"#000","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"fixedrange":true,"type":"linear","rangemode":"tozero","ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"top","ticks":"inside","ticklabelposition":"inside","zeroline":false,"range":[0,255],"tickcolor":"#ADBABD","linecolor":"#ADBABD"},"yaxis":{"visible":false,"fixedrange":true,"tickcolor":"#ADBABD","linecolor":"#ADBABD"}}"
+      data-data="[{"x":[0],"y":[0],"mode":"none"}]"
+      data-layout="{"showlegend":false,"autosize":false,"width":300,"height":14,"margin":{"l":0,"r":0,"b":13,"t":1,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"fixedrange":true,"type":"linear","rangemode":"tozero","ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"top","ticks":"inside","ticklabelposition":"inside","zeroline":false,"range":[0,255],"tickcolor":"#ADBABD","linecolor":"#ADBABD"},"yaxis":{"tickvals":[0],"tickmode":"array","fixedrange":true,"autorange":false,"zeroline":false,"ticklabelposition":"outside bottom","ticklabeloverflow":"allow","automargin":"left","exponentformat":"none","tickformat":"d","tickcolor":"#000","linecolor":"#ADBABD","tickfont":{"color":"#000"},"ticktext":["493"]}}"
     />
   </div>
 </DocumentFragment>
@@ -33,10 +33,10 @@ exports[`Image plot component > renders a div element with the correct attribute
       data-layout="{"showlegend":false,"autosize":false,"width":300,"height":100,"margin":{"l":0,"r":0,"b":0,"t":0,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"type":"linear","fixedrange":true,"rangemode":"tozero","showticklabels":false,"showline":false,"showgrid":true,"gridcolor":"#eee","tickcolor":"#444","linecolor":"#444"},"yaxis":{"type":"linear","fixedrange":true,"autorange":false,"zeroline":false,"ticklen":4,"ticklabelposition":"outside bottom","ticklabeloverflow":"allow","automargin":"left","exponentformat":"none","tickformat":"d","gridcolor":"#eee","tickcolor":"#444","linecolor":"#444","range":[99,0]},"font":{"color":"#444"},"shapes":[{"type":"line","y0":1,"y1":1,"xref":"paper","x0":0,"x1":1,"line":{"color":"red","width":1}}]}"
     />
     <div
-      class="plotly-chart MuiBox-root css-0"
+      class="plotly-chart MuiBox-root css-14x27ji"
       data-config="{"displaylogo":false,"displayModeBar":false,"showTips":false}"
-      data-data="[]"
-      data-layout="{"showlegend":false,"autosize":false,"width":300,"height":14,"margin":{"l":35,"r":0,"b":13,"t":1,"pad":0},"paper_bgcolor":"#fff","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"fixedrange":true,"type":"linear","rangemode":"tozero","ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"top","ticks":"inside","ticklabelposition":"inside","zeroline":false,"range":[0,255],"tickcolor":"#444","linecolor":"#444"},"yaxis":{"visible":false,"fixedrange":true,"tickcolor":"#444","linecolor":"#444"}}"
+      data-data="[{"x":[0],"y":[0],"mode":"none"}]"
+      data-layout="{"showlegend":false,"autosize":false,"width":300,"height":14,"margin":{"l":0,"r":0,"b":13,"t":1,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"fixedrange":true,"type":"linear","rangemode":"tozero","ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"top","ticks":"inside","ticklabelposition":"inside","zeroline":false,"range":[0,255],"tickcolor":"#444","linecolor":"#444"},"yaxis":{"tickvals":[0],"tickmode":"array","fixedrange":true,"autorange":false,"zeroline":false,"ticklabelposition":"outside bottom","ticklabeloverflow":"allow","automargin":"left","exponentformat":"none","tickformat":"d","tickcolor":"#fff","linecolor":"#444","tickfont":{"color":"#fff"},"ticktext":["493"]}}"
     />
   </div>
 </DocumentFragment>
@@ -54,10 +54,10 @@ exports[`Image plot component > renders a div element with the correct attribute
       data-layout="{"showlegend":false,"autosize":false,"width":100,"height":300,"margin":{"l":0,"r":0,"b":0,"t":0,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"type":"linear","fixedrange":true,"autorange":false,"zeroline":false,"ticklabelposition":"outside right","ticklabeloverflow":"allow","ticklen":4,"automargin":"bottom","exponentformat":"none","tickformat":"d","gridcolor":"#eee","tickcolor":"#444","linecolor":"#444","range":[0,99]},"yaxis":{"showticklabels":false,"showline":false,"showgrid":true,"type":"linear","fixedrange":true,"rangemode":"tozero","gridcolor":"#eee","tickcolor":"#444","linecolor":"#444"},"font":{"color":"#444"},"shapes":[{"type":"line","x0":1,"x1":1,"yref":"paper","y0":0,"y1":1,"line":{"color":"red","width":1}}]}"
     />
     <div
-      class="plotly-chart MuiBox-root css-0"
+      class="plotly-chart MuiBox-root css-cf3le8"
       data-config="{"displaylogo":false,"displayModeBar":false,"showTips":false}"
-      data-data="[]"
-      data-layout="{"showlegend":false,"autosize":false,"width":44,"height":300,"margin":{"l":1,"r":43,"b":18,"t":0,"pad":0},"paper_bgcolor":"#fff","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"visible":false,"fixedrange":true,"tickcolor":"#444","linecolor":"#444"},"yaxis":{"type":"linear","fixedrange":true,"rangemode":"tozero","zeroline":false,"ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"left","ticks":"inside","ticklabelposition":"inside","range":[0,255],"tickcolor":"#444","linecolor":"#444"}}"
+      data-data="[{"x":[0],"y":[0],"mode":"none"}]"
+      data-layout="{"showlegend":false,"autosize":false,"width":44,"height":300,"margin":{"l":1,"r":43,"b":0,"t":0,"pad":0},"paper_bgcolor":"rgba(0, 0, 0, 0)","plot_bgcolor":"rgba(0, 0, 0, 0)","xaxis":{"tickvals":[0],"tickmode":"array","fixedrange":true,"autorange":false,"zeroline":false,"ticklabelposition":"outside right","ticklabeloverflow":"allow","automargin":"bottom","exponentformat":"none","tickformat":"d","tickcolor":"#fff","linecolor":"#444","tickfont":{"color":"#fff"},"ticktext":["493"]},"yaxis":{"type":"linear","fixedrange":true,"rangemode":"tozero","zeroline":false,"ticklen":4,"exponentformat":"none","tickformat":"d","ticklabeloverflow":"allow","side":"left","ticks":"inside","ticklabelposition":"inside","range":[0,255],"tickcolor":"#444","linecolor":"#444"}}"
     />
   </div>
 </DocumentFragment>

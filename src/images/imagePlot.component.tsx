@@ -86,7 +86,6 @@ const YChartAxis: Partial<PlotlyLayout> = {
   height: YIMAGEPLOT_OFFSET,
   margin: {
     ...commonChartOptions.margin,
-    l: Object.hasOwn(window, 'chrome') ? 34 : 35,
     b: YIMAGEPLOT_OFFSET - 1,
     t: 1,
   },
@@ -104,8 +103,20 @@ const YChartAxis: Partial<PlotlyLayout> = {
     zeroline: false,
   },
   yaxis: {
-    visible: false,
+    // in order to have the left offset match the main plot, create a single tick
+    // which is the biggest point aka with the largest tick length (this is set in useEffect)
+    // and style it to be invisible
+    tickvals: [0],
+    tickmode: 'array',
     fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklabelposition: 'outside bottom',
+    ticklabeloverflow: 'allow',
+    // @ts-expect-error for some reason it's not accepting left as a value, when it's valid
+    automargin: 'left', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "left"
+    exponentformat: 'none',
+    tickformat: 'd',
   },
 };
 
@@ -141,11 +152,22 @@ const XChartAxis: Partial<PlotlyLayout> = {
     ...commonChartOptions.margin,
     r: XIMAGEPLOT_OFFSET - 1,
     l: 1,
-    b: Object.hasOwn(window, 'chrome') ? 17 : 18,
   },
   xaxis: {
-    visible: false,
+    // in order to have the bottom offset match the main plot, create a single tick
+    // which is the biggest point aka with the largest tick length (this is set in useEffect)
+    // and style it to be invisible
+    tickvals: [0],
+    tickmode: 'array',
     fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklabelposition: 'outside right',
+    ticklabeloverflow: 'allow',
+    // @ts-expect-error for some reason it's not accepting bottom as a value, when it's valid
+    automargin: 'bottom', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "bottom"
+    exponentformat: 'none',
+    tickformat: 'd',
   },
   yaxis: {
     type: 'linear',
@@ -249,15 +271,29 @@ const ImagePlot = (
       ...newAxisChartOptions[`${type === 'x' ? 'y' : 'x'}axis`],
       range: [0, Math.max(...data['y'])],
     };
-    newAxisChartOptions.paper_bgcolor =
-      themeMode === 'light' ? '#fff' : themeBGColor;
     if (newAxisChartOptions.xaxis) {
-      newAxisChartOptions.xaxis.tickcolor = fontColour;
+      newAxisChartOptions.xaxis.tickcolor =
+        type === 'y' ? fontColour : themeBGColor;
       newAxisChartOptions.xaxis.linecolor = fontColour;
+      if (type === 'x') {
+        newAxisChartOptions.xaxis.tickfont = {
+          ...newAxisChartOptions.xaxis.tickfont,
+          color: themeBGColor,
+        };
+        newAxisChartOptions.xaxis.ticktext = [`${Math.max(...data['x'])}`];
+      }
     }
     if (newAxisChartOptions.yaxis) {
-      newAxisChartOptions.yaxis.tickcolor = fontColour;
+      newAxisChartOptions.yaxis.tickcolor =
+        type === 'x' ? fontColour : themeBGColor;
       newAxisChartOptions.yaxis.linecolor = fontColour;
+      if (type === 'y') {
+        newAxisChartOptions.yaxis.tickfont = {
+          ...newAxisChartOptions.yaxis.tickfont,
+          color: themeBGColor,
+        };
+        newAxisChartOptions.yaxis.ticktext = [`${Math.max(...data['x'])}`];
+      }
     }
     setAxisLayoutString(JSON.stringify(newAxisChartOptions));
   }, [data, themeBGColor, themeMode, type]);
@@ -380,7 +416,8 @@ const ImagePlot = (
         className="plotly-chart"
         data-config={JSON.stringify(plotlyConfig)}
         data-layout={axisLayoutString}
-        data-data={'[]'}
+        data-data={'[{"x":[0],"y":[0],"mode":"none"}]'}
+        sx={type === 'x' ? { width: 'max-content' } : { height: 'max-content' }}
       ></Box>
     </Box>
   );
