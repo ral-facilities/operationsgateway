@@ -45,7 +45,7 @@ describe('delete user dialogue', () => {
   it('displays warning message when user data does not exist in database', async () => {
     props = {
       ...props,
-      selectedUser: { ...UsersJson[0], username: 'test' },
+      selectedUser: { ...UsersJson[0], _id: 'test' },
     };
     createView();
 
