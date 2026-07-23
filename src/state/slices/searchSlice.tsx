@@ -5,6 +5,7 @@ import { convertApiTimestampToDate, formatDateTimeForApi } from '../../api/api';
 import { SearchParams } from '../../app.types';
 import { MaxShotType } from '../../settings';
 import { RootState } from '../store';
+import { loadDataTypesSetting, loadMaxShotsSetting } from './configSlice';
 import { selectQueryFilters } from './filterSlice';
 import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
@@ -57,26 +58,19 @@ export const searchSlice = createSlice({
     changeSearchParams: (state, action: PayloadAction<SearchParams>) => {
       state.searchParams = { ...action.payload };
     },
-    initialiseDefaultMaxShots: (
-      state,
-      action: PayloadAction<MaxShotType[]>
-    ) => {
-      state.searchParams.maxShots = getDefaultMaxShot(action.payload);
-    },
-    initialiseDataTypes: (
-      state,
-      action: PayloadAction<NonNullable<SearchParams['dataTypes']>>
-    ) => {
-      state.searchParams.dataTypes = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadMaxShotsSetting, (state, action) => {
+        state.searchParams.maxShots = getDefaultMaxShot(action.payload);
+      })
+      .addCase(loadDataTypesSetting, (state, action) => {
+        state.searchParams.dataTypes = action.payload;
+      });
   },
 });
 
-export const {
-  changeSearchParams,
-  initialiseDataTypes,
-  initialiseDefaultMaxShots,
-} = searchSlice.actions;
+export const { changeSearchParams } = searchSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectSearchParams = (state: RootState) =>

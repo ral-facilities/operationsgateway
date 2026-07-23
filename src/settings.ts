@@ -15,10 +15,16 @@ export interface MaxShotType {
   default?: boolean;
 }
 
+export type InitialChannelsConfigType = Record<
+  string,
+  { removable: boolean; sticky: boolean }
+>;
+
 export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
   maxShots: MaxShotType[];
+  initialChannels: InitialChannelsConfigType;
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;
