@@ -160,7 +160,7 @@ export const handlers = [
     // VITE_APP_CYPRESS used here to determine if E2E testing in cypress or not
     if (import.meta.env.VITE_APP_CYPRESS === 'true') {
       // emulate server delay to ensure table loading spinner appears consistently for cypress e2e tests
-      await delay(100);
+      await delay(200);
     }
     return HttpResponse.json(recordsJson, { status: 200 });
   }),

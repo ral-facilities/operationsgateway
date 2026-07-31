@@ -58,13 +58,12 @@ test('user can change the false colour parameters of an image', async ({
   page,
 }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
@@ -190,13 +189,12 @@ test('user can change the false colour parameters of an 12 bit image', async ({
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('Compressor output NF image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('Compressor output NF image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
@@ -278,13 +276,12 @@ test('user can change the false colour parameters of an 12 bit image', async ({
 
 test('user can disable false colour', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
@@ -315,13 +312,12 @@ test('user can disable false colour', async ({ page }) => {
 
 test('user can change image via clicking on a thumbnail', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const canvas = await popup.getByTestId('overlay');
@@ -356,10 +352,9 @@ test('user can set their default colourmap', async ({ page }) => {
     .first();
 
   // open up popup before changing default colourmap to test query invalidation
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    tableThumbnail.click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await tableThumbnail.click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   await page.evaluate(() => {
@@ -426,10 +421,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   page,
 }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.getByAltText('D100 front-end FF', { exact: false }).first().click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 front-end FF', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
@@ -491,13 +488,12 @@ test('user can use crosshairs mode and view intensity graphs', async ({
 
 test('user can export image', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   await popup.getByTestId('overlay');
@@ -538,16 +534,15 @@ test('user can change the false colour parameters of an float image', async ({
       .first()
   ).toBeVisible();
 
-  // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('Compressor output wavefront image float_image', {
-        exact: false,
-      })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('Compressor output wavefront image float_image', {
+      exact: false,
+    })
+    .first()
+    .click();
+  const popup = await popupPromise;
+
   await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();

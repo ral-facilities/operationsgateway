@@ -32,13 +32,12 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   page,
 }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('ns OPCPA pass 4 spectrum waveform', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('ns OPCPA pass 4 spectrum waveform', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
 
   const chart = await popup.locator('.plotly-chart');
 
@@ -86,13 +85,12 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
 
 test('user can export trace image and data', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('ns OPCPA pass 4 spectrum waveform', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('ns OPCPA pass 4 spectrum waveform', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
 
   await popup.locator('.plotly-chart');
 

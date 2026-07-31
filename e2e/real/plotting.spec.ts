@@ -18,10 +18,9 @@ test('plots a time vs channel graph', async ({ page }) => {
   await page.locator('text=Plots').click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.locator('text=Create a plot').click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page.locator('text=Create a plot').click();
+  const popup = await popupPromise;
 
   await popup.locator('label:has-text("Title")').fill('Test time plot');
 
@@ -63,10 +62,9 @@ test('plots a channel vs channel graph', async ({ page }) => {
   await page.locator('text=Plots').click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.locator('text=Create a plot').click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page.locator('text=Create a plot').click();
+  const popup = await popupPromise;
 
   await popup.getByRole('button', { name: 'XY' }).click();
 
@@ -105,10 +103,9 @@ test('user can export plot image and data', async ({ page }) => {
   await page.locator('text=Plots').click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.locator('text=Create a plot').click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page.locator('text=Create a plot').click();
+  const popup = await popupPromise;
 
   await popup.locator('.plotly-chart');
 
