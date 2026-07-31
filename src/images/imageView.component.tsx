@@ -152,82 +152,6 @@ const ImageView = (props: ImageViewProps) => {
     if (overlay && img) {
       img.onload = () => {
         changeImageDims({ width: img.naturalWidth, height: img.naturalHeight });
-
-        // manually update css width with image dims so we can set accurate initial canvas width/height
-        overlay.style.height = calculateImageDimensionsToFitWindow(
-          'height',
-          { width: img.naturalWidth, height: img.naturalHeight },
-          false
-        );
-        overlay.style.width = calculateImageDimensionsToFitWindow(
-          'width',
-          { width: img.naturalWidth, height: img.naturalHeight },
-          false
-        );
-
-        const { width: overlayWidth, height: overlayHeight } =
-          overlay.getBoundingClientRect();
-
-        overlay.width = overlayWidth;
-        overlay.height = overlayHeight;
-        overlay.style.imageRendering = 'pixelated';
-
-        // can't just set canvas size via CSS as that causes scaling issues, so use resize observer
-        // to observe when the CSS/display size changes and sync it to the canvas height & width properties
-        // also need to account for dpi to ensure things are drawn at correct scale
-        // from: https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
-        const onResize: ResizeObserverCallback = (entries) => {
-          if (overlay) {
-            for (const entry of entries) {
-              let width;
-              let height;
-              let dpr =
-                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1;
-              if (entry.devicePixelContentBoxSize) {
-                // NOTE: Only this path gives the correct answer
-                // The other paths are imperfect fallbacks
-                // for browsers that don't provide anyway to do this
-                width = entry.devicePixelContentBoxSize[0].inlineSize;
-                height = entry.devicePixelContentBoxSize[0].blockSize;
-                dpr = 1; // it's already in width and height
-              } else if (entry.contentBoxSize) {
-                if (entry.contentBoxSize[0]) {
-                  width = entry.contentBoxSize[0].inlineSize;
-                  height = entry.contentBoxSize[0].blockSize;
-                } else {
-                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
-                  width = entry.contentBoxSize.inlineSize;
-                  // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
-                  height = entry.contentBoxSize.blockSize;
-                }
-              } else {
-                width = entry.contentRect.width;
-                height = entry.contentRect.height;
-              }
-              const displayWidth = Math.round(width * dpr);
-              const displayHeight = Math.round(height * dpr);
-
-              overlay.width = displayWidth;
-              overlay.height = displayHeight;
-
-              const ctx = overlay.getContext('2d');
-              ctx?.setTransform(1, 0, 0, 1, 0, 0);
-              ctx?.scale(
-                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1,
-                overlay.ownerDocument.defaultView?.devicePixelRatio ?? 1
-              );
-              if (crosshairRef.current)
-                drawCrosshair(crosshairRef.current, overlay);
-            }
-          }
-        };
-
-        const resizeObserver = new ResizeObserver(onResize);
-        resizeObserver.observe(overlay, { box: 'content-box' });
-
-        return () => {
-          resizeObserver.disconnect();
-        };
       };
     }
   }, [img, image, overlay, changeImageDims]);
@@ -241,35 +165,9 @@ const ImageView = (props: ImageViewProps) => {
     if (crosshairsMode) {
       setPan([0, 0]);
       setZoom(1);
-      // set correct new dimensions when switching modes
-      if (overlay && img) {
-        overlay.width = img.naturalWidth;
-        overlay.height = img.naturalHeight;
-      }
     } else if (overlay && img) {
-      // set correct new dimensions when switching modes
-      overlay.style.height = calculateImageDimensionsToFitWindow(
-        'height',
-        { width: img.naturalWidth, height: img.naturalHeight },
-        false
-      );
-      overlay.style.width = calculateImageDimensionsToFitWindow(
-        'width',
-        { width: img.naturalWidth, height: img.naturalHeight },
-        false
-      );
-
-      const { width: overlayWidth, height: overlayHeight } =
-        overlay.getBoundingClientRect();
-
-      overlay.width = overlayWidth;
-      overlay.height = overlayHeight;
       const ctx = overlay.getContext('2d');
       ctx?.clearRect(0, 0, overlay.width, overlay.height);
-      // need to wrap in setTimeout to clear properly on chrome
-      setTimeout(() => {
-        ctx?.clearRect(0, 0, overlay.width, overlay.height);
-      }, 0);
     }
   }, [crosshairsMode, img, overlay]);
 
@@ -527,6 +425,7 @@ const ImageView = (props: ImageViewProps) => {
             : { onClick: mouseClickHandler })}
         />
         <canvas
+          id="overlay"
           data-testid="overlay"
           ref={overlayRef}
           // have pointer-events: none and click handlers on img instead of canvas
@@ -536,6 +435,7 @@ const ImageView = (props: ImageViewProps) => {
             gridArea: '1 / 1',
             zIndex: 2,
             pointerEvents: 'none',
+            imageRendering: 'pixelated',
             height: crosshairsMode
               ? imageDims.height
               : calculateImageDimensionsToFitWindow('height', imageDims, false),

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { flushPromises } from '../testUtils';
 import ImageView, { ImageViewProps } from './imageView.component';
@@ -347,47 +347,6 @@ describe('Image view component', () => {
       fireEvent.click(image, { button: 0, clientX: 2, clientY: 2 });
 
       expect(props.changeCrosshair).toHaveBeenCalledWith({ x: 2, y: 2 });
-    });
-
-    it('resize observer works', async () => {
-      const observeSpy = vi.fn();
-
-      // Override of default constructor behavior
-      // use a timeout to trigger a "resize" event
-      global.ResizeObserver = class MockedResizeObserver {
-        constructor(cb: ResizeObserverCallback) {
-          setTimeout(() => {
-            cb(
-              [
-                {
-                  contentRect: {
-                    height: 101,
-                    width: 102,
-                  },
-                },
-              ] as ResizeObserverEntry[],
-
-              this
-            );
-          }, 150);
-        }
-
-        // Attaching spy to "observe" function.
-        observe = observeSpy;
-        unobserve = vi.fn();
-        disconnect = vi.fn();
-      };
-
-      render(<ImageView {...props} />);
-
-      // "load" image
-      await flushPromises();
-
-      const overlay: HTMLCanvasElement = screen.getByTestId('overlay');
-      expect(overlay.width).not.toBe(102);
-
-      // wait for "resize" event
-      await waitFor(() => expect(overlay.width).toBe(102));
     });
   });
 
