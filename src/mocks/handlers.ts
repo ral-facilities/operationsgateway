@@ -156,7 +156,14 @@ export const handlers = [
   http.get('/experiments', () => {
     return HttpResponse.json(experimentsJson, { status: 200 });
   }),
-  http.get('/records', () => HttpResponse.json(recordsJson, { status: 200 })),
+  http.get('/records', async () => {
+    // VITE_APP_BUILD_STANDALONE used here to determine if E2E testing or not
+    if (import.meta.env.VITE_APP_BUILD_STANDALONE === 'true') {
+      // emulate server delay to ensure table loading spinner appears consistently for e2e tests
+      await delay();
+    }
+    return HttpResponse.json(recordsJson, { status: 200 });
+  }),
   http.get('/records/count', () =>
     HttpResponse.json(recordsJson.length, { status: 200 })
   ),

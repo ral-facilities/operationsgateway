@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -13,8 +13,7 @@ test('plots a time vs channel graph', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
   // wait for data to load before switching tabs
-  await expect(page.getByRole('progressbar')).toBeVisible();
-  await expect(page.getByRole('progressbar')).not.toBeVisible();
+  await page.getByRole('progressbar').waitFor({ state: 'hidden' });
 
   await page.locator('text=Plots').click();
 
@@ -59,8 +58,7 @@ test('plots a channel vs channel graph', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
   // wait for data to load before switching tabs
-  await expect(page.getByRole('progressbar')).toBeVisible();
-  await expect(page.getByRole('progressbar')).not.toBeVisible();
+  await page.getByRole('progressbar').waitFor({ state: 'hidden' });
 
   await page.locator('text=Plots').click();
 

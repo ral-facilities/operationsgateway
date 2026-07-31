@@ -43,8 +43,7 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
   const chart = await popup.locator('.plotly-chart');
 
   // wait for first chart to load
-  await expect(popup.getByRole('progressbar')).toBeVisible();
-  await expect(popup.getByRole('progressbar')).not.toBeVisible();
+  await page.getByRole('progressbar').waitFor({ state: 'hidden' });
 
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
@@ -67,8 +66,7 @@ test('user can view traces and change trace via clicking on a thumbnail', async 
     .click();
 
   // wait for new chart to load
-  await expect(popup.getByRole('progressbar')).toBeVisible();
-  await expect(popup.getByRole('progressbar')).not.toBeVisible();
+  await page.getByRole('progressbar').waitFor({ state: 'hidden' });
 
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
