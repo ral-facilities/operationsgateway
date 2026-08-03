@@ -38,10 +38,9 @@ test('scalar functions can be plotted', async ({ page }) => {
   await page.locator('text=Plots').click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.locator('text=Create a plot').click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page.locator('text=Create a plot').click();
+  const popup = await popupPromise;
 
   await popup.locator('label:has-text("Search")').fill('a');
   await popup.getByRole('option', { name: 'a', exact: true }).click();

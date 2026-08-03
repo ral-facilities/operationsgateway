@@ -57,7 +57,7 @@ export const queryCacheConfig: ConstructorParameters<typeof QueryCache>[0] = {
   },
 };
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: true,
@@ -69,6 +69,13 @@ const queryClient = new QueryClient({
   },
 
   queryCache: new QueryCache(queryCacheConfig),
+});
+
+document.addEventListener(MicroFrontendId, (e) => {
+  const action = (e as CustomEvent).detail;
+  if (broadcastSignOut.match(action)) {
+    queryClient.clear();
+  }
 });
 
 function mapPreloaderStateToProps(state: RootState): { loading: boolean } {

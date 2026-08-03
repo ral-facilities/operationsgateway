@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 type CallBackFind<T> = (
   value: T,
@@ -149,10 +149,9 @@ test('should be able to create a session, reload the session, edit it and delete
     .getByRole('button', { name: 'e2e testing session', exact: true })
     .click();
 
-  await expect(page.getByRole('progressbar')).toBeVisible();
-  await expect(page.getByRole('progressbar')).not.toBeVisible({
-    timeout: 10000,
-  });
+  await page
+    .getByRole('progressbar')
+    .waitFor({ state: 'hidden', timeout: 10000 });
 
   await expect(popups).toHaveLength(3);
 

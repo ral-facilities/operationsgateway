@@ -58,9 +58,11 @@ export const useEditSession = (): UseMutationResult<
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (session: SessionResponse) => editSession(session),
-    onSuccess: async () => {
+    onSuccess: async (_data, variables) => {
       await queryClient.invalidateQueries({ queryKey: ['sessionList'] });
-      await queryClient.invalidateQueries({ queryKey: ['session'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['session', variables._id],
+      });
     },
   });
 };
