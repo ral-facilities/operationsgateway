@@ -6,6 +6,7 @@
     { "value": 1000 },
     { "value": "Unlimited" }
   ],
+  "initialChannels": { "timestamp": { "removable": false, "sticky": true } },
   "workingHours": { "start": 9, "end": 18 },
   "dataTypes": [],
   "plotAxisSigFigs": ".3~s",

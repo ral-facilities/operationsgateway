@@ -10,7 +10,12 @@ import {
   type WorkingHours,
 } from '../../settings';
 import { AppDispatch, RootState } from '../store';
-import { defaultMaxShotOptions } from './searchSlice';
+
+export const defaultMaxShotOptions: MaxShotType[] = [
+  { value: 50, default: true },
+  { value: 1000 },
+  { value: 'Unlimited' },
+];
 
 interface URLs {
   apiUrl: string;

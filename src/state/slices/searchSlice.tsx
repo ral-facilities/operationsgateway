@@ -5,16 +5,14 @@ import { convertApiTimestampToDate, formatDateTimeForApi } from '../../api/api';
 import { SearchParams } from '../../app.types';
 import { MaxShotType } from '../../settings';
 import { RootState } from '../store';
-import { loadDataTypesSetting, loadMaxShotsSetting } from './configSlice';
+import {
+  defaultMaxShotOptions,
+  loadDataTypesSetting,
+  loadMaxShotsSetting,
+} from './configSlice';
 import { selectQueryFilters } from './filterSlice';
 import { selectQueryFunctions } from './functionsSlice';
 import { selectPage, selectResultsPerPage, selectSort } from './tableSlice';
-
-export const defaultMaxShotOptions: MaxShotType[] = [
-  { value: 50, default: true },
-  { value: 1000 },
-  { value: 'Unlimited' },
-];
 
 export const getDefaultMaxShot = (maxShots: MaxShotType[]): number => {
   const maxShot = maxShots.find((x) => x.default)?.value ?? maxShots[0].value;
