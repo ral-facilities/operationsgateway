@@ -4,6 +4,7 @@ import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
   initialState,
+  loadAuthTypesSetting,
   loadDataTypesSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
@@ -141,6 +142,17 @@ describe('configSlice', () => {
 
       expect(updatedState.dataTypes).toEqual(['GS', 'GD']);
     });
+
+    it('should set authTypes property when loadAuthTypesSetting action is sent', () => {
+      expect(state.authTypes).toEqual(['local', 'FedID']);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadAuthTypesSetting(['user_office'])
+      );
+
+      expect(updatedState.authTypes).toEqual(['user_office']);
+    });
   });
 
   describe('Actions', () => {
@@ -166,12 +178,13 @@ describe('configSlice', () => {
           workingHours: { start: 10, end: 17 },
           plotAxisSigFigs: '.2~s',
           dataTypes: ['GS', 'GD'],
+          authTypes: ['FedID'],
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(10);
+      expect(actions.length).toEqual(11);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -201,11 +214,12 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(initialiseDataTypes(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
+      expect(actions).toContainEqual(loadAuthTypesSetting(['FedID']));
 
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting and loadWorkingHoursSetting actions or configure data types when they're not defined", async () => {
+    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting, loadAuthTypesSetting and loadWorkingHoursSetting actions or configure data types when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -242,6 +256,9 @@ describe('configSlice', () => {
         actions.every(({ type }) => type !== initialiseDataTypes.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
+      expect(
+        actions.every(({ type }) => type !== loadAuthTypesSetting.type)
+      ).toBe(true);
 
       expect(actions).toContainEqual(settingsLoaded());
     });

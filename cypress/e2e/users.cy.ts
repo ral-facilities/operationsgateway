@@ -1,8 +1,9 @@
 describe('Users', () => {
-  it('should users table correctly', () => {
+  it('should show users table correctly', () => {
     cy.visit('/admin/users');
     cy.findByText('user1').should('exist');
     cy.findAllByText('FedID').should('have.length', 5);
+    cy.findAllByText('user12@example.com').should('exist');
     cy.findAllByText('/users POST').should('have.length', 3);
   });
 
@@ -32,21 +33,9 @@ describe('Users', () => {
       cy.findByText('Username is required.').should('exist');
     });
 
-    it('displays password field only when auth_type is "local"', () => {
-      cy.findByLabelText('Username *').type('new_user');
-      cy.findByLabelText('Password *').should('exist');
-    });
-
-    it('dose not displays password field only when auth_type is "FedID"', () => {
-      cy.findAllByRole('combobox').first().click();
-      cy.findByRole('option', { name: 'FedID' }).click();
-
-      cy.findByLabelText('Username *').type('new_user');
-      cy.findByLabelText('Password *').should('not.exist');
-    });
-
     it('adds user successfully (local)', () => {
       cy.findByLabelText('Username *').type('new_user');
+      cy.findByLabelText('Password *').should('exist');
       cy.findByLabelText('Password *').type('secure_password');
 
       cy.findAllByRole('combobox').last().click();
@@ -80,6 +69,8 @@ describe('Users', () => {
       cy.findAllByRole('combobox').first().click();
       cy.findByRole('option', { name: 'FedID' }).click();
 
+      cy.findByLabelText('Password *').should('not.exist');
+
       cy.startSnoopingBrowserMockedRequest();
 
       cy.findByRole('button', { name: 'Submit' }).click();
@@ -90,6 +81,28 @@ describe('Users', () => {
           const request = postRequests[0];
           expect(JSON.stringify(await request.json())).equal(
             JSON.stringify({ _id: 'new_user', auth_type: 'FedID' })
+          );
+        }
+      );
+    });
+
+    it('adds user successfully (user_office)', () => {
+      cy.findAllByRole('combobox').first().click();
+      cy.findByRole('option', { name: 'user_office' }).click();
+
+      cy.findByLabelText('Email *').type('new_user');
+      cy.findByLabelText('Password *').should('not.exist');
+
+      cy.startSnoopingBrowserMockedRequest();
+
+      cy.findByRole('button', { name: 'Submit' }).click();
+
+      cy.findBrowserMockedRequests({ method: 'POST', url: '/users' }).should(
+        async (postRequests) => {
+          expect(postRequests.length).equal(1);
+          const request = postRequests[0];
+          expect(JSON.stringify(await request.json())).equal(
+            JSON.stringify({ _id: 'new_user', auth_type: 'user_office' })
           );
         }
       );

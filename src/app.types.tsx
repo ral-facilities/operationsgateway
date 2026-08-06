@@ -415,7 +415,7 @@ export interface APIError {
 type AuthorisedRoutes = string[] | null;
 
 export interface UserPost {
-  _id: string; // Maps the `username` field in Python, which has an alias "_id"
+  _id: string;
   auth_type: string;
   sha256_password?: string;
   authorised_routes?: AuthorisedRoutes;
@@ -426,8 +426,8 @@ export interface UserPatch extends Pick<UserPost, '_id'> {
   add_authorised_routes?: AuthorisedRoutes;
   remove_authorised_routes?: AuthorisedRoutes;
 }
-export interface User extends Omit<UserPost, '_id' | 'sha256_password'> {
-  username: string;
+export interface User extends Omit<UserPost, 'sha256_password'> {
+  username: string; // username is the display name - _id is the what the backend needs for any user operations
 }
 
 export interface UsersDict {

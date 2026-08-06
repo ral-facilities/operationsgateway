@@ -15,6 +15,8 @@ export interface MaxShotType {
   default?: boolean;
 }
 
+export type AuthTypesType = ('local' | 'FedID' | 'user_office')[];
+
 export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
@@ -25,6 +27,7 @@ export interface OperationsGatewaySettings {
   workingHours?: WorkingHours;
   plotAxisSigFigs?: string;
   dataTypes?: string[];
+  authTypes?: AuthTypesType;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;
@@ -76,6 +79,15 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
         throw new Error(
           'Some max shots have a non-number, non-"Unlimited" value in the settings'
         );
+      }
+
+      if (
+        settings.authTypes?.some(
+          (auth) =>
+            auth !== 'local' && auth !== 'FedID' && auth !== 'user_office'
+        )
+      ) {
+        throw new Error('Unrecognised auth type defined in the settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {

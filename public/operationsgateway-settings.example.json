@@ -7,6 +7,7 @@
     { "value": "Unlimited" }
   ],
   "workingHours": { "start": 9, "end": 18 },
+  "authTypes": ["local", "FedID"],
   "dataTypes": [],
   "plotAxisSigFigs": ".3~s",
   "routes": [

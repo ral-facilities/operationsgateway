@@ -3,7 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
 import { columnIconMappings } from '../../app.types';
-import { MaxShotType, settings, type WorkingHours } from '../../settings';
+import {
+  AuthTypesType,
+  MaxShotType,
+  settings,
+  type WorkingHours,
+} from '../../settings';
 import { AppDispatch, RootState } from '../store';
 import {
   defaultMaxShotOptions,
@@ -25,6 +30,7 @@ interface ConfigState {
   workingHours: WorkingHours;
   plotAxisSigFigs?: string;
   dataTypes?: string[];
+  authTypes: AuthTypesType;
 }
 
 // Define the initial state using that type
@@ -38,6 +44,7 @@ export const initialState: ConfigState = {
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
   dataTypes: undefined,
+  authTypes: ['local', 'FedID'],
 };
 
 export const configSlice = createSlice({
@@ -73,6 +80,9 @@ export const configSlice = createSlice({
     loadDataTypesSetting: (state, action: PayloadAction<string[]>) => {
       state.dataTypes = action.payload;
     },
+    loadAuthTypesSetting: (state, action: PayloadAction<AuthTypesType>) => {
+      state.authTypes = action.payload;
+    },
   },
 });
 
@@ -85,6 +95,7 @@ export const {
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
+  loadAuthTypesSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -96,6 +107,7 @@ export const selectWorkingHours = (state: RootState) =>
 export const selectPlotAxisSigFigs = (state: RootState) =>
   state.config.plotAxisSigFigs;
 export const selectDataTypes = (state: RootState) => state.config.dataTypes;
+export const selectAuthTypes = (state: RootState) => state.config.authTypes;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -137,6 +149,11 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       columnIconMappings.set('active_area', <Category />);
       // set type of shot number channel to string
       staticChannels['shotnum'].type = 'string';
+    }
+
+    const authTypes = settingsResult.authTypes;
+    if (typeof authTypes !== 'undefined') {
+      dispatch(loadAuthTypesSetting(authTypes));
     }
 
     dispatch(settingsLoaded());
