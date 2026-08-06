@@ -1,3 +1,4 @@
+import { loadInitialChannelsSetting } from './configSlice';
 import ColumnsReducer, {
   changeSort,
   deselectColumn,
@@ -17,17 +18,13 @@ describe('tableSlice', () => {
 
     it('selectColumn adds new columns in the correct order', () => {
       state = ColumnsReducer(state, selectColumn('shotnum'));
-      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
+      expect(state.selectedColumnIds).toEqual(['shotnum']);
 
       state = ColumnsReducer(state, selectColumn('shotnum'));
-      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
+      expect(state.selectedColumnIds).toEqual(['shotnum']);
 
       state = ColumnsReducer(state, selectColumn('active_area'));
-      expect(state.selectedColumnIds).toEqual([
-        'timestamp',
-        'shotnum',
-        'active_area',
-      ]);
+      expect(state.selectedColumnIds).toEqual(['shotnum', 'active_area']);
     });
 
     it('deselectColumn removes columns in the correct order', () => {
@@ -41,14 +38,6 @@ describe('tableSlice', () => {
         ],
       };
       state = ColumnsReducer(state, deselectColumn('active_area'));
-      expect(state.selectedColumnIds).toEqual([
-        'timestamp',
-        'shotnum',
-        'active_experiment',
-      ]);
-
-      // shouldn't be able to deselect timestamp
-      state = ColumnsReducer(state, deselectColumn('timestamp'));
       expect(state.selectedColumnIds).toEqual([
         'timestamp',
         'shotnum',
@@ -104,6 +93,24 @@ describe('tableSlice', () => {
         changeSort({ column: 'timestamp', order: null })
       );
       expect(state.sort).toEqual({ shotnum: 'desc' });
+    });
+
+    it('loadInitialChannelsSetting sets initial selected columns and makes non-removable channels non-removable', () => {
+      state = ColumnsReducer(
+        state,
+        loadInitialChannelsSetting({
+          timestamp: { removable: false, sticky: true },
+          shotnum: { removable: true, sticky: false },
+        })
+      );
+      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
+
+      // shouldn't be able to deselect timestamp
+      state = ColumnsReducer(state, deselectColumn('timestamp'));
+      expect(state.selectedColumnIds).toEqual(['timestamp', 'shotnum']);
+
+      state = ColumnsReducer(state, deselectColumn('shotnum'));
+      expect(state.selectedColumnIds).toEqual(['timestamp']);
     });
   });
 

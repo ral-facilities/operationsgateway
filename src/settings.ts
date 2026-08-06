@@ -24,7 +24,7 @@ export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
   maxShots: MaxShotType[];
-  initialChannels: InitialChannelsConfigType;
+  initialChannels?: InitialChannelsConfigType;
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;

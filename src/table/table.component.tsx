@@ -357,7 +357,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                 removable={
                                   !nonRemovableChannels.includes(dataKey)
                                 }
-                                reorderable={isStickyColumn}
+                                reorderable={!isStickyColumn}
                               />
                             );
                           })}

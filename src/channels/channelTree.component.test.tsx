@@ -56,6 +56,7 @@ describe('Channel Tree', () => {
         handleChannelChecked={handleChannelChecked}
         handleChannelSelected={handleChannelSelected}
         tree={tree}
+        nonRemovableChannels={['timestamp']}
       />
     );
   };

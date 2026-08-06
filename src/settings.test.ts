@@ -4,7 +4,7 @@ import { MicroFrontendId } from './app.types';
 import { server } from './mocks/server';
 import { fetchSettings } from './settings';
 import { registerRoute } from './state/scigateway.actions';
-import { defaultMaxShotOptions } from './state/slices/searchSlice';
+import { defaultMaxShotOptions } from './state/slices/configSlice';
 
 vi.mock('loglevel');
 

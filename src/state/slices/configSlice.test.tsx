@@ -3,8 +3,10 @@ import { setSettings } from '../../settings';
 import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
+  defaultMaxShotOptions,
   initialState,
   loadDataTypesSetting,
+  loadInitialChannelsSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
@@ -13,11 +15,6 @@ import ConfigReducer, {
   loadWorkingHoursSetting,
   settingsLoaded,
 } from './configSlice';
-import {
-  defaultMaxShotOptions,
-  initialiseDataTypes,
-  initialiseDefaultMaxShots,
-} from './searchSlice';
 
 vi.mock('loglevel');
 
@@ -148,12 +145,16 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost, loadWorkingHoursSetting, and settingsLoaded actions are sent and data types are configured', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, and settingsLoaded actions are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
           maxShots: [{ value: 100, default: true }, { value: 'Unlimited' }],
+          initialChannels: {
+            timestamp: { removable: false, sticky: true },
+            shotnum: { removable: true, sticky: false },
+          },
           routes: [
             {
               section: 'section',
@@ -171,7 +172,7 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(10);
+      expect(actions.length).toEqual(9);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -185,10 +186,10 @@ describe('configSlice', () => {
         ])
       );
       expect(actions).toContainEqual(
-        initialiseDefaultMaxShots([
-          { value: 100, default: true },
-          { value: 'Unlimited' },
-        ])
+        loadInitialChannelsSetting({
+          timestamp: { removable: false, sticky: true },
+          shotnum: { removable: true, sticky: false },
+        })
       );
       expect(actions).toContainEqual(
         loadPluginHostSetting('http://localhost:3000/')
@@ -198,7 +199,6 @@ describe('configSlice', () => {
       );
       expect(actions).toContainEqual(loadPlotAxisSigFigsSetting('.2~s'));
       expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
-      expect(actions).toContainEqual(initialiseDataTypes(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
 
@@ -229,6 +229,7 @@ describe('configSlice', () => {
       expect(
         actions.every(({ type }) => type !== loadPluginHostSetting.type)
       ).toBe(true);
+
       expect(
         actions.every(({ type }) => type !== loadWorkingHoursSetting.type)
       ).toBe(true);
@@ -238,10 +239,13 @@ describe('configSlice', () => {
       expect(
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
       ).toBe(true);
-      expect(
-        actions.every(({ type }) => type !== initialiseDataTypes.type)
-      ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
+      // ensure even if we don't define initial channel settings we initialise with the default
+      expect(actions).toContainEqual(
+        loadInitialChannelsSetting({
+          timestamp: { removable: false, sticky: true },
+        })
+      );
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -269,9 +273,6 @@ describe('configSlice', () => {
 
       expect(
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
-      ).toBe(true);
-      expect(
-        actions.every(({ type }) => type !== initialiseDataTypes.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
 

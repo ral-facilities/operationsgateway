@@ -158,7 +158,11 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     dispatch(loadMaxShotsSetting(settingsResult['maxShots']));
 
-    dispatch(loadInitialChannelsSetting(settingsResult['initialChannels']));
+    dispatch(
+      loadInitialChannelsSetting(
+        settingsResult['initialChannels'] ?? initialState.initialChannels
+      )
+    );
 
     if (settingsResult['pluginHost'] !== undefined) {
       dispatch(loadPluginHostSetting(settingsResult['pluginHost']));

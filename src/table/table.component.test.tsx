@@ -83,6 +83,8 @@ describe('Table', () => {
       onColumnWordWrapToggle,
       openFilters,
       filteredChannelNames: [],
+      nonRemovableChannels: ['timestamp'],
+      stickyChannels: ['timestamp'],
     };
   });
 
