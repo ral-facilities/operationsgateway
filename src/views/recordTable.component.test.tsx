@@ -36,10 +36,7 @@ describe('Record Table', () => {
 
   beforeEach(() => {
     state = getInitialState();
-    state = {
-      ...state,
-      table: { ...state.table, selectedColumnIds: ['timestamp'] },
-    };
+    state.table = { ...state.table, selectedColumnIds: ['timestamp'] };
 
     vi.spyOn(global.crypto, 'randomUUID').mockImplementation(
       // @ts-expect-error Format is intentionally different to uuid v4
