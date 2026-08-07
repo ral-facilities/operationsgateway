@@ -6,6 +6,10 @@ import { useRecordCount, useRecordsPaginated } from '../api/records';
 import { Order } from '../app.types';
 import type { Token } from '../filtering/filterParser';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
+import {
+  selectNonRemovableChannels,
+  selectStickyChannels,
+} from '../state/slices/configSlice';
 import { selectAppliedFilters } from '../state/slices/filterSlice';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import {
@@ -75,6 +79,9 @@ const RecordTable = React.memo(
     );
 
     const columnOrder = useAppSelector(selectSelectedIds);
+
+    const stickyChannels = useAppSelector(selectStickyChannels);
+    const nonRemovableChannels = useAppSelector(selectNonRemovableChannels);
 
     const onPageChange = React.useCallback(
       (page: number) => {
@@ -159,6 +166,8 @@ const RecordTable = React.memo(
         onColumnClose={handleColumnClose}
         openFilters={openFilters}
         filteredChannelNames={filteredChannelNames}
+        stickyChannels={stickyChannels}
+        nonRemovableChannels={nonRemovableChannels}
       />
     );
   }

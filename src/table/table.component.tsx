@@ -36,7 +36,6 @@ import {
   Order,
   RecordRow,
   SearchParams,
-  timeChannelName,
 } from '../app.types';
 import DataCell from './cellRenderers/dataCell.component';
 import DataHeader from './headerRenderers/dataHeader.component';
@@ -52,8 +51,6 @@ const stickyColumnStyles: SxProps<Theme> = {
 };
 
 const CHECKBOX_COLUMN_ID = 'CHECKBOX_COLUMN';
-
-const columnPinning = { left: [CHECKBOX_COLUMN_ID, timeChannelName] };
 
 export interface TableProps {
   tableHeight: string;
@@ -79,6 +76,8 @@ export interface TableProps {
   onColumnClose: (column: string) => void;
   openFilters: (headerName: string) => void;
   filteredChannelNames: string[];
+  nonRemovableChannels: string[];
+  stickyChannels: string[];
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -106,6 +105,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onColumnClose,
     openFilters,
     filteredChannelNames,
+    nonRemovableChannels,
+    stickyChannels,
   } = props;
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
@@ -216,6 +217,11 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     [columnVisibility]
   );
 
+  const columnPinning = React.useMemo(
+    () => ({ left: [CHECKBOX_COLUMN_ID, ...stickyChannels] }),
+    [stickyChannels]
+  );
+
   const tableInstance = useReactTable({
     columns,
     data,
@@ -289,8 +295,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               );
                             }
 
-                            const isTimestampColumn =
-                              dataKey === timeChannelName;
+                            const isStickyColumn =
+                              stickyChannels.includes(dataKey);
                             let columnStyles: SxProps<Theme> = {
                               width: column.getSize(),
                               paddingTop: '0px',
@@ -302,7 +308,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               alignItems: 'center',
                             };
 
-                            columnStyles = isTimestampColumn
+                            columnStyles = isStickyColumn
                               ? {
                                   ...columnStyles,
                                   ...stickyColumnStyles,
@@ -347,6 +353,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   dataKey
                                 )}
                                 openFilters={openFilters}
+                                removable={
+                                  !nonRemovableChannels.includes(dataKey)
+                                }
+                                reorderable={!isStickyColumn}
                               />
                             );
                           })}
@@ -400,7 +410,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         key: CHECKBOX_COLUMN_ID,
                       });
                     }
-                    const isTimestampColumn = dataKey === timeChannelName;
+                    const isStickyColumn = stickyChannels.includes(dataKey);
 
                     let columnStyles: SxProps<Theme> = {
                       width: cell.column.getSize(),
@@ -411,7 +421,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                       flexDirection: 'row',
                     };
 
-                    columnStyles = isTimestampColumn
+                    columnStyles = isStickyColumn
                       ? {
                           ...columnStyles,
                           ...stickyColumnStyles,

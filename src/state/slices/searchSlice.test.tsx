@@ -1,6 +1,6 @@
+import { loadDataTypesSetting, loadMaxShotsSetting } from './configSlice';
 import SearchReducer, {
   getDefaultMaxShot,
-  initialiseDefaultMaxShots,
   initialStateFunc,
   selectDateRangeInLocalTime,
 } from './searchSlice';
@@ -36,18 +36,29 @@ describe('Search slice tests', () => {
     });
   });
 
-  it('initialiseDefaultMaxShots takes max shot config and extracts the default max shot value', () => {
+  it('loadMaxShotsSetting takes max shot config and extracts the default max shot value', () => {
     expect(state.search.searchParams.maxShots).toBe(50);
 
     const updatedState = SearchReducer(
       state.search,
-      initialiseDefaultMaxShots([
+      loadMaxShotsSetting([
         { value: 100, default: true },
         { value: 'Unlimited' },
       ])
     );
 
     expect(updatedState.searchParams.maxShots).toBe(100);
+  });
+
+  it('loadDataTypesSetting takes data types config and updates state', () => {
+    expect(state.search.searchParams.dataTypes).toBeUndefined();
+
+    const updatedState = SearchReducer(
+      state.search,
+      loadDataTypesSetting(['GD'])
+    );
+
+    expect(updatedState.searchParams.dataTypes).toEqual(['GD']);
   });
 });
 

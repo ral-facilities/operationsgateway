@@ -1,15 +1,21 @@
 import Category from '@mui/icons-material/Category';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
 import { columnIconMappings } from '../../app.types';
-import { MaxShotType, settings, type WorkingHours } from '../../settings';
-import { AppDispatch, RootState } from '../store';
 import {
-  defaultMaxShotOptions,
-  initialiseDataTypes,
-  initialiseDefaultMaxShots,
-} from './searchSlice';
+  InitialChannelsConfigType,
+  MaxShotType,
+  settings,
+  type WorkingHours,
+} from '../../settings';
+import { AppDispatch, RootState } from '../store';
+
+export const defaultMaxShotOptions: MaxShotType[] = [
+  { value: 50, default: true },
+  { value: 1000 },
+  { value: 'Unlimited' },
+];
 
 interface URLs {
   apiUrl: string;
@@ -20,6 +26,7 @@ interface ConfigState {
   urls: URLs;
   recordLimitWarning: number;
   maxShots: MaxShotType[];
+  initialChannels: InitialChannelsConfigType;
   pluginHost: string;
   settingsLoaded: boolean;
   workingHours: WorkingHours;
@@ -34,6 +41,7 @@ export const initialState: ConfigState = {
   },
   recordLimitWarning: -1,
   maxShots: defaultMaxShotOptions,
+  initialChannels: { timestamp: { removable: false, sticky: true } },
   pluginHost: '',
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
@@ -61,6 +69,12 @@ export const configSlice = createSlice({
     loadMaxShotsSetting: (state, action: PayloadAction<MaxShotType[]>) => {
       state.maxShots = action.payload;
     },
+    loadInitialChannelsSetting: (
+      state,
+      action: PayloadAction<InitialChannelsConfigType>
+    ) => {
+      state.initialChannels = action.payload;
+    },
     loadWorkingHoursSetting: (state, action: PayloadAction<WorkingHours>) => {
       state.workingHours = action.payload;
     },
@@ -82,6 +96,7 @@ export const {
   loadUrls,
   loadRecordLimitWarningSetting,
   loadMaxShotsSetting,
+  loadInitialChannelsSetting,
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
@@ -91,6 +106,36 @@ export const selectUrls = (state: RootState) => state.config.urls;
 export const selectRecordLimitWarning = (state: RootState) =>
   state.config.recordLimitWarning;
 export const selectMaxShots = (state: RootState) => state.config.maxShots;
+const selectInitialChannelConfig = (state: RootState) =>
+  state.config.initialChannels;
+export const selectNonRemovableChannels = createSelector(
+  selectInitialChannelConfig,
+  (initialChannels) => {
+    return Object.entries(initialChannels).reduce(
+      (filtered, [channelName, channelOptions]) => {
+        if (!channelOptions.removable) {
+          filtered.push(channelName);
+        }
+        return filtered;
+      },
+      [] as string[]
+    );
+  }
+);
+export const selectStickyChannels = createSelector(
+  selectInitialChannelConfig,
+  (initialChannels) => {
+    return Object.entries(initialChannels).reduce(
+      (filtered, [channelName, channelOptions]) => {
+        if (channelOptions.sticky) {
+          filtered.push(channelName);
+        }
+        return filtered;
+      },
+      [] as string[]
+    );
+  }
+);
 export const selectWorkingHours = (state: RootState) =>
   state.config.workingHours;
 export const selectPlotAxisSigFigs = (state: RootState) =>
@@ -112,7 +157,12 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
     );
 
     dispatch(loadMaxShotsSetting(settingsResult['maxShots']));
-    dispatch(initialiseDefaultMaxShots(settingsResult['maxShots']));
+
+    dispatch(
+      loadInitialChannelsSetting(
+        settingsResult['initialChannels'] ?? initialState.initialChannels
+      )
+    );
 
     if (settingsResult['pluginHost'] !== undefined) {
       dispatch(loadPluginHostSetting(settingsResult['pluginHost']));
@@ -130,8 +180,6 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
     // if data types are defined, initialise everything to do with data types properly
     if (Array.isArray(dataTypes) && dataTypes.length > 0) {
       dispatch(loadDataTypesSetting(dataTypes));
-      // initialise selected data types to all of the options
-      dispatch(initialiseDataTypes(dataTypes));
       // change active_area to read as data type
       staticChannels['active_area'].name = 'Data Type';
       columnIconMappings.set('active_area', <Category />);

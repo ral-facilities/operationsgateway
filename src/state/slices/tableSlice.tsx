@@ -7,9 +7,9 @@ import {
   FullChannelMetadata,
   Order,
   RecordRow,
-  timeChannelName,
 } from '../../app.types';
 import { RootState } from '../store';
+import { loadInitialChannelsSetting } from './configSlice';
 
 export const resultsPerPage = 25;
 
@@ -31,12 +31,13 @@ interface TableState {
 // Define the initial state using that type
 export const initialState: TableState = {
   columnStates: {},
-  // Ensure the timestamp column is opened automatically on table load
-  selectedColumnIds: [timeChannelName],
+  selectedColumnIds: [],
   page: 0,
   resultsPerPage: resultsPerPage,
   sort: {},
 };
+
+let nonRemovableChannels: string[] = [];
 
 export const tableSlice = createSlice({
   name: 'table',
@@ -54,8 +55,8 @@ export const tableSlice = createSlice({
       }
     },
     deselectColumn: (state, action: PayloadAction<string>) => {
-      if (action.payload === timeChannelName) {
-        // don't allow time column to be deselected (should be prevented by other
+      if (nonRemovableChannels.includes(action.payload)) {
+        // don't allow non removable channels to be deselected (should be prevented by other
         // code as well - just might as well do it here too)
         return;
       } else {
@@ -107,6 +108,24 @@ export const tableSlice = createSlice({
         state.columnStates[action.payload] = { wordWrap: true };
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadInitialChannelsSetting, (state, action) => {
+      state.selectedColumnIds = Object.keys(action.payload);
+      // we can't access state from another slice, but in practice the config
+      // slice doesn't change so can just store it in a variable to use in the
+      // deselect function. Also the deselect function is just a "backup"
+      nonRemovableChannels = Object.entries(action.payload).reduce(
+        (filtered, [channelName, channelOptions]) => {
+          if (!channelOptions.removable) {
+            filtered.push(channelName);
+          }
+          return filtered;
+        },
+        [] as string[]
+      );
+      return state;
+    });
   },
 });
 
