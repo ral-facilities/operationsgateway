@@ -6,12 +6,18 @@ import ChannelSearch from './channelSearch.component';
 describe('Channel Search', () => {
   let currPathAndChannel = '';
   const onSearchChange = vi.fn();
+  let channels = testChannels;
+
+  beforeEach(() => {
+    channels = testChannels;
+  });
+
   const createView = () => {
     return render(
       <ChannelSearch
         currPathAndChannel={currPathAndChannel}
         onSearchChange={onSearchChange}
-        channels={testChannels}
+        channels={channels}
       />
     );
   };
@@ -42,6 +48,35 @@ describe('Channel Search', () => {
 
     expect(onSearchChange).not.toHaveBeenCalled();
     expect(search).toHaveValue('');
+  });
+
+  it('should correctly render channel names', async () => {
+    channels = [
+      { systemName: 'channel_1', type: 'scalar', path: '/test' },
+      {
+        systemName: 'channel_2',
+        name: 'channel_2',
+        type: 'scalar',
+        path: '/test',
+      },
+      {
+        systemName: 'channel_3',
+        name: 'Channel 3',
+        type: 'scalar',
+        path: '/test',
+      },
+    ];
+    const user = userEvent.setup();
+    createView();
+
+    const search = screen.getByLabelText('Search data channels');
+    await user.click(search);
+
+    expect(screen.getByRole('option', { name: 'channel_1' })).toBeVisible();
+    expect(screen.getByRole('option', { name: 'channel_2' })).toBeVisible();
+    expect(
+      screen.getByRole('option', { name: 'Channel 3 (channel_3)' })
+    ).toBeVisible();
   });
 
   it('should clear the input when currPathAndChannel no longer matches', async () => {
