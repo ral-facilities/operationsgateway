@@ -11,6 +11,7 @@ import ConfigReducer, {
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
   loadRecordLimitWarningSetting,
+  loadRoundingConfigSetting,
   loadUrls,
   loadWorkingHoursSetting,
   settingsLoaded,
@@ -138,6 +139,44 @@ describe('configSlice', () => {
 
       expect(updatedState.dataTypes).toEqual(['GS', 'GD']);
     });
+
+    it('should set rounding config property when loadRoundingConfig action is sent', () => {
+      expect(state.roundingConfig).toEqual({
+        source: 'column_definitions',
+        precisionMeaning: 'EPAC',
+      });
+
+      const updatedState = ConfigReducer(
+        state,
+        loadRoundingConfigSetting({
+          source: 'value',
+          precisionMeaning: 'decimal_places',
+          precision: 3,
+          trimTrailingZeros: true,
+          scientificNotationThresholds: {
+            large: {
+              upper: 1e6,
+              lower: -1e6,
+            },
+            small: { upper: 1e-3, lower: -1e-3 },
+          },
+        })
+      );
+
+      expect(updatedState.roundingConfig).toEqual({
+        source: 'value',
+        precisionMeaning: 'decimal_places',
+        precision: 3,
+        trimTrailingZeros: true,
+        scientificNotationThresholds: {
+          large: {
+            upper: 1e6,
+            lower: -1e6,
+          },
+          small: { upper: 1e-3, lower: -1e-3 },
+        },
+      });
+    });
   });
 
   describe('Actions', () => {
@@ -145,7 +184,7 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, and settingsLoaded actions are sent and data types are configured', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, loadRoundingConfigSetting and settingsLoaded actions are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -167,12 +206,25 @@ describe('configSlice', () => {
           workingHours: { start: 10, end: 17 },
           plotAxisSigFigs: '.2~s',
           dataTypes: ['GS', 'GD'],
+          roundingConfig: {
+            source: 'value',
+            precisionMeaning: 'decimal_places',
+            precision: 3,
+            trimTrailingZeros: true,
+            scientificNotationThresholds: {
+              large: {
+                upper: 1e6,
+                lower: -1e6,
+              },
+              small: { upper: 1e-3, lower: -1e-3 },
+            },
+          },
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(9);
+      expect(actions.length).toEqual(10);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -201,6 +253,21 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
+      expect(actions).toContainEqual(
+        loadRoundingConfigSetting({
+          source: 'value',
+          precisionMeaning: 'decimal_places',
+          precision: 3,
+          trimTrailingZeros: true,
+          scientificNotationThresholds: {
+            large: {
+              upper: 1e6,
+              lower: -1e6,
+            },
+            small: { upper: 1e-3, lower: -1e-3 },
+          },
+        })
+      );
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -238,6 +305,9 @@ describe('configSlice', () => {
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
       // ensure even if we don't define initial channel settings we initialise with the default
