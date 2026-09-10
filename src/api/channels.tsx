@@ -175,7 +175,9 @@ export const constructColumnDefs = (
             const value = getValue<number | undefined>();
             return (
               <React.Fragment>
-                {typeof value === 'number'
+                {typeof value === 'number' &&
+                // don't round shot numbers
+                channel.systemName !== staticChannels.shotnum.systemName
                   ? roundNumber(
                       value,
                       roundingConfig,
