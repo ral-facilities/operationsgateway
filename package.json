@@ -43,7 +43,7 @@
     "single-spa-react": "6.0.2",
     "typescript": "5.9.2",
     "vite": "7.3.5",
-    "zod": "^3.23.8"
+    "zod": "^4.0.0"
   },
   "resolutions": {
     "nwsapi": "2.2.13",
