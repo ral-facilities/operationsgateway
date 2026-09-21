@@ -20,6 +20,17 @@ export type InitialChannelsConfigType = Record<
   { removable: boolean; sticky: boolean }
 >;
 
+export type RoundingConfigType = {
+  source: 'column_definitions' | 'value';
+  scientificNotationThresholds?: {
+    large?: { upper?: number; lower?: number };
+    small?: { upper?: number; lower?: number };
+  };
+  trimTrailingZeros?: boolean;
+  precision?: number;
+  precisionMeaning?: 'significant_figures' | 'decimal_places' | 'EPAC';
+};
+
 export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
@@ -31,6 +42,7 @@ export interface OperationsGatewaySettings {
   workingHours?: WorkingHours;
   plotAxisSigFigs?: string;
   dataTypes?: string[];
+  roundingConfig?: RoundingConfigType;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;
@@ -81,6 +93,15 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
       ) {
         throw new Error(
           'Some max shots have a non-number, non-"Unlimited" value in the settings'
+        );
+      }
+
+      if (
+        settings.roundingConfig &&
+        typeof settings.roundingConfig.source === 'undefined'
+      ) {
+        throw new Error(
+          'roundingConfig object defined, but roundingConfig.source is undefined'
         );
       }
 

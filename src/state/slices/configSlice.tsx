@@ -6,6 +6,7 @@ import { columnIconMappings } from '../../app.types';
 import {
   InitialChannelsConfigType,
   MaxShotType,
+  RoundingConfigType,
   settings,
   type WorkingHours,
 } from '../../settings';
@@ -32,6 +33,7 @@ interface ConfigState {
   workingHours: WorkingHours;
   plotAxisSigFigs?: string;
   dataTypes?: string[];
+  roundingConfig: RoundingConfigType;
 }
 
 // Define the initial state using that type
@@ -46,6 +48,10 @@ export const initialState: ConfigState = {
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
   dataTypes: undefined,
+  roundingConfig: {
+    source: 'column_definitions',
+    precisionMeaning: 'EPAC',
+  },
 };
 
 export const configSlice = createSlice({
@@ -87,6 +93,12 @@ export const configSlice = createSlice({
     loadDataTypesSetting: (state, action: PayloadAction<string[]>) => {
       state.dataTypes = action.payload;
     },
+    loadRoundingConfigSetting: (
+      state,
+      action: PayloadAction<RoundingConfigType>
+    ) => {
+      state.roundingConfig = action.payload;
+    },
   },
 });
 
@@ -100,6 +112,7 @@ export const {
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
+  loadRoundingConfigSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -141,6 +154,8 @@ export const selectWorkingHours = (state: RootState) =>
 export const selectPlotAxisSigFigs = (state: RootState) =>
   state.config.plotAxisSigFigs;
 export const selectDataTypes = (state: RootState) => state.config.dataTypes;
+export const selectRoundingConfig = (state: RootState) =>
+  state.config.roundingConfig;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -185,6 +200,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       columnIconMappings.set('active_area', <Category />);
       // set type of shot number channel to string
       staticChannels['shotnum'].type = 'string';
+    }
+
+    if (settingsResult['roundingConfig'] !== undefined) {
+      dispatch(loadRoundingConfigSetting(settingsResult['roundingConfig']));
     }
 
     dispatch(settingsLoaded());
