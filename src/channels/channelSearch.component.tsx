@@ -52,7 +52,7 @@ const ChannelSearch = (props: ChannelSearchProps) => {
       size="small"
       options={channels}
       getOptionLabel={(option) =>
-        option.name
+        option.name && option.name !== option.systemName
           ? `${option.name} (${option.systemName})`
           : option.systemName
       }
