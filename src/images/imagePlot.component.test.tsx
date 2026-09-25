@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react';
-import { ImagePlotProps, XImagePlot, YImagePlot } from './imagePlot.component';
-import imageCrosshairJson from '../mocks/imageCrosshair.json';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { render } from '@testing-library/react';
+import React from 'react';
+import imageCrosshairJson from '../mocks/imageCrosshair.json';
+import { ImagePlotProps, XImagePlot, YImagePlot } from './imagePlot.component';
 
 describe('Image plot component', () => {
   let props: ImagePlotProps;
@@ -11,6 +12,7 @@ describe('Image plot component', () => {
       imageDims: { width: 100, height: 100 },
       data: imageCrosshairJson.column.intensity,
       crosshairPosition: 1,
+      plotContainerRef: React.createRef(),
     };
   });
 
@@ -41,7 +43,11 @@ describe('Image plot component', () => {
       <YImagePlot {...props} crosshairPosition={undefined} />,
       {
         wrapper: ({ children }) => (
-          <ThemeProvider theme={createTheme({ palette: { mode: 'dark' } })}>
+          <ThemeProvider
+            theme={createTheme({
+              palette: { mode: 'dark', background: { default: '#000' } },
+            })}
+          >
             {children}
           </ThemeProvider>
         ),

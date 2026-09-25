@@ -35,32 +35,32 @@ export const scrollContainer = {
   contextId: `${prefix}-scroll-container-context-id`,
 };
 
-export function getDroppableSelector(droppableId) {
+export function getDroppableSelector(droppableId?: string) {
   if (droppableId) {
     return `[${droppable.id}="${droppableId}"]`;
   }
   return `[${droppable.id}]`;
 }
 
-export function getHandleSelector(draggableId) {
+export function getHandleSelector(draggableId?: string) {
   if (draggableId) {
     return `[${dragHandle.draggableId}="${draggableId}"]`;
   }
   return `[${dragHandle.draggableId}]`;
 }
 
-export function getDraggableSelector(draggableId) {
+export function getDraggableSelector(draggableId?: string) {
   if (draggableId) {
     return `[${draggable.id}="${draggableId}"]`;
   }
   return `[${draggable.id}]`;
 }
 
-export const formatDateTimeForApi = (datetime) => {
+export const formatDateTimeForApi = (datetime: Date) => {
   return datetime.toLocaleString('sv-SE').replace(' ', 'T');
 };
 
-export const addInitialSystemChannels = (channels) => {
+export const addInitialSystemChannels = (channels: string[]) => {
   cy.contains('Data Channels').click();
 
   cy.contains('system').click();

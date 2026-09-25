@@ -10,7 +10,7 @@ import { ogApi } from '../api/api';
 import { timeChannelName } from '../app.types';
 import sessionsJson from '../mocks/sessionsList.json';
 import { ImportSessionType } from '../state/store';
-import { renderComponentWithProviders } from '../testUtils';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import SessionSaveButtons, {
   AUTO_SAVE_INTERVAL_MS,
   SessionsSaveButtonsProps,
@@ -21,7 +21,14 @@ describe('session buttons', () => {
   const onSaveAsSessionClick = vi.fn();
   const onChangeAutoSaveSessionId = vi.fn();
   const createView = (): RenderResult => {
-    return renderComponentWithProviders(<SessionSaveButtons {...props} />);
+    const preloadedState = getInitialState();
+    preloadedState.table = {
+      ...preloadedState.table,
+      selectedColumnIds: ['timestamp'],
+    };
+    return renderComponentWithProviders(<SessionSaveButtons {...props} />, {
+      preloadedState,
+    });
   };
 
   let axiosPostSpy: MockInstance;

@@ -12,6 +12,7 @@ import React from 'react';
 import { useChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectNonRemovableChannels } from '../state/slices/configSlice';
 import {
   selectSelectedIds,
   updateSelectedColumns,
@@ -103,6 +104,8 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
 
   const channelTree = selectChannelTree(channels ?? [], selectedIds);
 
+  const nonRemovableChannels = useAppSelector(selectNonRemovableChannels);
+
   const dispatch = useAppDispatch();
 
   const onChannelSelect = React.useCallback((channel: string): void => {
@@ -175,6 +178,7 @@ const ChannelsDialogue = (props: ChannelsDialogueProps) => {
               setCurrNode={onChangeNode}
               handleChannelChecked={handleChannelChecked}
               handleChannelSelected={setDisplayedChannel}
+              nonRemovableChannels={nonRemovableChannels}
             />
           </Grid>
           <Divider orientation="vertical" flexItem />

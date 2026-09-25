@@ -144,21 +144,53 @@ describe('Table Component', () => {
     cy.get('[role="columnheader"]').should('be.visible');
   });
 
-  it('has a sticky time column when scrolling right', () => {
+  it('should be able to have different initial columns and correctly handles sticky columns when scrolling right', () => {
+    // We need no limit set on the records to ensure we don't get warning tooltips for these tests to pass
+    let settings = Object.create(null);
+    cy.request('operationsgateway-settings.json').then((response) => {
+      settings = response.body;
+    });
+    cy.intercept('operationsgateway-settings.json', (req) => {
+      req.reply({
+        statusCode: 200,
+        body: {
+          ...settings,
+          initialChannels: {
+            timestamp: {
+              removable: false,
+              sticky: true,
+            },
+            shotnum: {
+              removable: true,
+              sticky: true,
+            },
+            active_area: {
+              removable: true,
+              sticky: false,
+            },
+          },
+        },
+      });
+    }).as('getSettings');
+    cy.reload();
+
     cy.get('[aria-describedby="table-loading-indicator"]').should(
       'have.attr',
       'aria-busy',
       'false'
     );
 
-    // // Add enough columns to require horizontal scroll bar
+    cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should('be.visible');
+    cy.findByRole('columnheader', { name: 'Active Area' }).should('be.visible');
+
+    // sticky columns should not be re-orderable
+    cy.get(getHandleSelector('timestamp')).should('not.exist');
+    cy.get(getHandleSelector('shotnum')).should('not.exist');
+    cy.get(getHandleSelector('active_area')).should('exist');
+
+    // Add enough columns to require horizontal scroll bar
     cy.contains('Data Channels').click();
-
-    cy.contains('system').click();
-
-    cy.findByRole('checkbox', { name: 'Shot Number' }).check();
-    cy.findByRole('checkbox', { name: 'Active Area' }).check();
-    cy.findByRole('checkbox', { name: 'Active Experiment' }).check();
 
     cy.contains('All Channels').click();
 
@@ -168,16 +200,47 @@ describe('Table Component', () => {
 
     cy.findByRole('checkbox', { name: 'Channel_ABCDE' }).check();
     cy.findByRole('checkbox', { name: 'Channel_BCDEF' }).check();
-    cy.findByRole('checkbox', { name: 'Channel_CDEFG' }).check();
 
     cy.contains('Add Channels').click();
 
     cy.get('[data-testid="table-container"]').scrollTo('right');
     cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should('be.visible');
     // double check that we have scrolled far enough to test sticky column
-    cy.findByRole('columnheader', { name: 'Shot Number' }).should(
+    cy.findByRole('columnheader', { name: 'Active Area' }).should(
       'not.be.visible'
     );
+
+    // should be able to remove initial channels that are configured as removable
+    cy.findByRole('columnheader', { name: 'Shot Number' }).trigger(
+      'mousedown',
+      {
+        button: 1,
+      }
+    );
+    cy.findByRole('columnheader', { name: 'Shot Number' }).should('not.exist');
+
+    cy.get('[aria-describedby="table-loading-indicator"]').should(
+      'have.attr',
+      'aria-busy',
+      'false'
+    );
+
+    cy.findByRole('button', { name: 'active_area menu' }).click();
+    cy.findByRole('menuitem', { name: 'Close' }).click();
+    cy.findByRole('columnheader', { name: 'Active Area' }).should('not.exist');
+
+    cy.get('[aria-describedby="table-loading-indicator"]').should(
+      'have.attr',
+      'aria-busy',
+      'false'
+    );
+
+    // should not be able to remove initial channels that are configured as non-removable
+    cy.findByRole('columnheader', { name: 'Time' }).trigger('mousedown', {
+      button: 1,
+    });
+    cy.findByRole('columnheader', { name: 'Time' }).should('exist');
   });
 
   it('column headers overflow when word wrap is enabled', () => {

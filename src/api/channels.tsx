@@ -21,7 +21,9 @@ import {
   type ChannelMetadata,
 } from '../app.types';
 import retryOG_APIErrors from '../retryOG_APIErrors';
+import { RoundingConfigType } from '../settings';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { selectRoundingConfig } from '../state/slices/configSlice';
 import { selectAppliedFunctions } from '../state/slices/functionsSlice';
 import {
   openImageWindow,
@@ -144,7 +146,8 @@ export const useChannelSummary = (
 
 export const constructColumnDefs = (
   channels: FullChannelMetadata[],
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  roundingConfig: RoundingConfigType
 ): ColumnDef<RecordRow>[] => {
   const columnHelper = createColumnHelper<RecordRow>();
   const myColumnDefs: ColumnDef<RecordRow>[] = [];
@@ -172,8 +175,15 @@ export const constructColumnDefs = (
             const value = getValue<number | undefined>();
             return (
               <React.Fragment>
-                {value && typeof channel.precision === 'number'
-                  ? roundNumber(value, channel.precision, channel.notation)
+                {typeof value === 'number' &&
+                // don't round shot numbers
+                channel.systemName !== staticChannels.shotnum.systemName
+                  ? roundNumber(
+                      value,
+                      roundingConfig,
+                      channel.precision,
+                      channel.notation
+                    )
                   : value}
               </React.Fragment>
             );
@@ -314,12 +324,17 @@ export const useAvailableColumns = (): UseQueryResult<
 > => {
   const appliedFunctions = useAppSelector(selectAppliedFunctions);
   const formattedFunctions = formatAppliedFunctions(appliedFunctions);
+  const roundingConfig = useAppSelector(selectRoundingConfig);
 
   const dispatch = useAppDispatch();
   const selectFn = React.useCallback(
     (data: FullChannelMetadata[]) =>
-      constructColumnDefs([...data, ...formattedFunctions], dispatch),
-    [dispatch, formattedFunctions]
+      constructColumnDefs(
+        [...data, ...formattedFunctions],
+        dispatch,
+        roundingConfig
+      ),
+    [dispatch, formattedFunctions, roundingConfig]
   );
 
   return useChannels({ select: selectFn });

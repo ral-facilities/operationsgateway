@@ -46,15 +46,14 @@ test.afterEach(async ({ request, context }) => {
 
 test('user can limit the vector data', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('Compressor output wavefront coefficients vector', {
-        exact: false,
-      })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('Compressor output wavefront coefficients vector', {
+      exact: false,
+    })
+    .first()
+    .click();
+  const popup = await popupPromise;
 
   // Resize the popup window
   await popup.setViewportSize({ width: 1200, height: 800 });
@@ -137,10 +136,9 @@ test('user can set their default skip and limit', async ({ page }) => {
     .first();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    tableThumbnail.click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await tableThumbnail.click();
+  const popup = await popupPromise;
 
   // Resize the popup window
   await popup.setViewportSize({ width: 1200, height: 800 });
@@ -209,7 +207,6 @@ test('user can set their default skip and limit', async ({ page }) => {
   await recordsLimitPromise;
 
   await page.waitForTimeout(1000);
-
 
   await expect(tableThumbnail).toBeAttached();
   await expect(tableThumbnail).toHaveScreenshot({

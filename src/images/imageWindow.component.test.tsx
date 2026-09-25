@@ -21,7 +21,8 @@ vi.mock('../windows/windowPortal.component', async () => {
   };
 });
 
-vi.mock('./imageView.component', () => ({
+vi.mock('./imageView.component', async (importOriginal) => ({
+  ...(await importOriginal()),
   default: () => (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -29,10 +30,9 @@ vi.mock('./imageView.component', () => ({
   ),
 }));
 
-vi.mock('./imagePlot.component', async () => {
-  const imagePlot = await vi.importActual('./imagePlot.component');
+vi.mock('./imagePlot.component', async (importOriginal) => {
   return {
-    ...imagePlot,
+    ...(await importOriginal),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     XImagePlot: () => <mock-XImagePlot data-testid="mock-x-image-plot" />,

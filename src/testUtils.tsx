@@ -162,7 +162,7 @@ export const createTestQueryClient = (): QueryClient =>
   });
 
 export const hooksWrapperWithProviders = (
-  state = {},
+  state: Partial<RootState> = {},
   queryClient?: QueryClient
 ) => {
   const testQueryClient = queryClient ?? createTestQueryClient();

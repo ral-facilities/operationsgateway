@@ -89,7 +89,6 @@ describe('Data View', () => {
       await flushPromises();
     });
 
-    await screen.findByRole('progressbar');
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     const shotnumHeader = await screen.findByRole('columnheader', {
@@ -124,7 +123,6 @@ describe('Data View', () => {
       await flushPromises();
     });
 
-    await screen.findByRole('progressbar');
     await waitForElementToBeRemoved(() => screen.queryByRole('progressbar'));
 
     const functionAHeader = await screen.findByRole('columnheader', {

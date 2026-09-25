@@ -59,6 +59,8 @@ describe('Data Header', () => {
       onToggleWordWrap,
       isFiltered: false,
       openFilters,
+      removable: true,
+      reorderable: true,
     };
   });
 
@@ -75,6 +77,14 @@ describe('Data Header', () => {
   it('renders correctly with sort applied', () => {
     createView();
     expect(screen.getByTestId('sort test')).toBeInTheDocument();
+  });
+
+  it('renders correctly when not reorderable', () => {
+    props.reorderable = false;
+    createView();
+    expect(
+      screen.queryByTestId('drag', { exact: false })
+    ).not.toBeInTheDocument();
   });
 
   it('renders correctly with filter applied', () => {
@@ -182,6 +192,19 @@ describe('Data Header', () => {
     const header = screen.getByText('Test');
     await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
     expect(onClose).toHaveBeenCalledWith('test');
+  });
+
+  it('does not allow a column to be removed if removable is false', async () => {
+    props.removable = false;
+    createView();
+    const header = screen.getByText('Test');
+    await user.pointer([{ keys: '[MouseMiddle]', target: header }]);
+    expect(onClose).not.toHaveBeenCalled();
+
+    const menuIcon = screen.getByLabelText('test menu');
+    await user.click(menuIcon);
+
+    expect(screen.queryByText('Close')).not.toBeInTheDocument();
   });
 
   describe('calls the onSort method when label is clicked', () => {

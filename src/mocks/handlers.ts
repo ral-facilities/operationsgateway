@@ -156,7 +156,14 @@ export const handlers = [
   http.get('/experiments', () => {
     return HttpResponse.json(experimentsJson, { status: 200 });
   }),
-  http.get('/records', () => HttpResponse.json(recordsJson, { status: 200 })),
+  http.get('/records', async () => {
+    // VITE_APP_CYPRESS used here to determine if E2E testing in cypress or not
+    if (import.meta.env.VITE_APP_CYPRESS === 'true') {
+      // emulate server delay to ensure table loading spinner appears consistently for cypress e2e tests
+      await delay(200);
+    }
+    return HttpResponse.json(recordsJson, { status: 200 });
+  }),
   http.get('/records/count', () =>
     HttpResponse.json(recordsJson.length, { status: 200 })
   ),

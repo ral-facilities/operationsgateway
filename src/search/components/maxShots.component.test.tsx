@@ -5,7 +5,7 @@ import {
   type RenderResult,
 } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { defaultMaxShotOptions } from '../../state/slices/searchSlice';
+import { defaultMaxShotOptions } from '../../state/slices/configSlice';
 import MaxShots, { type MaxShotsProps } from './maxShots.component';
 
 describe('maxShots search', () => {

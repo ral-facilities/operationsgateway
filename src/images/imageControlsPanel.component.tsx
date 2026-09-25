@@ -117,6 +117,8 @@ export const ColourMapSelect = (
   );
 };
 
+export const imageControlsPanelWidth = 300;
+
 const ImageControlsPanel = (props: ImageControlsPanelProps) => {
   const {
     colourMap,
@@ -244,7 +246,12 @@ const ImageControlsPanel = (props: ImageControlsPanelProps) => {
 
   return (
     <Paper data-testid="image-controls-panel">
-      <Stack direction="column" sx={{ width: 300 }} spacing={1} padding={2}>
+      <Stack
+        direction="column"
+        sx={{ width: imageControlsPanelWidth }}
+        spacing={1}
+        padding={2}
+      >
         <FormGroup>
           {!isFloat && (
             <FormControlLabel

@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { FullChannelMetadata, timeChannelName } from '../app.types';
+import { FullChannelMetadata } from '../app.types';
 import { TreeNode } from './channelsDialogue.component';
 
 type ChannelTreeProps = {
@@ -16,6 +16,7 @@ type ChannelTreeProps = {
   handleChannelChecked: (channel: string, checked: boolean) => void;
   handleChannelSelected: (channel: FullChannelMetadata) => void;
   displayedChannel?: FullChannelMetadata;
+  nonRemovableChannels: string[];
 };
 
 const ChannelTree = (props: ChannelTreeProps) => {
@@ -26,6 +27,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
     handleChannelChecked,
     handleChannelSelected,
     displayedChannel,
+    nonRemovableChannels,
   } = props;
 
   const nodes = currNode
@@ -62,7 +64,7 @@ const ChannelTree = (props: ChannelTreeProps) => {
                 <Checkbox
                   checked={value.checked}
                   indeterminate={typeof value.checked === 'undefined'}
-                  disabled={!leaf || key === timeChannelName}
+                  disabled={!leaf || nonRemovableChannels.includes(key)}
                   size="small"
                   slotProps={{ input: { 'aria-labelledby': labelId } }}
                   onClick={() =>

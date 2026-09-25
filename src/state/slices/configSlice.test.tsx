@@ -3,22 +3,20 @@ import { setSettings } from '../../settings';
 import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
   configureApp,
+  defaultMaxShotOptions,
   initialState,
   loadAuthTypesSetting,
   loadDataTypesSetting,
+  loadInitialChannelsSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
   loadRecordLimitWarningSetting,
+  loadRoundingConfigSetting,
   loadUrls,
   loadWorkingHoursSetting,
   settingsLoaded,
 } from './configSlice';
-import {
-  defaultMaxShotOptions,
-  initialiseDataTypes,
-  initialiseDefaultMaxShots,
-} from './searchSlice';
 
 vi.mock('loglevel');
 
@@ -153,6 +151,44 @@ describe('configSlice', () => {
 
       expect(updatedState.authTypes).toEqual(['user_office']);
     });
+
+    it('should set rounding config property when loadRoundingConfig action is sent', () => {
+      expect(state.roundingConfig).toEqual({
+        source: 'column_definitions',
+        precisionMeaning: 'EPAC',
+      });
+
+      const updatedState = ConfigReducer(
+        state,
+        loadRoundingConfigSetting({
+          source: 'value',
+          precisionMeaning: 'decimal_places',
+          precision: 3,
+          trimTrailingZeros: true,
+          scientificNotationThresholds: {
+            large: {
+              upper: 1e6,
+              lower: -1e6,
+            },
+            small: { upper: 1e-3, lower: -1e-3 },
+          },
+        })
+      );
+
+      expect(updatedState.roundingConfig).toEqual({
+        source: 'value',
+        precisionMeaning: 'decimal_places',
+        precision: 3,
+        trimTrailingZeros: true,
+        scientificNotationThresholds: {
+          large: {
+            upper: 1e6,
+            lower: -1e6,
+          },
+          small: { upper: 1e-3, lower: -1e-3 },
+        },
+      });
+    });
   });
 
   describe('Actions', () => {
@@ -160,12 +196,16 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadPluginHost, loadWorkingHoursSetting, and settingsLoaded actions are sent and data types are configured', async () => {
+    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, loadAuthTypes, loadRoundingConfigSetting and settingsLoaded actions are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
           recordLimitWarning: -1,
           maxShots: [{ value: 100, default: true }, { value: 'Unlimited' }],
+          initialChannels: {
+            timestamp: { removable: false, sticky: true },
+            shotnum: { removable: true, sticky: false },
+          },
           routes: [
             {
               section: 'section',
@@ -179,6 +219,19 @@ describe('configSlice', () => {
           plotAxisSigFigs: '.2~s',
           dataTypes: ['GS', 'GD'],
           authTypes: ['FedID'],
+          roundingConfig: {
+            source: 'value',
+            precisionMeaning: 'decimal_places',
+            precision: 3,
+            trimTrailingZeros: true,
+            scientificNotationThresholds: {
+              large: {
+                upper: 1e6,
+                lower: -1e6,
+              },
+              small: { upper: 1e-3, lower: -1e-3 },
+            },
+          },
         })
       );
       const asyncAction = configureApp();
@@ -198,10 +251,10 @@ describe('configSlice', () => {
         ])
       );
       expect(actions).toContainEqual(
-        initialiseDefaultMaxShots([
-          { value: 100, default: true },
-          { value: 'Unlimited' },
-        ])
+        loadInitialChannelsSetting({
+          timestamp: { removable: false, sticky: true },
+          shotnum: { removable: true, sticky: false },
+        })
       );
       expect(actions).toContainEqual(
         loadPluginHostSetting('http://localhost:3000/')
@@ -211,10 +264,24 @@ describe('configSlice', () => {
       );
       expect(actions).toContainEqual(loadPlotAxisSigFigsSetting('.2~s'));
       expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
-      expect(actions).toContainEqual(initialiseDataTypes(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
       expect(actions).toContainEqual(loadAuthTypesSetting(['FedID']));
+      expect(actions).toContainEqual(
+        loadRoundingConfigSetting({
+          source: 'value',
+          precisionMeaning: 'decimal_places',
+          precision: 3,
+          trimTrailingZeros: true,
+          scientificNotationThresholds: {
+            large: {
+              upper: 1e6,
+              lower: -1e6,
+            },
+            small: { upper: 1e-3, lower: -1e-3 },
+          },
+        })
+      );
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -243,6 +310,7 @@ describe('configSlice', () => {
       expect(
         actions.every(({ type }) => type !== loadPluginHostSetting.type)
       ).toBe(true);
+
       expect(
         actions.every(({ type }) => type !== loadWorkingHoursSetting.type)
       ).toBe(true);
@@ -253,12 +321,18 @@ describe('configSlice', () => {
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
       ).toBe(true);
       expect(
-        actions.every(({ type }) => type !== initialiseDataTypes.type)
+        actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
       expect(
         actions.every(({ type }) => type !== loadAuthTypesSetting.type)
       ).toBe(true);
+      // ensure even if we don't define initial channel settings we initialise with the default
+      expect(actions).toContainEqual(
+        loadInitialChannelsSetting({
+          timestamp: { removable: false, sticky: true },
+        })
+      );
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -286,9 +360,6 @@ describe('configSlice', () => {
 
       expect(
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
-      ).toBe(true);
-      expect(
-        actions.every(({ type }) => type !== initialiseDataTypes.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
 

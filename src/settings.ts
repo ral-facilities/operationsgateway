@@ -17,10 +17,27 @@ export interface MaxShotType {
 
 export type AuthTypesType = ('local' | 'FedID' | 'user_office')[];
 
+export type InitialChannelsConfigType = Record<
+  string,
+  { removable: boolean; sticky: boolean }
+>;
+
+export type RoundingConfigType = {
+  source: 'column_definitions' | 'value';
+  scientificNotationThresholds?: {
+    large?: { upper?: number; lower?: number };
+    small?: { upper?: number; lower?: number };
+  };
+  trimTrailingZeros?: boolean;
+  precision?: number;
+  precisionMeaning?: 'significant_figures' | 'decimal_places' | 'EPAC';
+};
+
 export interface OperationsGatewaySettings {
   apiUrl: string;
   recordLimitWarning: number;
   maxShots: MaxShotType[];
+  initialChannels?: InitialChannelsConfigType;
   routes: PluginRoute[];
   helpSteps?: { target: string; content: string }[];
   pluginHost?: string;
@@ -28,6 +45,7 @@ export interface OperationsGatewaySettings {
   plotAxisSigFigs?: string;
   dataTypes?: string[];
   authTypes?: AuthTypesType;
+  roundingConfig?: RoundingConfigType;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;
@@ -88,6 +106,15 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
         )
       ) {
         throw new Error('Unrecognised auth type defined in the settings');
+      }
+
+      if (
+        settings.roundingConfig &&
+        typeof settings.roundingConfig.source === 'undefined'
+      ) {
+        throw new Error(
+          'roundingConfig object defined, but roundingConfig.source is undefined'
+        );
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {

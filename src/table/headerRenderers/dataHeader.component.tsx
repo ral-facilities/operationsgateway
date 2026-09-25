@@ -29,7 +29,6 @@ import {
   isChannelMetadataVector,
   isChannelMetadataWaveform,
   Order,
-  timeChannelName,
 } from '../../app.types';
 import ExportChannelColumn from '../../export/exportChannelColumn.component';
 
@@ -49,6 +48,8 @@ export interface DataHeaderProps {
   wordWrap: boolean;
   isFiltered: boolean;
   openFilters: (headerName: string) => void;
+  removable: boolean;
+  reorderable: boolean;
 }
 
 export interface ColumnMenuProps {
@@ -57,10 +58,18 @@ export interface ColumnMenuProps {
   onToggleWordWrap: (column: string) => void;
   wordWrap: boolean;
   channelInfo?: FullChannelMetadata;
+  removable: boolean;
 }
 
 const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
-  const { dataKey, onClose, onToggleWordWrap, wordWrap, channelInfo } = props;
+  const {
+    dataKey,
+    onClose,
+    onToggleWordWrap,
+    wordWrap,
+    channelInfo,
+    removable,
+  } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -128,7 +137,7 @@ const ColumnMenu = (props: ColumnMenuProps): React.ReactElement => {
             <ListItemText>Export</ListItemText>
           </MenuItem>
         )}
-        {dataKey !== timeChannelName && (
+        {removable && (
           <MenuItem
             onClick={() => {
               onClose(dataKey);
@@ -170,6 +179,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     onToggleWordWrap,
     isFiltered,
     openFilters,
+    removable,
+    reorderable,
   } = props;
 
   // TODO currently, when sort is empty, API returns sort by timestamp ASC
@@ -239,7 +250,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
           }}
           onMouseDown={(event) => {
             // Middle mouse button can also fire onClose
-            if (dataKey !== timeChannelName && event.button === 1) {
+            if (removable && event.button === 1) {
               event.preventDefault();
               onClose(dataKey);
             }
@@ -313,6 +324,7 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
             wordWrap={wordWrap}
             onToggleWordWrap={onToggleWordWrap}
             channelInfo={channelInfo}
+            removable={removable}
           />
           <Divider
             onMouseDown={resizeHandler}
@@ -335,8 +347,8 @@ const DataHeader = (props: DataHeaderProps): React.ReactElement => {
     );
   };
 
-  // Timestamp column must not be reordered
-  return dataKey !== timeChannelName ? (
+  // sticky channels can't be re-ordered
+  return reorderable ? (
     <Draggable draggableId={dataKey} index={index}>
       {(provided) => <TableCellContent provided={provided} />}
     </Draggable>

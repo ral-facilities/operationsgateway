@@ -397,11 +397,17 @@ export interface ImageButtonsProps extends CommonButtonsProps {
   data?: string;
 }
 
+export const imageButtonsHeight = 30;
+
 export const ImageButtons = (props: ImageButtonsProps) => {
   const { data, title, resetView } = props;
 
   return (
-    <ButtonGroup size="small" aria-label="image actions">
+    <ButtonGroup
+      size="small"
+      aria-label="image actions"
+      sx={{ height: imageButtonsHeight }}
+    >
       <Button onClick={() => resetView()}>Reset View</Button>
       <Button onClick={() => exportImage(title, data)}>Export Image</Button>
     </ButtonGroup>

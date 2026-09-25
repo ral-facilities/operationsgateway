@@ -7,6 +7,10 @@ import type {
   PlotData as PlotlyPlotData,
 } from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
+import {
+  calculateImageDimensionsToFitWindow,
+  getScrollBarWidth,
+} from './imageView.component';
 
 // In order for the plot area to match pixel to pixel to the image
 // we need to offset/adjust for the width/height of the axis ticks.
@@ -15,16 +19,17 @@ import { CrosshairDimensionType } from '../api/images';
 /**
  * The width offset for XImagePlot
  */
-export const XIMAGEPLOT_OFFSET = 48; // 48 needed for 16-bit images (theoretically have 5 digits on the intensity axis)
+export const XIMAGEPLOT_OFFSET = 44; // 44 needed for 12/16-bit images (can have 5 digits on the intensity axis)
 /**
  * The height offset for YImagePlot
  */
-export const YIMAGEPLOT_OFFSET = 20;
+export const YIMAGEPLOT_OFFSET = 14;
 
 export interface ImagePlotProps {
   data: CrosshairDimensionType['intensity'];
   crosshairPosition?: number;
   imageDims: { width: number; height: number };
+  plotContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 const plotlyConfig: Partial<PlotlyConfig> = {
@@ -32,6 +37,8 @@ const plotlyConfig: Partial<PlotlyConfig> = {
   displayModeBar: false,
   showTips: false,
 };
+
+export const imagePlotInitWidthAndHeight = 300 + getScrollBarWidth();
 
 const commonChartOptions: Partial<PlotlyLayout> = {
   showlegend: false,
@@ -55,11 +62,9 @@ const YChartOptions: Partial<PlotlyLayout> = {
     type: 'linear',
     fixedrange: true,
     rangemode: 'tozero',
-    zeroline: false,
-    ticklen: 4,
-    exponentformat: 'none',
-    tickformat: 'd',
-    ticklabeloverflow: 'allow',
+    showticklabels: false,
+    showline: false,
+    showgrid: true,
   },
   yaxis: {
     type: 'linear',
@@ -74,9 +79,44 @@ const YChartOptions: Partial<PlotlyLayout> = {
     exponentformat: 'none',
     tickformat: 'd',
   },
+};
+
+const YChartAxis: Partial<PlotlyLayout> = {
+  ...commonChartOptions,
+  height: YIMAGEPLOT_OFFSET,
   margin: {
     ...commonChartOptions.margin,
-    b: YIMAGEPLOT_OFFSET,
+    b: YIMAGEPLOT_OFFSET - 1,
+    t: 1,
+  },
+  xaxis: {
+    fixedrange: true,
+    type: 'linear',
+    rangemode: 'tozero',
+    ticklen: 4,
+    exponentformat: 'none',
+    tickformat: 'd',
+    ticklabeloverflow: 'allow',
+    side: 'top',
+    ticks: 'inside',
+    ticklabelposition: 'inside',
+    zeroline: false,
+  },
+  yaxis: {
+    // in order to have the left offset match the main plot, create a single tick
+    // which is the biggest point aka with the largest tick length (this is set in useEffect)
+    // and style it to be invisible
+    tickvals: [0],
+    tickmode: 'array',
+    fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklabelposition: 'outside bottom',
+    ticklabeloverflow: 'allow',
+    // @ts-expect-error for some reason it's not accepting left as a value, when it's valid
+    automargin: 'left', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "left"
+    exponentformat: 'none',
+    tickformat: 'd',
   },
 };
 
@@ -96,24 +136,56 @@ const XChartOptions: Partial<PlotlyLayout> = {
     tickformat: 'd',
   },
   yaxis: {
+    showticklabels: false,
+    showline: false,
+    showgrid: true,
     type: 'linear',
     fixedrange: true,
-    side: 'right',
+    rangemode: 'tozero',
+  },
+};
+
+const XChartAxis: Partial<PlotlyLayout> = {
+  ...commonChartOptions,
+  width: XIMAGEPLOT_OFFSET,
+  margin: {
+    ...commonChartOptions.margin,
+    r: XIMAGEPLOT_OFFSET - 1,
+    l: 1,
+  },
+  xaxis: {
+    // in order to have the bottom offset match the main plot, create a single tick
+    // which is the biggest point aka with the largest tick length (this is set in useEffect)
+    // and style it to be invisible
+    tickvals: [0],
+    tickmode: 'array',
+    fixedrange: true,
+    autorange: false,
+    zeroline: false,
+    ticklabelposition: 'outside right',
+    ticklabeloverflow: 'allow',
+    // @ts-expect-error for some reason it's not accepting bottom as a value, when it's valid
+    automargin: 'bottom', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "bottom"
+    exponentformat: 'none',
+    tickformat: 'd',
+  },
+  yaxis: {
+    type: 'linear',
+    fixedrange: true,
     rangemode: 'tozero',
     zeroline: false,
     ticklen: 4,
     exponentformat: 'none',
     tickformat: 'd',
     ticklabeloverflow: 'allow',
-  },
-  margin: {
-    ...commonChartOptions.margin,
-    r: XIMAGEPLOT_OFFSET,
+    side: 'left',
+    ticks: 'inside',
+    ticklabelposition: 'inside',
   },
 };
 
 export const XImagePlot = (props: ImagePlotProps) => {
-  const { data, imageDims, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition, plotContainerRef } = props;
   return (
     <ImagePlot
       data={data}
@@ -121,12 +193,13 @@ export const XImagePlot = (props: ImagePlotProps) => {
       crosshairPosition={crosshairPosition}
       type="x"
       chartOptions={XChartOptions}
+      plotContainerRef={plotContainerRef}
     />
   );
 };
 
 export const YImagePlot = (props: ImagePlotProps) => {
-  const { data, imageDims, crosshairPosition } = props;
+  const { data, imageDims, crosshairPosition, plotContainerRef } = props;
   return (
     <ImagePlot
       data={data}
@@ -134,6 +207,7 @@ export const YImagePlot = (props: ImagePlotProps) => {
       crosshairPosition={crosshairPosition}
       type="y"
       chartOptions={YChartOptions}
+      plotContainerRef={plotContainerRef}
     />
   );
 };
@@ -144,13 +218,26 @@ const ImagePlot = (
     chartOptions: Partial<PlotlyLayout>;
   }
 ) => {
-  const { data, crosshairPosition, imageDims, type, chartOptions } = props;
+  const {
+    data,
+    crosshairPosition,
+    imageDims,
+    type,
+    chartOptions,
+    plotContainerRef,
+  } = props;
 
   const {
-    palette: { mode: themeMode },
+    palette: {
+      mode: themeMode,
+      background: { default: themeBGColor },
+    },
   } = useTheme();
 
   const [layoutString, setLayoutString] = React.useState(
+    JSON.stringify({} satisfies Partial<PlotlyLayout>)
+  );
+  const [axisLayoutString, setAxisLayoutString] = React.useState(
     JSON.stringify({} satisfies Partial<PlotlyLayout>)
   );
 
@@ -174,6 +261,42 @@ const ImagePlot = (
       ])
     );
   }, [data, type]);
+
+  React.useEffect(() => {
+    const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
+    const newAxisChartOptions: Partial<PlotlyLayout> = JSON.parse(
+      JSON.stringify(type === 'x' ? XChartAxis : YChartAxis)
+    );
+    newAxisChartOptions[`${type === 'x' ? 'y' : 'x'}axis`] = {
+      ...newAxisChartOptions[`${type === 'x' ? 'y' : 'x'}axis`],
+      range: [0, Math.max(...data['y'])],
+    };
+    if (newAxisChartOptions.xaxis) {
+      newAxisChartOptions.xaxis.tickcolor =
+        type === 'y' ? fontColour : themeBGColor;
+      newAxisChartOptions.xaxis.linecolor = fontColour;
+      if (type === 'x') {
+        newAxisChartOptions.xaxis.tickfont = {
+          ...newAxisChartOptions.xaxis.tickfont,
+          color: themeBGColor,
+        };
+        newAxisChartOptions.xaxis.ticktext = [`${Math.max(...data['x'])}`];
+      }
+    }
+    if (newAxisChartOptions.yaxis) {
+      newAxisChartOptions.yaxis.tickcolor =
+        type === 'x' ? fontColour : themeBGColor;
+      newAxisChartOptions.yaxis.linecolor = fontColour;
+      if (type === 'y') {
+        newAxisChartOptions.yaxis.tickfont = {
+          ...newAxisChartOptions.yaxis.tickfont,
+          color: themeBGColor,
+        };
+        newAxisChartOptions.yaxis.ticktext = [`${Math.max(...data['x'])}`];
+      }
+    }
+    setAxisLayoutString(JSON.stringify(newAxisChartOptions));
+  }, [data, themeBGColor, themeMode, type]);
 
   React.useEffect(() => {
     const fontColour = themeMode === 'dark' ? '#ADBABD' : '#444';
@@ -232,26 +355,70 @@ const ImagePlot = (
         ...newChartOptions[`${type}axis`],
         range,
       };
-      if (type === 'x')
-        newChartOptions.width = imageDims.width + XIMAGEPLOT_OFFSET;
-      if (type === 'y')
-        newChartOptions.height = imageDims.height + YIMAGEPLOT_OFFSET;
+
+      if (type === 'x') newChartOptions.width = imageDims.width;
+      if (type === 'y') newChartOptions.height = imageDims.height;
     }
     setLayoutString(JSON.stringify(newChartOptions));
-  }, [chartOptions, crosshairPosition, imageDims, themeMode, type]);
+  }, [
+    chartOptions,
+    crosshairPosition,
+    imageDims,
+    themeMode,
+    themeBGColor,
+    type,
+  ]);
 
   /* This canvas is turned into a Plotly.js plot via code in windowPortal.component.tsx */
   return (
     <Box
-      className="plotly-chart"
-      data-config={JSON.stringify(plotlyConfig)}
-      data-layout={layoutString}
-      data-data={dataString}
-      sx={{
-        '& .shape-group path': {
-          shapeRendering: 'crispEdges',
-        },
-      }}
-    ></Box>
+      sx={
+        type === 'x'
+          ? {
+              width: `calc(${calculateImageDimensionsToFitWindow(
+                'width',
+                imageDims,
+                true
+              )} + ${XIMAGEPLOT_OFFSET}px)`,
+              height: imagePlotInitWidthAndHeight,
+              display: 'flex',
+              flexDirection: 'row',
+            }
+          : {
+              width: imagePlotInitWidthAndHeight,
+              height: `calc(${calculateImageDimensionsToFitWindow(
+                'height',
+                imageDims,
+                true
+              )} + ${YIMAGEPLOT_OFFSET}px)`,
+              display: 'flex',
+              flexDirection: 'column',
+            }
+      }
+    >
+      <Box
+        className="plotly-chart"
+        data-config={JSON.stringify(plotlyConfig)}
+        data-layout={layoutString}
+        data-data={dataString}
+        sx={{
+          '& .shape-group path': {
+            shapeRendering: 'crispEdges',
+          },
+          overflow: 'auto',
+          scrollbarGutter: 'stable',
+          scrollbarWidth: 'thin',
+          flex: 1,
+        }}
+        ref={plotContainerRef}
+      ></Box>
+      <Box
+        className="plotly-chart"
+        data-config={JSON.stringify(plotlyConfig)}
+        data-layout={axisLayoutString}
+        data-data={'[{"x":[0],"y":[0],"mode":"none"}]'}
+        sx={type === 'x' ? { width: 'max-content' } : { height: 'max-content' }}
+      ></Box>
+    </Box>
   );
 };

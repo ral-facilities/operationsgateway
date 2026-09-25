@@ -31,6 +31,7 @@ test('user can zoom and pan the image', async ({ page }) => {
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -109,6 +110,7 @@ test('user can change the false colour parameters of an image', async ({
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -187,6 +189,7 @@ test('user can change the false colour to use reverse', async ({ page }) => {
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -237,6 +240,7 @@ test('user can change the false colour to colourmap in extended list', async ({
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -275,6 +279,7 @@ test('user can disable false colour', async ({ page }) => {
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -310,6 +315,7 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   // create modified image to be queried when different thumbnail is selected
   await page.evaluate(async () => {
@@ -431,6 +437,7 @@ test('user can set their default colourmap', async ({ page }) => {
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -449,18 +456,13 @@ test('user can set their default colourmap', async ({ page }) => {
 
 test('user can use crosshairs mode and view intensity graphs', async ({
   page,
-  browserName,
 }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
-
-  // if this test is run in parallel on firefox the screenshot renders differently
-  // so adjust the size of the page to ensure consistent rendering
-  if (browserName === 'firefox')
-    await popup.setViewportSize({ width: 600, height: 800 });
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -484,9 +486,11 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   ).toBeChecked();
 
   const charts = await popup.locator('.plotly-chart');
-  await expect(charts).toHaveCount(2);
-  await expect(charts.first()).toBeVisible();
-  await expect(charts.last()).toBeVisible();
+  await expect(charts).toHaveCount(4);
+  await expect(charts.nth(0)).toBeVisible();
+  await expect(charts.nth(1)).toBeVisible();
+  await expect(charts.nth(2)).toBeVisible();
+  await expect(charts.nth(3)).toBeVisible();
 
   // see msw mock imageCrosshair.json
   const centroidPosition = [226, 187];
@@ -508,12 +512,10 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
-  // for some reason playwright has an off by 1 error in the y-pos in chrome and webkit, it works fine when testing manually
-  // i.e. clicking top left-most pixel results in (0,0)
   await image.click({
     position: {
       x: 100,
-      y: browserName === 'chromium' || browserName === 'webkit' ? 301 : 300,
+      y: 300,
     },
   });
 
@@ -552,24 +554,21 @@ test('user can use crosshairs mode and view intensity graphs', async ({
     maxDiffPixels: 150,
   });
 
-  await expect(charts.first()).not.toBeVisible();
-  await expect(charts.last()).not.toBeVisible();
+  await expect(charts.nth(0)).not.toBeVisible();
+  await expect(charts.nth(1)).not.toBeVisible();
+  await expect(charts.nth(2)).not.toBeVisible();
+  await expect(charts.nth(3)).not.toBeVisible();
 });
 
 test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   page,
-  browserName,
 }) => {
   // open up popup
   const [popup] = await Promise.all([
     page.waitForEvent('popup'),
     page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
   ]);
-
-  // if this test is run in parallel on firefox the screenshot renders differently
-  // so adjust the size of the page to ensure consistent rendering
-  if (browserName === 'firefox')
-    await popup.setViewportSize({ width: 600, height: 800 });
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -587,9 +586,11 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
 
   // expect intensity plots to be drawn
   const charts = await popup.locator('.plotly-chart');
-  await expect(charts).toHaveCount(2);
-  await expect(charts.first()).toBeVisible();
-  await expect(charts.last()).toBeVisible();
+  await expect(charts).toHaveCount(4);
+  await expect(charts.nth(0)).toBeVisible();
+  await expect(charts.nth(1)).toBeVisible();
+  await expect(charts.nth(2)).toBeVisible();
+  await expect(charts.nth(3)).toBeVisible();
 
   // expect crosshairs to be drawn on image at the centroid
 
@@ -608,12 +609,10 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   });
 
   // click to move the crosshair so we check when switching images it resets to the new image's centroid
-  // for some reason playwright has an off by 1 error in the y-pos in chrome and webkit, it works fine when testing manually
-  // i.e. clicking top left-most pixel results in (0,0)
   await oldImage.click({
     position: {
       x: 200,
-      y: browserName === 'chromium' || browserName === 'webkit' ? 201 : 200,
+      y: 200,
     },
   });
   await expect(popup.getByText('Position: (200, 200)')).toBeVisible();
@@ -733,8 +732,10 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
   await expect(popup.getByText(`X FWHM: ${FWHMs[0]}`)).toBeVisible();
   await expect(popup.getByText(`Y FWHM: ${FWHMs[1]}`)).toBeVisible();
 
-  await expect(charts.first()).toBeVisible();
-  await expect(charts.last()).toBeVisible();
+  await expect(charts.nth(0)).toBeVisible();
+  await expect(charts.nth(1)).toBeVisible();
+  await expect(charts.nth(2)).toBeVisible();
+  await expect(charts.nth(3)).toBeVisible();
 
   // check that crosshair is repositioned and new intensity plots load & are positioned correctly
   await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
@@ -773,6 +774,7 @@ test('user can change the false colour parameters of an float image', async ({
       .first()
       .click(),
   ]);
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -795,5 +797,51 @@ test('user can change the false colour parameters of an float image', async ({
 
   await expect(image).toHaveScreenshot({
     maxDiffPixels: 150,
+  });
+});
+
+test('large images behave correctly in both modes', async ({ page }) => {
+  // open up popup
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByAltText('Channel_BCDEF image', { exact: false }).first().click(),
+  ]);
+
+  const title = await popup.title();
+  const imgAltText = title.split(' - ')[1];
+  await popup.setViewportSize({ width: 800, height: 450 });
+  const image = await popup.getByAltText(imgAltText);
+  await expect(image).toHaveAttribute('src');
+
+  await expect(image).toHaveScreenshot({
+    maxDiffPixels: 150,
+  });
+
+  await popup.setViewportSize({ width: 1050, height: 800 });
+
+  await popup.getByRole('checkbox', { name: 'Centroid / Cross Hairs' }).click();
+
+  // expect intensity plots to be drawn
+  const charts = await popup.locator('.plotly-chart');
+  await expect(charts).toHaveCount(4);
+  await expect(charts.nth(0)).toBeVisible();
+  await expect(charts.nth(1)).toBeVisible();
+  await expect(charts.nth(2)).toBeVisible();
+  await expect(charts.nth(3)).toBeVisible();
+
+  // expect crosshairs to be drawn on image at the centroid
+
+  const centroidPosition = [226, 187];
+  await expect(
+    popup.getByText(
+      `Position: (${centroidPosition[0]}, ${centroidPosition[1]})`
+    )
+  ).toBeVisible();
+
+  await expect(await popup.getByTestId('image-panel')).toHaveScreenshot({
+    maxDiffPixels: 150,
+    stylePath:
+      // hide image controls panel & top buttons from the screenshot as it's not important
+      path.join(__dirname, '..', 'screenshotIgnoreStyles.css'),
   });
 });

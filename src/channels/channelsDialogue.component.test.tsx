@@ -170,7 +170,9 @@ describe('Channels Dialogue', () => {
     const { store } = createView(state);
 
     await user.click(await screen.findByText('system'));
-
+    // expect timestamp column to be defaulted to non-removable
+    expect(screen.getByRole('checkbox', { name: 'Time' })).toBeChecked();
+    expect(screen.getByRole('checkbox', { name: 'Time' })).toBeDisabled();
     expect(screen.getByRole('checkbox', { name: 'Active Area' })).toBeChecked();
     expect(
       screen.getByRole('checkbox', { name: 'Shot Number' })

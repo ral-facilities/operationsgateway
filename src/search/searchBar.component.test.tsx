@@ -12,10 +12,8 @@ import React from 'react';
 import { formatDateTimeForApi } from '../api/api';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
-import {
-  defaultMaxShotOptions,
-  getDefaultMaxShot,
-} from '../state/slices/searchSlice';
+import { defaultMaxShotOptions } from '../state/slices/configSlice';
+import { getDefaultMaxShot } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import SearchBar from './searchBar.component';

@@ -85,8 +85,64 @@ export default class WindowPortal extends React.PureComponent<
        * React in the main window to the Plotly.js code. We do this by using data-* attributes on the canvas element,
        * which React can set (see plot.component.tsx). The MutationObserver thus watches for changes to the chart element,
        * which then updates Plotly.js if necessary
+       * `onResize` - resizes the image window overlay canvas (which we draw crosshairs and zoom squares on) properly
        */
       const code = `
+      // can't just set canvas size via CSS as that causes scaling issues, so use resize observer
+      // to observe when the CSS/display size changes and sync it to the canvas height & width properties
+      // also need to account for dpi to ensure things are drawn at correct scale
+      // from: https://webgl2fundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html
+      // needs to be done in the popup window as browsers throttle resize observer when the window it's running in isn't in focus
+      const onResize = (entries) => {
+        for (const entry of entries) {
+          let width;
+          let height;
+          let dpr =
+            entry.target.ownerDocument.defaultView?.devicePixelRatio ?? 1;
+          if (entry.devicePixelContentBoxSize) {
+            // NOTE: Only this path gives the correct answer
+            // The other paths are imperfect fallbacks
+            // for browsers that don't provide anyway to do this
+            width = entry.devicePixelContentBoxSize[0].inlineSize;
+            height = entry.devicePixelContentBoxSize[0].blockSize;
+            dpr = 1; // it's already in width and height
+          } else if (entry.contentBoxSize) {
+            if (entry.contentBoxSize[0]) {
+              width = entry.contentBoxSize[0].inlineSize;
+              height = entry.contentBoxSize[0].blockSize;
+            } else {
+              // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+              width = entry.contentBoxSize.inlineSize;
+              // @ts-expect-error we expect an error here as this code is covering old browsers where the type was different
+              height = entry.contentBoxSize.blockSize;
+            }
+          } else {
+            width = entry.contentRect.width;
+            height = entry.contentRect.height;
+          }
+          const displayWidth = Math.round(width * dpr);
+          const displayHeight = Math.round(height * dpr);
+
+          entry.target.width = displayWidth;
+          entry.target.height = displayHeight;
+
+          const ctx = entry.target.getContext('2d');
+          ctx?.setTransform(1, 0, 0, 1, 0, 0);
+          ctx?.scale(
+            entry.target.ownerDocument.defaultView?.devicePixelRatio ?? 1,
+            entry.target.ownerDocument.defaultView?.devicePixelRatio ?? 1
+          );
+        }
+      };
+
+
+      waitForElm("#overlay").then((divs) => {
+        for (const overlay of divs) {
+          const resizeObserver = new ResizeObserver(onResize);
+          resizeObserver.observe(overlay, { box: 'content-box' });
+        }
+      });
+
       function waitForElm(selector) {
         return new Promise(resolve => {
           if (document.querySelectorAll(selector).length !== 0) {

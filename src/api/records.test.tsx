@@ -13,10 +13,8 @@ import { operators, parseFilter, Token } from '../filtering/filterParser';
 import handleOG_APIError from '../handleOG_APIError';
 import recordsJson from '../mocks/records.json';
 import { server } from '../mocks/server';
-import {
-  defaultMaxShotOptions,
-  getDefaultMaxShot,
-} from '../state/slices/searchSlice';
+import { defaultMaxShotOptions } from '../state/slices/configSlice';
+import { getDefaultMaxShot } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
 import {
   createTestQueryClient,
@@ -42,6 +40,7 @@ describe('records api functions', () => {
 
   beforeEach(() => {
     state = getInitialState();
+    state.table = { ...state.table, selectedColumnIds: ['timestamp'] };
   });
 
   afterEach(() => {
@@ -70,11 +69,11 @@ describe('records api functions', () => {
 
     it('can send date and filter params as part of request', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
@@ -84,7 +83,7 @@ describe('records api functions', () => {
           },
         },
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -120,11 +119,11 @@ describe('records api functions', () => {
 
     it('returns cached data from incomingRecordCount request if it is available', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {},
           },
         },
@@ -410,15 +409,15 @@ describe('records api functions', () => {
 
     it('can set search and filter params (excludes function from the projection) via the store', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         table: {
-          ...getInitialState().table,
+          ...state.table,
           selectedColumnIds: [timeChannelName, 'a'],
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
@@ -427,7 +426,7 @@ describe('records api functions', () => {
           },
         },
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -488,9 +487,11 @@ describe('records api functions', () => {
       const pendingRequest = waitForRequest('GET', '/records');
 
       const { result } = renderHook(() => useRecordsPaginated(), {
-        // don't pass in state here as we want the initial state to be generated after
+        // don't pass in full state here as we want the search initial state to be generated after
         // we have our fake timers set up
-        wrapper: hooksWrapperWithProviders(),
+        wrapper: hooksWrapperWithProviders({
+          table: { ...state.table, selectedColumnIds: ['timestamp'] },
+        }),
       });
 
       await waitFor(() => {
@@ -517,16 +518,16 @@ describe('records api functions', () => {
 
     it('can send sort, date range, projection functions and filter parameters as part of request', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         table: {
-          ...getInitialState().table,
+          ...state.table,
           sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
           selectedColumnIds: [timeChannelName, 'CHANNEL_1', 'a'],
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
@@ -536,7 +537,7 @@ describe('records api functions', () => {
           },
         },
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -683,9 +684,9 @@ describe('records api functions', () => {
 
     it('can send x-axis, filter, functions and maxShots params as part of request', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -706,9 +707,9 @@ describe('records api functions', () => {
           ],
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             maxShots: 1000,
             dateRange: {},
           },
@@ -807,9 +808,9 @@ describe('records api functions', () => {
 
     it('does not send the function state if the function name is not included in the projection (or is not dependant)', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -830,9 +831,9 @@ describe('records api functions', () => {
           ],
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             maxShots: 1000,
             dateRange: {},
           },
@@ -908,11 +909,11 @@ describe('records api functions', () => {
       const pendingRequest = waitForRequest('GET', '/records');
 
       state = {
-        ...getInitialState(),
+        ...state,
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             maxShots: Infinity,
             dateRange: {},
           },
@@ -1002,15 +1003,15 @@ describe('records api functions', () => {
 
     it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         table: {
-          ...getInitialState().table,
+          ...state.table,
           sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
@@ -1019,7 +1020,7 @@ describe('records api functions', () => {
           },
         },
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },
@@ -1072,15 +1073,15 @@ describe('records api functions', () => {
 
     it('can send sort, date range, functions and filter parameters as part of request', async () => {
       state = {
-        ...getInitialState(),
+        ...state,
         table: {
-          ...getInitialState().table,
+          ...state.table,
           sort: { timestamp: 'asc', CHANNEL_1: 'desc' },
         },
         search: {
-          ...getInitialState().search,
+          ...state.search,
           searchParams: {
-            ...getInitialState().search.searchParams,
+            ...state.search.searchParams,
             dateRange: {
               fromDate: '2022-01-01 00:00:00',
               toDate: '2022-01-02 00:00:00',
@@ -1089,7 +1090,7 @@ describe('records api functions', () => {
           },
         },
         filter: {
-          ...getInitialState().filter,
+          ...state.filter,
           appliedFilters: [
             [
               { type: 'channel', value: 'shotnum', label: 'Shot Number' },

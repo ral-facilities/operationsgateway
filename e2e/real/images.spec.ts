@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('combobox', { name: 'Search data channels' }).fill('');
   await page
     .getByRole('combobox', { name: 'Search data channels' })
-    .fill('CAM-2');
+    .fill('FE-CAM-2');
 
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
@@ -58,13 +58,13 @@ test('user can change the false colour parameters of an image', async ({
   page,
 }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -189,13 +189,13 @@ test('user can change the false colour parameters of an 12 bit image', async ({
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('Compressor output NF image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('Compressor output NF image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -276,13 +276,13 @@ test('user can change the false colour parameters of an 12 bit image', async ({
 
 test('user can disable false colour', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -312,13 +312,13 @@ test('user can disable false colour', async ({ page }) => {
 
 test('user can change image via clicking on a thumbnail', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const canvas = await popup.getByTestId('overlay');
 
@@ -352,10 +352,10 @@ test('user can set their default colourmap', async ({ page }) => {
     .first();
 
   // open up popup before changing default colourmap to test query invalidation
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    tableThumbnail.click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await tableThumbnail.click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   await page.evaluate(() => {
     const div = document.createElement('div');
@@ -421,13 +421,13 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   page,
 }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 front-end FF image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 front-end FF', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];
@@ -444,9 +444,11 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   ).toBeChecked();
 
   const charts = await popup.locator('.plotly-chart');
-  await expect(charts).toHaveCount(2);
-  await expect(charts.first()).toBeVisible();
-  await expect(charts.last()).toBeVisible();
+  await expect(charts).toHaveCount(4);
+  await expect(charts.nth(0)).toBeVisible();
+  await expect(charts.nth(1)).toBeVisible();
+  await expect(charts.nth(2)).toBeVisible();
+  await expect(charts.nth(3)).toBeVisible();
 
   const centroidPosition = [734, 516];
   const FWHMs = [214, 201];
@@ -467,10 +469,8 @@ test('user can use crosshairs mode and view intensity graphs', async ({
   });
 
   // check that clicking the image changes the crosshairs position & causes a data fetch
-  // for some reason playwright has an off by 1 error in the y-pos in chrome, it works fine when testing manually
-  // i.e. clicking top left-most pixel results in (0,0)
   await image.click({
-    position: { x: 750, y: 301 },
+    position: { x: 750, y: 300 },
   });
 
   await expect(popup.getByText('Position: (750, 300)')).toBeVisible();
@@ -488,13 +488,13 @@ test('user can use crosshairs mode and view intensity graphs', async ({
 
 test('user can export image', async ({ page }) => {
   // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('D100 pre-amp 1 FF [micro] image', { exact: false })
+    .first()
+    .click();
+  const popup = await popupPromise;
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   await popup.getByTestId('overlay');
 
@@ -534,16 +534,16 @@ test('user can change the false colour parameters of an float image', async ({
       .first()
   ).toBeVisible();
 
-  // open up popup
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page
-      .getByAltText('Compressor output wavefront image float_image', {
-        exact: false,
-      })
-      .first()
-      .click(),
-  ]);
+  const popupPromise = page.waitForEvent('popup');
+  await page
+    .getByAltText('Compressor output wavefront image float_image', {
+      exact: false,
+    })
+    .first()
+    .click();
+  const popup = await popupPromise;
+
+  await popup.setViewportSize({ width: 1920, height: 1080 });
 
   const title = await popup.title();
   const imgAltText = title.split(' - ')[1];

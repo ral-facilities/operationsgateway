@@ -36,7 +36,6 @@ import {
   Order,
   RecordRow,
   SearchParams,
-  timeChannelName,
 } from '../app.types';
 import DataCell from './cellRenderers/dataCell.component';
 import DataHeader from './headerRenderers/dataHeader.component';
@@ -52,8 +51,6 @@ const stickyColumnStyles: SxProps<Theme> = {
 };
 
 const CHECKBOX_COLUMN_ID = 'CHECKBOX_COLUMN';
-
-const columnPinning = { left: [CHECKBOX_COLUMN_ID, timeChannelName] };
 
 export interface TableProps {
   tableHeight: string;
@@ -79,6 +76,8 @@ export interface TableProps {
   onColumnClose: (column: string) => void;
   openFilters: (headerName: string) => void;
   filteredChannelNames: string[];
+  nonRemovableChannels: string[];
+  stickyChannels: string[];
 }
 
 const Table = React.memo((props: TableProps): React.ReactElement => {
@@ -106,6 +105,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     onColumnClose,
     openFilters,
     filteredChannelNames,
+    nonRemovableChannels,
+    stickyChannels,
   } = props;
 
   const count = maxShots > totalDataCount ? totalDataCount : maxShots;
@@ -216,6 +217,11 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
     [columnVisibility]
   );
 
+  const columnPinning = React.useMemo(
+    () => ({ left: [CHECKBOX_COLUMN_ID, ...stickyChannels] }),
+    [stickyChannels]
+  );
+
   const tableInstance = useReactTable({
     columns,
     data,
@@ -252,7 +258,6 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
         sx={{
           background: 'unset',
           overflow: 'auto',
-          minHeight: '70px',
           maxHeight: tableHeight,
         }}
       >
@@ -290,8 +295,8 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               );
                             }
 
-                            const isTimestampColumn =
-                              dataKey === timeChannelName;
+                            const isStickyColumn =
+                              stickyChannels.includes(dataKey);
                             let columnStyles: SxProps<Theme> = {
                               width: column.getSize(),
                               paddingTop: '0px',
@@ -303,7 +308,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                               alignItems: 'center',
                             };
 
-                            columnStyles = isTimestampColumn
+                            columnStyles = isStickyColumn
                               ? {
                                   ...columnStyles,
                                   ...stickyColumnStyles,
@@ -348,6 +353,10 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                                   dataKey
                                 )}
                                 openFilters={openFilters}
+                                removable={
+                                  !nonRemovableChannels.includes(dataKey)
+                                }
+                                reorderable={!isStickyColumn}
                               />
                             );
                           })}
@@ -401,7 +410,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                         key: CHECKBOX_COLUMN_ID,
                       });
                     }
-                    const isTimestampColumn = dataKey === timeChannelName;
+                    const isStickyColumn = stickyChannels.includes(dataKey);
 
                     let columnStyles: SxProps<Theme> = {
                       width: cell.column.getSize(),
@@ -412,7 +421,7 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
                       flexDirection: 'row',
                     };
 
-                    columnStyles = isTimestampColumn
+                    columnStyles = isStickyColumn
                       ? {
                           ...columnStyles,
                           ...stickyColumnStyles,
@@ -438,23 +447,22 @@ const Table = React.memo((props: TableProps): React.ReactElement => {
             })}
             {/* Need to make this a tr with a td column with the correct colSpan to be a valid HTML table.
                 In MUI v7 this can be replaced with component="tr" in backdrop (https://github.com/mui/material-ui/issues/46264) */}
-            <tr
-              role="none"
-              style={{ height: !loadedData ? '60px' : undefined }}
-            >
-              <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
-                <Backdrop
-                  sx={{ position: 'absolute', zIndex: 100 }}
-                  open={!loadedData}
-                  aria-hidden={false}
-                >
-                  <CircularProgress
-                    id="table-loading-indicator"
-                    aria-label="Table progress bar"
-                  />
-                </Backdrop>
-              </td>
-            </tr>
+            {!loadedData && (
+              <tr role="none" style={{ height: '60px' }}>
+                <td colSpan={columnOrder.length > 0 ? columnOrder.length : 1}>
+                  <Backdrop
+                    sx={{ position: 'absolute', zIndex: 100 }}
+                    open={true}
+                    aria-hidden={false}
+                  >
+                    <CircularProgress
+                      id="table-loading-indicator"
+                      aria-label="Table progress bar"
+                    />
+                  </Backdrop>
+                </td>
+              </tr>
+            )}
           </MuiTableBody>
         </MuiTable>
       </MuiTableContainer>
