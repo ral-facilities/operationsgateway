@@ -181,9 +181,11 @@ jobs:
       - name: Move CI config.yml to correct place
         run: cp .github/ci_config.yml operationsgateway_api/config.yml
         working-directory: ./operationsgateway-api
+
       - name: Setup logging configuration
         run: cp operationsgateway_api/logging.ini.example operationsgateway_api/logging.ini
         working-directory: ./operationsgateway-api
+
       - name: Create log file
         run: touch "./logs.log"
         working-directory: ./operationsgateway-api
@@ -203,17 +205,6 @@ jobs:
         env:
           SSH_KEY_PUBLIC: ${{secrets.SSH_PUBLIC_KEY_FOR_AUTH_OPENSSH}}
 
-      # Setup steps for Echo ingestion script
-      - name: Configure echo access key
-        run: yq -i ".echo.access_key = \"$ECHO_S3_ACCESS_KEY\"" .github/ci_ingest_echo_config.yml
-        env:
-          ECHO_S3_ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
-        working-directory: ./operationsgateway-api
-      - name: Configure echo secret key
-        run: yq -i ".echo.secret_key = \"$ECHO_S3_SECRET_KEY\"" .github/ci_ingest_echo_config.yml
-        env:
-          ECHO_S3_SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
-        working-directory: ./operationsgateway-api
       - name: Copy config for Echo Ingest script to correct place
         run: cp .github/ci_ingest_echo_config.yml util/realistic_data/config.yml
         working-directory: ./operationsgateway-api
@@ -221,6 +212,11 @@ jobs:
       - name: Run Echo Ingest script
         run: poetry run python util/realistic_data/ingest_echo_data.py
         working-directory: ./operationsgateway-api
+        env:
+          # Ingest config:
+          SOURCE__ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
+          SOURCE__SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
+          SOURCE__SIMULATED_DATA_BUCKET: og-ci-simulated-data
 
       - name: Start API
         run: nohup poetry run python -m operationsgateway_api.src.main > api-output.txt &
