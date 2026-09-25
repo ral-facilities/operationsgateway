@@ -153,26 +153,39 @@ jobs:
         run: poetry install --without simulated-data
         working-directory: ./operationsgateway-api
 
-      # Setup minio and create bucket
-      - name: Setup minio
+      - name: Setup RustFS and create bucket
         run: |
-          docker run -d -p 9000:9000 --name minio \
-                     -e "MINIO_ACCESS_KEY=minioadmin" \
-                     -e "MINIO_SECRET_KEY=minioadmin" \
-                     -v /tmp/data:/data \
-                     -v /tmp/config:/root/.minio \
-                     minio/minio server /data
-          export AWS_ACCESS_KEY_ID=minioadmin
-          export AWS_SECRET_ACCESS_KEY=minioadmin
+          docker run -d --name rustfs \
+            -p 127.0.0.1:9000:9000 \
+            -e RUSTFS_ACCESS_KEY=echoadmin \
+            -e RUSTFS_SECRET_KEY=echoadmin \
+            -e RUSTFS_CONSOLE_ENABLE=false \
+            -v og-rustfs-data:/data \
+            rustfs/rustfs:latest /data
+
+          if ! curl -fsS --retry 30 --retry-all-errors \
+            --retry-delay 2 --connect-timeout 2 --max-time 5 \
+            http://127.0.0.1:9000/health/ready >/dev/null; then
+            docker logs rustfs
+            exit 1
+          fi
+
+          export AWS_ACCESS_KEY_ID=echoadmin
+          export AWS_SECRET_ACCESS_KEY=echoadmin
           export AWS_EC2_METADATA_DISABLED=true
-          aws --endpoint-url http://127.0.0.1:9000/ s3 mb s3://og-actions-test
+          export AWS_DEFAULT_REGION=us-east-1
+
+          aws --endpoint-url http://127.0.0.1:9000 \
+            s3 mb s3://og-actions-test
 
       - name: Move CI config.yml to correct place
         run: cp .github/ci_config.yml operationsgateway_api/config.yml
         working-directory: ./operationsgateway-api
+
       - name: Setup logging configuration
         run: cp operationsgateway_api/logging.ini.example operationsgateway_api/logging.ini
         working-directory: ./operationsgateway-api
+
       - name: Create log file
         run: touch "./logs.log"
         working-directory: ./operationsgateway-api
@@ -192,17 +205,6 @@ jobs:
         env:
           SSH_KEY_PUBLIC: ${{secrets.SSH_PUBLIC_KEY_FOR_AUTH_OPENSSH}}
 
-      # Setup steps for Echo ingestion script
-      - name: Configure echo access key
-        run: yq -i ".echo.access_key = \"$ECHO_S3_ACCESS_KEY\"" .github/ci_ingest_echo_config.yml
-        env:
-          ECHO_S3_ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
-        working-directory: ./operationsgateway-api
-      - name: Configure echo secret key
-        run: yq -i ".echo.secret_key = \"$ECHO_S3_SECRET_KEY\"" .github/ci_ingest_echo_config.yml
-        env:
-          ECHO_S3_SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
-        working-directory: ./operationsgateway-api
       - name: Copy config for Echo Ingest script to correct place
         run: cp .github/ci_ingest_echo_config.yml util/realistic_data/config.yml
         working-directory: ./operationsgateway-api
@@ -210,6 +212,11 @@ jobs:
       - name: Run Echo Ingest script
         run: poetry run python util/realistic_data/ingest_echo_data.py
         working-directory: ./operationsgateway-api
+        env:
+          # Ingest config:
+          SOURCE__ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
+          SOURCE__SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
+          SOURCE__SIMULATED_DATA_BUCKET: og-ci-simulated-data
 
       - name: Start API
         run: nohup poetry run python -m operationsgateway_api.src.main > api-output.txt &
