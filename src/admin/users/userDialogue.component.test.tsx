@@ -16,7 +16,12 @@ describe('userDialogue', () => {
   };
 
   beforeEach(() => {
-    props = { onClose: onClose, open: true, requestType: 'post' };
+    props = {
+      onClose: onClose,
+      open: true,
+      requestType: 'post',
+      authTypes: ['local', 'FedID', 'user_office'],
+    };
     user = userEvent.setup();
   });
 
@@ -55,7 +60,7 @@ describe('userDialogue', () => {
       expect(screen.getByLabelText('Password *')).toBeInTheDocument();
     });
 
-    it('does not display password field only when auth_type is "FedID"', async () => {
+    it('does not display password field when auth_type is not "local"', async () => {
       createView();
       await user.type(screen.getByLabelText('Username *'), 'new_user');
       const [authType, _routes] = screen.getAllByRole('combobox');
@@ -105,8 +110,8 @@ describe('userDialogue', () => {
       });
     });
 
-    it('adds user successfully (fedId) switch from local to fedId', async () => {
-      // This tests that the password is removed if you switch from local to fedId
+    it('adds user successfully (user_office) after switching from local to user_office', async () => {
+      // This tests that the password is removed if you switch from local to non-local
       createView();
 
       await user.type(screen.getByLabelText('Username *'), 'new_user');
@@ -115,13 +120,17 @@ describe('userDialogue', () => {
       const [authType, _routes] = screen.getAllByRole('combobox');
 
       await user.click(authType);
-      await user.click(await screen.findByText('FedID'));
+      await user.click(await screen.findByText('user_office'));
+
+      // check it switches the field name to email
+      expect(screen.getByLabelText('Email *')).toHaveValue('new_user');
+      expect(screen.queryByLabelText('Password *')).not.toBeInTheDocument();
 
       await user.click(screen.getByText('Submit'));
 
       expect(axiosPostSpy).toHaveBeenCalledWith('/users', {
         _id: 'new_user',
-        auth_type: 'FedID',
+        auth_type: 'user_office',
       });
     });
 

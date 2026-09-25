@@ -258,6 +258,32 @@ describe('fetchSettings', () => {
     );
   });
 
+  it('logs an error if one of the authTypes is an invalid type in the settings', async () => {
+    server.use(
+      http.get('/operationsgateway-settings.json', () =>
+        HttpResponse.json(
+          {
+            apiUrl: 'api',
+            recordLimitWarning: -1,
+            maxShots: defaultMaxShotOptions,
+            authTypes: ['error'],
+          },
+          { status: 200 }
+        )
+      )
+    );
+
+    const settings = await fetchSettings();
+
+    expect(settings).toBeUndefined();
+    expect(log.error).toHaveBeenCalled();
+
+    const mockLog = vi.mocked(log.error).mock;
+    expect(mockLog.calls[0][0]).toEqual(
+      'Error loading /operationsgateway-settings.json: Unrecognised auth type defined in the settings'
+    );
+  });
+
   it('logs an error if settings.json is an invalid JSON object', async () => {
     server.use(
       http.get('/operationsgateway-settings.json', () =>

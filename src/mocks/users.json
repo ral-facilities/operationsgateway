@@ -1,43 +1,52 @@
 [
   {
+    "_id": "user1",
     "username": "user1",
     "auth_type": "local",
     "authorised_routes": ["/submit/hdf POST", "/submit/manifest POST"]
   },
   {
+    "_id": "user2",
     "username": "user2",
     "auth_type": "FedID",
     "authorised_routes": ["/records/{id_} DELETE", "/experiments POST"]
   },
   {
+    "_id": "user3",
     "username": "user3",
     "auth_type": "local",
     "authorised_routes": ["/users POST", "/users PATCH"]
   },
   {
+    "_id": "user4",
     "username": "user4",
     "auth_type": "FedID",
     "authorised_routes": ["/users/{id_} DELETE"]
   },
   {
+    "_id": "user5",
     "username": "user5",
     "auth_type": "local",
     "authorised_routes": null
   },
   {
+    "_id": "user6",
     "username": "user6",
     "auth_type": "FedID",
     "authorised_routes": null
   },
   {
+    "_id": "user7",
     "username": "user7",
     "auth_type": "local"
   },
   {
+    "_id": "user8",
     "username": "user8",
     "auth_type": "FedID"
   },
   {
+    "_id": "user9",
     "username": "user9",
     "auth_type": "local",
     "authorised_routes": [
@@ -51,13 +60,20 @@
     ]
   },
   {
+    "_id": "user10",
     "username": "user10",
     "auth_type": "FedID",
     "authorised_routes": []
   },
   {
+    "_id": "user11",
     "username": "user11",
     "auth_type": "local",
     "authorised_routes": ["/users POST", "/users PATCH"]
+  },
+  {
+    "_id": "user12",
+    "username": "user12@example.com",
+    "auth_type": "user_office"
   }
 ]
