@@ -216,7 +216,7 @@ jobs:
           # Ingest config:
           SOURCE__ACCESS_KEY: ${{secrets.ECHO_S3_ACCESS_KEY}}
           SOURCE__SECRET_KEY: ${{secrets.ECHO_S3_SECRET_KEY}}
-          SOURCE__SIMULATED_DATA_BUCKET: og-ci-simulated-data
+          SOURCE__SIMULATED_DATA_BUCKET: og-ci-simulated-data-epac
 
       - name: Start API
         run: nohup poetry run python -m operationsgateway_api.src.main > api-output.txt &
