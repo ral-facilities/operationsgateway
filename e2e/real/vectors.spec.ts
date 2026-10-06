@@ -8,8 +8,8 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-01 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-30 09:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 

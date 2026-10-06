@@ -1,17 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('should be able to view the channel summary', async ({ page }) => {
-  test.skip(
-    process.env.CI !== 'true',
-    'This test will only pass against CI data'
-  );
-
   await page.goto('/');
-
-  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
-
-  await page.getByRole('button', { name: 'Search', exact: true }).click();
 
   // add channels
   await page.getByRole('button', { name: 'Data channels' }).click();
@@ -36,7 +26,7 @@ test('should be able to view the channel summary', async ({ page }) => {
   ).toBeVisible();
 
   await expect(page.getByText('0.010819347534479341')).toBeVisible();
-  await expect(page.getByText('0.009791612121640918')).toBeVisible();
+  await expect(page.getByText('0.009389379969967125')).toBeVisible();
 
   // image channel
   await page.getByRole('button', { name: 'D100 pre-amp 1 FF [micro]' }).click();

@@ -5,8 +5,8 @@ test('should be able to export a CSV of scalar and string info for all rows', as
 }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
@@ -39,7 +39,7 @@ test('should be able to export a CSV of scalar and string info for all rows', as
 
   const downloadedCSV = await downloadPromise;
   expect(downloadedCSV.suggestedFilename()).toBe(
-    '20230604000000_to_20230605080000.csv'
+    '20230605080000_to_20230606120000.csv'
   );
 });
 
@@ -49,7 +49,7 @@ test('should be able to export a CSV of images and waveforms for selected rows',
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -77,7 +77,7 @@ test('should be able to export a CSV of images and waveforms for selected rows',
 
   await page
     .getByRole('row')
-    .filter({ has: page.getByText('2023-06-05 09:00:00') })
+    .filter({ has: page.getByText('2023-06-05 08:03:00') })
     .getByRole('checkbox', { name: 'select row' })
     .check();
 
@@ -101,7 +101,7 @@ test('should be able to export a CSV of images and waveforms for selected rows',
 
   const downloadedCSV = await downloadPromise;
   expect(downloadedCSV.suggestedFilename()).toBe(
-    '20230605080000_to_20230605090000.zip'
+    '20230605080000_to_20230605080300.zip'
   );
 
   await expect(page.getByText('Generating export data...')).not.toBeVisible();
@@ -113,7 +113,7 @@ test('should be able to export a CSV of float images and vectors for visible row
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -168,7 +168,7 @@ test('should be able to export a Image channel', async ({ page }) => {
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -198,7 +198,7 @@ test('should be able to export a Image channel', async ({ page }) => {
 
   const downloadedCSV = await downloadPromise;
   expect(downloadedCSV.suggestedFilename()).toBe(
-    '20230605080000_to_20230605090000_PM-201-PA1-CAM-2.zip'
+    '20230605080000_to_20230606120000_PM-201-PA1-CAM-2.zip'
   );
 });
 
@@ -206,7 +206,7 @@ test('should be able to export a waveform channel', async ({ page }) => {
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -235,7 +235,7 @@ test('should be able to export a waveform channel', async ({ page }) => {
 
   const downloadedCSV = await downloadPromise;
   expect(downloadedCSV.suggestedFilename()).toBe(
-    '20230605080000_to_20230605090000_PM-201-PA1-PD.zip'
+    '20230605080000_to_20230606120000_PM-201-PA1-PD.zip'
   );
 });
 
@@ -243,7 +243,7 @@ test('should be able to export a vector channel', async ({ page }) => {
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -286,7 +286,7 @@ test('should be able to export a float image channel', async ({ page }) => {
   await page.goto('/');
 
   await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 09:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 

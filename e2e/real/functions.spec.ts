@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test';
 test('scalar functions can be plotted', async ({ page }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
@@ -19,17 +19,11 @@ test('scalar functions can be plotted', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
-  const rowsPerPageDropdown = page.getByRole('combobox', {
-    name: 'Rows per page',
-  });
-
-  expect(rowsPerPageDropdown).toHaveText('25');
-
   const rows = page.getByRole('rowgroup').last().getByRole('row');
   // have to add 1 to expected column count to account for select column
   const tempCellInFirstRow = rows.first().getByRole('cell').nth(2);
 
-  await expect(rows).toHaveCount(25);
+  await expect(rows).toHaveCount(4);
 
   await expect(tempCellInFirstRow).toHaveText('1', {
     timeout: 40000,
@@ -62,8 +56,8 @@ test('creates multiple complex functions', async ({ page }) => {
   // Complex function take extra time to process in the backend
   test.slow();
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
@@ -116,8 +110,8 @@ test('create a function that depends on another function and display it without 
   // Complex function take extra time to process in the backend
   test.slow();
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
