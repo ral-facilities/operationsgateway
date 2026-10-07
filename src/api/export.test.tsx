@@ -34,6 +34,7 @@ describe('useExportData', () => {
             fromDate: '2022-10-17T00:00:00',
             toDate: '2022-11-04T23:59:59',
           },
+          dataTypes: ['GS', 'GQ'],
           maxShots: 1000,
         },
       },
@@ -105,6 +106,11 @@ describe('useExportData', () => {
             'metadata.timestamp': {
               $gte: '2022-10-17T00:00:00',
               $lte: '2022-11-04T23:59:59',
+            },
+          },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
             },
           },
           { _id: { $in: ['1', '2', '3'] } },
@@ -198,6 +204,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
           { _id: { $in: ['1', '2', '3'] } },
         ],
         $or: [
@@ -261,6 +272,11 @@ describe('useExportData', () => {
             'metadata.timestamp': {
               $gte: '2022-10-17T00:00:00',
               $lte: '2022-11-04T23:59:59',
+            },
+          },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
             },
           },
         ],
@@ -334,6 +350,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
         ],
         $or: [{ 'channels.ChannelA': { $exists: true } }],
       })
@@ -401,6 +422,11 @@ describe('useExportData', () => {
             'metadata.timestamp': {
               $gte: '2022-10-17T00:00:00',
               $lte: '2022-11-04T23:59:59',
+            },
+          },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
             },
           },
         ],
@@ -475,6 +501,11 @@ describe('useExportData', () => {
             'metadata.timestamp': {
               $gte: '2022-10-17T00:00:00',
               $lte: '2022-11-04T23:59:59',
+            },
+          },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
             },
           },
         ],

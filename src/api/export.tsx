@@ -49,7 +49,7 @@ export const exportData = async (
     queryParams.append('order', `${sortKey} ${value}`);
   }
 
-  const { dateRange } = searchParams;
+  const { dateRange, dataTypes } = searchParams;
 
   let timestampObj = {};
   if (dateRange.fromDate || dateRange.toDate) {
@@ -67,6 +67,7 @@ export const exportData = async (
 
   const searchObj = [];
   if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
 
   searchObj.push(...filtersObj);
 
