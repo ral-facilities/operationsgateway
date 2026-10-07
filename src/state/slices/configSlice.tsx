@@ -4,6 +4,7 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
 import { columnIconMappings } from '../../app.types';
 import {
+  AuthTypesType,
   InitialChannelsConfigType,
   MaxShotType,
   RoundingConfigType,
@@ -33,6 +34,7 @@ interface ConfigState {
   workingHours: WorkingHours;
   plotAxisSigFigs?: string;
   dataTypes?: string[];
+  authTypes: AuthTypesType;
   roundingConfig: RoundingConfigType;
 }
 
@@ -48,6 +50,7 @@ export const initialState: ConfigState = {
   settingsLoaded: false,
   workingHours: { start: 9, end: 18 },
   dataTypes: undefined,
+  authTypes: ['local', 'FedID'],
   roundingConfig: {
     source: 'column_definitions',
     precisionMeaning: 'EPAC',
@@ -93,6 +96,9 @@ export const configSlice = createSlice({
     loadDataTypesSetting: (state, action: PayloadAction<string[]>) => {
       state.dataTypes = action.payload;
     },
+    loadAuthTypesSetting: (state, action: PayloadAction<AuthTypesType>) => {
+      state.authTypes = action.payload;
+    },
     loadRoundingConfigSetting: (
       state,
       action: PayloadAction<RoundingConfigType>
@@ -112,6 +118,7 @@ export const {
   loadWorkingHoursSetting,
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
+  loadAuthTypesSetting,
   loadRoundingConfigSetting,
 } = configSlice.actions;
 
@@ -154,6 +161,7 @@ export const selectWorkingHours = (state: RootState) =>
 export const selectPlotAxisSigFigs = (state: RootState) =>
   state.config.plotAxisSigFigs;
 export const selectDataTypes = (state: RootState) => state.config.dataTypes;
+export const selectAuthTypes = (state: RootState) => state.config.authTypes;
 export const selectRoundingConfig = (state: RootState) =>
   state.config.roundingConfig;
 
@@ -200,6 +208,11 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       columnIconMappings.set('active_area', <Category />);
       // set type of shot number channel to string
       staticChannels['shotnum'].type = 'string';
+    }
+
+    const authTypes = settingsResult.authTypes;
+    if (typeof authTypes !== 'undefined') {
+      dispatch(loadAuthTypesSetting(authTypes));
     }
 
     if (settingsResult['roundingConfig'] !== undefined) {
