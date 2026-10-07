@@ -39,6 +39,7 @@ interface ConfigState {
   roundingConfig: RoundingConfigType;
   presetTimeframes: TimeframeRange[];
   exportTypes: DataType[];
+  disableRefreshControls?: boolean;
 }
 
 // Define the initial state using that type
@@ -123,6 +124,12 @@ export const configSlice = createSlice({
     loadExportTypesSetting: (state, action: PayloadAction<DataType[]>) => {
       state.exportTypes = action.payload;
     },
+    loadDisableRefreshControlsSetting: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.disableRefreshControls = action.payload;
+    },
   },
 });
 
@@ -140,6 +147,7 @@ export const {
   loadRoundingConfigSetting,
   loadPresetTimeframesSetting,
   loadExportTypesSetting,
+  loadDisableRefreshControlsSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -188,6 +196,8 @@ export const selectPresetTimeframesConfig = (state: RootState) =>
   state.config.presetTimeframes;
 export const selectExportTypesConfig = (state: RootState) =>
   state.config.exportTypes;
+export const selectDisableRefreshControlsConfig = (state: RootState) =>
+  state.config.disableRefreshControls;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -249,6 +259,14 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['exportTypes'] !== undefined) {
       dispatch(loadExportTypesSetting(settingsResult['exportTypes']));
+    }
+
+    if (settingsResult['disableRefreshControls'] !== undefined) {
+      dispatch(
+        loadDisableRefreshControlsSetting(
+          settingsResult['disableRefreshControls']
+        )
+      );
     }
 
     dispatch(settingsLoaded());

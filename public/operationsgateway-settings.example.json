@@ -23,6 +23,7 @@
     "vector",
     "string"
   ],
+  "disableRefreshControls": false,
   "plotAxisSigFigs": ".3~s",
   "routes": [
     {

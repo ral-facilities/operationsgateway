@@ -8,6 +8,7 @@ import ConfigReducer, {
   initialState,
   loadAuthTypesSetting,
   loadDataTypesSetting,
+  loadDisableRefreshControlsSetting,
   loadExportTypesSetting,
   loadInitialChannelsSetting,
   loadMaxShotsSetting,
@@ -220,6 +221,17 @@ describe('configSlice', () => {
 
       expect(updatedState.exportTypes).toEqual(['image']);
     });
+
+    it('should set disableRefreshControls property when loadDisableRefreshControlsSetting action is sent', () => {
+      expect(state.disableRefreshControls).toEqual(undefined);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadDisableRefreshControlsSetting(true)
+      );
+
+      expect(updatedState.disableRefreshControls).toEqual(true);
+    });
   });
 
   describe('Actions', () => {
@@ -265,12 +277,13 @@ describe('configSlice', () => {
           },
           presetTimeframes: [{ value: 1, timescale: 'hours' }],
           exportTypes: ['scalar'],
+          disableRefreshControls: true,
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(13);
+      expect(actions.length).toEqual(14);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -319,6 +332,7 @@ describe('configSlice', () => {
         loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
       );
       expect(actions).toContainEqual(loadExportTypesSetting(['scalar']));
+      expect(actions).toContainEqual(loadDisableRefreshControlsSetting(true));
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -365,6 +379,11 @@ describe('configSlice', () => {
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadExportTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(
+          ({ type }) => type !== loadDisableRefreshControlsSetting.type
+        )
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
       expect(

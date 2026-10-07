@@ -49,6 +49,7 @@ export interface OperationsGatewaySettings {
   roundingConfig?: RoundingConfigType;
   presetTimeframes?: TimeframeRange[];
   exportTypes?: DataType[];
+  disableRefreshControls?: boolean;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;

@@ -27,6 +27,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   selectDataTypes,
+  selectDisableRefreshControlsConfig,
   selectMaxShots,
   selectPresetTimeframesConfig,
   selectRecordLimitWarning,
@@ -78,6 +79,9 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
   const maxShotsOptions = useAppSelector(selectMaxShots);
   const allDataTypes = useAppSelector(selectDataTypes);
   const presetTimeFrames = useAppSelector(selectPresetTimeframesConfig);
+  const disableRefreshControls = useAppSelector(
+    selectDisableRefreshControlsConfig
+  );
 
   // we need filters so we can check for past queries before showing the warning message
   const filters = useAppSelector(selectQueryFilters);
@@ -727,18 +731,22 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
               />
             </Grid>
           )}
-          <Grid>
-            <DataRefresh
-              timeframeSet={!!timeframeRange}
-              refreshData={refreshData}
-            />
-          </Grid>
-          <Grid>
-            <AutoRefreshToggle
-              enabled={Boolean(timeframeRange)}
-              onRequestRefresh={refreshData}
-            />
-          </Grid>
+          {disableRefreshControls !== true && (
+            <>
+              <Grid>
+                <DataRefresh
+                  timeframeSet={!!timeframeRange}
+                  refreshData={refreshData}
+                />
+              </Grid>
+              <Grid>
+                <AutoRefreshToggle
+                  enabled={Boolean(timeframeRange)}
+                  onRequestRefresh={refreshData}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       </Grid>
     </Collapse>
