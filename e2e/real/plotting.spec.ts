@@ -8,8 +8,8 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 test('plots a time vs channel graph', async ({ page }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
   // wait for data to load before switching tabs
@@ -50,8 +50,8 @@ test('plots a time vs channel graph', async ({ page }) => {
 
 test('plots a channel vs channel graph', async ({ page }) => {
   await page.goto('/');
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 

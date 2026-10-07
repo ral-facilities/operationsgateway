@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
@@ -25,7 +25,9 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole('button', { name: 'Add Channels' }).click();
 });
 
-test('should be able to paginate the table', async ({ page }) => {
+// not enough records to paginate
+// leave this here in case CI data in future adds enough rows
+test.skip('should be able to paginate the table', async ({ page }) => {
   const rowsPerPageDropdown = page.getByRole('combobox', {
     name: 'Rows per page',
   });
@@ -74,14 +76,14 @@ test('should be able to sort the table', async ({ page }) => {
   const tempCellInFirstRow = rows.first().getByRole('cell').nth(2);
 
   // should be sorted by time asc by default
-  await expect(timeCellInFirstRow).toHaveText('2023-06-04 00:00:00');
-  await expect(tempCellInFirstRow).toHaveText('20.115581761611374');
+  await expect(timeCellInFirstRow).toHaveText('2023-06-05 08:00:00');
+  await expect(tempCellInFirstRow).toHaveText('20.762159274831387');
 
   await page.getByRole('columnheader', { name: 'Temperature 209' }).click();
-  await expect(timeCellInFirstRow).toHaveText('2023-06-04 15:48:00');
-  await expect(tempCellInFirstRow).toHaveText('20.001186732803603');
+  await expect(timeCellInFirstRow).toHaveText('2023-06-05 17:00:00');
+  await expect(tempCellInFirstRow).toHaveText('20.007979208660895');
 
   await page.getByRole('columnheader', { name: 'Temperature 209' }).click();
-  await expect(timeCellInFirstRow).toHaveText('2023-06-05 02:36:00');
-  await expect(tempCellInFirstRow).toHaveText('21.98233518946611');
+  await expect(timeCellInFirstRow).toHaveText('2023-06-05 08:03:00');
+  await expect(tempCellInFirstRow).toHaveText('21.637597909459412');
 });

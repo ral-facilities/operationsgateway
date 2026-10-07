@@ -45,23 +45,18 @@ test('should be able to search experiment id', async ({ page }) => {
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
   await expect(page.getByRole('rowgroup').last().getByRole('row')).toHaveCount(
-    25
+    4
   );
 
-  await expect(page.getByText('2023-06-05 00:00:00')).toBeVisible();
-  await expect(page.getByText('1–25 of 50')).toBeVisible();
+  await expect(page.getByText('2023-06-05 08:00:00')).toBeVisible();
+  await expect(page.getByText('1–4 of 4')).toBeVisible();
 });
 
 test('should be able to search via data type', async ({ page }) => {
-  test.skip(
-    process.env.CI !== 'true',
-    'This test will only pass against CI data'
-  );
-
   await page.route('/operationsgateway-settings.json', async (route) => {
     const response = await route.fetch();
     const json = await response.json();
-    json.dataTypes = ['ea1', 'ea2'];
+    json.dataTypes = ['las', 'none'];
     // Fulfill using the original response, while patching the response body
     // with the given JSON object.
     await route.fulfill({ response, json });
@@ -70,8 +65,8 @@ test('should be able to search via data type', async ({ page }) => {
   await page.goto('/');
 
   // test searching across multiple data types
-  await page.getByLabel('from, date-time input').fill('2023-06-05 09:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 17:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -91,19 +86,19 @@ test('should be able to search via data type', async ({ page }) => {
   await expect(page.getByRole('rowgroup').last().getByRole('row')).toHaveCount(
     4
   );
-  await expect(page.getByRole('cell', { name: 'ea1' }).first()).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'ea2' }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'las' }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'none' }).first()).toBeVisible();
 
   // test searching by a specific data type
-  await page.getByRole('checkbox', { name: 'ea2' }).uncheck();
+  await page.getByRole('checkbox', { name: 'none' }).uncheck();
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
   await expect(page.getByRole('rowgroup').last().getByRole('row')).toHaveCount(
     3
   );
-  await expect(page.getByRole('cell', { name: 'ea1' }).first()).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'ea2' })).not.toBeVisible();
+  await expect(page.getByRole('cell', { name: 'las' }).first()).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'none' })).not.toBeVisible();
 });
 
 // skip testing timeframes as 1) it would be complicated and

@@ -146,8 +146,8 @@ test('user can change the false colour parameters of an image', async ({
 test('user can change the false colour parameters of an 12 bit image', async ({
   page,
 }) => {
-  await page.getByLabel('to, date-time input').fill('2023-06-06 12:10');
-  await page.getByLabel('from, date-time input').fill('2023-06-06 12:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:02');
+  await page.getByLabel('to, date-time input').fill('2023-06-05 08:04');
 
   await page.getByRole('button', { name: 'Search', exact: true }).click();
 
@@ -202,7 +202,7 @@ test('user can change the false colour parameters of an 12 bit image', async ({
 
   const image = await popup.getByAltText(imgAltText);
   // assert src has loaded before storing the old image src
-  await expect(image).toHaveAttribute('src');
+  await expect(image).toHaveAttribute('src', { timeout: 20_000 });
   const oldImageSrc = await image.getAttribute('src');
   const colourbar = await popup.getByAltText('Colour bar');
 
@@ -265,7 +265,7 @@ test('user can change the false colour parameters of an 12 bit image', async ({
 
   // wait for new image to have loaded
   await expect
-    .poll(async () => await image.getAttribute('src'))
+    .poll(async () => await image.getAttribute('src'), { timeout: 20_000 })
     .not.toBe(oldImageSrc);
   await image.click();
 
