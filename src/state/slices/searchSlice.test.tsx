@@ -55,7 +55,7 @@ describe('Search slice tests', () => {
 
     const updatedState = SearchReducer(
       state.search,
-      loadDataTypesSetting(['GD'])
+      loadDataTypesSetting([{ value: 'GS' }, { value: 'GD', default: true }])
     );
 
     expect(updatedState.searchParams.dataTypes).toEqual(['GD']);

@@ -135,7 +135,7 @@ describe('configSlice', () => {
 
       const updatedState = ConfigReducer(
         state,
-        loadDataTypesSetting(['GS', 'GD'])
+        loadDataTypesSetting([{ value: 'GS', default: true }, { value: 'GD' }])
       );
 
       expect(updatedState.dataTypes).toEqual(['GS', 'GD']);
@@ -217,7 +217,7 @@ describe('configSlice', () => {
           pluginHost: 'http://localhost:3000/',
           workingHours: { start: 10, end: 17 },
           plotAxisSigFigs: '.2~s',
-          dataTypes: ['GS', 'GD'],
+          dataTypes: [{ value: 'GS', default: true }, { value: 'GD' }],
           authTypes: ['FedID'],
           roundingConfig: {
             source: 'value',
@@ -263,7 +263,9 @@ describe('configSlice', () => {
         loadWorkingHoursSetting({ start: 10, end: 17 })
       );
       expect(actions).toContainEqual(loadPlotAxisSigFigsSetting('.2~s'));
-      expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
+      expect(actions).toContainEqual(
+        loadDataTypesSetting([{ value: 'GS', default: true }, { value: 'GD' }])
+      );
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
       expect(actions).toContainEqual(loadAuthTypesSetting(['FedID']));
