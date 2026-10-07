@@ -16,31 +16,46 @@ import {
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { useExportData, type DataToExport } from '../api/export';
+import { DataType } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
+import { useAppSelector } from '../state/hooks';
+import { selectExportTypesConfig } from '../state/slices/configSlice';
 
 export interface ExportDialogueProps {
   open: boolean;
   onClose: () => void;
 }
 
+const convertDataTypesToExportOptions = (
+  dataTypes: DataType[]
+): DataToExport => {
+  const dataToExport: DataToExport = {};
+  if (dataTypes.includes('scalar')) dataToExport.Scalars = true;
+  if (dataTypes.includes('string')) dataToExport.Strings = true;
+  if (dataTypes.includes('image')) dataToExport.Images = false;
+  if (dataTypes.includes('float_image')) dataToExport['Float Images'] = false;
+  if (dataTypes.includes('waveform')) {
+    dataToExport['Waveform CSVs'] = false;
+    dataToExport['Waveform Images'] = false;
+  }
+  if (dataTypes.includes('vector')) {
+    dataToExport['Vector CSVs'] = false;
+    dataToExport['Vector Images'] = false;
+  }
+  return dataToExport;
+};
+
 const ExportDialogue = (props: ExportDialogueProps) => {
   const { open, onClose } = props;
 
   const { mutateAsync: exportChannels, isPending } = useExportData();
+  const exportTypes = useAppSelector(selectExportTypesConfig);
+
   const radioLabels = ['All Rows', 'Visible Rows', 'Selected Rows'];
   const [selectedExportType, setSelectedExportType] =
     React.useState('All Rows');
   const [selectedExportContent, setSelectedExportContent] =
-    React.useState<DataToExport>({
-      Scalars: true,
-      Strings: true,
-      Images: false,
-      'Float Images': false,
-      'Waveform CSVs': false,
-      'Waveform Images': false,
-      'Vector CSVs': false,
-      'Vector Images': false,
-    });
+    React.useState<DataToExport>(convertDataTypesToExportOptions(exportTypes));
 
   const handleExportClick = React.useCallback(
     () =>

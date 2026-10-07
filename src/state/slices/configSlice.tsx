@@ -2,7 +2,7 @@ import Category from '@mui/icons-material/Category';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
-import { columnIconMappings } from '../../app.types';
+import { columnIconMappings, DataType, DATATYPES } from '../../app.types';
 import { TimeframeRange } from '../../search/components/timeframe.component';
 import {
   AuthTypesType,
@@ -38,6 +38,7 @@ interface ConfigState {
   authTypes: AuthTypesType;
   roundingConfig: RoundingConfigType;
   presetTimeframes: TimeframeRange[];
+  exportTypes: DataType[];
 }
 
 // Define the initial state using that type
@@ -62,6 +63,7 @@ export const initialState: ConfigState = {
     { value: 24, timescale: 'hours' },
     { value: 7, timescale: 'days' },
   ],
+  exportTypes: [...DATATYPES],
 };
 
 export const configSlice = createSlice({
@@ -118,6 +120,9 @@ export const configSlice = createSlice({
     ) => {
       state.presetTimeframes = action.payload;
     },
+    loadExportTypesSetting: (state, action: PayloadAction<DataType[]>) => {
+      state.exportTypes = action.payload;
+    },
   },
 });
 
@@ -134,6 +139,7 @@ export const {
   loadAuthTypesSetting,
   loadRoundingConfigSetting,
   loadPresetTimeframesSetting,
+  loadExportTypesSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -180,6 +186,8 @@ export const selectRoundingConfig = (state: RootState) =>
   state.config.roundingConfig;
 export const selectPresetTimeframesConfig = (state: RootState) =>
   state.config.presetTimeframes;
+export const selectExportTypesConfig = (state: RootState) =>
+  state.config.exportTypes;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -237,6 +245,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['roundingConfig'] !== undefined) {
       dispatch(loadRoundingConfigSetting(settingsResult['roundingConfig']));
+    }
+
+    if (settingsResult['exportTypes'] !== undefined) {
+      dispatch(loadExportTypesSetting(settingsResult['exportTypes']));
     }
 
     dispatch(settingsLoaded());

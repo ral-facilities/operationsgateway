@@ -1,4 +1,5 @@
 import { staticChannels } from '../../api/channels';
+import { DATATYPES } from '../../app.types';
 import { setSettings } from '../../settings';
 import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
@@ -7,6 +8,7 @@ import ConfigReducer, {
   initialState,
   loadAuthTypesSetting,
   loadDataTypesSetting,
+  loadExportTypesSetting,
   loadInitialChannelsSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
@@ -207,6 +209,17 @@ describe('configSlice', () => {
         { value: 1, timescale: 'hours' },
       ]);
     });
+
+    it('should set exportTypes property when loadExportTypesSetting action is sent', () => {
+      expect(state.exportTypes).toEqual(DATATYPES);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadExportTypesSetting(['image'])
+      );
+
+      expect(updatedState.exportTypes).toEqual(['image']);
+    });
   });
 
   describe('Actions', () => {
@@ -251,12 +264,13 @@ describe('configSlice', () => {
             },
           },
           presetTimeframes: [{ value: 1, timescale: 'hours' }],
+          exportTypes: ['scalar'],
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(12);
+      expect(actions.length).toEqual(13);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -304,6 +318,7 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(
         loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
       );
+      expect(actions).toContainEqual(loadExportTypesSetting(['scalar']));
 
       expect(actions).toContainEqual(settingsLoaded());
     });
@@ -347,6 +362,9 @@ describe('configSlice', () => {
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadExportTypesSetting.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
       expect(
