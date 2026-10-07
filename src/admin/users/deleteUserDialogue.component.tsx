@@ -32,7 +32,7 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
   }, [onClose]);
 
   const handleDeleteUser = React.useCallback(() => {
-    deleteUser(selectedUser.username)
+    deleteUser(selectedUser._id)
       .then(() => {
         handleClose();
       })
@@ -49,8 +49,7 @@ const DeleteUserDialogue = (props: DeleteUserDialogueProps) => {
       <DialogTitle>Delete User</DialogTitle>
       <DialogContent>
         Are you sure you want to delete{' '}
-        <strong data-testid="delete-user-name">{selectedUser?.username}</strong>
-        ?
+        <strong data-testid="delete-user-name">{selectedUser.username}</strong>?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
