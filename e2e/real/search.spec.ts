@@ -56,8 +56,11 @@ test('should be able to search via data type', async ({ page }) => {
   await page.route('/operationsgateway-settings.json', async (route) => {
     const response = await route.fetch();
     const json = await response.json();
-    json.dataTypes = ['las', 'none'];
-    // Fulfill using the original response, while patching the response body
+    json.dataTypes = [
+      { value: 'las', default: true },
+      { value: 'none', default: true },
+    ];
+    // Fulfil using the original response, while patching the response body
     // with the given JSON object.
     await route.fulfill({ response, json });
   });

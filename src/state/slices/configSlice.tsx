@@ -6,6 +6,7 @@ import { columnIconMappings } from '../../app.types';
 import {
   InitialChannelsConfigType,
   MaxShotType,
+  OperationsGatewaySettings,
   RoundingConfigType,
   settings,
   type WorkingHours,
@@ -90,8 +91,11 @@ export const configSlice = createSlice({
     ) => {
       state.plotAxisSigFigs = action.payload;
     },
-    loadDataTypesSetting: (state, action: PayloadAction<string[]>) => {
-      state.dataTypes = action.payload;
+    loadDataTypesSetting: (
+      state,
+      action: PayloadAction<OperationsGatewaySettings['dataTypes']>
+    ) => {
+      state.dataTypes = action.payload?.map((d) => d.value);
     },
     loadRoundingConfigSetting: (
       state,

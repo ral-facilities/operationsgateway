@@ -41,7 +41,10 @@ export interface OperationsGatewaySettings {
   pluginHost?: string;
   workingHours?: WorkingHours;
   plotAxisSigFigs?: string;
-  dataTypes?: string[];
+  dataTypes?: {
+    value: string;
+    default?: boolean;
+  }[];
   roundingConfig?: RoundingConfigType;
 }
 

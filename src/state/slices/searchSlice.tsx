@@ -63,7 +63,15 @@ export const searchSlice = createSlice({
         state.searchParams.maxShots = getDefaultMaxShot(action.payload);
       })
       .addCase(loadDataTypesSetting, (state, action) => {
-        state.searchParams.dataTypes = action.payload;
+        state.searchParams.dataTypes = action.payload?.reduce(
+          (result: string[], element) => {
+            if (element.default) {
+              result.push(element.value);
+            }
+            return result;
+          },
+          []
+        );
       });
   },
 });

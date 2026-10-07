@@ -798,7 +798,12 @@ describe('Search', () => {
           body: {
             ...settings,
             recordLimitWarning: -1,
-            dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+            dataTypes: [
+              { value: 'GD' },
+              { value: 'GQ' },
+              { value: 'GS', default: true },
+              { value: 'GA' },
+            ],
           },
         });
       }).as('getSettings');
@@ -807,11 +812,14 @@ describe('Search', () => {
       cy.findByRole('tabpanel', { name: 'Data' }).should('be.visible');
       cy.findByRole('progressbar').should('not.exist');
 
-      // expect all data types to be selected initially
-      cy.findByRole('checkbox', { name: 'GA' }).should('be.checked');
-      cy.findByRole('checkbox', { name: 'GD' }).should('be.checked');
-      cy.findByRole('checkbox', { name: 'GQ' }).should('be.checked');
+      // expect correct data types to be selected initially
+      cy.findByRole('checkbox', { name: 'GA' }).should('not.be.checked');
+      cy.findByRole('checkbox', { name: 'GD' }).should('not.be.checked');
+      cy.findByRole('checkbox', { name: 'GQ' }).should('not.be.checked');
       cy.findByRole('checkbox', { name: 'GS' }).should('be.checked');
+
+      // check another data type to trigger multiple data types error
+      cy.findByRole('checkbox', { name: 'GA' }).click();
 
       cy.findByLabelText('open shot number search box').click();
       cy.findByRole('tooltip', {
@@ -819,10 +827,8 @@ describe('Search', () => {
       });
       cy.findByText('Select your shot number').should('not.exist');
 
-      // uncheck all checkboxes except one
+      // uncheck data type we just checked
       cy.findByRole('checkbox', { name: 'GA' }).click();
-      cy.findByRole('checkbox', { name: 'GD' }).click();
-      cy.findByRole('checkbox', { name: 'GQ' }).click();
 
       cy.findByLabelText('open shot number search box').click();
       cy.findByRole('tooltip', {
@@ -902,7 +908,12 @@ describe('Search', () => {
           body: {
             ...settings,
             recordLimitWarning: -1,
-            dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+            dataTypes: [
+              { value: 'GD', default: true },
+              { value: 'GQ', default: true },
+              { value: 'GS', default: true },
+              { value: 'GA', default: true },
+            ],
           },
         });
       }).as('getSettings');

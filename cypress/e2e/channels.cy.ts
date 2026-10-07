@@ -24,7 +24,12 @@ describe('Data Channels Component', () => {
         statusCode: 200,
         body: {
           ...settings,
-          dataTypes: ['GS', 'GA', 'GQ', 'GD'],
+          dataTypes: [
+            { value: 'GD' },
+            { value: 'GQ' },
+            { value: 'GS', default: true },
+            { value: 'GA' },
+          ],
         },
       });
     }).as('getSettings');
