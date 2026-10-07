@@ -18,7 +18,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddUser, useEditUser } from '../../api/user';
 import { APIError, UserPatch, UserPost, type User } from '../../app.types';
-import { AUTH_TYPE_LIST, AUTHORISED_ROUTE_LIST } from './usersTable.component';
+import { AuthTypesType } from '../../settings';
+import { AUTHORISED_ROUTE_LIST } from './usersTable.component';
 
 export interface UserDialogueProps {
   onClose: () => void;
@@ -27,6 +28,7 @@ export interface UserDialogueProps {
   selectedUser?: User;
   passwordOnly?: boolean;
   authorisedRoutesOnly?: boolean;
+  authTypes: AuthTypesType;
 }
 
 interface BaseZodSchemaProps {
@@ -65,6 +67,7 @@ const UserDialogue = (props: UserDialogueProps) => {
     selectedUser,
     passwordOnly,
     authorisedRoutesOnly,
+    authTypes,
   } = props;
 
   const isNotAdding = requestType !== 'post' && selectedUser;
@@ -99,7 +102,7 @@ const UserDialogue = (props: UserDialogueProps) => {
   });
   const userFormData = watch();
   React.useEffect(() => {
-    if (userFormData.auth_type === 'FedID') {
+    if (userFormData.auth_type !== 'local') {
       setValue('sha256_password', undefined);
     }
   }, [setValue, userFormData.auth_type]);
@@ -140,7 +143,7 @@ const UserDialogue = (props: UserDialogueProps) => {
     (user: UserPost) => {
       if (!selectedUser) return;
 
-      const patchUsers: UserPatch = { _id: selectedUser.username };
+      const patchUsers: UserPatch = { _id: selectedUser._id };
 
       if (passwordOnly && !user.sha256_password) {
         setError('sha256_password', {
@@ -234,7 +237,7 @@ const UserDialogue = (props: UserDialogueProps) => {
             render={({ field }) => (
               <Autocomplete
                 {...field}
-                options={AUTH_TYPE_LIST}
+                options={authTypes}
                 disableClearable
                 getOptionLabel={(option) => option}
                 onChange={(_, value) => field.onChange(value)}
@@ -255,12 +258,14 @@ const UserDialogue = (props: UserDialogueProps) => {
         {(passwordOnly || requestType === 'post') && (
           <TextField
             {...register('_id')}
-            label={'Username'}
+            label={
+              userFormData.auth_type === 'user_office' ? 'Email' : 'Username'
+            }
             id="user-id"
             fullWidth
             required
             disabled={requestType === 'patch'}
-            autoComplete="new-password"
+            autoComplete="new-username"
             margin="dense"
             error={!!errors._id}
             helperText={errors._id?.message}

@@ -5,6 +5,7 @@ import ConfigReducer, {
   configureApp,
   defaultMaxShotOptions,
   initialState,
+  loadAuthTypesSetting,
   loadDataTypesSetting,
   loadInitialChannelsSetting,
   loadMaxShotsSetting,
@@ -141,6 +142,17 @@ describe('configSlice', () => {
       expect(updatedState.dataTypes).toEqual(['GS', 'GD']);
     });
 
+    it('should set authTypes property when loadAuthTypesSetting action is sent', () => {
+      expect(state.authTypes).toEqual(['local', 'FedID']);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadAuthTypesSetting(['user_office'])
+      );
+
+      expect(updatedState.authTypes).toEqual(['user_office']);
+    });
+
     it('should set rounding config property when loadRoundingConfig action is sent', () => {
       expect(state.roundingConfig).toEqual({
         source: 'column_definitions',
@@ -224,6 +236,7 @@ describe('configSlice', () => {
           workingHours: { start: 10, end: 17 },
           plotAxisSigFigs: '.2~s',
           dataTypes: ['GS', 'GD'],
+          authTypes: ['FedID'],
           roundingConfig: {
             source: 'value',
             precisionMeaning: 'decimal_places',
@@ -243,7 +256,7 @@ describe('configSlice', () => {
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(11);
+      expect(actions.length).toEqual(12);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -272,6 +285,7 @@ describe('configSlice', () => {
       expect(actions).toContainEqual(loadDataTypesSetting(['GS', 'GD']));
       expect(staticChannels['active_area'].name).toBe('Data Type');
       expect(staticChannels['shotnum'].type).toBe('string');
+      expect(actions).toContainEqual(loadAuthTypesSetting(['FedID']));
       expect(actions).toContainEqual(
         loadRoundingConfigSetting({
           source: 'value',
@@ -335,6 +349,9 @@ describe('configSlice', () => {
         actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
+      expect(
+        actions.every(({ type }) => type !== loadAuthTypesSetting.type)
+      ).toBe(true);
       // ensure even if we don't define initial channel settings we initialise with the default
       expect(actions).toContainEqual(
         loadInitialChannelsSetting({

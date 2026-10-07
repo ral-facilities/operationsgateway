@@ -21,6 +21,8 @@ import { MRT_Localization_EN } from 'material-react-table/locales/en';
 import React from 'react';
 import { useUsers } from '../../api/user';
 import { User } from '../../app.types';
+import { useAppSelector } from '../../state/hooks';
+import { selectAuthTypes } from '../../state/slices/configSlice';
 import DeleteUserDialogue from './deleteUserDialogue.component';
 import UserDialogue from './userDialogue.component';
 
@@ -37,7 +39,6 @@ export const AUTHORISED_ROUTE_LIST = [
   '/scheduled_maintenance PUT',
 ];
 
-export const AUTH_TYPE_LIST = ['local', 'FedID'];
 function UsersTable() {
   const { data: userData, isLoading: userDataLoading } = useUsers();
 
@@ -48,6 +49,7 @@ function UsersTable() {
   const [selectedUser, setSelectedUser] = React.useState<User | undefined>(
     undefined
   );
+  const authTypes = useAppSelector(selectAuthTypes);
 
   // Define the columns for the table
   const columns: MRT_ColumnDef<User>[] = [
@@ -57,7 +59,7 @@ function UsersTable() {
       accessorKey: 'auth_type',
       header: 'Auth Type',
       filterVariant: 'autocomplete',
-      filterSelectOptions: AUTH_TYPE_LIST,
+      filterSelectOptions: authTypes,
     },
     {
       accessorKey: 'authorised_routes',
@@ -130,6 +132,7 @@ function UsersTable() {
           onClose={() => {
             table.setCreatingRow(null);
           }}
+          authTypes={authTypes}
         />
       );
     },
