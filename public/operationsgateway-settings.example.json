@@ -9,6 +9,11 @@
   "initialChannels": { "timestamp": { "removable": false, "sticky": true } },
   "workingHours": { "start": 9, "end": 18 },
   "dataTypes": [],
+  "presetTimeframes": [
+    { "value": 10, "timescale": "minutes" },
+    { "value": 24, "timescale": "hours" },
+    { "value": 7, "timescale": "days" }
+  ],
   "plotAxisSigFigs": ".3~s",
   "routes": [
     {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import log from 'loglevel';
 import { MicroFrontendId } from './app.types';
+import { TimeframeRange } from './search/components/timeframe.component';
 import { registerRoute, type PluginRoute } from './state/scigateway.actions';
 import LogoDark from '/operationsgateway-logo-white.svg';
 import LogoLight from '/operationsgateway-logo.svg';
@@ -43,6 +44,7 @@ export interface OperationsGatewaySettings {
   plotAxisSigFigs?: string;
   dataTypes?: string[];
   roundingConfig?: RoundingConfigType;
+  presetTimeframes?: TimeframeRange[];
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;

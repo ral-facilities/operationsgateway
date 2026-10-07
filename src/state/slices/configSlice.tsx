@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
 import { columnIconMappings } from '../../app.types';
+import { TimeframeRange } from '../../search/components/timeframe.component';
 import {
   InitialChannelsConfigType,
   MaxShotType,
@@ -34,6 +35,7 @@ interface ConfigState {
   plotAxisSigFigs?: string;
   dataTypes?: string[];
   roundingConfig: RoundingConfigType;
+  presetTimeframes: TimeframeRange[];
 }
 
 // Define the initial state using that type
@@ -52,6 +54,11 @@ export const initialState: ConfigState = {
     source: 'column_definitions',
     precisionMeaning: 'EPAC',
   },
+  presetTimeframes: [
+    { value: 10, timescale: 'minutes' },
+    { value: 24, timescale: 'hours' },
+    { value: 7, timescale: 'days' },
+  ],
 };
 
 export const configSlice = createSlice({
@@ -99,6 +106,12 @@ export const configSlice = createSlice({
     ) => {
       state.roundingConfig = action.payload;
     },
+    loadPresetTimeframesSetting: (
+      state,
+      action: PayloadAction<TimeframeRange[]>
+    ) => {
+      state.presetTimeframes = action.payload;
+    },
   },
 });
 
@@ -113,6 +126,7 @@ export const {
   loadPlotAxisSigFigsSetting,
   loadDataTypesSetting,
   loadRoundingConfigSetting,
+  loadPresetTimeframesSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -156,6 +170,8 @@ export const selectPlotAxisSigFigs = (state: RootState) =>
 export const selectDataTypes = (state: RootState) => state.config.dataTypes;
 export const selectRoundingConfig = (state: RootState) =>
   state.config.roundingConfig;
+export const selectPresetTimeframesConfig = (state: RootState) =>
+  state.config.presetTimeframes;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -189,6 +205,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['plotAxisSigFigs'] !== undefined) {
       dispatch(loadPlotAxisSigFigsSetting(settingsResult['plotAxisSigFigs']));
+    }
+
+    if (settingsResult['presetTimeframes'] !== undefined) {
+      dispatch(loadPresetTimeframesSetting(settingsResult['presetTimeframes']));
     }
 
     const dataTypes = settingsResult['dataTypes'];

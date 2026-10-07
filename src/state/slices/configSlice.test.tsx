@@ -10,6 +10,7 @@ import ConfigReducer, {
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
+  loadPresetTimeframesSetting,
   loadRecordLimitWarningSetting,
   loadRoundingConfigSetting,
   loadUrls,
@@ -177,6 +178,23 @@ describe('configSlice', () => {
         },
       });
     });
+
+    it('should set presetTimeRanges property when loadPresetTimeRanges action is sent', () => {
+      expect(state.presetTimeframes).toEqual([
+        { value: 10, timescale: 'minutes' },
+        { value: 24, timescale: 'hours' },
+        { value: 7, timescale: 'days' },
+      ]);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
+      );
+
+      expect(updatedState.presetTimeframes).toEqual([
+        { value: 1, timescale: 'hours' },
+      ]);
+    });
   });
 
   describe('Actions', () => {
@@ -184,7 +202,7 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, loadRoundingConfigSetting and settingsLoaded actions are sent and data types are configured', async () => {
+    it('settings are loaded and load config actions and settingsLoaded action are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -219,12 +237,13 @@ describe('configSlice', () => {
               small: { upper: 1e-3, lower: -1e-3 },
             },
           },
+          presetTimeframes: [{ value: 1, timescale: 'hours' }],
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(10);
+      expect(actions.length).toEqual(11);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -268,11 +287,14 @@ describe('configSlice', () => {
           },
         })
       );
+      expect(actions).toContainEqual(
+        loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
+      );
 
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting and loadWorkingHoursSetting actions or configure data types when they're not defined", async () => {
+    it("doesn't send optional load config actions or configure data types when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -305,6 +327,9 @@ describe('configSlice', () => {
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadPresetTimeframesSetting.type)
       ).toBe(true);
       expect(
         actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
