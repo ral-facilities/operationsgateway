@@ -3,8 +3,8 @@ import { expect, test } from '@playwright/test';
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
 
-  await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('from, date-time input').fill('2023-06-05 08:00');
+  await page.getByLabel('to, date-time input').fill('2023-06-06 12:00');
 
   await page.getByRole('radio', { name: 'Unlimited' }).click();
 
@@ -42,10 +42,10 @@ test('should be able to add a single filter with a complex filter', async ({
   await filterInput.press('Enter');
   await filterInput.fill('(');
   await filterInput.press('Enter');
-  await filterInput.pressSequentially('Relative humidity 209 > 55 ');
+  await filterInput.pressSequentially('Relative humidity 209 > 45 ');
   await filterInput.fill('or');
   await filterInput.press('Enter');
-  await filterInput.pressSequentially('not Relative humidity 209 > 53 ');
+  await filterInput.pressSequentially('not Relative humidity 209 < 53.6 ');
   await filterInput.fill(')');
   await filterInput.press('Enter');
   await filterInput.fill('and');
@@ -53,13 +53,13 @@ test('should be able to add a single filter with a complex filter', async ({
   await filterInput.pressSequentially('Temperature 209 > 21 ');
   await filterInput.fill('or');
   await filterInput.press('Enter');
-  await filterInput.pressSequentially('Temperature 209 > 21.95 ');
+  await filterInput.pressSequentially('Temperature 209 < 20.5 ');
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
   await expect(page.getByText('Enter filter')).not.toBeVisible();
 
-  await expect(page.getByText('1–19 of 19')).toBeVisible();
+  await expect(page.getByText('1–2 of 2')).toBeVisible();
 });
 
 test('should be able to add a multiple filters', async ({ page }) => {
@@ -74,9 +74,9 @@ test('should be able to add a multiple filters', async ({ page }) => {
     })
     .first();
 
-  await firstFilterInput.pressSequentially('Relative humidity 209 < 42 ');
+  await firstFilterInput.pressSequentially('Relative humidity 209 < 50 ');
 
-  // unfocus so combobox menu is not blocking add new filtr button
+  // unfocus so combobox menu is not blocking add new filter button
   await firstFilterInput.blur();
 
   await page.getByRole('button', { name: 'Add new filter' }).click();
@@ -88,13 +88,13 @@ test('should be able to add a multiple filters', async ({ page }) => {
     })
     .nth(1);
 
-  await secondFilterInput.pressSequentially('Temperature 209 > 21.5 ');
+  await secondFilterInput.pressSequentially('Temperature 209 > 21 ');
 
   await page.getByRole('button', { name: 'Apply' }).click();
 
   await expect(page.getByText('Enter filter')).not.toBeVisible();
 
-  await expect(page.getByText('1–7 of 7')).toBeVisible();
+  await expect(page.getByText('1–1 of 1')).toBeVisible();
 });
 
 test('CRUD favourite filter', async ({ page }) => {
