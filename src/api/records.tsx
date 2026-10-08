@@ -26,8 +26,7 @@ import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
 import { renderTimestamp } from '../table/cellRenderers/cellContentRenderers';
-import { convertApiTimestampToDate, ogApi } from './api';
-import { staticChannels } from './channels';
+import { convertApiTimestampToDate, formatAPIQueryParams, ogApi } from './api';
 
 const fetchRecords = async (
   sort: SortType,
@@ -47,103 +46,18 @@ const fetchRecords = async (
     sort = { timestamp: 'asc' };
   }
 
-  for (const [key, value] of Object.entries(sort)) {
-    // API recognises sort values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const sortKey =
-      key in staticChannels ? `metadata.${key}` : `channels.${key}`;
-    queryParams.append('order', `${sortKey} ${value}`);
-  }
-
-  const { dateRange, dataTypes } = searchParams;
-
-  let timestampObj = {};
-  if (dateRange.fromDate || dateRange.toDate) {
-    timestampObj = {
-      'metadata.timestamp': {
-        $gte: dateRange.fromDate,
-        $lte: dateRange.toDate,
-      },
-    };
-  }
-
-  const filtersObj = filters
-    .filter((f) => f.length !== 0)
-    .map((f) => JSON.parse(f));
-
-  const searchObj = [];
-  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
-  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
-
-  searchObj.push(...filtersObj);
-
-  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
-
-  projection?.forEach((channel) => {
-    // Do not project on functions
-    let is_function = false;
-    functionsState.functions.forEach((func) => {
-      if (channel === func.name) is_function = true;
-    });
-    if (!is_function) {
-      // API recognises projection values as metadata.key or channel.key
-      // Therefore, we must construct the appropriate parameter
-      const key =
-        channel in staticChannels
-          ? `metadata.${channel}`
-          : `channels.${channel}`;
-      queryParams.append('projection', key);
-
-      if (channel !== timeChannelName) {
-        existsConditions.push({ [key]: { $exists: true } });
-      }
-    }
+  formatAPIQueryParams({
+    initialQueryParams: queryParams,
+    sort,
+    searchParams,
+    filters,
+    functionsState,
+    skip: offsetParams ? JSON.stringify(offsetParams.startIndex) : undefined,
+    limit: offsetParams
+      ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
+      : undefined,
+    projection,
   });
-
-  const functionDepFunctions = new Set(
-    functionsState.functionsWithDeps
-      .filter((func) => projection?.includes(func.name))
-      .flatMap((func) => func.functions)
-  );
-
-  functionsState.functions.forEach((func) => {
-    if (Array.from(functionDepFunctions).includes(func.name))
-      queryParams.append('functions', JSON.stringify(func));
-  });
-
-  const functionChannels = new Set(
-    functionsState.functionsWithDeps
-      .filter((func) => projection?.includes(func.name))
-      .flatMap((func) => func.channels)
-  );
-
-  // Ensure `functionChannels` does not contain channels already in `projection`
-  const uniqueFunctionChannels = Array.from(functionChannels).filter(
-    (channel) => !projection?.includes(channel)
-  );
-
-  uniqueFunctionChannels.forEach((channel) => {
-    existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
-  });
-
-  if (existsConditions.length > 0 || searchObj.length > 0) {
-    const query =
-      existsConditions.length > 0 && searchObj.length > 0
-        ? { $and: searchObj, $or: existsConditions }
-        : existsConditions.length > 0
-          ? { $or: existsConditions }
-          : { $and: searchObj };
-
-    queryParams.append('conditions', JSON.stringify(query));
-  }
-
-  if (offsetParams) {
-    queryParams.append('skip', JSON.stringify(offsetParams.startIndex));
-    queryParams.append(
-      'limit',
-      JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
-    );
-  }
 
   return ogApi
     .get(`/records`, {
@@ -161,62 +75,13 @@ const fetchRecordCountQuery = async (
   functionsState: APIFunctionState,
   projection?: string[]
 ): Promise<number> => {
-  const queryParams = new URLSearchParams();
-
-  const { dateRange, dataTypes } = searchParams;
-
-  let timestampObj = {};
-  if (dateRange.fromDate || dateRange.toDate) {
-    timestampObj = {
-      'metadata.timestamp': {
-        $gte: dateRange.fromDate,
-        $lte: dateRange.toDate,
-      },
-    };
-  }
-
-  const filtersObj = filters
-    .filter((f) => f.length !== 0)
-    .map((f) => JSON.parse(f));
-
-  const searchObj = [];
-  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
-  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
-
-  searchObj.push(...filtersObj);
-
-  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
-
-  projection?.forEach((channel) => {
-    // Do not project on functions
-    let is_function = false;
-    functionsState.functions.forEach((func) => {
-      if (channel === func.name) is_function = true;
-    });
-    if (!is_function) {
-      // API recognises projection values as metadata.key or channel.key
-      // Therefore, we must construct the appropriate parameter
-      const key =
-        channel in staticChannels
-          ? `metadata.${channel}`
-          : `channels.${channel}`;
-
-      if (channel !== timeChannelName) {
-        existsConditions.push({ [key]: { $exists: true } });
-      }
-    }
+  const queryParams = formatAPIQueryParams({
+    searchParams,
+    filters,
+    functionsState,
+    projection,
+    isCountQuery: true,
   });
-
-  if (existsConditions.length > 0 || searchObj.length > 0) {
-    const query =
-      existsConditions.length > 0 && searchObj.length > 0
-        ? { $and: searchObj, $or: existsConditions }
-        : existsConditions.length > 0
-          ? { $or: existsConditions }
-          : { $and: searchObj };
-
-    queryParams.append('conditions', JSON.stringify(query));
-  }
 
   return ogApi
     .get(`/records/count`, {

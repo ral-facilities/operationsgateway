@@ -1,18 +1,12 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import {
-  SearchParams,
-  SortType,
-  timeChannelName,
-  type APIFunctionState,
-} from '../app.types';
+import { SearchParams, SortType, type APIFunctionState } from '../app.types';
 import handleOG_APIError from '../handleOG_APIError';
 import { useAppSelector } from '../state/hooks';
 import { selectQueryParams } from '../state/slices/searchSlice';
 import { selectSelectedRows } from '../state/slices/selectionSlice';
 import { selectSelectedIdsIgnoreOrder } from '../state/slices/tableSlice';
-import { ogApi } from './api';
-import { staticChannels } from './channels';
+import { formatAPIQueryParams, ogApi } from './api';
 
 export interface DataToExport {
   Scalars?: boolean;
@@ -39,99 +33,24 @@ export const exportData = async (
   selectedRows?: string[],
   selectedColumn?: string
 ): Promise<void> => {
-  const queryParams = new URLSearchParams();
-
-  for (const [key, value] of Object.entries(sort)) {
-    // API recognises sort values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const sortKey =
-      key in staticChannels ? `metadata.${key}` : `channels.${key}`;
-    queryParams.append('order', `${sortKey} ${value}`);
+  let skip: string | undefined = undefined;
+  let limit: string | undefined = undefined;
+  if (!(offsetParams?.stopIndex === Infinity)) {
+    skip = offsetParams ? JSON.stringify(offsetParams.startIndex) : '0';
+    limit = offsetParams
+      ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
+      : '0';
   }
-
-  const { dateRange, dataTypes } = searchParams;
-
-  let timestampObj = {};
-  if (dateRange.fromDate || dateRange.toDate) {
-    timestampObj = {
-      'metadata.timestamp': {
-        $gte: dateRange.fromDate,
-        $lte: dateRange.toDate,
-      },
-    };
-  }
-
-  const filtersObj = filters
-    .filter((f) => f.length !== 0)
-    .map((f) => JSON.parse(f));
-
-  const searchObj = [];
-  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
-  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
-
-  searchObj.push(...filtersObj);
-
-  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
-
-  const channelProjection = selectedColumn ? [selectedColumn] : projection;
-  channelProjection?.forEach((channel) => {
-    // Do not project on functions
-    let is_function = false;
-    functionsState.functions.forEach((func) => {
-      if (channel === func.name) is_function = true;
-    });
-
-    // API recognises projection values as metadata.key or channel.key
-    // Therefore, we must construct the appropriate parameter
-    const key =
-      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
-    queryParams.append('projection', key);
-
-    if (channel !== timeChannelName && !is_function) {
-      existsConditions.push({ [key]: { $exists: true } });
-    }
+  const queryParams = formatAPIQueryParams({
+    sort,
+    searchParams,
+    filters,
+    functionsState,
+    skip,
+    limit,
+    projection: selectedColumn ? [selectedColumn] : projection,
+    selectedRows,
   });
-
-  const functionDepFunctions = new Set(
-    functionsState.functionsWithDeps
-      .filter((func) => channelProjection?.includes(func.name))
-      .flatMap((func) => func.functions)
-  );
-
-  functionsState.functions.forEach((func) => {
-    if (Array.from(functionDepFunctions).includes(func.name))
-      queryParams.append('functions', JSON.stringify(func));
-  });
-
-  const functionChannels = new Set(
-    functionsState.functionsWithDeps
-      .filter((func) => channelProjection?.includes(func.name))
-      .flatMap((func) => func.channels)
-  );
-
-  // Ensure `functionChannels` does not contain channels already in `projection`
-  const uniqueFunctionChannels = Array.from(functionChannels).filter(
-    (channel) => !channelProjection?.includes(channel)
-  );
-
-  uniqueFunctionChannels.forEach((channel) => {
-    existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
-  });
-
-  if (selectedRows) {
-    searchObj.push({ _id: { $in: selectedRows } });
-  }
-
-  if (existsConditions.length > 0 || searchObj.length > 0) {
-    const query =
-      existsConditions.length > 0 && searchObj.length > 0
-        ? { $and: searchObj, $or: existsConditions }
-        : existsConditions.length > 0
-          ? { $or: existsConditions }
-          : { $and: searchObj };
-
-    queryParams.append('conditions', JSON.stringify(query));
-  }
 
   if (dataToExport) {
     queryParams.append(
@@ -165,19 +84,6 @@ export const exportData = async (
     queryParams.append(
       'export_vector_images',
       JSON.stringify(dataToExport['Vector Images'] ?? false)
-    );
-  }
-
-  if (!(offsetParams?.stopIndex === Infinity)) {
-    queryParams.append(
-      'skip',
-      offsetParams ? JSON.stringify(offsetParams.startIndex) : '0'
-    );
-    queryParams.append(
-      'limit',
-      offsetParams
-        ? JSON.stringify(offsetParams.stopIndex - offsetParams.startIndex)
-        : '0'
     );
   }
 

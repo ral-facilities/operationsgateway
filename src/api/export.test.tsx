@@ -121,6 +121,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '0');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'false');
@@ -129,8 +131,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'true');
-    params.append('skip', '0');
-    params.append('limit', '0');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -219,6 +219,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '0');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'true');
@@ -227,8 +229,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'true');
     params.append('export_vector_csvs', 'true');
     params.append('export_vector_images', 'false');
-    params.append('skip', '0');
-    params.append('limit', '0');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -286,6 +286,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '1000');
     params.append('export_scalars', 'false');
     params.append('export_strings', 'false');
     params.append('export_images', 'false');
@@ -294,8 +296,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'false');
-    params.append('skip', '0');
-    params.append('limit', '1000');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -359,6 +359,8 @@ describe('useExportData', () => {
         $or: [{ 'channels.ChannelA': { $exists: true } }],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '1000');
     params.append('export_scalars', 'false');
     params.append('export_strings', 'false');
     params.append('export_images', 'true');
@@ -367,8 +369,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'true');
     params.append('export_vector_csvs', 'true');
     params.append('export_vector_images', 'true');
-    params.append('skip', '0');
-    params.append('limit', '1000');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -436,6 +436,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '25');
+    params.append('limit', '25');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'false');
@@ -444,8 +446,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'false');
-    params.append('skip', '25');
-    params.append('limit', '25');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
