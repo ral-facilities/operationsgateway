@@ -10,6 +10,20 @@
   "workingHours": { "start": 9, "end": 18 },
   "authTypes": ["local", "FedID"],
   "dataTypes": [],
+  "presetTimeframes": [
+    { "value": 10, "timescale": "minutes" },
+    { "value": 24, "timescale": "hours" },
+    { "value": 7, "timescale": "days" }
+  ],
+  "exportTypes": [
+    "scalar",
+    "image",
+    "waveform",
+    "float_image",
+    "vector",
+    "string"
+  ],
+  "disableRefreshControls": false,
   "plotAxisSigFigs": ".3~s",
   "routes": [
     {

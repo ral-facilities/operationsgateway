@@ -15,14 +15,14 @@ import { ogApi } from './api';
 import { staticChannels } from './channels';
 
 export interface DataToExport {
-  Scalars: boolean;
-  Strings: boolean;
-  Images: boolean;
-  'Float Images': boolean;
-  'Waveform CSVs': boolean;
-  'Waveform Images': boolean;
-  'Vector CSVs': boolean;
-  'Vector Images': boolean;
+  Scalars?: boolean;
+  Strings?: boolean;
+  Images?: boolean;
+  'Float Images'?: boolean;
+  'Waveform CSVs'?: boolean;
+  'Waveform Images'?: boolean;
+  'Vector CSVs'?: boolean;
+  'Vector Images'?: boolean;
 }
 
 export const exportData = async (
@@ -135,32 +135,35 @@ export const exportData = async (
   if (dataToExport) {
     queryParams.append(
       'export_scalars',
-      JSON.stringify(dataToExport['Scalars'])
+      JSON.stringify(dataToExport['Scalars'] ?? false)
     );
     queryParams.append(
       'export_strings',
-      JSON.stringify(dataToExport['Strings'])
+      JSON.stringify(dataToExport['Strings'] ?? false)
     );
-    queryParams.append('export_images', JSON.stringify(dataToExport['Images']));
+    queryParams.append(
+      'export_images',
+      JSON.stringify(dataToExport['Images'] ?? false)
+    );
     queryParams.append(
       'export_float_images',
-      JSON.stringify(dataToExport['Float Images'])
+      JSON.stringify(dataToExport['Float Images'] ?? false)
     );
     queryParams.append(
       'export_waveform_csvs',
-      JSON.stringify(dataToExport['Waveform CSVs'])
+      JSON.stringify(dataToExport['Waveform CSVs'] ?? false)
     );
     queryParams.append(
       'export_waveform_images',
-      JSON.stringify(dataToExport['Waveform Images'])
+      JSON.stringify(dataToExport['Waveform Images'] ?? false)
     );
     queryParams.append(
       'export_vector_csvs',
-      JSON.stringify(dataToExport['Vector CSVs'])
+      JSON.stringify(dataToExport['Vector CSVs'] ?? false)
     );
     queryParams.append(
       'export_vector_images',
-      JSON.stringify(dataToExport['Vector Images'])
+      JSON.stringify(dataToExport['Vector Images'] ?? false)
     );
   }
 

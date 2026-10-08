@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useExportData } from '../api/export';
-import { renderComponentWithProviders } from '../testUtils';
+import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ExportDialogue from './exportDialogue.component';
 
 vi.mock('../api/export', () => ({
@@ -89,6 +89,32 @@ describe('ExportDialogue', () => {
         'Vector CSVs': false,
         'Vector Images': false,
       },
+    });
+
+    expect(screen.getByText('Generating export data...')).toBeVisible();
+  });
+
+  it('handles custom export types config', async () => {
+    const onCloseMock = vi.fn();
+    const exportData = vi.fn().mockResolvedValue({});
+    vi.mocked(useExportData, { partial: true }).mockReturnValue({
+      mutateAsync: exportData,
+      isPending: true,
+    });
+    renderComponentWithProviders(
+      <ExportDialogue open={true} onClose={onCloseMock} />,
+      {
+        preloadedState: {
+          config: { ...getInitialState().config, exportTypes: [] },
+        },
+      }
+    );
+
+    const exportButton = screen.getByText('Export');
+    await user.click(exportButton);
+    expect(exportData).toHaveBeenCalledWith({
+      exportType: 'All Rows',
+      dataToExport: {},
     });
 
     expect(screen.getByText('Generating export data...')).toBeVisible();

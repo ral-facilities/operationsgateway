@@ -1110,4 +1110,17 @@ describe('searchBar component', () => {
       ).toBeInTheDocument();
     });
   });
+
+  it('does not show refresh controls if disableRefreshControls config option is set', async () => {
+    createView({
+      config: { ...getInitialState().config, disableRefreshControls: true },
+    });
+
+    expect(
+      screen.queryByRole('checkbox', { name: 'Auto refresh' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Refresh data' })
+    ).not.toBeInTheDocument();
+  });
 });

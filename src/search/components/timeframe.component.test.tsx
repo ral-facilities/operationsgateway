@@ -22,6 +22,11 @@ describe('timeframe search', () => {
   beforeEach(() => {
     props = {
       timeframe: null,
+      presetTimeFrames: [
+        { value: 15, timescale: 'minutes' },
+        { value: 12, timescale: 'hours' },
+        { value: 3, timescale: 'days' },
+      ],
       changeTimeframe,
       resetExperimentTimeframe,
       resetShotnumber,
@@ -72,17 +77,17 @@ describe('timeframe search', () => {
   });
 
   describe('allows user to set predefined relative timestamps', () => {
-    it('last 10 minutes', async () => {
+    it('last 15 minutes', async () => {
       createView();
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
 
       await user.click(
-        within(timeframePopup).getByRole('button', { name: 'Last 10 mins' })
+        within(timeframePopup).getByRole('button', { name: 'Last 15 mins' })
       );
       expect(changeTimeframe).toHaveBeenCalledWith({
-        value: 10,
+        value: 15,
         timescale: 'minutes',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
@@ -90,17 +95,17 @@ describe('timeframe search', () => {
       expect(searchParamsUpdated).toHaveBeenCalled();
     });
 
-    it('last 24 hours', async () => {
+    it('last 12 hours', async () => {
       createView();
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
 
       await user.click(
-        within(timeframePopup).getByRole('button', { name: 'Last 24 hours' })
+        within(timeframePopup).getByRole('button', { name: 'Last 12 hours' })
       );
       expect(changeTimeframe).toHaveBeenCalledWith({
-        value: 24,
+        value: 12,
         timescale: 'hours',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);
@@ -108,17 +113,17 @@ describe('timeframe search', () => {
       expect(searchParamsUpdated).toHaveBeenCalled();
     });
 
-    it('last 7 days', async () => {
+    it('last 3 days', async () => {
       createView();
 
       await user.click(screen.getByLabelText('open timeframe search box'));
       const timeframePopup = screen.getByRole('dialog');
 
       await user.click(
-        within(timeframePopup).getByRole('button', { name: 'Last 7 days' })
+        within(timeframePopup).getByRole('button', { name: 'Last 3 days' })
       );
       expect(changeTimeframe).toHaveBeenCalledWith({
-        value: 7,
+        value: 3,
         timescale: 'days',
       });
       expect(resetExperimentTimeframe).toHaveBeenCalledTimes(1);

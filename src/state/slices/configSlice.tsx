@@ -2,7 +2,8 @@ import Category from '@mui/icons-material/Category';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { staticChannels } from '../../api/channels';
-import { columnIconMappings } from '../../app.types';
+import { columnIconMappings, DataType, DATATYPES } from '../../app.types';
+import { TimeframeRange } from '../../search/components/timeframe.component';
 import {
   AuthTypesType,
   InitialChannelsConfigType,
@@ -37,6 +38,9 @@ interface ConfigState {
   dataTypes?: string[];
   authTypes: AuthTypesType;
   roundingConfig: RoundingConfigType;
+  presetTimeframes: TimeframeRange[];
+  exportTypes: DataType[];
+  disableRefreshControls?: boolean;
 }
 
 // Define the initial state using that type
@@ -56,6 +60,12 @@ export const initialState: ConfigState = {
     source: 'column_definitions',
     precisionMeaning: 'EPAC',
   },
+  presetTimeframes: [
+    { value: 10, timescale: 'minutes' },
+    { value: 24, timescale: 'hours' },
+    { value: 7, timescale: 'days' },
+  ],
+  exportTypes: [...DATATYPES],
 };
 
 export const configSlice = createSlice({
@@ -109,6 +119,21 @@ export const configSlice = createSlice({
     ) => {
       state.roundingConfig = action.payload;
     },
+    loadPresetTimeframesSetting: (
+      state,
+      action: PayloadAction<TimeframeRange[]>
+    ) => {
+      state.presetTimeframes = action.payload;
+    },
+    loadExportTypesSetting: (state, action: PayloadAction<DataType[]>) => {
+      state.exportTypes = action.payload;
+    },
+    loadDisableRefreshControlsSetting: (
+      state,
+      action: PayloadAction<boolean>
+    ) => {
+      state.disableRefreshControls = action.payload;
+    },
   },
 });
 
@@ -124,6 +149,9 @@ export const {
   loadDataTypesSetting,
   loadAuthTypesSetting,
   loadRoundingConfigSetting,
+  loadPresetTimeframesSetting,
+  loadExportTypesSetting,
+  loadDisableRefreshControlsSetting,
 } = configSlice.actions;
 
 export const selectUrls = (state: RootState) => state.config.urls;
@@ -168,6 +196,12 @@ export const selectDataTypes = (state: RootState) => state.config.dataTypes;
 export const selectAuthTypes = (state: RootState) => state.config.authTypes;
 export const selectRoundingConfig = (state: RootState) =>
   state.config.roundingConfig;
+export const selectPresetTimeframesConfig = (state: RootState) =>
+  state.config.presetTimeframes;
+export const selectExportTypesConfig = (state: RootState) =>
+  state.config.exportTypes;
+export const selectDisableRefreshControlsConfig = (state: RootState) =>
+  state.config.disableRefreshControls;
 
 // Defining a thunk
 export const configureApp = () => async (dispatch: AppDispatch) => {
@@ -203,6 +237,10 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
       dispatch(loadPlotAxisSigFigsSetting(settingsResult['plotAxisSigFigs']));
     }
 
+    if (settingsResult['presetTimeframes'] !== undefined) {
+      dispatch(loadPresetTimeframesSetting(settingsResult['presetTimeframes']));
+    }
+
     const dataTypes = settingsResult['dataTypes'];
     // if data types are defined, initialise everything to do with data types properly
     if (Array.isArray(dataTypes) && dataTypes.length > 0) {
@@ -221,6 +259,18 @@ export const configureApp = () => async (dispatch: AppDispatch) => {
 
     if (settingsResult['roundingConfig'] !== undefined) {
       dispatch(loadRoundingConfigSetting(settingsResult['roundingConfig']));
+    }
+
+    if (settingsResult['exportTypes'] !== undefined) {
+      dispatch(loadExportTypesSetting(settingsResult['exportTypes']));
+    }
+
+    if (settingsResult['disableRefreshControls'] !== undefined) {
+      dispatch(
+        loadDisableRefreshControlsSetting(
+          settingsResult['disableRefreshControls']
+        )
+      );
     }
 
     dispatch(settingsLoaded());

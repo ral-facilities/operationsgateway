@@ -1,4 +1,5 @@
 import { staticChannels } from '../../api/channels';
+import { DATATYPES } from '../../app.types';
 import { setSettings } from '../../settings';
 import { actions, dispatch, resetActions } from '../../testUtils';
 import ConfigReducer, {
@@ -7,10 +8,13 @@ import ConfigReducer, {
   initialState,
   loadAuthTypesSetting,
   loadDataTypesSetting,
+  loadDisableRefreshControlsSetting,
+  loadExportTypesSetting,
   loadInitialChannelsSetting,
   loadMaxShotsSetting,
   loadPlotAxisSigFigsSetting,
   loadPluginHostSetting,
+  loadPresetTimeframesSetting,
   loadRecordLimitWarningSetting,
   loadRoundingConfigSetting,
   loadUrls,
@@ -189,6 +193,45 @@ describe('configSlice', () => {
         },
       });
     });
+
+    it('should set presetTimeRanges property when loadPresetTimeRanges action is sent', () => {
+      expect(state.presetTimeframes).toEqual([
+        { value: 10, timescale: 'minutes' },
+        { value: 24, timescale: 'hours' },
+        { value: 7, timescale: 'days' },
+      ]);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
+      );
+
+      expect(updatedState.presetTimeframes).toEqual([
+        { value: 1, timescale: 'hours' },
+      ]);
+    });
+
+    it('should set exportTypes property when loadExportTypesSetting action is sent', () => {
+      expect(state.exportTypes).toEqual(DATATYPES);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadExportTypesSetting(['image'])
+      );
+
+      expect(updatedState.exportTypes).toEqual(['image']);
+    });
+
+    it('should set disableRefreshControls property when loadDisableRefreshControlsSetting action is sent', () => {
+      expect(state.disableRefreshControls).toEqual(undefined);
+
+      const updatedState = ConfigReducer(
+        state,
+        loadDisableRefreshControlsSetting(true)
+      );
+
+      expect(updatedState.disableRefreshControls).toEqual(true);
+    });
   });
 
   describe('Actions', () => {
@@ -196,7 +239,7 @@ describe('configSlice', () => {
       resetActions();
     });
 
-    it('settings are loaded and loadUrls, loadRecordLimitWarningSetting, loadInitialChannelsSetting, loadPluginHost, loadWorkingHoursSetting, loadAuthTypes, loadRoundingConfigSetting and settingsLoaded actions are sent and data types are configured', async () => {
+    it('settings are loaded and load config actions and settingsLoaded action are sent and data types are configured', async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -232,12 +275,15 @@ describe('configSlice', () => {
               small: { upper: 1e-3, lower: -1e-3 },
             },
           },
+          presetTimeframes: [{ value: 1, timescale: 'hours' }],
+          exportTypes: ['scalar'],
+          disableRefreshControls: true,
         })
       );
       const asyncAction = configureApp();
       await asyncAction(dispatch);
 
-      expect(actions.length).toEqual(11);
+      expect(actions.length).toEqual(14);
       expect(actions).toContainEqual(
         loadUrls({
           apiUrl: 'api',
@@ -284,11 +330,16 @@ describe('configSlice', () => {
           },
         })
       );
+      expect(actions).toContainEqual(
+        loadPresetTimeframesSetting([{ value: 1, timescale: 'hours' }])
+      );
+      expect(actions).toContainEqual(loadExportTypesSetting(['scalar']));
+      expect(actions).toContainEqual(loadDisableRefreshControlsSetting(true));
 
       expect(actions).toContainEqual(settingsLoaded());
     });
 
-    it("doesn't send loadPluginHostSetting, loadPlotAxisSigFigsSetting, loadAuthTypesSetting and loadWorkingHoursSetting actions or configure data types when they're not defined", async () => {
+    it("doesn't send optional load config actions or configure data types when they're not defined", async () => {
       setSettings(
         Promise.resolve({
           apiUrl: 'api',
@@ -323,7 +374,18 @@ describe('configSlice', () => {
         actions.every(({ type }) => type !== loadDataTypesSetting.type)
       ).toBe(true);
       expect(
+        actions.every(({ type }) => type !== loadPresetTimeframesSetting.type)
+      ).toBe(true);
+      expect(
         actions.every(({ type }) => type !== loadRoundingConfigSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(({ type }) => type !== loadExportTypesSetting.type)
+      ).toBe(true);
+      expect(
+        actions.every(
+          ({ type }) => type !== loadDisableRefreshControlsSetting.type
+        )
       ).toBe(true);
       expect(staticChannels['active_area'].name).toBe('Active Area');
       expect(
