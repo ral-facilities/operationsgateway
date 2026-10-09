@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material';
 import type {
   Config as PlotlyConfig,
   Layout as PlotlyLayout,
-  PlotData as PlotlyPlotData,
+  Data as PlotlyPlotData,
 } from 'plotly.js';
 
 export interface TracePlotProps {
@@ -51,7 +51,6 @@ const TracePlot = (props: TracePlotProps) => {
         plot_bgcolor: 'rgba(0, 0, 0, 0)', // make plot background transparent
         title: {
           text: title,
-          // @ts-expect-error this property does exist in plotly.js & in the docs, just types are wrong
           automargin: true,
           yref: 'paper',
         },

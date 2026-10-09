@@ -44,9 +44,9 @@ test('user can zoom and pan the vector', async ({ page }) => {
   // Ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
-  // Need to trigger a resize as Webkit isn't calculating init size in Playwright correctly
-  await popup.locator('text=Reset View').click();
-  await popup.waitForTimeout(1000);
+  // need to open and close controls as chromium & webkit are getting initial size wrong in playwright
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+  await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
 
   // **Modify drag-to-zoom to only select half of the plot**
   const box = await chart.boundingBox();
@@ -126,10 +126,6 @@ test('user can limit the vector data', async ({ page }) => {
   const chart = await popup.locator('.plotly-chart');
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
-
-  // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
-  await popup.locator('text=Reset View').click();
-  await popup.waitForTimeout(1000);
 
   await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
 
@@ -213,6 +209,10 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
 
   // wait for first chart to load before loading new chart
   await chart.click();
+
+  // need to open and close controls as chromium & webkit are getting initial size wrong in playwright
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+  await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
 
   // create modified trace to be queried when different thumbnail is selected
   await page.evaluate(async () => {

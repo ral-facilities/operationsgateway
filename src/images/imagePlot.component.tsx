@@ -4,7 +4,7 @@ import { Box, useTheme } from '@mui/material';
 import type {
   Config as PlotlyConfig,
   Layout as PlotlyLayout,
-  PlotData as PlotlyPlotData,
+  Data as PlotlyPlotData,
 } from 'plotly.js';
 import { CrosshairDimensionType } from '../api/images';
 import {
@@ -74,7 +74,6 @@ const YChartOptions: Partial<PlotlyLayout> = {
     ticklen: 4,
     ticklabelposition: 'outside bottom',
     ticklabeloverflow: 'allow',
-    // @ts-expect-error for some reason it's not accepting left as a value, when it's valid
     automargin: 'left', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "left"
     exponentformat: 'none',
     tickformat: 'd',
@@ -113,7 +112,6 @@ const YChartAxis: Partial<PlotlyLayout> = {
     zeroline: false,
     ticklabelposition: 'outside bottom',
     ticklabeloverflow: 'allow',
-    // @ts-expect-error for some reason it's not accepting left as a value, when it's valid
     automargin: 'left', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "left"
     exponentformat: 'none',
     tickformat: 'd',
@@ -130,7 +128,6 @@ const XChartOptions: Partial<PlotlyLayout> = {
     ticklabelposition: 'outside right',
     ticklabeloverflow: 'allow',
     ticklen: 4,
-    // @ts-expect-error for some reason it's not accepting bottom as a value, when it's valid
     automargin: 'bottom', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "bottom"
     exponentformat: 'none',
     tickformat: 'd',
@@ -164,7 +161,6 @@ const XChartAxis: Partial<PlotlyLayout> = {
     zeroline: false,
     ticklabelposition: 'outside right',
     ticklabeloverflow: 'allow',
-    // @ts-expect-error for some reason it's not accepting bottom as a value, when it's valid
     automargin: 'bottom', // auto-margin can be used for this axis as it does not affect image pixel alignment as long as we use "bottom"
     exponentformat: 'none',
     tickformat: 'd',
@@ -350,7 +346,8 @@ const ImagePlot = (
     if (imageDims.width && imageDims.height) {
       const rangeMax = (type === 'x' ? imageDims.width : imageDims.height) - 1;
       // need to reverse the range when it's a y plot
-      const range = type === 'x' ? [0, rangeMax] : [rangeMax, 0];
+      const range: [number, number] =
+        type === 'x' ? [0, rangeMax] : [rangeMax, 0];
       newChartOptions[`${type}axis`] = {
         ...newChartOptions[`${type}axis`],
         range,
