@@ -1,8 +1,13 @@
 import react from '@vitejs/plugin-react';
-import browserslistToEsbuild from 'browserslist-to-esbuild';
 import fs from 'node:fs';
 import path from 'path';
-import { PluginOption, UserConfig, defineConfig, loadEnv } from 'vite';
+import {
+  PluginOption,
+  UserConfig,
+  defineConfig,
+  esmExternalRequirePlugin,
+  loadEnv,
+} from 'vite';
 
 /* See https://github.com/mswjs/msw/discussions/712 */
 function excludeMSWPlugin(): PluginOption {
@@ -76,19 +81,19 @@ export default defineConfig(({ mode }) => {
   }
 
   if (buildLibrary) {
+    plugins.push(
+      esmExternalRequirePlugin({
+        external: ['react', 'react-dom'].concat(rollupExternals),
+      })
+    );
     // Config for deployment in SciGateway
     config.build = {
       lib: {
-        // We use `umd` here as `es` causes some import statements to leak into the main.js, breaking the build
-        // removing this entirely uses a default of both, which for build results in `umd` taking precedence but when
-        // using --watch, `es` appears to replace it intermittently. Hopefully this can be fixed in the future and we
-        // can use `es` instead.
         formats: ['umd'],
         entry: 'src/main.tsx',
         name: 'operationsgateway',
       },
-      rollupOptions: {
-        external: ['react', 'react-dom'].concat(rollupExternals),
+      rolldownOptions: {
         input: 'src/main.tsx',
         output: {
           entryFileNames: '[name].js',
@@ -104,23 +109,16 @@ export default defineConfig(({ mode }) => {
   } else {
     // Config for stand alone deployment e.g. for cypress
     config.build = {
-      rollupOptions: {
+      rolldownOptions: {
         input: ['src/main.tsx', './index.html'],
         // Don't make react/react-dom external as not a library here, so have to bundle
         external: rollupExternals,
-        output: {
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-          },
-        },
         preserveEntrySignatures: 'strict',
       },
     };
   }
 
-  // Use browserslist config
-  config.build.target = browserslistToEsbuild();
+  config.build.target = 'baseline-widely-available';
 
   return {
     ...config,
