@@ -6242,8 +6242,6 @@ __metadata:
   dependenciesMeta:
     cypress:
       built: true
-    esbuild:
-      built: true
     msw:
       built: true
   languageName: unknown

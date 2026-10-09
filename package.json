@@ -50,9 +50,6 @@
     "cypress": {
       "built": true
     },
-    "esbuild": {
-      "built": true
-    },
     "msw": {
       "built": true
     }
