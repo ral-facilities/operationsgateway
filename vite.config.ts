@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react';
 import fs from 'node:fs';
 import path from 'path';
