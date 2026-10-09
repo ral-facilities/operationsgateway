@@ -4,12 +4,13 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { TextEncoder } from 'util';
-// need to mock <canvas> for plotting
-import 'vitest-canvas-mock';
 import failOnConsole from 'vitest-fail-on-console';
 import { server } from './mocks/server';
 
-global.TextEncoder = TextEncoder;
+// need this until https://github.com/testing-library/react-testing-library/issues/1197 is fixed
+Object.assign(globalThis, { jest: vi });
+
+globalThis.TextEncoder = TextEncoder;
 
 failOnConsole();
 
@@ -26,7 +27,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 // Vitest doesn't implement ResizeObserver so mock it
-global.ResizeObserver = vi.fn(
+globalThis.ResizeObserver = vi.fn(
   class {
     constructor() {}
     observe = vi.fn();

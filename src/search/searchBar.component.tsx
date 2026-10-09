@@ -300,18 +300,16 @@ const SearchBar = (props: SearchBarProps): React.ReactElement => {
           setTimeframeRange(null);
         }
         if (searchParameterExperiment) {
-          if (
-            !(
-              isDateTimeInExperiment(
-                shotnumToDateFromDate,
-                searchParameterExperiment
-              ) &&
-              isDateTimeInExperiment(
-                shotnumToDateToDate,
-                searchParameterExperiment
-              )
+          if (!(
+            isDateTimeInExperiment(
+              shotnumToDateFromDate,
+              searchParameterExperiment
+            ) &&
+            isDateTimeInExperiment(
+              shotnumToDateToDate,
+              searchParameterExperiment
             )
-          ) {
+          )) {
             setExperimentTimeframe(null);
           }
         }
