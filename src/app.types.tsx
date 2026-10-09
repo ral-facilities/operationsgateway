@@ -85,13 +85,16 @@ export interface RecordMetadata {
   active_experiment?: string;
 }
 
-export type DataType =
-  | 'scalar'
-  | 'image'
-  | 'waveform'
-  | 'float_image'
-  | 'vector'
-  | 'string';
+export const DATATYPES = [
+  'scalar',
+  'image',
+  'waveform',
+  'float_image',
+  'vector',
+  'string',
+] as const;
+
+export type DataType = (typeof DATATYPES)[number];
 
 export interface FullCommonChannelMetadata {
   systemName: string;

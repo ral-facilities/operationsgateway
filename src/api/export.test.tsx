@@ -232,7 +232,7 @@ describe('useExportData', () => {
     expect(mockLinkRemove).toHaveBeenCalled();
   });
 
-  it('sends axios request to export all rows and returns successful response', async () => {
+  it('sends axios request to export all rows with custom export types and returns successful response', async () => {
     const { result } = renderHook(() => useExportData(), {
       wrapper: hooksWrapperWithProviders(state),
     });
@@ -243,16 +243,7 @@ describe('useExportData', () => {
     await act(async () => {
       await result.current.mutateAsync({
         exportType: 'All Rows',
-        dataToExport: {
-          Scalars: false,
-          Strings: false,
-          Images: true,
-          'Float Images': false,
-          'Waveform CSVs': false,
-          'Waveform Images': true,
-          'Vector CSVs': false,
-          'Vector Images': false,
-        },
+        dataToExport: {},
       });
     });
 
@@ -281,10 +272,10 @@ describe('useExportData', () => {
     );
     params.append('export_scalars', 'false');
     params.append('export_strings', 'false');
-    params.append('export_images', 'true');
+    params.append('export_images', 'false');
     params.append('export_float_images', 'false');
     params.append('export_waveform_csvs', 'false');
-    params.append('export_waveform_images', 'true');
+    params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'false');
     params.append('skip', '0');
@@ -296,7 +287,7 @@ describe('useExportData', () => {
     });
 
     expect(mockLink.href).toContain('blob:');
-    expect(mockLink.download).toEqual('imwidownload.csv');
+    expect(mockLink.download).toEqual('download.csv');
     expect(mockLink.style.display).toEqual('none');
 
     expect(mockLinkClick).toHaveBeenCalled();

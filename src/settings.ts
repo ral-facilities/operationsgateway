@@ -1,6 +1,7 @@
 import axios from 'axios';
 import log from 'loglevel';
-import { MicroFrontendId } from './app.types';
+import { DataType, DATATYPES, MicroFrontendId } from './app.types';
+import { TimeframeRange } from './search/components/timeframe.component';
 import { registerRoute, type PluginRoute } from './state/scigateway.actions';
 import LogoDark from '/operationsgateway-logo-white.svg';
 import LogoLight from '/operationsgateway-logo.svg';
@@ -49,6 +50,9 @@ export interface OperationsGatewaySettings {
   }[];
   authTypes?: AuthTypesType;
   roundingConfig?: RoundingConfigType;
+  presetTimeframes?: TimeframeRange[];
+  exportTypes?: DataType[];
+  disableRefreshControls?: boolean;
 }
 
 export let settings: Promise<OperationsGatewaySettings | void>;
@@ -118,6 +122,10 @@ export const fetchSettings = (): Promise<OperationsGatewaySettings | void> => {
         throw new Error(
           'roundingConfig object defined, but roundingConfig.source is undefined'
         );
+      }
+
+      if (settings.exportTypes?.some((x) => !DATATYPES.includes(x))) {
+        throw new Error('Unrecognised export type defined in the settings');
       }
 
       if (Array.isArray(settings['routes']) && settings['routes'].length) {

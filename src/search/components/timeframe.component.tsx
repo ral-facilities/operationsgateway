@@ -18,6 +18,7 @@ export type TimeframeRange = {
 
 export interface TimeframeProps {
   timeframe: TimeframeRange | null;
+  presetTimeFrames: TimeframeRange[];
   changeTimeframe: (value: TimeframeRange) => void;
   resetExperimentTimeframe: () => void;
   resetShotnumber: () => void;
@@ -27,6 +28,7 @@ export interface TimeframeProps {
 const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
   const {
     changeTimeframe,
+    presetTimeFrames,
     resetExperimentTimeframe,
     resetShotnumber,
     searchParamsUpdated,
@@ -48,51 +50,23 @@ const TimeframePopup = (props: TimeframeProps): React.ReactElement => {
         }}
       />
       <Grid container spacing={1} sx={{ paddingBottom: '15px' }}>
-        <Grid size={4}>
-          <Button
-            size="small"
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              resetExperimentTimeframe();
-              resetShotnumber();
-              searchParamsUpdated();
-              changeTimeframe({ value: 10, timescale: 'minutes' });
-            }}
-          >
-            Last 10 mins
-          </Button>
-        </Grid>
-        <Grid size={4}>
-          <Button
-            size="small"
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              resetExperimentTimeframe();
-              resetShotnumber();
-              searchParamsUpdated();
-              changeTimeframe({ value: 24, timescale: 'hours' });
-            }}
-          >
-            Last 24 hours
-          </Button>
-        </Grid>
-        <Grid size={4}>
-          <Button
-            size="small"
-            variant="outlined"
-            sx={{ height: '100%' }}
-            onClick={() => {
-              resetExperimentTimeframe();
-              resetShotnumber();
-              searchParamsUpdated();
-              changeTimeframe({ value: 7, timescale: 'days' });
-            }}
-          >
-            Last 7 days
-          </Button>
-        </Grid>
+        {presetTimeFrames.map((presetTimeFrame) => (
+          <Grid size={'grow'} key={JSON.stringify(presetTimeFrame)}>
+            <Button
+              size="small"
+              variant="outlined"
+              sx={{ height: '100%' }}
+              onClick={() => {
+                resetExperimentTimeframe();
+                resetShotnumber();
+                searchParamsUpdated();
+                changeTimeframe(presetTimeFrame);
+              }}
+            >
+              {`Last ${presetTimeFrame.value} ${presetTimeFrame.timescale === 'minutes' ? 'mins' : presetTimeFrame.timescale}`}
+            </Button>
+          </Grid>
+        ))}
       </Grid>
       <Grid container spacing={1}>
         <Grid size={4}>
