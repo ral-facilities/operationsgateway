@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["esnext", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "target": "es6",
+    "lib": ["esnext", "DOM"],
+    "module": "esnext",
     "skipLibCheck": true,
+    "types": ["node"],
 
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
 
     /* Bundler mode */
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
