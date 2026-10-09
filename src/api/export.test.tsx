@@ -34,6 +34,7 @@ describe('useExportData', () => {
             fromDate: '2022-10-17T00:00:00',
             toDate: '2022-11-04T23:59:59',
           },
+          dataTypes: ['GS', 'GQ'],
           maxShots: 1000,
         },
       },
@@ -107,6 +108,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
           { _id: { $in: ['1', '2', '3'] } },
         ],
         $or: [
@@ -115,6 +121,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '0');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'false');
@@ -123,8 +131,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'true');
-    params.append('skip', '0');
-    params.append('limit', '0');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -198,6 +204,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
           { _id: { $in: ['1', '2', '3'] } },
         ],
         $or: [
@@ -208,6 +219,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '0');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'true');
@@ -216,8 +229,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'true');
     params.append('export_vector_csvs', 'true');
     params.append('export_vector_images', 'false');
-    params.append('skip', '0');
-    params.append('limit', '0');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -263,6 +274,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
         ],
         $or: [
           { 'channels.ChannelA': { $exists: true } },
@@ -270,6 +286,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '1000');
     params.append('export_scalars', 'false');
     params.append('export_strings', 'false');
     params.append('export_images', 'false');
@@ -278,8 +296,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'false');
-    params.append('skip', '0');
-    params.append('limit', '1000');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -334,10 +350,17 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
         ],
         $or: [{ 'channels.ChannelA': { $exists: true } }],
       })
     );
+    params.append('skip', '0');
+    params.append('limit', '1000');
     params.append('export_scalars', 'false');
     params.append('export_strings', 'false');
     params.append('export_images', 'true');
@@ -346,8 +369,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'true');
     params.append('export_vector_csvs', 'true');
     params.append('export_vector_images', 'true');
-    params.append('skip', '0');
-    params.append('limit', '1000');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -403,6 +424,11 @@ describe('useExportData', () => {
               $lte: '2022-11-04T23:59:59',
             },
           },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
+            },
+          },
         ],
         $or: [
           { 'channels.ChannelA': { $exists: true } },
@@ -410,6 +436,8 @@ describe('useExportData', () => {
         ],
       })
     );
+    params.append('skip', '25');
+    params.append('limit', '25');
     params.append('export_scalars', 'true');
     params.append('export_strings', 'true');
     params.append('export_images', 'false');
@@ -418,8 +446,6 @@ describe('useExportData', () => {
     params.append('export_waveform_images', 'false');
     params.append('export_vector_csvs', 'false');
     params.append('export_vector_images', 'false');
-    params.append('skip', '25');
-    params.append('limit', '25');
 
     expect(axiosGetSpy).toHaveBeenCalledWith('/export', {
       params,
@@ -475,6 +501,11 @@ describe('useExportData', () => {
             'metadata.timestamp': {
               $gte: '2022-10-17T00:00:00',
               $lte: '2022-11-04T23:59:59',
+            },
+          },
+          {
+            'metadata.active_area': {
+              $in: ['GS', 'GQ'],
             },
           },
         ],

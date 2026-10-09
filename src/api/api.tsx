@@ -1,10 +1,18 @@
 import { tz } from '@date-fns/tz';
 import axios from 'axios';
 import { format, parseISO } from 'date-fns';
-import { MicroFrontendId, type APIError } from '../app.types';
+import {
+  APIFunctionState,
+  MicroFrontendId,
+  SearchParams,
+  SortType,
+  timeChannelName,
+  type APIError,
+} from '../app.types';
 import { readSciGatewayToken } from '../parseTokens';
 import { settings } from '../settings';
 import { InvalidateTokenType } from '../state/scigateway.actions';
+import { staticChannels } from './channels';
 
 // These are for ensuring refresh request is only sent once when multiple requests
 // are failing due to 403's at the same time
@@ -95,3 +103,129 @@ export const formatDateTimeForApi = (datetime: Date): string => {
 
 export const convertApiTimestampToDate = (apiTimestamp: string): Date =>
   parseISO(`${apiTimestamp}Z`);
+
+export const formatAPIQueryParams = ({
+  initialQueryParams,
+  sort,
+  searchParams,
+  filters,
+  functionsState,
+  skip,
+  limit,
+  projection,
+  selectedRows,
+  isCountQuery,
+}: {
+  initialQueryParams?: URLSearchParams;
+  sort?: SortType;
+  searchParams: SearchParams;
+  filters: string[];
+  functionsState: APIFunctionState;
+  skip?: string;
+  limit?: string;
+  projection?: string[];
+  selectedRows?: string[];
+  isCountQuery?: boolean;
+}) => {
+  const queryParams = initialQueryParams ?? new URLSearchParams();
+
+  if (sort) {
+    for (const [key, value] of Object.entries(sort)) {
+      // API recognises sort values as metadata.key or channel.key
+      // Therefore, we must construct the appropriate parameter
+      const sortKey =
+        key in staticChannels ? `metadata.${key}` : `channels.${key}`;
+      queryParams.append('order', `${sortKey} ${value}`);
+    }
+  }
+
+  const { dateRange, dataTypes } = searchParams;
+
+  let timestampObj = {};
+  if (dateRange.fromDate || dateRange.toDate) {
+    timestampObj = {
+      'metadata.timestamp': {
+        $gte: dateRange.fromDate,
+        $lte: dateRange.toDate,
+      },
+    };
+  }
+
+  const filtersObj = filters
+    .filter((f) => f.length !== 0)
+    .map((f) => JSON.parse(f));
+
+  const searchObj = [];
+  if (dateRange.fromDate || dateRange.toDate) searchObj.push(timestampObj);
+  if (dataTypes) searchObj.push({ 'metadata.active_area': { $in: dataTypes } });
+
+  searchObj.push(...filtersObj);
+
+  const existsConditions: { [x: string]: { $exists: boolean } }[] = [];
+
+  projection?.forEach((channel) => {
+    // API recognises projection values as metadata.key or channel.key
+    // Therefore, we must construct the appropriate parameter
+    const key =
+      channel in staticChannels ? `metadata.${channel}` : `channels.${channel}`;
+    if (!isCountQuery) queryParams.append('projection', key);
+
+    let is_function = false;
+    functionsState.functions.forEach((func) => {
+      if (channel === func.name) is_function = true;
+    });
+
+    // Do not add exist conditions for functions
+    if (channel !== timeChannelName && !is_function) {
+      existsConditions.push({ [key]: { $exists: true } });
+    }
+  });
+
+  if (!isCountQuery) {
+    const functionDepFunctions = new Set(
+      functionsState.functionsWithDeps
+        .filter((func) => projection?.includes(func.name))
+        .flatMap((func) => func.functions)
+    );
+
+    functionsState.functions.forEach((func) => {
+      if (Array.from(functionDepFunctions).includes(func.name))
+        queryParams.append('functions', JSON.stringify(func));
+    });
+
+    const functionChannels = new Set(
+      functionsState.functionsWithDeps
+        .filter((func) => projection?.includes(func.name))
+        .flatMap((func) => func.channels)
+    );
+
+    // Ensure `functionChannels` does not contain channels already in `projection`
+    const uniqueFunctionChannels = Array.from(functionChannels).filter(
+      (channel) => !projection?.includes(channel)
+    );
+
+    uniqueFunctionChannels.forEach((channel) => {
+      existsConditions.push({ [`channels.${channel}`]: { $exists: true } });
+    });
+  }
+
+  if (selectedRows) {
+    searchObj.push({ _id: { $in: selectedRows } });
+  }
+
+  if (existsConditions.length > 0 || searchObj.length > 0) {
+    const query =
+      existsConditions.length > 0 && searchObj.length > 0
+        ? { $and: searchObj, $or: existsConditions }
+        : existsConditions.length > 0
+          ? { $or: existsConditions }
+          : { $and: searchObj };
+
+    queryParams.append('conditions', JSON.stringify(query));
+  }
+
+  if (skip) queryParams.append('skip', skip);
+  if (limit) queryParams.append('limit', limit);
+
+  return queryParams;
+};
