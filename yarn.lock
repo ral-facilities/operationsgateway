@@ -6929,7 +6929,7 @@ __metadata:
     vitest: "npm:4.1.11"
     vitest-canvas-mock: "npm:0.3.3"
     vitest-fail-on-console: "npm:0.10.1"
-    zod: "npm:^3.23.8"
+    zod: "npm:^4.0.0"
   dependenciesMeta:
     cypress:
       built: true
@@ -9614,9 +9614,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.23.8":
-  version: 3.25.76
-  resolution: "zod@npm:3.25.76"
-  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+"zod@npm:^4.0.0":
+  version: 4.6.5
+  resolution: "zod@npm:4.6.5"
+  checksum: 10c0/32eb6c5e98becbe045675b2141c3611451c16ba567f9779231d79af41c4d651ca1c22f154aef7e6c6e77b929f23e43f1154ca05b82e119e922353725d6776af5
   languageName: node
   linkType: hard
