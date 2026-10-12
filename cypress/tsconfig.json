@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "baseUrl": "../.yarn/cache",
-    "target": "es5",
-    "lib": ["ES2017", "dom"],
+    "target": "es6",
+    "lib": ["esnext", "DOM"],
     "types": [
+      "node",
       "cypress",
       "@testing-library/cypress",
       "cypress-delete-downloads-folder"
