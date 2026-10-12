@@ -47,6 +47,7 @@ test('user can zoom and pan the vector', async ({ page }) => {
   // need to open and close controls as chromium & webkit are getting initial size wrong in playwright
   await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
   await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
+  await popup.waitForTimeout(1000);
 
   // **Modify drag-to-zoom to only select half of the plot**
   const box = await chart.boundingBox();
