@@ -227,16 +227,6 @@ test('opens a vector window, resizes the window, and saves the session with the 
   // Ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
-  // Need to trigger a resize as Webkit isn't calculating init size in Playwright correctly
-  await popup.locator('text=Reset View').click();
-  await popup.waitForTimeout(1000);
-
-  // await popup.locator('label:has-text("Title")').fill('Test time plot');
-  // await page.locator('text=Data').click();
-
-  // await page.getByLabel('from, date-time input').fill('2023-06-04 00:00');
-  // await page.getByLabel('to, date-time input').fill('2023-06-05 08:00');
-
   await page.getByRole('button', { name: 'Save as' }).click();
 
   await page

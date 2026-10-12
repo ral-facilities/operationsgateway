@@ -148,9 +148,9 @@ test('user can set their default skip and limit', async ({ page }) => {
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
-  // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
-  await popup.locator('text=Reset View').click();
-  await popup.waitForTimeout(1000);
+  // need to open and close controls as chromium & webkit are getting initial size wrong in playwright
+  await popup.getByRole('button', { name: 'Show Vector Controls' }).click();
+  await popup.getByRole('button', { name: 'Hide Vector Controls' }).click();
 
   await expect(tableThumbnail).toHaveScreenshot({
     maxDiffPixels: 150,
