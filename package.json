@@ -39,7 +39,7 @@
     "react-redux": "9.3.0",
     "react-router-dom": "7.18.4",
     "single-spa-react": "6.0.2",
-    "typescript": "5.9.2",
+    "typescript": "6.0.3",
     "vite": "8.3.3",
     "zod": "^3.23.8"
   },
@@ -102,7 +102,6 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/eslint-plugin-jsx-a11y": "6.10.0",
-    "@typescript-eslint/typescript-estree": "8.61.0",
     "@vitest/coverage-v8": "5.0.3",
     "cross-env": "10.1.0",
     "cypress": "15.18.0",
@@ -123,7 +122,7 @@
     "prettier": "3.9.9",
     "serve": "14.2.6",
     "start-server-and-test": "3.0.0",
-    "typescript-eslint": "8.61.0",
+    "typescript-eslint": "8.71.0",
     "vitest": "5.0.3",
     "vitest-fail-on-console": "0.10.1"
   },
