@@ -67,7 +67,7 @@ test('user can zoom and pan the trace', async ({ page }) => {
   // ensure chart is loaded properly by attempting to click on it
   await chart.click({ trial: true });
 
-  // need to trigger a resize as Webkit isn't calcing init size in Playwright correctly
+  // need to trigger a resize as Webkit & chromium aren't calcing init size in Playwright correctly
   await popup.locator('text=Reset View').click();
   await popup.waitForTimeout(1000);
 
