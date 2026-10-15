@@ -575,6 +575,7 @@ describe('records api functions', () => {
       params.append('order', 'channels.CHANNEL_1 desc');
       params.append('projection', `metadata.${timeChannelName}`);
       params.append('projection', 'channels.CHANNEL_1');
+      params.append('projection', 'channels.a');
       params.append(
         'functions',
         JSON.stringify({ name: 'a', expression: '1' })
@@ -758,6 +759,7 @@ describe('records api functions', () => {
           [`channels.${channel.name}`]: { $exists: true },
         });
       });
+      params.append('projection', 'channels.a');
 
       params.append(
         'functions',
@@ -1126,6 +1128,7 @@ describe('records api functions', () => {
 
       params.append('order', 'metadata.timestamp asc');
       params.append('order', 'channels.CHANNEL_1 desc');
+      params.append('projection', 'channels.a');
       params.append('projection', 'metadata.timestamp');
       params.append(
         'functions',
