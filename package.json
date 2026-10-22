@@ -41,7 +41,7 @@
     "single-spa-react": "6.0.2",
     "typescript": "5.9.2",
     "vite": "8.3.3",
-    "zod": "^3.23.8"
+    "zod": "^4.0.0"
   },
   "resolutions": {
     "@types/react": "18.3.3"
