@@ -18,6 +18,12 @@
       "enabled": true
     }
   },
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "patch": { "enabled": true }
+    }
+  ],
   "cdnurl": {
     "managerFilePatterns": ["/windowPortal\\.component\\.tsx$/"]
   }
