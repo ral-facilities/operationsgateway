@@ -7329,7 +7329,7 @@ __metadata:
     plotly.js: "npm:4.1.2"
     prettier: "npm:3.9.9"
     react: "npm:18.3.1"
-    react-colorful: "npm:5.7.0"
+    react-colorful: "npm:5.8.1"
     react-dom: "npm:18.3.1"
     react-hook-form: "npm:^7.53.2"
     react-redux: "npm:9.3.0"
@@ -7934,13 +7934,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-colorful@npm:5.7.0":
-  version: 5.7.0
-  resolution: "react-colorful@npm:5.7.0"
+"react-colorful@npm:5.8.1":
+  version: 5.8.1
+  resolution: "react-colorful@npm:5.8.1"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/d8db4e66b6f6edf30cc2bb6c755bea45e8e133f9667c373897a048da6931d1a31554c0253043be7853c21f9df1e0928af9528122f698bcd5b847a83663c58f0e
+  checksum: 10c0/cd1705cdb218f9f43d376f36306968aa304e0d8018dcff198c798c2c56bf4873ea918580a57a0cceaab62ba7621663234ffad35f3d4ebd9198e65f926f9ec8fe
   languageName: node
   linkType: hard
 
