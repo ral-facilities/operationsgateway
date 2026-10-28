@@ -10,7 +10,7 @@
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
     "@hello-pangea/dnd": "18.0.1",
-    "@hookform/resolvers": "^4.0.0",
+    "@hookform/resolvers": "^6.0.0",
     "@mui/icons-material": "6.5.0",
     "@mui/material": "6.5.0",
     "@mui/system": "6.5.0",
@@ -35,13 +35,13 @@
     "react": "18.3.1",
     "react-colorful": "5.8.1",
     "react-dom": "18.3.1",
-    "react-hook-form": "^7.53.2",
+    "react-hook-form": "^7.91.0",
     "react-redux": "9.3.0",
     "react-router-dom": "7.18.4",
     "single-spa-react": "6.0.2",
     "typescript": "6.0.3",
     "vite": "8.3.3",
-    "zod": "^3.23.8"
+    "zod": "^4.0.0"
   },
   "resolutions": {
     "@types/react": "18.3.3"

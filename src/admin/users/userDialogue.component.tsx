@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { AxiosError } from 'axios';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, createFormControl, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAddUser, useEditUser } from '../../api/user';
 import { APIError, UserPatch, UserPost, type User } from '../../app.types';
@@ -43,9 +43,12 @@ const OptionalStringSchema = z
 
 const MandatoryStringSchema = (props: BaseZodSchemaProps) =>
   z
-    .string({ required_error: props.errorMessage })
+    .string({
+      error: (issue) =>
+        issue.input === undefined ? props.errorMessage : undefined,
+    })
     .trim()
-    .min(1, { message: props.errorMessage });
+    .min(1, { error: props.errorMessage });
 
 // Define Zod schema for the User form
 const userSchema = z.object({
@@ -57,6 +60,19 @@ const userSchema = z.object({
     .transform((val) => (val.length === 0 || !val ? undefined : val))
     .nullable()
     .optional(),
+});
+
+const { formControl } = createFormControl<
+  z.input<typeof userSchema>,
+  undefined,
+  UserPost
+>();
+
+formControl.subscribe({
+  formState: { values: true },
+  callback: ({ errors }) => {
+    if (errors?.root?.formError) formControl.clearErrors('root.formError');
+  },
 });
 
 const UserDialogue = (props: UserDialogueProps) => {
@@ -96,7 +112,8 @@ const UserDialogue = (props: UserDialogueProps) => {
     reset,
     setValue,
     formState: { errors },
-  } = useForm<UserPost>({
+  } = useForm<z.input<typeof userSchema>, undefined, UserPost>({
+    formControl,
     resolver: zodResolver(userSchema),
     defaultValues: initialUser,
   });
