@@ -25,17 +25,20 @@ const OptionalNumberSchema = (props: {
     .transform((val) => (!val ? null : val))
     .pipe(
       z.coerce
-        .number({
-          invalid_type_error: props.invalidTypeErrorMessage,
+        .number<string>({
+          error: (issue) =>
+            issue.code === 'invalid_type'
+              ? props.invalidTypeErrorMessage
+              : undefined,
         })
         .min(props.min ?? -Infinity, {
-          message: `Number must be greater than or equal to ${props.min}`,
+          error: `Number must be greater than or equal to ${props.min}`,
         })
         .max(props.max ?? Infinity, {
-          message: `Number must be less than or equal to ${props.max}`,
+          error: `Number must be less than or equal to ${props.max}`,
         })
         .refine((value) => (props.isInteger ? Number.isInteger(value) : true), {
-          message: 'Please enter a valid integer.',
+          error: 'Please enter a valid integer.',
         })
         .nullable()
     );
@@ -122,7 +125,8 @@ const VectorsMenuItem = () => {
         if (!parsed.success) {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            [newKey]: parsed.error.format()[newKey]?._errors[0],
+            [newKey]: z.treeifyError(parsed.error).properties?.[newKey]
+              ?.errors[0],
           }));
           return;
         }

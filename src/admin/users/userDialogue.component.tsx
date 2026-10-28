@@ -43,9 +43,12 @@ const OptionalStringSchema = z
 
 const MandatoryStringSchema = (props: BaseZodSchemaProps) =>
   z
-    .string({ required_error: props.errorMessage })
+    .string({
+      error: (issue) =>
+        issue.input === undefined ? props.errorMessage : undefined,
+    })
     .trim()
-    .min(1, { message: props.errorMessage });
+    .min(1, { error: props.errorMessage });
 
 // Define Zod schema for the User form
 const userSchema = z.object({
