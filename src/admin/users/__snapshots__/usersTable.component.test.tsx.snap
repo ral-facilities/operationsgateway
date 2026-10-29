@@ -104,9 +104,9 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                     </svg>
                     <input
                       aria-invalid="false"
-                      autocomplete="new-password"
+                      autocomplete="off"
                       class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedStart MuiInputBase-inputAdornedEnd css-12tjcea-MuiInputBase-input-MuiOutlinedInput-input"
-                      id=":r2:"
+                      id=":r3:"
                       placeholder="Search"
                       type="text"
                       value=""
@@ -246,10 +246,11 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
           >
             <th
               aria-sort="none"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-59ho2q-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-1r25sur-MuiTableCell-root"
               colspan="1"
               data-index="0"
               scope="col"
+              tabindex="0"
             >
               <div
                 class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
@@ -270,11 +271,12 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-r75xbg-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-196jlom-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
               data-index="1"
               scope="col"
+              tabindex="0"
             >
               <div
                 class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
@@ -382,16 +384,16 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                         <input
                           aria-invalid="false"
                           aria-label="Filter by Username"
-                          autocomplete="new-password"
+                          autocomplete="off"
                           class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-110vr2a-MuiInputBase-input-MuiInput-input"
-                          id=":re:"
+                          id=":rf:"
                           placeholder="Filter by Username"
                           title="Filter by Username"
                           type="text"
                           value=""
                         />
                         <div
-                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-elo8k2-MuiInputAdornment-root"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1exhmnf-MuiInputAdornment-root"
                         >
                           <span
                             aria-label="Clear filter"
@@ -427,11 +429,12 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-1nieaan-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-wvxls8-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
               data-index="2"
               scope="col"
+              tabindex="0"
             >
               <div
                 class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
@@ -531,13 +534,13 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                     class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-1tlcqt-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root css-1tlcqt-MuiAutocomplete-root"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-p1we6z-MuiFormControl-root-MuiTextField-root"
                       >
                         <div
-                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-6h9cc6-MuiInputBase-root-MuiInput-root"
+                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-6h9cc6-MuiInputBase-root-MuiInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -545,9 +548,9 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                             aria-invalid="false"
                             aria-label="Filter by Auth Type"
                             autocapitalize="none"
-                            autocomplete="new-password"
-                            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-110vr2a-MuiInputBase-input-MuiInput-input"
-                            id=":rm:"
+                            autocomplete="off"
+                            class="MuiInputBase-input MuiInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-110vr2a-MuiInputBase-input-MuiInput-input"
+                            id=":rn:"
                             placeholder="Filter by Auth Type"
                             role="combobox"
                             spellcheck="false"
@@ -555,29 +558,6 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                             type="text"
                             value=""
                           />
-                          <div
-                            class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
-                          >
-                            <button
-                              aria-label="Clear"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                              tabindex="-1"
-                              title="Clear"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                                data-testid="CloseIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                                />
-                              </svg>
-                            </button>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -587,11 +567,12 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
             </th>
             <th
               aria-sort="none"
-              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-3xck46-MuiTableCell-root"
+              class="MuiTableCell-root MuiTableCell-head MuiTableCell-stickyHeader MuiTableCell-alignLeft MuiTableCell-sizeMedium css-c9b6x6-MuiTableCell-root"
               colspan="1"
               data-can-sort="true"
               data-index="3"
               scope="col"
+              tabindex="0"
             >
               <div
                 class="Mui-TableHeadCell-Content MuiBox-root css-1w86f15"
@@ -691,13 +672,13 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                     class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
                   >
                     <div
-                      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon css-1tlcqt-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root css-1tlcqt-MuiAutocomplete-root"
                     >
                       <div
                         class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-p1we6z-MuiFormControl-root-MuiTextField-root"
                       >
                         <div
-                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-6h9cc6-MuiInputBase-root-MuiInput-root"
+                          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiAutocomplete-inputRoot css-6h9cc6-MuiInputBase-root-MuiInput-root"
                         >
                           <input
                             aria-autocomplete="list"
@@ -705,8 +686,8 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                             aria-invalid="false"
                             aria-label="Filter by Authorised Routes"
                             autocapitalize="none"
-                            autocomplete="new-password"
-                            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-110vr2a-MuiInputBase-input-MuiInput-input"
+                            autocomplete="off"
+                            class="MuiInputBase-input MuiInput-input MuiAutocomplete-input MuiAutocomplete-inputFocused css-110vr2a-MuiInputBase-input-MuiInput-input"
                             id=":ru:"
                             placeholder="Filter by Authorised Routes"
                             role="combobox"
@@ -715,29 +696,6 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                             type="text"
                             value=""
                           />
-                          <div
-                            class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
-                          >
-                            <button
-                              aria-label="Clear"
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1x7n7v0-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
-                              tabindex="-1"
-                              title="Clear"
-                              type="button"
-                            >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
-                                data-testid="CloseIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                                />
-                              </svg>
-                            </button>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -755,16 +713,13 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
               colspan="4"
             >
               <p
-                class="MuiTypography-root MuiTypography-body1 css-1s2etz1-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 css-1h19bzm-MuiTypography-root"
               >
                 No records to display
               </p>
             </td>
           </tr>
         </tbody>
-        <tfoot
-          class="MuiTableFooter-root css-1pwfv5b-MuiTableFooter-root"
-        />
       </table>
     </div>
     <div
@@ -807,7 +762,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
             class="MuiCollapse-wrapperInner MuiCollapse-vertical css-1i4ywhz-MuiCollapse-wrapperInner"
           >
             <div
-              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard css-hc9eih-MuiPaper-root-MuiAlert-root"
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-colorInfo MuiAlert-standardInfo MuiAlert-standard css-15276tc-MuiPaper-root-MuiAlert-root"
               role="alert"
               style="--Paper-shadow: none;"
             >
@@ -843,7 +798,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
             >
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-10j3yc8-MuiFormLabel-root-MuiInputLabel-root"
-                for="mrt-rows-per-page"
+                for="mrt-rows-per-page-:r0:"
               >
                 Rows per page
               </label>
@@ -864,7 +819,7 @@ exports[`UsersTable Snapshot > matches snapshot 1`] = `
                   aria-hidden="true"
                   aria-invalid="false"
                   class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-                  id="mrt-rows-per-page"
+                  id="mrt-rows-per-page-:r0:"
                   tabindex="-1"
                   value="15"
                 />
