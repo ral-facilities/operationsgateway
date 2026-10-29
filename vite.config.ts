@@ -120,6 +120,7 @@ export default defineConfig(({ mode }) => {
           'src/mocks/*.json',
           '*.d.ts',
           'src/main.tsx',
+          'src/testUtils.tsx',
         ],
       },
     },
