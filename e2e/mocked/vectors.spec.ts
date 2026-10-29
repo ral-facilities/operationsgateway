@@ -219,7 +219,7 @@ test('user can change vector via clicking on a thumbnail', async ({ page }) => {
   await page.evaluate(async () => {
     const { msw } = window;
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get(
         '/vectors/:recordId/:channelName',
         async () =>

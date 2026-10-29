@@ -6,6 +6,8 @@ import 'hacktimer';
 //
 import axios from 'axios';
 import log from 'loglevel';
+import { HttpResponse, isCommonAssetRequest, matchRequestUrl } from 'msw';
+import { http } from 'msw/http';
 import React from 'react';
 import ReactDOMClient from 'react-dom/client';
 import singleSpaReact from 'single-spa-react';
@@ -122,17 +124,46 @@ async function prepare() {
       import.meta.env.VITE_APP_INCLUDE_MSW === 'true' ||
       settingsResult?.apiUrl === ''
     ) {
-      const { worker } = await import('./mocks/browser');
-      return worker.start({
-        onUnhandledRequest(request, print) {
+      const { network } = await import('virtual:msw');
+      const { handlers } = await import('./mocks/handlers');
+      const { browserHandlers } = await import('./mocks/browserHandlers');
+
+      // Make the `worker` and `http` references available globally,
+      // so they can be accessed in both runtime and test suites.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.msw = {
+        network,
+        http,
+        matchRequestUrl,
+        HttpResponse,
+      };
+
+      network.configure({
+        handlers: [...handlers, ...browserHandlers],
+        onUnhandledFrame({ frame, defaults }) {
+          // Only HTTP frames represent requests.
+          if (frame.protocol !== 'http') {
+            return defaults.warn();
+          }
+
+          const { request } = frame.data as { request: Request };
+
           // Ignore unhandled requests to non-localhost things (normally means you're contacting a real server)
-          if (request.url.includes('localhost')) {
+          if (!request.url.includes('localhost')) {
             return;
           }
 
-          print.warning();
+          // Ignore common static asset requests
+          // (i.e. tap into the default behavior).
+          if (isCommonAssetRequest(request)) {
+            return;
+          }
+
+          defaults.warn();
         },
       });
+      return await network.enable();
     } else return Promise.resolve();
   }
   return Promise.resolve();

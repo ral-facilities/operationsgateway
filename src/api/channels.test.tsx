@@ -4,9 +4,9 @@ import {
   timeChannelName,
   ValidateFunctionState,
 } from '../app.types';
-import { server } from '../mocks/server';
 
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import { MockInstance } from 'vitest';
 import handleOG_APIError from '../handleOG_APIError';
 import { RootState } from '../state/store';
@@ -208,7 +208,7 @@ describe('channels api functions', () => {
     });
 
     it('returns no columns if no data was present in the request response', async () => {
-      server.use(
+      network.use(
         http.get('/channels', () => {
           return HttpResponse.json({ channels: {} }, { status: 200 });
         })
@@ -300,7 +300,7 @@ describe('channels api functions', () => {
     });
 
     it('returns no channels if no data was present in the request response', async () => {
-      server.use(
+      network.use(
         http.get('/channels', () => {
           return HttpResponse.json({ channels: {} }, { status: 200 });
         })
@@ -349,7 +349,7 @@ describe('channels api functions', () => {
 
     it('does not send request to fetch channel summary when given no channel or system channel', () => {
       let requestSent = false;
-      server.events.on('request:start', () => {
+      network.events.on('request:start', () => {
         requestSent = true;
       });
 
@@ -373,7 +373,7 @@ describe('channels api functions', () => {
     });
 
     it('does not retry request when we get a 400 error', async () => {
-      server.use(
+      network.use(
         http.get('/channels/summary/:channelName', () =>
           HttpResponse.json(
             {
@@ -396,7 +396,7 @@ describe('channels api functions', () => {
     });
 
     it('retries normally for other errors', async () => {
-      server.use(
+      network.use(
         http.get('/channels/summary/:channelName', () =>
           HttpResponse.json(
             {

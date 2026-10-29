@@ -1,10 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import React from 'react';
+import { network } from 'virtual:msw';
 import recordsJson from '../mocks/records.json';
-import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import FilterDialogue from './filterDialogue.component';
@@ -391,7 +391,7 @@ describe('Filter dialogue component', () => {
 
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
@@ -469,7 +469,7 @@ describe('Filter dialogue component', () => {
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => {
         return HttpResponse.json(31, { status: 200 });
       })
@@ -492,7 +492,7 @@ describe('Filter dialogue component', () => {
 
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => {
         return HttpResponse.json(100, { status: 200 });
       })
@@ -529,7 +529,7 @@ describe('Filter dialogue component', () => {
 
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => {
         return HttpResponse.json(31, { status: 200 });
       })

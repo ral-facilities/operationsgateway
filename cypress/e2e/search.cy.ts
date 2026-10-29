@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse } from 'msw/http';
 import { formatDateTimeForApi, getParamsFromUrl } from '../support/util';
 
 function getConditionsFromParams(params: Map<string, string>) {
@@ -303,10 +303,10 @@ describe('Search', () => {
 
       it('refreshes datetime stamps and launches search if timeframe is set and refresh button clicked', () => {
         cy.window().then(async (window) => {
-          // Reference global instances set in "src/mocks/browser.js".
-          const { worker, http } = window.msw;
+          // Reference global instances set in "src/main.tsx".
+          const { network, http } = window.msw;
 
-          worker.use(
+          network.use(
             http.get('/records/range_converter?date_range', () =>
               HttpResponse.json({ min: 9, max: 11 }, { status: 200 })
             )
@@ -1476,10 +1476,10 @@ describe('Search', () => {
 
       // check that if a search drops below the limit the tooltip no longer displays
       cy.window().then((window) => {
-        // Reference global instances set in "src/mocks/browser.js".
-        const { worker, http } = window.msw;
+        // Reference global instances set in "src/main.tsx".
+        const { network, http } = window.msw;
 
-        worker.use(
+        network.use(
           http.get(
             '/records/count',
             () => HttpResponse.json(8, { status: 200 }), //arbitrary number less than 10

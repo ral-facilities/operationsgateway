@@ -325,7 +325,7 @@ test('user can change image via clicking on a thumbnail', async ({ page }) => {
     const responseBlob = await response.blob();
     const url = window.URL.createObjectURL(responseBlob);
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get('/images/:recordId/:channelName', async () => {
         const canvas = window.document.createElement('canvas');
         const context = canvas.getContext('2d');
@@ -698,7 +698,7 @@ test('user can switch images via thumbnails whilst in crosshairs mode', async ({
 
     const { msw } = window;
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get('/images/:recordId/:channelName/crosshair', async () => {
         const responseJson = {
           row: {

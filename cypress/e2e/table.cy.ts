@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse } from 'msw/http';
 import { addInitialSystemChannels, getHandleSelector } from '../support/util';
 
 const verifyColumnOrder = (columns: string[]): void => {
@@ -331,10 +331,10 @@ describe('Table Component', () => {
       cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then((window) => {
-        // Reference global instances set in "src/mocks/browser.js".
-        const { worker, http } = window.msw;
+        // Reference global instances set in "src/main.tsx".
+        const { network, http } = window.msw;
 
-        worker.use(
+        network.use(
           http.get('/records/count', () =>
             HttpResponse.json(50, { status: 200 })
           )
@@ -348,10 +348,10 @@ describe('Table Component', () => {
       cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then(async (window) => {
-        // Reference global instances set in "src/mocks/browser.js".
-        const { worker, http } = window.msw;
+        // Reference global instances set in "src/main.tsx".
+        const { network, http } = window.msw;
 
-        worker.use(
+        network.use(
           http.get('/records/count', () =>
             HttpResponse.json(1000, { status: 200 })
           )
@@ -367,10 +367,10 @@ describe('Table Component', () => {
       cy.get('span[aria-label="Select Unlimited max shots"]').should('exist');
 
       cy.window().then((window) => {
-        // Reference global instances set in "src/mocks/browser.js".
-        const { worker, http } = window.msw;
+        // Reference global instances set in "src/main.tsx".
+        const { network, http } = window.msw;
 
-        worker.use(
+        network.use(
           http.get('/records/count', () =>
             HttpResponse.json(2500, { status: 200 })
           )

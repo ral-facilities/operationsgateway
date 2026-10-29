@@ -7,11 +7,11 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import { DEFAULT_WINDOW_VARS } from '../app.types';
 import { operators, type Token } from '../filtering/filterParser';
 import recordsJson from '../mocks/records.json';
-import { server } from '../mocks/server';
 import { deselectColumn, selectColumn } from '../state/slices/tableSlice';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
@@ -64,7 +64,7 @@ describe('Record Table', () => {
   });
 
   it('renders correctly while data count is zero', async () => {
-    server.use(
+    network.use(
       http.get('/records', () => HttpResponse.json([], { status: 200 })),
       http.get('/records/count', () => HttpResponse.json(0, { status: 200 }))
     );
@@ -82,7 +82,7 @@ describe('Record Table', () => {
     it('can select all rows', async () => {
       const user = userEvent.setup();
 
-      server.use(
+      network.use(
         http.get('/records', () =>
           HttpResponse.json(recordsJson.slice(0, 3), { status: 200 })
         )
@@ -107,7 +107,7 @@ describe('Record Table', () => {
 
     it('can select single and multiple rows', async () => {
       const user = userEvent.setup();
-      server.use(
+      network.use(
         http.get('/records', () =>
           HttpResponse.json(recordsJson, { status: 200 })
         )
@@ -256,7 +256,7 @@ describe('Record Table', () => {
       modifiedRecord,
       ...recordsJson.slice(recordToModifyIndex + 1),
     ];
-    server.use(
+    network.use(
       http.get('/records', () =>
         HttpResponse.json(modifiedRecords, { status: 200 })
       )

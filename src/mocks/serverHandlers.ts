@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import * as path from 'path';
 
 export const serverHandlers = [

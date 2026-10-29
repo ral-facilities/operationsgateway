@@ -1,4 +1,4 @@
-import { HttpResponse } from 'msw';
+import { HttpResponse } from 'msw/http';
 import { getParamsFromUrl } from '../support/util';
 
 describe('Sessions', () => {
@@ -17,10 +17,10 @@ describe('Sessions', () => {
   it('sends a posts a request when a user session is created', () => {
     cy.findByTestId('AddCircleIcon').should('exist');
     cy.window().then((window) => {
-      // Reference global instances set in "src/mocks/browser.js".
-      const { worker, http } = window.msw;
+      // Reference global instances set in "src/main.tsx".
+      const { network, http } = window.msw;
 
-      worker.use(
+      network.use(
         http.post('/sessions', async () => {
           // return a session without popups
           const sessionID = '2';
