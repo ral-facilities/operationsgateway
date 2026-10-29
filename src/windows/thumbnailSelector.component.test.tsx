@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
-import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import { RootState } from '../state/store';
 import { getInitialState, renderComponentWithProviders } from '../testUtils';
 import ThumbnailSelector from './thumbnailSelector.component';
@@ -104,7 +104,7 @@ describe('Thumbnail selector component', () => {
   });
 
   it('displays max shots as the max pagination when record count is more than it', async () => {
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(100, { status: 200 }))
     );
 

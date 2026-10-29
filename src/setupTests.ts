@@ -4,8 +4,10 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { TextEncoder } from 'util';
+import { network } from 'virtual:msw';
 import failOnConsole from 'vitest-fail-on-console';
-import { server } from './mocks/server';
+import { handlers } from './mocks/handlers';
+import { serverHandlers } from './mocks/serverHandlers';
 
 // need this until https://github.com/testing-library/react-testing-library/issues/1197 is fixed
 Object.assign(globalThis, { jest: vi });
@@ -16,15 +18,26 @@ failOnConsole();
 
 vi.setConfig({ testTimeout: 15000 });
 
+network.configure({
+  handlers: [...handlers, ...serverHandlers],
+  context: {
+    quiet: true,
+  },
+});
+
 // Establish API mocking before all tests.
-beforeAll(() => server.listen());
+beforeAll(async () => {
+  await network.enable();
+});
 
 // Reset any request handlers that we may add during the tests,
 // so they don't affect other tests.
-afterEach(() => server.resetHandlers());
+afterEach(() => network.resetHandlers());
 
 // Clean up after the tests are finished.
-afterAll(() => server.close());
+afterAll(async () => {
+  await network.disable();
+});
 
 // Vitest doesn't implement ResizeObserver so mock it
 globalThis.ResizeObserver = vi.fn(

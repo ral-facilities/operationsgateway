@@ -513,7 +513,7 @@ test('user can plot channels on the right y axis', async ({ page }) => {
       return newRecord;
     });
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get('/records', async () =>
         msw.HttpResponse.json(modifiedRecordsJson, { status: 200 })
       )
@@ -703,7 +703,7 @@ test('user can skip non-business hours on a timeseries plot', async ({
       return newRecord;
     });
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get('/records', async () =>
         msw.HttpResponse.json(modifiedRecordsJson, { status: 200 })
       )

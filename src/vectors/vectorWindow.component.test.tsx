@@ -1,13 +1,13 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import React from 'react';
+import { network } from 'virtual:msw';
 import {
   DEFAULT_WINDOW_VARS,
   VECTOR_LIMIT_PREFERENCE_NAME,
   VECTOR_SKIP_PREFERENCE_NAME,
 } from '../app.types';
-import { server } from '../mocks/server';
 import { WindowConfigType } from '../state/slices/windowSlice';
 import { renderComponentWithProviders } from '../testUtils';
 import type WindowPortal from '../windows/windowPortal.component';
@@ -154,7 +154,7 @@ describe('Vector Window component', () => {
   it('checks that the vectors are using the default value of the slider (with the default vector upper bound)', async () => {
     // Mock vector preferences
 
-    server.use(
+    network.use(
       http.get(`/users/preferences/${VECTOR_SKIP_PREFERENCE_NAME}`, () => {
         return HttpResponse.json('2', { status: 200 });
       }),

@@ -1,7 +1,6 @@
 /// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react';
-import fs from 'node:fs';
-import path from 'path';
+import { msw } from 'msw/vite';
 import {
   PluginOption,
   UserConfig,
@@ -9,19 +8,6 @@ import {
   esmExternalRequirePlugin,
   loadEnv,
 } from 'vite';
-
-/* See https://github.com/mswjs/msw/discussions/712 */
-function excludeMSWPlugin(): PluginOption {
-  return {
-    name: 'exclude-msw',
-    apply: 'build',
-    renderStart(outputOptions) {
-      const outDir = outputOptions.dir;
-      const msWorker = path.resolve(outDir || '', 'mockServiceWorker.js');
-      fs.rm(msWorker, () => console.log(`Deleted ${msWorker}`));
-    },
-  };
-}
 
 /* See https://stackoverflow.com/questions/69626090/how-to-watch-public-directory-in-vite-project-for-hot-reload allows
    hot reloading when json files are modified in the public folder*/
@@ -50,10 +36,7 @@ export default defineConfig(({ mode }) => {
   const buildLibrary =
     env.NODE_ENV === 'production' && env.VITE_APP_BUILD_STANDALONE !== 'true';
 
-  // Whether to exclude MSW from the build
-  const excludeMSW = env.VITE_APP_INCLUDE_MSW !== 'true';
-
-  const plugins: PluginOption[] = [react()];
+  const plugins: PluginOption[] = [react(), msw()];
 
   // Allow hot reloading of json files in public folder when in development
   if (env.NODE_ENV === 'development') plugins.push(jsonHMR());
@@ -73,18 +56,10 @@ export default defineConfig(({ mode }) => {
     },
   };
 
-  const rollupExternals: string[] = [];
-
-  // Exclude msw if necessary
-  if (excludeMSW) {
-    plugins.push(excludeMSWPlugin());
-    rollupExternals.push('msw');
-  }
-
   if (buildLibrary) {
     plugins.push(
       esmExternalRequirePlugin({
-        external: ['react', 'react-dom'].concat(rollupExternals),
+        external: ['react', 'react-dom'],
       })
     );
     // Config for deployment in SciGateway
@@ -113,7 +88,6 @@ export default defineConfig(({ mode }) => {
       rolldownOptions: {
         input: ['src/main.tsx', './index.html'],
         // Don't make react/react-dom external as not a library here, so have to bundle
-        external: rollupExternals,
         preserveEntrySignatures: 'strict',
       },
     };
@@ -141,10 +115,8 @@ export default defineConfig(({ mode }) => {
         ],
         include: ['src/**/*.{js,jsx,ts,tsx}'],
         exclude: [
-          // Leave handlers to show up unused code
-          'src/mocks/browser.ts',
+          // Leave non-browser handlers to show up unused code
           'src/mocks/browserHandlers.ts',
-          'src/mocks/server.ts',
           'src/mocks/*.json',
           '*.d.ts',
           'src/main.tsx',

@@ -152,7 +152,7 @@ test('user can change trace via clicking on a thumbnail', async ({ page }) => {
   await page.evaluate(async () => {
     const { msw } = window;
 
-    msw.worker.use(
+    msw.network.use(
       msw.http.get(
         '/waveforms/:recordId/:channelName',
         async () =>

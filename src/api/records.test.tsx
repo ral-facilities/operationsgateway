@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { parseISO } from 'date-fns';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import {
   PlotDataset,
   Record,
@@ -12,7 +13,6 @@ import {
 import { operators, parseFilter, Token } from '../filtering/filterParser';
 import handleOG_APIError from '../handleOG_APIError';
 import recordsJson from '../mocks/records.json';
-import { server } from '../mocks/server';
 import { defaultMaxShotOptions } from '../state/slices/configSlice';
 import { getDefaultMaxShot } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
@@ -315,7 +315,7 @@ describe('records api functions', () => {
     });
 
     it('does not broadcast errors', async () => {
-      server.use(
+      network.use(
         http.get('/records/range_converter', () =>
           HttpResponse.json(
             {

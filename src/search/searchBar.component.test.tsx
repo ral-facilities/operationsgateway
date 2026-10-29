@@ -7,11 +7,11 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
 import React from 'react';
+import { network } from 'virtual:msw';
 import { formatDateTimeForApi } from '../api/api';
 import recordsJson from '../mocks/records.json';
-import { server } from '../mocks/server';
 import { defaultMaxShotOptions } from '../state/slices/configSlice';
 import { getDefaultMaxShot } from '../state/slices/searchSlice';
 import { RootState } from '../state/store';
@@ -444,7 +444,7 @@ describe('searchBar component', () => {
 
   it('displays a warning tooltip if record count is over record limit warning and only initiates search on second click', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
     const state = {
@@ -512,7 +512,7 @@ describe('searchBar component', () => {
 
   it('does not show a warning tooltip if record count is over record limit warning but max shots is below record limit warning', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(100, { status: 200 }))
     );
 
@@ -568,7 +568,7 @@ describe('searchBar component', () => {
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
@@ -590,7 +590,7 @@ describe('searchBar component', () => {
 
   it('does not show a warning tooltip for previous searches that already showed it', async () => {
     // Mock the returned count query response
-    server.use(
+    network.use(
       http.get('/records/count', () => HttpResponse.json(31, { status: 200 }))
     );
 
@@ -866,7 +866,7 @@ describe('searchBar component', () => {
       ).toBeInTheDocument();
 
       // mock getting a new response from the date -> shotnum converter
-      server.use(
+      network.use(
         http.get(
           '/records/range_converter',
           () =>
@@ -947,7 +947,7 @@ describe('searchBar component', () => {
       ).toBeInTheDocument();
 
       // mock getting a new response from the date -> shotnum converter
-      server.use(
+      network.use(
         http.get(
           '/records/range_converter',
           () => HttpResponse.json(undefined, { status: 500 }),

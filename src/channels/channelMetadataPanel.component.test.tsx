@@ -1,10 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import { staticChannels } from '../api/channels';
 import { FullChannelMetadata } from '../app.types';
-import { server } from '../mocks/server';
 import { RootState } from '../state/store';
 import { renderComponentWithProviders } from '../testUtils';
 import ChannelMetadataPanel from './channelMetadataPanel.component';
@@ -131,7 +131,7 @@ describe('Channel Metadata Panel', () => {
       path: '/test',
       description: 'Test description',
     };
-    server.use(
+    network.use(
       http.get('/channels/summary/:channelName', () =>
         HttpResponse.json(
           {

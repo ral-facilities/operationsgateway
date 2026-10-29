@@ -1,4 +1,5 @@
-import { DefaultBodyType, HttpResponse, http } from 'msw';
+import { DefaultBodyType } from 'msw';
+import { HttpResponse, http } from 'msw/http';
 import colourbar from './colourbar.png';
 import colourbar_reverse from './colourbar_reverse.png';
 import float_image from './float_image.png';

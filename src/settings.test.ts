@@ -1,7 +1,7 @@
 import log from 'loglevel';
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw/http';
+import { network } from 'virtual:msw';
 import { MicroFrontendId } from './app.types';
-import { server } from './mocks/server';
 import { fetchSettings } from './settings';
 import { registerRoute } from './state/scigateway.actions';
 import { defaultMaxShotOptions } from './state/slices/configSlice';
@@ -34,7 +34,7 @@ describe('fetchSettings', () => {
       pluginHost: 'http://localhost:3000',
     };
 
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(settingsResult, { status: 200 })
       )
@@ -91,7 +91,7 @@ describe('fetchSettings', () => {
       helpSteps: [{ target: '#id', content: 'content' }],
     };
 
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(settingsResult, { status: 200 })
       )
@@ -141,7 +141,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if API URLs is not defined in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json({}, { status: 200 })
       )
@@ -159,7 +159,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if recordLimitWarning is not defined in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -182,7 +182,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if maxShots is not defined in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -206,7 +206,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if more than one default maxShots is defined in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -234,7 +234,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if one of the maxShots is an invalid type in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -259,7 +259,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if one of the authTypes is an invalid type in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -285,7 +285,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if one of the exportTypes is an invalid type in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -311,7 +311,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if settings.json is an invalid JSON object', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(1, { status: 200 })
       )
@@ -331,7 +331,7 @@ describe('fetchSettings', () => {
   it('logs an error if settings.json fails to be loaded with custom path', async () => {
     import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY =
       '/custom/directory/';
-    server.use(
+    network.use(
       http.get(
         `${
           import.meta.env.VITE_APP_OPERATIONS_GATEWAY_BUILD_DIRECTORY
@@ -352,7 +352,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if fails to load a settings.json and is still in a loading state', async () => {
-    server.use(
+    network.use(
       http.get(
         '/operationsgateway-settings.json',
         () => new HttpResponse(null, { status: 500 })
@@ -371,7 +371,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if no routes are defined in the settings', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {
@@ -396,7 +396,7 @@ describe('fetchSettings', () => {
   });
 
   it('logs an error if route has missing entries', async () => {
-    server.use(
+    network.use(
       http.get('/operationsgateway-settings.json', () =>
         HttpResponse.json(
           {

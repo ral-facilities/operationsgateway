@@ -14,6 +14,7 @@ import React from 'react';
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
+import { network } from 'virtual:msw';
 import { staticChannels } from './api/channels';
 import { queryCacheConfig } from './App';
 import {
@@ -24,7 +25,6 @@ import {
   timeChannelName,
 } from './app.types';
 import channelsJson from './mocks/channels.json';
-import { server } from './mocks/server';
 import { COLOUR_ORDER } from './plotting/plotSettings/colourGenerator';
 import { initialState as initialConfigState } from './state/slices/configSlice';
 import { initialState as initialFilterState } from './state/slices/filterSlice';
@@ -80,9 +80,9 @@ export function waitForRequest(method: string, url: string) {
       requestId: string;
     }) => {
       if (requestId === newRequestId) {
-        server.events.removeListener('request:start', onRequestStart);
-        server.events.removeListener('request:match', onRequestMatch);
-        server.events.removeListener('request:unhandled', onRequestUnhandled);
+        network.events.removeListener('request:start', onRequestStart);
+        network.events.removeListener('request:match', onRequestMatch);
+        network.events.removeListener('request:unhandled', onRequestUnhandled);
         resolve(request);
       }
     };
@@ -96,9 +96,9 @@ export function waitForRequest(method: string, url: string) {
     }) => {
       const requestURL = new URL(request.url);
       if (requestId === newRequestId) {
-        server.events.removeListener('request:start', onRequestStart);
-        server.events.removeListener('request:match', onRequestMatch);
-        server.events.removeListener('request:unhandled', onRequestUnhandled);
+        network.events.removeListener('request:start', onRequestStart);
+        network.events.removeListener('request:match', onRequestMatch);
+        network.events.removeListener('request:unhandled', onRequestUnhandled);
         reject(
           new Error(
             `The ${request.method} ${requestURL.href} request was unhandled.`
@@ -107,11 +107,11 @@ export function waitForRequest(method: string, url: string) {
       }
     };
 
-    server.events.on('request:start', onRequestStart);
+    network.events.on('request:start', onRequestStart);
 
-    server.events.on('request:match', onRequestMatch);
+    network.events.on('request:match', onRequestMatch);
 
-    server.events.on('request:unhandled', onRequestUnhandled);
+    network.events.on('request:unhandled', onRequestUnhandled);
   });
 }
 
