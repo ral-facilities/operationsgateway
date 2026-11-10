@@ -28,7 +28,7 @@ RUN set -eux; \
     yarn build;
 
 # Run stage
-FROM httpd:2.4.69-alpine@sha256:070da7661f0be8a05430b2c125c0cde9e53176b4048c813024021969a0e3893c
+FROM httpd:2.4.69-alpine@sha256:698a0f59374eeb59c2c3ae6385c5f346edd2c70c2b63f7b552fb3d64dbc3cf66
 
 WORKDIR /usr/local/apache2/htdocs
 
