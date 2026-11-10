@@ -137,6 +137,37 @@ Cypress.Commands.add('findBrowserMockedRequests', ({ method, url }) => {
   });
 });
 
+const isCovered = (el) => {
+  const win = el.ownerDocument.defaultView;
+  const rect = el.getBoundingClientRect();
+  const elAtPoint = el.ownerDocument.elementFromPoint(
+    rect.left + rect.width / 2,
+    rect.top + rect.height / 2
+  );
+
+  if (el.contains(elAtPoint)) {
+    return false;
+  }
+
+  // `pointer-events: none` makes the hit test fall through to an ancestor,
+  // which the legacy algorithm did not count as coverage
+  const ignoresPointerEvents =
+    win.getComputedStyle(el).pointerEvents === 'none' ||
+    (el.parentElement &&
+      win.getComputedStyle(el.parentElement).pointerEvents === 'none');
+
+  return !(ignoresPointerEvents && elAtPoint && elAtPoint.contains(el));
+};
+
+Cypress.Commands.addQuery('isCovered', function () {
+  return ($el) => Array.from($el).every(isCovered);
+});
+
+Cypress.Commands.addQuery('isVisibleToUser', function () {
+  return ($el) =>
+    Array.from($el).every((el) => Cypress.dom.isVisible(el) && !isCovered(el));
+});
+
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -149,6 +180,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       dragAndDrop(subject: string, target: string): Chainable<unknown>;
+      isCovered(): Chainable<unknown>;
+      isVisibleToUser(): Chainable<unknown>;
       /**
        * Clear all mocks
        * @example cy.clearMocks()

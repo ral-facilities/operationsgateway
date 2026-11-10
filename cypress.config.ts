@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 import { removeDirectory } from 'cypress-delete-downloads-folder';
 
 export default defineConfig({
+  defaultBrowser: 'chrome',
   chromeWebSecurity: false,
   video: false,
   retries: {
