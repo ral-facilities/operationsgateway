@@ -119,7 +119,7 @@
     "globals": "17.14.0",
     "jsdom": "30.1.3",
     "lint-staged": "17.6.0",
-    "prettier": "3.9.9",
+    "prettier": "3.10.1",
     "serve": "14.2.6",
     "start-server-and-test": "3.0.0",
     "typescript-eslint": "8.72.0",
