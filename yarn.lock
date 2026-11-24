@@ -1769,9 +1769,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:5.105.0":
-  version: 5.105.0
-  resolution: "@tanstack/eslint-plugin-query@npm:5.105.0"
+"@tanstack/eslint-plugin-query@npm:5.108.2":
+  version: 5.108.2
+  resolution: "@tanstack/eslint-plugin-query@npm:5.108.2"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.71.0"
   peerDependencies:
@@ -1780,7 +1780,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/009aa34de317547c47525c99995408dfdc2c868aba0ed552f19959dc612b79d1f2859ce7f6800d09d5ee17cefb56230331861f77b056e03acd3d50ef02b54e8f
+  checksum: 10c0/2fabe41bad6334bda7d61ba321a48eb6dd0115260efe853be616d39241f22534e2cbcbc4869d88391df52fb6cce9a8e62d0a34c40dce5486210fdfa991887426
   languageName: node
   linkType: hard
 
@@ -1802,60 +1802,59 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.105.0":
-  version: 5.105.0
-  resolution: "@tanstack/query-core@npm:5.105.0"
-  checksum: 10c0/1b4baa128a95810b677d93f91156e3d32eb07dbe9e062fe0a2651089569f3fca275e43dc9fe569efd55b9e5a00d0d2e18b78de6fa9ed65b1ad54f24e5a90106e
+"@tanstack/query-core@npm:5.108.2":
+  version: 5.108.2
+  resolution: "@tanstack/query-core@npm:5.108.2"
+  checksum: 10c0/22f5618cfd98858cd7ec47900992c505b287fde162edebcbf4448647194ff9330080b8911e2a2670e5f4f6ea1bd867a56071596f418977c5d2482cf4f710d90a
   languageName: node
   linkType: hard
 
-"@tanstack/query-devtools@npm:5.105.0":
-  version: 5.105.0
-  resolution: "@tanstack/query-devtools@npm:5.105.0"
+"@tanstack/query-devtools@npm:5.108.2":
+  version: 5.108.2
+  resolution: "@tanstack/query-devtools@npm:5.108.2"
   dependencies:
     "@kobalte/core": "npm:^0.13.14"
     "@solid-primitives/keyed": "npm:^1.5.3"
     "@solid-primitives/resize-observer": "npm:^2.2.0"
     "@solid-primitives/storage": "npm:^1.3.11"
     "@tanstack/match-sorter-utils": "npm:^9.1.2"
-    "@tanstack/query-core": "npm:5.105.0"
-    clsx: "npm:^2.1.1"
-    goober: "npm:^2.1.19"
-    solid-js: "npm:^1.9.15"
+    "@tanstack/query-core": "npm:5.108.2"
+    "@tanstack/solid-virtual": "npm:^3.13.52"
+    solid-js: "npm:^1.9.20"
     solid-transition-group: "npm:^0.2.3"
     superjson: "npm:^2.2.6"
-  checksum: 10c0/cd3381ea1167570cbc6270fc1dc3e1b364085e012e53540f8803257c617a7a920e5362d4ef060a85789f47a52bc889aa17e93fd9812b7409c14816ae42f53da7
+  checksum: 10c0/f600f5a424511ccbacda413f38603d6ec883c5355f74b6e291f0cf012678c69210d5a4efa298eab92a44192c9947852097499dc2d9a9600e86429273b4e6410b
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:5.105.0":
-  version: 5.105.0
-  resolution: "@tanstack/react-query-devtools@npm:5.105.0"
+"@tanstack/react-query-devtools@npm:5.108.2":
+  version: 5.108.2
+  resolution: "@tanstack/react-query-devtools@npm:5.108.2"
   dependencies:
-    "@tanstack/query-devtools": "npm:5.105.0"
+    "@tanstack/query-devtools": "npm:5.108.2"
   peerDependencies:
-    "@tanstack/react-query": ^5.105.0
+    "@tanstack/react-query": ^5.108.2
     "@types/react": ^18 || ^19
     react: ^18 || ^19
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/a9564a298fe164e8d067fd8d409844b188babfa0a4f54e58674b13e9d606df81d7b557ea98b6af73ede71b3636f5ce6fbf06a7fb5ab1817e3ced0300348196a5
+  checksum: 10c0/07eaafb117ddffe6d1f32df0c9a62a3f3ee45d9f47c464891206bceb0c89bf18f3c5ad994a166eae6ec7314bda475f91994f300ec6ab4e059037643faad6c301
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:5.105.0":
-  version: 5.105.0
-  resolution: "@tanstack/react-query@npm:5.105.0"
+"@tanstack/react-query@npm:5.108.2":
+  version: 5.108.2
+  resolution: "@tanstack/react-query@npm:5.108.2"
   dependencies:
-    "@tanstack/query-core": "npm:5.105.0"
+    "@tanstack/query-core": "npm:5.108.2"
   peerDependencies:
     "@types/react": ^18 || ^19
     react: ^18 || ^19
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/7c9e8d073a0a9192937d0996b18ff6c27a769efb93a3a9cf6cf31c811c9187229573c0746849f1f99c0c96af63e7d738c475e445e53cea6c3a8b0718d8b16f7d
+  checksum: 10c0/db33301c719dd78ac89cea754e394dbb47cb269b82db4b2edb4e2c1a95a171a14476ffec8f1e3ca474d2d03bcc7cdfa56cba53772c52f4c118c184bb44191c50
   languageName: node
   linkType: hard
 
@@ -1895,6 +1894,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/solid-virtual@npm:^3.13.52":
+  version: 3.13.53
+  resolution: "@tanstack/solid-virtual@npm:3.13.53"
+  dependencies:
+    "@tanstack/virtual-core": "npm:3.19.11"
+  peerDependencies:
+    solid-js: ^1.3.0
+  checksum: 10c0/c16e116191e6f56c8137a3da48199873fff01390e3dc1007fd973c7952bfd4d9b31f2cf5a7ba1476019d8a830423fd77cb679126113b35f1d414b7c1a482a627
+  languageName: node
+  linkType: hard
+
 "@tanstack/table-core@npm:8.20.5":
   version: 8.20.5
   resolution: "@tanstack/table-core@npm:8.20.5"
@@ -1913,6 +1923,13 @@ __metadata:
   version: 3.11.2
   resolution: "@tanstack/virtual-core@npm:3.11.2"
   checksum: 10c0/38f1047127c6b1d07fe95becb7a12e66fb7c59d37ec0359e4ab339f837c6b906e1adff026ebd12849ba851d3f118d491014205c6b3c6ed8568cc232a798aeaaf
+  languageName: node
+  linkType: hard
+
+"@tanstack/virtual-core@npm:3.19.11":
+  version: 3.19.11
+  resolution: "@tanstack/virtual-core@npm:3.19.11"
+  checksum: 10c0/61558882fd09f64020104ecd94bacaa2a6ccbb0745247610ede7683d709cf8d134cc3f6d1ee2d22203cb881e531bc4a3bb92e4657c08edf923ab6d5c39a958ec
   languageName: node
   linkType: hard
 
@@ -5679,15 +5696,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"goober@npm:^2.1.19":
-  version: 2.1.19
-  resolution: "goober@npm:2.1.19"
-  peerDependencies:
-    csstype: ^3.0.10
-  checksum: 10c0/f6a01f2e8abfef571ac539f96e650dcde964e7c0bef6c9055a8c8e110624ccd7b51ab90706a806ca570a56141ea689d355fb1cec3ee9209499c249638883990d
-  languageName: node
-  linkType: hard
-
 "gopd@npm:^1.0.1, gopd@npm:^1.2.0":
   version: 1.2.0
   resolution: "gopd@npm:1.2.0"
@@ -7504,9 +7512,9 @@ __metadata:
     "@mui/x-date-pickers": "patch:@mui/x-date-pickers@npm%3A7.29.3#~/.yarn/patches/@mui-x-date-pickers-npm-7.29.3-7f059693b3.patch"
     "@playwright/test": "npm:1.64.0"
     "@reduxjs/toolkit": "npm:2.15.0"
-    "@tanstack/eslint-plugin-query": "npm:5.105.0"
-    "@tanstack/react-query": "npm:5.105.0"
-    "@tanstack/react-query-devtools": "npm:5.105.0"
+    "@tanstack/eslint-plugin-query": "npm:5.108.2"
+    "@tanstack/react-query": "npm:5.108.2"
+    "@tanstack/react-query-devtools": "npm:5.108.2"
     "@tanstack/react-table": "npm:8.21.2"
     "@testing-library/cypress": "npm:10.1.0"
     "@testing-library/dom": "npm:10.4.0"
@@ -9026,14 +9034,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solid-js@npm:^1.9.15":
-  version: 1.9.18
-  resolution: "solid-js@npm:1.9.18"
+"solid-js@npm:^1.9.20":
+  version: 1.9.20
+  resolution: "solid-js@npm:1.9.20"
   dependencies:
     csstype: "npm:^3.1.0"
     seroval: "npm:~1.6.11"
     seroval-plugins: "npm:~1.6.8"
-  checksum: 10c0/f7693829bdbb33f846bb72a8fcb2e6fa6894bbe0ef8152493087d1a193ea3600060df063b23957670fd02ba1fb1cf73bb0a2a810866c1e77ad9119fb2021d3f7
+  checksum: 10c0/e6d887b6ffd28b4e61e5d29c9dfcd22b2231752bf41d725c42d1fd8ac6e3daff6f18d0e64f653eeb0523c892e7db3c9e2ed29386f020a05441184b1363a8988e
   languageName: node
   linkType: hard
 
