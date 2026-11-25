@@ -203,13 +203,22 @@ describe('Table Component', () => {
 
     cy.contains('Add Channels').click();
 
+    // ensure visible before scroll
+    // use same custom visibility checker as we use for the negative case
+    // to verify it's working
+    cy.findByRole('columnheader', { name: 'Active Area' })
+      .isVisibleToUser()
+      .should('be.true');
+
     cy.get('[data-testid="table-container"]').scrollTo('right');
     cy.findByRole('columnheader', { name: 'Time' }).should('be.visible');
     cy.findByRole('columnheader', { name: 'Shot Number' }).should('be.visible');
     // double check that we have scrolled far enough to test sticky column
-    cy.findByRole('columnheader', { name: 'Active Area' }).should(
-      'not.be.visible'
-    );
+    // need to use custom visibility checker as be.visible no longer is false
+    // for covered elements, see: https://docs.cypress.io/app/core-concepts/interacting-with-elements#Visibility-Strategy
+    cy.findByRole('columnheader', { name: 'Active Area' })
+      .isVisibleToUser()
+      .should('be.false');
 
     // should be able to remove initial channels that are configured as removable
     cy.findByRole('columnheader', { name: 'Shot Number' }).trigger(
