@@ -91,7 +91,7 @@
       "prettier --write"
     ]
   },
-  "packageManager": "yarn@4.18.1",
+  "packageManager": "yarn@4.19.0",
   "devDependencies": {
     "@dotenvx/dotenvx": "2.38.0",
     "@playwright/test": "1.65.1",
