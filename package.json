@@ -102,7 +102,7 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@types/eslint-plugin-jsx-a11y": "6.10.0",
-    "@vitest/coverage-v8": "5.0.3",
+    "@vitest/coverage-v8": "5.1.1",
     "cross-env": "10.1.0",
     "cypress": "15.21.1",
     "cypress-delete-downloads-folder": "0.0.5",
@@ -123,7 +123,7 @@
     "serve": "14.2.6",
     "start-server-and-test": "3.0.0",
     "typescript-eslint": "8.72.0",
-    "vitest": "5.0.3",
+    "vitest": "5.1.1",
     "vitest-fail-on-console": "0.10.1"
   },
   "msw": {
